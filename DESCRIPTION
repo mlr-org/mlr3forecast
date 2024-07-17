@@ -1,0 +1,26 @@
+Package: mlr3forecast
+Title: Extending 'mlr3' to Time Series Forecasting
+Version: 0.0.1
+Authors@R:
+    person("Maximilian", "Mücke", , "muecke.maximilian@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0009-0000-9432-9795"))
+Description: Extends the 'mlr3' ecosystem to time series forecasting.
+License: LGPL-3
+Depends:
+    mlr3 (>= 0.20.0),
+    R (>= 3.1.0)
+Imports:
+    checkmate,
+    data.table,
+    lgr,
+    mlr3misc (>= 0.14.0),
+    paradox,
+    R6
+Suggests:
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE, r6 = TRUE)
+RoxygenNote: 7.3.2
