@@ -11,10 +11,10 @@ Depends:
     R (>= 3.1.0)
 Imports:
     checkmate,
-    data.table,
+    data.table (>= 1.15.0),
     lgr,
-    mlr3misc (>= 0.14.0),
-    paradox,
+    mlr3misc (>= 0.15.0),
+    paradox (>= 1.0.1),
     R6
 Suggests:
     testthat (>= 3.0.0),
