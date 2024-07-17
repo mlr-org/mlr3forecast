@@ -16,8 +16,6 @@ repos:
           - mlr3
           - mlr3misc
           - paradox
-          - mlr3pipelines
-          - tf
       # codemeta must be above use-tidy-description when both are used
       - id: use-tidy-description
       - id: readme-rmd-rendered
