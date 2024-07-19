@@ -15,5 +15,5 @@ status](https://www.r-pkg.org/badges/version/mlr3forecast)](https://CRAN.R-proje
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
-> Important: This package is in an early stage of development and should
-> be considered experimental.
+> This package is in an early stage of development and should be
+> considered experimental.
