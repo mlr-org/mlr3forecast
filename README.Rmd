@@ -54,18 +54,10 @@ ff = Forecaster$new(
 )
 ff$train(task)
 prediction = ff$predict(task)
-# check how newdata result normally looks like
+prediction
 prediction = ff$predict_newdata(task, 3L)
 prediction
 prediction = ff$predict(task, 142:144)
 prediction
 prediction$score(msr("regr.rmse"))
-
-resampling = rsmp("forecast_holdout")
-ff = Forecaster$new(
-  learner = lrn("regr.ranger"),
-  lag = 1:3
-)
-rr = resample(task, ff, resampling)
-rr$score(msr("regr.rmse"))
 ```

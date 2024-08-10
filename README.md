@@ -44,33 +44,31 @@ ff = Forecaster$new(
 )
 ff$train(task)
 prediction = ff$predict(task)
-# check how newdata result normally looks like
+prediction
+#> <PredictionRegr> for 144 observations:
+#>     row_ids    truth response
+#>           1 432.0000 404.1487
+#>           2 404.1487 450.5137
+#>           3 450.5137 420.9816
+#> ---                          
+#>         142 452.6298 454.5250
+#>         143 454.5250 454.5353
+#>         144 454.5353 445.7902
 prediction = ff$predict_newdata(task, 3L)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 402.8733
-#>        2    NA 450.2027
-#>        3    NA 422.1766
+#>        1    NA 404.1487
+#>        2    NA 450.5137
+#>        3    NA 420.9816
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids    truth response
-#>        1 508.0000 497.9856
-#>        2 497.9856 458.0004
-#>        3 458.0004 446.9533
+#>        1 508.0000 498.0064
+#>        2 498.0064 460.8071
+#>        3 460.8071 445.5276
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  24.63837
-
-resampling = rsmp("forecast_holdout")
-ff = Forecaster$new(
-  learner = lrn("regr.ranger"),
-  lag = 1:3
-)
-rr = resample(task, ff, resampling)
-rr$score(msr("regr.rmse"))
-#>    task_id  learner_id    resampling_id iteration regr.rmse
-#> 1:      dt regr.ranger forecast_holdout         1  19.91477
-#> Hidden columns: task, learner, resampling, prediction
+#>  23.92435
 ```

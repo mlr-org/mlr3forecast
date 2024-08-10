@@ -86,7 +86,6 @@ Forecaster = R6::R6Class("Forecaster",
       lag_cols = sprintf("%s_lag_%s", target, lag)
       # check if faster
       # DT = copy(dt)[, names(.SD) := lapply(.SD, shift, 3, type="lag")],
-      # check if shift can remove NAs automatically
       # alternatively check for loop with set()
       dt = copy(dt)
       dt[, (lag_cols) := lapply(lag, function(n) shift(dt[[target]], n = n, type = "lag"))]
