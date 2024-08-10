@@ -33,18 +33,17 @@
 #' rfho$instance # simple list
 ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
   inherit = Resampling,
-
   public = list(
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      ps = ps(ratio = p_dbl(0, 1, tags = "required"))
-      ps$set_values(ratio = 0.8)
+      param_set = ps(ratio = p_dbl(0, 1, tags = "required"))
+      param_set$set_values(ratio = 0.8)
 
       super$initialize(
         id = "forecast_holdout",
-        param_set = ps,
+        label = "Time Series Holdout",
+        param_set = param_set,
         man = "mlr3forecast::mlr_resamplings_forecast_holdout"
       )
     },
