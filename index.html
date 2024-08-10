@@ -87,7 +87,7 @@
 <span><span class="va">dt</span><span class="op">[</span>, <span class="va">time</span> <span class="op">:=</span> <span class="cn">NULL</span><span class="op">]</span></span>
 <span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/as_task_regr.html" class="external-link">as_task_regr</a></span><span class="op">(</span><span class="va">dt</span>, target <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ff</span> <span class="op">=</span> <span class="va">Forecaster</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span><span class="va">ff</span> <span class="op">=</span> <span class="va"><a href="reference/Forecaster.html">Forecaster</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
 <span>  learner <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>,</span>
 <span>  lag <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
 <span><span class="op">)</span></span>
@@ -113,7 +113,7 @@
 <span><span class="co">#&gt;  24.63837</span></span>
 <span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">rsmp</a></span><span class="op">(</span><span class="st">"forecast_holdout"</span><span class="op">)</span></span>
-<span><span class="va">ff</span> <span class="op">=</span> <span class="va">Forecaster</span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
+<span><span class="va">ff</span> <span class="op">=</span> <span class="va"><a href="reference/Forecaster.html">Forecaster</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span></span>
 <span>  learner <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>,</span>
 <span>  lag <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span></span>
 <span><span class="op">)</span></span>
