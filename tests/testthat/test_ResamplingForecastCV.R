@@ -1,23 +1,37 @@
-test_that("forecast_cv works", {
+test_that("forecast_cv basic properties", {
   task = tsk("penguins")
-  r = rsmp("forecast_cv", folds = 10L, horizon = 3L, window_size = 5L, fixed_window = FALSE)
-  expect_identical(r$param_set$values$folds, 10L)
-  expect_identical(r$param_set$values$horizon, 3L)
-  expect_identical(r$param_set$values$window_size, 5L)
-  expect_identical(r$param_set$values$fixed_window, FALSE)
-  r$instantiate(task)
-  expect_true(r$is_instantiated)
-  expect_identical(r$iters, 10L)
-  expect_equal(intersect(r$test_set(1), r$train_set(1)), integer(0))
-  expect_integerish(r$test_set(10), len = 3)
-  expect_resampling(r)
+  resampling = rsmp("forecast_cv",
+    folds = 10L, horizon = 3L, window_size = 5L, fixed_window = FALSE
+  )
+  expect_resampling(resampling, task)
+  resampling$instantiate(task)
+  expect_resampling(resampling, task)
+  expect_identical(resampling$iters, 10L)
+  expect_equal(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
+  expect_false(resampling$duplicated_ids)
+})
 
-  r$param_set$values$fixed_window = TRUE
-  r$instantiate(task)
-  expect_true(r$is_instantiated)
-  expect_identical(r$iters, 10L)
-  expect_equal(intersect(r$test_set(1), r$train_set(1)), integer(0))
-  expect_integerish(r$test_set(10), len = 3)
-  expect_integerish(r$train_set(10), len = 5)
-  expect_resampling(r)
+test_that("forecast_cv works", {
+  skip_if_not_installed("tsbox")
+  dt = tsbox::ts_dt(AirPassengers)
+  dt[, time := NULL]
+  task = as_task_regr(dt, target = "value")
+
+  resampling = rsmp("forecast_cv",
+    folds = 3L, horizon = 3L, window_size = 5L, fixed_window = FALSE
+  )
+  resampling$instantiate(task)
+  expect_identical(resampling$train_set(1L), 1:141)
+  expect_identical(resampling$train_set(2L), 1:140)
+  expect_identical(resampling$train_set(3L), 1:139)
+  expect_identical(resampling$test_set(1L), 142:144)
+  walk(1:3, function(i) expect_length(resampling$test_set(i), 3L))
+
+  resampling = rsmp("forecast_cv",
+    folds = 3L, horizon = 5L, window_size = 25L, fixed_window = TRUE
+  )
+  resampling$instantiate(task)
+  walk(1:3, function(i) expect_length(resampling$train_set(i), 25L))
+  walk(1:3, function(i) expect_length(resampling$test_set(i), 5L))
+  walk(0:2, function(i) expect_identical(resampling$train_set(i + 1L), (115L - i):(139L - i)))
 })

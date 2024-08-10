@@ -25,7 +25,9 @@ Forecaster = R6::R6Class("Forecaster",
 
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
-      row_ids = assert_integerish(row_ids, lower = 1L, any.missing = FALSE, coerce = TRUE, null.ok = TRUE)
+      row_ids = assert_integerish(row_ids,
+        lower = 1L, any.missing = FALSE, coerce = TRUE, null.ok = TRUE
+      )
       has_row_ids = !is.null(row_ids)
       row_ids = row_ids %??% task$row_ids
 
@@ -86,7 +88,8 @@ Forecaster = R6::R6Class("Forecaster",
       # DT = copy(dt)[, names(.SD) := lapply(.SD, shift, 3, type="lag")],
       # check if shift can remove NAs automatically
       # alternatively check for loop with set()
-      dt = copy(dt)[, (lag_cols) := lapply(lag, function(n) shift(dt[[target]], n = n, type = "lag"))]
+      dt = copy(dt)
+      dt[, (lag_cols) := lapply(lag, function(n) shift(dt[[target]], n = n, type = "lag"))]
       dt = dt[(lag[length(lag)] + 1L):.N, ]
       dt
     },

@@ -20,7 +20,7 @@ rsmp("forecast_cv")
 \section{Parameters}{
 
 \itemize{
-\item ratio (\code{numeric(1)})\cr
+\item \code{ratio} (\code{numeric(1)})\cr
 Ratio of observations to put into the training set.
 }
 }
@@ -31,16 +31,16 @@ task = tsk("penguins")
 task$filter(1:10)
 
 # Instantiate Resampling
-rfho = rsmp("forecast_holdout", ratio = 0.5)
-rfho$instantiate(task)
+holdout = rsmp("forecast_holdout", ratio = 0.5)
+holdout$instantiate(task)
 
 # Individual sets:
-rfho$train_set(1)
-rfho$test_set(1)
-intersect(rfho$train_set(1), rfho$test_set(1))
+holdout$train_set(1)
+holdout$test_set(1)
+intersect(holdout$train_set(1), holdout$test_set(1))
 
 # Internal storage:
-rfho$instance # simple list
+holdout$instance # simple list
 }
 \seealso{
 \itemize{

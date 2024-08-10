@@ -1,4 +1,5 @@
 #' @importFrom utils bibentry
+# nolint start
 bibentries = c(
   bergmeir_2018 = bibentry("article",
     title     = "A note on the validity of cross-validation for evaluating autoregressive time series prediction",
@@ -10,3 +11,4 @@ bibentries = c(
     publisher = "Elsevier"
   )
 )
+# nolint end

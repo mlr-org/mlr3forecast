@@ -19,13 +19,15 @@ rsmp("forecast_cv")
 \section{Parameters}{
 
 \itemize{
+\item \code{horizon} (\code{integer(1)})\cr
+Forecasting horizon in the test sets, i.e. number of test samples for each fold.
 \item \code{folds} (\code{integer(1)})\cr
 Number of folds.
-\item window_size (\code{integer(1)})\cr
+\item \code{step_size} (\code{integer(1)})\cr
+Step size between windows.
+\item \code{window_size} (\code{integer(1)})\cr
 (Minimal) Size of the rolling window.
-\item horizon (\code{integer(1)})\cr
-Forecasting horizon in the test sets.
-\item fixed_window (\code{logical(1)})\cr
+\item \code{fixed_window} (\code{logial(1)})\cr
 Flag for fixed sized window. If FALSE an expanding window is used.
 }
 }
@@ -36,16 +38,16 @@ task = tsk("penguins")
 task$filter(1:20)
 
 # Instantiate Resampling
-rfho = rsmp("forecast_cv", folds = 3, fixed_window = FALSE)
-rfho$instantiate(task)
+cv = rsmp("forecast_cv", folds = 3, fixed_window = FALSE)
+cv$instantiate(task)
 
 # Individual sets:
-rfho$train_set(1)
-rfho$test_set(1)
-intersect(rfho$train_set(1), rfho$test_set(1))
+cv$train_set(1)
+cv$test_set(1)
+intersect(cv$train_set(1), cv$test_set(1))
 
 # Internal storage:
-rfho$instance #  list
+cv$instance #  list
 }
 \references{
 Bergmeir, Christoph, Hyndman, J R, Koo, Bonsoo (2018).

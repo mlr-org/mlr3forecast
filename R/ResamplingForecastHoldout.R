@@ -10,7 +10,7 @@
 #' @template resampling
 #'
 #' @section Parameters:
-#' * ratio (`numeric(1)`)\cr
+#' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
 #'
 #' @template seealso_resampling
@@ -21,16 +21,16 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' rfho = rsmp("forecast_holdout", ratio = 0.5)
-#' rfho$instantiate(task)
+#' holdout = rsmp("forecast_holdout", ratio = 0.5)
+#' holdout$instantiate(task)
 #'
 #' # Individual sets:
-#' rfho$train_set(1)
-#' rfho$test_set(1)
-#' intersect(rfho$train_set(1), rfho$test_set(1))
+#' holdout$train_set(1)
+#' holdout$test_set(1)
+#' intersect(holdout$train_set(1), holdout$test_set(1))
 #'
 #' # Internal storage:
-#' rfho$instance # simple list
+#' holdout$instance # simple list
 ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
   inherit = Resampling,
   public = list(
@@ -47,6 +47,7 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
         man = "mlr3forecast::mlr_resamplings_forecast_holdout"
       )
     },
+
     #' @template field_iters
     iters = 1L
   ),
