@@ -1,7 +1,7 @@
 #' @export
-#' @examplesIf require_namespaces("tsbox", quietly = TRUE)
+#' @examplesIf requireNamespace("tsbox", quietly = TRUE)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
-#' task = as_task_fcst(airpassengers, target = "value", index = "time")
+#' task = as_task_fcst(airpassengers, target = "value", index = "time", freq = "month")
 #' task$task_type
 #' task$formula()
 #' task$truth()
@@ -9,9 +9,13 @@
 TaskFcst = R6::R6Class("TaskFcst",
   inherit = TaskSupervised,
   public = list(
-    initialize = function(id, backend, target, index, label = NA_character_, extra_args = list()) {
+    index = NULL,
+    freq = NULL,
+
+    initialize = function(id, backend, target, index, freq, label = NA_character_, extra_args = list()) { # nolint
       assert_string(target)
       assert_string(index)
+      assert_string(freq)
 
       super$initialize(
         id = id,
@@ -21,6 +25,8 @@ TaskFcst = R6::R6Class("TaskFcst",
         label = label,
         extra_args = extra_args
       )
+      self$index = index
+      self$freq = freq
 
       # TODO: seems very hacky
       private$.col_roles$feature = setdiff(private$.col_roles$feature, index)
@@ -33,27 +39,18 @@ TaskFcst = R6::R6Class("TaskFcst",
       }
     },
 
+    print = function(...) {
+      super$print(...)
+      catn(str_indent("* Index:", self$index))
+      catn(str_indent("* Frequency:", self$freq))
+    },
+
     #' @description
     #' True response for specified `row_ids`. Format depends on the task type.
     #' Defaults to all rows with role "use".
     #' @returns `numeric()`.
     truth = function(rows = NULL) {
       super$truth(rows)[[1L]]
-    },
-
-    #' @description
-    #' Returns the `index` column.
-    index_col = function(rows = NULL) {
-      rows = rows %??% self$row_roles$use
-      self$backend$data(rows, self$index)
-    }
-  ),
-
-  active = list(
-    #' @field date_col (`character(1)`)\cr
-    #' Returns the index column.
-    index = function() {
-      self$backend$index
     }
   )
 )

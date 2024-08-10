@@ -7,7 +7,7 @@
 \link{DataBackend} for \CRANpkg{data.table} which serves as an efficient in-memory data base.
 }
 \examples{
-\dontshow{if (require_namespaces("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 data = tsbox::ts_dt(AirPassengers)
 data[, id := 1:.N]
 b = DataBackendTimeSeries$new(data = data, primary_key = "id", index = "time")

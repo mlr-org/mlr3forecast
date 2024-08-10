@@ -4,7 +4,7 @@
 #' [DataBackend] for \CRANpkg{data.table} which serves as an efficient in-memory data base.
 #'
 #' @export
-#' @examplesIf require_namespaces("tsbox", quietly = TRUE)
+#' @examplesIf requireNamespace("tsbox", quietly = TRUE)
 #' data = tsbox::ts_dt(AirPassengers)
 #' data[, id := 1:.N]
 #' b = DataBackendTimeSeries$new(data = data, primary_key = "id", index = "time")

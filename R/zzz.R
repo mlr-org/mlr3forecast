@@ -60,10 +60,13 @@ register_mlr3 = function() {
 }
 
 .onLoad = function(libname, pkgname) {
+  backports::import(pkgname)
+
   assign("lg", lgr::get_logger("mlr3"), envir = parent.env(environment()))
   if (Sys.getenv("IN_PKGDOWN") == "true") {
     lg$set_threshold("warn")
   }
+
   register_namespace_callback(pkgname, "mlr3", register_mlr3)
 }
 

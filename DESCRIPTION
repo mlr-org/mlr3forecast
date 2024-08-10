@@ -10,6 +10,7 @@ Depends:
     mlr3 (>= 0.20.0),
     R (>= 3.1.0)
 Imports:
+    backports,
     checkmate,
     data.table (>= 1.15.0),
     lgr,
@@ -29,7 +30,6 @@ Collate:
     'DataBackendTimeSeries.R'
     'Forecaster.R'
     'LearnerFcst.R'
-    'LearnerFcstARIMA.R'
     'zzz.R'
     'ResamplingForecastCV.R'
     'ResamplingForecastHoldout.R'

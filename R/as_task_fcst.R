@@ -19,7 +19,9 @@ as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, id = deparse
   assert_choice(target, x$colnames)
   assert_choice(index, x$colnames)
 
-  TaskFcst$new(id = id, backend = x, target = target, index = index, label = label, ...)
+  TaskFcst$new(
+    id = id, backend = x, target = target, index = index, target = target, label = label, ...
+  )
 }
 
 #' @rdname as_task_fcst
@@ -27,7 +29,7 @@ as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, id = deparse
 #'   Id for the new task.
 #'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @export
-as_task_fcst.data.frame = function(x, target = NULL, index = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.data.frame = function(x, target = NULL, index = NULL, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -39,5 +41,5 @@ as_task_fcst.data.frame = function(x, target = NULL, index = NULL, id = deparse1
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  TaskFcst$new(id = id, backend = x, target = target, index = index, label = label)
+  TaskFcst$new(id = id, backend = x, target = target, index = index, freq = freq, label = label)
 }
