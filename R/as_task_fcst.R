@@ -7,13 +7,13 @@ as_task_fcst = function(x, ...) {
 
 #' @rdname as_task_fcst
 #' @export
-as_task_regr.TaskFcst = function(x, clone = FALSE, ...) {
+as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) {
   if (clone) x$clone() else x
 }
 
 #' @rdname as_task_fcst
 #' @export
-as_task_regr.DataBackend = function(x, target = NULL, index = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_choice(target, x$colnames)

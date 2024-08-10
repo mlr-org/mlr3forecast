@@ -4,7 +4,7 @@
 #' [DataBackend] for \CRANpkg{data.table} which serves as an efficient in-memory data base.
 #'
 #' @export
-#' @examplesIf require_namespace("tsbox", quietly = TRUE)
+#' @examplesIf require_namespaces("tsbox", quietly = TRUE)
 #' data = tsbox::ts_dt(AirPassengers)
 #' data[, id := 1:.N]
 #' b = DataBackendTimeSeries$new(data = data, primary_key = "id", index = "time")
@@ -12,6 +12,8 @@ DataBackendTimeSeries = R6Class("DataBackendTimeSeries",
   inherit = DataBackendDataTable,
   cloneable = FALSE,
   public = list(
+    index = NULL,
+
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #'
@@ -26,6 +28,7 @@ DataBackendTimeSeries = R6Class("DataBackendTimeSeries",
       if (!is.null(index) && index %nin% names(data)) {
         stopf("index '%s' not in 'data'", primary_key)
       }
+      self$index = index
     }
   )
 )

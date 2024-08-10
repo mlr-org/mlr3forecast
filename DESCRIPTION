@@ -28,6 +28,8 @@ RoxygenNote: 7.3.2
 Collate:
     'DataBackendTimeSeries.R'
     'Forecaster.R'
+    'LearnerFcst.R'
+    'LearnerFcstARIMA.R'
     'zzz.R'
     'ResamplingForecastCV.R'
     'ResamplingForecastHoldout.R'

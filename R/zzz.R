@@ -8,6 +8,7 @@
 
 mlr3forecast_resamplings = new.env()
 mlr3forecast_tasks = new.env()
+mlr3forecast_learners = new.env()
 mlr3forecast_feature_types = c(date = "Date")
 
 named_union = function(x, y) {
@@ -25,8 +26,13 @@ register_task = function(name, constructor) {
   mlr3forecast_tasks[[name]] = constructor
 }
 
+register_learners = function(name, constructor) {
+  if (name %in% names(mlr3forecast_learners)) stopf("learner %s registered twice", name)
+  mlr3forecast_learners[[name]] = constructor
+}
+
 register_mlr3 = function() {
-  # add task types
+  # add reflections
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   # TODO:maybe this can be done more elegantly
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
@@ -47,6 +53,10 @@ register_mlr3 = function() {
   # add tasks
   mlr_tasks = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
   iwalk(as.list(mlr3forecast_tasks), function(task, id) mlr_tasks$add(id, task))
+
+  # add learners
+  mlr_learners = utils::getFromNamespace("mlr_learners", ns = "mlr3")
+  iwalk(as.list(mlr3forecast_learners), function(task, id) mlr_learners$add(id, task))
 }
 
 .onLoad = function(libname, pkgname) {
@@ -60,6 +70,7 @@ register_mlr3 = function() {
 .onUnload = function(libPaths) { # nolint
   walk(names(mlr3forecast_resamplings), function(nm) mlr_resamplings$remove(nm))
   walk(names(mlr3forecast_tasks), function(nm) mlr_tasks$remove(nm))
+  walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
   # TODO : remove all reflections
 }
 
