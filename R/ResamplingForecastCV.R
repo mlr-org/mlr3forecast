@@ -70,26 +70,28 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
   active = list(
     #' @template field_iters
     iters = function(rhs) {
-      as.integer(self$param_set$values$folds)
+      pars = self$param_set$get_values()
+      as.integer(pars$folds)
     }
   ),
 
   private = list(
     .sample = function(ids, ...) {
       ids = sort(ids)
-      if (self$param_set$values$fixed_window) {
-        train_start = ids[ids <= (max(ids) - self$param_set$values$horizon - self$param_set$values$window_size + 1)]
-        s = sample(train_start, self$param_set$values$folds)
+      pars = self$param_set$get_values()
+      if (pars$fixed_window) {
+        train_start = ids[ids <= (max(ids) - pars$horizon - pars$window_size + 1)]
+        s = sample.int(train_start, pars$folds)
         s = sort(s)
-        train_ids = map(s, function(x) x:(x + self$param_set$values$window_size - 1L))
+        train_ids = map(s, function(x) x:(x + pars$window_size - 1L))
       } else {
-        train_end = ids[ids <= (max(ids) - self$param_set$values$horizon) & ids >= self$param_set$values$window_size]
-        s = sample(train_end, self$param_set$values$folds)
+        train_end = ids[ids <= (max(ids) - pars$horizon) & ids >= pars$window_size]
+        s = sample.int(train_end, par$folds)
         s = sort(s)
         train_ids = map(s, function(x) min(ids):x)
       }
       test_ids = map(
-        train_ids, function(x) (max(x) + 1L):(max(x) + self$param_set$values$horizon)
+        train_ids, function(x) (max(x) + 1L):(max(x) + pars$horizon)
       )
 
       list(train = train_ids, test = test_ids)
