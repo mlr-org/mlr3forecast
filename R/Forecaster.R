@@ -1,3 +1,5 @@
+#' @title Forcaster
+#'
 #' @export
 Forecaster = R6::R6Class("Forecaster",
   inherit = Learner,

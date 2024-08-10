@@ -9,7 +9,7 @@ Splits data using a \code{folds}-folds (default: 10 folds) rolling window cross-
 }
 \section{Dictionary}{
 
-This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:
+This \link[mlr3:Resampling]{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_resamplings]{mlr_resamplings} or with the associated sugar function \link[mlr3:mlr_sugar]{rsmp()}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("forecast_cv")
 rsmp("forecast_cv")
@@ -25,7 +25,7 @@ Number of folds.
 (Minimal) Size of the rolling window.
 \item horizon (\code{integer(1)})\cr
 Forecasting horizon in the test sets.
-\item fixed_window (\code{logial(1)})\cr
+\item fixed_window (\code{logical(1)})\cr
 Flag for fixed sized window. If FALSE an expanding window is used.
 }
 }

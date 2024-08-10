@@ -15,7 +15,7 @@
 #'   (Minimal) Size of the rolling window.
 #' * horizon (`integer(1)`)\cr
 #'   Forecasting horizon in the test sets.
-#' * fixed_window (`logial(1)`)\cr
+#' * fixed_window (`logical(1)`)\cr
 #'   Flag for fixed sized window. If FALSE an expanding window is used.
 #'
 #' @references

@@ -10,7 +10,7 @@ Parameter \code{ratio} determines the ratio of observation going into the traini
 }
 \section{Dictionary}{
 
-This \link{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_resamplings} or with the associated sugar function \code{\link[=rsmp]{rsmp()}}:
+This \link[mlr3:Resampling]{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_resamplings]{mlr_resamplings} or with the associated sugar function \link[mlr3:mlr_sugar]{rsmp()}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("forecast_cv")
 rsmp("forecast_cv")
