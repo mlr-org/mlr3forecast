@@ -24,3 +24,9 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.3.2
+Collate: 
+    'Forecaster.R'
+    'zzz.R'
+    'ResamplingForecastCV.R'
+    'ResamplingForecastHoldout.R'
+    'bibentries.R'

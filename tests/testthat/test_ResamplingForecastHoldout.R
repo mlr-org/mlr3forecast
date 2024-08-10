@@ -1,0 +1,10 @@
+test_that("forecast_holdout works", {
+  task = tsk("petrol")
+  resampling = rsmp("forecast_holdout", ratio = 0.7)
+  expect_identical(resampling$param_set$values$ratio, 0.7)
+  resampling$instantiate(task)
+  expect_true(resampling$is_instantiated)
+  expect_identical(resampling$iters, 1L)
+  expect_equal(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
+  expect_resampling(resampling)
+})
