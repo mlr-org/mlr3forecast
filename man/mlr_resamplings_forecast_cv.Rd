@@ -32,7 +32,7 @@ Flag for fixed sized window. If FALSE an expanding window is used.
 
 \examples{
 # Create a task with 10 observations
-task = tsk("airpassengers")
+task = tsk("penguins")
 task$filter(1:20)
 
 # Instantiate Resampling

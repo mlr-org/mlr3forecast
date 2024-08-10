@@ -17,7 +17,7 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("airpassengers")
+#' task = tsk("penguins")
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
@@ -53,9 +53,11 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
 
   private = list(
     .sample = function(ids, ...) {
-      nr = round(length(ids) * self$param_set$values$ratio)
+      pars = self$param_set$get_values()
+      n = length(ids)
+      nr = round(n * pars$ratio)
       ii = ids[1:nr]
-      list(train = ii, test = setdiff(ids, ii))
+      list(train = ii, test = ids[(nr + 1L):n])
     },
 
     .get_train = function(i) {

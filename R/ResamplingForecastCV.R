@@ -25,7 +25,7 @@
 #' @export
 #' @examples
 #' # Create a task with 10 observations
-#' task = tsk("airpassengers")
+#' task = tsk("penguins")
 #' task$filter(1:20)
 #'
 #' # Instantiate Resampling

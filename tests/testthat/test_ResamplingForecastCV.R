@@ -1,5 +1,5 @@
 test_that("forecast_cv works", {
-  task = tsk("petrol")
+  task = tsk("penguins")
   r = rsmp("forecast_cv", folds = 10L, horizon = 3L, window_size = 5L, fixed_window = FALSE)
   expect_identical(r$param_set$values$folds, 10L)
   expect_identical(r$param_set$values$horizon, 3L)

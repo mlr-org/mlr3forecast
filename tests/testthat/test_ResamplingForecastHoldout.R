@@ -1,5 +1,5 @@
 test_that("forecast_holdout works", {
-  task = tsk("petrol")
+  task = tsk("penguins")
   resampling = rsmp("forecast_holdout", ratio = 0.7)
   expect_identical(resampling$param_set$values$ratio, 0.7)
   resampling$instantiate(task)
