@@ -44,16 +44,19 @@ rfho$instance # simple list
 }
 \seealso{
 \itemize{
-\item \code{\link[=as_benchmark_result]{as_benchmark_result()}} to convert to a \link{BenchmarkResult}.
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
-\url{https://mlr3book.mlr-org.com/performance.html#sec-resampling}
-\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\url{https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-resampling}
+\item Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Resampling]{Resamplings}: \link{mlr_resamplings}
+\item \code{as.data.table(mlr_resamplings)} for a table of available \link[=Resampling]{Resamplings} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3spatiotempcv} for additional \link{Resampling}s for spatio-temporal
+tasks.
 }
 
-Other resample: 
+Other Resampling: 
 \code{\link{mlr_resamplings_forecast_cv}}
 }
-\concept{resample}
+\concept{Resampling}
 \section{Super class}{
 \code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingForecastHoldout}
 }
