@@ -81,12 +81,12 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
       pars = self$param_set$get_values()
       if (pars$fixed_window) {
         train_start = ids[ids <= (max(ids) - pars$horizon - pars$window_size + 1)]
-        s = sample.int(train_start, pars$folds)
+        s = sample(train_start, pars$folds)
         s = sort(s)
         train_ids = map(s, function(x) x:(x + pars$window_size - 1L))
       } else {
         train_end = ids[ids <= (max(ids) - pars$horizon) & ids >= pars$window_size]
-        s = sample.int(train_end, par$folds)
+        s = sample(train_end, pars$folds)
         s = sort(s)
         train_ids = map(s, function(x) min(ids):x)
       }

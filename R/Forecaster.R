@@ -1,3 +1,4 @@
+#' @export
 Forecaster = R6::R6Class("Forecaster",
   inherit = Learner,
   public = list(
@@ -15,7 +16,7 @@ Forecaster = R6::R6Class("Forecaster",
         predict_types = learner$predict_types,
         feature_types = learner$feature_types,
         properties = learner$properties,
-        packages = c("mlr3time", learner$packages),
+        packages = c("mlr3forecast", learner$packages),
         man = learner$man
       )
     },
@@ -41,7 +42,7 @@ Forecaster = R6::R6Class("Forecaster",
       target = task$target_names
       preds = private$.predict_recursive(new_data, target, n)
       # TODO: check why the truth values exists, does this only happen in the resampler?
-      if (any(is.na(preds$data$truth))) {
+      if (anyNA(preds$data$truth)) {
         preds$data$truth = task$clone()$filter(row_ids)$data()[[target]]
       }
       preds
@@ -104,7 +105,7 @@ Forecaster = R6::R6Class("Forecaster",
 
     .predict_direct = function(dt, n) {
       # one model for each step
-      stopf("Not implemented")
+      .NotYetImplemented()
     }
   )
 )
