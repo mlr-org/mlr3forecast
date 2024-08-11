@@ -39,10 +39,12 @@ register_mlr3 = function() {
     "fcst", "mlr3forecast", "TaskFcst", "LearnerFcst", "PredictionFcst", "PredictionDataFcst", "MeasureFcst" # nolint
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
-  mlr_reflections$task_col_roles$fcst = union(mlr_reflections$task_col_roles$regr, "index")
+  mlr_reflections$task_col_roles$fcst =
+    union(mlr_reflections$task_col_roles$regr, "index")
   mlr_reflections$task_feature_types = named_union(
     mlr_reflections$task_feature_types, mlr3forecast_feature_types
   )
+  mlr_reflections$task_properties$fcst = c("univariate", "multivariate")
 
   # add resamplings
   mlr_resamplings = utils::getFromNamespace("mlr_resamplings", ns = "mlr3")
@@ -76,6 +78,7 @@ register_mlr3 = function() {
   mlr_reflections$task_types = mlr_reflections$task_types[type != "fcst", ]
   mlr_reflections$learner_predict_types = remove_named(mlr_reflections$learner_predict_types, "fcst") # nolint
   mlr_reflections$task_col_roles = remove_named(mlr_reflections$task_col_roles, "fcst")
+  mlr_reflections$task_properties = remove_named(mlr_reflections$task_properties, "fcst")
 }
 
 leanify_package()
