@@ -6,15 +6,14 @@
 #' @import paradox
 "_PACKAGE"
 
+utils::globalVariables("type")
+
 mlr3forecast_resamplings = new.env()
 mlr3forecast_tasks = new.env()
 mlr3forecast_learners = new.env()
 mlr3forecast_feature_types = c(date = "Date")
 
-named_union = function(x, y) {
-  z = union(x, y)
-  set_names(z, union(names(x), names(y)))
-}
+named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
 register_resampling = function(name, constructor) {
   if (name %in% names(mlr3forecast_resamplings)) stopf("resampling %s registered twice", name)
@@ -34,11 +33,10 @@ register_learners = function(name, constructor) {
 register_mlr3 = function() {
   # add reflections
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
-  # TODO:maybe this can be done more elegantly
-  mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
+  mlr_reflections$task_types = mlr_reflections$task_types[type != "fcst", ]
   mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
     ~type, ~package, ~task, ~learner, ~prediction, ~prediction_data, ~measure,
-    "fcst", "mlr3forecast", "TaskFcst", "LearnerFcst", "PredictionFcst", "PredictionDataFcst", "MeasureFcst"
+    "fcst", "mlr3forecast", "TaskFcst", "LearnerFcst", "PredictionFcst", "PredictionDataFcst", "MeasureFcst" # nolint
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
   mlr_reflections$task_col_roles$fcst = union(mlr_reflections$task_col_roles$regr, "index")
@@ -48,7 +46,7 @@ register_mlr3 = function() {
 
   # add resamplings
   mlr_resamplings = utils::getFromNamespace("mlr_resamplings", ns = "mlr3")
-  iwalk(as.list(mlr3forecast_resamplings), function(task, id) mlr_resamplings$add(id, task))
+  iwalk(as.list(mlr3forecast_resamplings), function(resampling, id) mlr_resamplings$add(id, resampling)) # nolint
 
   # add tasks
   mlr_tasks = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
@@ -56,7 +54,7 @@ register_mlr3 = function() {
 
   # add learners
   mlr_learners = utils::getFromNamespace("mlr_learners", ns = "mlr3")
-  iwalk(as.list(mlr3forecast_learners), function(task, id) mlr_learners$add(id, task))
+  iwalk(as.list(mlr3forecast_learners), function(learner, id) mlr_learners$add(id, learner))
 }
 
 .onLoad = function(libname, pkgname) {
@@ -74,7 +72,10 @@ register_mlr3 = function() {
   walk(names(mlr3forecast_resamplings), function(nm) mlr_resamplings$remove(nm))
   walk(names(mlr3forecast_tasks), function(nm) mlr_tasks$remove(nm))
   walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
-  # TODO : remove all reflections
+  mlr_reflections$task_feature_types = setdiff(mlr_reflections$task_feature_types, mlr3forecast_feature_types) # nolint
+  mlr_reflections$task_types = mlr_reflections$task_types[type != "fcst", ]
+  mlr_reflections$learner_predict_types = remove_named(mlr_reflections$learner_predict_types, "fcst") # nolint
+  mlr_reflections$task_col_roles = remove_named(mlr_reflections$task_col_roles, "fcst")
 }
 
 leanify_package()
