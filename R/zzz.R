@@ -25,7 +25,7 @@ register_task = function(name, constructor) {
   mlr3forecast_tasks[[name]] = constructor
 }
 
-register_learners = function(name, constructor) {
+register_learner = function(name, constructor) {
   if (name %in% names(mlr3forecast_learners)) stopf("learner %s registered twice", name)
   mlr3forecast_learners[[name]] = constructor
 }
@@ -39,8 +39,7 @@ register_mlr3 = function() {
     "fcst", "mlr3forecast", "TaskFcst", "LearnerFcst", "PredictionFcst", "PredictionDataFcst", "MeasureFcst" # nolint
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
-  mlr_reflections$task_col_roles$fcst =
-    union(mlr_reflections$task_col_roles$regr, "index")
+  mlr_reflections$task_col_roles$fcst = union(mlr_reflections$task_col_roles$regr, "index")
   mlr_reflections$task_feature_types = named_union(
     mlr_reflections$task_feature_types, mlr3forecast_feature_types
   )
@@ -74,11 +73,12 @@ register_mlr3 = function() {
   walk(names(mlr3forecast_resamplings), function(nm) mlr_resamplings$remove(nm))
   walk(names(mlr3forecast_tasks), function(nm) mlr_tasks$remove(nm))
   walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
-  mlr_reflections$task_feature_types = setdiff(mlr_reflections$task_feature_types, mlr3forecast_feature_types) # nolint
+
   mlr_reflections$task_types = mlr_reflections$task_types[type != "fcst", ]
-  mlr_reflections$learner_predict_types = remove_named(mlr_reflections$learner_predict_types, "fcst") # nolint
-  mlr_reflections$task_col_roles = remove_named(mlr_reflections$task_col_roles, "fcst")
-  mlr_reflections$task_properties = remove_named(mlr_reflections$task_properties, "fcst")
+  mlr_reflections$task_feature_types =
+    mlr_reflections$task_feature_types[mlr_reflections$task_feature_types %nin% mlr3forecast_feature_types] # nolint
+  reflections = c("learner_predict_types", "task_col_roles", "task_properties")
+  walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
 }
 
 leanify_package()
