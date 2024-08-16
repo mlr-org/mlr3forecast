@@ -37,6 +37,8 @@ holdout$instantiate(task)
 # Individual sets:
 holdout$train_set(1)
 holdout$test_set(1)
+
+# Disjunct sets:
 intersect(holdout$train_set(1), holdout$test_set(1))
 
 # Internal storage:
@@ -60,8 +62,8 @@ Other Resampling:
 \section{Super class}{
 \code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingForecastHoldout}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{iters}}{(\code{integer(1)})\cr
 Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}

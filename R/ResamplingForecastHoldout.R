@@ -27,6 +27,8 @@
 #' # Individual sets:
 #' holdout$train_set(1)
 #' holdout$test_set(1)
+#'
+#' # Disjunct sets:
 #' intersect(holdout$train_set(1), holdout$test_set(1))
 #'
 #' # Internal storage:
@@ -46,10 +48,15 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
         param_set = param_set,
         man = "mlr3forecast::mlr_resamplings_forecast_holdout"
       )
-    },
+    }
+  ),
 
+  active = list(
     #' @template field_iters
-    iters = 1L
+    iters = function(rhs) {
+      assert_ro_binding(rhs)
+      1L
+    }
   ),
 
   private = list(
