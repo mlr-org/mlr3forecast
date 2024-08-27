@@ -6,6 +6,9 @@
 <url><loc>https://mlr3forecast.mlr-org.com/news/index.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/DataBackendTimeSeries.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/Forecaster.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/MeasureMDA.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/MeasureMDPV.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/MeasureMDV.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/TaskFcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/as_task_fcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/index.html</loc></url>
