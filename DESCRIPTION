@@ -8,11 +8,11 @@ Description: Extends the 'mlr3' ecosystem to time series forecasting.
 License: LGPL-3
 Depends:
     mlr3 (>= 0.20.0),
-    R (>= 3.1.0)
+    R (>= 3.3.0)
 Imports:
     backports,
-    checkmate,
-    data.table (>= 1.15.0),
+    checkmate (>= 2.3.2),
+    data.table (>= 1.16.0),
     lgr,
     mlr3misc (>= 0.15.0),
     paradox (>= 1.0.1),
@@ -31,6 +31,7 @@ Collate:
     'Forecaster.R'
     'LearnerFcst.R'
     'zzz.R'
+    'MeasureDirectional.R'
     'ResamplingForecastCV.R'
     'ResamplingForecastHoldout.R'
     'TaskFcst.R'

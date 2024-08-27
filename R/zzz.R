@@ -11,24 +11,22 @@ utils::globalVariables("type")
 mlr3forecast_resamplings = new.env()
 mlr3forecast_tasks = new.env()
 mlr3forecast_learners = new.env()
+mlr3forecast_measures = new.env()
 mlr3forecast_feature_types = c(date = "Date")
 
 named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
-register_resampling = function(name, constructor) {
-  if (name %in% names(mlr3forecast_resamplings)) stopf("resampling %s registered twice", name)
-  mlr3forecast_resamplings[[name]] = constructor
+register_item = function(env, type) {
+  function(name, constructor) {
+    if (hasName(env, name)) stopf("%s %s registered twice", type, name)
+    env[[name]] = constructor
+  }
 }
 
-register_task = function(name, constructor) {
-  if (name %in% names(mlr3forecast_tasks)) stopf("task %s registered twice", name)
-  mlr3forecast_tasks[[name]] = constructor
-}
-
-register_learner = function(name, constructor) {
-  if (name %in% names(mlr3forecast_learners)) stopf("learner %s registered twice", name)
-  mlr3forecast_learners[[name]] = constructor
-}
+register_resampling = register_item(mlr3forecast_resamplings, "resampling")
+register_task = register_item(mlr3forecast_tasks, "task")
+register_learner = register_item(mlr3forecast_learners, "learner")
+register_measure = register_item(mlr3forecast_measures, "measure")
 
 register_mlr3 = function() {
   # add reflections
@@ -56,6 +54,10 @@ register_mlr3 = function() {
   # add learners
   mlr_learners = utils::getFromNamespace("mlr_learners", ns = "mlr3")
   iwalk(as.list(mlr3forecast_learners), function(learner, id) mlr_learners$add(id, learner))
+
+  # add measures
+  mlr_learners = utils::getFromNamespace("mlr_measures", ns = "mlr3")
+  iwalk(as.list(mlr3forecast_measures), function(measure, id) mlr_measures$add(id, measure))
 }
 
 .onLoad = function(libname, pkgname) {
@@ -73,6 +75,7 @@ register_mlr3 = function() {
   walk(names(mlr3forecast_resamplings), function(nm) mlr_resamplings$remove(nm))
   walk(names(mlr3forecast_tasks), function(nm) mlr_tasks$remove(nm))
   walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
+  walk(names(mlr3forecast_measures), function(nm) mlr_measures$remove(nm))
 
   mlr_reflections$task_types = mlr_reflections$task_types[type != "fcst", ]
   mlr_reflections$task_feature_types =

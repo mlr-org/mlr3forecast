@@ -11,11 +11,11 @@ repos:
       - id: roxygenize
         additional_dependencies:
           - R6
-          - checkmate
-          - data.table
-          - mlr3
-          - mlr3misc
-          - paradox
+          - checkmate (>= 2.3.2)
+          - data.table (>= 1.16.0)
+          - mlr3 (>= 0.20.0)
+          - mlr3misc (>= 0.15.0)
+          - paradox (>= 1.0.1)
       # codemeta must be above use-tidy-description when both are used
       - id: use-tidy-description
       - id: readme-rmd-rendered
