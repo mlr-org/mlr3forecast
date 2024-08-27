@@ -69,5 +69,5 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 }
 }
 \examples{
-as_task_fcst(tsbox::ts_dt(AirPassengers), target = "value", index = "time")
+as_task_fcst(tsbox::ts_dt(AirPassengers), target = "value", index = "time", freq = "monthly")
 }

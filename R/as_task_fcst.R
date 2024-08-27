@@ -12,7 +12,7 @@
 #' @return [TaskFcst].
 #' @export
 #' @examples
-#' as_task_fcst(tsbox::ts_dt(AirPassengers), target = "value", index = "time")
+#' as_task_fcst(tsbox::ts_dt(AirPassengers), target = "value", index = "time", freq = "monthly")
 as_task_fcst = function(x, ...) {
   UseMethod("as_task_fcst")
 }

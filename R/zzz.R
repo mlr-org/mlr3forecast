@@ -18,7 +18,7 @@ named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
 register_item = function(env, type) {
   function(name, constructor) {
-    if (hasName(env, name)) stopf("%s %s registered twice", type, name)
+    if (utils::hasName(env, name)) stopf("%s %s registered twice", type, name)
     env[[name]] = constructor
   }
 }
