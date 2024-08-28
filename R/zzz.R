@@ -18,7 +18,7 @@ named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
 register_item = function(env, type) {
   function(name, constructor) {
-    if (utils::hasName(env, name)) stopf("%s %s registered twice", type, name)
+    if (hasName(env, name)) stopf("%s %s registered twice", type, name)
     env[[name]] = constructor
   }
 }
@@ -62,6 +62,7 @@ register_mlr3 = function() {
 
 .onLoad = function(libname, pkgname) {
   backports::import(pkgname)
+  backports::import(pkgname, "hasName", force = TRUE)
 
   assign("lg", lgr::get_logger("mlr3"), envir = parent.env(environment()))
   if (Sys.getenv("IN_PKGDOWN") == "true") {
