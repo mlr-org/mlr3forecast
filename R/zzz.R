@@ -6,8 +6,6 @@
 #' @import paradox
 "_PACKAGE"
 
-utils::globalVariables("type")
-
 mlr3forecast_resamplings = new.env()
 mlr3forecast_tasks = new.env()
 mlr3forecast_learners = new.env()
@@ -31,7 +29,7 @@ register_measure = register_item(mlr3forecast_measures, "measure")
 register_mlr3 = function() {
   # add reflections
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
-  mlr_reflections$task_types = mlr_reflections$task_types[type != "fcst", ]
+  mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
     ~type, ~package, ~task, ~learner, ~prediction, ~prediction_data, ~measure,
     "fcst", "mlr3forecast", "TaskFcst", "LearnerFcst", "PredictionFcst", "PredictionDataFcst", "MeasureFcst" # nolint
@@ -78,7 +76,7 @@ register_mlr3 = function() {
   walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
   walk(names(mlr3forecast_measures), function(nm) mlr_measures$remove(nm))
 
-  mlr_reflections$task_types = mlr_reflections$task_types[type != "fcst", ]
+  mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   mlr_reflections$task_feature_types =
     mlr_reflections$task_feature_types[mlr_reflections$task_feature_types %nin% mlr3forecast_feature_types] # nolint
   reflections = c("learner_predict_types", "task_col_roles", "task_properties")

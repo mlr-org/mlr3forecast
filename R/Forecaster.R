@@ -89,7 +89,7 @@ Forecaster = R6::R6Class("Forecaster",
       # alternatively check for loop with set()
       dt = copy(dt)
       dt[, (lag_cols) := lapply(lag, function(n) shift(dt[[target]], n = n, type = "lag"))]
-      dt = dt[(lag[length(lag)] + 1L):.N, ]
+      dt = dt[(lag[length(lag)] + 1L):.N]
       dt
     },
 
