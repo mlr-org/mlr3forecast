@@ -4,16 +4,18 @@
 Forecaster = R6::R6Class("Forecaster",
   inherit = Learner,
   public = list(
-    #' @field learner (`any`)\cr
-    #' TODO ...
+    #' @field learner ([Learner])\cr
+    #' The learner
     learner = NULL,
 
     #' @field lag (`integer(1)`)\cr
-    #' TODO ...
+    #' The lag
     lag = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' @param learner ([Learner])\cr
+    #' @param lag (`integer(1)`)\cr
     initialize = function(learner, lag) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
       self$lag = assert_integerish(lag, lower = 1L, any.missing = FALSE, coerce = TRUE)
@@ -31,7 +33,16 @@ Forecaster = R6::R6Class("Forecaster",
     },
 
     #' @description
-    #' Predict
+    #' Uses the information stored during `$train()` in `$state` to create a new [Prediction]
+    #' for a set of observations of the provided `task`.
+    #'
+    #' @param task ([Task]).
+    #'
+    #' @param row_ids (`integer()`)\cr
+    #'   Vector of test indices as subset of `task$row_ids`. For a simple split
+    #'   into training and test set, see [partition()].
+    #'
+    #' @returns [Prediction].
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       row_ids = assert_integerish(row_ids,
@@ -54,15 +65,17 @@ Forecaster = R6::R6Class("Forecaster",
       n = length(row_ids)
       target = task$target_names
       preds = private$.predict_recursive(new_data, target, n)
-      # TODO: check why the truth values exists, does this only happen in the resampler?
-      if (anyNA(preds$data$truth)) {
-        preds$data$truth = task$clone()$filter(row_ids)$data()[[target]]
-      }
+      preds$data$truth = task$clone()$filter(row_ids)$data()[[target]]
       preds
     },
 
     #' @description
-    #' Predict new data
+    #' Uses the model fitted during `$train()` to create a new [Prediction] based on the forecast horizon `n`.
+    #'
+    #' @param task ([Task]).
+    #' @param n (`integer(1)`).
+    #'
+    #' @returns [Prediction].
     predict_newdata = function(task, n) {
       task = assert_task(as_task(task))
       n = assert_int(n, lower = 1L, coerce = TRUE)
@@ -94,12 +107,9 @@ Forecaster = R6::R6Class("Forecaster",
 
     .lag_transform = function(dt, target) {
       lag = self$lag
-      lag_cols = sprintf("%s_lag_%s", target, lag)
-      # check if faster
-      # DT = copy(dt)[, names(.SD) := lapply(.SD, shift, 3, type="lag")],
-      # alternatively check for loop with set()
+      nms = sprintf("%s_lag_%s", target, lag)
       dt = copy(dt)
-      dt[, (lag_cols) := lapply(lag, function(n) shift(dt[[target]], n = n, type = "lag"))]
+      dt[, (nms) := shift(..target, n = lag, type = "lag")]
       dt = dt[(lag[length(lag)] + 1L):.N]
       dt
     },

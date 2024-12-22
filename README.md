@@ -46,29 +46,29 @@ ff$train(task)
 prediction = ff$predict(task)
 prediction
 #> <PredictionRegr> for 144 observations:
-#>     row_ids    truth response
-#>           1 432.0000 404.1487
-#>           2 404.1487 450.5137
-#>           3 450.5137 420.9816
-#> ---                          
-#>         142 452.6298 454.5250
-#>         143 454.5250 454.5353
-#>         144 454.5353 445.7902
+#>  row_ids truth response
+#>        1   112 283.1684
+#>        2   118 283.1684
+#>        3   132 283.1684
+#>      ---   ---      ---
+#>      142   461 283.1684
+#>      143   390 283.1684
+#>      144   432 283.1684
 prediction = ff$predict_newdata(task, 3L)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 404.1487
-#>        2    NA 450.5137
-#>        3    NA 420.9816
+#>        1    NA 283.1684
+#>        2    NA 283.1684
+#>        3    NA 283.1684
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
-#>  row_ids    truth response
-#>        1 508.0000 498.0064
-#>        2 498.0064 460.8071
-#>        3 460.8071 445.5276
+#>  row_ids truth response
+#>        1   461 283.1684
+#>        2   390 283.1684
+#>        3   432 283.1684
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  23.92435
+#>  147.4086
 ```

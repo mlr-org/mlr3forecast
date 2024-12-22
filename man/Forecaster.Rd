@@ -3,6 +3,11 @@
 \name{Forecaster}
 \alias{Forecaster}
 \title{Forecaster}
+\value{
+\link{Prediction}.
+
+\link{Prediction}.
+}
 \description{
 Forecaster
 
@@ -14,11 +19,11 @@ Forecaster
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{learner}}{(\code{any})\cr
-TODO ...}
+\item{\code{learner}}{(\link{Learner})\cr
+The learner}
 
 \item{\code{lag}}{(\code{integer(1)})\cr
-TODO ...}
+The lag}
 }
 \if{html}{\out{</div>}}
 }
@@ -53,26 +58,56 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="r">}}\preformatted{Forecaster$new(learner, lag)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{learner}}{(\link{Learner})\cr}
+
+\item{\code{lag}}{(\code{integer(1)})\cr}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Forecaster-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-Forecaster-predict}{}}}
 \subsection{Method \code{predict()}}{
-Predict
+Uses the information stored during \verb{$train()} in \verb{$state} to create a new \link{Prediction}
+for a set of observations of the provided \code{task}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Forecaster$predict(task, row_ids = NULL)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task}).}
+
+\item{\code{row_ids}}{(\code{integer()})\cr
+Vector of test indices as subset of \code{task$row_ids}. For a simple split
+into training and test set, see \code{\link[=partition]{partition()}}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Forecaster-predict_newdata"></a>}}
 \if{latex}{\out{\hypertarget{method-Forecaster-predict_newdata}{}}}
 \subsection{Method \code{predict_newdata()}}{
-Predict new data
+Uses the model fitted during \verb{$train()} to create a new \link{Prediction} based on the forecast horizon \code{n}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Forecaster$predict_newdata(task, n)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{task}}{(\link{Task}).}
+
+\item{\code{n}}{(\code{integer(1)}).}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Forecaster-clone"></a>}}

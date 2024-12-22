@@ -29,7 +29,6 @@ RoxygenNote: 7.3.2
 Collate:
     'DataBackendTimeSeries.R'
     'Forecaster.R'
-    'LearnerFcst.R'
     'zzz.R'
     'MeasureDirectional.R'
     'ResamplingForecastCV.R'
