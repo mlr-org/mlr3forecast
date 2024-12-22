@@ -31,7 +31,6 @@ pak::pak("mlr-org/mlr3forecast")
 
 ``` r
 library(mlr3forecast)
-#> Loading required package: mlr3
 library(mlr3learners)
 
 dt = tsbox::ts_dt(AirPassengers)
@@ -47,28 +46,28 @@ prediction = ff$predict(task)
 prediction
 #> <PredictionRegr> for 144 observations:
 #>  row_ids truth response
-#>        1   112 283.1684
-#>        2   118 283.1684
-#>        3   132 283.1684
+#>        1   112 283.4395
+#>        2   118 283.4395
+#>        3   132 283.4395
 #>      ---   ---      ---
-#>      142   461 283.1684
-#>      143   390 283.1684
-#>      144   432 283.1684
+#>      142   461 283.4395
+#>      143   390 283.4395
+#>      144   432 283.4395
 prediction = ff$predict_newdata(task, 3L)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 283.1684
-#>        2    NA 283.1684
-#>        3    NA 283.1684
+#>        1    NA 283.4395
+#>        2    NA 283.4395
+#>        3    NA 283.4395
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 283.1684
-#>        2   390 283.1684
-#>        3   432 283.1684
+#>        1   461 283.4395
+#>        2   390 283.4395
+#>        3   432 283.4395
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  147.4086
+#>  147.1429
 ```
