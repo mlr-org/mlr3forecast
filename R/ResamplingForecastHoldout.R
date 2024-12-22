@@ -39,8 +39,10 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(ratio = p_dbl(0, 1, tags = "required"))
-      param_set$set_values(ratio = 0.8)
+      param_set = ps(
+        ratio = p_dbl(0, 1),
+        n = p_int()
+      )
 
       super$initialize(
         id = "forecast_holdout",
@@ -63,7 +65,17 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
     .sample = function(ids, ...) {
       pars = self$param_set$get_values()
       n = length(ids)
-      nr = round(n * pars$ratio)
+      has_ratio = !is.null(pars$ratio)
+      if (!xor(!has_ratio, is.null(pars$n))) {
+        stopf("Either parameter `ratio` (x)or `n` must be provided.")
+      }
+      if (has_ratio) {
+        nr = round(n * pars$ratio)
+      } else if (pars$n > 0L) {
+        nr = min(n, pars$n)
+      } else {
+        nr = max(n + pars$n, 0L)
+      }
       ii = ids[1:nr]
       list(train = ii, test = ids[(nr + 1L):n])
     },
