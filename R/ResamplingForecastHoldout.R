@@ -12,6 +12,11 @@
 #' @section Parameters:
 #' * `ratio` (`numeric(1)`)\cr
 #'   Ratio of observations to put into the training set.
+#'   Mutually exclusive with parameter `n`.
+#' * `n` (`integer(1)`)\cr
+#'   Number of observations to put into the training set.
+#'   If negative, the absolute value determines the number of observations in the test set.
+#'   Mutually exclusive with parameter `ratio`.
 #'
 #' @template seealso_resampling
 #' @export
@@ -64,20 +69,23 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
   private = list(
     .sample = function(ids, ...) {
       pars = self$param_set$get_values()
-      n = length(ids)
-      has_ratio = !is.null(pars$ratio)
-      if (!xor(!has_ratio, is.null(pars$n))) {
+      ratio = pars$ratio
+      n = pars$n
+      n_obs = length(ids)
+
+      has_ratio = !is.null(ratio)
+      if (!xor(!has_ratio, is.null(n))) {
         stopf("Either parameter `ratio` (x)or `n` must be provided.")
       }
       if (has_ratio) {
-        nr = round(n * pars$ratio)
-      } else if (pars$n > 0L) {
-        nr = min(n, pars$n)
+        nr = round(n_obs * ratio)
+      } else if (n > 0L) {
+        nr = min(n_obs, n)
       } else {
-        nr = max(n + pars$n, 0L)
+        nr = max(n_obs + n, 0L)
       }
       ii = ids[1:nr]
-      list(train = ii, test = ids[(nr + 1L):n])
+      list(train = ii, test = ids[(nr + 1L):n_obs])
     },
 
     .get_train = function(i) {

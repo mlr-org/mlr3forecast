@@ -18,7 +18,7 @@
 #' * `window_size` (`integer(1)`)\cr
 #'   (Minimal) Size of the rolling window.
 #' * `fixed_window` (`logial(1)`)\cr
-#'   Flag for fixed sized window. If FALSE an expanding window is used.
+#'   Should a fixed sized window be used? If `FALSE` an expanding window is used.
 #'
 #' @references
 #' `r format_bib("bergmeir_2018")`

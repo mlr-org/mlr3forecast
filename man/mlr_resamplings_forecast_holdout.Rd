@@ -22,6 +22,11 @@ rsmp("forecast_cv")
 \itemize{
 \item \code{ratio} (\code{numeric(1)})\cr
 Ratio of observations to put into the training set.
+Mutually exclusive with parameter \code{n}.
+\item \code{n} (\code{integer(1)})\cr
+Number of observations to put into the training set.
+If negative, the absolute value determines the number of observations in the test set.
+Mutually exclusive with parameter \code{ratio}.
 }
 }
 

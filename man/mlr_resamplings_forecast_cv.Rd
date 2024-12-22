@@ -28,7 +28,7 @@ Step size between windows.
 \item \code{window_size} (\code{integer(1)})\cr
 (Minimal) Size of the rolling window.
 \item \code{fixed_window} (\code{logial(1)})\cr
-Flag for fixed sized window. If FALSE an expanding window is used.
+Should a fixed sized window be used? If \code{FALSE} an expanding window is used.
 }
 }
 
