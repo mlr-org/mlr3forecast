@@ -52,19 +52,24 @@ Forecaster"></head><body>
 
 
     <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p><a href="https://mlr3.mlr-org.com/reference/Prediction.html" class="external-link">Prediction</a>.</p>
+<p><a href="https://mlr3.mlr-org.com/reference/Prediction.html" class="external-link">Prediction</a>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
     <p><code><a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a></code> -&gt; <code>Forecaster</code></p>
     </div>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
     <p></p><div class="r6-fields"><dl><dt><code>learner</code></dt>
-<dd><p>(<code>any</code>)<br>
-TODO ...</p></dd>
+<dd><p>(<a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learner</a>)<br>
+The learner</p></dd>
 
 
 <dt><code>lag</code></dt>
 <dd><p>(<code>integer(1)</code>)<br>
-TODO ...</p></dd>
+The lag</p></dd>
 
 
 </dl><p></p></div>
@@ -93,22 +98,61 @@ TODO ...</p></dd>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va"><a href="../reference/Forecaster.html">Forecaster</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">learner</span>, <span class="va">lag</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+<div class="section">
+<h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>learner</code></dt>
+<dd><p>(<a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learner</a>)<br></p></dd>
+
+
+<dt><code>lag</code></dt>
+<dd><p>(<code>integer(1)</code>)<br></p></dd>
+
+
+</dl><p></p></div>
+</div>
 
 </div><p></p><hr><a id="method-Forecaster-predict"></a><div class="section">
 <h3 id="method-predict-">Method <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code><a class="anchor" aria-label="anchor" href="#method-predict-"></a></h3>
-<p>Predict</p><div class="section">
+<p>Uses the information stored during <code>$train()</code> in <code>$state</code> to create a new <a href="https://mlr3.mlr-org.com/reference/Prediction.html" class="external-link">Prediction</a>
+for a set of observations of the provided <code>task</code>.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Forecaster</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, row_ids <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+<div class="section">
+<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>task</code></dt>
+<dd><p>(<a href="https://mlr3.mlr-org.com/reference/Task.html" class="external-link">Task</a>).</p></dd>
+
+
+<dt><code>row_ids</code></dt>
+<dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+Vector of test indices as subset of <code>task$row_ids</code>. For a simple split
+into training and test set, see <code><a href="https://mlr3.mlr-org.com/reference/partition.html" class="external-link">partition()</a></code>.</p></dd>
+
+
+</dl><p></p></div>
+</div>
 
 </div><p></p><hr><a id="method-Forecaster-predict_newdata"></a><div class="section">
 <h3 id="method-predict-newdata-">Method <code>predict_newdata()</code><a class="anchor" aria-label="anchor" href="#method-predict-newdata-"></a></h3>
-<p>Predict new data</p><div class="section">
+<p>Uses the model fitted during <code>$train()</code> to create a new <a href="https://mlr3.mlr-org.com/reference/Prediction.html" class="external-link">Prediction</a> based on the forecast horizon <code>n</code>.</p><div class="section">
 <h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">Forecaster</span><span class="op">$</span><span class="fu">predict_newdata</span><span class="op">(</span><span class="va">task</span>, <span class="va">n</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
+<div class="section">
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>task</code></dt>
+<dd><p>(<a href="https://mlr3.mlr-org.com/reference/Task.html" class="external-link">Task</a>).</p></dd>
+
+
+<dt><code>n</code></dt>
+<dd><p>(<code>integer(1)</code>).</p></dd>
+
+
+</dl><p></p></div>
+</div>
 
 </div><p></p><hr><a id="method-Forecaster-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
@@ -118,7 +162,7 @@ TODO ...</p></dd>
 </div>
 
 <div class="section">
-<h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
+<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 

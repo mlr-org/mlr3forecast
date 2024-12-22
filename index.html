@@ -98,31 +98,31 @@
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">ff</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
 <span><span class="va">prediction</span></span>
 <span><span class="co">#&gt; &lt;PredictionRegr&gt; for 144 observations:</span></span>
-<span><span class="co">#&gt;     row_ids    truth response</span></span>
-<span><span class="co">#&gt;           1 432.0000 404.1487</span></span>
-<span><span class="co">#&gt;           2 404.1487 450.5137</span></span>
-<span><span class="co">#&gt;           3 450.5137 420.9816</span></span>
-<span><span class="co">#&gt; ---                          </span></span>
-<span><span class="co">#&gt;         142 452.6298 454.5250</span></span>
-<span><span class="co">#&gt;         143 454.5250 454.5353</span></span>
-<span><span class="co">#&gt;         144 454.5353 445.7902</span></span>
+<span><span class="co">#&gt;  row_ids truth response</span></span>
+<span><span class="co">#&gt;        1   112 283.1684</span></span>
+<span><span class="co">#&gt;        2   118 283.1684</span></span>
+<span><span class="co">#&gt;        3   132 283.1684</span></span>
+<span><span class="co">#&gt;      ---   ---      ---</span></span>
+<span><span class="co">#&gt;      142   461 283.1684</span></span>
+<span><span class="co">#&gt;      143   390 283.1684</span></span>
+<span><span class="co">#&gt;      144   432 283.1684</span></span>
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">ff</span><span class="op">$</span><span class="fu">predict_newdata</span><span class="op">(</span><span class="va">task</span>, <span class="fl">3L</span><span class="op">)</span></span>
 <span><span class="va">prediction</span></span>
 <span><span class="co">#&gt; &lt;PredictionRegr&gt; for 3 observations:</span></span>
 <span><span class="co">#&gt;  row_ids truth response</span></span>
-<span><span class="co">#&gt;        1    NA 404.1487</span></span>
-<span><span class="co">#&gt;        2    NA 450.5137</span></span>
-<span><span class="co">#&gt;        3    NA 420.9816</span></span>
+<span><span class="co">#&gt;        1    NA 283.1684</span></span>
+<span><span class="co">#&gt;        2    NA 283.1684</span></span>
+<span><span class="co">#&gt;        3    NA 283.1684</span></span>
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">ff</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="fl">142</span><span class="op">:</span><span class="fl">144</span><span class="op">)</span></span>
 <span><span class="va">prediction</span></span>
 <span><span class="co">#&gt; &lt;PredictionRegr&gt; for 3 observations:</span></span>
-<span><span class="co">#&gt;  row_ids    truth response</span></span>
-<span><span class="co">#&gt;        1 508.0000 498.0064</span></span>
-<span><span class="co">#&gt;        2 498.0064 460.8071</span></span>
-<span><span class="co">#&gt;        3 460.8071 445.5276</span></span>
+<span><span class="co">#&gt;  row_ids truth response</span></span>
+<span><span class="co">#&gt;        1   461 283.1684</span></span>
+<span><span class="co">#&gt;        2   390 283.1684</span></span>
+<span><span class="co">#&gt;        3   432 283.1684</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  23.92435</span></span></code></pre></div>
+<span><span class="co">#&gt;  147.4086</span></span></code></pre></div>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="license">
