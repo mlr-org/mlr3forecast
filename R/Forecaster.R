@@ -1,12 +1,19 @@
-#' @title Forcaster
+#' @title Forecaster
 #'
 #' @export
 Forecaster = R6::R6Class("Forecaster",
   inherit = Learner,
   public = list(
+    #' @field learner (`any`)\cr
+    #' TODO ...
     learner = NULL,
+
+    #' @field lag (`integer(1)`)\cr
+    #' TODO ...
     lag = NULL,
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function(learner, lag) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
       self$lag = assert_integerish(lag, lower = 1L, any.missing = FALSE, coerce = TRUE)
@@ -23,6 +30,8 @@ Forecaster = R6::R6Class("Forecaster",
       )
     },
 
+    #' @description
+    #' Predict
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       row_ids = assert_integerish(row_ids,
@@ -52,6 +61,8 @@ Forecaster = R6::R6Class("Forecaster",
       preds
     },
 
+    #' @description
+    #' Predict new data
     predict_newdata = function(task, n) {
       task = assert_task(as_task(task))
       n = assert_int(n, lower = 1L, coerce = TRUE)

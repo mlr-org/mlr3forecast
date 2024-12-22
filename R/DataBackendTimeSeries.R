@@ -12,6 +12,8 @@ DataBackendTimeSeries = R6Class("DataBackendTimeSeries",
   inherit = DataBackendDataTable,
   cloneable = FALSE,
   public = list(
+    #' @field index (`character(1)`)\cr
+    #' The time index of the time series.
     index = NULL,
 
     #' @description
@@ -22,11 +24,15 @@ DataBackendTimeSeries = R6Class("DataBackendTimeSeries",
     #'
     #' @param data ([data.table::data.table()])\cr
     #'   The input [data.table()].
+    #' @param primary_key (`character(1)` | `integer()`)\cr
+    #'   Name of the primary key column, or integer vector of row ids.
+    #' @param index (`character(1)`)\cr
+    #'   The time index of the time series.
     initialize = function(data, primary_key, index) {
       # NOTE: currently in the super class sets the primary_key as the data.table key
       super$initialize(data, primary_key)
       if (!is.null(index) && index %nin% names(data)) {
-        stopf("index '%s' not in 'data'", primary_key)
+        stopf("`index` '%s' not in 'data'", primary_key)
       }
       self$index = index
     }

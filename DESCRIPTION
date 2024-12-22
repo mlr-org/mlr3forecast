@@ -7,18 +7,18 @@ Authors@R:
 Description: Extends the 'mlr3' ecosystem to time series forecasting.
 License: LGPL-3
 Depends:
-    mlr3 (>= 0.21.0),
+    mlr3 (>= 0.22.1),
     R (>= 3.3.0)
 Imports:
     backports,
     checkmate (>= 2.3.2),
-    data.table (>= 1.16.0),
+    data.table (>= 1.16.4),
     lgr,
     mlr3misc (>= 0.15.0),
     paradox (>= 1.0.1),
     R6
 Suggests:
-    testthat (>= 3.0.0),
+    testthat (>= 3.2.0),
     tsbox,
     withr (>= 3.0.0)
 Config/testthat/edition: 3

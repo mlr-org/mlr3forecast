@@ -2,14 +2,25 @@
 % Please edit documentation in R/Forecaster.R
 \name{Forecaster}
 \alias{Forecaster}
-\title{Forcaster}
+\title{Forecaster}
 \description{
-Forcaster
+Forecaster
 
-Forcaster
+Forecaster
 }
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{Forecaster}
+}
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{learner}}{(\code{any})\cr
+TODO ...}
+
+\item{\code{lag}}{(\code{integer(1)})\cr
+TODO ...}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -37,6 +48,7 @@ Forcaster
 \if{html}{\out{<a id="method-Forecaster-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Forecaster-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Forecaster$new(learner, lag)}\if{html}{\out{</div>}}
 }
@@ -46,6 +58,7 @@ Forcaster
 \if{html}{\out{<a id="method-Forecaster-predict"></a>}}
 \if{latex}{\out{\hypertarget{method-Forecaster-predict}{}}}
 \subsection{Method \code{predict()}}{
+Predict
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Forecaster$predict(task, row_ids = NULL)}\if{html}{\out{</div>}}
 }
@@ -55,6 +68,7 @@ Forcaster
 \if{html}{\out{<a id="method-Forecaster-predict_newdata"></a>}}
 \if{latex}{\out{\hypertarget{method-Forecaster-predict_newdata}{}}}
 \subsection{Method \code{predict_newdata()}}{
+Predict new data
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Forecaster$predict_newdata(task, n)}\if{html}{\out{</div>}}
 }

@@ -16,6 +16,14 @@ b = DataBackendTimeSeries$new(data = data, primary_key = "id", index = "time")
 \section{Super classes}{
 \code{\link[mlr3:DataBackend]{mlr3::DataBackend}} -> \code{\link[mlr3:DataBackendDataTable]{mlr3::DataBackendDataTable}} -> \code{DataBackendTimeSeries}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{index}}{(\code{character(1)})\cr
+The time index of the time series.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -51,6 +59,12 @@ Note that \code{DataBackendDataTable} does not copy the input data, while \code{
 \describe{
 \item{\code{data}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 The input \code{\link[=data.table]{data.table()}}.}
+
+\item{\code{primary_key}}{(\code{character(1)} | \code{integer()})\cr
+Name of the primary key column, or integer vector of row ids.}
+
+\item{\code{index}}{(\code{character(1)})\cr
+The time index of the time series.}
 }
 \if{html}{\out{</div>}}
 }
