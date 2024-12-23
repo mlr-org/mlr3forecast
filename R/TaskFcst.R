@@ -28,10 +28,6 @@ TaskFcst = R6::R6Class("TaskFcst",
     #' Column name of the index variable.
     index = NULL,
 
-    #' @field freq (`character(1)`)\cr
-    #' Frequency of the time series.
-    freq = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' The function [as_task_fcst()] provides an alternative way to construct forecast tasks.
@@ -43,29 +39,20 @@ TaskFcst = R6::R6Class("TaskFcst",
     #' @template param_target
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, index, freq, label = NA_character_, extra_args = list()) { # nolint
+    initialize = function(id, backend, target, index, label = NA_character_, extra_args = list()) { # nolint
       assert_string(target)
       assert_string(index)
-      assert_string(freq)
 
       super$initialize(
         id = id,
-        task_type = "fcst",
+        task_type = "regr",
         backend = backend,
         target = target,
         label = label,
         extra_args = extra_args
       )
-      self$properties = union(
-        self$properties, if (length(self$target_names) == 1L) "univariate" else "multivariate"
-      )
       self$index = index
-      self$freq = freq
-
-      # TODO: seems very hacky
       private$.col_roles$feature = setdiff(private$.col_roles$feature, index)
-      # TODO: should it every be null?
-      self$col_roles$index = index %??% "time"
 
       type = self$col_info[id == target]$type
       if (type %nin% c("integer", "numeric")) {
@@ -78,8 +65,6 @@ TaskFcst = R6::R6Class("TaskFcst",
     #' @param ... (ignored).
     print = function(...) {
       super$print(...)
-      catn(str_indent("* Index:", self$index))
-      catn(str_indent("* Frequency:", self$freq))
     },
 
     #' @description

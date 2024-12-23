@@ -34,5 +34,6 @@ Collate:
     'ResamplingForecastCV.R'
     'ResamplingForecastHoldout.R'
     'TaskFcst.R'
+    'TaskFcstAirpassengers.R'
     'as_task_fcst.R'
     'bibentries.R'

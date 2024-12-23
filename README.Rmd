@@ -44,10 +44,7 @@ pak::pak("mlr-org/mlr3forecast")
 library(mlr3forecast)
 library(mlr3learners)
 
-dt = tsbox::ts_dt(AirPassengers)
-dt[, time := NULL]
-task = as_task_regr(dt, target = "value")
-
+task = tsk("airpassengers")
 ff = Forecaster$new(
   learner = lrn("regr.ranger"),
   lag = 1:3

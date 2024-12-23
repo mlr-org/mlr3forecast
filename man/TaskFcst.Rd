@@ -40,6 +40,9 @@ task$data(rows = 1:3)
 \item Probabilistic supervised regression and survival analysis: \url{https://mlr3proba.mlr-org.com/}.
 }
 }
+
+Other Task: 
+\code{\link{mlr_tasks_airpassengers}}
 }
 \concept{Task}
 \section{Super classes}{
@@ -50,9 +53,6 @@ task$data(rows = 1:3)
 \describe{
 \item{\code{index}}{(\code{character(1)})\cr
 Column name of the index variable.}
-
-\item{\code{freq}}{(\code{character(1)})\cr
-Frequency of the time series.}
 }
 \if{html}{\out{</div>}}
 }
@@ -101,7 +101,6 @@ The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative
   backend,
   target,
   index,
-  freq,
   label = NA_character_,
   extra_args = list()
 )}\if{html}{\out{</div>}}
@@ -123,15 +122,15 @@ Name of the target column.}
 \item{\code{index}}{(\code{character(1)})\cr
 Column name of the index variable.}
 
-\item{\code{freq}}{(\code{character(1)})\cr
-Frequency of the time series.}
-
 \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
 
 \item{\code{extra_args}}{(named \code{list()})\cr
 Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
+
+\item{\code{freq}}{(\code{character(1)})\cr
+Frequency of the time series.}
 }
 \if{html}{\out{</div>}}
 }
