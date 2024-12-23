@@ -34,56 +34,39 @@ library(mlr3forecast)
 library(mlr3learners)
 
 task = tsk("airpassengers")
+measure = msr("regr.rmse")
 ff = Forecaster$new(
   learner = lrn("regr.ranger"),
   lag = 1:3
-)
-ff$train(task)
-prediction = ff$predict(task)
-prediction
-#> <PredictionRegr> for 144 observations:
-#>  row_ids truth response
-#>        1   112 283.8407
-#>        2   118 283.8407
-#>        3   132 283.8407
-#>      ---   ---      ---
-#>      142   461 283.8407
-#>      143   390 283.8407
-#>      144   432 283.8407
+)$train(task)
 prediction = ff$predict_newdata(task, 3L)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 283.8407
-#>        2    NA 283.8407
-#>        3    NA 283.8407
+#>        1    NA 406.3329
+#>        2    NA 406.3329
+#>        3    NA 406.3329
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 283.8407
-#>        2   390 283.8407
-#>        3   432 283.8407
-measure = msr("regr.rmse")
+#>        1   461 497.7567
+#>        2   390 497.7567
+#>        3   432 497.7567
 prediction$score(measure)
 #> regr.rmse 
-#>  146.7496
+#>  75.90895
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$score(measure)
 #>          task_id  learner_id    resampling_id iteration regr.rmse
-#> 1: airpassengers regr.ranger forecast_holdout         1  212.0479
+#> 1: airpassengers regr.ranger forecast_holdout         1  108.2635
 #> Hidden columns: task, learner, resampling, prediction_test
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
-rr$score(measure)
-#>          task_id  learner_id resampling_id iteration regr.rmse
-#> 1: airpassengers regr.ranger   forecast_cv         1  150.0980
-#> 2: airpassengers regr.ranger   forecast_cv         2  107.5167
-#> 3: airpassengers regr.ranger   forecast_cv         3  180.1955
-#> 4: airpassengers regr.ranger   forecast_cv         4  229.2605
-#> 5: airpassengers regr.ranger   forecast_cv         5  329.6771
-#> Hidden columns: task, learner, resampling, prediction_test
+rr$aggregate(measure)
+#> regr.rmse 
+#>  355.1981
 ```

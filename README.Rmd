@@ -45,18 +45,15 @@ library(mlr3forecast)
 library(mlr3learners)
 
 task = tsk("airpassengers")
+measure = msr("regr.rmse")
 ff = Forecaster$new(
   learner = lrn("regr.ranger"),
   lag = 1:3
-)
-ff$train(task)
-prediction = ff$predict(task)
-prediction
+)$train(task)
 prediction = ff$predict_newdata(task, 3L)
 prediction
 prediction = ff$predict(task, 142:144)
 prediction
-measure = msr("regr.rmse")
 prediction$score(measure)
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
@@ -65,5 +62,5 @@ rr$score(measure)
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
-rr$score(measure)
+rr$aggregate(measure)
 ```

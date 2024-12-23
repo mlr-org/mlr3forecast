@@ -109,8 +109,7 @@ Forecaster = R6::R6Class("Forecaster",
       lag = self$lag
       nms = sprintf("%s_lag_%s", target, lag)
       dt = copy(dt)
-      ..target = NULL # nolint
-      dt[, (nms) := shift(..target, n = lag, type = "lag")]
+      dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
       dt = dt[(lag[length(lag)] + 1L):.N]
       dt
     },
@@ -118,8 +117,8 @@ Forecaster = R6::R6Class("Forecaster",
     .predict_recursive = function(dt, target, n) {
       # one model for all steps
       preds = map(seq_len(n), function(i) {
-        new_x = private$.lag_transform(dt, target)
-        pred = self$model$learner$predict_newdata(new_x[.N, ])
+        new_x = private$.lag_transform(dt, target)[.N, ]
+        pred = self$model$learner$predict_newdata(new_x)
         dt = rbind(dt, pred$response, use.names = FALSE)
         pred
       })
