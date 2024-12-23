@@ -71,7 +71,6 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 <span>  <span class="va">x</span>,</span>
 <span>  target <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  index <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  freq <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/deparse.html" class="external-link">deparse1</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">substitute</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -82,7 +81,6 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 <span>  <span class="va">x</span>,</span>
 <span>  target <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  index <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  freq <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/deparse.html" class="external-link">deparse1</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">substitute</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -118,11 +116,6 @@ Name of the target column.</p></dd>
 Name of the column in the data containing the index.</p></dd>
 
 
-<dt id="arg-freq">freq<a class="anchor" aria-label="anchor" href="#arg-freq"></a></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Frequency of the time series.</p></dd>
-
-
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Id for the new task.
@@ -141,8 +134,12 @@ Label for the new instance.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">as_task_fcst</span><span class="op">(</span><span class="fu">tsbox</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/tsbox/reference/ts_ts.html" class="external-link">ts_dt</a></span><span class="op">(</span><span class="va">AirPassengers</span><span class="op">)</span>, target <span class="op">=</span> <span class="st">"value"</span>, index <span class="op">=</span> <span class="st">"time"</span>, freq <span class="op">=</span> <span class="st">"monthly"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in initialize(...):</span> unused argument (freq = "monthly")</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">airpassengers</span> <span class="op">=</span> <span class="fu">tsbox</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/tsbox/reference/ts_ts.html" class="external-link">ts_dt</a></span><span class="op">(</span><span class="va">AirPassengers</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html" class="external-link">setnames</a></span><span class="op">(</span><span class="va">airpassengers</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="st">"passengers"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">as_task_fcst</span><span class="op">(</span><span class="va">airpassengers</span>, target <span class="op">=</span> <span class="st">"passengers"</span>, index <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;TaskFcst:airpassengers&gt; (144 x 1)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Target: passengers</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: -</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

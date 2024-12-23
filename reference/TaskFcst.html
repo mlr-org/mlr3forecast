@@ -101,7 +101,6 @@ Column name of the index variable.</p></dd>
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
 <ul><li><p><a href="#method-TaskFcst-new"><code>TaskFcst$new()</code></a></p></li>
-<li><p><a href="#method-TaskFcst-print"><code>TaskFcst$print()</code></a></p></li>
 <li><p><a href="#method-TaskFcst-truth"><code>TaskFcst$truth()</code></a></p></li>
 <li><p><a href="#method-TaskFcst-clone"><code>TaskFcst$clone()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-add_strata"><code>mlr3::Task$add_strata()</code></a></span></li>
@@ -116,6 +115,7 @@ Column name of the index variable.</p></dd>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-help"><code>mlr3::Task$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-levels"><code>mlr3::Task$levels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-missings"><code>mlr3::Task$missings()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-print"><code>mlr3::Task$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-rbind"><code>mlr3::Task$rbind()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-rename"><code>mlr3::Task$rename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-select"><code>mlr3::Task$select()</code></a></span></li>
@@ -171,27 +171,6 @@ Named list of constructor arguments, required for converting task types
 via <code><a href="https://mlr3.mlr-org.com/reference/convert_task.html" class="external-link">convert_task()</a></code>.</p></dd>
 
 
-<dt><code>freq</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Frequency of the time series.</p></dd>
-
-
-</dl><p></p></div>
-</div>
-
-</div><p></p><hr><a id="method-TaskFcst-print"></a><div class="section">
-<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
-<p>Printer.</p><div class="section">
-<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskFcst</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div>
-
-<div class="section">
-<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>...</code></dt>
-<dd><p>(ignored).</p></dd>
-
-
 </dl><p></p></div>
 </div>
 
@@ -199,12 +178,12 @@ Frequency of the time series.</p></dd>
 <h3 id="method-truth-">Method <code>truth()</code><a class="anchor" aria-label="anchor" href="#method-truth-"></a></h3>
 <p>True response for specified <code>row_ids</code>. Format depends on the task type.
 Defaults to all rows with role "use".</p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskFcst</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
+<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
 <dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 Vector or row indices.</p></dd>
@@ -216,12 +195,12 @@ Vector or row indices.</p></dd>
 </div><p></p><hr><a id="method-TaskFcst-clone"></a><div class="section">
 <h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskFcst</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
-<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 
@@ -236,16 +215,28 @@ Vector or row indices.</p></dd>
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">airpassengers</span> <span class="op">=</span> <span class="fu">tsbox</span><span class="fu">::</span><span class="fu"><a href="https://docs.ropensci.org/tsbox/reference/ts_ts.html" class="external-link">ts_dt</a></span><span class="op">(</span><span class="va">AirPassengers</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span><span class="va">airpassengers</span>, target <span class="op">=</span> <span class="st">"value"</span>, index <span class="op">=</span> <span class="st">"time"</span>, freq <span class="op">=</span> <span class="st">"month"</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in initialize(...):</span> unused argument (freq = "month")</span>
+<span class="r-in"><span><span class="fu">data.table</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/data.table/man/setattr.html" class="external-link">setnames</a></span><span class="op">(</span><span class="va">airpassengers</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"date"</span>, <span class="st">"passengers"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span><span class="va">airpassengers</span>, target <span class="op">=</span> <span class="st">"passengers"</span>, index <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="va">task_type</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'task' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "regr"</span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">formula</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'task' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> passengers ~ .</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'task' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 112 118 132 129 121 135 148 148 136 119 104 118 115 126 141 135 125 149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 170 170 158 133 114 140 145 150 178 163 172 178 199 199 184 162 146 166</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 171 180 193 181 183 218 230 242 209 191 172 194 196 196 236 235 229 243</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 264 272 237 211 180 201 204 188 235 227 234 264 302 293 259 229 203 229</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 242 233 267 269 270 315 364 347 312 274 237 278 284 277 317 313 318 374</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 413 405 355 306 271 306 315 301 356 348 355 422 465 467 404 347 305 336</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 340 318 362 348 363 435 491 505 404 359 310 337 360 342 406 396 420 472</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 548 559 463 407 362 405 417 391 419 461 472 535 622 606 508 461 390 432</span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> object 'task' not found</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    passengers</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        112</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        118</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        132</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
