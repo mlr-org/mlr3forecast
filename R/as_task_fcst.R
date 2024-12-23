@@ -11,8 +11,10 @@
 #'
 #' @return [TaskFcst].
 #' @export
-#' @examples
-#' as_task_fcst(tsbox::ts_dt(AirPassengers), target = "value", index = "time", freq = "monthly")
+#' @examplesIf requireNamespace("tsbox", quietly = TRUE)
+#' airpassengers = tsbox::ts_dt(AirPassengers)
+#' data.table::setnames(airpassengers, c("date", "passengers"))
+#' as_task_fcst(airpassengers, target = "passengers", index = "date")
 as_task_fcst = function(x, ...) {
   UseMethod("as_task_fcst")
 }
@@ -25,7 +27,7 @@ as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) {
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_choice(target, x$colnames)
@@ -43,11 +45,9 @@ as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, freq = NULL,
 #'   Defaults to the (deparsed and substituted) name of the data argument.
 #' @param index (`character(1)`)\cr
 #'   Name of the column in the data containing the index.
-#' @param freq (`character(1)`)\cr
-#'   Frequency of the time series.
 #' @template param_label
 #' @export
-as_task_fcst.data.frame = function(x, target = NULL, index = NULL, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.data.frame = function(x, target = NULL, index = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -59,5 +59,5 @@ as_task_fcst.data.frame = function(x, target = NULL, index = NULL, freq = NULL, 
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  TaskFcst$new(id = id, backend = x, target = target, index = index, freq = freq, label = label)
+  TaskFcst$new(id = id, backend = x, target = target, index = index, label = label)
 }

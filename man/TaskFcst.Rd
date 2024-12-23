@@ -17,7 +17,8 @@ Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{
 \examples{
 \dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 airpassengers = tsbox::ts_dt(AirPassengers)
-task = as_task_fcst(airpassengers, target = "value", index = "time", freq = "month")
+data.table::setnames(airpassengers, c("date", "passengers"))
+task = as_task_fcst(airpassengers, target = "passengers", index = "date")
 task$task_type
 task$formula()
 task$truth()
@@ -60,7 +61,6 @@ Column name of the index variable.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TaskFcst-new}{\code{TaskFcst$new()}}
-\item \href{#method-TaskFcst-print}{\code{TaskFcst$print()}}
 \item \href{#method-TaskFcst-truth}{\code{TaskFcst$truth()}}
 \item \href{#method-TaskFcst-clone}{\code{TaskFcst$clone()}}
 }
@@ -80,6 +80,7 @@ Column name of the index variable.}
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-Task-help'><code>mlr3::Task$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-Task-levels'><code>mlr3::Task$levels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-Task-missings'><code>mlr3::Task$missings()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href='../../mlr3/html/Task.html#method-Task-print'><code>mlr3::Task$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href='../../mlr3/html/Task.html#method-Task-rbind'><code>mlr3::Task$rbind()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-Task-rename'><code>mlr3::Task$rename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href='../../mlr3/html/Task.html#method-Task-select'><code>mlr3::Task$select()</code></a></span></li>
@@ -128,26 +129,6 @@ Label for the new instance.}
 \item{\code{extra_args}}{(named \code{list()})\cr
 Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
-
-\item{\code{freq}}{(\code{character(1)})\cr
-Frequency of the time series.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TaskFcst-print"></a>}}
-\if{latex}{\out{\hypertarget{method-TaskFcst-print}{}}}
-\subsection{Method \code{print()}}{
-Printer.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$print(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
 }
 \if{html}{\out{</div>}}
 }

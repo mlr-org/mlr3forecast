@@ -12,11 +12,7 @@ test_that("forecast_cv basic properties", {
 })
 
 test_that("forecast_cv works", {
-  skip_if_not_installed("tsbox")
-  dt = tsbox::ts_dt(AirPassengers)
-  dt[, time := NULL]
-  task = as_task_regr(dt, target = "value")
-
+  task = tsk("airpassengers")
   resampling = rsmp("forecast_cv",
     folds = 3L, horizon = 3L, window_size = 5L, fixed_window = FALSE
   )

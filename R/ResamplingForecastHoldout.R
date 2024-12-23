@@ -68,10 +68,6 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
 
   private = list(
     .sample = function(ids, ...) {
-      if ("ordered" %nin% task$properties) {
-        stopf("Resampling '%s' requires an ordered task, but Task '%s' has no order", self$id, task$id) # nolint
-      }
-
       pars = self$param_set$get_values()
       ratio = pars$ratio
       n = pars$n

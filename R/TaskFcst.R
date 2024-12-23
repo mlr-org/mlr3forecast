@@ -16,7 +16,8 @@
 #' @export
 #' @examplesIf requireNamespace("tsbox", quietly = TRUE)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
-#' task = as_task_fcst(airpassengers, target = "value", index = "time", freq = "month")
+#' data.table::setnames(airpassengers, c("date", "passengers"))
+#' task = as_task_fcst(airpassengers, target = "passengers", index = "date")
 #' task$task_type
 #' task$formula()
 #' task$truth()
@@ -34,8 +35,6 @@ TaskFcst = R6::R6Class("TaskFcst",
     #'
     #' @param index (`character(1)`)\cr
     #'   Column name of the index variable.
-    #' @param freq (`character(1)`)\cr
-    #'   Frequency of the time series.
     #' @template param_target
     #' @template param_label
     #' @template param_extra_args
@@ -45,7 +44,7 @@ TaskFcst = R6::R6Class("TaskFcst",
 
       super$initialize(
         id = id,
-        task_type = "regr",
+        task_type = "regr", # has to be regr for now otherwise learner won't work
         backend = backend,
         target = target,
         label = label,
@@ -53,18 +52,6 @@ TaskFcst = R6::R6Class("TaskFcst",
       )
       self$index = index
       private$.col_roles$feature = setdiff(private$.col_roles$feature, index)
-
-      type = self$col_info[id == target]$type
-      if (type %nin% c("integer", "numeric")) {
-        stopf("Target column '%s' must be numeric", target)
-      }
-    },
-
-    #' @description
-    #' Printer.
-    #' @param ... (ignored).
-    print = function(...) {
-      super$print(...)
     },
 
     #' @description

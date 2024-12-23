@@ -15,7 +15,6 @@ as_task_fcst(x, ...)
   x,
   target = NULL,
   index = NULL,
-  freq = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -25,7 +24,6 @@ as_task_fcst(x, ...)
   x,
   target = NULL,
   index = NULL,
-  freq = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -47,9 +45,6 @@ Name of the target column.}
 \item{index}{(\code{character(1)})\cr
 Name of the column in the data containing the index.}
 
-\item{freq}{(\code{character(1)})\cr
-Frequency of the time series.}
-
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
 Defaults to the (deparsed and substituted) name of the data argument.}
@@ -69,5 +64,9 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 }
 }
 \examples{
-as_task_fcst(tsbox::ts_dt(AirPassengers), target = "value", index = "time", freq = "monthly")
+\dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+airpassengers = tsbox::ts_dt(AirPassengers)
+data.table::setnames(airpassengers, c("date", "passengers"))
+as_task_fcst(airpassengers, target = "passengers", index = "date")
+\dontshow{\}) # examplesIf}
 }

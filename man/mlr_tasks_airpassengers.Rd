@@ -24,7 +24,7 @@ tsk("airpassengers")
 \section{Meta Information}{
 
 \itemize{
-\item Task type: \dQuote{fcst}
+\item Task type: \dQuote{regr}
 \item Dimensions: 144x1
 \item Properties: -
 \item Has Missings: \code{FALSE}
