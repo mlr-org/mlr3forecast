@@ -64,7 +64,12 @@ Parameter <code>ratio</code> determines the ratio of observation going into the 
 
 
 <ul><li><p><code>ratio</code> (<code>numeric(1)</code>)<br>
-Ratio of observations to put into the training set.</p></li>
+Ratio of observations to put into the training set.
+Mutually exclusive with parameter <code>n</code>.</p></li>
+<li><p><code>n</code> (<code>integer(1)</code>)<br>
+Number of observations to put into the training set.
+If negative, the absolute value determines the number of observations in the test set.
+Mutually exclusive with parameter <code>ratio</code>.</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
