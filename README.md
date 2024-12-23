@@ -43,28 +43,47 @@ prediction = ff$predict(task)
 prediction
 #> <PredictionRegr> for 144 observations:
 #>  row_ids truth response
-#>        1   112 283.3979
-#>        2   118 283.3979
-#>        3   132 283.3979
+#>        1   112 283.8407
+#>        2   118 283.8407
+#>        3   132 283.8407
 #>      ---   ---      ---
-#>      142   461 283.3979
-#>      143   390 283.3979
-#>      144   432 283.3979
+#>      142   461 283.8407
+#>      143   390 283.8407
+#>      144   432 283.8407
 prediction = ff$predict_newdata(task, 3L)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 283.3979
-#>        2    NA 283.3979
-#>        3    NA 283.3979
+#>        1    NA 283.8407
+#>        2    NA 283.8407
+#>        3    NA 283.8407
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 283.3979
-#>        2   390 283.3979
-#>        3   432 283.3979
-prediction$score(msr("regr.rmse"))
+#>        1   461 283.8407
+#>        2   390 283.8407
+#>        3   432 283.8407
+measure = msr("regr.rmse")
+prediction$score(measure)
 #> regr.rmse 
-#>  147.1837
+#>  146.7496
+
+resampling = rsmp("forecast_holdout", ratio = 0.8)
+rr = resample(task, ff, resampling)
+rr$score(measure)
+#>          task_id  learner_id    resampling_id iteration regr.rmse
+#> 1: airpassengers regr.ranger forecast_holdout         1  212.0479
+#> Hidden columns: task, learner, resampling, prediction_test
+
+resampling = rsmp("forecast_cv")
+rr = resample(task, ff, resampling)
+rr$score(measure)
+#>          task_id  learner_id resampling_id iteration regr.rmse
+#> 1: airpassengers regr.ranger   forecast_cv         1  150.0980
+#> 2: airpassengers regr.ranger   forecast_cv         2  107.5167
+#> 3: airpassengers regr.ranger   forecast_cv         3  180.1955
+#> 4: airpassengers regr.ranger   forecast_cv         4  229.2605
+#> 5: airpassengers regr.ranger   forecast_cv         5  329.6771
+#> Hidden columns: task, learner, resampling, prediction_test
 ```

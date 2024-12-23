@@ -56,5 +56,14 @@ prediction = ff$predict_newdata(task, 3L)
 prediction
 prediction = ff$predict(task, 142:144)
 prediction
-prediction$score(msr("regr.rmse"))
+measure = msr("regr.rmse")
+prediction$score(measure)
+
+resampling = rsmp("forecast_holdout", ratio = 0.8)
+rr = resample(task, ff, resampling)
+rr$score(measure)
+
+resampling = rsmp("forecast_cv")
+rr = resample(task, ff, resampling)
+rr$score(measure)
 ```
