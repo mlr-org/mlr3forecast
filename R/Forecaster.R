@@ -79,7 +79,8 @@ Forecaster = R6::R6Class("Forecaster",
     #' @returns [Prediction].
     predict_newdata = function(newdata, task) {
       task = assert_task(as_task(task))
-      private$.predict_recursive2(task, newdata)
+      assert_learnable(task, self)
+      private$.predict_newdata_recursive(task, newdata)
     }
   ),
 
@@ -110,7 +111,7 @@ Forecaster = R6::R6Class("Forecaster",
     },
 
     .predict_recursive = function(task, row_ids) {
-      dt = self$task$data()[seq_len(tail(row_ids, 1L))]
+      dt = self$task$data(rows = seq_len(row_ids[length(row_ids)]))
       target = self$task$target_names
       # one model for all steps
       preds = map(row_ids, function(i) {
@@ -124,7 +125,7 @@ Forecaster = R6::R6Class("Forecaster",
       preds
     },
 
-    .predict_recursive2 = function(task, newdata) {
+    .predict_newdata_recursive = function(task, newdata) {
       dt = self$task$data()
       target = task$target_names
       # create a new rows for the new prediction
