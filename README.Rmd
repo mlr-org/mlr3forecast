@@ -57,7 +57,7 @@ prediction$score(measure)
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
-rr$score(measure)
+rr$aggregate(measure)
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
@@ -82,6 +82,10 @@ row_ids = new_task$nrow - 0:2
 ff$predict_newdata(new_task$data(rows = row_ids), new_task)
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
+
+resampling = rsmp("forecast_holdout", ratio = 0.8)
+rr = resample(new_task, ff, resampling)
+rr$aggregate(measure)
 ```
 
 ```{r, eval = FALSE}
