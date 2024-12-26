@@ -40,6 +40,8 @@ pak::pak("mlr-org/mlr3forecast")
 
 ## Usage
 
+### Univariate
+
 ```{r, message = FALSE}
 library(mlr3forecast)
 library(mlr3learners)
@@ -64,6 +66,8 @@ rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 ```
 
+### Multivariate
+
 ```{r}
 library(mlr3learners)
 library(mlr3pipelines)
@@ -84,6 +88,10 @@ newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
+rr = resample(new_task, ff, resampling)
+rr$aggregate(measure)
+
+resampling = rsmp("forecast_cv")
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 ```

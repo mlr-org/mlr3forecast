@@ -29,6 +29,8 @@ pak::pak("mlr-org/mlr3forecast")
 
 ## Usage
 
+### Univariate
+
 ``` r
 library(mlr3forecast)
 library(mlr3learners)
@@ -42,32 +44,34 @@ prediction = ff$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 448.2467
-#>        2    NA 472.7250
-#>        3    NA 481.9180
+#>        1    NA 450.8260
+#>        2    NA 468.3018
+#>        3    NA 443.5910
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 458.8474
-#>        2   390 412.7366
-#>        3   432 394.0303
+#>        1   461 462.1091
+#>        2   390 412.6569
+#>        3   432 387.0121
 prediction$score(measure)
 #> regr.rmse 
-#>  25.58181
+#>  29.08878
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  112.1336
+#>  106.1036
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  50.23597
+#>  52.05099
 ```
+
+### Multivariate
 
 ``` r
 library(mlr3learners)
@@ -83,33 +87,39 @@ prediction = ff$predict(new_task, 142:144)
 ff$predict(new_task, 142:144)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 454.0866
-#>        2   390 406.0362
-#>        3   432 409.5093
+#>        1   461 450.8613
+#>        2   390 408.7569
+#>        3   432 405.0463
 prediction$score(measure)
 #> regr.rmse 
-#>  16.43967
+#>  19.84202
 
 row_ids = new_task$nrow - 0:2
 ff$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 411.4725
-#>        2   390 392.3873
-#>        3   461 394.1446
+#>        1   432 408.5391
+#>        2   390 388.5220
+#>        3   461 391.3046
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 411.4725
-#>        2    NA 392.3873
-#>        3    NA 394.1446
+#>        1    NA 408.5391
+#>        2    NA 388.5220
+#>        3    NA 391.3046
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  82.33775
+#>  80.40145
+
+resampling = rsmp("forecast_cv")
+rr = resample(new_task, ff, resampling)
+rr$aggregate(measure)
+#> regr.rmse 
+#>  43.81449
 ```
 
 ``` r
