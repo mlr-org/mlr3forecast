@@ -83,7 +83,7 @@ Predefined tasks are stored in the <a href="https://mlr3misc.mlr-org.com/referen
     </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
-    <p><code><a href="https://mlr3.mlr-org.com/reference/Task.html" class="external-link">mlr3::Task</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/TaskSupervised.html" class="external-link">mlr3::TaskSupervised</a></code> -&gt; <code>TaskFcst</code></p>
+    <p><code><a href="https://mlr3.mlr-org.com/reference/Task.html" class="external-link">mlr3::Task</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/TaskSupervised.html" class="external-link">mlr3::TaskSupervised</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">mlr3::TaskRegr</a></code> -&gt; <code>TaskFcst</code></p>
     </div>
     <div class="section level2">
     <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
@@ -223,20 +223,13 @@ Vector or row indices.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> passengers ~ .</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">truth</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   [1] 112 118 132 129 121 135 148 148 136 119 104 118 115 126 141 135 125 149</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [19] 170 170 158 133 114 140 145 150 178 163 172 178 199 199 184 162 146 166</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [37] 171 180 193 181 183 218 230 242 209 191 172 194 196 196 236 235 229 243</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [55] 264 272 237 211 180 201 204 188 235 227 234 264 302 293 259 229 203 229</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [73] 242 233 267 269 270 315 364 347 312 274 237 278 284 277 317 313 318 374</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [91] 413 405 355 306 271 306 315 301 356 348 355 422 465 467 404 347 305 336</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [109] 340 318 362 348 363 435 491 505 404 359 310 337 360 342 406 396 420 472</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [127] 548 559 463 407 362 405 417 391 419 461 472 535 622 606 508 461 390 432</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 112</span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    passengers</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        112</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        118</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        132</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    passengers       date</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;     &lt;Date&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        112 1949-01-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        118 1949-02-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        132 1949-03-01</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
