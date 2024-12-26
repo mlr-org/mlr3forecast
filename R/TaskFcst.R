@@ -23,7 +23,7 @@
 #' task$truth()
 #' task$data(rows = 1:3)
 TaskFcst = R6::R6Class("TaskFcst",
-  inherit = TaskSupervised,
+  inherit = TaskRegr,
   public = list(
     #' @field index (`character(1)`)\cr
     #' Column name of the index variable.
@@ -44,14 +44,12 @@ TaskFcst = R6::R6Class("TaskFcst",
 
       super$initialize(
         id = id,
-        task_type = "regr", # has to be regr for now otherwise learner won't work
         backend = backend,
         target = target,
         label = label,
         extra_args = extra_args
       )
       self$index = index
-      private$.col_roles$feature = setdiff(private$.col_roles$feature, index)
     },
 
     #' @description

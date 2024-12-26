@@ -19,6 +19,9 @@ Forecaster
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
+\item{\code{task}}{(\link{Task})\cr
+The task}
+
 \item{\code{learner}}{(\link{Learner})\cr
 The learner}
 
@@ -55,12 +58,14 @@ The lag}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Forecaster$new(learner, lag)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Forecaster$new(task, learner, lag)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{task}}{(\link{Task})\cr}
+
 \item{\code{learner}}{(\link{Learner})\cr}
 
 \item{\code{lag}}{(\code{integer(1)})\cr}
@@ -96,12 +101,19 @@ into training and test set, see \code{\link[=partition]{partition()}}.}
 \subsection{Method \code{predict_newdata()}}{
 Uses the model fitted during \verb{$train()} to create a new \link{Prediction} based on the forecast horizon \code{n}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Forecaster$predict_newdata(task, n)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Forecaster$predict_newdata(newdata, task)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
+\item{\code{newdata}}{(any object supported by \code{\link[=as_data_backend]{as_data_backend()}})\cr
+New data to predict on.
+All data formats convertible by \code{\link[=as_data_backend]{as_data_backend()}} are supported, e.g.
+\code{data.frame()} or \link{DataBackend}.
+If a \link{DataBackend} is provided as \code{newdata}, the row ids are preserved,
+otherwise they are set to to the sequence \code{1:nrow(newdata)}.}
+
 \item{\code{task}}{(\link{Task}).}
 
 \item{\code{n}}{(\code{integer(1)}).}

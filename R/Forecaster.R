@@ -4,6 +4,10 @@
 Forecaster = R6::R6Class("Forecaster",
   inherit = Learner,
   public = list(
+    #' @field task ([Task])\cr
+    #' The task
+    task = NULL,
+
     #' @field learner ([Learner])\cr
     #' The learner
     learner = NULL,
@@ -14,9 +18,12 @@ Forecaster = R6::R6Class("Forecaster",
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
+    #' @param task ([Task])\cr
     #' @param learner ([Learner])\cr
     #' @param lag (`integer(1)`)\cr
-    initialize = function(learner, lag) {
+    initialize = function(task, learner, lag) {
+      # current workaround for resampling to work, need to build lags on entire task
+      self$task = assert_task(as_task(task))
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
       self$lag = assert_integerish(lag, lower = 1L, any.missing = FALSE, coerce = TRUE)
 
@@ -48,25 +55,13 @@ Forecaster = R6::R6Class("Forecaster",
       row_ids = assert_integerish(row_ids,
         lower = 1L, any.missing = FALSE, coerce = TRUE, null.ok = TRUE
       )
-      has_row_ids = !is.null(row_ids)
-      row_ids = row_ids %??% task$row_ids
 
+      row_ids = row_ids %??% task$row_ids
       row_ids = sort(row_ids)
       if (!all(diff(row_ids) == 1L)) {
         stopf("Row ids must be consecutive")
       }
-
-      if (has_row_ids) {
-        new_task = task$clone()$filter(setdiff(task$row_ids, row_ids))
-        new_data = new_task$data()
-      } else {
-        new_data = task$data()
-      }
-      n = length(row_ids)
-      target = task$target_names
-      preds = private$.predict_recursive(new_data, target, n)
-      preds$data$truth = task$clone()$filter(row_ids)$data()[[target]]
-      preds
+      private$.predict_recursive(task, row_ids)
     },
 
     #' @description
@@ -74,23 +69,24 @@ Forecaster = R6::R6Class("Forecaster",
     #'
     #' @param task ([Task]).
     #' @param n (`integer(1)`).
+    #' @param newdata (any object supported by [as_data_backend()])\cr
+    #'   New data to predict on.
+    #'   All data formats convertible by [as_data_backend()] are supported, e.g.
+    #'   `data.frame()` or [DataBackend].
+    #'   If a [DataBackend] is provided as `newdata`, the row ids are preserved,
+    #'   otherwise they are set to to the sequence `1:nrow(newdata)`.
     #'
     #' @returns [Prediction].
-    predict_newdata = function(task, n) {
+    predict_newdata = function(newdata, task) {
       task = assert_task(as_task(task))
-      n = assert_int(n, lower = 1L, coerce = TRUE)
-
-      preds = private$.predict_recursive(task$data(), task$target_names, n)
-      preds$data$truth = rep(NA_real_, n)
-      preds
+      private$.predict_recursive2(task, newdata)
     }
   ),
 
   private = list(
     .train = function(task) {
       target = task$target_names
-      dt = task$data()
-      dt = private$.lag_transform(dt, target)
+      dt = private$.lag_transform(task$data(), target)
       new_task = as_task_regr(dt, target = target)
 
       learner = self$learner$clone(deep = TRUE)
@@ -110,20 +106,39 @@ Forecaster = R6::R6Class("Forecaster",
       nms = sprintf("%s_lag_%s", target, lag)
       dt = copy(dt)
       dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
-      dt = dt[(lag[length(lag)] + 1L):.N]
       dt
     },
 
-    .predict_recursive = function(dt, target, n) {
+    .predict_recursive = function(task, row_ids) {
+      dt = self$task$data()[seq_len(tail(row_ids, 1L))]
+      target = self$task$target_names
       # one model for all steps
-      preds = map(seq_len(n), function(i) {
-        new_x = private$.lag_transform(dt, target)[.N, ]
+      preds = map(row_ids, function(i) {
+        new_x = private$.lag_transform(dt, target)[i]
         pred = self$model$learner$predict_newdata(new_x)
-        dt = rbind(dt, pred$response, use.names = FALSE)
+        dt[i, (target) := pred$response]
         pred
       })
       preds = do.call(c, preds)
-      preds$data$row_ids = seq_len(n)
+      preds$data$row_ids = seq_len(length(row_ids))
+      preds
+    },
+
+    .predict_recursive2 = function(task, newdata) {
+      dt = self$task$data()
+      target = task$target_names
+      # create a new rows for the new prediction
+      dt = rbind(dt, newdata, fill = TRUE)
+      row_ids = self$task$nrow + seq_len(nrow(newdata))
+      # one model for all steps
+      preds = map(row_ids, function(i) {
+        new_x = private$.lag_transform(dt, target)[i]
+        pred = self$model$learner$predict_newdata(new_x)
+        dt[i, (target) := pred$response]
+        pred
+      })
+      preds = do.call(c, preds)
+      preds$data$row_ids = seq_len(nrow(newdata))
       preds
     },
 

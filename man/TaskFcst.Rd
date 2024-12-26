@@ -47,7 +47,7 @@ Other Task:
 }
 \concept{Task}
 \section{Super classes}{
-\code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{TaskFcst}
+\code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{\link[mlr3:TaskRegr]{mlr3::TaskRegr}} -> \code{TaskFcst}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
