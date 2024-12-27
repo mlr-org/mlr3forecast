@@ -44,34 +44,32 @@ prediction = ff$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 450.0689
-#>        2    NA 472.9712
-#>        3    NA 482.1500
+#>        1    NA 446.8101
+#>        2    NA 473.1211
+#>        3    NA 485.5068
 prediction = ff$predict(task, 142:144)
-#> Warning in warn_deprecated("Task$data_formats"): Task$data_formats is
-#> deprecated and will be removed in the future.
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 455.8978
-#>        2   390 414.0475
-#>        3   432 402.1915
+#>        1   461 455.3990
+#>        2   390 409.9824
+#>        3   432 396.0751
 prediction$score(measure)
 #> regr.rmse 
-#>   22.3074
+#>  23.95318
 
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  105.1936
+#>  106.6029
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  54.36987
+#>  49.93778
 ```
 
 ### Multivariate
@@ -90,45 +88,47 @@ prediction = ff$predict(new_task, 142:144)
 ff$predict(new_task, 142:144)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 456.5591
-#>        2   390 410.6596
-#>        3   432 408.2172
+#>        1   461 455.7255
+#>        2   390 409.7808
+#>        3   432 405.6454
 prediction$score(measure)
 #> regr.rmse 
-#>  18.36813
+#>  19.26714
 
 row_ids = new_task$nrow - 0:2
 ff$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 412.9277
-#>        2   390 391.1173
-#>        3   461 398.0259
+#>        1   432 411.3026
+#>        2   390 391.5954
+#>        3   461 396.3538
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 412.9277
-#>        2    NA 391.1173
-#>        3    NA 398.0259
+#>        1    NA 411.3026
+#>        2    NA 391.5954
+#>        3    NA 396.3538
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>   81.0461
+#>  81.93515
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  44.99413
+#>   42.9069
 ```
 
-### WIP
+### mlr3pipelines integration
 
 ``` r
-# doesn't work since the graph learner does its own thing
 glrn = as_learner(pop %>>% ff)$train(task)
-glrn$predict(task, 142:144)
+prediction = glrn$predict(task, 142:144)
+prediction$score(measure)
+#> regr.rmse 
+#>  18.60496
 ```
