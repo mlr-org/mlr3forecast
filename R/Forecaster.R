@@ -4,10 +4,6 @@
 Forecaster = R6::R6Class("Forecaster",
   inherit = Learner,
   public = list(
-    #' @field task ([Task])\cr
-    #' The task
-    task = NULL,
-
     #' @field learner ([Learner])\cr
     #' The learner
     learner = NULL,
@@ -21,9 +17,7 @@ Forecaster = R6::R6Class("Forecaster",
     #' @param task ([Task])\cr
     #' @param learner ([Learner])\cr
     #' @param lag (`integer(1)`)\cr
-    initialize = function(task, learner, lag) {
-      # current workaround for resampling to work, need to build lags on entire task
-      self$task = assert_task(as_task(task))
+    initialize = function(learner, lag) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
       self$lag = assert_integerish(lag, lower = 1L, any.missing = FALSE, coerce = TRUE)
 
@@ -55,7 +49,6 @@ Forecaster = R6::R6Class("Forecaster",
       row_ids = assert_integerish(row_ids,
         lower = 1L, any.missing = FALSE, coerce = TRUE, null.ok = TRUE
       )
-
       row_ids = row_ids %??% task$row_ids
       row_ids = sort(row_ids)
       if (!all(diff(row_ids) == 1L)) {
@@ -85,17 +78,17 @@ Forecaster = R6::R6Class("Forecaster",
   ),
 
   private = list(
+    .task = NULL,
+
     .train = function(task) {
+      private$.task = task$clone()
       target = task$target_names
       dt = private$.lag_transform(task$data(), target)
       new_task = as_task_regr(dt, target = target)
 
       learner = self$learner$clone(deep = TRUE)
       learner$train(new_task)
-
-      # the return model is a list of "learner"
-      result_model = list(learner = learner)
-      structure(result_model, class = c("forecaster_model", "list"))
+      structure(list(learner = learner), class = c("forecaster_model", "list"))
     },
 
     .predict = function(task) {
@@ -111,8 +104,14 @@ Forecaster = R6::R6Class("Forecaster",
     },
 
     .predict_recursive = function(task, row_ids) {
-      dt = self$task$data(rows = seq_len(row_ids[length(row_ids)]))
-      target = self$task$target_names
+      # join the training task with the prediction task for lag transformation
+      # in normal predict we get the entire task, in resampling we only get the subset
+      if (isTRUE(all.equal(private$.task, task))) {
+        dt = task$data()
+      } else {
+        dt = rbind(private$.task$data(), task$data())
+      }
+      target = private$.task$target_names
       # one model for all steps
       preds = map(row_ids, function(i) {
         new_x = private$.lag_transform(dt, target)[i]
@@ -126,11 +125,11 @@ Forecaster = R6::R6Class("Forecaster",
     },
 
     .predict_newdata_recursive = function(task, newdata) {
-      dt = self$task$data()
+      dt = task$data()
       target = task$target_names
       # create a new rows for the new prediction
       dt = rbind(dt, newdata, fill = TRUE)
-      row_ids = self$task$nrow + seq_len(nrow(newdata))
+      row_ids = task$nrow + seq_len(nrow(newdata))
       # one model for all steps
       preds = map(row_ids, function(i) {
         new_x = private$.lag_transform(dt, target)[i]

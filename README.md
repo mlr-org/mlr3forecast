@@ -38,37 +38,40 @@ library(mlr3learners)
 task = tsk("airpassengers")
 task$select(setdiff(task$feature_names, "date"))
 measure = msr("regr.rmse")
-ff = Forecaster$new(task, lrn("regr.ranger"), 1:3)$train(task)
+ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(task)
 newdata = data.frame(passengers = rep(NA_real_, 3L))
 prediction = ff$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 444.6049
-#>        2    NA 476.5149
-#>        3    NA 482.7163
+#>        1    NA 450.0689
+#>        2    NA 472.9712
+#>        3    NA 482.1500
 prediction = ff$predict(task, 142:144)
+#> Warning in warn_deprecated("Task$data_formats"): Task$data_formats is
+#> deprecated and will be removed in the future.
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 456.2795
-#>        2   390 409.9059
-#>        3   432 396.1125
+#>        1   461 455.8978
+#>        2   390 414.0475
+#>        3   432 402.1915
 prediction$score(measure)
 #> regr.rmse 
-#>   23.8498
+#>   22.3074
 
+ff = Forecaster$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>   107.469
+#>  105.1936
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  50.47459
+#>  54.36987
 ```
 
 ### Multivariate
@@ -82,44 +85,44 @@ pop = po("datefeatures",
   param_vals = list(is_day = FALSE, cyclic = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
 )
 new_task = pop$train(list(task))[[1L]]
-ff = Forecaster$new(new_task, lrn("regr.ranger"), 1:3)$train(new_task)
+ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(new_task)
 prediction = ff$predict(new_task, 142:144)
 ff$predict(new_task, 142:144)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 451.3306
-#>        2   390 404.6312
-#>        3   432 403.6750
+#>        1   461 456.5591
+#>        2   390 410.6596
+#>        3   432 408.2172
 prediction$score(measure)
 #> regr.rmse 
-#>  19.23428
+#>  18.36813
 
 row_ids = new_task$nrow - 0:2
 ff$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 406.6753
-#>        2   390 388.2535
-#>        3   461 391.6740
+#>        1   432 412.9277
+#>        2   390 391.1173
+#>        3   461 398.0259
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 406.6753
-#>        2    NA 388.2535
-#>        3    NA 391.6740
+#>        1    NA 412.9277
+#>        2    NA 391.1173
+#>        3    NA 398.0259
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  81.94465
+#>   81.0461
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  43.85005
+#>  44.99413
 ```
 
 ### WIP
