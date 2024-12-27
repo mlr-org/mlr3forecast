@@ -106,7 +106,8 @@ Forecaster = R6::R6Class("Forecaster",
     .predict_recursive = function(task, row_ids) {
       # join the training task with the prediction task for lag transformation
       # in normal predict we get the entire task, in resampling we only get the subset
-      if (isTRUE(all.equal(private$.task, task))) {
+      # TODO: check why `Task$data_formats` warning is thrown
+      if (suppressWarnings(isTRUE(all.equal(private$.task, task)))) {
         dt = task$data()
       } else {
         dt = rbind(private$.task$data(), task$data())

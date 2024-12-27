@@ -97,10 +97,10 @@ rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 ```
 
-### WIP
+### mlr3pipelines integration
 
-```{r, eval = FALSE}
-# doesn't work since the graph learner does its own thing
+```{r}
 glrn = as_learner(pop %>>% ff)$train(task)
-glrn$predict(task, 142:144)
+prediction = glrn$predict(task, 142:144)
+prediction$score(measure)
 ```
