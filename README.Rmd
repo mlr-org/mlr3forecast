@@ -27,8 +27,10 @@ Extending mlr3 to time series forecasting.
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
+```{=gfm}
 > [!IMPORTANT]
 > This package is in an early stage of development and should be considered experimental.
+```
 
 ## Installation
 
