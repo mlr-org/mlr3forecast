@@ -15,8 +15,8 @@ status](https://www.r-pkg.org/badges/version/mlr3forecast)](https://CRAN.R-proje
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
-> This package is in an early stage of development and should be
-> considered experimental.
+> \[!IMPORTANT\] This package is in an early stage of development and
+> should be considered experimental.
 
 ## Installation
 
@@ -44,32 +44,32 @@ prediction = ff$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 446.8101
-#>        2    NA 473.1211
-#>        3    NA 485.5068
+#>        1    NA 444.1509
+#>        2    NA 473.6015
+#>        3    NA 483.2165
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 455.3990
-#>        2   390 409.9824
-#>        3   432 396.0751
+#>        1   461 456.5106
+#>        2   390 408.6549
+#>        3   432 395.3594
 prediction$score(measure)
 #> regr.rmse 
-#>  23.95318
+#>  23.87951
 
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  106.6029
+#>  97.71474
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  49.93778
+#>  51.24863
 ```
 
 ### Multivariate
@@ -88,39 +88,39 @@ prediction = ff$predict(new_task, 142:144)
 ff$predict(new_task, 142:144)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 455.7255
-#>        2   390 409.7808
-#>        3   432 405.6454
+#>        1   461 448.8459
+#>        2   390 410.8536
+#>        3   432 406.0194
 prediction$score(measure)
 #> regr.rmse 
-#>  19.26714
+#>  20.47428
 
 row_ids = new_task$nrow - 0:2
 ff$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 411.3026
-#>        2   390 391.5954
-#>        3   461 396.3538
+#>        1   432 408.5416
+#>        2   390 389.6410
+#>        3   461 394.0066
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 411.3026
-#>        2    NA 391.5954
-#>        3    NA 396.3538
+#>        1    NA 408.5416
+#>        2    NA 389.6410
+#>        3    NA 394.0066
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  81.93515
+#>  83.38583
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>   42.9069
+#>  43.98399
 ```
 
 ### mlr3pipelines integration
@@ -130,5 +130,5 @@ glrn = as_learner(pop %>>% ff)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(measure)
 #> regr.rmse 
-#>  18.60496
+#>  19.01081
 ```
