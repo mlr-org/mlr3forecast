@@ -30,6 +30,7 @@ Extending mlr3 to time series forecasting.
 ```{=gfm}
 > [!IMPORTANT]
 > This package is in an early stage of development and should be considered experimental.
+> If you are interested in experimenting with it, we welcome your feedback!
 ```
 
 ## Installation
