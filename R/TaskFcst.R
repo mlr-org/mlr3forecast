@@ -55,7 +55,7 @@ TaskFcst = R6::R6Class("TaskFcst",
     #' @description
     #' True response for specified `row_ids`. Format depends on the task type.
     #' Defaults to all rows with role "use".
-    #' @returns `numeric()`.
+    #' @return `numeric()`.
     truth = function(rows = NULL) {
       super$truth(rows)[[1L]]
     }

@@ -3,9 +3,6 @@
 \name{TaskFcst}
 \alias{TaskFcst}
 \title{Forecast Task}
-\value{
-\code{numeric()}.
-}
 \description{
 This task specializes \link{Task} and \link{TaskSupervised} for forecast problems.
 The target column is assumed to be numeric.
@@ -150,6 +147,9 @@ Defaults to all rows with role "use".
 Vector or row indices.}
 }
 \if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+\code{numeric()}.
 }
 }
 \if{html}{\out{<hr>}}

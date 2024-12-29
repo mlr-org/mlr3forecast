@@ -43,7 +43,7 @@ Forecaster = R6::R6Class("Forecaster",
     #'   Vector of test indices as subset of `task$row_ids`. For a simple split
     #'   into training and test set, see [partition()].
     #'
-    #' @returns [Prediction].
+    #' @return [Prediction].
     predict = function(task, row_ids = NULL) {
       task = assert_task(as_task(task))
       row_ids = assert_integerish(row_ids,
@@ -69,7 +69,7 @@ Forecaster = R6::R6Class("Forecaster",
     #'   If a [DataBackend] is provided as `newdata`, the row ids are preserved,
     #'   otherwise they are set to to the sequence `1:nrow(newdata)`.
     #'
-    #' @returns [Prediction].
+    #' @return [Prediction].
     predict_newdata = function(newdata, task) {
       task = assert_task(as_task(task))
       assert_learnable(task, self)
