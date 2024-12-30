@@ -17,7 +17,6 @@ NULL
 load_task_airpassengers = function(id = "airpassengers") {
   dt = tsbox::ts_dt(load_dataset("AirPassengers", package = "datasets"))
   setnames(dt, c("date", "passengers"))
-  dt[, date := as.POSIXct(date)]
   b = as_data_backend(dt)
 
   task = TaskFcst$new(

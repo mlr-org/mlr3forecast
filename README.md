@@ -45,32 +45,32 @@ prediction = ff$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 445.1830
-#>        2    NA 478.2606
-#>        3    NA 484.7871
+#>        1    NA 449.4394
+#>        2    NA 471.2491
+#>        3    NA 489.1149
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 458.0830
-#>        2   390 412.4142
-#>        3   432 398.7917
+#>        1   461 459.0304
+#>        2   390 411.0179
+#>        3   432 395.9043
 prediction$score(measure)
 #> regr.rmse 
-#>  23.19263
+#>  24.14213
 
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  113.1917
+#>  105.1834
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  50.52313
+#>  51.26677
 ```
 
 ### Multivariate
@@ -80,56 +80,58 @@ library(mlr3learners)
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
-pop = po("datefeatures",
-  param_vals = list(is_day = FALSE, cyclic = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
-)
-new_task = pop$train(list(task))[[1L]]
+# datefeatures currently requires POSIXct
+graph = ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(is_day = FALSE, cyclic = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
+  )
+new_task = graph$train(task)[[1L]]
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(new_task)
 prediction = ff$predict(new_task, 142:144)
 ff$predict(new_task, 142:144)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 454.2787
-#>        2   390 402.9731
-#>        3   432 404.8773
+#>        1   461 454.5349
+#>        2   390 407.2796
+#>        3   432 405.6907
 prediction$score(measure)
 #> regr.rmse 
-#>  17.78686
+#>  18.55228
 
 row_ids = new_task$nrow - 0:2
 ff$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 402.6563
-#>        2   390 389.9071
-#>        3   461 384.1679
+#>        1   432 403.2402
+#>        2   390 392.9354
+#>        3   461 387.5198
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 402.6563
-#>        2    NA 389.9071
-#>        3    NA 384.1679
+#>        1    NA 403.2402
+#>        2    NA 392.9354
+#>        3    NA 387.5198
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  84.17676
+#>  81.87494
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  45.40293
+#>  44.04201
 ```
 
 ### mlr3pipelines integration
 
 ``` r
-glrn = as_learner(pop %>>% ff)$train(task)
+glrn = as_learner(graph %>>% ff)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(measure)
 #> regr.rmse 
-#>  19.75408
+#>  18.95819
 ```
