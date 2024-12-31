@@ -86,7 +86,6 @@ graph = ppl("convert_types", "Date", "POSIXct") %>>%
 new_task = graph$train(task)[[1L]]
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(new_task)
 prediction = ff$predict(new_task, 142:144)
-ff$predict(new_task, 142:144)
 prediction$score(measure)
 
 row_ids = new_task$nrow - 0:2
@@ -106,7 +105,43 @@ rr$aggregate(measure)
 ### mlr3pipelines integration
 
 ```{r}
+ff = Forecaster$new(lrn("regr.ranger"), 1:3)
 glrn = as_learner(graph %>>% ff)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(measure)
+```
+
+### Example: Forecasting electricity demand
+
+```{r}
+library(data.table)
+library(mlr3learners)
+library(mlr3pipelines)
+
+task = tsibbledata::vic_elec |>
+  as.data.table() |>
+  setnames(tolower) |>
+  _[
+    year(time) == 2014L,
+    .(demand = sum(demand) / 1e3, temperature = max(temperature), holiday = any(holiday)),
+    by = date
+  ] |>
+  as_task_regr(target = "demand")
+
+graph = ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(is_day = FALSE, cyclic = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
+  )
+ff = Forecaster$new(lrn("regr.ranger"), 1:3)
+glrn = as_learner(graph %>>% ff)$train(task)
+
+max_date = task$data()[.N, date]
+newdata = data.frame(
+  date = max_date + 1:14,
+  demand = rep(NA_real_, 14L),
+  temperature = 26,
+  holiday = c(TRUE, rep(FALSE, 13L))
+)
+prediction = glrn$predict_newdata(newdata, task)
+prediction
 ```

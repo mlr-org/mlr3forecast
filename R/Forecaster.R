@@ -49,7 +49,11 @@ Forecaster = R6::R6Class("Forecaster",
       row_ids = assert_integerish(row_ids,
         lower = 1L, any.missing = FALSE, coerce = TRUE, null.ok = TRUE
       )
+
       row_ids = row_ids %??% task$row_ids
+      if (!suppressWarnings(isTRUE(all.equal(private$.task, task)))) {
+        row_ids = seq_along(row_ids) + tail(private$.task$row_ids, 1L)
+      }
       row_ids = sort(row_ids)
       if (!all(diff(row_ids) == 1L)) {
         stopf("Row ids must be consecutive")
