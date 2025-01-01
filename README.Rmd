@@ -81,7 +81,7 @@ task = tsk("airpassengers")
 # datefeatures currently requires POSIXct
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
-    param_vals = list(is_day = FALSE, cyclic = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
+    param_vals = list(is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
   )
 new_task = graph$train(task)[[1L]]
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(new_task)
@@ -126,11 +126,11 @@ task = tsibbledata::vic_elec |>
     .(demand = sum(demand) / 1e3, temperature = max(temperature), holiday = any(holiday)),
     by = date
   ] |>
-  as_task_regr(target = "demand")
+  as_task_fcst(target = "demand", index = "date")
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
-    param_vals = list(is_day = FALSE, cyclic = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
+    param_vals = list(year = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
   )
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)
 glrn = as_learner(graph %>>% ff)$train(task)

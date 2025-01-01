@@ -15,6 +15,9 @@
 NULL
 
 load_task_airpassengers = function(id = "airpassengers") {
+  if (!requireNamespace("tsbox", quietly = TRUE)) {
+    stopf("Package 'tsbox' is required to load the 'AirPassengers' dataset.")
+  }
   dt = tsbox::ts_dt(load_dataset("AirPassengers", package = "datasets"))
   setnames(dt, c("date", "passengers"))
   b = as_data_backend(dt)
@@ -23,7 +26,6 @@ load_task_airpassengers = function(id = "airpassengers") {
     id = id,
     backend = b,
     target = "passengers",
-    index = "date",
     label = "Monthly Airline Passenger Numbers 1949-1960"
   )
   task$col_roles$order = "date"

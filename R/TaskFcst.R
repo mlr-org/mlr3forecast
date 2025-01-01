@@ -25,22 +25,15 @@
 TaskFcst = R6::R6Class("TaskFcst",
   inherit = TaskRegr,
   public = list(
-    #' @field index (`character(1)`)\cr
-    #' Column name of the index variable.
-    index = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' The function [as_task_fcst()] provides an alternative way to construct forecast tasks.
     #'
-    #' @param index (`character(1)`)\cr
-    #'   Column name of the index variable.
     #' @template param_target
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, index, label = NA_character_, extra_args = list()) { # nolint
+    initialize = function(id, backend, target, label = NA_character_, extra_args = list()) { # nolint
       assert_string(target)
-      assert_string(index)
 
       super$initialize(
         id = id,
@@ -49,7 +42,6 @@ TaskFcst = R6::R6Class("TaskFcst",
         label = label,
         extra_args = extra_args
       )
-      self$index = index
     },
 
     #' @description

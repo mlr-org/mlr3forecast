@@ -33,9 +33,11 @@ as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, id = deparse
   assert_choice(target, x$colnames)
   assert_choice(index, x$colnames)
 
-  TaskFcst$new(
-    id = id, backend = x, target = target, index = index, target = target, label = label, ...
+  task = TaskFcst$new(
+    id = id, backend = x, target = target, target = target, label = label, ...
   )
+  task$col_roles$order = index
+  task
 }
 
 #' @rdname as_task_fcst
@@ -59,5 +61,7 @@ as_task_fcst.data.frame = function(x, target = NULL, index = NULL, id = deparse1
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  TaskFcst$new(id = id, backend = x, target = target, index = index, label = label)
+  task = TaskFcst$new(id = id, backend = x, target = target, label = label)
+  task$col_roles$order = index
+  task
 }
