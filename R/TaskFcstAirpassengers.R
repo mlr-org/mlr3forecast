@@ -18,7 +18,7 @@ load_task_airpassengers = function(id = "airpassengers") {
   if (!requireNamespace("tsbox", quietly = TRUE)) {
     stopf("Package 'tsbox' is required to load the 'AirPassengers' dataset.")
   }
-  dt = tsbox::ts_dt(load_dataset("AirPassengers", package = "datasets"))
+  dt = tsbox::ts_dt(load_dataset("AirPassengers", "datasets"))
   setnames(dt, c("date", "passengers"))
   b = as_data_backend(dt)
 
