@@ -68,13 +68,6 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
 
   private = list(
     .sample = function(ids, task, ...) {
-      # if (length(task$col_roles$order) == 0L) {
-      #   stopf(
-      #     "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
-      #     self$id, task$id
-      #   )
-      # }
-
       pars = self$param_set$get_values()
       ratio = pars$ratio
       n = pars$n
@@ -91,8 +84,23 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
       } else {
         nr = max(n_obs + n, 0L)
       }
-      ii = ids[1:nr]
-      list(train = ii, test = ids[(nr + 1L):n_obs])
+
+      if (TRUE) {
+        ids = sort(ids)
+        ii = ids[1:nr]
+        list(train = ii, test = ids[(nr + 1L):n_obs])
+      } else {
+        # check when this is even needed
+        order = row_id = NULL
+        order_cols = private$.col_roles$order
+        tab = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols))
+        setnames(tab, c("row_id", "order"))
+        setorder(tab, order)
+        list(
+          train = tab[1:nr, row_id],
+          test = tab[(nr + 1L):n_obs, row_id]
+        )
+      }
     },
 
     .get_train = function(i) {
