@@ -45,32 +45,32 @@ prediction = ff$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 448.3642
-#>        2    NA 472.8880
-#>        3    NA 481.9365
+#>        1    NA 452.7575
+#>        2    NA 474.8485
+#>        3    NA 481.4720
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 458.8330
-#>        2   390 408.6100
-#>        3   432 396.8338
+#>        1   461 458.1226
+#>        2   390 412.7669
+#>        3   432 396.2460
 prediction$score(measure)
 #> regr.rmse 
-#>  23.00498
+#>  24.52863
 
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  111.1354
+#>  112.7031
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  53.00199
+#>  48.80621
 ```
 
 ### Multivariate
@@ -90,34 +90,34 @@ ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(new_task)
 prediction = ff$predict(new_task, 142:144)
 prediction$score(measure)
 #> regr.rmse 
-#>  16.56907
+#>  19.26131
 
 row_ids = new_task$nrow - 0:2
 ff$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 408.0028
-#>        2   390 392.1665
-#>        3   461 398.1914
+#>        1   432 407.1069
+#>        2   390 391.4622
+#>        3   461 393.6115
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 408.0028
-#>        2    NA 392.1665
-#>        3    NA 398.1914
+#>        1    NA 407.1069
+#>        2    NA 391.4622
+#>        3    NA 393.6115
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  82.78402
+#>  81.82989
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  43.08137
+#>  45.80208
 ```
 
 ### mlr3pipelines integration
@@ -128,7 +128,7 @@ glrn = as_learner(graph %>>% ff)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(measure)
 #> regr.rmse 
-#>  31.19406
+#>  34.39579
 ```
 
 ### Example: Forecasting electricity demand
@@ -166,11 +166,11 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 14 observations:
 #>  row_ids truth response
-#>        1    NA 187.6616
-#>        2    NA 192.7148
-#>        3    NA 183.9831
+#>        1    NA 187.1619
+#>        2    NA 191.8612
+#>        3    NA 184.2280
 #>      ---   ---      ---
-#>       12    NA 214.7618
-#>       13    NA 218.6306
-#>       14    NA 218.7692
+#>       12    NA 214.1141
+#>       13    NA 216.5287
+#>       14    NA 217.9717
 ```

@@ -81,7 +81,13 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
   ),
 
   private = list(
-    .sample = function(ids, ...) {
+    .sample = function(ids, task, ...) {
+      if (length(task$col_roles$order) == 0L) {
+        stopf(
+          "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
+          self$id, task$id
+        )
+      }
       pars = self$param_set$get_values()
       ids = sort(ids)
       train_end = ids[ids <= (max(ids) - pars$horizon) & ids >= pars$window_size]
