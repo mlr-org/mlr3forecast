@@ -10,8 +10,8 @@ mlr3forecast_resamplings = new.env()
 mlr3forecast_tasks = new.env()
 mlr3forecast_learners = new.env()
 mlr3forecast_measures = new.env()
-# TODO: check if this can be moved to mlr3, copy components from @mllg PR
 mlr3forecast_feature_types = c(dte = "Date")
+# mlr3forecast_col_roles = "key"
 
 named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
@@ -33,9 +33,12 @@ register_mlr3 = function() {
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
     ~type, ~package, ~task, ~learner, ~prediction, ~prediction_data, ~measure,
-    "fcst", "mlr3forecast", "TaskFcst", "LearnerFcst", "PredictionFcst", "PredictionDataFcst", "MeasureFcst" # nolint
+    "fcst", "mlr3forecast", "TaskFcst", "LearnerRegr", "PredictionFcst", "PredictionDataFcst", "MeasureRegr" # nolint
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
+  # mlr_reflections$task_col_roles$fcst = union(
+  #   mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles
+  # )
   mlr_reflections$task_feature_types = named_union(
     mlr_reflections$task_feature_types, mlr3forecast_feature_types
   )
@@ -79,7 +82,7 @@ register_mlr3 = function() {
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   mlr_reflections$task_feature_types =
     mlr_reflections$task_feature_types[mlr_reflections$task_feature_types %nin% mlr3forecast_feature_types] # nolint
-  reflections = c("learner_predict_types", "task_properties")
+  reflections = c("learner_predict_types", "task_col_roles", "task_properties")
   walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
 }
 

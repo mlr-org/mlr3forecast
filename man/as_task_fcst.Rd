@@ -15,6 +15,7 @@ as_task_fcst(x, ...)
   x,
   target = NULL,
   index = NULL,
+  key = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -24,6 +25,7 @@ as_task_fcst(x, ...)
   x,
   target = NULL,
   index = NULL,
+  key = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...

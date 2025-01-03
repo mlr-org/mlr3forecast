@@ -46,6 +46,14 @@ Other Task:
 \section{Super classes}{
 \code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{\link[mlr3:TaskRegr]{mlr3::TaskRegr}} -> \code{TaskFcst}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{key}}{(\code{character(1)})\cr
+Key of data.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
@@ -86,7 +94,14 @@ Other Task:
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative way to construct forecast tasks.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$new(id, backend, target, label = NA_character_, extra_args = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$new(
+  id,
+  backend,
+  target,
+  key = NULL,
+  label = NA_character_,
+  extra_args = list()
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -101,6 +116,8 @@ E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
 
 \item{\code{target}}{(\code{character(1)})\cr
 Name of the target column.}
+
+\item{\code{key}}{(\code{character(1)}) key of data.}
 
 \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}

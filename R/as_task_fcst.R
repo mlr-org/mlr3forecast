@@ -27,14 +27,14 @@ as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) {
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, key = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_choice(target, x$colnames)
   assert_choice(index, x$colnames)
 
   task = TaskFcst$new(
-    id = id, backend = x, target = target, target = target, label = label, ...
+    id = id, backend = x, target = target, target = target, key = key, label = label, ...
   )
   task$col_roles$order = index
   task
@@ -49,19 +49,20 @@ as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, id = deparse
 #'   Name of the column in the data containing the index.
 #' @template param_label
 #' @export
-as_task_fcst.data.frame = function(x, target = NULL, index = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.data.frame = function(x, target = NULL, index = NULL, key = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   assert_choice(target, names(x))
   assert_choice(index, names(x))
+  assert_choice(key, names(x), null.ok = TRUE)
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii)) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  task = TaskFcst$new(id = id, backend = x, target = target, label = label)
+  task = TaskFcst$new(id = id, backend = x, target = target, key = key, label = label)
   task$col_roles$order = index
   task
 }

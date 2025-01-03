@@ -25,6 +25,10 @@
 TaskFcst = R6::R6Class("TaskFcst",
   inherit = TaskRegr,
   public = list(
+    #' @field key (`character(1)`)\cr
+    #' Key of data.
+    key = NULL,
+
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' The function [as_task_fcst()] provides an alternative way to construct forecast tasks.
@@ -32,7 +36,8 @@ TaskFcst = R6::R6Class("TaskFcst",
     #' @template param_target
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, label = NA_character_, extra_args = list()) { # nolint
+    #' @param key (`character(1)`) key of data.
+    initialize = function(id, backend, target, key = NULL, label = NA_character_, extra_args = list()) { # nolint
       assert_string(target)
 
       super$initialize(
@@ -42,6 +47,7 @@ TaskFcst = R6::R6Class("TaskFcst",
         label = label,
         extra_args = extra_args
       )
+      self$key = key
     },
 
     #' @description

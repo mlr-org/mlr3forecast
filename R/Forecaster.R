@@ -103,7 +103,11 @@ Forecaster = R6::R6Class("Forecaster",
       lag = self$lag
       nms = sprintf("%s_lag_%s", target, lag)
       dt = copy(dt)
-      dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
+      if (is.null(private$.task$key)) {
+        dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
+      } else {
+        dt[, (nms) := shift(.SD, n = lag, type = "lag"), by = get(private$.task$key), .SDcols = target]
+      }
       dt
     },
 

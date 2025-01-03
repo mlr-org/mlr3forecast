@@ -145,3 +145,36 @@ newdata = data.frame(
 prediction = glrn$predict_newdata(newdata, task)
 prediction
 ```
+
+### Global Forecasting
+
+```{r}
+library(mlr3learners)
+library(mlr3pipelines)
+library(tsibble)
+
+task = tsibbledata::aus_livestock |>
+  as.data.table() |>
+  setnames(tolower) |>
+  _[, month := as.Date(month)] |>
+  _[, .(count = sum(count)), by = .(state, month)] |>
+  setorder(state, month) |>
+  as_task_fcst(target = "count", index = "month", key = "state")
+
+graph = ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(
+      week_of_year = FALSE, day_of_week = FALSE, day_of_month = FALSE, day_of_year = FALSE,
+      is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE
+    )
+  )
+task = graph$train(task)[[1L]]
+
+ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(task)
+prediction = ff$predict(task, 4460:4464)
+prediction$score(measure)
+
+# resampling = rsmp("forecast_holdout", ratio = 0.8)
+# rr = resample(task, ff, resampling)
+# rr$aggregate(measure)
+```
