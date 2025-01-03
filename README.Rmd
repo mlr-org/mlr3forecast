@@ -148,7 +148,7 @@ prediction
 
 ### Global Forecasting
 
-```{r}
+```{r, message = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
 library(tsibble)

@@ -45,32 +45,32 @@ prediction = ff$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 447.8017
-#>        2    NA 473.3637
-#>        3    NA 486.9652
+#>        1    NA 450.4251
+#>        2    NA 474.8673
+#>        3    NA 481.2012
 prediction = ff$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 461.4039
-#>        2   390 412.0604
-#>        3   432 393.8162
+#>        1   461 458.9251
+#>        2   390 413.0483
+#>        3   432 400.3344
 prediction$score(measure)
 #> regr.rmse 
-#>  25.46126
+#>  22.64391
 
 ff = Forecaster$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  108.0431
+#>   105.813
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  53.05832
+#>  51.55743
 ```
 
 ### Multivariate
@@ -90,34 +90,34 @@ ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(new_task)
 prediction = ff$predict(new_task, 142:144)
 prediction$score(measure)
 #> regr.rmse 
-#>  18.86887
+#>  16.21794
 
 row_ids = new_task$nrow - 0:2
 ff$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 409.5521
-#>        2   390 390.2928
-#>        3   461 392.8769
+#>        1   432 404.8431
+#>        2   390 389.6829
+#>        3   461 385.0237
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 ff$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 409.5521
-#>        2    NA 390.2928
-#>        3    NA 392.8769
+#>        1    NA 404.8431
+#>        2    NA 389.6829
+#>        3    NA 385.0237
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  82.88035
+#>  80.82488
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, ff, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>    44.645
+#>  43.23873
 ```
 
 ### mlr3pipelines integration
@@ -128,7 +128,7 @@ glrn = as_learner(graph %>>% ff)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(measure)
 #> regr.rmse 
-#>   32.7928
+#>  34.32551
 ```
 
 ### Example: Forecasting electricity demand
@@ -166,13 +166,13 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 14 observations:
 #>  row_ids truth response
-#>        1    NA 187.1951
-#>        2    NA 191.1492
-#>        3    NA 184.2040
+#>        1    NA 186.7784
+#>        2    NA 191.1168
+#>        3    NA 183.7167
 #>      ---   ---      ---
-#>       12    NA 213.9886
-#>       13    NA 217.0293
-#>       14    NA 219.1662
+#>       12    NA 215.4186
+#>       13    NA 218.8181
+#>       14    NA 219.9092
 ```
 
 ### Global Forecasting
@@ -181,17 +181,6 @@ prediction
 library(mlr3learners)
 library(mlr3pipelines)
 library(tsibble)
-#> Registered S3 method overwritten by 'tsibble':
-#>   method               from 
-#>   as_tibble.grouped_df dplyr
-#> 
-#> Attaching package: 'tsibble'
-#> The following object is masked from 'package:data.table':
-#> 
-#>     key
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, union
 
 task = tsibbledata::aus_livestock |>
   as.data.table() |>
@@ -214,7 +203,7 @@ ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = ff$predict(task, 4460:4464)
 prediction$score(measure)
 #> regr.rmse 
-#>  23554.31
+#>  23230.08
 
 # resampling = rsmp("forecast_holdout", ratio = 0.8)
 # rr = resample(task, ff, resampling)
