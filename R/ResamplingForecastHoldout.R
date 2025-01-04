@@ -67,7 +67,7 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
   ),
 
   private = list(
-    .sample = function(ids, task, ...) {
+    .sample_old = function(ids, ...) {
       pars = self$param_set$get_values()
       ratio = pars$ratio
       n = pars$n
@@ -90,7 +90,7 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
       list(train = ii, test = ids[(nr + 1L):n_obs])
     },
 
-    .sample_new = function(ids, task, ...) {
+    .sample = function(ids, task, ...) {
       pars = self$param_set$get_values()
       ratio = pars$ratio
       n = pars$n
@@ -100,48 +100,30 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
       if (!xor(!has_ratio, is.null(n))) {
         stopf("Either parameter `ratio` (x)or `n` must be provided.")
       }
-      group_cols = task$col_roles$group
-      has_group = length(group_cols) > 0L
       if (has_ratio) {
         nr = round(n_obs * ratio)
-        if (has_group) {
-          nr = floor(nr / length(ids))
-        }
       } else if (n > 0L) {
         nr = min(n_obs, n)
       } else {
         nr = max(n_obs + n, 0L)
       }
 
-      # for ratio this needs to be adjusted for i.e. divided by the groups,
-      # n is fine, but would have to be documented for group usage
-      group_cols = task$col_roles$group
-      # note: by = NULL also works, could make it type consistent
-      if (length(group_cols) > 0L) {
-        tab = task$backend$data(rows = task$row_ids, cols = c(task$backend$primary_key, group_cols))
-        setnames(tab, c("row_id", "group"))
-        # assumes its sorted correct
-        res = list(
-          train = tab[, .SD[1:nr], by = group][, row_id],
-          test = tab[, .SD[(nr + 1L):.N], by = group][, row_id]
+      order_cols = task$col_roles$order
+      key_cols = task$key
+      has_key = !is.null(key_cols)
+      tab = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
+      if (has_key) {
+        setnames(tab, c("row_id", "order", "key"))
+        setorderv(tab, c("key", "order"))
+        n_groups = length(unique(tab$key))
+        nr = if (has_ratio) nr %/% n_groups else nr
+        list(
+          train = tab[, .SD[1:nr], by = key][, row_id],
+          test = tab[, .SD[(nr + 1L):.N], by = key][, row_id]
         )
-        browser()
-        return(res)
-      }
-
-      browser()
-
-      if (TRUE) {
-        ids = sort(ids)
-        ii = ids[1:nr]
-        list(train = ii, test = ids[(nr + 1L):n_obs])
       } else {
-        # check when this is even needed
-        order = row_id = NULL
-        order_cols = task$col_roles$order
-        tab = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols))
         setnames(tab, c("row_id", "order"))
-        setorder(tab, order)
+        setorderv(tab, c("order"))
         list(
           train = tab[1:nr, row_id],
           test = tab[(nr + 1L):.N, row_id]

@@ -50,12 +50,21 @@ Forecaster = R6::R6Class("Forecaster",
         lower = 1L, any.missing = FALSE, coerce = TRUE, null.ok = TRUE
       )
 
+      # 1. direct learner$predict(): entire task + row_ids or `NULL` for entire task prediction
+      # 2. resampling: test task and `NULL` row_ids, task$row_ids are from entire task
+      # 3. glrn$predict(): test task and `NULL` row_ids, task$row_ids are from train task
+      # 4. glrn$predict_newdata(): test task and `NULL` row_ids, task$row_ids are 1:n, i.e. not from entire task
+      #    NB: this will need some special handling, how do I know if its called by glrn?
+      # check for glrn$predict_newdata() case
+      has_row_ids = !is.null(row_ids)
       row_ids = row_ids %??% task$row_ids
-      if (!suppressWarnings(isTRUE(all.equal(private$.task, task)))) {
+      row_ids = sort(row_ids)
+      if (!has_row_ids &&
+        nrow(fintersect(task$data(), private$.task$data())) == 0 &&
+        all(task$row_ids %in% private$.task$row_ids)) {
         row_ids = seq_along(row_ids) + tail(private$.task$row_ids, 1L)
       }
-      row_ids = sort(row_ids)
-      if (!all(diff(row_ids) == 1L)) {
+      if (is.null(task$key) && !all(diff(row_ids) == 1L)) {
         stopf("Row ids must be consecutive")
       }
       private$.predict_recursive(task, row_ids)
@@ -103,10 +112,12 @@ Forecaster = R6::R6Class("Forecaster",
       lag = self$lag
       nms = sprintf("%s_lag_%s", target, lag)
       dt = copy(dt)
-      if (is.null(private$.task$key)) {
+      key = private$.task$key
+      if (is.null(key)) {
         dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
       } else {
-        dt[, (nms) := shift(.SD, n = lag, type = "lag"), by = get(private$.task$key), .SDcols = target]
+        setorderv(dt, c(key))
+        dt[, (nms) := shift(.SD, n = lag, type = "lag"), by = key, .SDcols = target]
       }
       dt
     },

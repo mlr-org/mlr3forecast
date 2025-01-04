@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
 
 lgr::get_logger("mlr3")$set_threshold("warn")
 options(datatable.print.class = FALSE, datatable.print.keys = FALSE)
+library(data.table)
 ```
 
 
@@ -114,7 +115,6 @@ prediction$score(measure)
 ### Example: Forecasting electricity demand
 
 ```{r}
-library(data.table)
 library(mlr3learners)
 library(mlr3pipelines)
 
@@ -174,7 +174,8 @@ ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = ff$predict(task, 4460:4464)
 prediction$score(measure)
 
-# resampling = rsmp("forecast_holdout", ratio = 0.8)
-# rr = resample(task, ff, resampling)
-# rr$aggregate(measure)
+ff = Forecaster$new(lrn("regr.ranger"), 1:3)
+resampling = rsmp("forecast_holdout", ratio = 0.8)
+rr = resample(task, ff, resampling)
+rr$aggregate(measure)
 ```
