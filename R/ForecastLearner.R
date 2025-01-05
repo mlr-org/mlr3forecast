@@ -8,18 +8,25 @@ ForecastLearner = R6::R6Class("ForecastLearner",
     #' The learner
     learner = NULL,
 
-    #' @field lag (`integer(1)`)\cr
+    #' @field lag (`integer()`)\cr
     #' The lag
     lag = NULL,
+
+    #' @field trafo ([Graph])\cr
+    #' The task transformation
+    trafo = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param task ([Task])\cr
     #' @param learner ([Learner])\cr
     #' @param lag (`integer(1)`)\cr
-    initialize = function(learner, lag) {
+    #' @param trafo ([Graph])\cr
+    initialize = function(learner, lag, trafo = NULL) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
       self$lag = assert_integerish(lag, lower = 1L, any.missing = FALSE, coerce = TRUE)
+      self$trafo = trafo
+      # self$trafo = as_graph(trafo, clone = TRUE)
 
       super$initialize(
         id = learner$id,
@@ -99,9 +106,8 @@ ForecastLearner = R6::R6Class("ForecastLearner",
       dt = private$.lag_transform(task$data(), target)
       new_task = as_task_regr(dt, target = target)
 
-      learner = self$learner$clone(deep = TRUE)
-      learner$train(new_task)
-      structure(list(learner = learner), class = c("forecaster_model", "list"))
+      learner = self$learner$clone(deep = TRUE)$train(new_task)
+      structure(list(learner = learner), class = c("forecast_learner_model", "list"))
     },
 
     .predict = function(task) {

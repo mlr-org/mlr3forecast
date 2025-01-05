@@ -45,32 +45,32 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 448.7741
-#>        2    NA 473.3513
-#>        3    NA 478.6528
+#>        1    NA 452.6152
+#>        2    NA 470.7021
+#>        3    NA 484.3435
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 453.1701
-#>        2   390 408.2967
-#>        3   432 396.3043
+#>        1   461 458.2868
+#>        2   390 413.8301
+#>        3   432 400.2210
 prediction$score(measure)
 #> regr.rmse 
-#>   23.5956
+#>  22.98654
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, flrn, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  106.5602
+#>  109.8942
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  52.03231
+#>  52.72467
 ```
 
 ### Multivariate
@@ -90,34 +90,34 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(new_task)
 prediction = flrn$predict(new_task, 142:144)
 prediction$score(measure)
 #> regr.rmse 
-#>  18.15987
+#>  17.76857
 
 row_ids = new_task$nrow - 0:2
 flrn$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 410.0752
-#>        2   390 389.3914
-#>        3   461 394.7900
+#>        1   432 403.2995
+#>        2   390 389.3103
+#>        3   461 382.6280
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 flrn$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 410.0752
-#>        2    NA 389.3914
-#>        3    NA 394.7900
+#>        1    NA 403.2995
+#>        2    NA 389.3103
+#>        3    NA 382.6280
 
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(new_task, flrn, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  81.67667
+#>  80.90406
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, flrn, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  39.40938
+#>  43.51328
 ```
 
 ### mlr3pipelines integration
@@ -128,7 +128,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(measure)
 #> regr.rmse 
-#>  20.05668
+#>  18.90065
 ```
 
 ### Example: Forecasting electricity demand
@@ -171,13 +171,13 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 14 observations:
 #>  row_ids truth response
-#>        1    NA 186.6728
-#>        2    NA 190.9780
-#>        3    NA 183.3363
+#>        1    NA 186.8314
+#>        2    NA 191.7865
+#>        3    NA 184.1120
 #>      ---   ---      ---
-#>       12    NA 215.7447
-#>       13    NA 220.3997
-#>       14    NA 222.3319
+#>       12    NA 214.5964
+#>       13    NA 218.8332
+#>       14    NA 221.2042
 ```
 
 ### Global Forecasting
@@ -209,14 +209,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(measure)
 #> regr.rmse 
-#>  22658.84
+#>  23709.89
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, flrn, resampling)
 rr$aggregate(measure)
 #> regr.rmse 
-#>  80742.63
+#>  81144.73
 ```
 
 ### Example: Global vs Local Forecasting
@@ -251,7 +251,7 @@ row_ids = tab[year >= 2015, row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(measure)
 #> regr.rmse 
-#>  32041.71
+#>  32608.79
 
 # global forecasting
 task = tsibbledata::aus_livestock |>
@@ -271,5 +271,50 @@ row_ids = tab[year >= 2015 & state == "Western Australia", row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(measure)
 #> regr.rmse 
-#>  31719.35
+#>  31876.59
+```
+
+### Example: generate new data
+
+``` r
+library(checkmate)
+
+generate_newdata = function(task, n = 1L, resolution = "day") {
+  assert_count(n)
+  assert_string(resolution)
+  assert_choice(
+    resolution, c("second", "minute", "hour", "day", "week", "month", "quarter", "year")
+  )
+
+  order_cols = task$col_roles$order
+  target = task$target_names
+  max_index = max(task$data(cols = order_cols)[[1L]])
+
+  unit = switch(resolution,
+    second = "sec",
+    minute = "min",
+    hour = ,
+    day = ,
+    week = ,
+    month = ,
+    quarter = ,
+    year = identity(resolution),
+    stopf("Invalid resolution")
+  )
+  unit = sprintf("1 %s", unit)
+  index = seq(max_index, length.out = n + 1L, by = unit)
+  index = index[2:length(index)]
+
+  newdata = data.table(index = index, target = rep(NA_real_, n))
+  setnames(newdata, c(order_cols, target))
+  setDF(newdata)[]
+}
+
+task = tsk("airpassengers")
+newdata = generate_newdata(task, 3L, "month")
+newdata
+#>         date passengers
+#> 1 1961-01-01         NA
+#> 2 1961-02-01         NA
+#> 3 1961-03-01         NA
 ```
