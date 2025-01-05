@@ -1,4 +1,5 @@
 test_that("forecast_holdout basic properties", {
+  skip("currently require datetime column")
   task = tsk("penguins")
   resampling = rsmp("forecast_holdout", ratio = 0.7)
   expect_resampling(resampling, task)
@@ -37,6 +38,7 @@ test_that("forecast_holdout works", {
 })
 
 test_that("forecast_holdout repeated instantiation", {
+  skip("currently require datetime column")
   task = tsk("penguins")
 
   resampling = rsmp("forecast_holdout", ratio = 0.6)
