@@ -1,7 +1,7 @@
-#' @title Forecaster
+#' @title Forecast Learner
 #'
 #' @export
-Forecaster = R6::R6Class("Forecaster",
+ForecastLearner = R6::R6Class("ForecastLearner",
   inherit = Learner,
   public = list(
     #' @field learner ([Learner])\cr

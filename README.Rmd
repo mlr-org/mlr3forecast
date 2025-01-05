@@ -54,7 +54,7 @@ library(mlr3learners)
 task = tsk("airpassengers")
 task$select(setdiff(task$feature_names, "date"))
 measure = msr("regr.rmse")
-ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(task)
+ff = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 newdata = data.frame(passengers = rep(NA_real_, 3L))
 prediction = ff$predict_newdata(newdata, task)
 prediction
@@ -62,7 +62,7 @@ prediction = ff$predict(task, 142:144)
 prediction
 prediction$score(measure)
 
-ff = Forecaster$new(lrn("regr.ranger"), 1:3)
+ff = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
@@ -85,7 +85,7 @@ graph = ppl("convert_types", "Date", "POSIXct") %>>%
     param_vals = list(is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
   )
 new_task = graph$train(task)[[1L]]
-ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(new_task)
+ff = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(new_task)
 prediction = ff$predict(new_task, 142:144)
 prediction$score(measure)
 
@@ -106,7 +106,7 @@ rr$aggregate(measure)
 ### mlr3pipelines integration
 
 ```{r}
-ff = Forecaster$new(lrn("regr.ranger"), 1:3)
+ff = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 glrn = as_learner(graph %>>% ff)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(measure)
@@ -123,16 +123,22 @@ task = tsibbledata::vic_elec |>
   setnames(tolower) |>
   _[
     year(time) == 2014L,
-    .(demand = sum(demand) / 1e3, temperature = max(temperature), holiday = any(holiday)),
+    .(
+      demand = sum(demand) / 1e3,
+      temperature = max(temperature),
+      holiday = any(holiday)
+    ),
     by = date
   ] |>
   as_task_fcst(target = "demand", index = "date")
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
-    param_vals = list(year = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
+    param_vals = list(
+      year = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE
+    )
   )
-ff = Forecaster$new(lrn("regr.ranger"), 1:3)
+ff = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 glrn = as_learner(graph %>>% ff)$train(task)
 
 max_date = task$data()[.N, date]
@@ -151,7 +157,7 @@ prediction
 ```{r, message = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
-library(tsibble)
+library(tsibble) # needs not be loaded for it to somehow work
 
 task = tsibbledata::aus_livestock |>
   as.data.table() |>
@@ -164,18 +170,70 @@ task = tsibbledata::aus_livestock |>
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
-      week_of_year = FALSE, day_of_week = FALSE, day_of_month = FALSE, day_of_year = FALSE,
-      is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE
+      week_of_year = FALSE, day_of_week = FALSE, day_of_month = FALSE,
+      day_of_year = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE,
+      second = FALSE
     )
   )
 task = graph$train(task)[[1L]]
 
-ff = Forecaster$new(lrn("regr.ranger"), 1:3)$train(task)
+ff = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = ff$predict(task, 4460:4464)
 prediction$score(measure)
 
-ff = Forecaster$new(lrn("regr.ranger"), 1:3)
+ff = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.8)
 rr = resample(task, ff, resampling)
 rr$aggregate(measure)
+```
+
+### Example: Global vs Local Forecasting
+
+```{r}
+# TODO: find better task example, since the effect is minor here
+
+graph = ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(
+      week_of_year = FALSE, day_of_week = FALSE, day_of_month = FALSE,
+      day_of_year = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE,
+      second = FALSE
+    )
+  )
+
+# local forecasting
+task = tsibbledata::aus_livestock |>
+  as.data.table() |>
+  setnames(tolower) |>
+  _[, month := as.Date(month)] |>
+  _[state == "Western Australia", .(count = sum(count)), by = .(month)] |>
+  setorder(month) |>
+  as_task_fcst(target = "count", index = "month")
+task = graph$train(task)[[1L]]
+ff = ForecastLearner$new(lrn("regr.ranger"), 1L)$train(task)
+tab = task$backend$data(
+  rows = task$row_ids, cols = c(task$backend$primary_key, "month.year")
+)
+setnames(tab, c("row_id", "year"))
+row_ids = tab[year >= 2015, row_id]
+prediction = ff$predict(task, row_ids)
+prediction$score(measure)
+
+# global forecasting
+task = tsibbledata::aus_livestock |>
+  as.data.table() |>
+  setnames(tolower) |>
+  _[, month := as.Date(month)] |>
+  _[, .(count = sum(count)), by = .(state, month)] |>
+  setorder(state, month) |>
+  as_task_fcst(target = "count", index = "month", key = "state")
+task = graph$train(task)[[1L]]
+ff = ForecastLearner$new(lrn("regr.ranger"), 1L)$train(task)
+tab = task$backend$data(
+  rows = task$row_ids, cols = c(task$backend$primary_key, "month.year", "state")
+)
+setnames(tab, c("row_id", "year", "state"))
+row_ids = tab[year >= 2015 & state == "Western Australia", row_id]
+prediction = ff$predict(task, row_ids)
+prediction$score(measure)
 ```

@@ -81,7 +81,7 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
   ),
 
   private = list(
-    .sample = function(ids, task, ...) {
+    .sample = function(ids, ...) {
       pars = self$param_set$get_values()
       ids = sort(ids)
       train_end = ids[ids <= (max(ids) - pars$horizon) & ids >= pars$window_size]
@@ -97,6 +97,10 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
       }
       test_ids = map(train_ids, function(x) (x[length(x)] + 1L):(x[length(x)] + pars$horizon))
       list(train = train_ids, test = test_ids)
+    },
+
+    .sample_new = function(ids, task, ...) {
+      .NotYetImplemented()
     },
 
     .get_train = function(i) {
