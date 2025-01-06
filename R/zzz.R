@@ -33,16 +33,16 @@ register_mlr3 = function() {
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
     ~type, ~package, ~task, ~learner, ~prediction, ~prediction_data, ~measure,
-    "fcst", "mlr3forecast", "TaskFcst", "LearnerRegr", "PredictionFcst", "PredictionDataFcst", "MeasureRegr" # nolint
+    "fcst", "mlr3forecast", "TaskFcst", "LearnerFcst", "PredictionFcst", "PredictionDataFcst", "MeasureFcst" # nolint
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
-  # mlr_reflections$task_col_roles$fcst = union(
-  #   mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles
-  # )
+  mlr_reflections$learner_properties$fcst = mlr_reflections$learner_properties$regr
+  mlr_reflections$task_col_roles$fcst = mlr_reflections$task_col_roles$regr
   mlr_reflections$task_feature_types = named_union(
     mlr_reflections$task_feature_types, mlr3forecast_feature_types
   )
   mlr_reflections$task_properties$fcst = c("univariate", "multivariate")
+  mlr_reflections$measure_properties$fcst = mlr_reflections$measure_properties$regr
 
   # add resamplings
   mlr_resamplings = utils::getFromNamespace("mlr_resamplings", ns = "mlr3")

@@ -83,8 +83,11 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
   private = list(
     .sample = function(ids, ...) {
       pars = self$param_set$get_values()
+      window_size = pars$window_size
+      horizon = pars$horizon
+
       ids = sort(ids)
-      train_end = ids[ids <= (max(ids) - pars$horizon) & ids >= pars$window_size]
+      train_end = ids[ids <= (max(ids) - horizon) & ids >= window_size]
       train_end = seq.int(
         from = train_end[length(train_end)],
         by = -pars$step_size,
@@ -93,14 +96,44 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
       if (!pars$fixed_window) {
         train_ids = map(train_end, function(x) ids[1L]:x)
       } else {
-        train_ids = map(train_end, function(x) (x - pars$window_size + 1L):x)
+        train_ids = map(train_end, function(x) (x - window_size + 1L):x)
       }
-      test_ids = map(train_ids, function(x) (x[length(x)] + 1L):(x[length(x)] + pars$horizon))
+      test_ids = map(train_ids, function(x) (x[length(x)] + 1L):(x[length(x)] + horizon))
       list(train = train_ids, test = test_ids)
     },
 
     .sample_new = function(ids, task, ...) {
       .NotYetImplemented()
+
+      pars = self$param_set$get_values()
+      horizon = pars$horizon
+      window_size = pars$window_size
+      step_size = pars$step_size
+      folds = pars$folds
+      fixed_window = pars$fixed_window
+
+      order_cols = task$col_roles$order
+      key_cols = task$key
+      has_key = length(key_cols) > 0L
+
+      tab = task$backend$data(
+        rows = ids,
+        cols = c(task$backend$primary_key, order_cols, key_cols)
+      )
+
+      if (has_key) {
+        setnames(tab, c("row_id", "order", "key"))
+        setorderv(tab, c("key", "order"))
+      } else {
+        setnames(tab, c("row_id", "order"))
+        setorderv(tab, "order")
+      }
+
+      if (!has_key) {
+      } else {
+
+      }
+
     },
 
     .get_train = function(i) {
