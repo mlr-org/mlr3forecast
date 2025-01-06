@@ -285,13 +285,19 @@ newdata = generate_newdata(task, 12L, "month")
 newdata
 ```
 
-### Example: WIP
+### Example: Native Forecasting Learners
 
-```{r, eval = FALSE}
-task = tsk("airpassengers")
-task$select(setdiff(task$feature_names, "date"))
-learner = LearnerFcstARIMA$new()$train(task)
+```{r}
+task = tsk("airpassengers")$select(setdiff(task$feature_names, "date"))
+learner = lrn("fcst.arima", order = c(2L, 1L, 2L))$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
 newdata = generate_newdata(task, 12L, "month")
-learner$predict(task, 140:144)
+learner$predict_newdata(newdata, task)
+
+learner = lrn("fcst.auto_arima")$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+newdata = generate_newdata(task, 12L, "month")
 learner$predict_newdata(newdata, task)
 ```

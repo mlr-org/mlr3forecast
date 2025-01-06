@@ -19,10 +19,17 @@ LearnerFcstARIMA = R6Class("LearnerFcstARIMA",
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-
-      ps = ps(
-        order = p_uty(default = c(0, 0, 0), tags = "train"),
-        seasonal = p_uty(default = c(0, 0, 0), tags = "train"),
+      param_set = ps(
+        order = p_uty(
+          default = c(0L, 0L, 0L),
+          tags = "train",
+          custom_check = crate(function(x) check_integerish(x, lower = 0L, len = 3L))
+        ),
+        seasonal = p_uty(
+          default = c(0L, 0L, 0L),
+          tags = "train",
+          custom_check = crate(function(x) check_integerish(x, lower = 0L, len = 3L))
+        ),
         include.mean = p_lgl(default = TRUE, tags = "train"),
         include.drift = p_lgl(default = FALSE, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = "train"),
@@ -31,11 +38,11 @@ LearnerFcstARIMA = R6Class("LearnerFcstARIMA",
 
       super$initialize(
         id = "fcst.arima",
-        param_set = ps,
+        param_set = param_set,
         feature_types = c("logical", "integer", "numeric"),
-        packages = c("mlr3learners", "forecast"),
+        packages = c("mlr3forecast", "forecast"),
         label = "ARIMA",
-        man = "mlr3learners::mlr_learners_arima.arima"
+        man = "mlr3forecast::mlr_learners_fcst.arima"
       )
     }
   ),
@@ -44,7 +51,7 @@ LearnerFcstARIMA = R6Class("LearnerFcstARIMA",
     .max_index = NULL,
 
     .train = function(task) {
-      if (length(task$col_roles$order) == 0L) {
+      if ("ordered" %nin% task$properties) {
         stopf("%s learner requires an ordered task.", self$id)
       }
       private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
@@ -52,33 +59,34 @@ LearnerFcstARIMA = R6Class("LearnerFcstARIMA",
       if ("weights" %in% task$properties) {
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
-      if (length(task$feature_names) > 0) {
-        xreg = as.matrix(task$data(cols = task$feature_names))
+
+      if (is_task_featureless(task)) {
         invoke(forecast::Arima,
-          y = task$data(rows = task$row_ids, cols = task$target_names),
-          xreg = xreg,
+          y = as.ts(task$data(cols = task$target_names)),
           .args = pv
         )
       } else {
+        xreg = as.matrix(task$data(cols = task$feature_names))
         invoke(forecast::Arima,
-          y = task$data(rows = task$row_ids, cols = task$target_names),
-          .args = pv)
+          y = as.ts(task$data(cols = task$target_names)),
+          xreg = xreg,
+          .args = pv
+        )
       }
     },
 
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       if (private$.is_newdata(task)) {
-        if (length(task$feature_names) > 0) {
+        if (is_task_featureless(task)) {
+          prediction = invoke(forecast::forecast, self$model, h = length(task$row_ids))
+        } else {
           newdata = as.matrix(task$data(cols = task$feature_names))
           prediction = invoke(forecast::forecast, self$model, xreg = newdata)
-        } else {
-          prediction = invoke(forecast::forecast, self$model, h = length(task$row_ids))
-          browser()
         }
         list(response = prediction$mean)
       } else {
-        prediction = stats::fitted(self$model[task$row_ids])
+        prediction = stats::fitted(self$model)[task$row_ids]
         list(response = prediction)
       }
     },

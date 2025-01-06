@@ -44,32 +44,32 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 435.7733
-#>        2    NA 440.4321
-#>        3    NA 458.4990
+#>        1    NA 433.9804
+#>        2    NA 436.2909
+#>        3    NA 456.6843
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 456.7135
-#>        2   390 417.1032
-#>        3   432 436.2424
+#>        1   461 458.1193
+#>        2   390 411.2993
+#>        3   432 432.5985
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.03074
+#>  12.41393
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  49.41445
+#>  48.07301
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.85324
+#>  26.31197
 ```
 
 ### Multivariate
@@ -89,34 +89,34 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)$train(new_task)
 prediction = flrn$predict(new_task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.91973
+#>  13.75817
 
 row_ids = new_task$nrow - 0:2
 flrn$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 433.3423
-#>        2   390 433.5130
-#>        3   461 452.9323
+#>        1   432 435.1631
+#>        2   390 432.3781
+#>        3   461 454.9814
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 flrn$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 433.3423
-#>        2    NA 433.5130
-#>        3    NA 452.9323
+#>        1    NA 435.1631
+#>        2    NA 432.3781
+#>        3    NA 454.9814
 
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(new_task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  50.09286
+#>  52.16247
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  24.34197
+#>   26.3378
 ```
 
 ### mlr3pipelines integration
@@ -131,7 +131,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  12.84843
+#>  12.75032
 ```
 
 ### Example: Forecasting electricity demand
@@ -205,14 +205,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  22146.48
+#>   21184.4
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  90171.22
+#>  90376.96
 ```
 
 ### Example: Global vs Local Forecasting
@@ -247,7 +247,7 @@ row_ids = tab[year >= 2015, row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  32553.87
+#>  33028.77
 
 # global forecasting
 task = tsibbledata::aus_livestock |>
@@ -268,7 +268,7 @@ row_ids = tab[year >= 2015 & state == "Western Australia", row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  32208.81
+#>  31142.26
 ```
 
 ### Example: generate new data
@@ -325,13 +325,44 @@ newdata
 #> 12 1961-12-01         NA
 ```
 
-### Example: WIP
+### Example: Native Forecasting Learners
 
 ``` r
-task = tsk("airpassengers")
-task$select(setdiff(task$feature_names, "date"))
-learner = LearnerFcstARIMA$new()$train(task)
+task = tsk("airpassengers")$select(setdiff(task$feature_names, "date"))
+learner = lrn("fcst.arima", order = c(2L, 1L, 2L))$train(task)
+#> Registered S3 method overwritten by 'quantmod':
+#>   method            from
+#>   as.zoo.data.frame zoo
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+#> regr.rmse 
+#>  50.62826
 newdata = generate_newdata(task, 12L, "month")
-learner$predict(task, 140:144)
 learner$predict_newdata(newdata, task)
+#> <PredictionRegr> for 12 observations:
+#>  row_ids truth response
+#>        1    NA 483.8637
+#>        2    NA 465.9727
+#>        3    NA 469.4676
+#>      ---   ---      ---
+#>       10    NA 466.3308
+#>       11    NA 466.2953
+#>       12    NA 466.2723
+
+learner = lrn("fcst.auto_arima")$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+#> regr.rmse 
+#>  39.62379
+newdata = generate_newdata(task, 12L, "month")
+learner$predict_newdata(newdata, task)
+#> <PredictionRegr> for 12 observations:
+#>  row_ids truth response
+#>        1    NA 483.3799
+#>        2    NA 490.9993
+#>        3    NA 520.2773
+#>      ---   ---      ---
+#>       10    NA 500.2729
+#>       11    NA 507.3034
+#>       12    NA 512.9829
 ```
