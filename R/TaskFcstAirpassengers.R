@@ -22,7 +22,7 @@ load_task_airpassengers = function(id = "airpassengers") {
   setnames(dt, c("date", "passengers"))
   b = as_data_backend(dt)
 
-  task = TaskFcst$new(
+  task = TaskRegr$new(
     id = id,
     backend = b,
     target = "passengers",

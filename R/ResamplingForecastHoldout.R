@@ -68,6 +68,13 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
 
   private = list(
     .sample_old = function(ids, ...) {
+      if ("ordered" %nin% task$properties) {
+        stopf(
+          "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
+          self$id, task$id
+        )
+      }
+
       pars = self$param_set$get_values()
       ratio = pars$ratio
       n = pars$n
@@ -91,6 +98,13 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
     },
 
     .sample = function(ids, task, ...) {
+      if ("ordered" %nin% task$properties) {
+        stopf(
+          "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
+          self$id, task$id
+        )
+      }
+
       pars = self$param_set$get_values()
       ratio = pars$ratio
       n = pars$n
@@ -109,10 +123,10 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
       }
 
       order_cols = task$col_roles$order
-      key_cols = task$key
-      has_key = !is.null(key_cols)
+      key_cols = task$col_roles$key
+      has_key_cols = length(key_cols) > 0L
       tab = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
-      if (has_key) {
+      if (has_key_cols) {
         setnames(tab, c("row_id", "order", "key"))
         setorderv(tab, c("key", "order"))
         n_groups = length(unique(tab$key))

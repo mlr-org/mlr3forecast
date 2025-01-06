@@ -103,7 +103,12 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
     },
 
     .sample_new = function(ids, task, ...) {
-      .NotYetImplemented()
+      if ("ordered" %nin% task$properties) {
+        stopf(
+          "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
+          self$id, task$id
+        )
+      }
 
       pars = self$param_set$get_values()
       horizon = pars$horizon
@@ -113,7 +118,7 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
       fixed_window = pars$fixed_window
 
       order_cols = task$col_roles$order
-      key_cols = task$key
+      key_cols = task$col_roles$key
       has_key = length(key_cols) > 0L
 
       tab = task$backend$data(

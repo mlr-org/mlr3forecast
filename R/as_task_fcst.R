@@ -32,11 +32,13 @@ as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, key = NULL, 
 
   assert_choice(target, x$colnames)
   assert_choice(index, x$colnames)
+  assert_choice(key, x$colnames, null.ok = TRUE)
 
-  task = TaskFcst$new(
-    id = id, backend = x, target = target, target = target, key = key, label = label, ...
-  )
+  task = TaskRegr$new(id = id, backend = x, target = target, label = label, ...)
   task$col_roles$order = index
+  if (!is.null(key)) {
+    task$col_roles$key = key
+  }
   task
 }
 
@@ -58,11 +60,14 @@ as_task_fcst.data.frame = function(x, target = NULL, index = NULL, key = NULL, i
   assert_choice(key, names(x), null.ok = TRUE)
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
-  if (length(ii)) {
+  if (length(ii) > 0L) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  task = TaskFcst$new(id = id, backend = x, target = target, key = key, label = label)
+  task = TaskRegr$new(id = id, backend = x, target = target, label = label, ...)
   task$col_roles$order = index
+  if (!is.null(key)) {
+    task$col_roles$key = key
+  }
   task
 }

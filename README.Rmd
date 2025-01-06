@@ -180,6 +180,7 @@ graph = ppl("convert_types", "Date", "POSIXct") %>>%
     )
   )
 task = graph$train(task)[[1L]]
+task$col_roles$key = "state"
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
@@ -232,6 +233,7 @@ task = tsibbledata::aus_livestock |>
   setorder(state, month) |>
   as_task_fcst(target = "count", index = "month", key = "state")
 task = graph$train(task)[[1L]]
+task$col_roles$key = "state"
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1L)$train(task)
 tab = task$backend$data(
   rows = task$row_ids, cols = c(task$backend$primary_key, "month.year", "state")

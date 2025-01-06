@@ -29,7 +29,6 @@ LazyData: true
 Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.3.2
 Collate:
-    'DataBackendTimeSeries.R'
     'ForecastLearner.R'
     'zzz.R'
     'LearnerARIMA.R'
@@ -37,7 +36,6 @@ Collate:
     'MeasureDirectional.R'
     'ResamplingForecastCV.R'
     'ResamplingForecastHoldout.R'
-    'TaskFcst.R'
     'TaskFcstAirpassengers.R'
     'as_task_fcst.R'
     'bibentries.R'

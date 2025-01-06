@@ -11,7 +11,7 @@ mlr3forecast_tasks = new.env()
 mlr3forecast_learners = new.env()
 mlr3forecast_measures = new.env()
 mlr3forecast_feature_types = c(dte = "Date")
-# mlr3forecast_col_roles = "key"
+mlr3forecast_col_roles = "key"
 
 named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
@@ -38,6 +38,9 @@ register_mlr3 = function() {
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
   mlr_reflections$learner_properties$fcst = mlr_reflections$learner_properties$regr
   mlr_reflections$task_col_roles$fcst = mlr_reflections$task_col_roles$regr
+  mlr_reflections$task_col_roles$regr = union(
+    mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles
+  )
   mlr_reflections$task_feature_types = named_union(
     mlr_reflections$task_feature_types, mlr3forecast_feature_types
   )

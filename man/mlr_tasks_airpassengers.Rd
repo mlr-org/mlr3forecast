@@ -26,7 +26,7 @@ tsk("airpassengers")
 \itemize{
 \item Task type: \dQuote{regr}
 \item Dimensions: 144x2
-\item Properties: -
+\item Properties: \dQuote{ordered}
 \item Has Missings: \code{FALSE}
 \item Target: \dQuote{passengers}
 \item Features: \dQuote{date}
@@ -49,8 +49,5 @@ tsk("airpassengers")
 \item Probabilistic supervised regression and survival analysis: \url{https://mlr3proba.mlr-org.com/}.
 }
 }
-
-Other Task: 
-\code{\link{TaskFcst}}
 }
 \concept{Task}

@@ -12,21 +12,14 @@ ForecastLearner = R6::R6Class("ForecastLearner",
     #' The lag
     lag = NULL,
 
-    #' @field trafo ([Graph])\cr
-    #' The task transformation
-    trafo = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param task ([Task])\cr
     #' @param learner ([Learner])\cr
     #' @param lag (`integer(1)`)\cr
-    #' @param trafo ([Graph])\cr
-    initialize = function(learner, lag, trafo = NULL) {
+    initialize = function(learner, lag) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
       self$lag = assert_integerish(lag, lower = 1L, any.missing = FALSE, coerce = TRUE)
-      self$trafo = trafo
-      # self$trafo = as_graph(trafo, clone = TRUE)
 
       super$initialize(
         id = learner$id,
@@ -72,7 +65,6 @@ ForecastLearner = R6::R6Class("ForecastLearner",
       preds = map(row_ids, function(i) {
         new_x = private$.lag_transform(dt, target)[i]
         pred = self$model$learner$predict_newdata(new_x)
-        # set is faster with DT
         dt[i, (target) := pred$response]
         pred
       })
@@ -90,11 +82,11 @@ ForecastLearner = R6::R6Class("ForecastLearner",
       lag = self$lag
       nms = sprintf("%s_lag_%s", target, lag)
       dt = copy(dt)
-      key = private$.task$key
-      if (is.null(key)) {
-        dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
+      key_coles = private$.task$col_roles$key
+      if (length(key_coles) > 0L) {
+        dt[, (nms) := shift(.SD, n = lag, type = "lag"), by = key_coles, .SDcols = target]
       } else {
-        dt[, (nms) := shift(.SD, n = lag, type = "lag"), by = key, .SDcols = target]
+        dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
       }
       dt
     },
