@@ -34,7 +34,7 @@ Should a fixed sized window be used? If \code{FALSE} an expanding window is used
 
 \examples{
 # Create a task with 10 observations
-task = tsk("penguins")
+task = tsk("airpassengers")
 task$filter(1:20)
 
 # Instantiate Resampling

@@ -8,6 +8,8 @@
 #' 2. [data.frame()] and [DataBackend]: provides an alternative to the constructor of [TaskFcst].
 #'
 #' @inheritParams mlr3::as_task
+#' @param index (`character(1)`) the column name of the index.
+#' @param key (`character(1)`) the column name of the key.
 #'
 #' @return [TaskFcst].
 #' @export

@@ -47,6 +47,8 @@ Name of the target column.}
 \item{index}{(\code{character(1)})\cr
 Name of the column in the data containing the index.}
 
+\item{key}{(\code{character(1)}) the column name of the key.}
+
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
 Defaults to the (deparsed and substituted) name of the data argument.}
