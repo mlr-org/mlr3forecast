@@ -5,7 +5,6 @@
 <url><loc>https://mlr3forecast.mlr-org.com/index.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/news/index.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/ForecastLearner.html</loc></url>
-<url><loc>https://mlr3forecast.mlr-org.com/reference/LearnerFcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/MeasureMDA.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/MeasureMDPV.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/MeasureMDV.html</loc></url>
@@ -13,6 +12,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/index.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr3forecast-package.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_forecast_cv.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_forecast_holdout.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_tasks_airpassengers.html</loc></url>
