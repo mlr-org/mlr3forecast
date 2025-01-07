@@ -3,13 +3,14 @@
 #' @name mlr_learners_fcst.auto_arima
 #'
 #' @description
-#' ...
+#' Auto ARIMA model.
+#' Calls [forecast::auto.arima()] from package \CRANpkg{forecast}.
 #'
 #' @templateVar id fcst.auto_arima
 #' @template learner
 #'
 #' @references
-#' ...
+#' `r format_bib("hyndman2018automatic")`
 #'
 #' @export
 #' @template seealso_learner

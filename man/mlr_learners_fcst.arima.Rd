@@ -5,7 +5,8 @@
 \alias{LearnerFcstARIMA}
 \title{ARIMA}
 \description{
-...
+ARIMA model.
+Calls \code{\link[forecast:Arima]{forecast::Arima()}} from package \CRANpkg{forecast}.
 }
 \section{Dictionary}{
 
@@ -38,9 +39,6 @@ lrn("fcst.arima")
 }
 }
 
-\references{
-...
-}
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:

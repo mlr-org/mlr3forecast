@@ -5,7 +5,8 @@
 \alias{LearnerFcstAutoARIMA}
 \title{ARIMA}
 \description{
-...
+Auto ARIMA model.
+Calls \code{\link[forecast:auto.arima]{forecast::auto.arima()}} from package \CRANpkg{forecast}.
 }
 \section{Dictionary}{
 
@@ -49,7 +50,10 @@ lrn("fcst.auto_arima")
 }
 
 \references{
-...
+Hyndman, J. R, Khandakar, Yeasmin (2008).
+\dQuote{Automatic Time Series Forecasting: The forecast Package for R.}
+\emph{Journal of Statistical Software}, \bold{27}(3), 1--22.
+\doi{10.18637/jss.v027.i03}, \url{https://www.jstatsoft.org/index.php/jss/article/view/v027i03}.
 }
 \seealso{
 \itemize{

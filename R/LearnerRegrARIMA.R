@@ -3,13 +3,11 @@
 #' @name mlr_learners_fcst.arima
 #'
 #' @description
-#' ...
+#' ARIMA model.
+#' Calls [forecast::Arima()] from package \CRANpkg{forecast}.
 #'
 #' @templateVar id fcst.arima
 #' @template learner
-#'
-#' @references
-#' ...
 #'
 #' @export
 #' @template seealso_learner

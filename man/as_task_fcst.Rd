@@ -2,14 +2,11 @@
 % Please edit documentation in R/as_task_fcst.R
 \name{as_task_fcst}
 \alias{as_task_fcst}
-\alias{as_task_fcst.TaskFcst}
 \alias{as_task_fcst.DataBackend}
 \alias{as_task_fcst.data.frame}
 \title{Convert to a Forecast Task}
 \usage{
 as_task_fcst(x, ...)
-
-\method{as_task_fcst}{TaskFcst}(x, clone = FALSE, ...)
 
 \method{as_task_fcst}{DataBackend}(
   x,
@@ -38,9 +35,6 @@ Object to convert.}
 \item{...}{(any)\cr
 Additional arguments.}
 
-\item{clone}{(\code{logical(1)})\cr
-If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}.}
-
 \item{target}{(\code{character(1)})\cr
 Name of the target column.}
 
@@ -57,14 +51,14 @@ Defaults to the (deparsed and substituted) name of the data argument.}
 Label for the new instance.}
 }
 \value{
-\link{TaskFcst}.
+\link[mlr3:TaskRegr]{mlr3::TaskRegr}.
 }
 \description{
-Convert object to a \link{TaskFcst}.
+Convert object to a \link{TaskRegr}.
 This is a S3 generic. mlr3forecast ships with methods for the following objects:
 \enumerate{
 \item \link{TaskRegr}: ensure the identity
-\item \code{\link[=data.frame]{data.frame()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskFcst}.
+\item \code{\link[=data.frame]{data.frame()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskRegr}.
 }
 }
 \examples{
