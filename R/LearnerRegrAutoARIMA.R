@@ -42,7 +42,7 @@ LearnerFcstAutoARIMA = R6Class("LearnerFcstAutoARIMA",
       super$initialize(
         id = "fcst.auto_arima",
         param_set = param_set,
-        feature_types = c("logical", "integer", "numeric"),
+        feature_types = c("Date", "logical", "integer", "numeric"),
         packages = c("mlr3forecast", "forecast"),
         label = "Auto ARIMA",
         man = "mlr3forecast::mlr_learners_fcst.arima"
@@ -69,7 +69,7 @@ LearnerFcstAutoARIMA = R6Class("LearnerFcstAutoARIMA",
           .args = pv
         )
       } else {
-        xreg = as.matrix(task$data(cols = task$feature_names))
+        xreg = as.matrix(task$data(cols = fcst_feature_names(task)))
         invoke(forecast::auto.arima,
           y = stats::ts(task$data(cols = task$target_names)[[1L]]),
           xreg = xreg,
@@ -84,7 +84,7 @@ LearnerFcstAutoARIMA = R6Class("LearnerFcstAutoARIMA",
         if (is_task_featureless(task)) {
           prediction = invoke(forecast::forecast, self$model, h = length(task$row_ids))
         } else {
-          newdata = as.matrix(task$data(cols = task$feature_names))
+          newdata = as.matrix(task$data(cols = fcst_feature_names(task)))
           prediction = invoke(forecast::forecast, self$model, xreg = newdata)
         }
         list(response = prediction$mean)

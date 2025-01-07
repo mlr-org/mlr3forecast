@@ -288,7 +288,7 @@ newdata
 ### Example: Native Forecasting Learners
 
 ```{r}
-task = tsk("airpassengers")$select(setdiff(task$feature_names, "date"))
+task = tsk("airpassengers")
 learner = lrn("fcst.arima", order = c(2L, 1L, 2L))$train(task)
 prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
