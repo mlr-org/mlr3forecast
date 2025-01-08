@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.auto_arima}
 \alias{mlr_learners_fcst.auto_arima}
 \alias{LearnerFcstAutoArima}
-\title{ARIMA}
+\title{Auto ARIMA}
 \description{
 Auto ARIMA model.
 Calls \code{\link[forecast:auto.arima]{forecast::auto.arima()}} from package \CRANpkg{forecast}.
@@ -77,11 +77,13 @@ for established default tuning spaces.
 Other Learner: 
 \code{\link{mlr_learners_fcst.arfima}},
 \code{\link{mlr_learners_fcst.arima}},
-\code{\link{mlr_learners_fcst.ets}}
+\code{\link{mlr_learners_fcst.bats}},
+\code{\link{mlr_learners_fcst.ets}},
+\code{\link{mlr_learners_fcst.tbats}}
 }
 \concept{Learner}
 \section{Super classes}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{LearnerFcstAutoArima}
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{mlr3forecast::LearnerRegrForecast} -> \code{LearnerFcstAutoArima}
 }
 \section{Methods}{
 \subsection{Public methods}{

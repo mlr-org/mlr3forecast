@@ -61,11 +61,13 @@ for established default tuning spaces.
 Other Learner: 
 \code{\link{mlr_learners_fcst.arfima}},
 \code{\link{mlr_learners_fcst.auto_arima}},
-\code{\link{mlr_learners_fcst.ets}}
+\code{\link{mlr_learners_fcst.bats}},
+\code{\link{mlr_learners_fcst.ets}},
+\code{\link{mlr_learners_fcst.tbats}}
 }
 \concept{Learner}
 \section{Super classes}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{LearnerFcstArima}
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{mlr3forecast::LearnerRegrForecast} -> \code{LearnerFcstArima}
 }
 \section{Methods}{
 \subsection{Public methods}{

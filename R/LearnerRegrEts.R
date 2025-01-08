@@ -15,7 +15,7 @@
 #' @export
 #' @template seealso_learner
 LearnerFcstEts = R6Class("LearnerFcstEts",
-  inherit = LearnerRegr,
+  inherit = LearnerRegrForecast,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -45,7 +45,7 @@ LearnerFcstEts = R6Class("LearnerFcstEts",
         id = "fcst.ets",
         param_set = param_set,
         predict_types = c("response", "quantiles"),
-        feature_types = c("Date", "logical", "integer", "numeric"),
+        feature_types = c("Date", "integer", "numeric"),
         properties = c("univariate", "missings"),
         packages = c("mlr3forecast", "forecast"),
         label = "ETS",
@@ -55,8 +55,6 @@ LearnerFcstEts = R6Class("LearnerFcstEts",
   ),
 
   private = list(
-    .max_index = NULL,
-
     .train = function(task) {
       if ("ordered" %nin% task$properties) {
         stopf("%s learner requires an ordered task.", self$id)
@@ -72,46 +70,6 @@ LearnerFcstEts = R6Class("LearnerFcstEts",
         y = stats::ts(task$data(cols = task$target_names)[[1L]]),
         .args = pv
       )
-    },
-
-    .predict = function(task) {
-      pv = self$param_set$get_values(tags = "predict")
-      is_quantile = self$predict_type == "quantiles"
-
-      if (!private$.is_newdata(task)) {
-        if (is_quantile) {
-          stopf("Quantile prediction not supported for in-sample prediction.")
-        }
-        pred = self$model$fitted[task$row_ids]
-        return(list(response = pred))
-      }
-
-      args = list(h = length(task$row_ids))
-      if (is_quantile) {
-        args = insert_named(args, list(level = quantiles_to_level(private$.quantiles)))
-      }
-      pred = invoke(forecast::forecast, self$model, .args = args)
-
-      if (!is_quantile) {
-        return(list(response = as.numeric(pred$mean)))
-      }
-
-      # might not be robust enough with position instead of name
-      pred$lower = pred$lower[, rev(seq_len(ncol(pred$lower)))]
-      quantiles = cbind(
-        pred$lower,
-        if (0.5 %in% private$.quantiles) pred$mean,
-        pred$upper
-      )
-      attr(quantiles, "probs") = private$.quantiles
-      attr(quantiles, "response") = private$.quantile_response
-      list(quantiles = quantiles)
-    },
-
-    .is_newdata = function(task) {
-      order_cols = task$col_roles$order
-      idx = task$backend$data(rows = task$row_ids, cols = order_cols)[[1L]]
-      !any(private$.max_index %in% idx)
     }
   )
 )

@@ -322,4 +322,18 @@ prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 newdata = generate_newdata(task, 12L, "month")
 learner$predict_newdata(newdata, task)
+
+task = tsk("airpassengers")
+learner = lrn("fcst.tbats")$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+newdata = generate_newdata(task, 12L, "month")
+learner$predict_newdata(newdata, task)
+
+task = tsk("airpassengers")
+learner = lrn("fcst.bats")$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+newdata = generate_newdata(task, 12L, "month")
+learner$predict_newdata(newdata, task)
 ```
