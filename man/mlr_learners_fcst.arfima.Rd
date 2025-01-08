@@ -28,8 +28,18 @@ lrn("fcst.arfima")
 }
 
 \section{Parameters}{
-
-Empty ParamSet
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   drange \tab untyped \tab c(0, 0.5) \tab  \cr
+   estim \tab character \tab mle \tab mle, ls \cr
+   lambda \tab untyped \tab NULL \tab  \cr
+   order \tab untyped \tab c(0L, 0L, 0L) \tab  \cr
+   seasonal \tab untyped \tab c(0L, 0L, 0L) \tab  \cr
+   include.mean \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   include.drift \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   method \tab character \tab CSS-ML \tab CSS-ML, ML, CSS \cr
+}
 }
 
 \references{
@@ -66,7 +76,7 @@ Other Learner:
 }
 \concept{Learner}
 \section{Super classes}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{mlr3forecast::LearnerRegrForecast} -> \code{LearnerFcstArfima}
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerRegrForecast]{mlr3forecast::LearnerRegrForecast}} -> \code{LearnerFcstArfima}
 }
 \section{Methods}{
 \subsection{Public methods}{

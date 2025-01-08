@@ -32,7 +32,6 @@ LearnerRegrForecast = R6Class("LearnerRegrForecast",
         return(list(response = as.numeric(pred$mean)))
       }
 
-      # might not be robust enough with position instead of name
       pred$lower = pred$lower[, rev(seq_len(ncol(pred$lower)))]
       quantiles = cbind(
         pred$lower,

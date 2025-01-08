@@ -85,7 +85,7 @@ Other Learner:
 }
 \concept{Learner}
 \section{Super classes}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{mlr3forecast::LearnerRegrForecast} -> \code{LearnerFcstEts}
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerRegrForecast]{mlr3forecast::LearnerRegrForecast}} -> \code{LearnerFcstEts}
 }
 \section{Methods}{
 \subsection{Public methods}{
