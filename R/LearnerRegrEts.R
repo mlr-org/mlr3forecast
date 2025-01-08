@@ -46,6 +46,7 @@ LearnerFcstEts = R6Class("LearnerFcstEts",
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = c("Date", "logical", "integer", "numeric"),
+        properties = c("univariate", "missings"),
         packages = c("mlr3forecast", "forecast"),
         label = "ETS",
         man = "mlr3forecast::mlr_learners_fcst.ets"

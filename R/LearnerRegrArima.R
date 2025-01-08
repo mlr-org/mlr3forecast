@@ -39,6 +39,7 @@ LearnerFcstArima = R6Class("LearnerFcstArima",
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = c("Date", "logical", "integer", "numeric"),
+        properties = c("univariate", "exogenous", "missings"),
         packages = c("mlr3forecast", "forecast"),
         label = "ARIMA",
         man = "mlr3forecast::mlr_learners_fcst.arima"

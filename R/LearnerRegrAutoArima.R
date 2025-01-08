@@ -1,4 +1,4 @@
-#' @title ARIMA
+#' @title Auto ARIMA
 #'
 #' @name mlr_learners_fcst.auto_arima
 #'
@@ -44,6 +44,7 @@ LearnerFcstAutoArima = R6Class("LearnerFcstAutoArima",
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = c("Date", "logical", "integer", "numeric"),
+        properties = c("univariate", "exogenous", "missings"),
         packages = c("mlr3forecast", "forecast"),
         label = "Auto ARIMA",
         man = "mlr3forecast::mlr_learners_fcst.arima"
