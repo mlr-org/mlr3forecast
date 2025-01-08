@@ -28,8 +28,27 @@ lrn("fcst.ets")
 }
 
 \section{Parameters}{
-
-Empty ParamSet
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   model \tab untyped \tab "ZZZ" \tab  \tab - \cr
+   damped \tab logical \tab NULL \tab TRUE, FALSE \tab - \cr
+   alpha \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   beta \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   gamma \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   phi \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   additive.only \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   lambda \tab untyped \tab - \tab  \tab - \cr
+   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   lower \tab untyped \tab c(rep(1e-04, 3), 0.8) \tab  \tab - \cr
+   upper \tab untyped \tab c(rep(0.9999, 3), 0.98) \tab  \tab - \cr
+   opt.crit \tab character \tab lik \tab lik, amse, mse, sigma, mae \tab - \cr
+   nmse \tab integer \tab 3 \tab  \tab \eqn{[0, 30]}{[0, 30]} \cr
+   bounds \tab character \tab both \tab both, usual, admissible \tab - \cr
+   ic \tab character \tab aicc \tab aicc, aic, bic \tab - \cr
+   restrict \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   allow.multiplicative.trend \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   na.action \tab character \tab na.contiguous \tab na.contiguous, na.interp, na.fail \tab - \cr
+}
 }
 
 \references{
