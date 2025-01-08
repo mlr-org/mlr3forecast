@@ -31,8 +31,10 @@ RoxygenNote: 7.3.2
 Collate:
     'ForecastLearner.R'
     'zzz.R'
-    'LearnerRegrARIMA.R'
-    'LearnerRegrAutoARIMA.R'
+    'LearnerRegrArfima.R'
+    'LearnerRegrArima.R'
+    'LearnerRegrAutoArima.R'
+    'LearnerRegrEts.R'
     'MeasureDirectional.R'
     'ResamplingForecastCV.R'
     'ResamplingForecastHoldout.R'

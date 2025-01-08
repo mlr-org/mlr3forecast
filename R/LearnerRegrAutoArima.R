@@ -14,7 +14,7 @@
 #'
 #' @export
 #' @template seealso_learner
-LearnerFcstAutoARIMA = R6Class("LearnerFcstAutoARIMA",
+LearnerFcstAutoArima = R6Class("LearnerFcstAutoArima",
   inherit = LearnerRegr,
   public = list(
     #' @description
@@ -65,18 +65,15 @@ LearnerFcstAutoARIMA = R6Class("LearnerFcstAutoARIMA",
       }
 
       if (is_task_featureless(task)) {
-        invoke(forecast::auto.arima,
-          y = stats::ts(task$data(cols = task$target_names)[[1L]]),
-          .args = pv
-        )
+        xreg = NULL
       } else {
         xreg = as.matrix(task$data(cols = fcst_feature_names(task)))
-        invoke(forecast::auto.arima,
-          y = stats::ts(task$data(cols = task$target_names)[[1L]]),
-          xreg = xreg,
-          .args = pv
-        )
       }
+      invoke(forecast::auto.arima,
+        y = stats::ts(task$data(cols = task$target_names)[[1L]]),
+        xreg = xreg,
+        .args = pv
+      )
     },
 
     .predict = function(task) {
@@ -116,7 +113,6 @@ LearnerFcstAutoARIMA = R6Class("LearnerFcstAutoARIMA",
       attr(quantiles, "probs") = private$.quantiles
       attr(quantiles, "response") = private$.quantile_response
       list(quantiles = quantiles)
-
     },
 
     .is_newdata = function(task) {
@@ -128,4 +124,4 @@ LearnerFcstAutoARIMA = R6Class("LearnerFcstAutoARIMA",
 )
 
 #' @include zzz.R
-register_learner("fcst.auto_arima", LearnerFcstAutoARIMA)
+register_learner("fcst.auto_arima", LearnerFcstAutoArima)

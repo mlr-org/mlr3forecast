@@ -1,47 +1,35 @@
-#' @title ARIMA
+#' @title ETS
 #'
-#' @name mlr_learners_fcst.arima
+#' @name mlr_learners_fcst.ets
 #'
 #' @description
-#' ARIMA model.
-#' Calls [forecast::Arima()] from package \CRANpkg{forecast}.
+#' ETS model.
+#' Calls [forecast::ets()] from package \CRANpkg{forecast}.
 #'
-#' @templateVar id fcst.arima
+#' @templateVar id fcst.ets
 #' @template learner
+#'
+#' @references
+#' `r format_bib("hyndman2018automatic")`
 #'
 #' @export
 #' @template seealso_learner
-LearnerFcstARIMA = R6Class("LearnerFcstARIMA",
+LearnerFcstEts = R6Class("LearnerFcstEts",
   inherit = LearnerRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(
-        order = p_uty(
-          default = c(0L, 0L, 0L),
-          tags = "train",
-          custom_check = crate(function(x) check_integerish(x, lower = 0L, len = 3L))
-        ),
-        seasonal = p_uty(
-          default = c(0L, 0L, 0L),
-          tags = "train",
-          custom_check = crate(function(x) check_integerish(x, lower = 0L, len = 3L))
-        ),
-        include.mean = p_lgl(default = TRUE, tags = "train"),
-        include.drift = p_lgl(default = FALSE, tags = "train"),
-        biasadj = p_lgl(default = FALSE, tags = "train"),
-        method = p_fct(c("CSS-ML", "ML", "CSS"), default = "CSS-ML", tags = "train")
-      )
+      param_set = ps()
 
       super$initialize(
-        id = "fcst.arima",
+        id = "fcst.ets",
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = c("Date", "logical", "integer", "numeric"),
         packages = c("mlr3forecast", "forecast"),
-        label = "ARIMA",
-        man = "mlr3forecast::mlr_learners_fcst.arima"
+        label = "ETS",
+        man = "mlr3forecast::mlr_learners_fcst.ets"
       )
     }
   ),
@@ -59,19 +47,10 @@ LearnerFcstARIMA = R6Class("LearnerFcstARIMA",
         pv = insert_named(pv, list(weights = task$weights$weight))
       }
 
-      if (is_task_featureless(task)) {
-        invoke(forecast::Arima,
-          y = stats::ts(task$data(cols = task$target_names)[[1L]]),
-          .args = pv
-        )
-      } else {
-        xreg = as.matrix(task$data(cols = fcst_feature_names(task)))
-        invoke(forecast::Arima,
-          y = stats::ts(task$data(cols = task$target_names)[[1L]]),
-          xreg = xreg,
-          .args = pv
-        )
-      }
+      invoke(forecast::ets,
+        y = stats::ts(task$data(cols = task$target_names)[[1L]]),
+        .args = pv
+      )
     },
 
     .predict = function(task) {
@@ -86,12 +65,7 @@ LearnerFcstARIMA = R6Class("LearnerFcstARIMA",
         return(list(response = pred))
       }
 
-      if (is_task_featureless(task)) {
-        args = list(h = length(task$row_ids))
-      } else {
-        newdata = as.matrix(task$data(cols = fcst_feature_names(task)))
-        args = list(xreg = newdata)
-      }
+      args = list(h = length(task$row_ids))
       if (is_quantile) {
         args = insert_named(args, list(level = quantiles_to_level(private$.quantiles)))
       }
@@ -122,4 +96,4 @@ LearnerFcstARIMA = R6Class("LearnerFcstARIMA",
 )
 
 #' @include zzz.R
-register_learner("fcst.arima", LearnerFcstARIMA)
+register_learner("fcst.ets", LearnerFcstEts)

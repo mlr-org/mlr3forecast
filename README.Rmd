@@ -308,4 +308,18 @@ learner = lrn("fcst.auto_arima",
   quantile_response = 0.5
 )$train(task)
 learner$predict_newdata(newdata, task)
+
+task = tsk("airpassengers")
+learner = lrn("fcst.arfima")$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+newdata = generate_newdata(task, 12L, "month")
+learner$predict_newdata(newdata, task)
+
+task = tsk("airpassengers")
+learner = lrn("fcst.ets")$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+newdata = generate_newdata(task, 12L, "month")
+learner$predict_newdata(newdata, task)
 ```
