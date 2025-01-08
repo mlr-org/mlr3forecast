@@ -65,7 +65,7 @@ Calls <code>forecast::ets()</code> from package <a href="https://CRAN.R-project.
 
 <ul><li><p>Task type: “regr”</p></li>
 <li><p>Predict Types: “response”, “quantiles”</p></li>
-<li><p>Feature Types: “logical”, “integer”, “numeric”, “Date”</p></li>
+<li><p>Feature Types: “integer”, “numeric”, “Date”</p></li>
 <li><p>Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=mlr3forecast" class="external-link"><span class="pkg">mlr3forecast</span></a>, <a href="https://CRAN.R-project.org/package=forecast" class="external-link"><span class="pkg">forecast</span></a></p></li>
 </ul></div>
     <div class="section level2">
@@ -99,11 +99,13 @@ for established default tuning spaces.</p></li>
 </ul><p>Other Learner:
 <code><a href="mlr_learners_fcst.arfima.html">mlr_learners_fcst.arfima</a></code>,
 <code><a href="mlr_learners_fcst.arima.html">mlr_learners_fcst.arima</a></code>,
-<code><a href="mlr_learners_fcst.auto_arima.html">mlr_learners_fcst.auto_arima</a></code></p></div>
+<code><a href="mlr_learners_fcst.auto_arima.html">mlr_learners_fcst.auto_arima</a></code>,
+<code><a href="mlr_learners_fcst.bats.html">mlr_learners_fcst.bats</a></code>,
+<code><a href="mlr_learners_fcst.tbats.html">mlr_learners_fcst.tbats</a></code></p></div>
     </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
-    <p><code><a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">mlr3::LearnerRegr</a></code> -&gt; <code>LearnerFcstEts</code></p>
+    <p><code><a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">mlr3::LearnerRegr</a></code> -&gt; <code><a href="LearnerRegrForecast.html">mlr3forecast::LearnerRegrForecast</a></code> -&gt; <code>LearnerFcstEts</code></p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
