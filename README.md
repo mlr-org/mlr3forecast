@@ -44,32 +44,32 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 435.9582
-#>        2    NA 435.6452
-#>        3    NA 455.2647
+#>        1    NA 437.2451
+#>        2    NA 439.3843
+#>        3    NA 461.2471
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 456.7750
-#>        2   390 412.2228
-#>        3   432 431.6033
+#>        1   461 457.7431
+#>        2   390 413.8638
+#>        3   432 432.6294
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.06217
+#>  13.91023
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  48.02502
+#>  46.68332
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.43955
+#>  24.67847
 ```
 
 ### Multivariate
@@ -89,34 +89,34 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)$train(new_task)
 prediction = flrn$predict(new_task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  14.16161
+#>  13.99064
 
 row_ids = new_task$nrow - 0:2
 flrn$predict_newdata(new_task$data(rows = row_ids), new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   432 433.9538
-#>        2   390 431.6852
-#>        3   461 457.1615
+#>        1   432 432.8296
+#>        2   390 432.0847
+#>        3   461 455.1287
 newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
 flrn$predict_newdata(newdata, new_task)
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 433.9538
-#>        2    NA 431.6852
-#>        3    NA 457.1615
+#>        1    NA 432.8296
+#>        2    NA 432.0847
+#>        3    NA 455.1287
 
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(new_task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  46.99669
+#>  50.06297
 
 resampling = rsmp("forecast_cv")
 rr = resample(new_task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  26.67119
+#>  25.54383
 ```
 
 ### mlr3pipelines integration
@@ -131,7 +131,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.63586
+#>  16.18166
 ```
 
 ### Example: Forecasting electricity demand
@@ -205,14 +205,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  22628.38
+#>  24551.88
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  93334.76
+#>  90846.16
 ```
 
 ### Example: Global vs Local Forecasting
@@ -247,7 +247,7 @@ row_ids = tab[year >= 2015, row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  32862.98
+#>  32498.95
 
 # global forecasting
 task = tsibbledata::aus_livestock |>
@@ -268,7 +268,7 @@ row_ids = tab[year >= 2015 & state == "Western Australia", row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  30804.78
+#>  31155.03
 ```
 
 ### Example: generate new data
@@ -365,4 +365,21 @@ learner$predict_newdata(newdata, task)
 #>       10    NA 500.2729
 #>       11    NA 507.3034
 #>       12    NA 512.9829
+
+# works with quantile response
+learner = lrn("fcst.auto_arima",
+  predict_type = "quantiles",
+  quantiles = c(0.1, 0.15, 0.5, 0.85, 0.9),
+  quantile_response = 0.5
+)$train(task)
+learner$predict_newdata(newdata, task)
+#> <PredictionRegr> for 12 observations:
+#>  row_ids truth     q0.1    q0.15     q0.5    q0.85     q0.9 response
+#>        1    NA 449.3201 455.8346 483.3799 510.9252 517.4397 483.3799
+#>        2    NA 439.6752 449.4918 490.9993 532.5069 542.3235 490.9993
+#>        3    NA 464.0693 474.8200 520.2773 565.7347 576.4854 520.2773
+#>      ---   ---      ---      ---      ---      ---      ---      ---
+#>       10    NA 440.1583 451.6562 500.2729 548.8896 560.3875 500.2729
+#>       11    NA 446.7823 458.3580 507.3034 556.2489 567.8246 507.3034
+#>       12    NA 452.1168 463.7584 512.9829 562.2074 573.8491 512.9829
 ```

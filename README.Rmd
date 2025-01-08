@@ -300,4 +300,12 @@ prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 newdata = generate_newdata(task, 12L, "month")
 learner$predict_newdata(newdata, task)
+
+# works with quantile response
+learner = lrn("fcst.auto_arima",
+  predict_type = "quantiles",
+  quantiles = c(0.1, 0.15, 0.5, 0.85, 0.9),
+  quantile_response = 0.5
+)$train(task)
+learner$predict_newdata(newdata, task)
 ```
