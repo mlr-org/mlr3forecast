@@ -10,7 +10,7 @@
 #' @template learner
 #'
 #' @references
-#' `r format_bib("hyndman2018automatic")`
+#' `r format_bib("livera2011complex")`
 #'
 #' @export
 #' @template seealso_learner

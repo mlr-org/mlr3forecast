@@ -44,10 +44,9 @@ lrn("fcst.tbats")
 }
 
 \references{
-Hyndman, J. R, Khandakar, Yeasmin (2008).
-\dQuote{Automatic Time Series Forecasting: The forecast Package for R.}
-\emph{Journal of Statistical Software}, \bold{27}(3), 1--22.
-\doi{10.18637/jss.v027.i03}, \url{https://www.jstatsoft.org/index.php/jss/article/view/v027i03}.
+De Livera, A.M., Hyndman, R.J., Snyder &, D. R (2011).
+\dQuote{Forecasting time series with complex seasonal patterns using exponential smoothing.}
+\emph{Journal of the American Statistical Association}, \bold{106}(496), 1513--1527.
 }
 \seealso{
 \itemize{

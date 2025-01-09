@@ -43,6 +43,10 @@ lrn("fcst.arfima")
 }
 
 \references{
+Haslett, John, Raftery, E A (1989).
+\dQuote{Space-time Modelling with Long-memory Dependence: Assessing Ireland's Wind Power Resource.}
+\emph{Journal of the Royal Statistical Society: Series C (Applied Statistics)}, \bold{38}(1), 1--21.
+
 Hyndman, J. R, Khandakar, Yeasmin (2008).
 \dQuote{Automatic Time Series Forecasting: The forecast Package for R.}
 \emph{Journal of Statistical Software}, \bold{27}(3), 1--22.

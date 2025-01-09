@@ -9,6 +9,9 @@
 #' @templateVar id fcst.arima
 #' @template learner
 #'
+#' @references
+#' `r format_bib("hyndman2018fpp")`
+#'
 #' @export
 #' @template seealso_learner
 LearnerFcstArima = R6Class("LearnerFcstArima",

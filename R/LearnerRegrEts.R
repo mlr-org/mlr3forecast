@@ -10,7 +10,7 @@
 #' @template learner
 #'
 #' @references
-#' `r format_bib("hyndman2018automatic")`
+#' `r format_bib("hyndman2002state", "hyndman2008admissible", "hyndman2008smoothing")`
 #'
 #' @export
 #' @template seealso_learner

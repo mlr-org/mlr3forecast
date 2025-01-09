@@ -10,7 +10,7 @@
 #' @template learner
 #'
 #' @references
-#' `r format_bib("hyndman2018automatic")`
+#' `r format_bib("haslett1989space", "hyndman2018automatic")`
 #'
 #' @export
 #' @template seealso_learner

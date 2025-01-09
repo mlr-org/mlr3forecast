@@ -39,6 +39,12 @@ lrn("fcst.arima")
 }
 }
 
+\references{
+Hyndman, R.J., Athanasopoulos, G. (2018).
+\emph{Forecasting: principles and practice}, 2nd edition.
+OTexts, Melbourne, Australia.
+\url{https://OTexts.com/fpp2/}.
+}
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:

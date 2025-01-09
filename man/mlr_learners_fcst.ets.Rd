@@ -52,10 +52,18 @@ lrn("fcst.ets")
 }
 
 \references{
-Hyndman, J. R, Khandakar, Yeasmin (2008).
-\dQuote{Automatic Time Series Forecasting: The forecast Package for R.}
-\emph{Journal of Statistical Software}, \bold{27}(3), 1--22.
-\doi{10.18637/jss.v027.i03}, \url{https://www.jstatsoft.org/index.php/jss/article/view/v027i03}.
+Hyndman, R.J., Koehler, A.B., Snyder, R.D., Grose, S. (2002).
+\dQuote{A state space framework for automatic forecasting using exponential smoothing methods.}
+\emph{International J. Forecasting}, \bold{18}(3), 439--454.
+
+Hyndman, R.J., Akram, Md., Archibald, B. (2008).
+\dQuote{The admissible parameter space for exponential smoothing models.}
+\emph{Annals of Statistical Mathematics}, \bold{60}(2), 407--426.
+
+Hyndman, R.J., Koehler, A.B., Ord, J.K., Snyder, R.D. (2008).
+\emph{Forecasting with exponential smoothing: the state space approach}.
+Springer-Verlag.
+\url{http://www.exponentialsmoothing.net}.
 }
 \seealso{
 \itemize{
