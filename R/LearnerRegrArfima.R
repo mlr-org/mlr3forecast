@@ -60,9 +60,6 @@ LearnerFcstArfima = R6Class("LearnerFcstArfima",
       }
       private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
       pv = self$param_set$get_values(tags = "train")
-      if ("weights" %in% task$properties) {
-        pv = insert_named(pv, list(weights = task$weights$weight))
-      }
 
       xreg = NULL
       if (is_task_featureless(task)) {

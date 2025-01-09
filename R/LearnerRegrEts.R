@@ -74,10 +74,6 @@ LearnerFcstEts = R6Class("LearnerFcstEts",
       }
       private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
       pv = self$param_set$get_values(tags = "train")
-      # TODO: is this relefant for ETS?
-      if ("weights" %in% task$properties) {
-        pv = insert_named(pv, list(weights = task$weights$weight))
-      }
 
       invoke(forecast::ets,
         y = stats::ts(task$data(cols = task$target_names)[[1L]]),
