@@ -74,7 +74,8 @@ ForecastLearner = R6::R6Class("ForecastLearner",
     },
 
     .predict_direct = function(dt, n) {
-      # one model for each step
+      # one model for each step, would also need to adjust .train(),
+      # might make more sense have a special class for each method
       .NotYetImplemented()
     },
 

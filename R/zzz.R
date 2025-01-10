@@ -3,6 +3,7 @@
 #' @import data.table
 #' @import mlr3
 #' @import mlr3misc
+#' @import mlr3pipelines
 #' @import paradox
 "_PACKAGE"
 
@@ -14,6 +15,9 @@ mlr3forecast_feature_types = c(dte = "Date")
 mlr3forecast_col_roles = "key"
 mlr3forecast_learner_properties = c("univariate", "multivariate", "exogenous", "missings")
 
+mlr3forecast_pipeops = new.env()
+mlr3forecast_pipeop_tags = "fcst"
+
 named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
 register_item = function(env, type) {
@@ -21,6 +25,13 @@ register_item = function(env, type) {
     if (hasName(env, name)) stopf("%s %s registered twice", type, name)
     env[[name]] = constructor
   }
+}
+
+# metainf must be manually added in the register_mlr3pipelines function
+# Because the value is substituted, we cannot pass it through this function
+register_po = function(name, constructor) {
+  if (hasName(mlr3forecast_pipeops, name)) stopf("pipeop %s registered twice", name)
+  mlr3forecast_pipeops[[name]] = list(constructor = constructor)
 }
 
 register_resampling = register_item(mlr3forecast_resamplings, "resampling")
@@ -70,6 +81,17 @@ register_mlr3 = function() {
   iwalk(as.list(mlr3forecast_measures), function(measure, id) mlr_measures$add(id, measure))
 }
 
+register_mlr3pipelines = function() {
+  mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
+  mlr_pipeops = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
+  iwalk(as.list(mlr3forecast_pipeops), function(value, name) {
+    mlr_pipeops$add(name, value$constructor, value$metainf)
+  })
+  mlr_reflections$pipeops$valid_tags = union(
+    mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags
+  )
+}
+
 .onLoad = function(libname, pkgname) {
   backports::import(pkgname)
   backports::import(pkgname, "hasName", force = TRUE)
@@ -80,6 +102,7 @@ register_mlr3 = function() {
   }
 
   register_namespace_callback(pkgname, "mlr3", register_mlr3)
+  register_namespace_callback(pkgname, "mlr3pipelines", register_mlr3pipelines)
 }
 
 .onUnload = function(libPaths) { # nolint
@@ -87,12 +110,16 @@ register_mlr3 = function() {
   walk(names(mlr3forecast_tasks), function(nm) mlr_tasks$remove(nm))
   walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
   walk(names(mlr3forecast_measures), function(nm) mlr_measures$remove(nm))
+  walk(names(mlr3forecast_pipeops), function(nm) mlr_pipeops$remove(nm))
 
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   mlr_reflections$task_feature_types =
     mlr_reflections$task_feature_types[mlr_reflections$task_feature_types %nin% mlr3forecast_feature_types] # nolint
   reflections = c("learner_predict_types", "task_col_roles", "task_properties")
   walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
+  mlr_reflections$pipeops$valid_tags = setdiff(
+    mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags
+  )
 }
 
 leanify_package()

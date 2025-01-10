@@ -117,7 +117,7 @@ prediction$score(msr("regr.rmse"))
 
 ### Example: Forecasting electricity demand
 
-```{r, eval = FALSE}
+```{r}
 library(mlr3learners)
 library(mlr3pipelines)
 
@@ -151,7 +151,6 @@ newdata = data.frame(
   temperature = 26,
   holiday = c(TRUE, rep(FALSE, 13L))
 )
-# NOTE: glrn$predict_newdata() throws an incorrect dimension error
 prediction = glrn$predict_newdata(newdata, task)
 prediction
 ```
@@ -336,4 +335,14 @@ prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 newdata = generate_newdata(task, 12L, "month")
 learner$predict_newdata(newdata, task)
+```
+
+### Custom PipeOps
+
+```{r, eval = FALSE}
+library(mlr3pipelines)
+
+task = tsk("airpassengers")
+pop = po("fcst.lags")
+pop$train(list(task))[[1L]]
 ```

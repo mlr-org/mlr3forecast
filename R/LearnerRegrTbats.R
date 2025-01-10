@@ -55,7 +55,7 @@ LearnerFcstTbats = R6Class("LearnerFcstTbats",
       pv = self$param_set$get_values(tags = "train")
 
       invoke(forecast::tbats,
-        y = stats::ts(task$data(cols = task$target_names)[[1L]]),
+        y = stats::ts(task$truth()),
         .args = pv
       )
     }
