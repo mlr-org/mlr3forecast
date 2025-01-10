@@ -81,11 +81,11 @@ ForecastLearner = R6::R6Class("ForecastLearner",
 
     .lag_transform = function(dt, target) {
       lag = self$lag
-      nms = sprintf("%s_lag_%s", target, lag)
+      nms = sprintf("%s_lag_%i", target, lag)
       dt = copy(dt)
-      key_coles = private$.task$col_roles$key
-      if (length(key_coles) > 0L) {
-        dt[, (nms) := shift(.SD, n = lag, type = "lag"), by = key_coles, .SDcols = target]
+      key_cols = private$.task$col_roles$key
+      if (length(key_cols) > 0L) {
+        dt[, (nms) := shift(.SD, n = lag, type = "lag"), by = key_cols, .SDcols = target]
       } else {
         dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
       }

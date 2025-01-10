@@ -339,10 +339,10 @@ learner$predict_newdata(newdata, task)
 
 ### Custom PipeOps
 
-```{r, eval = FALSE}
+```{r}
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
-pop = po("fcst.lags")
+pop = po("fcst.lags", lag = 1:12)
 pop$train(list(task))[[1L]]
 ```
