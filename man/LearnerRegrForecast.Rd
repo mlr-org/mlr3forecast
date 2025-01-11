@@ -2,11 +2,11 @@
 % Please edit documentation in R/LearnerRegrForecast.R
 \name{LearnerRegrForecast}
 \alias{LearnerRegrForecast}
-\title{Abstract class for {forecast} learner}
+\title{Abstract class for forecast package learner}
 \description{
-Abstract class for {forecast} learner
+Abstract class for forecast package learner
 
-Abstract class for {forecast} learner
+Abstract class for forecast package learner
 }
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{LearnerRegrForecast}

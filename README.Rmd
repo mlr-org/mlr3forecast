@@ -369,6 +369,14 @@ glrn$predict_newdata(newdata, task)
 
 ### Example: common target transformations
 
+Some common target transformations in forecasting are:
+
+- differencing (WIP)
+- log transformation, see example below
+- power transformations such as [Box-Cox](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_boxcox.html) and [Yeo-Johnson](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_yeojohnson.html)
+  currently only supported as feature transformation and not target
+- scaling/normalization, available see [here](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_targettrafoscalerange.html)
+
 ```{r}
 trafo = po("targetmutate",
   param_vals = list(
@@ -388,7 +396,7 @@ graph = po("fcst.lag", lag = 1:12) %>>%
   )
 
 task = tsk("airpassengers")
-flrn = as_fcst_learner(lrn("regr.ranger"))
+flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)
 pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
 glrn = as_learner(pipeline)$train(task)

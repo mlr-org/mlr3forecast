@@ -60,8 +60,3 @@ ForecastRecursiveLearner = R6::R6Class("ForecastRecursiveLearner",
     }
   )
 )
-
-#' @export
-as_fcst_learner = function(learner) {
-  ForecastRecursiveLearner$new(learner)
-}

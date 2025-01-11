@@ -3,7 +3,7 @@ PipeOpTargetTrafoDifference = R6Class("PipeOpTargetTrafoDifference",
   public = list(
     initialize = function(id = "fcst.targetdiff", param_vals = list()) {
       param_set = ps(
-        lag = p_int(tags = c("train", "required"))
+        lag = p_int(1L, tags = c("train", "required"))
       )
       param_set$set_values(lag = 1L)
 
@@ -11,8 +11,8 @@ PipeOpTargetTrafoDifference = R6Class("PipeOpTargetTrafoDifference",
         id = id,
         param_set = param_set,
         param_vals = param_vals,
-        packages = c("mlr3forecast", "mlr3pipelines")
-        # task_type_in = "TaskRegr"
+        packages = c("mlr3forecast", "mlr3pipelines"),
+        task_type_in = "TaskRegr"
       )
     }
   ),

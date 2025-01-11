@@ -1,4 +1,4 @@
-#' @title Abstract class for {forecast} learner
+#' @title Abstract class for forecast package learner
 #'
 LearnerRegrForecast = R6Class("LearnerRegrForecast",
   inherit = LearnerRegr,
