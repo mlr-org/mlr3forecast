@@ -337,7 +337,7 @@ newdata = generate_newdata(task, 12L, "month")
 learner$predict_newdata(newdata, task)
 ```
 
-### Custom PipeOps
+### Example: Custom PipeOps
 
 ```{r}
 library(mlr3learners)
@@ -365,4 +365,33 @@ prediction$score(msr("regr.rmse"))
 
 newdata = generate_newdata(task, 12L, "month")
 glrn$predict_newdata(newdata, task)
+```
+
+### Example: common target transformations
+
+```{r}
+trafo = po("targetmutate",
+  param_vals = list(
+    trafo = function(x) log(x),
+    inverter = function(x) list(response = exp(x$response))
+  )
+)
+
+graph = po("fcst.lag", lag = 1:12) %>>%
+  ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(
+      week_of_year = FALSE, day_of_week = FALSE, day_of_month = FALSE,
+      day_of_year = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE,
+      second = FALSE
+    )
+  )
+
+task = tsk("airpassengers")
+flrn = as_fcst_learner(lrn("regr.ranger"))
+glrn = as_learner(graph %>>% flrn)
+pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
+glrn = as_learner(pipeline)$train(task)
+prediction = glrn$predict(task, 142:144)
+prediction$score(msr("regr.rmse"))
 ```
