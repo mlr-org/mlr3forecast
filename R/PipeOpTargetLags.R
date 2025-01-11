@@ -1,4 +1,19 @@
-PipeOpLags = R6Class("PipeOpLags",
+#' @title Creat Lags of Target Variable
+#' @name mlr_pipeops_fcst.lag
+#'
+#' @description
+#' ...
+#'
+#' @section Parameters:
+#' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreproc],
+#' as well as the following parameters:
+#' * `lag` :: `integer()`\cr
+#'   The lags to create.
+#'
+#' @export
+#' @examples
+#' set.seed(1234L)
+PipeOpFcstLag = R6Class("PipeOpFcstLag",
   inherit = PipeOpTaskPreproc,
   public = list(
     #' @description Initializes a new instance of this Class.
@@ -25,26 +40,41 @@ PipeOpLags = R6Class("PipeOpLags",
 
   private = list(
     .train_task = function(task) {
-      pv = self$param_set$get_values()
+      pv = self$param_set$get_values(tags = "train")
       lag = pv$lag
       target = task$target_names
       key_cols = task$col_roles$key
       order_cols = task$col_roles$order
       dt = task$data()
+      self$state = list(dt = dt[(.N - max(lag)):.N])
       nms = sprintf("%s_lag_%i", target, lag)
-      self$state = list(dt = dt)
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))
-        dt[, (nms) := shift(.SD, n = lag, type = "lag"), by = key_cols, .SDcols = target]
+        dt[, (nms) := shift(.SD, lag), by = key_cols, .SDcols = target]
       } else {
         setorderv(dt, order_cols)
-        dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = target]
+        dt[, (nms) := shift(.SD, lag), .SDcols = target]
       }
       task$select(task$feature_names)$cbind(dt)
     },
 
     .predict_task = function(task) {
-      .NotYetImplemented()
+      pv = self$param_set$get_values(tags = "predict")
+      lag = pv$lag
+      target = task$target_names
+      key_cols = task$col_roles$key
+      order_cols = task$col_roles$order
+      dt = rbind(self$state$dt, task$data())
+      nms = sprintf("%s_lag_%i", target, lag)
+      if (length(key_cols) > 0L) {
+        setorderv(dt, c(key_cols, order_cols))
+        dt[, (nms) := shift(.SD, lag), by = key_cols, .SDcols = target]
+      } else {
+        setorderv(dt, order_cols)
+        dt[, (nms) := shift(.SD, lag), .SDcols = target]
+      }
+      dt = dt[(.N - task$nrow + 1L):.N]
+      task$select(task$feature_names)$cbind(dt)
     },
 
     .predict_task_original = function(task) {
@@ -83,7 +113,7 @@ PipeOpLags = R6Class("PipeOpLags",
       lag = pv$lag
       nms = sprintf("target_lag_%i", lag)
       dt[, target := target]
-      dt[, (nms) := shift(.SD, n = lag, type = "lag"), .SDcols = "target"]
+      dt[, (nms) := shift(.SD, lag), .SDcols = "target"]
       dt[, target := NULL]
       dt
     },
@@ -95,4 +125,4 @@ PipeOpLags = R6Class("PipeOpLags",
 )
 
 #' @include zzz.R
-register_po("fcst.lags", PipeOpLags)
+register_po("fcst.lag", PipeOpFcstLag)

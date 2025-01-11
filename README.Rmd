@@ -340,9 +340,29 @@ learner$predict_newdata(newdata, task)
 ### Custom PipeOps
 
 ```{r}
+library(mlr3learners)
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
-pop = po("fcst.lags", lag = 1:12)
-pop$train(list(task))[[1L]]
+pop = po("fcst.lag", lag = 1:12)
+new_task = pop$train(list(task))[[1L]]
+new_task$data()
+
+task = tsk("airpassengers")
+graph = po("fcst.lag", lag = 1:12) %>>%
+  ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(
+      week_of_year = FALSE, day_of_week = FALSE, day_of_month = FALSE,
+      day_of_year = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE,
+      second = FALSE
+    )
+  )
+flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
+glrn = as_learner(graph %>>% flrn)$train(task)
+prediction = glrn$predict(task, 142:144)
+prediction$score(msr("regr.rmse"))
+
+newdata = generate_newdata(task, 12L, "month")
+glrn$predict_newdata(newdata, task)
 ```
