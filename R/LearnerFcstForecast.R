@@ -1,7 +1,7 @@
 #' @title Abstract class for forecast package learner
 #'
 LearnerRegrForecast = R6Class("LearnerRegrForecast",
-  inherit = LearnerRegr,
+  inherit = LearnerFcst,
   private = list(
     .max_index = NULL,
 
@@ -17,7 +17,7 @@ LearnerRegrForecast = R6Class("LearnerRegrForecast",
         return(list(response = pred))
       }
 
-      if ("univariate" %chin% self$properties && is_task_featureless(task)) {
+      if ("featureless" %chin% self$properties || is_task_featureless(task)) {
         args = list(h = length(task$row_ids))
       } else {
         newdata = as.matrix(task$data(cols = fcst_feature_names(task)))

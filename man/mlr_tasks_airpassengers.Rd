@@ -24,12 +24,12 @@ tsk("airpassengers")
 \section{Meta Information}{
 
 \itemize{
-\item Task type: \dQuote{regr}
-\item Dimensions: 144x2
+\item Task type: \dQuote{fcst}
+\item Dimensions: 144x1
 \item Properties: \dQuote{ordered}
 \item Has Missings: \code{FALSE}
 \item Target: \dQuote{passengers}
-\item Features: \dQuote{date}
+\item Features: -
 }
 }
 
@@ -49,5 +49,8 @@ tsk("airpassengers")
 \item Probabilistic supervised regression and survival analysis: \url{https://mlr3proba.mlr-org.com/}.
 }
 }
+
+Other Task: 
+\code{\link{TaskFcst}}
 }
 \concept{Task}

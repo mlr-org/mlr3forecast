@@ -1,12 +1,12 @@
-#' @title TBATS
+#' @title BATS
 #'
-#' @name mlr_learners_fcst.tbats
+#' @name mlr_learners_fcst.bats
 #'
 #' @description
-#' TBATS model.
-#' Calls [forecast::tbats()] from package \CRANpkg{forecast}.
+#' BATS model.
+#' Calls [forecast::bats()] from package \CRANpkg{forecast}.
 #'
-#' @templateVar id fcst.tbats
+#' @templateVar id fcst.bats
 #' @template learner
 #'
 #' @references
@@ -14,7 +14,7 @@
 #'
 #' @export
 #' @template seealso_learner
-LearnerFcstTbats = R6Class("LearnerFcstTbats",
+LearnerFcstBats = R6Class("LearnerFcstBats",
   inherit = LearnerRegrForecast,
   public = list(
     #' @description
@@ -34,14 +34,14 @@ LearnerFcstTbats = R6Class("LearnerFcstTbats",
       )
 
       super$initialize(
-        id = "fcst.tbats",
+        id = "fcst.bats",
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = c("Date", "integer", "numeric"),
-        properties = c("univariate", "missings"),
+        properties = c("featureless", "missings"),
         packages = c("mlr3forecast", "forecast"),
-        label = "TBATS",
-        man = "mlr3forecast::mlr_learners_fcst.tbats"
+        label = "BATS",
+        man = "mlr3forecast::mlr_learners_fcst.bats"
       )
     }
   ),
@@ -63,4 +63,4 @@ LearnerFcstTbats = R6Class("LearnerFcstTbats",
 )
 
 #' @include zzz.R
-register_learner("fcst.tbats", LearnerFcstTbats)
+register_learner("fcst.bats", LearnerFcstBats)

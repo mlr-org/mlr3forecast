@@ -12,7 +12,9 @@ knitr::opts_chunk$set(
 
 lgr::get_logger("mlr3")$set_threshold("warn")
 options(datatable.print.class = FALSE, datatable.print.keys = FALSE)
+library(checkmate)
 library(data.table)
+library(mlr3misc)
 ```
 
 
@@ -45,10 +47,78 @@ pak::pak("mlr-org/mlr3forecast")
 
 ## Usage
 
-### Univariate
+### Example: native forecast learner
+
+First lets create a helper function to generate new data for forecasting tasks.
+
+```{r}
+library(mlr3forecast)
+
+generate_newdata = function(task, n = 1L, resolution = "day") {
+  assert_count(n)
+  assert_string(resolution)
+  assert_choice(
+    resolution, c("second", "minute", "hour", "day", "week", "month", "quarter", "year")
+  )
+
+  order_cols = task$col_roles$order
+  target = task$target_names
+  max_index = max(task$data(cols = order_cols)[[1L]])
+
+  unit = switch(resolution,
+    second = "sec",
+    minute = "min",
+    hour = ,
+    day = ,
+    week = ,
+    month = ,
+    quarter = ,
+    year = identity(resolution),
+    stopf("Invalid resolution")
+  )
+  unit = sprintf("1 %s", unit)
+  index = seq(max_index, length.out = n + 1L, by = unit)
+  index = index[2:length(index)]
+
+  newdata = data.table(index = index, target = rep(NA_real_, n))
+  setnames(newdata, c(order_cols, target))
+  setDF(newdata)[]
+}
+
+task = tsk("airpassengers")
+newdata = generate_newdata(task, 12L, "month")
+newdata
+```
+
+Currently, we support native forecasting learners from the forecast package.
+In the future, we plan to support more forecasting learners.
+
+```{r}
+task = tsk("airpassengers")
+learner = lrn("fcst.arima", order = c(2L, 1L, 2L))$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+newdata = generate_newdata(task, 12L, "month")
+learner$predict_newdata(newdata, task)
+
+learner = lrn("fcst.auto_arima")$train(task)
+prediction = learner$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+newdata = generate_newdata(task, 12L, "month")
+learner$predict_newdata(newdata, task)
+
+# works with quantile response
+learner = lrn("fcst.auto_arima",
+  predict_type = "quantiles",
+  quantiles = c(0.1, 0.15, 0.5, 0.85, 0.9),
+  quantile_response = 0.5
+)$train(task)
+learner$predict_newdata(newdata, task)
+```
+
+### machine learning forecasting
 
 ```{r, message = FALSE}
-library(mlr3forecast)
 library(mlr3learners)
 
 task = tsk("airpassengers")
@@ -74,7 +144,6 @@ rr$aggregate(msr("regr.rmse"))
 ### Multivariate
 
 ```{r}
-library(mlr3learners)
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
@@ -133,7 +202,7 @@ task = tsibbledata::vic_elec |>
     ),
     by = date
   ] |>
-  as_task_fcst(target = "demand", index = "date")
+  as_task_fcst(id = "vic_elec", target = "demand", order = "date")
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
@@ -168,7 +237,7 @@ task = tsibbledata::aus_livestock |>
   _[, month := as.Date(month)] |>
   _[, .(count = sum(count)), by = .(state, month)] |>
   setorder(state, month) |>
-  as_task_fcst(target = "count", index = "month", key = "state")
+  as_task_fcst(id = "aus_livestock", target = "count", order = "month", key = "state")
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
@@ -193,6 +262,9 @@ rr$aggregate(msr("regr.rmse"))
 
 ### Example: Global vs Local Forecasting
 
+In machine learning forecasting the difference between forecasting a time series
+and longitudinal data is often refered to local and global forecasting.
+
 ```{r}
 # TODO: find better task example, since the effect is minor here
 
@@ -212,7 +284,7 @@ task = tsibbledata::aus_livestock |>
   _[, month := as.Date(month)] |>
   _[state == "Western Australia", .(count = sum(count)), by = .(month)] |>
   setorder(month) |>
-  as_task_fcst(target = "count", index = "month")
+  as_task_fcst(id = "aus_livestock", target = "count", order = "month")
 task = graph$train(task)[[1L]]
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1L)$train(task)
 tab = task$backend$data(
@@ -230,7 +302,7 @@ task = tsibbledata::aus_livestock |>
   _[, month := as.Date(month)] |>
   _[, .(count = sum(count)), by = .(state, month)] |>
   setorder(state, month) |>
-  as_task_fcst(target = "count", index = "month", key = "state")
+  as_task_fcst(id = "aus_livestock", target = "count", order = "month", key = "state")
 task = graph$train(task)[[1L]]
 task$col_roles$key = "state"
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1L)$train(task)
@@ -241,100 +313,6 @@ setnames(tab, c("row_id", "year", "state"))
 row_ids = tab[year >= 2015 & state == "Western Australia", row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
-```
-
-### Example: generate new data
-
-```{r}
-library(checkmate)
-
-generate_newdata = function(task, n = 1L, resolution = "day") {
-  assert_count(n)
-  assert_string(resolution)
-  assert_choice(
-    resolution, c("second", "minute", "hour", "day", "week", "month", "quarter", "year")
-  )
-
-  order_cols = task$col_roles$order
-  target = task$target_names
-  max_index = max(task$data(cols = order_cols)[[1L]])
-
-  unit = switch(resolution,
-    second = "sec",
-    minute = "min",
-    hour = ,
-    day = ,
-    week = ,
-    month = ,
-    quarter = ,
-    year = identity(resolution),
-    stopf("Invalid resolution")
-  )
-  unit = sprintf("1 %s", unit)
-  index = seq(max_index, length.out = n + 1L, by = unit)
-  index = index[2:length(index)]
-
-  newdata = data.table(index = index, target = rep(NA_real_, n))
-  setnames(newdata, c(order_cols, target))
-  setDF(newdata)[]
-}
-
-task = tsk("airpassengers")
-newdata = generate_newdata(task, 12L, "month")
-newdata
-```
-
-### Example: Native Forecasting Learners
-
-```{r}
-task = tsk("airpassengers")
-learner = lrn("fcst.arima", order = c(2L, 1L, 2L))$train(task)
-prediction = learner$predict(task, 140:144)
-prediction$score(msr("regr.rmse"))
-newdata = generate_newdata(task, 12L, "month")
-learner$predict_newdata(newdata, task)
-
-learner = lrn("fcst.auto_arima")$train(task)
-prediction = learner$predict(task, 140:144)
-prediction$score(msr("regr.rmse"))
-newdata = generate_newdata(task, 12L, "month")
-learner$predict_newdata(newdata, task)
-
-# works with quantile response
-learner = lrn("fcst.auto_arima",
-  predict_type = "quantiles",
-  quantiles = c(0.1, 0.15, 0.5, 0.85, 0.9),
-  quantile_response = 0.5
-)$train(task)
-learner$predict_newdata(newdata, task)
-
-task = tsk("airpassengers")
-learner = lrn("fcst.arfima")$train(task)
-prediction = learner$predict(task, 140:144)
-prediction$score(msr("regr.rmse"))
-newdata = generate_newdata(task, 12L, "month")
-learner$predict_newdata(newdata, task)
-
-task = tsk("airpassengers")
-learner = lrn("fcst.ets")$train(task)
-prediction = learner$predict(task, 140:144)
-prediction$score(msr("regr.rmse"))
-newdata = generate_newdata(task, 12L, "month")
-learner$predict_newdata(newdata, task)
-
-task = tsk("airpassengers")
-learner = lrn("fcst.tbats")$train(task)
-prediction = learner$predict(task, 140:144)
-prediction$score(msr("regr.rmse"))
-newdata = generate_newdata(task, 12L, "month")
-learner$predict_newdata(newdata, task)
-
-task = tsk("airpassengers")
-learner = lrn("fcst.bats")$train(task)
-prediction = learner$predict(task, 140:144)
-prediction$score(msr("regr.rmse"))
-newdata = generate_newdata(task, 12L, "month")
-learner$predict_newdata(newdata, task)
 ```
 
 ### Example: Custom PipeOps
@@ -398,6 +376,27 @@ graph = po("fcst.lag", lag = 1:12) %>>%
 task = tsk("airpassengers")
 flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)
+pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
+glrn = as_learner(pipeline)$train(task)
+prediction = glrn$predict(task, 142:144)
+prediction$score(msr("regr.rmse"))
+```
+
+```{r, eval = FALSE}
+graph = po("fcst.lag", lag = 1:12) %>>%
+  ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(
+      week_of_year = FALSE, day_of_week = FALSE, day_of_month = FALSE,
+      day_of_year = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE,
+      second = FALSE
+    )
+  )
+
+task = tsk("airpassengers")
+flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
+glrn = as_learner(graph %>>% flrn)
+trafo = po("fcst.targetdiff", lag = 12L)
 pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
 glrn = as_learner(pipeline)$train(task)
 prediction = glrn$predict(task, 142:144)

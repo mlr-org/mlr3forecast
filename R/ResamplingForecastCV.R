@@ -134,11 +134,7 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
         setorderv(tab, "order")
       }
 
-      if (!has_key) {
-      } else {
-
-      }
-
+      if (!has_key) {} else {}
     },
 
     .get_train = function(i) {

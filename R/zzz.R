@@ -13,7 +13,8 @@ mlr3forecast_learners = new.env()
 mlr3forecast_measures = new.env()
 mlr3forecast_feature_types = c(dte = "Date")
 mlr3forecast_col_roles = "key"
-mlr3forecast_learner_properties = c("univariate", "multivariate", "exogenous", "missings")
+# mlr3forecast_learner_properties = c("univariate", "multivariate", "exogenous", "missings")
+mlr3forecast_learner_properties = character()
 
 mlr3forecast_pipeops = new.env()
 mlr3forecast_pipeop_tags = "fcst"
@@ -45,17 +46,14 @@ register_mlr3 = function() {
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
     ~type, ~package, ~task, ~learner, ~prediction, ~prediction_data, ~measure,
-    "fcst", "mlr3forecast", "TaskRegr", "LearnerRegr", "PredictionFcst", "PredictionDataFcst", "MeasureFcst" # nolint
+    "fcst", "mlr3forecast", "TaskFcst", "LearnerRegr", "PredictionRegr", "PredictionDataRegr", "MeasureRegr" # nolint
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
   mlr_reflections$learner_properties$fcst = union(
     mlr_reflections$learner_properties$regr, mlr3forecast_learner_properties
   )
-  mlr_reflections$learner_properties$regr = union(
-    mlr_reflections$learner_properties$regr, mlr3forecast_learner_properties
-  )
-  mlr_reflections$task_col_roles$fcst = mlr_reflections$task_col_roles$regr
-  mlr_reflections$task_col_roles$regr = union(
+  # remove regr roles that should have no effect or expect setting
+  mlr_reflections$task_col_roles$fcst = union(
     mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles
   )
   mlr_reflections$task_feature_types = named_union(

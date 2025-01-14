@@ -16,26 +16,40 @@ PipeOpTargetTrafoDifference = R6Class("PipeOpTargetTrafoDifference",
       )
     }
   ),
+
   private = list(
     .get_state = function(task) {
-      pv = self$param_set$get_values(tags = "train")
-      list(first = task$data(cols = task$target_names)[[1L]][pv$lag])
+      lag = self$param_set$get_values(tags = "train")$lag
+      target = task$data(cols = task$target_names)[[1L]]
+      list(
+        head = target[lag],
+        tail = tail(target, lag)
+      )
     },
 
     .transform = function(task, phase) {
-      pv = self$param_set$get_values(tags = "train")
+      lag = self$param_set$get_values(tags = "train")$lag
       x = task$data(cols = task$target_names)[[1L]]
-      new_target = diff(x, lag = pv$lag)
-      new_target = c(rep(NA_real_, pv$lag), new_target)
+      if (phase == "predict") {
+        x = c(self$state$tail, x)
+      }
+      new_target = diff(x, lag = lag)
       new_target = as.data.table(new_target)
       setnames(new_target, paste0(task$target_names, ".diff"))
+      # TODO: check if there is a better approach
+      if (phase == "train") {
+        row_ids = task$row_ids
+        row_ids = row_ids[(1L + lag):length(row_ids)]
+        task$filter(row_ids)
+      }
       task$cbind(new_target)
       # TODO: check difference to task$rename, difference seems to be in backend logic
       convert_task(task, target = names(new_target), drop_original_target = TRUE)
     },
 
     .invert = function(prediction, predict_phase_state) {
-      response = self$state$first + cumsum(prediction$response)
+      .NotYetImplemented()
+      response = self$state$head + cumsum(prediction$response)
       PredictionRegr$new(
         row_ids = prediction$row_ids,
         truth = predict_phase_state$truth,

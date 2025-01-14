@@ -23,18 +23,19 @@ as_task_fcst = function(x, ...) {
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, key = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.DataBackend = function(x, target = NULL, order = character(), key = character(), id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
-  assert_choice(target, x$colnames)
-  assert_choice(index, x$colnames)
-  assert_choice(key, x$colnames, null.ok = TRUE)
-
-  task = TaskRegr$new(id = id, backend = x, target = target, label = label, ...)
-  task$col_roles$order = index
-  if (!is.null(key)) {
-    task$col_roles$key = key
+  cn = x$colnames
+  assert_choice(target, cn)
+  assert_choice(order, cn)
+  if (length(key) > 0L) {
+    assert_choice(key, cn)
   }
+
+  task = TaskFcst$new(id = id, backend = x, target = target, label = label, ...)
+  task$set_col_roles(order, add = "order")
+  task$set_col_roles(key, add = "key")
   task
 }
 
@@ -47,23 +48,24 @@ as_task_fcst.DataBackend = function(x, target = NULL, index = NULL, key = NULL, 
 #'   Name of the column in the data containing the index.
 #' @template param_label
 #' @export
-as_task_fcst.data.frame = function(x, target = NULL, index = NULL, key = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.data.frame = function(x, target = NULL, order = character(), key = character(), id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
-  assert_choice(target, names(x))
-  assert_choice(index, names(x))
-  assert_choice(key, names(x), null.ok = TRUE)
+  nms = names(x)
+  assert_choice(target, nms)
+  assert_choice(order, nms)
+  if (length(key) > 0L) {
+    assert_choice(key, nms)
+  }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  task = TaskRegr$new(id = id, backend = x, target = target, label = label, ...)
-  task$col_roles$order = index
-  if (!is.null(key)) {
-    task$col_roles$key = key
-  }
+  task = TaskFcst$new(id = id, backend = x, target = target, label = label, ...)
+  task$set_col_roles(order, add = "order")
+  task$set_col_roles(key, add = "key")
   task
 }
