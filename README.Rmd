@@ -62,7 +62,6 @@ generate_newdata = function(task, n = 1L, resolution = "day") {
   )
 
   order_cols = task$col_roles$order
-  target = task$target_names
   max_index = max(task$data(cols = order_cols)[[1L]])
 
   unit = switch(resolution,
@@ -80,9 +79,8 @@ generate_newdata = function(task, n = 1L, resolution = "day") {
   index = seq(max_index, length.out = n + 1L, by = unit)
   index = index[2:length(index)]
 
-  newdata = data.table(index = index, target = rep(NA_real_, n))
-  setnames(newdata, c(order_cols, target))
-  setDF(newdata)[]
+  newdata = data.frame(index = index, target = rep(NA_real_, n), check.names = FALSE)
+  setNames(newdata, c(order_cols, task$target_names))
 }
 
 task = tsk("airpassengers")
