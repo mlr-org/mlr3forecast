@@ -2,12 +2,49 @@
 % Please edit documentation in R/LearnerFcst.R
 \name{LearnerFcst}
 \alias{LearnerFcst}
-\title{Abstract class for forecast package learner}
+\title{Forecast Learner}
 \description{
-Abstract class for forecast package learner
+Forecast Learner
 
-Abstract class for forecast package learner
+Forecast Learner
 }
+\examples{
+# get all regression learners from mlr_learners:
+lrns = mlr_learners$mget(mlr_learners$keys("^regr"))
+names(lrns)
+
+# get a specific learner from mlr_learners:
+mlr_learners$get("regr.rpart")
+lrn("classif.featureless")
+}
+\seealso{
+\itemize{
+\item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
+\url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-learners}
+\item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
+\item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
+\item \code{as.data.table(mlr_learners)} for a table of available \link[=Learner]{Learners} in the running session (depending on the loaded packages).
+\item \CRANpkg{mlr3pipelines} to combine learners with pre- and postprocessing steps.
+\item Package \CRANpkg{mlr3viz} for some generic visualizations.
+\item Extension packages for additional task types:
+\itemize{
+\item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
+\item \CRANpkg{mlr3cluster} for unsupervised clustering.
+}
+\item \CRANpkg{mlr3tuning} for tuning of hyperparameters, \CRANpkg{mlr3tuningspaces}
+for established default tuning spaces.
+}
+
+Other Learner: 
+\code{\link{mlr_learners_fcst.arfima}},
+\code{\link{mlr_learners_fcst.arima}},
+\code{\link{mlr_learners_fcst.auto_arima}},
+\code{\link{mlr_learners_fcst.bats}},
+\code{\link{mlr_learners_fcst.ets}},
+\code{\link{mlr_learners_fcst.tbats}}
+}
+\concept{Learner}
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{LearnerFcst}
 }
@@ -53,6 +90,54 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{id}}{(\code{character(1)})\cr
+Identifier for the new instance.}
+
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+
+\item{\code{predict_types}}{(\code{character()})\cr
+Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+
+\item{\code{feature_types}}{(\code{character()})\cr
+Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+
+\item{\code{properties}}{(\code{character()})\cr
+Set of properties of the \link{Learner}.
+Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
+\itemize{
+\item \code{"missings"}: The learner can handle missing values in the data.
+\item \code{"weights"}: The learner supports observation weights.
+\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"validation"}: The learner can use a validation task during training.
+\item \code{"internal_tuning"}: The learner is able to internally optimize hyperparameters (those are also tagged with \code{"internal_tuning"}).
+\item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.
+If a learner is in a marshaled state, you call first need to call \verb{$unmarshal()} to use its model, e.g. for prediction.
+}}
+
+\item{\code{data_formats}}{(\code{character()})\cr
+Deprecated: ignored, and will be removed in the future.}
+
+\item{\code{packages}}{(\code{character()})\cr
+Set of required packages.
+A warning is signaled by the constructor if at least one of the packages is not installed,
+but loaded (not attached) later on-demand via \code{\link[=requireNamespace]{requireNamespace()}}.}
+
+\item{\code{label}}{(\code{character(1)})\cr
+Label for the new instance.}
+
+\item{\code{man}}{(\code{character(1)})\cr
+String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
+The referenced help package can be opened via method \verb{$help()}.}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LearnerFcst-clone"></a>}}

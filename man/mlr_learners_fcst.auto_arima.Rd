@@ -79,6 +79,7 @@ for established default tuning spaces.
 }
 
 Other Learner: 
+\code{\link{LearnerFcst}},
 \code{\link{mlr_learners_fcst.arfima}},
 \code{\link{mlr_learners_fcst.arima}},
 \code{\link{mlr_learners_fcst.bats}},

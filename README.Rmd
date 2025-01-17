@@ -353,7 +353,7 @@ Some common target transformations in forecasting are:
   currently only supported as feature transformation and not target
 - scaling/normalization, available see [here](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_targettrafoscalerange.html)
 
-```{r}
+```{r, eval = FALSE}
 trafo = po("targetmutate",
   param_vals = list(
     trafo = function(x) log(x),

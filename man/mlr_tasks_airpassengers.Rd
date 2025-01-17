@@ -25,11 +25,11 @@ tsk("airpassengers")
 
 \itemize{
 \item Task type: \dQuote{fcst}
-\item Dimensions: 144x1
+\item Dimensions: 144x2
 \item Properties: \dQuote{ordered}
 \item Has Missings: \code{FALSE}
 \item Target: \dQuote{passengers}
-\item Features: -
+\item Features: \dQuote{date}
 }
 }
 

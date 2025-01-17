@@ -33,8 +33,7 @@ as_task_fcst.DataBackend = function(x, target = NULL, order = character(), key =
     assert_choice(key, cn)
   }
 
-  task = TaskFcst$new(id = id, backend = x, target = target, label = label, ...)
-  task$set_col_roles(order, add = "order")
+  task = TaskFcst$new(id = id, backend = x, target = target, order = order, label = label, ...)
   task$set_col_roles(key, add = "key")
   task
 }
@@ -64,8 +63,7 @@ as_task_fcst.data.frame = function(x, target = NULL, order = character(), key = 
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  task = TaskFcst$new(id = id, backend = x, target = target, label = label, ...)
-  task$set_col_roles(order, add = "order")
+  task = TaskFcst$new(id = id, backend = x, target = target, order = order, label = label, ...)
   task$set_col_roles(key, add = "key")
   task
 }

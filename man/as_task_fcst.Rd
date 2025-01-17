@@ -11,8 +11,8 @@ as_task_fcst(x, ...)
 \method{as_task_fcst}{DataBackend}(
   x,
   target = NULL,
-  index = NULL,
-  key = NULL,
+  order = character(),
+  key = character(),
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -21,8 +21,8 @@ as_task_fcst(x, ...)
 \method{as_task_fcst}{data.frame}(
   x,
   target = NULL,
-  index = NULL,
-  key = NULL,
+  order = character(),
+  key = character(),
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -38,9 +38,6 @@ Additional arguments.}
 \item{target}{(\code{character(1)})\cr
 Name of the target column.}
 
-\item{index}{(\code{character(1)})\cr
-Name of the column in the data containing the index.}
-
 \item{key}{(\code{character(1)}) the column name of the key.}
 
 \item{id}{(\code{character(1)})\cr
@@ -49,6 +46,9 @@ Defaults to the (deparsed and substituted) name of the data argument.}
 
 \item{label}{(\code{character(1)})\cr
 Label for the new instance.}
+
+\item{index}{(\code{character(1)})\cr
+Name of the column in the data containing the index.}
 }
 \value{
 \link[mlr3:TaskRegr]{mlr3::TaskRegr}.

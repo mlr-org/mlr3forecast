@@ -1,11 +1,11 @@
 #' @title Forecast Task
 #'
 #' @description
-#' This task specializes [Task] and [TaskSupervised] for regression problems.
+#' This task specializes [Task], [TaskSupervised] and [TaskRegr] for forecasting problems.
 #' The target column is assumed to be numeric.
-#' The `task_type` is set to `"regr"`.
+#' The `task_type` is set to `"fcst"`.
 #'
-#' It is recommended to use [as_task_regr()] for construction.
+#' It is recommended to use [as_task_fcst()] for construction.
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
 #' @template param_rows
@@ -14,23 +14,26 @@
 #'
 #' @template seealso_task
 #' @export
-#' @examples
-#' task = as_task_regr(palmerpenguins::penguins, target = "bill_length_mm")
+#' @examplesIf requireNamespace("tsbox", quietly = TRUE)
+#' airpassengers = tsbox::ts_dt(load_dataset("AirPassengers", "datasets"))
+#' setnames(airpassengers, c("date", "passengers"))
+#' task = as_task_fcst(airpassengers, target = "passengers", order = "date")
 #' task$task_type
 #' task$formula()
 #' task$truth()
-#' task$data(rows = 1:3, cols = task$feature_names[1:2])
 TaskFcst = R6Class("TaskFcst",
   inherit = TaskRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' The function [as_task_regr()] provides an alternative way to construct regression tasks.
+    #' The function [as_task_fcst()] provides an alternative way to construct forecast tasks.
     #'
     #' @template param_target
+    #' @template param_order
+    #' @template param_key
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, label = NA_character_, extra_args = list()) {
+    initialize = function(id, backend, target, order, key = NULL, label = NA_character_, extra_args = list()) {
       super$initialize(
         id = id,
         backend = backend,
@@ -40,10 +43,25 @@ TaskFcst = R6Class("TaskFcst",
       )
       self$task_type = "fcst"
       private$.col_roles = insert_named(private$.col_roles, list(key = character()))
+      self$extra_args = insert_named(self$extra_args, list(order = order, key = key))
+      self$set_col_roles(order, add = "order")
+      self$set_col_roles(key, add = "key")
     }
   ),
 
   active = list(
+    #' @field properties (`character()`)\cr
+    #' Set of task properties.
+    #' Possible properties are are stored in [mlr_reflections$task_properties][mlr_reflections].
+    #' The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
+    #'
+    #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
+    #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
+    #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
+    #' * `"keys"`: The task has columns which define the time series `"key"`).
+    #'
+    #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
       if (missing(rhs)) {
         c(super$properties, if (length(private$.col_roles$key)) "keys" else NULL)
@@ -53,10 +71,3 @@ TaskFcst = R6Class("TaskFcst",
     }
   )
 )
-
-#' @rdname task_check_col_roles
-#' @export
-task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
-  # TODO: check for key role and order, since not in mlr3
-  NextMethod()
-}

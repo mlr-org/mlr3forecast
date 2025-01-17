@@ -4,19 +4,22 @@
 \alias{TaskFcst}
 \title{Forecast Task}
 \description{
-This task specializes \link{Task} and \link{TaskSupervised} for regression problems.
+This task specializes \link{Task}, \link{TaskSupervised} and \link{TaskRegr} for forecasting problems.
 The target column is assumed to be numeric.
-The \code{task_type} is set to \code{"regr"}.
+The \code{task_type} is set to \code{"fcst"}.
 
-It is recommended to use \code{\link[=as_task_regr]{as_task_regr()}} for construction.
+It is recommended to use \code{\link[=as_task_fcst]{as_task_fcst()}} for construction.
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
 }
 \examples{
-task = as_task_regr(palmerpenguins::penguins, target = "bill_length_mm")
+\dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+airpassengers = tsbox::ts_dt(load_dataset("AirPassengers", "datasets"))
+setnames(airpassengers, c("date", "passengers"))
+task = as_task_fcst(airpassengers, target = "passengers", order = "date")
 task$task_type
 task$formula()
 task$truth()
-task$data(rows = 1:3, cols = task$feature_names[1:2])
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \itemize{
@@ -41,6 +44,25 @@ Other Task:
 \concept{Task}
 \section{Super classes}{
 \code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{\link[mlr3:TaskRegr]{mlr3::TaskRegr}} -> \code{TaskFcst}
+}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{properties}}{(\code{character()})\cr
+Set of task properties.
+Possible properties are are stored in \link[=mlr_reflections]{mlr_reflections$task_properties}.
+The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
+\itemize{
+\item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
+\item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
+\item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
+\item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
+\item \code{"keys"}: The task has columns which define the time series \code{"key"}).
+}
+
+Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
+}
+\if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -80,9 +102,17 @@ Other Task:
 \if{latex}{\out{\hypertarget{method-TaskFcst-new}{}}}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
-The function \code{\link[=as_task_regr]{as_task_regr()}} provides an alternative way to construct regression tasks.
+The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative way to construct forecast tasks.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$new(id, backend, target, label = NA_character_, extra_args = list())}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$new(
+  id,
+  backend,
+  target,
+  order,
+  key = NULL,
+  label = NA_character_,
+  extra_args = list()
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -97,6 +127,12 @@ E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
 
 \item{\code{target}}{(\code{character(1)})\cr
 Name of the target column.}
+
+\item{\code{order}}{(\code{character(1)})\cr
+Name of the order column.}
+
+\item{\code{key}}{(\code{character(1)})\cr
+Name of the key column.}
 
 \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}

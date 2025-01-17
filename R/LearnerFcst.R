@@ -1,5 +1,25 @@
-#' @title Abstract class for forecast package learner
+#' @title Forecast Learner
 #'
+#' @template param_id
+#' @template param_param_set
+#' @template param_predict_types
+#' @template param_feature_types
+#' @template param_learner_properties
+#' @template param_data_formats
+#' @template param_packages
+#' @template param_label
+#' @template param_man
+#'
+#' @template seealso_learner
+#' @export
+#' @examples
+#' # get all regression learners from mlr_learners:
+#' lrns = mlr_learners$mget(mlr_learners$keys("^regr"))
+#' names(lrns)
+#'
+#' # get a specific learner from mlr_learners:
+#' mlr_learners$get("regr.rpart")
+#' lrn("classif.featureless")
 LearnerFcst = R6Class("LearnerFcst",
   inherit = LearnerRegr,
   public = list(
