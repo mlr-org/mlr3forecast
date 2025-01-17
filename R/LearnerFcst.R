@@ -13,13 +13,13 @@
 #' @template seealso_learner
 #' @export
 #' @examples
-#' # get all regression learners from mlr_learners:
-#' lrns = mlr_learners$mget(mlr_learners$keys("^regr"))
-#' names(lrns)
+#' # get all forecast learners from mlr_learners:
+#' learners = lrns(mlr_learners$keys("^fcst"))
+#' names(learners)
 #'
 #' # get a specific learner from mlr_learners:
-#' mlr_learners$get("regr.rpart")
-#' lrn("classif.featureless")
+#' learner = lrn("fcst.arima")
+#' print(learner)
 LearnerFcst = R6Class("LearnerFcst",
   inherit = LearnerRegr,
   public = list(
