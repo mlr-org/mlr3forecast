@@ -15,8 +15,9 @@
 #' @template seealso_task
 #' @export
 #' @examplesIf requireNamespace("tsbox", quietly = TRUE)
+#' library(data.table)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
-#' data.table::setnames(airpassengers, c("date", "passengers"))
+#' setnames(airpassengers, c("date", "passengers"))
 #' task = as_task_fcst(airpassengers, target = "passengers", order = "date")
 #' task$task_type
 #' task$formula()

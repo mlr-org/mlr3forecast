@@ -70,8 +70,9 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 }
 \examples{
 \dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
-data.table::setnames(airpassengers, c("date", "passengers"))
+setnames(airpassengers, c("date", "passengers"))
 as_task_fcst(airpassengers, target = "passengers", order = "date")
 \dontshow{\}) # examplesIf}
 }

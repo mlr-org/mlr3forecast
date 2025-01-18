@@ -14,8 +14,9 @@
 #' @return [TaskFcst].
 #' @export
 #' @examplesIf requireNamespace("tsbox", quietly = TRUE)
+#' library(data.table)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
-#' data.table::setnames(airpassengers, c("date", "passengers"))
+#' setnames(airpassengers, c("date", "passengers"))
 #' as_task_fcst(airpassengers, target = "passengers", order = "date")
 as_task_fcst = function(x, ...) {
   UseMethod("as_task_fcst")
