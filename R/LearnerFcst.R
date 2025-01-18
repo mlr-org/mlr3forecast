@@ -1,5 +1,20 @@
 #' @title Forecast Learner
 #'
+#' @description
+#' This Learner specializes [mlr3::LearnerRegr] for forecast problems:
+#'
+#' * `task_type` is set to `"fcst"`.
+#' * Creates [Prediction]s of class [mlr3::PredictionRegr].
+#' * Possible values for `predict_types` are:
+#'   - `"response"`: Predicts a numeric response for each observation in the test set.
+#'   - `"se"`: Predicts the standard error for each value of response for each observation in the test set.
+#'   - `"distr"`: Probability distribution as `VectorDistribution` object (requires package `distr6`, available via
+#'     repository \url{https://raphaels1.r-universe.dev}).
+#'
+#' Predefined learners can be found in the [dictionary][mlr3misc::Dictionary] [mlr3::mlr_learners].
+#' Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
+#' Additional learners are implement in the Github package \url{https://github.com/mlr-org/mlr3extralearners}.
+#'
 #' @template param_id
 #' @template param_param_set
 #' @template param_predict_types

@@ -4,9 +4,22 @@
 \alias{LearnerFcst}
 \title{Forecast Learner}
 \description{
-Forecast Learner
+This Learner specializes \link[mlr3:LearnerRegr]{mlr3::LearnerRegr} for forecast problems:
+\itemize{
+\item \code{task_type} is set to \code{"fcst"}.
+\item Creates \link{Prediction}s of class \link[mlr3:PredictionRegr]{mlr3::PredictionRegr}.
+\item Possible values for \code{predict_types} are:
+\itemize{
+\item \code{"response"}: Predicts a numeric response for each observation in the test set.
+\item \code{"se"}: Predicts the standard error for each value of response for each observation in the test set.
+\item \code{"distr"}: Probability distribution as \code{VectorDistribution} object (requires package \code{distr6}, available via
+repository \url{https://raphaels1.r-universe.dev}).
+}
+}
 
-Forecast Learner
+Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners}.
+Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
+Additional learners are implement in the Github package \url{https://github.com/mlr-org/mlr3extralearners}.
 }
 \examples{
 # get all forecast learners from mlr_learners:
