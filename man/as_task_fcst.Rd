@@ -2,14 +2,14 @@
 % Please edit documentation in R/as_task_fcst.R
 \name{as_task_fcst}
 \alias{as_task_fcst}
-\alias{as_task_regr.TaskFcst}
+\alias{as_task_fcst.TaskFcst}
 \alias{as_task_fcst.DataBackend}
 \alias{as_task_fcst.data.frame}
 \title{Convert to a Forecast Task}
 \usage{
 as_task_fcst(x, ...)
 
-\method{as_task_regr}{TaskFcst}(x, clone = FALSE, ...)
+\method{as_task_fcst}{TaskFcst}(x, clone = FALSE, ...)
 
 \method{as_task_fcst}{DataBackend}(
   x,

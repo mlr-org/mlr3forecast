@@ -23,7 +23,7 @@ as_task_fcst = function(x, ...) {
 
 #' @rdname as_task_fcst
 #' @export
-as_task_regr.TaskFcst = function(x, clone = FALSE, ...) { # nolint
+as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) { # nolint
   if (clone) x$clone() else x
 }
 
