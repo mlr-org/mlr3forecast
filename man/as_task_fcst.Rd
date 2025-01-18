@@ -2,11 +2,14 @@
 % Please edit documentation in R/as_task_fcst.R
 \name{as_task_fcst}
 \alias{as_task_fcst}
+\alias{as_task_regr.TaskFcst}
 \alias{as_task_fcst.DataBackend}
 \alias{as_task_fcst.data.frame}
 \title{Convert to a Forecast Task}
 \usage{
 as_task_fcst(x, ...)
+
+\method{as_task_regr}{TaskFcst}(x, clone = FALSE, ...)
 
 \method{as_task_fcst}{DataBackend}(
   x,
@@ -35,10 +38,17 @@ Object to convert.}
 \item{...}{(any)\cr
 Additional arguments.}
 
+\item{clone}{(\code{logical(1)})\cr
+If \code{TRUE}, ensures that the returned object is not the same as the input \code{x}.}
+
 \item{target}{(\code{character(1)})\cr
 Name of the target column.}
 
-\item{key}{(\code{character(1)}) the column name of the key.}
+\item{order}{(\code{character(1)})\cr
+Name of the order column.}
+
+\item{key}{(\code{character(1)})\cr
+Name of the key column.}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
@@ -46,25 +56,22 @@ Defaults to the (deparsed and substituted) name of the data argument.}
 
 \item{label}{(\code{character(1)})\cr
 Label for the new instance.}
-
-\item{index}{(\code{character(1)})\cr
-Name of the column in the data containing the index.}
 }
 \value{
-\link[mlr3:TaskRegr]{mlr3::TaskRegr}.
+\link{TaskFcst}.
 }
 \description{
-Convert object to a \link{TaskRegr}.
+Convert object to a \link{TaskFcst}.
 This is a S3 generic. mlr3forecast ships with methods for the following objects:
 \enumerate{
-\item \link{TaskRegr}: ensure the identity
-\item \code{\link[=data.frame]{data.frame()}} and \link{DataBackend}: provides an alternative to the constructor of \link{TaskRegr}.
+\item \link{TaskFcst}: ensure the identity
+\item \code{\link[=data.frame]{data.frame()}} and \link[mlr3:DataBackend]{mlr3::DataBackend}: provides an alternative to the constructor of \link{TaskFcst}.
 }
 }
 \examples{
 \dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 airpassengers = tsbox::ts_dt(AirPassengers)
 data.table::setnames(airpassengers, c("date", "passengers"))
-as_task_fcst(airpassengers, target = "passengers", index = "date")
+as_task_fcst(airpassengers, target = "passengers", order = "date")
 \dontshow{\}) # examplesIf}
 }

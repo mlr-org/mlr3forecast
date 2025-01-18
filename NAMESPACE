@@ -2,6 +2,7 @@
 
 S3method(as_task_fcst,DataBackend)
 S3method(as_task_fcst,data.frame)
+S3method(as_task_regr,TaskFcst)
 export(ForecastLearner)
 export(ForecastRecursiveLearner)
 export(LearnerFcst)
