@@ -58,7 +58,7 @@ other to support to support machine learning forecasting, i.e. using regression
 learners and applying them to forecasting tasks. The design of the latter is
 still in flux and may change.
 
-### Example: native forecast learner
+### Example: forecasting with forecast learner
 
 First lets create a helper function to generate new data for forecasting tasks.
 
@@ -119,12 +119,13 @@ learner = lrn("fcst.auto_arima",
 learner$predict_newdata(newdata, task)
 ```
 
-### machine learning forecasting
+### Example: forecasting with regression learner
 
 ```{r, message = FALSE}
 library(mlr3learners)
 
 task = tsk("airpassengers")
+# we have to remove the date feature for regression learners
 task$select(setdiff(task$feature_names, "date"))
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)$train(task)
 newdata = data.frame(passengers = rep(NA_real_, 3L))
@@ -144,43 +145,19 @@ rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 ```
 
-### Multivariate
+Or with some feature engineering using mlr3pipelines:
 
 ```{r}
 library(mlr3pipelines)
 
+graph = ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(
+      week_of_year = FALSE, day_of_year = FALSE, day_of_month = FALSE, day_of_week = FALSE,
+      is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE
+    )
+  )
 task = tsk("airpassengers")
-# datefeatures currently requires POSIXct
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
-    param_vals = list(is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
-  )
-new_task = graph$train(task)[[1L]]
-flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)$train(new_task)
-prediction = flrn$predict(new_task, 142:144)
-prediction$score(msr("regr.rmse"))
-
-row_ids = new_task$nrow - 0:2
-flrn$predict_newdata(new_task$data(rows = row_ids), new_task)
-newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
-flrn$predict_newdata(newdata, new_task)
-
-resampling = rsmp("forecast_holdout", ratio = 0.9)
-rr = resample(new_task, flrn, resampling)
-rr$aggregate(msr("regr.rmse"))
-
-resampling = rsmp("forecast_cv")
-rr = resample(new_task, flrn, resampling)
-rr$aggregate(msr("regr.rmse"))
-```
-
-### mlr3pipelines integration
-
-```{r}
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
-    param_vals = list(is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
-  )
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)

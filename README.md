@@ -41,7 +41,7 @@ the other to support to support machine learning forecasting, i.e. using
 regression learners and applying them to forecasting tasks. The design
 of the latter is still in flux and may change.
 
-### Example: native forecast learner
+### Example: forecasting with forecast learner
 
 First lets create a helper function to generate new data for forecasting
 tasks.
@@ -140,12 +140,13 @@ learner$predict_newdata(newdata, task)
 #>       12    NA 452.1168 463.7584 512.9829 562.2074 573.8491 512.9829
 ```
 
-### machine learning forecasting
+### Example: forecasting with regression learner
 
 ``` r
 library(mlr3learners)
 
 task = tsk("airpassengers")
+# we have to remove the date feature for regression learners
 task$select(setdiff(task$feature_names, "date"))
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)$train(task)
 newdata = data.frame(passengers = rep(NA_real_, 3L))
@@ -153,93 +154,53 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 433.7011
-#>        2    NA 431.2296
-#>        3    NA 452.5381
+#>        1    NA 435.6505
+#>        2    NA 437.5554
+#>        3    NA 456.4960
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 456.7375
-#>        2   390 412.8622
-#>        3   432 430.5879
+#>        1   461 458.2301
+#>        2   390 414.4641
+#>        3   432 433.7197
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.45168
+#>  14.24925
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.85272
+#>  47.63902
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>    25.117
+#>  25.78916
 ```
 
-### Multivariate
+Or with some feature engineering using mlr3pipelines:
 
 ``` r
 library(mlr3pipelines)
 
+graph = ppl("convert_types", "Date", "POSIXct") %>>%
+  po("datefeatures",
+    param_vals = list(
+      week_of_year = FALSE, day_of_year = FALSE, day_of_month = FALSE, day_of_week = FALSE,
+      is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE
+    )
+  )
 task = tsk("airpassengers")
-# datefeatures currently requires POSIXct
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
-    param_vals = list(is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
-  )
-new_task = graph$train(task)[[1L]]
-flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)$train(new_task)
-prediction = flrn$predict(new_task, 142:144)
-prediction$score(msr("regr.rmse"))
-#> regr.rmse 
-#>  14.46367
-
-row_ids = new_task$nrow - 0:2
-flrn$predict_newdata(new_task$data(rows = row_ids), new_task)
-#> <PredictionRegr> for 3 observations:
-#>  row_ids truth response
-#>        1   432 437.1584
-#>        2   390 435.8279
-#>        3   461 461.5812
-newdata = new_task$data(rows = row_ids, cols = new_task$feature_names)
-flrn$predict_newdata(newdata, new_task)
-#> <PredictionRegr> for 3 observations:
-#>  row_ids truth response
-#>        1    NA 437.1584
-#>        2    NA 435.8279
-#>        3    NA 461.5812
-
-resampling = rsmp("forecast_holdout", ratio = 0.9)
-rr = resample(new_task, flrn, resampling)
-rr$aggregate(msr("regr.rmse"))
-#> regr.rmse 
-#>  49.07941
-
-resampling = rsmp("forecast_cv")
-rr = resample(new_task, flrn, resampling)
-rr$aggregate(msr("regr.rmse"))
-#> regr.rmse 
-#>  26.81219
-```
-
-### mlr3pipelines integration
-
-``` r
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
-    param_vals = list(is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE)
-  )
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.27248
+#>  15.60608
 ```
 
 ### Example: Forecasting electricity demand
@@ -282,13 +243,13 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 14 observations:
 #>  row_ids truth response
-#>        1    NA 186.6444
-#>        2    NA 190.7973
-#>        3    NA 184.0170
+#>        1    NA 186.2554
+#>        2    NA 190.6231
+#>        3    NA 184.2325
 #>      ---   ---      ---
-#>       12    NA 214.6220
-#>       13    NA 218.5850
-#>       14    NA 220.2067
+#>       12    NA 212.5230
+#>       13    NA 217.9358
+#>       14    NA 219.2381
 ```
 
 ### Global Forecasting
@@ -321,14 +282,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  22607.04
+#>  23423.99
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  91443.98
+#>  90577.72
 ```
 
 ### Example: Global vs Local Forecasting
@@ -367,7 +328,7 @@ row_ids = tab[year >= 2015, row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  31118.27
+#>  32547.69
 
 # global forecasting
 task = tsibbledata::aus_livestock |>
@@ -388,7 +349,7 @@ row_ids = tab[year >= 2015 & state == "Western Australia", row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  31580.54
+#>  30355.95
 ```
 
 ### Example: Custom PipeOps
@@ -465,19 +426,19 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  26.84445
+#>  26.33254
 
 newdata = generate_newdata(task, 12L, "month")
 glrn$predict_newdata(newdata, task)
 #> <PredictionRegr> for 12 observations:
 #>  row_ids truth response
-#>        1    NA 439.1351
-#>        2    NA 440.8059
-#>        3    NA 459.0752
+#>        1    NA 437.3861
+#>        2    NA 436.5904
+#>        3    NA 456.5291
 #>      ---   ---      ---
-#>       10    NA 473.3254
-#>       11    NA 438.6678
-#>       12    NA 441.2223
+#>       10    NA 473.6440
+#>       11    NA 441.5395
+#>       12    NA 440.8554
 ```
 
 ### Example: common target transformations
