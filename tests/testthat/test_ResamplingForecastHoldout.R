@@ -1,5 +1,5 @@
 test_that("forecast_holdout basic properties", {
-  skip("currently require datetime column")
+  skip("currently require datetime column, i.e. don't sort based on ids")
   task = tsk("penguins")
   resampling = rsmp("forecast_holdout", ratio = 0.7)
   expect_resampling(resampling, task)
@@ -38,10 +38,9 @@ test_that("forecast_holdout works", {
 })
 
 test_that("forecast_holdout repeated instantiation", {
-  skip("currently require datetime column")
-  task = tsk("penguins")
-
+  task = tsk("airpassengers")
   resampling = rsmp("forecast_holdout", ratio = 0.6)
+
   resampling$instantiate(task)
   train_set_1 = resampling$train_set(1L)
   test_set_1 = resampling$test_set(1L)
@@ -53,7 +52,7 @@ test_that("forecast_holdout repeated instantiation", {
   expect_identical(train_set_1, train_set_2)
   expect_identical(test_set_1, test_set_2)
 
-  resampling$param_set$values$ratio = 0.8
+  resampling$param_set$set_values(ratio = 0.8)
   resampling$instantiate(task)
   expect_false(identical(train_set_1, resampling$train_set(1L)))
   expect_false(identical(test_set_1, resampling$test_set(1L)))
