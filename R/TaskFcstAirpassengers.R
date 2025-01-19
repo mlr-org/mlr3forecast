@@ -1,12 +1,11 @@
-#' @title Air Passengers Regression Task
+#' @title Air Passengers Forecast Task
 #'
 #' @name mlr_tasks_airpassengers
-#' @format [R6::R6Class] inheriting from [mlr3::TaskRegr].
+#' @format [R6::R6Class] inheriting from [TaskFcst].
 #'
 #' @description
-#' A toy regression task for the [datasets::AirPassengers] data set.
-#' The task represents a monthly time series and is ordered by
-#' its only feature `date`.
+#' A toy forecast task for the [datasets::AirPassengers] data set.
+#' The task represents a monthly time series and is ordered by its only feature `date`.
 #'
 #' @templateVar id airpassengers
 #' @template task

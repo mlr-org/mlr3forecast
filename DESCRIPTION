@@ -22,6 +22,7 @@ Suggests:
     forecast,
     testthat (>= 3.2.0),
     tsbox,
+    tsibbledata,
     withr (>= 3.0.0)
 Remotes:
     mlr-org/mlr3
@@ -49,6 +50,8 @@ Collate:
     'ResamplingForecastHoldout.R'
     'TaskFcst.R'
     'TaskFcstAirpassengers.R'
+    'TaskFcstElectricty.R'
+    'TaskFcstLivestock.R'
     'as_task_fcst.R'
     'bibentries.R'
     'utils.R'
