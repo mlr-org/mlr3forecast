@@ -14,9 +14,7 @@
 NULL
 
 load_task_livestock = function(id = "livestock") {
-  if (!requireNamespace("tsibbledata", quietly = TRUE)) {
-    stopf("Package 'tsibbledata' is required to load the 'aus_livestock' dataset.")
-  }
+  require_namespaces(c("tsibbledata", "tsibble"))
   dt = as.data.table(load_dataset("aus_livestock", "tsibbledata"))
   setnames(dt, tolower)
   dt[, month := as.Date(month)]

@@ -1,7 +1,6 @@
 test_that("forecast_holdout basic properties", {
-  skip("currently require datetime column, i.e. don't sort based on ids")
-  task = tsk("penguins")
-  resampling = rsmp("forecast_holdout", ratio = 0.7)
+  task = tsk("airpassengers")
+  resampling = rsmp("forecast_holdout", ratio = 0.8)
   expect_resampling(resampling, task)
   resampling$instantiate(task)
   expect_resampling(resampling, task)

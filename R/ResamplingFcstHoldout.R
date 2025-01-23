@@ -38,7 +38,7 @@
 #'
 #' # Internal storage:
 #' holdout$instance # simple list
-ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
+ResamplingFcstHoldout = R6Class("ResamplingFcstHoldout",
   inherit = Resampling,
   public = list(
     #' @description
@@ -67,36 +67,6 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
   ),
 
   private = list(
-    .sample_old = function(ids, ...) {
-      if ("ordered" %nin% task$properties) {
-        stopf(
-          "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
-          self$id, task$id
-        )
-      }
-
-      pars = self$param_set$get_values()
-      ratio = pars$ratio
-      n = pars$n
-      n_obs = length(ids)
-
-      has_ratio = !is.null(ratio)
-      if (!xor(!has_ratio, is.null(n))) {
-        stopf("Either parameter `ratio` (x)or `n` must be provided.")
-      }
-      if (has_ratio) {
-        nr = round(n_obs * ratio)
-      } else if (n > 0L) {
-        nr = min(n_obs, n)
-      } else {
-        nr = max(n_obs + n, 0L)
-      }
-
-      ids = sort(ids)
-      ii = ids[1:nr]
-      list(train = ii, test = ids[(nr + 1L):n_obs])
-    },
-
     .sample = function(ids, task, ...) {
       if ("ordered" %nin% task$properties) {
         stopf(
@@ -145,6 +115,36 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
       }
     },
 
+    .sample_ids = function(ids, ...) {
+      if ("ordered" %nin% task$properties) {
+        stopf(
+          "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
+          self$id, task$id
+        )
+      }
+
+      pars = self$param_set$get_values()
+      ratio = pars$ratio
+      n = pars$n
+      n_obs = length(ids)
+
+      has_ratio = !is.null(ratio)
+      if (!xor(!has_ratio, is.null(n))) {
+        stopf("Either parameter `ratio` (x)or `n` must be provided.")
+      }
+      if (has_ratio) {
+        nr = round(n_obs * ratio)
+      } else if (n > 0L) {
+        nr = min(n_obs, n)
+      } else {
+        nr = max(n_obs + n, 0L)
+      }
+
+      ids = sort(ids)
+      ii = ids[1:nr]
+      list(train = ii, test = ids[(nr + 1L):n_obs])
+    },
+
     .get_train = function(i) {
       self$instance$train
     },
@@ -160,4 +160,4 @@ ResamplingForecastHoldout = R6Class("ResamplingForecastHoldout",
 )
 
 #' @include zzz.R
-register_resampling("forecast_holdout", ResamplingForecastHoldout)
+register_resampling("forecast_holdout", ResamplingFcstHoldout)

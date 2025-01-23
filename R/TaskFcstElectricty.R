@@ -14,9 +14,7 @@
 NULL
 
 load_task_electricty = function(id = "electricity") {
-  if (!requireNamespace("tsibbledata", quietly = TRUE)) {
-    stopf("Package 'tsibbledata' is required to load the 'vic_elec' dataset.")
-  }
+  require_namespaces("tsibbledata")
   dt = as.data.table(load_dataset("vic_elec", "tsibbledata"))
   setnames(dt, tolower)
   demand = temperature = holiday = NULL

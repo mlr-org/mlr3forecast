@@ -41,7 +41,7 @@
 #'
 #' # Internal storage:
 #' cv$instance #  list
-ResamplingForecastCV = R6Class("ResamplingForecastCV",
+ResamplingFcstCV = R6Class("ResamplingFcstCV",
   inherit = Resampling,
   public = list(
     #' @description
@@ -160,4 +160,4 @@ ResamplingForecastCV = R6Class("ResamplingForecastCV",
 )
 
 #' @include zzz.R
-register_resampling("forecast_cv", ResamplingForecastCV)
+register_resampling("forecast_cv", ResamplingFcstCV)
