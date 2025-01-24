@@ -106,26 +106,29 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
         setnames(tab, c("row_id", "order"))
         setorderv(tab, "order")
         train_end = tab[.N - horizon, row_id]
-        train_end = rev(seq.int(
+        train_end = seq.int(
           from = train_end,
           by = -pars$step_size,
           length.out = pars$folds
-        ))
+        )
         if (!pars$fixed_window) {
           train_ids = map(train_end, function(x) ids[1L]:x)
         } else {
           train_ids = map(train_end, function(x) (x - window_size + 1L):x)
         }
-        test_ids = map(train_ids, function(x) (x[length(x)] + 1L):(x[length(x)] + horizon))
+        test_ids = map(train_ids, function(x) {
+          n = length(x)
+          (x[n] + 1L):(x[n] + horizon)
+        })
       } else {
         setnames(tab, "..row_id", "row_id")
         setorderv(tab, c(key_cols, order_cols))
         ids = tab[, {
-          train_end = rev(seq.int(
+          train_end = seq.int(
             from = .N - horizon,
             by = -pars$step_size,
             length.out = pars$folds
-          ))
+          )
           if (pars$fixed_window) {
             train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, row_id])
           } else {
@@ -137,9 +140,10 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
           })
           list(train_ids = train_ids, test_ids = test_ids)
         }, by = key_cols][, .(train_ids, test_ids)]
-
+        train_ids = ids$train_ids
+        test_ids = ids$test_ids
       }
-      list(train = ids$train_ids, test = ids$test_ids)
+      list(train = train_ids, test = test_ids)
     },
 
     .sample_ids = function(ids, ...) {
@@ -149,11 +153,11 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
 
       ids = sort(ids)
       train_end = ids[ids <= (max(ids) - horizon) & ids >= window_size]
-      train_end = rev(seq.int(
+      train_end = seq.int(
         from = train_end[length(train_end)],
         by = -pars$step_size,
         length.out = pars$folds
-      ))
+      )
       if (pars$fixed_window) {
         train_ids = map(train_end, function(x) (x - window_size + 1L):x)
       } else {

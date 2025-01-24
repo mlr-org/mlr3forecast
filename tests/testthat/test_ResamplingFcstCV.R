@@ -1,11 +1,11 @@
 test_that("forecast_cv basic properties", {
-  task = tsk("penguins")
+  task = tsk("airpassengers")
   resampling = rsmp("forecast_cv",
     folds = 10L, horizon = 3L, window_size = 5L, fixed_window = FALSE
   )
-  expect_resampling(resampling, task)
+  expect_resampling(resampling, task, strata = FALSE)
   resampling$instantiate(task)
-  expect_resampling(resampling, task)
+  expect_resampling(resampling, task, strata = FALSE)
   expect_identical(resampling$iters, 10L)
   expect_equal(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
   expect_false(resampling$duplicated_ids)
@@ -33,7 +33,7 @@ test_that("forecast_cv works", {
 })
 
 test_that("forecast_cv fixed vs. expanding window", {
-  task = tsk("penguins")
+  task = tsk("airpassengers")
   task$filter(1:30)
 
   # fixed window
@@ -56,7 +56,7 @@ test_that("forecast_cv fixed vs. expanding window", {
 })
 
 test_that("forecast_cv with various parameter combinations", {
-  task = tsk("penguins")
+  task = tsk("airpassengers")
   task$filter(1:30)
 
   # small window, large step size
