@@ -102,8 +102,8 @@ ResamplingFcstHoldout = R6Class("ResamplingFcstHoldout",
         n_groups = length(unique(tab$key))
         nr = if (has_ratio) nr %/% n_groups else nr
         list(
-          train = tab[, .SD[1:nr], by = key][, row_id],
-          test = tab[, .SD[(nr + 1L):.N], by = key][, row_id]
+          train = tab[, .SD[1:nr], by = key_cols][, row_id],
+          test = tab[, .SD[(nr + 1L):.N], by = key_cols][, row_id]
         )
       } else {
         setnames(tab, c("row_id", "order"))

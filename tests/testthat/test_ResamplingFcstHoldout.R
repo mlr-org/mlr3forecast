@@ -1,10 +1,9 @@
 test_that("forecast_holdout basic properties", {
   task = tsk("airpassengers")
   resampling = rsmp("forecast_holdout", ratio = 0.8)
-  # NOTE: fails due to strasfication
-  # expect_resampling(resampling, task)
+  expect_resampling(resampling, task, strata = FALSE)
   resampling$instantiate(task)
-  # expect_resampling(resampling, task)
+  expect_resampling(resampling, task, strata = FALSE)
   expect_identical(resampling$iters, 1L)
   expect_equal(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
   expect_error(resampling$train_set(2L))
