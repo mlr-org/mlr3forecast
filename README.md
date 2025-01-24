@@ -43,64 +43,13 @@ of the latter is still in flux and may change.
 
 ### Example: forecasting with forecast learner
 
-First lets create a helper function to generate new data for forecasting
-tasks.
+Currently, we support native forecasting learners from the forecast
+package. In the future, we plan to support more forecasting learners.
 
 ``` r
 library(mlr3forecast)
 #> Loading required package: mlr3
 
-generate_newdata = function(task, n = 1L, resolution = "day") {
-  assert_count(n)
-  assert_string(resolution)
-  assert_choice(
-    resolution, c("second", "minute", "hour", "day", "week", "month", "quarter", "year")
-  )
-
-  order_cols = task$col_roles$order
-  max_index = max(task$data(cols = order_cols)[[1L]])
-
-  unit = switch(resolution,
-    second = "sec",
-    minute = "min",
-    hour = ,
-    day = ,
-    week = ,
-    month = ,
-    quarter = ,
-    year = identity(resolution),
-    stopf("Invalid resolution")
-  )
-  unit = sprintf("1 %s", unit)
-  index = seq(max_index, length.out = n + 1L, by = unit)
-  index = index[2:length(index)]
-
-  newdata = data.frame(index = index, target = rep(NA_real_, n), check.names = FALSE)
-  setNames(newdata, c(order_cols, task$target_names))
-}
-
-task = tsk("airpassengers")
-newdata = generate_newdata(task, 12L, "month")
-newdata
-#>          date passengers
-#> 1  1961-01-01         NA
-#> 2  1961-02-01         NA
-#> 3  1961-03-01         NA
-#> 4  1961-04-01         NA
-#> 5  1961-05-01         NA
-#> 6  1961-06-01         NA
-#> 7  1961-07-01         NA
-#> 8  1961-08-01         NA
-#> 9  1961-09-01         NA
-#> 10 1961-10-01         NA
-#> 11 1961-11-01         NA
-#> 12 1961-12-01         NA
-```
-
-Currently, we support native forecasting learners from the forecast
-package. In the future, we plan to support more forecasting learners.
-
-``` r
 task = tsk("airpassengers")
 learner = lrn("fcst.auto_arima")$train(task)
 #> Registered S3 method overwritten by 'quantmod':
@@ -110,7 +59,7 @@ prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
 #>  13.85493
-newdata = generate_newdata(task, 12L, "month")
+newdata = generate_newdata(task, 12L)
 learner$predict_newdata(newdata, task)
 #> <PredictionRegr> for 12 observations:
 #>  row_ids truth response
@@ -154,32 +103,32 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 433.4103
-#>        2    NA 435.9582
-#>        3    NA 456.0257
+#>        1    NA 435.1630
+#>        2    NA 436.5908
+#>        3    NA 456.2188
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 457.2672
-#>        2   390 413.4132
-#>        3   432 430.3775
+#>        1   461 459.4903
+#>        2   390 414.8749
+#>        3   432 433.6170
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.72037
+#>  14.41823
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.75969
+#>  48.34306
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.95714
+#>  26.41356
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -200,7 +149,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.00005
+#>  15.49621
 ```
 
 ### Example: Forecasting electricity demand
@@ -361,7 +310,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 
-newdata = generate_newdata(task, 12L, "month")
+newdata = generate_newdata(task, 12L)
 glrn$predict_newdata(newdata, task)
 ```
 

@@ -57,54 +57,17 @@ still in flux and may change.
 
 ### Example: forecasting with forecast learner
 
-First lets create a helper function to generate new data for forecasting tasks.
-
-```{r}
-library(mlr3forecast)
-
-generate_newdata = function(task, n = 1L, resolution = "day") {
-  assert_count(n)
-  assert_string(resolution)
-  assert_choice(
-    resolution, c("second", "minute", "hour", "day", "week", "month", "quarter", "year")
-  )
-
-  order_cols = task$col_roles$order
-  max_index = max(task$data(cols = order_cols)[[1L]])
-
-  unit = switch(resolution,
-    second = "sec",
-    minute = "min",
-    hour = ,
-    day = ,
-    week = ,
-    month = ,
-    quarter = ,
-    year = identity(resolution),
-    stopf("Invalid resolution")
-  )
-  unit = sprintf("1 %s", unit)
-  index = seq(max_index, length.out = n + 1L, by = unit)
-  index = index[2:length(index)]
-
-  newdata = data.frame(index = index, target = rep(NA_real_, n), check.names = FALSE)
-  setNames(newdata, c(order_cols, task$target_names))
-}
-
-task = tsk("airpassengers")
-newdata = generate_newdata(task, 12L, "month")
-newdata
-```
-
 Currently, we support native forecasting learners from the forecast package.
 In the future, we plan to support more forecasting learners.
 
 ```{r}
+library(mlr3forecast)
+
 task = tsk("airpassengers")
 learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
-newdata = generate_newdata(task, 12L, "month")
+newdata = generate_newdata(task, 12L)
 learner$predict_newdata(newdata, task)
 
 # works with quantile response
@@ -318,7 +281,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 
-newdata = generate_newdata(task, 12L, "month")
+newdata = generate_newdata(task, 12L)
 glrn$predict_newdata(newdata, task)
 ```
 

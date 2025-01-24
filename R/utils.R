@@ -25,3 +25,24 @@ as.ts.TaskFcst = function(x, ...) { # nolint
   )
   stats::ts(x$truth(), freq = freq)
 }
+
+#' @export
+generate_newdata = function(task, n = 1L) {
+  assert_count(n)
+  order_cols = task$col_roles$order
+  max_index = max(task$data(cols = order_cols)[[1L]])
+
+  unit = switch(task$frequency,
+    daily = "day",
+    weekly = "week",
+    monthly = "month",
+    quarterly = "quarter",
+    yearly = "quarterly"
+  )
+  unit = sprintf("1 %s", unit)
+  index = seq(max_index, length.out = n + 1L, by = unit)
+  index = index[2:length(index)]
+
+  newdata = data.frame(index = index, target = rep(NA_real_, n), check.names = FALSE)
+  set_names(newdata, c(order_cols, task$target_names))
+}
