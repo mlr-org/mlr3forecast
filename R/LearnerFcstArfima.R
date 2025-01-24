@@ -65,11 +65,7 @@ LearnerFcstArfima = R6Class("LearnerFcstArfima",
       if (!is_task_featureless(task)) {
         xreg = as.matrix(task$data(cols = fcst_feature_names(task)))
       }
-      invoke(forecast::arfima,
-        y = stats::ts(task$truth()),
-        xreg = xreg,
-        .args = pv
-      )
+      invoke(forecast::arfima, y = as.ts(task), xreg = xreg, .args = pv)
     }
   )
 )

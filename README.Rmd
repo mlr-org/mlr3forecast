@@ -30,11 +30,8 @@ Extending mlr3 to time series forecasting.
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
-```{=gfm}
-> [!IMPORTANT]
 > This package is in an early stage of development and should be considered experimental.
 > If you are interested in experimenting with it, we welcome your feedback!
-```
 
 ## Installation
 
@@ -166,7 +163,7 @@ prediction$score(msr("regr.rmse"))
 
 ### Example: Forecasting electricity demand
 
-```{r}
+```{r, eval = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
 
@@ -206,7 +203,7 @@ prediction
 
 ### Global Forecasting
 
-```{r, message = FALSE}
+```{r, message = FALSE, eval = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
 library(tsibble) # needs not be loaded for it to somehow work
@@ -245,7 +242,7 @@ rr$aggregate(msr("regr.rmse"))
 In machine learning forecasting the difference between forecasting a time series
 and longitudinal data is often refered to local and global forecasting.
 
-```{r}
+```{r, eval = FALSE}
 # TODO: find better task example, since the effect is minor here
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
@@ -297,7 +294,7 @@ prediction$score(msr("regr.rmse"))
 
 ### Example: Custom PipeOps
 
-```{r}
+```{r, eval = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
 

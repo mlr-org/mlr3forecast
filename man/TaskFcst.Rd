@@ -48,6 +48,14 @@ Other Task:
 \section{Super classes}{
 \code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{\link[mlr3:TaskRegr]{mlr3::TaskRegr}} -> \code{TaskFcst}
 }
+\section{Public fields}{
+\if{html}{\out{<div class="r6-fields">}}
+\describe{
+\item{\code{frequency}}{(\code{character(1)})\cr
+The frequency of the time series.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
@@ -71,6 +79,7 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TaskFcst-new}{\code{TaskFcst$new()}}
+\item \href{#method-TaskFcst-print}{\code{TaskFcst$print()}}
 \item \href{#method-TaskFcst-clone}{\code{TaskFcst$clone()}}
 }
 }
@@ -89,7 +98,6 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-Task-help'><code>mlr3::Task$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-Task-levels'><code>mlr3::Task$levels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-Task-missings'><code>mlr3::Task$missings()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href='../../mlr3/html/Task.html#method-Task-print'><code>mlr3::Task$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href='../../mlr3/html/Task.html#method-Task-rbind'><code>mlr3::Task$rbind()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-Task-rename'><code>mlr3::Task$rename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href='../../mlr3/html/Task.html#method-Task-select'><code>mlr3::Task$select()</code></a></span></li>
@@ -113,6 +121,7 @@ The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative
   target,
   order,
   key = NULL,
+  frequency = NULL,
   label = NA_character_,
   extra_args = list()
 )}\if{html}{\out{</div>}}
@@ -137,12 +146,33 @@ Name of the order column.}
 \item{\code{key}}{(\code{character(1)})\cr
 Name of the key column.}
 
+\item{\code{frequency}}{(\code{character(1)})\cr
+Frequency of the time series.
+One of \code{"daily"}, \code{"weekly"}, \code{"monthly"}, \code{"quarterly"}, \code{"yearly"}.}
+
 \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
 
 \item{\code{extra_args}}{(named \code{list()})\cr
 Named list of constructor arguments, required for converting task types
 via \code{\link[=convert_task]{convert_task()}}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-TaskFcst-print"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskFcst-print}{}}}
+\subsection{Method \code{print()}}{
+Printer.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$print(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{(ignored).}
 }
 \if{html}{\out{</div>}}
 }

@@ -75,10 +75,7 @@ LearnerFcstEts = R6Class("LearnerFcstEts",
       private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
       pv = self$param_set$get_values(tags = "train")
 
-      invoke(forecast::ets,
-        y = stats::ts(task$truth()),
-        .args = pv
-      )
+      invoke(forecast::ets, y = as.ts(task), .args = pv)
     }
   )
 )

@@ -29,6 +29,7 @@ load_task_electricty = function(id = "electricity") {
     backend = b,
     target = "demand",
     order = "date",
+    frequency = "daily",
     label = "Daily electricity demand for Victoria, Australia"
   )
   b$hash = task$man = "mlr3forecast::load_task_electricty"

@@ -25,6 +25,10 @@
 TaskFcst = R6Class("TaskFcst",
   inherit = TaskRegr,
   public = list(
+    #' @field frequency (`character(1)`)\cr
+    #' The frequency of the time series.
+    frequency = NULL,
+
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' The function [as_task_fcst()] provides an alternative way to construct forecast tasks.
@@ -32,9 +36,10 @@ TaskFcst = R6Class("TaskFcst",
     #' @template param_target
     #' @template param_order
     #' @template param_key
+    #' @template param_frequency
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, order, key = NULL, label = NA_character_, extra_args = list()) {
+    initialize = function(id, backend, target, order, key = NULL, frequency = NULL, label = NA_character_, extra_args = list()) { # nolint
       super$initialize(
         id = id,
         backend = backend,
@@ -47,6 +52,19 @@ TaskFcst = R6Class("TaskFcst",
       self$extra_args = insert_named(self$extra_args, list(order = order, key = key))
       self$set_col_roles(order, add = "order")
       self$set_col_roles(key, add = "key")
+      assert_choice(
+        frequency, c("daily", "weekly", "monthly", "quarterly", "yearly"),
+        null.ok = TRUE
+      )
+      self$frequency = frequency
+    },
+
+    #' @description
+    #' Printer.
+    #' @param ... (ignored).
+    print = function(...) {
+      super$print()
+      catf(str_indent("* Frequency:", self$frequency))
     }
   ),
 

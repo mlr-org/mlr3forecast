@@ -15,9 +15,9 @@ status](https://www.r-pkg.org/badges/version/mlr3forecast)](https://CRAN.R-proje
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
 
-> [!IMPORTANT]
-> This package is in an early stage of development and should be considered experimental.
-> If you are interested in experimenting with it, we welcome your feedback!
+> This package is in an early stage of development and should be
+> considered experimental. If you are interested in experimenting with
+> it, we welcome your feedback!
 
 ## Installation
 
@@ -109,18 +109,18 @@ learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  39.62379
+#>  13.85493
 newdata = generate_newdata(task, 12L, "month")
 learner$predict_newdata(newdata, task)
 #> <PredictionRegr> for 12 observations:
 #>  row_ids truth response
-#>        1    NA 483.3799
-#>        2    NA 490.9993
-#>        3    NA 520.2773
+#>        1    NA 445.6349
+#>        2    NA 420.3950
+#>        3    NA 449.1983
 #>      ---   ---      ---
-#>       10    NA 500.2729
-#>       11    NA 507.3034
-#>       12    NA 512.9829
+#>       10    NA 494.1266
+#>       11    NA 423.3327
+#>       12    NA 465.5075
 
 # works with quantile response
 learner = lrn("fcst.auto_arima",
@@ -131,13 +131,13 @@ learner = lrn("fcst.auto_arima",
 learner$predict_newdata(newdata, task)
 #> <PredictionRegr> for 12 observations:
 #>  row_ids truth     q0.1    q0.15     q0.5    q0.85     q0.9 response
-#>        1    NA 449.3201 455.8346 483.3799 510.9252 517.4397 483.3799
-#>        2    NA 439.6752 449.4918 490.9993 532.5069 542.3235 490.9993
-#>        3    NA 464.0693 474.8200 520.2773 565.7347 576.4854 520.2773
+#>        1    NA 430.8903 433.7105 445.6349 457.5593 460.3794 445.6349
+#>        2    NA 403.0907 406.4004 420.3950 434.3895 437.6993 420.3950
+#>        3    NA 429.7726 433.4880 449.1983 464.9085 468.6240 449.1983
 #>      ---   ---      ---      ---      ---      ---      ---      ---
-#>       10    NA 440.1583 451.6562 500.2729 548.8896 560.3875 500.2729
-#>       11    NA 446.7823 458.3580 507.3034 556.2489 567.8246 507.3034
-#>       12    NA 452.1168 463.7584 512.9829 562.2074 573.8491 512.9829
+#>       10    NA 469.8624 474.5033 494.1266 513.7498 518.3908 494.1266
+#>       11    NA 398.8381 403.5231 423.3327 443.1422 447.8272 423.3327
+#>       12    NA 440.8228 445.5442 465.5075 485.4709 490.1922 465.5075
 ```
 
 ### Example: forecasting with regression learner
@@ -154,32 +154,32 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 435.6505
-#>        2    NA 437.5554
-#>        3    NA 456.4960
+#>        1    NA 433.4103
+#>        2    NA 435.9582
+#>        3    NA 456.0257
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 458.2301
-#>        2   390 414.4641
-#>        3   432 433.7197
+#>        1   461 457.2672
+#>        2   390 413.4132
+#>        3   432 430.3775
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  14.24925
+#>  13.72037
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.63902
+#>  47.75969
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.78916
+#>  25.95714
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -200,7 +200,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.60608
+#>  16.00005
 ```
 
 ### Example: Forecasting electricity demand
@@ -241,15 +241,6 @@ newdata = data.frame(
 )
 prediction = glrn$predict_newdata(newdata, task)
 prediction
-#> <PredictionRegr> for 14 observations:
-#>  row_ids truth response
-#>        1    NA 186.2554
-#>        2    NA 190.6231
-#>        3    NA 184.2325
-#>      ---   ---      ---
-#>       12    NA 212.5230
-#>       13    NA 217.9358
-#>       14    NA 219.2381
 ```
 
 ### Global Forecasting
@@ -281,15 +272,11 @@ task$col_roles$key = "state"
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
-#> regr.rmse 
-#>  23423.99
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
-#> regr.rmse 
-#>  90577.72
 ```
 
 ### Example: Global vs Local Forecasting
@@ -327,8 +314,6 @@ setnames(tab, c("row_id", "year"))
 row_ids = tab[year >= 2015, row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
-#> regr.rmse 
-#>  32547.69
 
 # global forecasting
 task = tsibbledata::aus_livestock |>
@@ -348,8 +333,6 @@ setnames(tab, c("row_id", "year", "state"))
 row_ids = tab[year >= 2015 & state == "Western Australia", row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
-#> regr.rmse 
-#>  30355.95
 ```
 
 ### Example: Custom PipeOps
@@ -362,54 +345,6 @@ task = tsk("airpassengers")
 pop = po("fcst.lag", lag = 1:12)
 new_task = pop$train(list(task))[[1L]]
 new_task$data()
-#>      passengers       date passengers_lag_1 passengers_lag_2 passengers_lag_3
-#>   1:        112 1949-01-01               NA               NA               NA
-#>   2:        118 1949-02-01              112               NA               NA
-#>   3:        132 1949-03-01              118              112               NA
-#>   4:        129 1949-04-01              132              118              112
-#>   5:        121 1949-05-01              129              132              118
-#>  ---                                                                         
-#> 140:        606 1960-08-01              622              535              472
-#> 141:        508 1960-09-01              606              622              535
-#> 142:        461 1960-10-01              508              606              622
-#> 143:        390 1960-11-01              461              508              606
-#> 144:        432 1960-12-01              390              461              508
-#>      passengers_lag_4 passengers_lag_5 passengers_lag_6 passengers_lag_7
-#>   1:               NA               NA               NA               NA
-#>   2:               NA               NA               NA               NA
-#>   3:               NA               NA               NA               NA
-#>   4:               NA               NA               NA               NA
-#>   5:              112               NA               NA               NA
-#>  ---                                                                    
-#> 140:              461              419              391              417
-#> 141:              472              461              419              391
-#> 142:              535              472              461              419
-#> 143:              622              535              472              461
-#> 144:              606              622              535              472
-#>      passengers_lag_8 passengers_lag_9 passengers_lag_10 passengers_lag_11
-#>   1:               NA               NA                NA                NA
-#>   2:               NA               NA                NA                NA
-#>   3:               NA               NA                NA                NA
-#>   4:               NA               NA                NA                NA
-#>   5:               NA               NA                NA                NA
-#>  ---                                                                      
-#> 140:              405              362               407               463
-#> 141:              417              405               362               407
-#> 142:              391              417               405               362
-#> 143:              419              391               417               405
-#> 144:              461              419               391               417
-#>      passengers_lag_12
-#>   1:                NA
-#>   2:                NA
-#>   3:                NA
-#>   4:                NA
-#>   5:                NA
-#>  ---                  
-#> 140:               559
-#> 141:               463
-#> 142:               407
-#> 143:               362
-#> 144:               405
 
 task = tsk("airpassengers")
 graph = po("fcst.lag", lag = 1:12) %>>%
@@ -425,20 +360,9 @@ flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
-#> regr.rmse 
-#>  26.33254
 
 newdata = generate_newdata(task, 12L, "month")
 glrn$predict_newdata(newdata, task)
-#> <PredictionRegr> for 12 observations:
-#>  row_ids truth response
-#>        1    NA 437.3861
-#>        2    NA 436.5904
-#>        3    NA 456.5291
-#>      ---   ---      ---
-#>       10    NA 473.6440
-#>       11    NA 441.5395
-#>       12    NA 440.8554
 ```
 
 ### Example: common target transformations

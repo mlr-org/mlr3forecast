@@ -64,11 +64,7 @@ LearnerFcstAutoArima = R6Class("LearnerFcstAutoArima",
       if (!is_task_featureless(task)) {
         xreg = as.matrix(task$data(cols = fcst_feature_names(task)))
       }
-      invoke(forecast::auto.arima,
-        y = stats::ts(task$truth()),
-        xreg = xreg,
-        .args = pv
-      )
+      invoke(forecast::auto.arima, y = as.ts(task), xreg = xreg, .args = pv)
     }
   )
 )
