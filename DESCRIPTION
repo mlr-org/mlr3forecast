@@ -17,7 +17,8 @@ Imports:
     mlr3misc (>= 0.15.0),
     mlr3pipelines (>= 0.7.1),
     paradox (>= 1.0.1),
-    R6 (>= 2.5.0)
+    R6 (>= 2.5.0),
+    stats
 Suggests:
     forecast,
     testthat (>= 3.2.0),

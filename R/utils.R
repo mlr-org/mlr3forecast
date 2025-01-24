@@ -26,6 +26,11 @@ as.ts.TaskFcst = function(x, ...) { # nolint
   stats::ts(x$truth(), freq = freq)
 }
 
+#' Generate new data for a forecast task
+#'
+#' @param task [TaskFcst]
+#' @param n (`integer(1)`) number of new data points to generate. Default `1L`.
+#' @return A `data.frame()` with `n` new data points.
 #' @export
 generate_newdata = function(task, n = 1L) {
   assert_count(n)

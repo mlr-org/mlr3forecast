@@ -5,6 +5,7 @@
 #' @import mlr3misc
 #' @import mlr3pipelines
 #' @import paradox
+#' @importFrom stats as.ts
 "_PACKAGE"
 
 mlr3forecast_resamplings = new.env()

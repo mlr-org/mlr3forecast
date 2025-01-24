@@ -19,7 +19,7 @@ load_task_electricty = function(id = "electricity") {
   setnames(dt, tolower)
   demand = temperature = holiday = NULL
   dt = dt[,
-    .(demand = sum(demand), temperature = max(temperature), holiday = any(holiday)),
+    list(demand = sum(demand), temperature = max(temperature), holiday = any(holiday)),
     by = date
   ]
   b = as_data_backend(dt)
