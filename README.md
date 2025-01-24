@@ -103,32 +103,32 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 433.3194
-#>        2    NA 433.4291
-#>        3    NA 454.5161
+#>        1    NA 434.9439
+#>        2    NA 439.1822
+#>        3    NA 458.6453
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 457.5929
-#>        2   390 410.9474
-#>        3   432 428.4405
+#>        1   461 455.2556
+#>        2   390 411.4701
+#>        3   432 432.2286
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  12.42408
+#>  12.83247
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  46.46596
+#>  50.76601
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.66013
+#>  26.06017
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -150,7 +150,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.31557
+#>   15.6575
 ```
 
 ### Example: forecasting electricity demand
@@ -193,6 +193,15 @@ newdata = data.frame(
 )
 prediction = glrn$predict_newdata(newdata, task)
 prediction
+#> <PredictionRegr> for 14 observations:
+#>  row_ids truth response
+#>        1    NA 186.9592
+#>        2    NA 191.3908
+#>        3    NA 185.1543
+#>      ---   ---      ---
+#>       12    NA 215.4734
+#>       13    NA 219.6907
+#>       14    NA 219.8203
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -229,14 +238,18 @@ task = graph$train(task)[[1L]]
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
+#> regr.rmse 
+#>  22183.18
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
+#> regr.rmse 
+#>  93061.55
 ```
 
-### Example: Global vs Local Forecasting
+### Example: global vs local forecasting
 
 In machine learning forecasting the difference between forecasting a
 time series and longitudinal data is often refered to local and global

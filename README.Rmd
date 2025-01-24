@@ -127,7 +127,7 @@ prediction$score(msr("regr.rmse"))
 
 ### Example: forecasting electricity demand
 
-```{r, eval = FALSE}
+```{r}
 library(mlr3learners)
 library(mlr3pipelines)
 
@@ -169,7 +169,7 @@ prediction
 
 ### Example: global forecasting (longitudinal data)
 
-```{r, message = FALSE, eval = FALSE}
+```{r, message = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
 library(tsibble)
