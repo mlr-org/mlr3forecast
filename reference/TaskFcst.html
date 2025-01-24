@@ -84,6 +84,15 @@ Predefined tasks are stored in the <a href="https://mlr3misc.mlr-org.com/referen
     <p><code><a href="https://mlr3.mlr-org.com/reference/Task.html" class="external-link">mlr3::Task</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/TaskSupervised.html" class="external-link">mlr3::TaskSupervised</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">mlr3::TaskRegr</a></code> -&gt; <code>TaskFcst</code></p>
     </div>
     <div class="section level2">
+    <h2 id="public-fields">Public fields<a class="anchor" aria-label="anchor" href="#public-fields"></a></h2>
+    <p></p><div class="r6-fields"><dl><dt><code>frequency</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+The frequency of the time series.</p></dd>
+
+
+</dl><p></p></div>
+    </div>
+    <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
     <p></p><div class="r6-active-bindings"><dl><dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
@@ -106,6 +115,7 @@ The following properties are currently standardized and understood by tasks in <
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 
 <ul><li><p><a href="#method-TaskFcst-new"><code>TaskFcst$new()</code></a></p></li>
+<li><p><a href="#method-TaskFcst-print"><code>TaskFcst$print()</code></a></p></li>
 <li><p><a href="#method-TaskFcst-clone"><code>TaskFcst$clone()</code></a></p></li>
 </ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-add_strata"><code>mlr3::Task$add_strata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-cbind"><code>mlr3::Task$cbind()</code></a></span></li>
@@ -119,7 +129,6 @@ The following properties are currently standardized and understood by tasks in <
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-help"><code>mlr3::Task$help()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-levels"><code>mlr3::Task$levels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-missings"><code>mlr3::Task$missings()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="print"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-print"><code>mlr3::Task$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-rbind"><code>mlr3::Task$rbind()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-rename"><code>mlr3::Task$rename()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href="https://mlr3.mlr-org.com/reference/Task.html#method-select"><code>mlr3::Task$select()</code></a></span></li>
@@ -138,6 +147,7 @@ The function <code><a href="as_task_fcst.html">as_task_fcst()</a></code> provide
 <span>  <span class="va">target</span>,</span>
 <span>  <span class="va">order</span>,</span>
 <span>  key <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  frequency <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  extra_args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
@@ -171,6 +181,12 @@ Name of the order column.</p></dd>
 Name of the key column.</p></dd>
 
 
+<dt><code>frequency</code></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Frequency of the time series.
+One of <code>"daily"</code>, <code>"weekly"</code>, <code>"monthly"</code>, <code>"quarterly"</code>, <code>"yearly"</code>.</p></dd>
+
+
 <dt><code>label</code></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Label for the new instance.</p></dd>
@@ -185,15 +201,31 @@ via <code><a href="https://mlr3.mlr-org.com/reference/convert_task.html" class="
 </dl><p></p></div>
 </div>
 
-</div><p></p><hr><a id="method-TaskFcst-clone"></a><div class="section">
-<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
-<p>The objects of this class are cloneable with this method.</p><div class="section">
+</div><p></p><hr><a id="method-TaskFcst-print"></a><div class="section">
+<h3 id="method-print-">Method <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print()</a></code><a class="anchor" aria-label="anchor" href="#method-print-"></a></h3>
+<p>Printer.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskFcst</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskFcst</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>...</code></dt>
+<dd><p>(ignored).</p></dd>
+
+
+</dl><p></p></div>
+</div>
+
+</div><p></p><hr><a id="method-TaskFcst-clone"></a><div class="section">
+<h3 id="method-clone-">Method <code>clone()</code><a class="anchor" aria-label="anchor" href="#method-clone-"></a></h3>
+<p>The objects of this class are cloneable with this method.</p><div class="section">
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskFcst</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div>
+
+<div class="section">
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 
