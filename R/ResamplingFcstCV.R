@@ -81,28 +81,7 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
   ),
 
   private = list(
-    .sample = function(ids, ...) {
-      pars = self$param_set$get_values()
-      window_size = pars$window_size
-      horizon = pars$horizon
-
-      ids = sort(ids)
-      train_end = ids[ids <= (max(ids) - horizon) & ids >= window_size]
-      train_end = seq.int(
-        from = train_end[length(train_end)],
-        by = -pars$step_size,
-        length.out = pars$folds
-      )
-      if (!pars$fixed_window) {
-        train_ids = map(train_end, function(x) ids[1L]:x)
-      } else {
-        train_ids = map(train_end, function(x) (x - window_size + 1L):x)
-      }
-      test_ids = map(train_ids, function(x) (x[length(x)] + 1L):(x[length(x)] + horizon))
-      list(train = train_ids, test = test_ids)
-    },
-
-    .sample_new = function(ids, task, ...) {
+    .sample = function(ids, task, ...) {
       if ("ordered" %nin% task$properties) {
         stopf(
           "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
@@ -111,11 +90,8 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
       }
 
       pars = self$param_set$get_values()
-      horizon = pars$horizon
       window_size = pars$window_size
-      step_size = pars$step_size
-      folds = pars$folds
-      fixed_window = pars$fixed_window
+      horizon = pars$horizon
 
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
@@ -126,15 +102,68 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
         cols = c(task$backend$primary_key, order_cols, key_cols)
       )
 
-      if (has_key) {
-        setnames(tab, c("row_id", "order", "key"))
-        setorderv(tab, c("key", "order"))
-      } else {
+      if (!has_key) {
         setnames(tab, c("row_id", "order"))
         setorderv(tab, "order")
-      }
+        train_end = tab[.N - horizon, row_id]
+        train_end = rev(seq.int(
+          from = train_end,
+          by = -pars$step_size,
+          length.out = pars$folds
+        ))
+        if (!pars$fixed_window) {
+          train_ids = map(train_end, function(x) ids[1L]:x)
+        } else {
+          train_ids = map(train_end, function(x) (x - window_size + 1L):x)
+        }
+        test_ids = map(train_ids, function(x) (x[length(x)] + 1L):(x[length(x)] + horizon))
+      } else {
+        setnames(tab, "..row_id", "row_id")
+        setorderv(tab, c(key_cols, order_cols))
+        ids = tab[, {
+          train_end = rev(seq.int(
+            from = .N - horizon,
+            by = -pars$step_size,
+            length.out = pars$folds
+          ))
+          if (pars$fixed_window) {
+            train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, row_id])
+          } else {
+            train_ids = map(train_end, function(x) .SD[1L:x, row_id])
+          }
+          test_ids = map(train_ids, function(x) {
+            n = length(x)
+            (x[n] + 1L):(x[n] + horizon)
+          })
+          list(train_ids = train_ids, test_ids = test_ids)
+        }, by = key_cols][, .(train_ids, test_ids)]
 
-      if (!has_key) {} else {}
+      }
+      list(train = ids$train_ids, test = ids$test_ids)
+    },
+
+    .sample_ids = function(ids, ...) {
+      pars = self$param_set$get_values()
+      window_size = pars$window_size
+      horizon = pars$horizon
+
+      ids = sort(ids)
+      train_end = ids[ids <= (max(ids) - horizon) & ids >= window_size]
+      train_end = rev(seq.int(
+        from = train_end[length(train_end)],
+        by = -pars$step_size,
+        length.out = pars$folds
+      ))
+      if (pars$fixed_window) {
+        train_ids = map(train_end, function(x) (x - window_size + 1L):x)
+      } else {
+        train_ids = map(train_end, function(x) ids[1L]:x)
+      }
+      test_ids = map(train_ids, function(x) {
+        n = length(x)
+        (x[n] + 1L):(x[n] + horizon)
+      })
+      list(train = train_ids, test = test_ids)
     },
 
     .get_train = function(i) {
