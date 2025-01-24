@@ -103,32 +103,32 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 435.1630
-#>        2    NA 436.5908
-#>        3    NA 456.2188
+#>        1    NA 433.3194
+#>        2    NA 433.4291
+#>        3    NA 454.5161
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 459.4903
-#>        2   390 414.8749
-#>        3   432 433.6170
+#>        1   461 457.5929
+#>        2   390 410.9474
+#>        3   432 428.4405
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  14.41823
+#>  12.42408
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  48.34306
+#>  46.46596
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  26.41356
+#>  25.66013
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -139,8 +139,9 @@ library(mlr3pipelines)
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
-      week_of_year = FALSE, day_of_year = FALSE, day_of_month = FALSE, day_of_week = FALSE,
-      is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE
+      week_of_year = FALSE, day_of_year = FALSE, day_of_month = FALSE,
+      day_of_week = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE,
+      second = FALSE
     )
   )
 task = tsk("airpassengers")
@@ -149,10 +150,10 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.49621
+#>  15.31557
 ```
 
-### Example: Forecasting electricity demand
+### Example: forecasting electricity demand
 
 ``` r
 library(mlr3learners)
@@ -170,7 +171,9 @@ task = tsibbledata::vic_elec |>
     ),
     by = date
   ] |>
-  as_task_fcst(id = "vic_elec", target = "demand", order = "date")
+  as_task_fcst(
+    id = "vic_elec", target = "demand", order = "date", frequency = "daily"
+  )
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
@@ -192,12 +195,12 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 ```
 
-### Global Forecasting
+### Example: global forecasting (longitudinal data)
 
 ``` r
 library(mlr3learners)
 library(mlr3pipelines)
-library(tsibble) # needs not be loaded for it to somehow work
+library(tsibble)
 
 task = tsibbledata::aus_livestock |>
   as.data.table() |>
@@ -205,7 +208,13 @@ task = tsibbledata::aus_livestock |>
   _[, month := as.Date(month)] |>
   _[, .(count = sum(count)), by = .(state, month)] |>
   setorder(state, month) |>
-  as_task_fcst(id = "aus_livestock", target = "count", order = "month", key = "state")
+  as_task_fcst(
+    id = "aus_livestock",
+    target = "count",
+    order = "month",
+    key = "state",
+    frequency = "monthly"
+  )
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
@@ -216,7 +225,6 @@ graph = ppl("convert_types", "Date", "POSIXct") %>>%
     )
   )
 task = graph$train(task)[[1L]]
-task$col_roles$key = "state"
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)

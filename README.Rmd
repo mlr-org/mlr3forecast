@@ -113,8 +113,9 @@ library(mlr3pipelines)
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
-      week_of_year = FALSE, day_of_year = FALSE, day_of_month = FALSE, day_of_week = FALSE,
-      is_day = FALSE, hour = FALSE, minute = FALSE, second = FALSE
+      week_of_year = FALSE, day_of_year = FALSE, day_of_month = FALSE,
+      day_of_week = FALSE, is_day = FALSE, hour = FALSE, minute = FALSE,
+      second = FALSE
     )
   )
 task = tsk("airpassengers")
@@ -124,7 +125,7 @@ prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 ```
 
-### Example: Forecasting electricity demand
+### Example: forecasting electricity demand
 
 ```{r, eval = FALSE}
 library(mlr3learners)
@@ -142,7 +143,9 @@ task = tsibbledata::vic_elec |>
     ),
     by = date
   ] |>
-  as_task_fcst(id = "vic_elec", target = "demand", order = "date")
+  as_task_fcst(
+    id = "vic_elec", target = "demand", order = "date", frequency = "daily"
+  )
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
@@ -164,12 +167,12 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 ```
 
-### Global Forecasting
+### Example: global forecasting (longitudinal data)
 
 ```{r, message = FALSE, eval = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
-library(tsibble) # needs not be loaded for it to somehow work
+library(tsibble)
 
 task = tsibbledata::aus_livestock |>
   as.data.table() |>
@@ -177,7 +180,13 @@ task = tsibbledata::aus_livestock |>
   _[, month := as.Date(month)] |>
   _[, .(count = sum(count)), by = .(state, month)] |>
   setorder(state, month) |>
-  as_task_fcst(id = "aus_livestock", target = "count", order = "month", key = "state")
+  as_task_fcst(
+    id = "aus_livestock",
+    target = "count",
+    order = "month",
+    key = "state",
+    frequency = "monthly"
+  )
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
@@ -188,7 +197,6 @@ graph = ppl("convert_types", "Date", "POSIXct") %>>%
     )
   )
 task = graph$train(task)[[1L]]
-task$col_roles$key = "state"
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
@@ -200,7 +208,7 @@ rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 ```
 
-### Example: Global vs Local Forecasting
+### Example: global vs local forecasting
 
 In machine learning forecasting the difference between forecasting a time series
 and longitudinal data is often refered to local and global forecasting.

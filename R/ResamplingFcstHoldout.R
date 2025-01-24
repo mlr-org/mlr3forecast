@@ -97,9 +97,9 @@ ResamplingFcstHoldout = R6Class("ResamplingFcstHoldout",
       has_key_cols = length(key_cols) > 0L
       tab = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
       if (has_key_cols) {
-        setnames(tab, c("row_id", "order", "key"))
-        setorderv(tab, c("key", "order"))
-        n_groups = length(unique(tab$key))
+        setnames(tab, "..row_id", "row_id")
+        setorderv(tab, c(key_cols, order_cols))
+        n_groups = uniqueN(tab[[key_cols]])
         nr = if (has_ratio) nr %/% n_groups else nr
         list(
           train = tab[, .SD[1:nr], by = key_cols][, row_id],
@@ -107,7 +107,7 @@ ResamplingFcstHoldout = R6Class("ResamplingFcstHoldout",
         )
       } else {
         setnames(tab, c("row_id", "order"))
-        setorderv(tab, c("order"))
+        setorderv(tab, "order")
         list(
           train = tab[1:nr, row_id],
           test = tab[(nr + 1L):.N, row_id]

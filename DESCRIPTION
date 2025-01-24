@@ -15,7 +15,7 @@ Imports:
     data.table (>= 1.16.4),
     lgr,
     mlr3misc (>= 0.15.0),
-    mlr3pipelines,
+    mlr3pipelines (>= 0.7.1),
     paradox (>= 1.0.1),
     R6 (>= 2.5.0)
 Suggests:
@@ -25,7 +25,8 @@ Suggests:
     tsibbledata,
     withr (>= 3.0.0)
 Remotes:
-    mlr-org/mlr3
+    mlr-org/mlr3,
+    mlr-org/mlr3pipelines
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
