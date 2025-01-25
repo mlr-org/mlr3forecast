@@ -10,7 +10,7 @@
 #' @inheritParams mlr3::as_task_regr
 #' @template param_order
 #' @template param_key
-#' @template param_frequency
+#' @template param_freq
 #'
 #' @return [TaskFcst].
 #' @export
@@ -31,7 +31,7 @@ as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) { # nolint
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.DataBackend = function(x, target = NULL, order = character(), key = character(), frequency = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.DataBackend = function(x, target = NULL, order = character(), key = character(), freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   cn = x$colnames
@@ -42,14 +42,14 @@ as_task_fcst.DataBackend = function(x, target = NULL, order = character(), key =
   }
 
   task = TaskFcst$new(
-    id = id, backend = x, target = target, order = order, key = key, frequency = frequency, label = label, ... # nolint
+    id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ... # nolint
   )
   task
 }
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.data.frame = function(x, target = NULL, order = character(), key = character(), frequency = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.data.frame = function(x, target = NULL, order = character(), key = character(), freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -66,7 +66,7 @@ as_task_fcst.data.frame = function(x, target = NULL, order = character(), key = 
   }
 
   task = TaskFcst$new(
-    id = id, backend = x, target = target, order = order, key = key, frequency = frequency, label = label, ... # nolint
+    id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ... # nolint
   )
   task
 }

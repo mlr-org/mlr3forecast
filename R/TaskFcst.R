@@ -25,9 +25,9 @@
 TaskFcst = R6Class("TaskFcst",
   inherit = TaskRegr,
   public = list(
-    #' @field frequency (`character(1)`)\cr
+    #' @field freq (`character(1)`)\cr
     #' The frequency of the time series.
-    frequency = NULL,
+    freq = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -36,10 +36,10 @@ TaskFcst = R6Class("TaskFcst",
     #' @template param_target
     #' @template param_order
     #' @template param_key
-    #' @template param_frequency
+    #' @template param_freq
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, order, key = NULL, frequency = NULL, label = NA_character_, extra_args = list()) { # nolint
+    initialize = function(id, backend, target, order, key = NULL, freq = NULL, label = NA_character_, extra_args = list()) { # nolint
       super$initialize(
         id = id,
         backend = backend,
@@ -53,10 +53,9 @@ TaskFcst = R6Class("TaskFcst",
       self$set_col_roles(order, add = "order")
       self$set_col_roles(key, add = "key")
       assert_choice(
-        frequency, c("daily", "weekly", "monthly", "quarterly", "yearly"),
-        null.ok = TRUE
+        freq, c("daily", "weekly", "monthly", "quarterly", "yearly"), null.ok = TRUE
       )
-      self$frequency = frequency
+      self$freq = freq
     },
 
     #' @description
@@ -64,7 +63,7 @@ TaskFcst = R6Class("TaskFcst",
     #' @param ... (ignored).
     print = function(...) {
       super$print()
-      catf(str_indent("* Frequency:", self$frequency))
+      catf(str_indent("* Frequency:", self$freq))
     }
   ),
 

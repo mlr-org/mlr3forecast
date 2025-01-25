@@ -24,7 +24,7 @@ load_task_airpassengers = function(id = "airpassengers") {
     backend = b,
     target = "passengers",
     order = "date",
-    frequency = "monthly",
+    freq = "monthly",
     label = "Monthly Airline Passenger Numbers 1949-1960"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_airpassengers"

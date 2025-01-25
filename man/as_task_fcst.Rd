@@ -16,7 +16,7 @@ as_task_fcst(x, ...)
   target = NULL,
   order = character(),
   key = character(),
-  frequency = NULL,
+  freq = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -27,7 +27,7 @@ as_task_fcst(x, ...)
   target = NULL,
   order = character(),
   key = character(),
-  frequency = NULL,
+  freq = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -52,7 +52,7 @@ Name of the order column.}
 \item{key}{(\code{character(1)})\cr
 Name of the key column.}
 
-\item{frequency}{(\code{character(1)})\cr
+\item{freq}{(\code{character(1)})\cr
 Frequency of the time series.
 One of \code{"daily"}, \code{"weekly"}, \code{"monthly"}, \code{"quarterly"}, \code{"yearly"}.}
 

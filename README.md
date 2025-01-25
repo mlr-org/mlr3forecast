@@ -48,13 +48,9 @@ package. In the future, we plan to support more forecasting learners.
 
 ``` r
 library(mlr3forecast)
-#> Loading required package: mlr3
 
 task = tsk("airpassengers")
 learner = lrn("fcst.auto_arima")$train(task)
-#> Registered S3 method overwritten by 'quantmod':
-#>   method            from
-#>   as.zoo.data.frame zoo
 prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
@@ -103,32 +99,32 @@ prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 434.9439
-#>        2    NA 439.1822
-#>        3    NA 458.6453
+#>        1    NA 436.1867
+#>        2    NA 437.4089
+#>        3    NA 456.8410
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 455.2556
-#>        2   390 411.4701
-#>        3   432 432.2286
+#>        1   461 459.1495
+#>        2   390 414.8433
+#>        3   432 430.2693
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  12.83247
+#>  14.41767
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  50.76601
+#>  48.97126
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  26.06017
+#>  25.19211
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -150,7 +146,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>   15.6575
+#>  15.58057
 ```
 
 ### Example: forecasting electricity demand
@@ -159,22 +155,7 @@ prediction$score(msr("regr.rmse"))
 library(mlr3learners)
 library(mlr3pipelines)
 
-task = tsibbledata::vic_elec |>
-  as.data.table() |>
-  setnames(tolower) |>
-  _[
-    year(time) == 2014L,
-    .(
-      demand = sum(demand) / 1e3,
-      temperature = max(temperature),
-      holiday = any(holiday)
-    ),
-    by = date
-  ] |>
-  as_task_fcst(
-    id = "vic_elec", target = "demand", order = "date", frequency = "daily"
-  )
-
+task = tsk("electricity")
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
@@ -195,13 +176,13 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 14 observations:
 #>  row_ids truth response
-#>        1    NA 186.9592
-#>        2    NA 191.3908
-#>        3    NA 185.1543
+#>        1    NA 187595.7
+#>        2    NA 196608.6
+#>        3    NA 189152.0
 #>      ---   ---      ---
-#>       12    NA 215.4734
-#>       13    NA 219.6907
-#>       14    NA 219.8203
+#>       12    NA 222400.3
+#>       13    NA 226494.8
+#>       14    NA 226568.4
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -222,7 +203,7 @@ task = tsibbledata::aus_livestock |>
     target = "count",
     order = "month",
     key = "state",
-    frequency = "monthly"
+    freq = "monthly"
   )
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
@@ -239,14 +220,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  22183.18
+#>  22604.48
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  93061.55
+#>  92125.26
 ```
 
 ### Example: global vs local forecasting

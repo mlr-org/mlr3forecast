@@ -12,7 +12,6 @@ knitr::opts_chunk$set(
 
 lgr::get_logger("mlr3")$set_threshold("warn")
 options(datatable.print.class = FALSE, datatable.print.keys = FALSE)
-library(checkmate)
 library(data.table)
 library(mlr3misc)
 ```
@@ -60,7 +59,7 @@ still in flux and may change.
 Currently, we support native forecasting learners from the forecast package.
 In the future, we plan to support more forecasting learners.
 
-```{r}
+```{r, message = FALSE}
 library(mlr3forecast)
 
 task = tsk("airpassengers")
@@ -127,26 +126,11 @@ prediction$score(msr("regr.rmse"))
 
 ### Example: forecasting electricity demand
 
-```{r}
+```{r, message = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
 
-task = tsibbledata::vic_elec |>
-  as.data.table() |>
-  setnames(tolower) |>
-  _[
-    year(time) == 2014L,
-    .(
-      demand = sum(demand) / 1e3,
-      temperature = max(temperature),
-      holiday = any(holiday)
-    ),
-    by = date
-  ] |>
-  as_task_fcst(
-    id = "vic_elec", target = "demand", order = "date", frequency = "daily"
-  )
-
+task = tsk("electricity")
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
@@ -185,7 +169,7 @@ task = tsibbledata::aus_livestock |>
     target = "count",
     order = "month",
     key = "state",
-    frequency = "monthly"
+    freq = "monthly"
   )
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%

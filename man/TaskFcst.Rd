@@ -51,7 +51,7 @@ Other Task:
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{frequency}}{(\code{character(1)})\cr
+\item{\code{freq}}{(\code{character(1)})\cr
 The frequency of the time series.}
 }
 \if{html}{\out{</div>}}
@@ -121,7 +121,7 @@ The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative
   target,
   order,
   key = NULL,
-  frequency = NULL,
+  freq = NULL,
   label = NA_character_,
   extra_args = list()
 )}\if{html}{\out{</div>}}
@@ -146,7 +146,7 @@ Name of the order column.}
 \item{\code{key}}{(\code{character(1)})\cr
 Name of the key column.}
 
-\item{\code{frequency}}{(\code{character(1)})\cr
+\item{\code{freq}}{(\code{character(1)})\cr
 Frequency of the time series.
 One of \code{"daily"}, \code{"weekly"}, \code{"monthly"}, \code{"quarterly"}, \code{"yearly"}.}
 

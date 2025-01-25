@@ -15,13 +15,13 @@ quantiles_to_level = function(x) {
 
 #' @export
 as.ts.TaskFcst = function(x, ...) { # nolint
-  freq = switch(x$frequency,
+  freq = switch(x$freq,
     daily = 365.25,
     weekly = 52,
     monthly = 12,
     quarterly = 4,
     yearly = 1,
-    stopf("Unknown frequency: %s", x$frequency)
+    stopf("Unknown frequency: %s", x$freq)
   )
   stats::ts(x$truth(), freq = freq)
 }
@@ -37,7 +37,7 @@ generate_newdata = function(task, n = 1L) {
   order_cols = task$col_roles$order
   max_index = max(task$data(cols = order_cols)[[1L]])
 
-  unit = switch(task$frequency,
+  unit = switch(task$freq,
     daily = "day",
     weekly = "week",
     monthly = "month",
