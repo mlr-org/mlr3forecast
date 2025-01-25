@@ -72,7 +72,7 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 <span>  target <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  frequency <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  freq <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/deparse.html" class="external-link">deparse1</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">substitute</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -84,7 +84,7 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 <span>  target <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  order <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  frequency <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  freq <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/deparse.html" class="external-link">deparse1</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/substitute.html" class="external-link">substitute</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span>,</span>
 <span>  label <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -125,7 +125,7 @@ Name of the order column.</p></dd>
 Name of the key column.</p></dd>
 
 
-<dt id="arg-frequency">frequency<a class="anchor" aria-label="anchor" href="#arg-frequency"></a></dt>
+<dt id="arg-freq">freq<a class="anchor" aria-label="anchor" href="#arg-freq"></a></dt>
 <dd><p>(<code>character(1)</code>)<br>
 Frequency of the time series.
 One of <code>"daily"</code>, <code>"weekly"</code>, <code>"monthly"</code>, <code>"quarterly"</code>, <code>"yearly"</code>.</p></dd>
