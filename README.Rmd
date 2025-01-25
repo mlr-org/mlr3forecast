@@ -254,12 +254,12 @@ library(mlr3learners)
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
-pop = po("fcst.lag", lag = 1:12)
+pop = po("fcst.lag", lags = 1:12)
 new_task = pop$train(list(task))[[1L]]
 new_task$data()
 
 task = tsk("airpassengers")
-graph = po("fcst.lag", lag = 1:12) %>>%
+graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
@@ -295,7 +295,7 @@ trafo = po("targetmutate",
   )
 )
 
-graph = po("fcst.lag", lag = 1:12) %>>%
+graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
@@ -315,7 +315,7 @@ prediction$score(msr("regr.rmse"))
 ```
 
 ```{r, eval = FALSE}
-graph = po("fcst.lag", lag = 1:12) %>>%
+graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
@@ -328,7 +328,7 @@ graph = po("fcst.lag", lag = 1:12) %>>%
 task = tsk("airpassengers")
 flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)
-trafo = po("fcst.targetdiff", lag = 12L)
+trafo = po("fcst.targetdiff", lags = 12L)
 pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
 glrn = as_learner(pipeline)$train(task)
 prediction = glrn$predict(task, 142:144)

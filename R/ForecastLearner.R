@@ -8,18 +8,18 @@ ForecastLearner = R6::R6Class("ForecastLearner",
     #' The learner
     learner = NULL,
 
-    #' @field lag (`integer()`)\cr
-    #' The lag
-    lag = NULL,
+    #' @field lags (`integer()`)\cr
+    #' The lags
+    lags = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param task ([Task])\cr
     #' @param learner ([Learner])\cr
-    #' @param lag (`integer(1)`)\cr
-    initialize = function(learner, lag) {
+    #' @param lags (`integer(1)`)\cr
+    initialize = function(learner, lags) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
-      self$lag = assert_integerish(lag, lower = 1L, any.missing = FALSE, coerce = TRUE)
+      self$lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
 
       super$initialize(
         id = learner$id,
@@ -80,14 +80,14 @@ ForecastLearner = R6::R6Class("ForecastLearner",
     },
 
     .lag_transform = function(dt, target) {
-      lag = self$lag
-      nms = sprintf("%s_lag_%i", target, lag)
+      lags = self$lags
+      nms = sprintf("%s_lag_%i", target, lags)
       dt = copy(dt)
       key_cols = private$.task$col_roles$key
       if (length(key_cols) > 0L) {
-        dt[, (nms) := shift(.SD, lag), by = key_cols, .SDcols = target]
+        dt[, (nms) := shift(.SD, lags), by = key_cols, .SDcols = target]
       } else {
-        dt[, (nms) := shift(.SD, lag), .SDcols = target]
+        dt[, (nms) := shift(.SD, lags), .SDcols = target]
       }
       dt
     },

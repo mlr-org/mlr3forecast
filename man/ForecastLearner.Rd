@@ -17,8 +17,8 @@ Forecast Learner
 \item{\code{learner}}{(\link{Learner})\cr
 The learner}
 
-\item{\code{lag}}{(\code{integer()})\cr
-The lag}
+\item{\code{lags}}{(\code{integer()})\cr
+The lags}
 }
 \if{html}{\out{</div>}}
 }
@@ -51,7 +51,7 @@ The lag}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ForecastLearner$new(learner, lag)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ForecastLearner$new(learner, lags)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -59,7 +59,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \describe{
 \item{\code{learner}}{(\link{Learner})\cr}
 
-\item{\code{lag}}{(\code{integer(1)})\cr}
+\item{\code{lags}}{(\code{integer(1)})\cr}
 
 \item{\code{task}}{(\link{Task})\cr}
 }

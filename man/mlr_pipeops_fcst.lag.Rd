@@ -12,7 +12,7 @@
 The parameters are the parameters inherited from \link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc},
 as well as the following parameters:
 \itemize{
-\item \code{lag} :: \code{integer()}\cr
+\item \code{lags} :: \code{integer()}\cr
 The lags to create.
 }
 }
