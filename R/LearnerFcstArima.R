@@ -15,7 +15,7 @@
 #' @export
 #' @template seealso_learner
 LearnerFcstArima = R6Class("LearnerFcstArima",
-  inherit = LearnerRegrForecast,
+  inherit = LearnerFcstForecast,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

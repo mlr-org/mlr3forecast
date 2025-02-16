@@ -15,7 +15,7 @@
 #' @export
 #' @template seealso_learner
 LearnerFcstTbats = R6Class("LearnerFcstTbats",
-  inherit = LearnerRegrForecast,
+  inherit = LearnerFcstForecast,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.

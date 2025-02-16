@@ -82,6 +82,15 @@ bibentries = c(
     number    = "496",
     pages     = "1513--1527",
     year      = "2011"
+  ),
+  blaskowitz2011directional = bibentry("article",
+    title     = "On economic evaluation of directional forecasts",
+    author    = "Blaskowitz and H. Herwartz",
+    journal   = "International Journal of Forecasting",
+    volume    = "27",
+    number    = "4",
+    pages     = "1058--1065",
+    year      = "2011"
   )
 )
 # nolint end

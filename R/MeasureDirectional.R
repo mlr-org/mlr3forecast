@@ -1,4 +1,7 @@
 #' @title Mean Directional Accuracy
+#'
+#' @references
+#' `r format_bib("blaskowitz2011directional")`
 MeasureMDA = R6Class("MeasureMDA",
   inherit = Measure,
   public = list(
@@ -47,6 +50,9 @@ MeasureMDA = R6Class("MeasureMDA",
 )
 
 #' @title Mean Directional Value
+#'
+#' @references
+#' `r format_bib("blaskowitz2011directional")`
 MeasureMDV = R6Class("MeasureMDV",
   inherit = Measure,
   public = list(
@@ -83,6 +89,9 @@ MeasureMDV = R6Class("MeasureMDV",
 )
 
 #' @title Mean Directional Percentage Value
+#'
+#' @references
+#' `r format_bib("blaskowitz2011directional")`
 MeasureMDPV = R6Class("MeasureMDPV",
   inherit = Measure,
   public = list(
