@@ -8,6 +8,11 @@ Mean Directional Value
 
 Mean Directional Value
 }
+\references{
+Blaskowitz, Herwartz H (2011).
+\dQuote{On economic evaluation of directional forecasts.}
+\emph{International Journal of Forecasting}, \bold{27}(4), 1058--1065.
+}
 \section{Super class}{
 \code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureMDV}
 }
