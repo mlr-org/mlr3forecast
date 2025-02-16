@@ -39,7 +39,16 @@ TaskFcst = R6Class("TaskFcst",
     #' @template param_freq
     #' @template param_label
     #' @template param_extra_args
-    initialize = function(id, backend, target, order, key = NULL, freq = NULL, label = NA_character_, extra_args = list()) { # nolint
+    initialize = function(
+      id,
+      backend,
+      target,
+      order,
+      key = NULL,
+      freq = NULL,
+      label = NA_character_,
+      extra_args = list()
+    ) {
       super$initialize(
         id = id,
         backend = backend,
