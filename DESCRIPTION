@@ -10,7 +10,6 @@ Depends:
     mlr3 (>= 0.22.1.9000),
     R (>= 3.6.0)
 Imports:
-    backports (>= 1.5.0),
     checkmate (>= 2.3.2),
     data.table (>= 1.16.4),
     lgr,

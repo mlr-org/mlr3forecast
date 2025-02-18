@@ -96,8 +96,6 @@ register_mlr3pipelines = function() {
 }
 
 .onLoad = function(libname, pkgname) {
-  backports::import(pkgname)
-
   assign("lg", lgr::get_logger("mlr3"), envir = parent.env(environment()))
   if (Sys.getenv("IN_PKGDOWN") == "true") {
     lg$set_threshold("warn")
