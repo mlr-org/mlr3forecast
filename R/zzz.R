@@ -16,7 +16,7 @@ mlr3forecast_feature_types = c(dte = "Date")
 mlr3forecast_col_roles = "key"
 mlr3forecast_learner_properties = character()
 mlr3forecast_task_print_col_roles = c("Key by" = "key")
-mlr3forecast_task_properties = c("univariate", "multivariate", "ordered")
+mlr3forecast_task_properties = c("univariate", "multivariate", "ordered", "keys")
 mlr3forecast_pipeops = new.env()
 mlr3forecast_pipeop_tags = "fcst"
 

@@ -4,11 +4,11 @@ test_that("airpassengers task", {
 })
 
 test_that("electricity task", {
-  task = tsk("airpassengers")
+  task = tsk("electricity")
   expect_task(task)
 })
 
 test_that("livestock task", {
-  task = tsk("airpassengers")
+  task = tsk("livestock")
   expect_task(task)
 })
