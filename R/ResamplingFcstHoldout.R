@@ -38,7 +38,8 @@
 #'
 #' # Internal storage:
 #' holdout$instance # simple list
-ResamplingFcstHoldout = R6Class("ResamplingFcstHoldout",
+ResamplingFcstHoldout = R6Class(
+  "ResamplingFcstHoldout",
   inherit = Resampling,
   public = list(
     #' @description
@@ -71,7 +72,8 @@ ResamplingFcstHoldout = R6Class("ResamplingFcstHoldout",
       if ("ordered" %nin% task$properties) {
         stopf(
           "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
-          self$id, task$id
+          self$id,
+          task$id
         )
       }
 
@@ -119,7 +121,8 @@ ResamplingFcstHoldout = R6Class("ResamplingFcstHoldout",
       if ("ordered" %nin% task$properties) {
         stopf(
           "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
-          self$id, task$id
+          self$id,
+          task$id
         )
       }
 

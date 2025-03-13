@@ -21,6 +21,7 @@
 ^\.pre-commit-config\.yaml$
 ^\.vscode$
 ^_pkgdown\.yml$
+^air\.toml$
 ^codecov\.yml$
 ^compose\.ya?ml$
 ^cran-comments\.md$

@@ -41,7 +41,8 @@
 #'
 #' # Internal storage:
 #' cv$instance #  list
-ResamplingFcstCV = R6Class("ResamplingFcstCV",
+ResamplingFcstCV = R6Class(
+  "ResamplingFcstCV",
   inherit = Resampling,
   public = list(
     #' @description
@@ -85,7 +86,8 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
       if ("ordered" %nin% task$properties) {
         stopf(
           "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
-          self$id, task$id
+          self$id,
+          task$id
         )
       }
 
@@ -123,23 +125,26 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
       } else {
         setnames(tab, "..row_id", "row_id")
         setorderv(tab, c(key_cols, order_cols))
-        ids = tab[, {
-          train_end = seq.int(
-            from = .N - horizon,
-            by = -pars$step_size,
-            length.out = pars$folds
-          )
-          if (pars$fixed_window) {
-            train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, row_id])
-          } else {
-            train_ids = map(train_end, function(x) .SD[1L:x, row_id])
-          }
-          test_ids = map(train_ids, function(x) {
-            n = length(x)
-            (x[n] + 1L):(x[n] + horizon)
-          })
-          list(train_ids = train_ids, test_ids = test_ids)
-        }, by = key_cols][, .(train_ids, test_ids)]
+        ids = tab[,
+          {
+            train_end = seq.int(
+              from = .N - horizon,
+              by = -pars$step_size,
+              length.out = pars$folds
+            )
+            if (pars$fixed_window) {
+              train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, row_id])
+            } else {
+              train_ids = map(train_end, function(x) .SD[1L:x, row_id])
+            }
+            test_ids = map(train_ids, function(x) {
+              n = length(x)
+              (x[n] + 1L):(x[n] + horizon)
+            })
+            list(train_ids = train_ids, test_ids = test_ids)
+          },
+          by = key_cols
+        ][, .(train_ids, test_ids)]
         train_ids = ids$train_ids
         test_ids = ids$test_ids
       }
@@ -183,11 +188,7 @@ ResamplingFcstCV = R6Class("ResamplingFcstCV",
     },
 
     deep_clone = function(name, value) {
-      switch(name,
-        "instance" = copy(value),
-        "param_set" = value$clone(deep = TRUE),
-        value
-      )
+      switch(name, "instance" = copy(value), "param_set" = value$clone(deep = TRUE), value)
     }
   )
 )

@@ -1,7 +1,11 @@
 test_that("forecast_cv basic properties", {
   task = tsk("airpassengers")
-  resampling = rsmp("forecast_cv",
-    folds = 10L, horizon = 3L, window_size = 5L, fixed_window = FALSE
+  resampling = rsmp(
+    "forecast_cv",
+    folds = 10L,
+    horizon = 3L,
+    window_size = 5L,
+    fixed_window = FALSE
   )
   expect_resampling(resampling, task, strata = FALSE)
   resampling$instantiate(task)
@@ -13,9 +17,7 @@ test_that("forecast_cv basic properties", {
 
 test_that("forecast_cv works", {
   task = tsk("airpassengers")
-  resampling = rsmp("forecast_cv",
-    folds = 3L, horizon = 3L, window_size = 5L, fixed_window = FALSE
-  )
+  resampling = rsmp("forecast_cv", folds = 3L, horizon = 3L, window_size = 5L, fixed_window = FALSE)
   resampling$instantiate(task)
   expect_identical(resampling$train_set(1L), 1:141)
   expect_identical(resampling$train_set(2L), 1:140)
@@ -23,9 +25,7 @@ test_that("forecast_cv works", {
   expect_identical(resampling$test_set(1L), 142:144)
   walk(1:3, function(i) expect_length(resampling$test_set(i), 3L))
 
-  resampling = rsmp("forecast_cv",
-    folds = 3L, horizon = 5L, window_size = 25L, fixed_window = TRUE
-  )
+  resampling = rsmp("forecast_cv", folds = 3L, horizon = 5L, window_size = 25L, fixed_window = TRUE)
   resampling$instantiate(task)
   walk(1:3, function(i) expect_length(resampling$train_set(i), 25L))
   walk(1:3, function(i) expect_length(resampling$test_set(i), 5L))
@@ -37,18 +37,14 @@ test_that("forecast_cv fixed vs. expanding window", {
   task$filter(1:30)
 
   # fixed window
-  resampling = rsmp("forecast_cv",
-    folds = 3L, horizon = 3L, window_size = 5L, fixed_window = TRUE
-  )
+  resampling = rsmp("forecast_cv", folds = 3L, horizon = 3L, window_size = 5L, fixed_window = TRUE)
   resampling$instantiate(task)
   expect_identical(resampling$train_set(1L), 23:27)
   expect_identical(resampling$train_set(2L), 22:26)
   expect_identical(resampling$train_set(3L), 21:25)
 
   # expanding window
-  resampling = rsmp("forecast_cv",
-    folds = 3L, horizon = 3L, window_size = 5L, fixed_window = FALSE
-  )
+  resampling = rsmp("forecast_cv", folds = 3L, horizon = 3L, window_size = 5L, fixed_window = FALSE)
   resampling$instantiate(task)
   expect_identical(resampling$train_set(1L), 1:27)
   expect_identical(resampling$train_set(2L), 1:26)
@@ -60,8 +56,13 @@ test_that("forecast_cv with various parameter combinations", {
   task$filter(1:30)
 
   # small window, large step size
-  resampling = rsmp("forecast_cv",
-    folds = 5L, horizon = 2L, window_size = 3L, step_size = 2L, fixed_window = TRUE
+  resampling = rsmp(
+    "forecast_cv",
+    folds = 5L,
+    horizon = 2L,
+    window_size = 3L,
+    step_size = 2L,
+    fixed_window = TRUE
   )
   resampling$instantiate(task)
   expect_identical(resampling$train_set(1L), 26:28)
@@ -72,8 +73,13 @@ test_that("forecast_cv with various parameter combinations", {
   expect_identical(resampling$test_set(3L), 25:26)
 
   # large window, small horizon
-  resampling = rsmp("forecast_cv",
-    folds = 4L, horizon = 1L, window_size = 10L, step_size = 1L, fixed_window = FALSE
+  resampling = rsmp(
+    "forecast_cv",
+    folds = 4L,
+    horizon = 1L,
+    window_size = 10L,
+    step_size = 1L,
+    fixed_window = FALSE
   )
   resampling$instantiate(task)
   expect_identical(resampling$train_set(1L), 1:29)

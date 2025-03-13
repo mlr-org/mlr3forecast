@@ -35,7 +35,8 @@
 #' # get a specific learner from mlr_learners:
 #' learner = lrn("fcst.arima")
 #' print(learner)
-LearnerFcst = R6Class("LearnerFcst",
+LearnerFcst = R6Class(
+  "LearnerFcst",
   inherit = LearnerRegr,
   public = list(
     #' @description

@@ -46,30 +46,38 @@ register_mlr3 = function() {
   # add reflections
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
+  # fmt: skip
   mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
     ~type, ~package, ~task, ~learner, ~prediction, ~prediction_data, ~measure,
     "fcst", "mlr3forecast", "TaskFcst", "LearnerRegr", "PredictionRegr", "PredictionDataRegr", "MeasureRegr" # nolint
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
   mlr_reflections$learner_properties$fcst = union(
-    mlr_reflections$learner_properties$regr, mlr3forecast_learner_properties
+    mlr_reflections$learner_properties$regr,
+    mlr3forecast_learner_properties
   )
   # remove regr roles that should have no effect or expect setting
   mlr_reflections$task_col_roles$fcst = union(
-    mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles
+    mlr_reflections$task_col_roles$regr,
+    mlr3forecast_col_roles
   )
   mlr_reflections$task_feature_types = named_union(
-    mlr_reflections$task_feature_types, mlr3forecast_feature_types
+    mlr_reflections$task_feature_types,
+    mlr3forecast_feature_types
   )
   mlr_reflections$task_properties$fcst = c("univariate", "multivariate")
   mlr_reflections$measure_properties$fcst = mlr_reflections$measure_properties$regr
   mlr_reflections$task_print_col_roles$after = named_union(
-    mlr_reflections$task_print_col_roles$after, mlr3forecast_task_print_col_roles
+    mlr_reflections$task_print_col_roles$after,
+    mlr3forecast_task_print_col_roles
   )
 
   # add resamplings
   mlr_resamplings = utils::getFromNamespace("mlr_resamplings", ns = "mlr3")
-  iwalk(as.list(mlr3forecast_resamplings), function(resampling, id) mlr_resamplings$add(id, resampling)) # nolint
+  iwalk(
+    as.list(mlr3forecast_resamplings),
+    function(resampling, id) mlr_resamplings$add(id, resampling)
+  )
 
   # add tasks
   mlr_tasks = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
@@ -91,7 +99,8 @@ register_mlr3pipelines = function() {
     mlr_pipeops$add(name, value$constructor, value$metainf)
   })
   mlr_reflections$pipeops$valid_tags = union(
-    mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags
+    mlr_reflections$pipeops$valid_tags,
+    mlr3forecast_pipeop_tags
   )
 }
 
@@ -105,7 +114,7 @@ register_mlr3pipelines = function() {
   register_namespace_callback(pkgname, "mlr3pipelines", register_mlr3pipelines)
 }
 
-.onUnload = function(libPaths) { # nolint
+.onUnload = function(libPaths) {
   walk(names(mlr3forecast_resamplings), function(nm) mlr_resamplings$remove(nm))
   walk(names(mlr3forecast_tasks), function(nm) mlr_tasks$remove(nm))
   walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
@@ -113,12 +122,14 @@ register_mlr3pipelines = function() {
   walk(names(mlr3forecast_pipeops), function(nm) mlr_pipeops$remove(nm))
 
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
-  mlr_reflections$task_feature_types =
-    mlr_reflections$task_feature_types[mlr_reflections$task_feature_types %nin% mlr3forecast_feature_types] # nolint
+  mlr_reflections$task_feature_types = mlr_reflections$task_feature_types[
+    mlr_reflections$task_feature_types %nin% mlr3forecast_feature_types
+  ]
   reflections = c("learner_predict_types", "task_col_roles", "task_properties")
   walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
   mlr_reflections$pipeops$valid_tags = setdiff(
-    mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags
+    mlr_reflections$pipeops$valid_tags,
+    mlr3forecast_pipeop_tags
   )
 }
 

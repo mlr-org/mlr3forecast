@@ -14,29 +14,30 @@
 #'
 #' @export
 #' @template seealso_learner
-LearnerFcstAutoArima = R6Class("LearnerFcstAutoArima",
+LearnerFcstAutoArima = R6Class(
+  "LearnerFcstAutoArima",
   inherit = LearnerFcstForecast,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        d          = p_int(0L, default = NA, tags = "train", special_vals = list(NA)),
-        D          = p_int(0L, default = NA, tags = "train", special_vals = list(NA)),
-        max.q      = p_int(0L, default = 5, tags = "train"),
-        max.p      = p_int(0L, default = 5, tags = "train"),
-        max.P      = p_int(0L, default = 2, tags = "train"),
-        max.Q      = p_int(0L, default = 2, tags = "train"),
-        max.order  = p_int(0L, default = 5, tags = "train"),
-        max.d      = p_int(0L, default = 2, tags = "train"),
-        max.D      = p_int(0L, default = 1, tags = "train"),
-        start.p    = p_int(0L, default = 2, tags = "train"),
-        start.q    = p_int(0L, default = 2, tags = "train"),
-        start.P    = p_int(0L, default = 2, tags = "train"),
-        start.Q    = p_int(0L, default = 2, tags = "train"),
-        stepwise   = p_lgl(default = FALSE, tags = "train"),
+        d = p_int(0L, default = NA, tags = "train", special_vals = list(NA)),
+        D = p_int(0L, default = NA, tags = "train", special_vals = list(NA)),
+        max.q = p_int(0L, default = 5, tags = "train"),
+        max.p = p_int(0L, default = 5, tags = "train"),
+        max.P = p_int(0L, default = 2, tags = "train"),
+        max.Q = p_int(0L, default = 2, tags = "train"),
+        max.order = p_int(0L, default = 5, tags = "train"),
+        max.d = p_int(0L, default = 2, tags = "train"),
+        max.D = p_int(0L, default = 1, tags = "train"),
+        start.p = p_int(0L, default = 2, tags = "train"),
+        start.q = p_int(0L, default = 2, tags = "train"),
+        start.P = p_int(0L, default = 2, tags = "train"),
+        start.Q = p_int(0L, default = 2, tags = "train"),
+        stepwise = p_lgl(default = FALSE, tags = "train"),
         allowdrift = p_lgl(default = TRUE, tags = "train"),
-        seasonal   = p_lgl(default = FALSE, tags = "train")
+        seasonal = p_lgl(default = FALSE, tags = "train")
       )
 
       super$initialize(

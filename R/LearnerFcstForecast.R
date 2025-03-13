@@ -1,6 +1,7 @@
 #' @title Abstract class for forecast package learner
 #'
-LearnerFcstForecast = R6Class("LearnerFcstForecast",
+LearnerFcstForecast = R6Class(
+  "LearnerFcstForecast",
   inherit = LearnerFcst,
   private = list(
     .max_index = NULL,

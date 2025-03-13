@@ -14,7 +14,8 @@
 #'
 #' @export
 #' @template seealso_learner
-LearnerFcstEts = R6Class("LearnerFcstEts",
+LearnerFcstEts = R6Class(
+  "LearnerFcstEts",
   inherit = LearnerFcstForecast,
   public = list(
     #' @description
@@ -43,7 +44,9 @@ LearnerFcstEts = R6Class("LearnerFcstEts",
         ),
         nmse = p_int(0L, 30L, default = 3, tags = "train"),
         bounds = p_fct(
-          default = "both", levels = c("both", "usual", "admissible"), tags = "train"
+          default = "both",
+          levels = c("both", "usual", "admissible"),
+          tags = "train"
         ),
         ic = p_fct(default = "aicc", levels = c("aicc", "aic", "bic"), tags = "train"),
         restrict = p_lgl(default = TRUE, tags = "train"),

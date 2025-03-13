@@ -22,7 +22,8 @@
 #' task$task_type
 #' task$formula()
 #' task$truth()
-TaskFcst = R6Class("TaskFcst",
+TaskFcst = R6Class(
+  "TaskFcst",
   inherit = TaskRegr,
   public = list(
     #' @field freq (`character(1)`)\cr
@@ -62,7 +63,9 @@ TaskFcst = R6Class("TaskFcst",
       self$set_col_roles(order, add = "order")
       self$set_col_roles(key, add = "key")
       assert_choice(
-        freq, c("daily", "weekly", "monthly", "quarterly", "yearly"), null.ok = TRUE
+        freq,
+        c("daily", "weekly", "monthly", "quarterly", "yearly"),
+        null.ok = TRUE
       )
       self$freq = freq
     },

@@ -14,8 +14,9 @@ quantiles_to_level = function(x) {
 }
 
 #' @export
-as.ts.TaskFcst = function(x, ...) { # nolint
-  freq = switch(x$freq,
+as.ts.TaskFcst = function(x, ...) {
+  freq = switch(
+    x$freq,
     daily = 365.25,
     weekly = 52,
     monthly = 12,
@@ -37,7 +38,8 @@ generate_newdata = function(task, n = 1L) {
   order_cols = task$col_roles$order
   max_index = max(task$data(cols = order_cols)[[1L]])
 
-  unit = switch(task$freq,
+  unit = switch(
+    task$freq,
     daily = "day",
     weekly = "week",
     monthly = "month",

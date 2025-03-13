@@ -13,7 +13,8 @@
 #' @export
 #' @examples
 #' set.seed(1234L)
-PipeOpFcstLag = R6Class("PipeOpFcstLag",
+PipeOpFcstLag = R6Class(
+  "PipeOpFcstLag",
   inherit = PipeOpTaskPreproc,
   public = list(
     #' @description Initializes a new instance of this Class.

@@ -14,7 +14,8 @@
 #'
 #' @export
 #' @template seealso_learner
-LearnerFcstArima = R6Class("LearnerFcstArima",
+LearnerFcstArima = R6Class(
+  "LearnerFcstArima",
   inherit = LearnerFcstForecast,
   public = list(
     #' @description

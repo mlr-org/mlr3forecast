@@ -25,13 +25,22 @@ as_task_fcst = function(x, ...) {
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) { # nolint
+as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) {
   if (clone) x$clone() else x
 }
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.DataBackend = function(x, target = NULL, order = character(), key = character(), freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.DataBackend = function(
+  x,
+  target = NULL,
+  order = character(),
+  key = character(),
+  freq = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+) {
   force(id)
 
   cn = x$colnames
@@ -42,14 +51,30 @@ as_task_fcst.DataBackend = function(x, target = NULL, order = character(), key =
   }
 
   task = TaskFcst$new(
-    id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ... # nolint
+    id = id,
+    backend = x,
+    target = target,
+    order = order,
+    key = key,
+    freq = freq,
+    label = label,
+    ...
   )
   task
 }
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.data.frame = function(x, target = NULL, order = character(), key = character(), freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) { # nolint
+as_task_fcst.data.frame = function(
+  x,
+  target = NULL,
+  order = character(),
+  key = character(),
+  freq = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+) {
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -66,7 +91,14 @@ as_task_fcst.data.frame = function(x, target = NULL, order = character(), key = 
   }
 
   task = TaskFcst$new(
-    id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ... # nolint
+    id = id,
+    backend = x,
+    target = target,
+    order = order,
+    key = key,
+    freq = freq,
+    label = label,
+    ...
   )
   task
 }

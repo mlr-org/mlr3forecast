@@ -2,7 +2,8 @@
 #'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
-MeasureMDA = R6Class("MeasureMDA",
+MeasureMDA = R6Class(
+  "MeasureMDA",
   inherit = Measure,
   public = list(
     #' @description
@@ -53,7 +54,8 @@ MeasureMDA = R6Class("MeasureMDA",
 #'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
-MeasureMDV = R6Class("MeasureMDV",
+MeasureMDV = R6Class(
+  "MeasureMDV",
   inherit = Measure,
   public = list(
     #' @description
@@ -92,7 +94,8 @@ MeasureMDV = R6Class("MeasureMDV",
 #'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
-MeasureMDPV = R6Class("MeasureMDPV",
+MeasureMDPV = R6Class(
+  "MeasureMDPV",
   inherit = Measure,
   public = list(
     #' @description

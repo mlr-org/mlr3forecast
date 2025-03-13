@@ -1,4 +1,5 @@
-PipeOpTargetTrafoDifference = R6Class("PipeOpTargetTrafoDifference",
+PipeOpTargetTrafoDifference = R6Class(
+  "PipeOpTargetTrafoDifference",
   inherit = PipeOpTargetTrafo,
   public = list(
     initialize = function(id = "fcst.targetdiff", param_vals = list()) {
