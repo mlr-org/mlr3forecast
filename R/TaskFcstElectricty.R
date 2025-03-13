@@ -32,7 +32,7 @@ load_task_electricty = function(id = "electricity") {
     freq = "daily",
     label = "Daily electricity demand for Victoria, Australia"
   )
-  b$hash = task$man = "mlr3forecast::mlr_task_electricty"
+  b$hash = task$man = "mlr3forecast::mlr_tasks_electricity"
   task
 }
 
