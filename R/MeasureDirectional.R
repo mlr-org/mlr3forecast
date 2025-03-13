@@ -9,23 +9,16 @@ MeasureMDA = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(
-        reward = p_dbl(),
-        penalty = p_dbl()
-      )
-      param_set$set_values(
-        reward = 1,
-        penalty = 0
-      )
+      param_set = ps(reward = p_dbl(), penalty = p_dbl())
+      param_set$set_values(reward = 1, penalty = 0)
 
       super$initialize(
         id = "fcst.mda",
         param_set = param_set,
         task_type = NA_character_,
         properties = character(),
-        predict_sets = c("train", "test"),
         predict_type = NA_character_,
-        range = c(0, Inf),
+        range = c(0, 1),
         minimize = TRUE,
         label = "Mean Directional Accuracy",
         man = "mlr3forecast::mlr_measures_mda"
@@ -66,9 +59,7 @@ MeasureMDV = R6Class(
         param_set = ps(),
         task_type = NA_character_,
         properties = character(),
-        predict_sets = c("train", "test"),
         predict_type = NA_character_,
-        range = c(0, Inf),
         minimize = TRUE,
         label = "Mean Directional Value",
         man = "mlr3forecast::mlr_measures_mdv"
@@ -106,9 +97,7 @@ MeasureMDPV = R6Class(
         param_set = ps(),
         task_type = NA_character_,
         properties = character(),
-        predict_sets = c("train", "test"),
         predict_type = NA_character_,
-        range = c(0, Inf),
         minimize = TRUE,
         label = "Mean Directional Percentage Value",
         man = "mlr3forecast::mlr_measures_mdpv"
