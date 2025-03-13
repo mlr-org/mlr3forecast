@@ -62,11 +62,7 @@ TaskFcst = R6Class(
       self$extra_args = insert_named(self$extra_args, list(order = order, key = key))
       self$set_col_roles(order, add = "order")
       self$set_col_roles(key, add = "key")
-      assert_choice(
-        freq,
-        c("daily", "weekly", "monthly", "quarterly", "yearly"),
-        null.ok = TRUE
-      )
+      assert_choice(freq, c("daily", "weekly", "monthly", "quarterly", "yearly"), null.ok = TRUE)
       self$freq = freq
     },
 
