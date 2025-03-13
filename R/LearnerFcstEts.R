@@ -53,7 +53,8 @@ LearnerFcstEts = R6Class(
         allow.multiplicative.trend = p_lgl(default = FALSE, tags = "train"),
         na.action = p_fct(
           default = "na.contiguous",
-          levels = c("na.contiguous", "na.interp", "na.fail")
+          levels = c("na.contiguous", "na.interp", "na.fail"),
+          tags = "train"
         )
       )
 
