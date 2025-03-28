@@ -70,11 +70,7 @@ ResamplingFcstHoldout = R6Class(
   private = list(
     .sample = function(ids, task, ...) {
       if ("ordered" %nin% task$properties) {
-        stopf(
-          "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
-          self$id,
-          task$id
-        )
+        stopf("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
 
       pars = self$param_set$get_values()
@@ -110,20 +106,13 @@ ResamplingFcstHoldout = R6Class(
       } else {
         setnames(tab, c("row_id", "order"))
         setorderv(tab, "order")
-        list(
-          train = tab[1:nr, row_id],
-          test = tab[(nr + 1L):.N, row_id]
-        )
+        list(train = tab[1:nr, row_id], test = tab[(nr + 1L):.N, row_id])
       }
     },
 
     .sample_ids = function(ids, ...) {
       if ("ordered" %nin% task$properties) {
-        stopf(
-          "Resampling '%s' requires an ordered task, but Task '%s' has no order.",
-          self$id,
-          task$id
-        )
+        stopf("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
 
       pars = self$param_set$get_values()

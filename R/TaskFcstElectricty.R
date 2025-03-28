@@ -18,10 +18,7 @@ load_task_electricty = function(id = "electricity") {
   dt = as.data.table(load_dataset("vic_elec", "tsibbledata"))
   setnames(dt, tolower)
   demand = temperature = holiday = NULL
-  dt = dt[,
-    list(demand = sum(demand), temperature = max(temperature), holiday = any(holiday)),
-    by = date
-  ]
+  dt = dt[, list(demand = sum(demand), temperature = max(temperature), holiday = any(holiday)), by = date]
   b = as_data_backend(dt)
 
   task = TaskFcst$new(

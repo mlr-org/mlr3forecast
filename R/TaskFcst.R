@@ -50,13 +50,7 @@ TaskFcst = R6Class(
       label = NA_character_,
       extra_args = list()
     ) {
-      super$initialize(
-        id = id,
-        backend = backend,
-        target = target,
-        label = label,
-        extra_args = extra_args
-      )
+      super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
       self$task_type = "fcst"
       private$.col_roles = insert_named(private$.col_roles, list(key = character()))
       self$extra_args = insert_named(self$extra_args, list(order = order, key = key))
