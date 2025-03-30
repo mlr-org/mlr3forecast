@@ -8,8 +8,9 @@ Description: Extends the 'mlr3' ecosystem to time series forecasting.
 License: LGPL-3
 Depends:
     mlr3 (>= 0.23.0),
-    R (>= 3.6.0)
+    R (>= 3.3.0)
 Imports:
+    backports,
     checkmate (>= 2.3.2),
     data.table (>= 1.16.4),
     lgr,
