@@ -1,5 +1,4 @@
 test_that("forecast_cv basic properties", {
-  task = tsk("airpassengers")
   resampling = rsmp(
     "forecast_cv",
     folds = 10L,
@@ -7,6 +6,18 @@ test_that("forecast_cv basic properties", {
     window_size = 5L,
     fixed_window = FALSE
   )
+
+  # task without a key
+  task = tsk("airpassengers")
+  expect_resampling(resampling, task, strata = FALSE)
+  resampling$instantiate(task)
+  expect_resampling(resampling, task, strata = FALSE)
+  expect_identical(resampling$iters, 10L)
+  expect_identical(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
+  expect_false(resampling$duplicated_ids)
+
+  # task with a key
+  task = tsk("livestock")
   expect_resampling(resampling, task, strata = FALSE)
   resampling$instantiate(task)
   expect_resampling(resampling, task, strata = FALSE)

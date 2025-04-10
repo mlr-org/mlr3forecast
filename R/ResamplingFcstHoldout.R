@@ -97,7 +97,7 @@ ResamplingFcstHoldout = R6Class(
       if (has_key_cols) {
         setnames(tab, "..row_id", "row_id")
         setorderv(tab, c(key_cols, order_cols))
-        n_groups = uniqueN(tab[[key_cols]])
+        n_groups = uniqueN(tab, by = key_cols)
         nr = if (has_ratio) nr %/% n_groups else nr
         list(
           train = tab[, .SD[1:nr], by = key_cols][, row_id],

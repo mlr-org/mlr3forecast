@@ -1,4 +1,17 @@
 test_that("forecast_holdout basic properties", {
+  # only work with fcst task
+  task = tsk("iris")
+  resampling = rsmp("forecast_holdout", ratio = 0.8)
+  expect_error(resampling$instantiate(task), "Resampling 'forecast_holdout' requires an ordered task.")
+
+  # mutually exclusive params
+  task = tsk("airpassengers")
+  resampling = rsmp("forecast_holdout", ratio = 0.8, n = 10L)
+  expect_error(resampling$instantiate(task), "Either parameter `ratio` (x)or `n` must be provided", fixed = TRUE)
+  resampling = rsmp("forecast_holdout")
+  expect_error(resampling$instantiate(task), "Either parameter `ratio` (x)or `n` must be provided", fixed = TRUE)
+
+  # task without a key
   task = tsk("airpassengers")
   resampling = rsmp("forecast_holdout", ratio = 0.8)
   expect_resampling(resampling, task, strata = FALSE)
@@ -21,6 +34,18 @@ test_that("forecast_holdout basic properties", {
   resampling = rsmp("forecast_holdout", n = -10L)$instantiate(task)
   expect_length(resampling$train_set(1L), task$nrow - 10L)
   expect_length(resampling$test_set(1L), 10L)
+
+  # task with a key
+  task = tsk("livestock")
+  resampling = rsmp("forecast_holdout", ratio = 0.8)
+  expect_resampling(resampling, task, strata = FALSE)
+  resampling$instantiate(task)
+  expect_resampling(resampling, task, strata = FALSE)
+  expect_identical(resampling$iters, 1L)
+  expect_identical(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
+  expect_error(resampling$train_set(2L))
+  expect_error(resampling$test_set(2L))
+  expect_false(resampling$duplicated_ids)
 })
 
 test_that("forecast_holdout works", {
