@@ -53,6 +53,7 @@ Collate:
     'TaskFcstElectricty.R'
     'TaskFcstLivestock.R'
     'as_task_fcst.R'
+    'autoplot.R'
     'bibentries.R'
     'reexports.R'
     'utils.R'

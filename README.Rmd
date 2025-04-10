@@ -64,6 +64,9 @@ library(mlr3forecast)
 
 task = tsk("airpassengers")
 task
+# or plot the task
+autoplot(task)
+
 learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))

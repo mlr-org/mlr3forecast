@@ -5,6 +5,7 @@
 #' @import mlr3misc
 #' @import mlr3pipelines
 #' @import paradox
+#' @importFrom ggplot2 autoplot
 #' @importFrom stats as.ts
 "_PACKAGE"
 
