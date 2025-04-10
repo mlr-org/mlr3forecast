@@ -18,10 +18,10 @@ as.ts.TaskFcst = function(x, ...) {
   freq = switch(
     x$freq,
     daily = 365.25,
-    weekly = 52,
-    monthly = 12,
-    quarterly = 4,
-    yearly = 1,
+    weekly = 52L,
+    monthly = 12L,
+    quarterly = 4L,
+    yearly = 1L,
     stopf("Unknown frequency: %s", x$freq)
   )
   stats::ts(x$truth(), freq = freq)

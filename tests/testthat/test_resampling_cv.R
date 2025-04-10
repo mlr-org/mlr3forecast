@@ -11,7 +11,7 @@ test_that("forecast_cv basic properties", {
   resampling$instantiate(task)
   expect_resampling(resampling, task, strata = FALSE)
   expect_identical(resampling$iters, 10L)
-  expect_equal(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
+  expect_identical(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
   expect_false(resampling$duplicated_ids)
 })
 

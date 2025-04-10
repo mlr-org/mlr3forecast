@@ -5,14 +5,14 @@ test_that("forecast_holdout basic properties", {
   resampling$instantiate(task)
   expect_resampling(resampling, task, strata = FALSE)
   expect_identical(resampling$iters, 1L)
-  expect_equal(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
+  expect_identical(intersect(resampling$test_set(1L), resampling$train_set(1L)), integer())
   expect_error(resampling$train_set(2L))
   expect_error(resampling$test_set(2L))
   expect_false(resampling$duplicated_ids)
 
   resampling = rsmp("forecast_holdout", ratio = 0.5)$instantiate(task)
-  expect_length(resampling$train_set(1L), task$nrow / 2)
-  expect_length(resampling$test_set(1L), task$nrow / 2)
+  expect_length(resampling$train_set(1L), task$nrow / 2L)
+  expect_length(resampling$test_set(1L), task$nrow / 2L)
 
   resampling = rsmp("forecast_holdout", n = 10L)$instantiate(task)
   expect_length(resampling$train_set(1L), 10L)

@@ -1,4 +1,4 @@
-linters: linters_with_defaults(
+linters: all_linters(
     # lintr defaults: https://lintr.r-lib.org/reference/default_linters.html
     # the following setup changes/removes certain linters
     assignment_linter = NULL, # do not force using <- for assignments
@@ -6,5 +6,18 @@ linters: linters_with_defaults(
     cyclocomp_linter = NULL, # do not check function complexity
     commented_code_linter = NULL, # allow code in comments
     line_length_linter = line_length_linter(120L),
-    object_length_linter = object_length_linter(40L)
-    )
+    object_length_linter = object_length_linter(40L),
+    implicit_integer_linter = NULL,
+    object_overwrite_linter = NULL,
+    unnecessary_lambda_linter = NULL,
+    if_not_else_linter = NULL,
+    todo_comment_linter = NULL,
+    undesirable_function_linter(fun = modify_defaults(
+      defaults = default_undesirable_functions,
+      source = NULL,
+      structure = NULL
+    ))
+  )
+exclusions: list(
+    "tests/testthat.R"
+  )
