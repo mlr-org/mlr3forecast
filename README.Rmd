@@ -90,7 +90,7 @@ library(mlr3learners)
 task = tsk("airpassengers")
 # we have to remove the date feature for regression learners
 task$select(setdiff(task$feature_names, "date"))
-flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)$train(task)
+flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)$train(task)
 newdata = data.frame(passengers = rep(NA_real_, 3L))
 prediction = flrn$predict_newdata(newdata, task)
 prediction
@@ -98,7 +98,7 @@ prediction = flrn$predict(task, 142:144)
 prediction
 prediction$score(msr("regr.rmse"))
 
-flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
+flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
@@ -127,7 +127,7 @@ graph = ppl("convert_types", "Date", "POSIXct") %>>%
     )
   )
 task = tsk("airpassengers")
-flrn = ForecastLearner$new(lrn("regr.ranger"), 1:12)
+flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)
 glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
@@ -298,7 +298,7 @@ graph = po("fcst.lag", lags = 1:12) %>>%
       second = FALSE
     )
   )
-flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
+flrn = ForecastLearner2$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
@@ -341,7 +341,7 @@ graph = po("fcst.lag", lags = 1:12) %>>%
   )
 
 task = tsk("airpassengers")
-flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
+flrn = ForecastLearner2$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)
 pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
 glrn = as_learner(pipeline)$train(task)
@@ -366,7 +366,7 @@ graph = po("fcst.lag", lags = 1:12) %>>%
   )
 
 task = tsk("airpassengers")
-flrn = ForecastRecursiveLearner$new(lrn("regr.ranger"))
+flrn = ForecastLearner2$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)
 trafo = po("fcst.targetdiff", lags = 12L)
 pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)

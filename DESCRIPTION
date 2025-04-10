@@ -32,7 +32,7 @@ Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.3.2
 Collate:
     'ForecastLearner.R'
-    'ForecastRecursiveLearner.R'
+    'ForecastLearner2.R'
     'LearnerFcst.R'
     'zzz.R'
     'LearnerFcstArfima.R'

@@ -1,8 +1,8 @@
 #' @title Forecast Learner
 #'
 #' @export
-ForecastRecursiveLearner = R6::R6Class(
-  "ForecastRecursiveLearner",
+ForecastLearner2 = R6::R6Class(
+  "ForecastLearner2",
   inherit = Learner,
   public = list(
     #' @field learner ([Learner])\cr
