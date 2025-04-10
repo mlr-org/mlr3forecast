@@ -50,7 +50,7 @@ to time series regression tasks, but might be extended to classification tasks
 in the future.
 
 We have two goals, one to support traditional forecasting learners and the
-other to support to support machine learning forecasting, i.e. using regression
+other to support machine learning forecasting, i.e. using regression
 learners and applying them to forecasting tasks. The design of the latter is
 still in flux and may change.
 
