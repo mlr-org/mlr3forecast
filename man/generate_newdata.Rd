@@ -12,7 +12,7 @@ generate_newdata(task, n = 1L)
 \item{n}{(\code{integer(1)}) number of new data points to generate. Default \code{1L}.}
 }
 \value{
-A \code{data.frame()} with \code{n} new data points.
+A \code{\link[data.table:data.table]{data.table::data.table()}} with \code{n} new data points.
 }
 \description{
 Generate new data for a forecast task

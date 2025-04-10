@@ -31,10 +31,12 @@ as.ts.TaskFcst = function(x, ...) {
 #'
 #' @param task [TaskFcst]
 #' @param n (`integer(1)`) number of new data points to generate. Default `1L`.
-#' @return A `data.frame()` with `n` new data points.
+#' @return A [data.table::data.table()] with `n` new data points.
 #' @export
 generate_newdata = function(task, n = 1L) {
-  assert_count(n)
+  task = assert_task(as_task(task), task_type = "fcst")
+  assert_count(n, positive = TRUE)
+
   order_cols = task$col_roles$order
   max_index = max(task$data(cols = order_cols)[[1L]])
 
@@ -50,6 +52,6 @@ generate_newdata = function(task, n = 1L) {
   index = seq(max_index, length.out = n + 1L, by = unit)
   index = index[2:length(index)]
 
-  newdata = data.frame(index = index, target = rep(NA_real_, n), check.names = FALSE)
-  set_names(newdata, c(order_cols, task$target_names))
+  newdata = data.table(index = index, target = rep(NA_real_, n))
+  setnames(newdata, c(order_cols, task$target_names))
 }
