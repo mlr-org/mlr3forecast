@@ -59,11 +59,12 @@ still in flux and may change.
 Currently, we support native forecasting learners from the forecast package.
 In the future, we plan to support more forecasting learners.
 
-```{r, message = FALSE}
+```{r, message = FALSE, dpi = 300}
 library(mlr3forecast)
 
 task = tsk("airpassengers")
 task
+
 # or plot the task
 autoplot(task)
 
