@@ -91,12 +91,9 @@ ForecastLearner = R6::R6Class(
       dt = copy(dt)
       key_cols = private$.task$col_roles$key
       order_cols = private$.task$col_roles$order
-      # TODO: discuss where to have ordering
       if (length(key_cols) > 0L) {
-        setorderv(dt, c(key_cols, order_cols))
         dt[, (nms) := shift(.SD, lags), by = key_cols, .SDcols = target]
       } else {
-        setorderv(dt, order_cols)
         dt[, (nms) := shift(.SD, lags), .SDcols = target]
       }
       dt
@@ -104,11 +101,11 @@ ForecastLearner = R6::R6Class(
 
     .is_newdata = function(task) {
       order_cols = task$col_roles$order
-      tab = task$backend$data(rows = task$row_ids, cols = order_cols)
-      if (nrow(tab) == 0L) {
+      dt = task$backend$data(rows = task$row_ids, cols = order_cols)
+      if (nrow(dt) == 0L) {
         return(TRUE)
       }
-      !any(private$.max_index %in% tab[[1L]])
+      !any(private$.max_index %in% dt[[1L]])
     }
   )
 )
