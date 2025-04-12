@@ -24,11 +24,11 @@ tsk("electricity")
 
 \itemize{
 \item Task type: \dQuote{fcst}
-\item Dimensions: 1096x4
+\item Dimensions: 1096x3
 \item Properties: \dQuote{ordered}
 \item Has Missings: \code{FALSE}
 \item Target: \dQuote{demand}
-\item Features: \dQuote{date}, \dQuote{holiday}, \dQuote{temperature}
+\item Features: \dQuote{holiday}, \dQuote{temperature}
 }
 }
 

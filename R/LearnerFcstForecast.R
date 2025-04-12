@@ -18,10 +18,10 @@ LearnerFcstForecast = R6Class(
         return(list(response = pred))
       }
 
-      if ("featureless" %chin% self$properties || is_task_featureless(task)) {
+      if ("featureless" %chin% self$properties || length(task$feature_names) == 0L) {
         args = list(h = length(task$row_ids))
       } else {
-        newdata = as.matrix(task$data(cols = fcst_feature_names(task)))
+        newdata = as.matrix(task$data(cols = task$feature_names))
         args = list(xreg = newdata)
       }
       if (is_quantile) {

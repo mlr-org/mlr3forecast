@@ -18,7 +18,7 @@ load_task_electricty = function(id = "electricity") {
   dt = as.data.table(load_dataset("vic_elec", "tsibbledata"))
   setnames(dt, tolower)
   demand = temperature = holiday = NULL
-  dt = dt[, list(demand = sum(demand), temperature = max(temperature), holiday = any(holiday)), by = date]
+  dt = dt[, .(demand = sum(demand), temperature = max(temperature), holiday = any(holiday)), by = date]
   b = as_data_backend(dt)
 
   task = TaskFcst$new(
@@ -30,6 +30,7 @@ load_task_electricty = function(id = "electricity") {
     label = "Daily electricity demand for Victoria, Australia"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_electricity"
+  task$col_roles$feature = setdiff(task$col_roles$feature, "date")
   task
 }
 

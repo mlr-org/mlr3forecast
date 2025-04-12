@@ -24,11 +24,11 @@ tsk("livestock")
 
 \itemize{
 \item Task type: \dQuote{fcst}
-\item Dimensions: 29364x4
+\item Dimensions: 29364x3
 \item Properties: \dQuote{ordered}, \dQuote{keys}
 \item Has Missings: \code{FALSE}
 \item Target: \dQuote{count}
-\item Features: \dQuote{animal}, \dQuote{month}, \dQuote{state}
+\item Features: \dQuote{animal}, \dQuote{state}
 }
 }
 

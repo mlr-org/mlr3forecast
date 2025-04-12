@@ -51,11 +51,9 @@ library(mlr3forecast)
 
 task = tsk("airpassengers")
 task
-#> <TaskFcst:airpassengers> (144 x 2): Monthly Airline Passenger Numbers 1949-1960
+#> <TaskFcst:airpassengers> (144 x 1): Monthly Airline Passenger Numbers 1949-1960
 #> * Target: passengers
 #> * Properties: ordered
-#> * Features (1):
-#>   - dte (1): date
 #> * Order by: date
 #> * Frequency: monthly
 
@@ -124,40 +122,39 @@ learner$predict_newdata(newdata, task)
 library(mlr3learners)
 
 task = tsk("airpassengers")
-# we have to remove the date feature for regression learners
-task$select(setdiff(task$feature_names, "date"))
-flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)$train(task)
+learner = lrn("regr.ranger")
+flrn = ForecastLearner$new(learner, lags = 1:12)$train(task)
 newdata = data.frame(passengers = rep(NA_real_, 3L))
 prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1    NA 432.9800
-#>        2    NA 437.2579
-#>        3    NA 454.9528
+#>        1   461 453.9158
+#>        2   390 409.4561
+#>        3   432 428.1848
 prediction = flrn$predict(task, 142:144)
 prediction
 #> <PredictionRegr> for 3 observations:
 #>  row_ids truth response
-#>        1   461 458.3664
-#>        2   390 414.2116
-#>        3   432 432.2494
+#>        1   461 453.9158
+#>        2   390 409.4561
+#>        3   432 429.3845
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  14.06176
+#>  12.04942
 
-flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)
+flrn = ForecastLearner$new(learner, lags = 1:12)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.48629
+#>  48.00042
 
 resampling = rsmp("forecast_cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  24.83813
+#>  26.09808
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -179,12 +176,13 @@ graph = ppl("convert_types", "Date", "POSIXct") %>>%
     )
   )
 task = tsk("airpassengers")
+task$set_col_roles("date", add = "feature")
 flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)
 glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  12.97802
+#>  14.15549
 ```
 
 ### Example: forecasting electricity demand
@@ -194,6 +192,7 @@ library(mlr3learners)
 library(mlr3pipelines)
 
 task = tsk("electricity")
+task$set_col_roles("date", add = "feature")
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
     param_vals = list(
@@ -218,13 +217,13 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 #> <PredictionRegr> for 14 observations:
 #>  row_ids truth response
-#>        1    NA 186405.0
-#>        2    NA 196961.6
-#>        3    NA 187991.8
+#>        1    NA 187848.7
+#>        2    NA 198092.4
+#>        3    NA 188130.6
 #>      ---   ---      ---
-#>       12    NA 220955.6
-#>       13    NA 224270.3
-#>       14    NA 226160.0
+#>       12    NA 221753.3
+#>       13    NA 225937.7
+#>       14    NA 226480.2
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -247,6 +246,7 @@ task = tsibbledata::aus_livestock |>
     key = "state",
     freq = "monthly"
   )
+task$set_col_roles("month", add = "feature")
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
   po("datefeatures",
@@ -267,14 +267,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>   22553.4
+#>  23053.34
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("forecast_holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  92247.46
+#>  29987.72
 ```
 
 ### Example: global vs local forecasting

@@ -8,9 +8,10 @@
 #' It is recommended to use [as_task_fcst()] for construction.
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
 #'
-#' @template param_rows
 #' @template param_id
 #' @template param_backend
+#' @template param_rows
+#' @template param_cols
 #'
 #' @template seealso_task
 #' @export
@@ -61,17 +62,34 @@ TaskFcst = R6Class(
       self$freq = freq
     },
 
-    data = function(rows = NULL, cols = NULL, data_format, ordered = FALSE) {
+    #' @description
+    #' Returns a slice of the data from the [DataBackend] as a `data.table`.
+    #' Rows default to observations with role `"use"`, and
+    #' columns default to features with roles `"target"`, `"order"` or `"feature"`.
+    #' If `rows` or `cols` are specified which do not exist in the [DataBackend],
+    #' an exception is raised.
+    #'
+    #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
+    #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
+    #' If `cols` is `NULL`, the column order defaults to
+    #' `c(task$target_names, task$feature_names)`.
+    #' Note that it is recommended to **not** rely on the order of columns, and instead always
+    #' address columns with their respective column name.
+    #'
+    #' @param ordered (`logical(1)`)\cr
+    #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
+    #'
+    #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
+    data = function(rows = NULL, cols = NULL, ordered = FALSE) {
       col_roles = private$.col_roles
       order_cols = col_roles$order
       if (is.null(cols)) {
-        query_cols = cols = c(col_roles$target, col_roles$feature)
+        cols = c(col_roles$target, col_roles$feature)
+        cols = union(order_cols, cols)
       } else {
         assert_subset(cols, self$col_info$id)
-        query_cols = cols
       }
-      query_cols = union(order_cols, query_cols)
-      data = super$data(rows, query_cols, ordered = FALSE)
+      data = super$data(rows, cols, ordered = FALSE)
 
       if (ordered) {
         if (length(col_roles$key) > 0L) {
