@@ -85,9 +85,13 @@ ForecastLearner = R6::R6Class(
       nms = sprintf("%s_lag_%i", target, lags)
       dt = copy(dt)
       key_cols = private$.task$col_roles$key
+      order_cols = private$.task$col_roles$order
+      # TODO: discuss where to have ordering
       if (length(key_cols) > 0L) {
+        setorderv(dt, c(key_cols, order_cols))
         dt[, (nms) := shift(.SD, lags), by = key_cols, .SDcols = target]
       } else {
+        setorderv(dt, order_cols)
         dt[, (nms) := shift(.SD, lags), .SDcols = target]
       }
       dt

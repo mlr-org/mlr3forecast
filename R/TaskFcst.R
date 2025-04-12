@@ -61,6 +61,28 @@ TaskFcst = R6Class(
       self$freq = freq
     },
 
+    data = function(rows = NULL, cols = NULL, data_format, ordered = FALSE) {
+      col_roles = private$.col_roles
+      order_cols = col_roles$order
+      if (is.null(cols)) {
+        query_cols = cols = c(col_roles$target, col_roles$feature)
+      } else {
+        assert_subset(cols, self$col_info$id)
+        query_cols = cols
+      }
+      query_cols = union(order_cols, query_cols)
+      data = super$data(rows, query_cols, ordered = FALSE)
+
+      if (ordered) {
+        if (length(col_roles$key) > 0L) {
+          setorderv(data, c(order_cols, col_roles$key))
+        } else {
+          setorderv(data, order_cols)
+        }
+      }
+      data
+    },
+
     #' @description
     #' Printer.
     #' @param ... (ignored).
