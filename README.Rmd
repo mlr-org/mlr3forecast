@@ -304,7 +304,7 @@ graph = po("fcst.lag", lags = 1:12) %>>%
       second = FALSE
     )
   )
-flrn = ForecastLearner2$new(lrn("regr.ranger"))
+flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
@@ -347,7 +347,7 @@ graph = po("fcst.lag", lags = 1:12) %>>%
   )
 
 task = tsk("airpassengers")
-flrn = ForecastLearner2$new(lrn("regr.ranger"))
+flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)
 pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
 glrn = as_learner(pipeline)$train(task)
@@ -372,7 +372,7 @@ graph = po("fcst.lag", lags = 1:12) %>>%
   )
 
 task = tsk("airpassengers")
-flrn = ForecastLearner2$new(lrn("regr.ranger"))
+flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)
 trafo = po("fcst.targetdiff", lags = 12L)
 pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)

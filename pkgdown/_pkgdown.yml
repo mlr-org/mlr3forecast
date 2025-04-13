@@ -39,3 +39,28 @@ navbar:
     rss:
       icon: fa-rss
       href: https://mlr-org.com/
+
+reference:
+  - title: Package
+    contents:
+      - mlr3forecast-package
+  - title: Learners
+    contents:
+      - ForecastLearner
+      - ForecastLearnerManual
+      - starts_with("mlr_learners")
+  - title: Tasks
+    contents:
+      - TaskFcst
+      - starts_with("mlr_tasks")
+  - title: Measures
+    contents:
+      - starts_with("Measure")
+  - title: Resampling Strategies
+    contents:
+      - starts_with("mlr_resamplings")
+  - title: Helper
+    contents:
+    - as_task_fcst
+    - autoplot
+    - generate_newdata

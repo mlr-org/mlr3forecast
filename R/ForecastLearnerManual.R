@@ -1,8 +1,8 @@
 #' @title Forecast Learner
 #'
 #' @export
-ForecastLearner2 = R6::R6Class(
-  "ForecastLearner2",
+ForecastLearnerManual = R6::R6Class(
+  "ForecastLearnerManual",
   inherit = Learner,
   public = list(
     #' @field learner ([Learner])\cr
@@ -42,14 +42,14 @@ ForecastLearner2 = R6::R6Class(
       target = task$target_names
       dt = task$data()
       lags = grep(sprintf("%s_lag_[0-9]+$", target), names(dt), value = TRUE)
-      lags = sort(as.integer(sub(sprintf("%s_lag_", target), "", lags)))
+      lags = sort(as.integer(sub(sprintf("%s_lag_", target), "", lags, fixed = TRUE)))
       max_lag = max(lags)
 
       preds = vector("list", length = task$nrow)
       for (i in seq_len(task$nrow)) {
         pred = self$model$learner$predict_newdata(dt[i])
         preds[[i]] = pred
-        dt[i, (target) := pred$response]
+        set(dt, i = i, j = target, value = pred$response)
         ii = which(lags == min(i, max_lag))
         lag = lags[seq_len(ii)]
         nms = sprintf("%s_lag_%i", target, lag)
