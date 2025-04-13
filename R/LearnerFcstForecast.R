@@ -1,5 +1,5 @@
 #' @title Abstract class for forecast package learner
-#'
+#' @keywords internal
 LearnerFcstForecast = R6Class(
   "LearnerFcstForecast",
   inherit = LearnerFcst,

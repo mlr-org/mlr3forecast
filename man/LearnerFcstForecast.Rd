@@ -8,6 +8,7 @@ Abstract class for forecast package learner
 
 Abstract class for forecast package learner
 }
+\keyword{internal}
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerFcst]{mlr3forecast::LearnerFcst}} -> \code{LearnerFcstForecast}
 }

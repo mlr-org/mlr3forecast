@@ -46,6 +46,7 @@ reference:
       - mlr3forecast-package
   - title: Learners
     contents:
+      - LearnerFcst
       - ForecastLearner
       - ForecastLearnerManual
       - starts_with("mlr_learners")
@@ -59,8 +60,11 @@ reference:
   - title: Resampling Strategies
     contents:
       - starts_with("mlr_resamplings")
+  - title: PipeOps
+    content:
+      - starts_with("mlr_pipeops")
   - title: Helper
     contents:
     - as_task_fcst
-    - autoplot
+    - autoplot.TaskFcst
     - generate_newdata
