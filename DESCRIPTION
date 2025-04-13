@@ -6,6 +6,9 @@ Authors@R:
            comment = c(ORCID = "0009-0000-9432-9795"))
 Description: Extends the 'mlr3' ecosystem to time series forecasting.
 License: LGPL-3
+URL: https://mlr3forecast.mlr-org.com,
+    https://github.com/mlr-org/mlr3forecast
+BugReports: https://github.com/mlr-org/mlr3forecast/issues
 Depends:
     mlr3 (>= 0.23.0),
     R (>= 3.3.0)

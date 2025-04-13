@@ -8,6 +8,15 @@
 \description{
 Extends the 'mlr3' ecosystem to time series forecasting.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://mlr3forecast.mlr-org.com}
+  \item \url{https://github.com/mlr-org/mlr3forecast}
+  \item Report bugs at \url{https://github.com/mlr-org/mlr3forecast/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Maximilian Mücke \email{muecke.maximilian@gmail.com} (\href{https://orcid.org/0009-0000-9432-9795}{ORCID})
 

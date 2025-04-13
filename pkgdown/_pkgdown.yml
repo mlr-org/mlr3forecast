@@ -60,7 +60,7 @@ reference:
   - title: Resampling Strategies
     contents:
       - starts_with("mlr_resamplings")
-  - title: PipeOps
+  - title: Pipeline Operators
     content:
       - starts_with("mlr_pipeops")
   - title: Helper

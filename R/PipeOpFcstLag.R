@@ -1,5 +1,5 @@
 #' @title Creat Lags of Target Variable
-#' @name mlr_pipeops_fcst.lag
+#' @name mlr_pipeops_fcst.lags
 #'
 #' @description
 #' ...
@@ -13,8 +13,8 @@
 #' @export
 #' @examples
 #' set.seed(1234L)
-PipeOpFcstLag = R6Class(
-  "PipeOpFcstLag",
+PipeOpFcstLags = R6Class(
+  "PipeOpFcstLags",
   inherit = PipeOpTaskPreproc,
   public = list(
     #' @description Initializes a new instance of this Class.
@@ -34,7 +34,8 @@ PipeOpFcstLag = R6Class(
         param_set = param_set,
         param_vals = param_vals,
         packages = c("mlr3forecast", "mlr3pipelines"),
-        feature_types = c("numeric", "integer", "Date", "factor") # NOTE: this filters based on features
+        feature_types = c("numeric", "integer", "Date", "factor"), # NOTE: this filters based on features
+        tags = "fcst"
       )
     }
   ),
@@ -126,4 +127,4 @@ PipeOpFcstLag = R6Class(
 )
 
 #' @include zzz.R
-register_po("fcst.lags", PipeOpFcstLag)
+register_po("fcst.lags", PipeOpFcstLags)
