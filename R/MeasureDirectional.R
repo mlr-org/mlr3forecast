@@ -1,7 +1,15 @@
 #' @title Mean Directional Accuracy
 #'
+#' @name mlr_measures_fcst.mda
+#'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
+#'
+#' @templateVar id fcst.mda
+#' @template measure
+#'
+#' @template seealso_measure
+#' @export
 MeasureMDA = R6Class(
   "MeasureMDA",
   inherit = Measure,
@@ -14,14 +22,15 @@ MeasureMDA = R6Class(
 
       super$initialize(
         id = "fcst.mda",
-        param_set = param_set,
         task_type = NA_character_,
+        param_set = param_set,
         properties = character(),
         predict_type = NA_character_,
         range = c(0, 1),
         minimize = TRUE,
+        packages = "mlr3forecast",
         label = "Mean Directional Accuracy",
-        man = "mlr3forecast::mlr_measures_mda"
+        man = "mlr3forecast::mlr_measures_fcst.mda"
       )
     }
   ),
@@ -45,8 +54,16 @@ MeasureMDA = R6Class(
 
 #' @title Mean Directional Value
 #'
+#' @name mlr_measures_fcst.mdv
+#'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
+#'
+#' @templateVar id fcst.mdv
+#' @template measure
+#'
+#' @template seealso_measure
+#' @export
 MeasureMDV = R6Class(
   "MeasureMDV",
   inherit = Measure,
@@ -56,13 +73,14 @@ MeasureMDV = R6Class(
     initialize = function() {
       super$initialize(
         id = "fcst.mdv",
-        param_set = ps(),
         task_type = NA_character_,
+        param_set = ps(),
         properties = character(),
         predict_type = NA_character_,
         minimize = TRUE,
+        packages = "mlr3forecast",
         label = "Mean Directional Value",
-        man = "mlr3forecast::mlr_measures_mdv"
+        man = "mlr3forecast::mlr_measures_fcst.mdv"
       )
     }
   ),
@@ -83,8 +101,16 @@ MeasureMDV = R6Class(
 
 #' @title Mean Directional Percentage Value
 #'
+#' @name mlr_measures_fcst.mdpv
+#'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
+#'
+#' @templateVar id fcst.mdpv
+#' @template measure
+#'
+#' @template seealso_measure
+#' @export
 MeasureMDPV = R6Class(
   "MeasureMDPV",
   inherit = Measure,
@@ -94,13 +120,14 @@ MeasureMDPV = R6Class(
     initialize = function() {
       super$initialize(
         id = "fcst.mdpv",
-        param_set = ps(),
         task_type = NA_character_,
+        param_set = ps(),
         properties = character(),
         predict_type = NA_character_,
         minimize = TRUE,
+        packages = "mlr3forecast",
         label = "Mean Directional Percentage Value",
-        man = "mlr3forecast::mlr_measures_mdpv"
+        man = "mlr3forecast::mlr_measures_fcst.mdpv"
       )
     }
   ),

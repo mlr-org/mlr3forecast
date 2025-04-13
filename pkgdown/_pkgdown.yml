@@ -56,7 +56,7 @@ reference:
       - starts_with("mlr_tasks")
   - title: Measures
     contents:
-      - starts_with("Measure")
+      - starts_with("mlr_measures")
   - title: Resampling Strategies
     contents:
       - starts_with("mlr_resamplings")
