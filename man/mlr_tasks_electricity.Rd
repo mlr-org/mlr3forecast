@@ -52,6 +52,8 @@ tsk("electricity")
 Other Task: 
 \code{\link{TaskFcst}},
 \code{\link{mlr_tasks_airpassengers}},
-\code{\link{mlr_tasks_livestock}}
+\code{\link{mlr_tasks_livestock}},
+\code{\link{mlr_tasks_lynx}},
+\code{\link{mlr_tasks_usaccdeaths}}
 }
 \concept{Task}

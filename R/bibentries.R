@@ -101,6 +101,32 @@ bibentries = c(
     number = "4",
     pages = "1058--1065",
     year = "2011"
+  ),
+  box1976 = bibentry(
+    "book",
+    title = "Time Series Analysis, Forecasting and Control",
+    author = "Box, G. E. P. and Jenkins, G. M. and Reinsel, G. C.",
+    edition = "3rd",
+    publisher = "Holden-Day",
+    year = "1976",
+    note = "Series G"
+  ),
+  brockwell1991 = bibentry(
+    "book",
+    title = "Time Series: Theory and Methods",
+    author = "Brockwell, P. J. and Davis, R. A.",
+    publisher = "Springer",
+    address = "New York",
+    year = "1991"
+  ),
+  brockwell1991forecasting = bibentry(
+    "book",
+    title = "Time Series and Forecasting Methods",
+    author = "Brockwell, P. J. and Davis, R. A.",
+    edition = "2nd",
+    publisher = "Springer",
+    year = "1991",
+    note = "Series G"
   )
 )
 # nolint end

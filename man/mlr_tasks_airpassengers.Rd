@@ -6,9 +6,15 @@
 \format{
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskFcst}.
 }
+\source{
+Box, P. GE, Jenkins, M. G, Reinsel, C. G (1976).
+\emph{Time Series Analysis, Forecasting and Control}, 3rd edition.
+Holden-Day.
+Series G.
+}
 \description{
-A toy forecast task for the \link[datasets:AirPassengers]{datasets::AirPassengers} data set.
-The task represents a monthly time series and is ordered by its only feature \code{date}.
+A forecast task for the popular \link[datasets:AirPassengers]{datasets::AirPassengers} data set.
+The task represents the monthly totals of international airline passengers from 1949 to 1960.
 }
 \section{Dictionary}{
 
@@ -52,6 +58,8 @@ tsk("airpassengers")
 Other Task: 
 \code{\link{TaskFcst}},
 \code{\link{mlr_tasks_electricity}},
-\code{\link{mlr_tasks_livestock}}
+\code{\link{mlr_tasks_livestock}},
+\code{\link{mlr_tasks_lynx}},
+\code{\link{mlr_tasks_usaccdeaths}}
 }
 \concept{Task}

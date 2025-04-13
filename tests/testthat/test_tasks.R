@@ -3,6 +3,16 @@ test_that("airpassengers task", {
   expect_task(task)
 })
 
+test_that("usaccdeaths task", {
+  task = tsk("usaccdeaths")
+  expect_task(task)
+})
+
+test_that("lynx task", {
+  task = tsk("lynx")
+  expect_task(task)
+})
+
 test_that("electricity task", {
   task = tsk("electricity")
   expect_task(task)

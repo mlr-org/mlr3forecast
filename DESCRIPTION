@@ -52,6 +52,8 @@ Collate:
     'TaskFcstAirpassengers.R'
     'TaskFcstElectricty.R'
     'TaskFcstLivestock.R'
+    'TaskFcstLynx.R'
+    'TaskFcstUsaccdeaths.R'
     'as_task_fcst.R'
     'autoplot.R'
     'bibentries.R'

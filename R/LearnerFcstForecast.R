@@ -6,6 +6,17 @@ LearnerFcstForecast = R6Class(
   private = list(
     .max_index = NULL,
 
+    .train = function(task) {
+      properties = task$properties
+      if ("ordered" %nin% properties) {
+        stopf("%s learner requires an ordered task.", self$id)
+      }
+      if ("keys" %chin% properties) {
+        stopf("%s learner does not support tasks with keys.", self$id)
+      }
+      private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
+    },
+
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       is_quantile = self$predict_type == "quantiles"

@@ -4,11 +4,14 @@
 #' @format [R6::R6Class] inheriting from [TaskFcst].
 #'
 #' @description
-#' A toy forecast task for the [datasets::AirPassengers] data set.
-#' The task represents a monthly time series and is ordered by its only feature `date`.
+#' A forecast task for the popular [datasets::AirPassengers] data set.
+#' The task represents the monthly totals of international airline passengers from 1949 to 1960.
 #'
 #' @templateVar id airpassengers
 #' @template task
+#'
+#' @source
+#' `r format_bib("box1976")`
 #'
 #' @template seealso_task
 NULL

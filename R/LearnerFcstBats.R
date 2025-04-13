@@ -49,10 +49,7 @@ LearnerFcstBats = R6Class(
 
   private = list(
     .train = function(task) {
-      if ("ordered" %nin% task$properties) {
-        stopf("%s learner requires an ordered task.", self$id)
-      }
-      private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
+      super$.train(task)
       pv = self$param_set$get_values(tags = "train")
 
       invoke(forecast::tbats, y = as.ts(task), .args = pv)
