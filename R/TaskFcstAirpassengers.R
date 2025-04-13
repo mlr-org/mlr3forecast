@@ -17,19 +17,19 @@ load_task_airpassengers = function(id = "airpassengers") {
   ts = load_dataset("AirPassengers", "datasets")
   dates = unclass(stats::time(ts))
   dates = as.Date(paste((dates + 0.001) %/% 1L, stats::cycle(ts), 1L, sep = "-"))
-  dt = data.table(date = dates, passengers = as.numeric(ts))
+  dt = data.table(month = dates, passengers = as.numeric(ts))
   b = as_data_backend(dt)
 
   task = TaskFcst$new(
     id = id,
     backend = b,
     target = "passengers",
-    order = "date",
+    order = "month",
     freq = "monthly",
     label = "Monthly Airline Passenger Numbers 1949-1960"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_airpassengers"
-  task$col_roles$feature = setdiff(task$col_roles$feature, "date")
+  task$col_roles$feature = setdiff(task$col_roles$feature, "month")
   task
 }
 

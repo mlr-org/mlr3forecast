@@ -130,7 +130,7 @@ graph = ppl("convert_types", "Date", "POSIXct") %>>%
     )
   )
 task = tsk("airpassengers")
-task$set_col_roles("date", add = "feature")
+task$set_col_roles("month", add = "feature")
 flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)
 glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
