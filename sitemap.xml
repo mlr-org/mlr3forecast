@@ -5,7 +5,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/index.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/news/index.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/ForecastLearner.html</loc></url>
-<url><loc>https://mlr3forecast.mlr-org.com/reference/ForecastLearner2.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/ForecastLearnerManual.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/LearnerFcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/MeasureMDA.html</loc></url>
@@ -23,9 +23,9 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.html</loc></url>
-<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lag.html</loc></url>
-<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_forecast_cv.html</loc></url>
-<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_forecast_holdout.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_fcst.cv.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_fcst.holdout.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_tasks_airpassengers.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_tasks_electricity.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_tasks_livestock.html</loc></url>
