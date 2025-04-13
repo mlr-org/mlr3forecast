@@ -47,7 +47,7 @@ Collate:
     'LearnerFcstForecast.R'
     'LearnerFcstTbats.R'
     'MeasureDirectional.R'
-    'PipeOpFcstLag.R'
+    'PipeOpFcstLags.R'
     'PipeOpTargetTrafo.R'
     'ResamplingFcstCV.R'
     'ResamplingFcstHoldout.R'

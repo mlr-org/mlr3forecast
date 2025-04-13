@@ -1,12 +1,12 @@
 #' @title Forecast Holdout Resampling
 #'
-#' @name mlr_resamplings_forecast_holdout
+#' @name mlr_resamplings_fcst.holdout
 #'
 #' @description
 #' Splits data into a training set and a test set.
 #' Parameter `ratio` determines the ratio of observation going into the training set (default: 2/3).
 #'
-#' @templateVar id forecast_cv
+#' @templateVar id fcst.cv
 #' @template resampling
 #'
 #' @section Parameters:
@@ -26,7 +26,7 @@
 #' task$filter(1:10)
 #'
 #' # Instantiate Resampling
-#' holdout = rsmp("forecast_holdout", ratio = 0.5)
+#' holdout = rsmp("fcst.holdout", ratio = 0.5)
 #' holdout$instantiate(task)
 #'
 #' # Individual sets:
@@ -51,10 +51,10 @@ ResamplingFcstHoldout = R6Class(
       )
 
       super$initialize(
-        id = "forecast_holdout",
+        id = "fcst.holdout",
         label = "Time Series Holdout",
         param_set = param_set,
-        man = "mlr3forecast::mlr_resamplings_forecast_holdout"
+        man = "mlr3forecast::mlr_resamplings_fcst.holdout"
       )
     }
   ),
@@ -152,4 +152,4 @@ ResamplingFcstHoldout = R6Class(
 )
 
 #' @include zzz.R
-register_resampling("forecast_holdout", ResamplingFcstHoldout)
+register_resampling("fcst.holdout", ResamplingFcstHoldout)

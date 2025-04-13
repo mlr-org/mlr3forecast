@@ -102,11 +102,11 @@ prediction
 prediction$score(msr("regr.rmse"))
 
 flrn = ForecastLearner$new(learner, lags = 1:12)
-resampling = rsmp("forecast_holdout", ratio = 0.9)
+resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 
-resampling = rsmp("forecast_cv")
+resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 ```
@@ -211,7 +211,7 @@ prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
-resampling = rsmp("forecast_holdout", ratio = 0.9)
+resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 ```

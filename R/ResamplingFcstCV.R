@@ -1,11 +1,11 @@
 #' @title Forecast Cross-Validation Resampling
 #'
-#' @name mlr_resamplings_forecast_cv
+#' @name mlr_resamplings_fcst.cv
 #'
 #' @description
 #' Splits data using a `folds`-folds (default: 10 folds) rolling window cross-validation.
 #'
-#' @templateVar id forecast_cv
+#' @templateVar id fcst.cv
 #' @template resampling
 #'
 #' @section Parameters:
@@ -31,7 +31,7 @@
 #' task$filter(1:20)
 #'
 #' # Instantiate Resampling
-#' cv = rsmp("forecast_cv", folds = 3, fixed_window = FALSE)
+#' cv = rsmp("fcst_cv", folds = 3, fixed_window = FALSE)
 #' cv$instantiate(task)
 #'
 #' # Individual sets:
@@ -64,10 +64,10 @@ ResamplingFcstCV = R6Class(
       )
 
       super$initialize(
-        id = "forecast_cv",
+        id = "fcst.cv",
         label = "Time Series Cross-Validation",
         param_set = param_set,
-        man = "mlr3forecast::mlr_resamplings_forecast_cv"
+        man = "mlr3forecast::mlr_resamplings_fcst.cv"
       )
     }
   ),
@@ -182,4 +182,4 @@ ResamplingFcstCV = R6Class(
 )
 
 #' @include zzz.R
-register_resampling("forecast_cv", ResamplingFcstCV)
+register_resampling("fcst.cv", ResamplingFcstCV)

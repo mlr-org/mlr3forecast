@@ -61,7 +61,7 @@ reference:
     contents:
       - starts_with("mlr_resamplings")
   - title: Pipeline Operators
-    content:
+    contents:
       - starts_with("mlr_pipeops")
   - title: Helper
     contents:
