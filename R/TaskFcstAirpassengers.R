@@ -14,9 +14,10 @@
 NULL
 
 load_task_airpassengers = function(id = "airpassengers") {
-  require_namespaces("tsbox")
-  dt = tsbox::ts_dt(load_dataset("AirPassengers", "datasets"))
-  setnames(dt, c("date", "passengers"))
+  ts = load_dataset("AirPassengers", "datasets")
+  dates = unclass(stats::time(ts))
+  dates = as.Date(paste((dates + 0.001) %/% 1L, stats::cycle(ts), 1L, sep = "-"))
+  dt = data.table(date = dates, passengers = as.numeric(ts))
   b = as_data_backend(dt)
 
   task = TaskFcst$new(

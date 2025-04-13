@@ -81,7 +81,6 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 \item \href{#method-TaskFcst-new}{\code{TaskFcst$new()}}
 \item \href{#method-TaskFcst-data}{\code{TaskFcst$data()}}
 \item \href{#method-TaskFcst-print}{\code{TaskFcst$print()}}
-\item \href{#method-TaskFcst-truth}{\code{TaskFcst$truth()}}
 \item \href{#method-TaskFcst-clone}{\code{TaskFcst$clone()}}
 }
 }
@@ -105,6 +104,7 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href='../../mlr3/html/Task.html#method-Task-set_col_roles'><code>mlr3::Task$set_col_roles()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href='../../mlr3/html/Task.html#method-Task-set_levels'><code>mlr3::Task$set_levels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href='../../mlr3/html/Task.html#method-Task-set_row_roles'><code>mlr3::Task$set_row_roles()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskRegr" data-id="truth"><a href='../../mlr3/html/TaskRegr.html#method-TaskRegr-truth'><code>mlr3::TaskRegr$truth()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -213,28 +213,6 @@ Printer.
 \item{\code{...}}{(ignored).}
 }
 \if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TaskFcst-truth"></a>}}
-\if{latex}{\out{\hypertarget{method-TaskFcst-truth}{}}}
-\subsection{Method \code{truth()}}{
-True response for specified \code{row_ids}. Format depends on the task type.
-Defaults to all rows with role "use".
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$truth(rows = NULL)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
-Vector or row indices.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-\code{numeric()}.
 }
 }
 \if{html}{\out{<hr>}}
