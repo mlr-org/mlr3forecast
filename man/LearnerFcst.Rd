@@ -18,17 +18,15 @@ repository \url{https://raphaels1.r-universe.dev}).
 }
 
 Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners}.
-Essential regression learners can be found in this dictionary after loading \CRANpkg{mlr3learners}.
-Additional learners are implement in the Github package \url{https://github.com/mlr-org/mlr3extralearners}.
 }
 \examples{
 # get all forecast learners from mlr_learners:
-learners = lrns(mlr_learners$keys("^fcst"))
-names(learners)
+lrns = mlr_learners$mget(mlr_learners$keys("^forecast"))
+names(lrns)
 
 # get a specific learner from mlr_learners:
-learner = lrn("fcst.arima")
-print(learner)
+mlr_learners$get("fcst.ets")
+lrn("fcst.auto_arima")
 }
 \seealso{
 \itemize{

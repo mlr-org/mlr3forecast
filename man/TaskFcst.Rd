@@ -15,8 +15,8 @@ Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{
 \dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
-setnames(airpassengers, c("date", "passengers"))
-task = as_task_fcst(airpassengers, target = "passengers", order = "date")
+setnames(airpassengers, c("month", "passengers"))
+task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
 task$task_type
 task$formula()
 task$truth()

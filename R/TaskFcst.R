@@ -18,8 +18,8 @@
 #' @examplesIf requireNamespace("tsbox", quietly = TRUE)
 #' library(data.table)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
-#' setnames(airpassengers, c("date", "passengers"))
-#' task = as_task_fcst(airpassengers, target = "passengers", order = "date")
+#' setnames(airpassengers, c("month", "passengers"))
+#' task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
 #' task$task_type
 #' task$formula()
 #' task$truth()

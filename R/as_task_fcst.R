@@ -17,8 +17,8 @@
 #' @examplesIf requireNamespace("tsbox", quietly = TRUE)
 #' library(data.table)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
-#' setnames(airpassengers, c("date", "passengers"))
-#' as_task_fcst(airpassengers, target = "passengers", order = "date")
+#' setnames(airpassengers, c("month", "passengers"))
+#' as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
 as_task_fcst = function(x, ...) {
   UseMethod("as_task_fcst")
 }
@@ -50,8 +50,7 @@ as_task_fcst.DataBackend = function(
     assert_choice(key, cn)
   }
 
-  task = TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
-  task
+  TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
 }
 
 #' @rdname as_task_fcst
@@ -81,6 +80,5 @@ as_task_fcst.data.frame = function(
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
-  task = TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
-  task
+  TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
 }
