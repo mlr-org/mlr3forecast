@@ -31,7 +31,7 @@
 #' task$filter(1:20)
 #'
 #' # Instantiate Resampling
-#' cv = rsmp("fcst_cv", folds = 3, fixed_window = FALSE)
+#' cv = rsmp("fcst.cv", folds = 3, fixed_window = FALSE)
 #' cv$instantiate(task)
 #'
 #' # Individual sets:
