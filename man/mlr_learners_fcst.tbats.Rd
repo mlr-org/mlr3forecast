@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.tbats}
 \alias{mlr_learners_fcst.tbats}
 \alias{LearnerFcstTbats}
-\title{TBATS}
+\title{TBATS Forecast Learner}
 \description{
 TBATS model.
 Calls \code{\link[forecast:tbats]{forecast::tbats()}} from package \CRANpkg{forecast}.

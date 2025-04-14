@@ -1,4 +1,4 @@
-#' @title ARFIMA
+#' @title ARFIMA Forecast Learner
 #'
 #' @name mlr_learners_fcst.arfima
 #'

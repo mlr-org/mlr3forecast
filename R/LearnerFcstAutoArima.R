@@ -1,4 +1,4 @@
-#' @title Auto ARIMA
+#' @title Auto ARIMA Forecast Learner
 #'
 #' @name mlr_learners_fcst.auto_arima
 #'

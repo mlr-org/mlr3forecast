@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.bats}
 \alias{mlr_learners_fcst.bats}
 \alias{LearnerFcstBats}
-\title{BATS}
+\title{BATS Forecast Learner}
 \description{
 BATS model.
 Calls \code{\link[forecast:bats]{forecast::bats()}} from package \CRANpkg{forecast}.

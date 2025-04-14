@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.arima}
 \alias{mlr_learners_fcst.arima}
 \alias{LearnerFcstArima}
-\title{ARIMA}
+\title{ARIMA Forecast Learner}
 \description{
 ARIMA model.
 Calls \code{\link[forecast:Arima]{forecast::Arima()}} from package \CRANpkg{forecast}.

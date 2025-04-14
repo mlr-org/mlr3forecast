@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.arfima}
 \alias{mlr_learners_fcst.arfima}
 \alias{LearnerFcstArfima}
-\title{ARFIMA}
+\title{ARFIMA Forecast Learner}
 \description{
 ARFIMA model.
 Calls \code{\link[forecast:arfima]{forecast::arfima()}} from package \CRANpkg{forecast}.

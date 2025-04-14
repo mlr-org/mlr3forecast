@@ -1,4 +1,4 @@
-#' @title TBATS
+#' @title TBATS Forecast Learner
 #'
 #' @name mlr_learners_fcst.tbats
 #'

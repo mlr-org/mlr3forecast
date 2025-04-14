@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.ets}
 \alias{mlr_learners_fcst.ets}
 \alias{LearnerFcstEts}
-\title{ETS}
+\title{ETS Forecast Learner}
 \description{
 ETS model.
 Calls \code{\link[forecast:ets]{forecast::ets()}} from package \CRANpkg{forecast}.

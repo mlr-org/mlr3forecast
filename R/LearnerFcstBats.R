@@ -1,4 +1,4 @@
-#' @title BATS
+#' @title BATS Forecast Learner
 #'
 #' @name mlr_learners_fcst.bats
 #'
