@@ -10,9 +10,7 @@ repository https://raphaels1.r-universe.dev).
 
 
 
-Predefined learners can be found in the dictionary mlr3::mlr_learners.
-Essential regression learners can be found in this dictionary after loading mlr3learners.
-Additional learners are implement in the Github package https://github.com/mlr-org/mlr3extralearners.'><meta property="og:description" content='This Learner specializes mlr3::LearnerRegr for forecast problems:
+Predefined learners can be found in the dictionary mlr3::mlr_learners.'><meta property="og:description" content='This Learner specializes mlr3::LearnerRegr for forecast problems:
 task_type is set to "fcst".
 Creates Predictions of class mlr3::PredictionRegr.
 Possible values for predict_types are:
@@ -23,9 +21,7 @@ repository https://raphaels1.r-universe.dev).
 
 
 
-Predefined learners can be found in the dictionary mlr3::mlr_learners.
-Essential regression learners can be found in this dictionary after loading mlr3learners.
-Additional learners are implement in the Github package https://github.com/mlr-org/mlr3extralearners.'></head><body>
+Predefined learners can be found in the dictionary mlr3::mlr_learners.'></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -77,9 +73,7 @@ Additional learners are implement in the Github package https://github.com/mlr-o
 <li><p><code>"distr"</code>: Probability distribution as <code>VectorDistribution</code> object (requires package <code>distr6</code>, available via
 repository <a href="https://raphaels1.r-universe.dev" class="external-link">https://raphaels1.r-universe.dev</a>).</p></li>
 </ul></li>
-</ul><p>Predefined learners can be found in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="https://mlr3.mlr-org.com/reference/mlr_learners.html" class="external-link">mlr3::mlr_learners</a>.
-Essential regression learners can be found in this dictionary after loading <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a>.
-Additional learners are implement in the Github package <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">https://github.com/mlr-org/mlr3extralearners</a>.</p>
+</ul><p>Predefined learners can be found in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="https://mlr3.mlr-org.com/reference/mlr_learners.html" class="external-link">mlr3::mlr_learners</a>.</p>
     </div>
 
 
@@ -228,15 +222,21 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># get all forecast learners from mlr_learners:</span></span></span>
-<span class="r-in"><span><span class="va">learners</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrns</a></span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="st">"^fcst"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">learners</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "fcst.arfima"     "fcst.arima"      "fcst.auto_arima" "fcst.bats"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "fcst.ets"        "fcst.tbats"     </span>
+<span class="r-in"><span><span class="va">lrns</span> <span class="op">=</span> <span class="va">mlr_learners</span><span class="op">$</span><span class="fu">mget</span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="st">"^forecast"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lrns</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># get a specific learner from mlr_learners:</span></span></span>
-<span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"fcst.arima"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerFcstArima:fcst.arima&gt;: ARIMA</span>
+<span class="r-in"><span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"fcst.ets"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerFcstEts:fcst.ets&gt;: ETS</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: list()</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, mlr3forecast, forecast</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Predict Types:  [response], quantiles</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Feature Types: integer, numeric, Date</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> * Properties: featureless, missings</span>
+<span class="r-in"><span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"fcst.auto_arima"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;LearnerFcstAutoArima:fcst.auto_arima&gt;: Auto ARIMA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Parameters: list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> * Packages: mlr3, mlr3forecast, forecast</span>
