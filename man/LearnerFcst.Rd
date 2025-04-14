@@ -97,7 +97,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
   predict_types = "response",
   feature_types = character(),
   properties = character(),
-  data_formats,
   packages = character(),
   label = NA_character_,
   man = NA_character_
@@ -134,9 +133,6 @@ The following properties are currently standardized and understood by learners i
 \item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.
 If a learner is in a marshaled state, you call first need to call \verb{$unmarshal()} to use its model, e.g. for prediction.
 }}
-
-\item{\code{data_formats}}{(\code{character()})\cr
-Deprecated: ignored, and will be removed in the future.}
 
 \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

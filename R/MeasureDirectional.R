@@ -22,10 +22,8 @@ MeasureMDA = R6Class(
 
       super$initialize(
         id = "fcst.mda",
-        task_type = NA_character_,
+        task_type = "regr",
         param_set = param_set,
-        properties = character(),
-        predict_type = NA_character_,
         range = c(0, 1),
         minimize = TRUE,
         packages = "mlr3forecast",
@@ -73,10 +71,7 @@ MeasureMDV = R6Class(
     initialize = function() {
       super$initialize(
         id = "fcst.mdv",
-        task_type = NA_character_,
-        param_set = ps(),
-        properties = character(),
-        predict_type = NA_character_,
+        task_type = "regr",
         minimize = TRUE,
         packages = "mlr3forecast",
         label = "Mean Directional Value",
@@ -120,10 +115,7 @@ MeasureMDPV = R6Class(
     initialize = function() {
       super$initialize(
         id = "fcst.mdpv",
-        task_type = NA_character_,
-        param_set = ps(),
-        properties = character(),
-        predict_type = NA_character_,
+        task_type = "regr",
         minimize = TRUE,
         packages = "mlr3forecast",
         label = "Mean Directional Percentage Value",

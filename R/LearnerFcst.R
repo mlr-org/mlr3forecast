@@ -20,7 +20,6 @@
 #' @template param_predict_types
 #' @template param_feature_types
 #' @template param_learner_properties
-#' @template param_data_formats
 #' @template param_packages
 #' @template param_label
 #' @template param_man
@@ -47,7 +46,6 @@ LearnerFcst = R6Class(
       predict_types = "response",
       feature_types = character(),
       properties = character(),
-      data_formats,
       packages = character(),
       label = NA_character_,
       man = NA_character_
@@ -59,7 +57,6 @@ LearnerFcst = R6Class(
         feature_types = feature_types,
         predict_types = predict_types,
         properties = properties,
-        data_formats,
         packages = packages,
         label = label,
         man = man

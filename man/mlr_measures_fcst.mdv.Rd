@@ -21,11 +21,11 @@ msr("fcst.mdv")
 \section{Meta Information}{
 
 \itemize{
-\item Task type: \dQuote{NA}
+\item Task type: \dQuote{regr}
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
 \item Minimize: TRUE
 \item Average: macro
-\item Required Prediction: \dQuote{NA}
+\item Required Prediction: \dQuote{response}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}
 }
 }
