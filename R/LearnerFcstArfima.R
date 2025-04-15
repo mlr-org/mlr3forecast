@@ -45,8 +45,8 @@ LearnerFcstArfima = R6Class(
         id = "fcst.arfima",
         param_set = param_set,
         predict_types = c("response", "quantiles"),
-        feature_types = c("Date", "logical", "integer", "numeric"),
-        properties = "missings",
+        feature_types = unname(mlr_reflections$task_feature_types),
+        properties = c("featureless", "missings"),
         packages = c("mlr3forecast", "forecast"),
         label = "ARFIMA",
         man = "mlr3forecast::mlr_learners_fcst.arfima"
@@ -61,7 +61,7 @@ LearnerFcstArfima = R6Class(
 
       xreg = NULL
       if (length(task$feature_names) > 0L) {
-        xreg = as.matrix(task$data(cols = fcst_feature_names(task)))
+        xreg = as.matrix(task$data(cols = task$feature_names))
       }
       invoke(forecast::arfima, y = as.ts(task), xreg = xreg, .args = pv)
     }

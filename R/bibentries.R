@@ -127,6 +127,15 @@ bibentries = c(
     publisher = "Springer",
     year = "1991",
     note = "Series G"
+  ),
+  ripley_1996 = bibentry(
+    "book",
+    doi = "10.1017/cbo9780511812651",
+    year = "1996",
+    month = "jan",
+    publisher = "Cambridge University Press",
+    author = "Brian D. Ripley",
+    title = "Pattern Recognition and Neural Networks"
   )
 )
 # nolint end
