@@ -36,8 +36,7 @@ MeasureMDA = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(reward = p_dbl(), penalty = p_dbl())
-      param_set$set_values(reward = 1, penalty = 0)
+      param_set = ps(reward = p_dbl(default = 1), penalty = p_dbl(default = 0))
 
       super$initialize(
         id = "fcst.mda",
