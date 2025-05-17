@@ -5,9 +5,18 @@
 \alias{MeasureMDA}
 \title{Mean Directional Accuracy}
 \description{
-Mean Directional Accuracy
-
-Mean Directional Accuracy
+Measure of the proportion of correctly predicted directions between successive observations in forecast tasks.
+}
+\details{
+\deqn{
+  \mathrm{MDA} = (r - p)\,\frac{1}{n-1}
+    \sum_{i=2}^n \mathbf{1}\{\mathrm{sign}(y_i - y_{i-1})
+    = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; p
+}{
+  (r - p)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + p
+}
+where \code{r} is the reward for a correct direction (default \code{1}), \code{p} is the penalty for an incorrect direction
+(default \code{0}), and \code{n} is the number of observations.
 }
 \section{Dictionary}{
 

@@ -5,9 +5,21 @@
 \alias{MeasureMDV}
 \title{Mean Directional Value}
 \description{
-Mean Directional Value
-
-Mean Directional Value
+Measure of average magnitude‐weighted directional accuracy in forecast tasks.
+}
+\details{
+\deqn{
+  \mathrm{MDV} = \frac{1}{n-1}
+    \sum_{i=2}^n \lvert y_i - y_{i-1}\rvert \times
+    \begin{cases}
+      +1, & \text{if }\mathrm{sign}(y_i - y_{i-1})
+           = \mathrm{sign}(\hat y_i - \hat y_{i-1}),\\
+      -1, & \text{otherwise.}
+    \end{cases}
+}{
+  \text{mean}(\lvert\Delta y\rvert \times \text{directional indicator})
+}
+where \code{n} is the number of observations.
 }
 \section{Dictionary}{
 

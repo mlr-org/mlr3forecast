@@ -2,6 +2,25 @@
 #'
 #' @name mlr_measures_fcst.mda
 #'
+#' @description
+#' Measure of the proportion of correctly predicted directions between successive observations in forecast tasks.
+#'
+#' @details
+#' \deqn{
+#'   \mathrm{MDA} = (r - p)\,\frac{1}{n-1}
+#'     \sum_{i=2}^n \mathbf{1}\{\mathrm{sign}(y_i - y_{i-1})
+#'     = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; p
+#' }{
+#'   (r - p)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + p
+#' }
+#' where `r` is the reward for a correct direction (default `1`), `p` is the penalty for an incorrect direction
+#' (default `0`), and `n` is the number of observations.
+#'
+#' @param reward `numeric(1)`\cr
+#'   Reward applied when the predicted direction matches the true direction.
+#' @param penalty `numeric(1)`\cr
+#'   Penalty applied when the predicted direction does not match.
+#'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
 #'
@@ -54,6 +73,23 @@ MeasureMDA = R6Class(
 #'
 #' @name mlr_measures_fcst.mdv
 #'
+#' @description
+#' Measure of average magnitude‐weighted directional accuracy in forecast tasks.
+#'
+#' @details
+#' \deqn{
+#'   \mathrm{MDV} = \frac{1}{n-1}
+#'     \sum_{i=2}^n \lvert y_i - y_{i-1}\rvert \times
+#'     \begin{cases}
+#'       +1, & \text{if }\mathrm{sign}(y_i - y_{i-1})
+#'            = \mathrm{sign}(\hat y_i - \hat y_{i-1}),\\
+#'       -1, & \text{otherwise.}
+#'     \end{cases}
+#' }{
+#'   \text{mean}(\lvert\Delta y\rvert \times \text{directional indicator})
+#' }
+#' where `n` is the number of observations.
+#'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
 #'
@@ -97,6 +133,23 @@ MeasureMDV = R6Class(
 #' @title Mean Directional Percentage Value
 #'
 #' @name mlr_measures_fcst.mdpv
+#'
+#' @description
+#' Measure of average percentage‐weighted directional accuracy in forecast tasks.
+#'
+#' @details
+#' \deqn{
+#'   \mathrm{MDPV} = \frac{100}{n-1}
+#'     \sum_{i=2}^n \left\lvert\frac{y_i - y_{i-1}}{y_{i-1}}\right\rvert \times
+#'     \begin{cases}
+#'       +1, & \text{if }\mathrm{sign}(y_i - y_{i-1})
+#'            = \mathrm{sign}(\hat y_i - \hat y_{i-1}),\\
+#'       -1, & \text{otherwise.}
+#'     \end{cases}
+#' }{
+#'   100 \times \text{mean}\bigl(\lvert\Delta y / y_{-}\rvert \times \text{directional indicator}\bigr)
+#' where `n` is the number of observations.
+#' }
 #'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
