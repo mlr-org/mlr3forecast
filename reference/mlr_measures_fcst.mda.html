@@ -57,11 +57,11 @@
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>$$
-  \mathrm{MDA} = (r - p)\,\frac{1}{n-1}
+  \mathrm{MDA} = (a - b)\,\frac{1}{n-1}
     \sum_{i=2}^n \mathbf{1}\{\mathrm{sign}(y_i - y_{i-1})
     = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; p
 $$
-where <code>r</code> is the reward for a correct direction (default <code>1</code>), <code>p</code> is the penalty for an incorrect direction
+where <code>a</code> is the reward for a correct direction (default <code>1</code>), <code>b</code> is the penalty for an incorrect direction
 (default <code>0</code>), and <code>n</code> is the number of observations.</p>
     </div>
     <div class="section level2">
@@ -77,8 +77,8 @@ where <code>r</code> is the reward for a correct direction (default <code>1</cod
 
 
 <ul><li><p>Task type: “regr”</p></li>
-<li><p>Range: \([0, 1]\)</p></li>
-<li><p>Minimize: TRUE</p></li>
+<li><p>Range: \((-\infty, \infty)\)</p></li>
+<li><p>Minimize: FALSE</p></li>
 <li><p>Average: macro</p></li>
 <li><p>Required Prediction: “response”</p></li>
 <li><p>Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=mlr3forecast" class="external-link"><span class="pkg">mlr3forecast</span></a></p></li>
