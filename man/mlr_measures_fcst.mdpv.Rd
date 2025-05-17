@@ -35,7 +35,7 @@ msr("fcst.mdpv")
 \itemize{
 \item Task type: \dQuote{regr}
 \item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
-\item Minimize: TRUE
+\item Minimize: FALSE
 \item Average: macro
 \item Required Prediction: \dQuote{response}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}

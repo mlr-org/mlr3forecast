@@ -7,13 +7,13 @@
 #'
 #' @details
 #' \deqn{
-#'   \mathrm{MDA} = (r - p)\,\frac{1}{n-1}
+#'   \mathrm{MDA} = (a - b)\,\frac{1}{n-1}
 #'     \sum_{i=2}^n \mathbf{1}\{\mathrm{sign}(y_i - y_{i-1})
 #'     = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; p
 #' }{
-#'   (r - p)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + p
+#'   (a - b)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + b
 #' }
-#' where `r` is the reward for a correct direction (default `1`), `p` is the penalty for an incorrect direction
+#' where `a` is the reward for a correct direction (default `1`), `b` is the penalty for an incorrect direction
 #' (default `0`), and `n` is the number of observations.
 #'
 #' @param reward `numeric(1)`\cr
@@ -43,8 +43,7 @@ MeasureMDA = R6Class(
         id = "fcst.mda",
         task_type = "regr",
         param_set = param_set,
-        range = c(0, 1),
-        minimize = TRUE,
+        minimize = FALSE,
         packages = "mlr3forecast",
         label = "Mean Directional Accuracy",
         man = "mlr3forecast::mlr_measures_fcst.mda"
@@ -57,14 +56,15 @@ MeasureMDA = R6Class(
       penalty = pars$penalty
       reward = pars$reward
       truth = prediction$truth
-      actual = prediction$response
+      response = prediction$response
 
+      resid = truth - response
       actual_change = diff(truth)
-      actual_direction = sign(actual_change)
-      predicted_change = actual_change - actual[-1L]
-      predicted_direction = sign(predicted_change)
-      directional_error = actual_direction == predicted_direction
-      (reward - penalty) * mean(directional_error, na.rm = TRUE) + penalty
+      actual_direction = sign(actual_direction)
+      pred_change = actual_change - resid[-1L]
+      pred_direction = sign(pred_change)
+      directional_accuracy = actual_direction == pred_direction
+      (reward - penalty) * mean(directional_accuracy, na.rm = TRUE) + penalty
     }
   )
 )
@@ -108,7 +108,7 @@ MeasureMDV = R6Class(
       super$initialize(
         id = "fcst.mdv",
         task_type = "regr",
-        minimize = TRUE,
+        minimize = FALSE,
         packages = "mlr3forecast",
         label = "Mean Directional Value",
         man = "mlr3forecast::mlr_measures_fcst.mdv"
@@ -120,11 +120,12 @@ MeasureMDV = R6Class(
       truth = prediction$truth
       response = prediction$response
 
+      resid = truth - response
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
-      predicted_change = actual_change - response[-1L]
-      predicted_direction = sign(predicted_change)
-      directional_accuracy = fifelse(actual_direction == predicted_direction, 1L, -1L)
+      pred_change = actual_change - resid[-1L]
+      pred_direction = sign(pred_change)
+      directional_accuracy = fifelse(actual_direction == pred_direction, 1L, -1L)
       mean(abs(actual_change) * directional_accuracy, na.rm = TRUE)
     }
   )
@@ -169,7 +170,7 @@ MeasureMDPV = R6Class(
       super$initialize(
         id = "fcst.mdpv",
         task_type = "regr",
-        minimize = TRUE,
+        minimize = FALSE,
         packages = "mlr3forecast",
         label = "Mean Directional Percentage Value",
         man = "mlr3forecast::mlr_measures_fcst.mdpv"
@@ -181,12 +182,13 @@ MeasureMDPV = R6Class(
       truth = prediction$truth
       response = prediction$response
 
+      resid = truth - response
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
-      predicted_change = actual_change - response[-1L]
-      predicted_direction = sign(predicted_change)
-      directional_accuracy = fifelse(actual_direction == predicted_direction, 1L, -1L)
-      mean(abs(actual_change / truth[-1L]) * directional_accuracy, na.rm = TRUE) * 100
+      pred_change = actual_change - resid[-1L]
+      pred_direction = sign(pred_change)
+      directional_accuracy = fifelse(actual_direction == pred_direction, 1L, -1L)
+      mean(abs(actual_change / truth[-1L]) * directional_accuracy, na.rm = na.rm) * 100
     }
   )
 )

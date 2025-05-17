@@ -9,13 +9,13 @@ Measure of the proportion of correctly predicted directions between successive o
 }
 \details{
 \deqn{
-  \mathrm{MDA} = (r - p)\,\frac{1}{n-1}
+  \mathrm{MDA} = (a - b)\,\frac{1}{n-1}
     \sum_{i=2}^n \mathbf{1}\{\mathrm{sign}(y_i - y_{i-1})
     = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; p
 }{
-  (r - p)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + p
+  (a - b)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + b
 }
-where \code{r} is the reward for a correct direction (default \code{1}), \code{p} is the penalty for an incorrect direction
+where \code{a} is the reward for a correct direction (default \code{1}), \code{b} is the penalty for an incorrect direction
 (default \code{0}), and \code{n} is the number of observations.
 }
 \section{Dictionary}{
@@ -31,8 +31,8 @@ msr("fcst.mda")
 
 \itemize{
 \item Task type: \dQuote{regr}
-\item Range: \eqn{[0, 1]}{[0, 1]}
-\item Minimize: TRUE
+\item Range: \eqn{(-\infty, \infty)}{(-Inf, Inf)}
+\item Minimize: FALSE
 \item Average: macro
 \item Required Prediction: \dQuote{response}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}
