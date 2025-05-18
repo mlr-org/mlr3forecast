@@ -48,7 +48,7 @@ LearnerFcstAutoArima = R6Class(
         properties = c("featureless", "missings"),
         packages = c("mlr3forecast", "forecast"),
         label = "Auto ARIMA",
-        man = "mlr3forecast::mlr_learners_fcst.arima"
+        man = "mlr3forecast::mlr_learners_fcst.auto_arima"
       )
     }
   ),
