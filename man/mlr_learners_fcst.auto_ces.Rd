@@ -71,6 +71,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.adam}},
 \code{\link{mlr_learners_fcst.arfima}},
 \code{\link{mlr_learners_fcst.arima}},
+\code{\link{mlr_learners_fcst.auto_adam}},
 \code{\link{mlr_learners_fcst.auto_arima}},
 \code{\link{mlr_learners_fcst.bats}},
 \code{\link{mlr_learners_fcst.ces}},

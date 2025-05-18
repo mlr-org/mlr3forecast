@@ -44,6 +44,7 @@ Collate:
     'LearnerFcstAdam.R'
     'LearnerFcstArfima.R'
     'LearnerFcstArima.R'
+    'LearnerFcstAutoAdam.R'
     'LearnerFcstAutoArima.R'
     'LearnerFcstAutoCes.R'
     'LearnerFcstBats.R'
