@@ -146,6 +146,16 @@ bibentries = c(
     archivePrefix = "arXiv",
     primaryClass = "stat.ME",
     url = "https://arxiv.org/abs/2301.01790",
+  ),
+  svetunkov2023adam = bibentry(
+    "book",
+    title = "Forecasting and Analytics with the Augmented Dynamic Adaptive Model (ADAM)",
+    author = "Svetunkov, Ivan",
+    edition = "1st",
+    publisher = "Chapman and Hall/CRC",
+    year = "2023",
+    doi = "10.1201/9781003452652",
+    url = "https://openforecast.org/adam/"
   )
 )
 # nolint end

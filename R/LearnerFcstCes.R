@@ -10,7 +10,7 @@
 #' @template learner
 #'
 #' @references
-#' `r format_bib("svetunkov2023smooth")`
+#' `r format_bib("svetunkov2023smooth", "svetunkov2023adam")`
 #'
 #' @export
 #' @template seealso_learner
