@@ -25,6 +25,7 @@ Imports:
     stats
 Suggests:
     forecast,
+    smooth,
     testthat (>= 3.2.0),
     tsbox,
     tsibbledata,
@@ -42,6 +43,7 @@ Collate:
     'LearnerFcstArfima.R'
     'LearnerFcstArima.R'
     'LearnerFcstAutoArima.R'
+    'LearnerFcstAutoCes.R'
     'LearnerFcstBats.R'
     'LearnerFcstEts.R'
     'LearnerFcstForecast.R'
