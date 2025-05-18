@@ -41,6 +41,7 @@ Collate:
     'ForecastLearnerManual.R'
     'LearnerFcst.R'
     'zzz.R'
+    'LearnerFcstAdam.R'
     'LearnerFcstArfima.R'
     'LearnerFcstArima.R'
     'LearnerFcstAutoArima.R'
