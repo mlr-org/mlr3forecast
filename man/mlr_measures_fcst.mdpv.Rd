@@ -9,7 +9,7 @@ Measure of average percentage‐weighted directional accuracy in forecast tasks.
 }
 \details{
 \deqn{
-  \mathrm{MDPV} = \frac{100}{n-1}
+  \mathrm{MDPV} = \frac{1}{n-1}
     \sum_{i=2}^n \left\lvert\frac{y_i - y_{i-1}}{y_{i-1}}\right\rvert \times
     \begin{cases}
       +1, & \text{if }\mathrm{sign}(y_i - y_{i-1})

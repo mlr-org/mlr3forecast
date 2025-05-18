@@ -42,8 +42,8 @@ msr("fcst.mda")
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Range \cr
-   reward \tab numeric \tab 1 \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
-   penalty \tab numeric \tab 0 \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   reward \tab numeric \tab - \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   penalty \tab numeric \tab - \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
 }
 }
 

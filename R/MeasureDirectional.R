@@ -36,7 +36,8 @@ MeasureMDA = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(reward = p_dbl(default = 1), penalty = p_dbl(default = 0))
+      param_set = ps(reward = p_dbl(), penalty = p_dbl())
+      param_set$set_values(reward = 1, penalty = 0)
 
       super$initialize(
         id = "fcst.mda",
@@ -59,9 +60,8 @@ MeasureMDA = R6Class(
 
       resid = truth - response
       actual_change = diff(truth)
-      actual_direction = sign(actual_direction)
-      pred_change = actual_change - resid[-1L]
-      pred_direction = sign(pred_change)
+      actual_direction = sign(actual_change)
+      pred_direction = sign(response[-1L] - truth[-length(truth)])
       directional_accuracy = actual_direction == pred_direction
       (reward - penalty) * mean(directional_accuracy, na.rm = TRUE) + penalty
     }
@@ -122,8 +122,7 @@ MeasureMDV = R6Class(
       resid = truth - response
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
-      pred_change = actual_change - resid[-1L]
-      pred_direction = sign(pred_change)
+      pred_direction = sign(response[-1L] - truth[-length(truth)])
       directional_accuracy = fifelse(actual_direction == pred_direction, 1L, -1L)
       mean(abs(actual_change) * directional_accuracy, na.rm = TRUE)
     }
@@ -139,7 +138,7 @@ MeasureMDV = R6Class(
 #'
 #' @details
 #' \deqn{
-#'   \mathrm{MDPV} = \frac{100}{n-1}
+#'   \mathrm{MDPV} = \frac{1}{n-1}
 #'     \sum_{i=2}^n \left\lvert\frac{y_i - y_{i-1}}{y_{i-1}}\right\rvert \times
 #'     \begin{cases}
 #'       +1, & \text{if }\mathrm{sign}(y_i - y_{i-1})
@@ -184,10 +183,9 @@ MeasureMDPV = R6Class(
       resid = truth - response
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
-      pred_change = actual_change - resid[-1L]
-      pred_direction = sign(pred_change)
+      pred_direction = sign(response[-1L] - truth[-length(truth)])
       directional_accuracy = fifelse(actual_direction == pred_direction, 1L, -1L)
-      mean(abs(actual_change / truth[-1L]) * directional_accuracy, na.rm = na.rm) * 100
+      mean(abs(actual_change / truth[-length(truth)]) * directional_accuracy, na.rm = TRUE)
     }
   )
 )
