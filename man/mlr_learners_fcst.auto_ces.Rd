@@ -21,19 +21,31 @@ lrn("fcst.auto_ces")
 
 \itemize{
 \item Task type: \dQuote{fcst}
-\item Predict Types: \dQuote{response}, \dQuote{quantiles}
+\item Predict Types: \dQuote{response}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, \dQuote{Date}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}, \CRANpkg{smooth}
 }
 }
 
 \section{Parameters}{
-
-Empty ParamSet
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   seasonality \tab character \tab none \tab none, simple, partial, full \cr
+   lags \tab untyped \tab - \tab  \cr
+   regressors \tab character \tab use \tab use, select, adapt \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, complete \cr
+   ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE \cr
+   holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   bounds \tab character \tab admissible \tab admissible, none \cr
+   silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
+}
 }
 
 \references{
-
+Svetunkov I (2023).
+\dQuote{Smooth forecasting with the smooth package in R.}
+2301.01790, \url{https://arxiv.org/abs/2301.01790}.
 }
 \seealso{
 \itemize{

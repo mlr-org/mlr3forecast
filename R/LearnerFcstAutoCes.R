@@ -10,7 +10,7 @@
 #' @template learner
 #'
 #' @references
-#' `r format_bib()`
+#' `r format_bib("svetunkov2023smooth")`
 #'
 #' @export
 #' @template seealso_learner
@@ -21,12 +21,26 @@ LearnerFcstAutoCes = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps()
+      param_set = ps(
+        seasonality = p_fct(c("none", "simple", "partial", "full"), default = "none", tags = "train"),
+        lags = p_uty(tags = "train", custom_check = check_numeric),
+        regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train"),
+        initial = p_fct(c("backcasting", "optimal", "complete"), default = "backcasting", tags = "train"),
+        ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
+        loss = p_fct(
+          c("likelihood", "MSE", "MAE", "HAM", "MSEh", "TMSE", "GTMSE", "MSCE"),
+          default = "likelihood",
+          tags = "train"
+        ),
+        holdout = p_lgl(default = FALSE, tags = "train"),
+        bounds = p_fct(c("admissible", "none"), default = "admissible", tags = "train"),
+        silent = p_lgl(default = TRUE, tags = "train")
+      )
 
       super$initialize(
         id = "fcst.auto_ces",
         param_set = param_set,
-        predict_types = c("response", "quantiles"),
+        predict_types = "response",
         feature_types = unname(mlr_reflections$task_feature_types),
         properties = c("featureless", "missings"),
         packages = c("mlr3forecast", "smooth"),
@@ -38,14 +52,17 @@ LearnerFcstAutoCes = R6Class(
 
   private = list(
     .train = function(task) {
-      super$.train(task)
       pv = self$param_set$get_values(tags = "train")
 
-      xreg = NULL
-      if (length(task$feature_names) > 0L) {
-        xreg = as.matrix(task$data(cols = task$feature_names))
-      }
-      invoke(smooth::auto.ces, y = as.ts(task), xreg = xreg, .args = pv)
+      with_package("smooth", {
+        invoke(smooth::auto.ces, data = as.ts(task), .args = pv)
+      })
+    },
+
+    .predict = function(task) {
+      pv = self$param_set$get_values(tags = "predict")
+      args = list(h = length(task$row_ids))
+      invoke(generics::forecast, self$model, .args = args)
     }
   )
 )
