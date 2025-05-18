@@ -136,6 +136,16 @@ bibentries = c(
     publisher = "Cambridge University Press",
     author = "Brian D. Ripley",
     title = "Pattern Recognition and Neural Networks"
+  ),
+  svetunkov2023smooth = bibentry(
+    "misc",
+    title = "Smooth forecasting with the smooth package in R",
+    author = "Ivan Svetunkov",
+    year = "2023",
+    eprint = "2301.01790",
+    archivePrefix = "arXiv",
+    primaryClass = "stat.ME",
+    url = "https://arxiv.org/abs/2301.01790",
   )
 )
 # nolint end

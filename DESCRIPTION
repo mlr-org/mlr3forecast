@@ -24,7 +24,9 @@ Imports:
     R6 (>= 2.6.0),
     stats
 Suggests:
+    generics (>= 0.1.2),
     forecast,
+    smooth,
     testthat (>= 3.2.0),
     tsbox,
     tsibbledata,
@@ -42,6 +44,7 @@ Collate:
     'LearnerFcstArfima.R'
     'LearnerFcstArima.R'
     'LearnerFcstAutoArima.R'
+    'LearnerFcstAutoCes.R'
     'LearnerFcstBats.R'
     'LearnerFcstEts.R'
     'LearnerFcstForecast.R'
