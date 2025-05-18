@@ -46,6 +46,7 @@ Collate:
     'LearnerFcstAutoArima.R'
     'LearnerFcstAutoCes.R'
     'LearnerFcstBats.R'
+    'LearnerFcstCes.R'
     'LearnerFcstEts.R'
     'LearnerFcstForecast.R'
     'LearnerFcstNnetar.R'

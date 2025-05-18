@@ -1,12 +1,12 @@
-#' @title Auto CES Forecast Learner
+#' @title CES Forecast Learner
 #'
-#' @name mlr_learners_fcst.auto_ces
+#' @name mlr_learners_fcst.ces
 #'
 #' @description
-#' Auto CES model.
-#' Calls [smooth::auto.ces()] from package \CRANpkg{smooth}.
+#' CES model.
+#' Calls [smooth::ces()] from package \CRANpkg{smooth}.
 #'
-#' @templateVar id fcst.auto_ces
+#' @templateVar id fcst.ces
 #' @template learner
 #'
 #' @references
@@ -14,8 +14,8 @@
 #'
 #' @export
 #' @template seealso_learner
-LearnerFcstAutoCes = R6Class(
-  "LearnerFcstAutoCes",
+LearnerFcstCes = R6Class(
+  "LearnerFcstCes",
   inherit = LearnerFcst,
   public = list(
     #' @description
@@ -26,6 +26,8 @@ LearnerFcstAutoCes = R6Class(
         lags = p_uty(tags = "train", custom_check = check_numeric),
         regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train"),
         initial = p_fct(c("backcasting", "optimal", "complete"), default = "backcasting", tags = "train"),
+        a = p_uty(default = NULL, tags = "train"),
+        b = p_uty(default = NULL, tags = "train"),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         loss = p_fct(
           c("likelihood", "MSE", "MAE", "HAM", "MSEh", "TMSE", "GTMSE", "MSCE"),
@@ -38,14 +40,14 @@ LearnerFcstAutoCes = R6Class(
       )
 
       super$initialize(
-        id = "fcst.auto_ces",
+        id = "fcst.ces",
         param_set = param_set,
         predict_types = "response",
         feature_types = unname(mlr_reflections$task_feature_types),
         properties = c("featureless", "missings"),
         packages = c("mlr3forecast", "smooth"),
-        label = "Auto CES",
-        man = "mlr3forecast::mlr_learners_fcst.auto_ces"
+        label = "CES",
+        man = "mlr3forecast::mlr_learners_fcst.ces"
       )
     }
   ),
@@ -53,10 +55,7 @@ LearnerFcstAutoCes = R6Class(
   private = list(
     .train = function(task) {
       pv = self$param_set$get_values(tags = "train")
-
-      with_package("smooth", {
-        invoke(smooth::auto.ces, data = as.ts(task), .args = pv)
-      })
+      invoke(smooth::ces, data = as.ts(task), .args = pv)
     },
 
     .predict = function(task) {
@@ -69,4 +68,4 @@ LearnerFcstAutoCes = R6Class(
 )
 
 #' @include zzz.R
-register_learner("fcst.auto_ces", LearnerFcstAutoCes)
+register_learner("fcst.ces", LearnerFcstCes)
