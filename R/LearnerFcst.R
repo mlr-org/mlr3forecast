@@ -60,5 +60,25 @@ LearnerFcst = R6Class(
         man = man
       )
     }
+  ),
+  private = list(
+    .max_index = NULL,
+
+    .train = function(task) {
+      properties = task$properties
+      if ("ordered" %nin% properties) {
+        stopf("%s learner requires an ordered task.", self$id)
+      }
+      if ("keys" %chin% properties) {
+        stopf("%s learner does not support tasks with keys.", self$id)
+      }
+      private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
+    },
+
+    .is_newdata = function(task) {
+      order_cols = task$col_roles$order
+      idx = task$backend$data(rows = task$row_ids, cols = order_cols)[[1L]]
+      !any(private$.max_index %in% idx)
+    }
   )
 )
