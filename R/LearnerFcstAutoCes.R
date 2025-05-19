@@ -63,8 +63,8 @@ LearnerFcstAutoCes = R6Class(
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       if (!private$.is_newdata(task)) {
-        pred = stats::fitted(self$model)[task$row_ids]
-        return(list(response = pred))
+        response = stats::fitted(self$model)[task$row_ids]
+        return(list(response = response))
       }
       args = list(h = length(task$row_ids))
       pred = invoke(generics::forecast, self$model, .args = args)

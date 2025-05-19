@@ -12,8 +12,8 @@ LearnerFcstForecast = R6Class(
         if (is_quantile) {
           stopf("Quantile prediction not supported for in-sample prediction.")
         }
-        pred = stats::fitted(self$model)[task$row_ids]
-        return(list(response = pred))
+        response = stats::fitted(self$model)[task$row_ids]
+        return(list(response = response))
       }
 
       if ("featureless" %chin% self$properties || length(task$feature_names) == 0L) {
