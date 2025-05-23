@@ -3,7 +3,8 @@
 #' @name mlr_learners_fcst.bats
 #'
 #' @description
-#' BATS model.
+#' Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components
+#' (BATS) model.
 #' Calls [forecast::bats()] from package \CRANpkg{forecast}.
 #'
 #' @templateVar id fcst.bats

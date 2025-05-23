@@ -1,4 +1,4 @@
-#' @title ADAM Forecast Learner
+#' @title Augmented Dynamic Adaptive Model Forecast Learner
 #'
 #' @name mlr_learners_fcst.adam
 #'

@@ -5,7 +5,8 @@
 \alias{LearnerFcstTbats}
 \title{TBATS Forecast Learner}
 \description{
-TBATS model.
+Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal component
+(TBATS) model.
 Calls \code{\link[forecast:tbats]{forecast::tbats()}} from package \CRANpkg{forecast}.
 }
 \section{Dictionary}{

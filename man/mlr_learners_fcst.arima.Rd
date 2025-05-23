@@ -5,7 +5,7 @@
 \alias{LearnerFcstArima}
 \title{ARIMA Forecast Learner}
 \description{
-ARIMA model.
+Autoregressive Integrated Moving Average Forecast (ARIMA) model.
 Calls \code{\link[forecast:Arima]{forecast::Arima()}} from package \CRANpkg{forecast}.
 }
 \section{Dictionary}{

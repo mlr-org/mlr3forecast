@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.adam}
 \alias{mlr_learners_fcst.adam}
 \alias{LearnerFcstAdam}
-\title{ADAM Forecast Learner}
+\title{Augmented Dynamic Adaptive Model Forecast Learner}
 \description{
 ADAM model.
 Calls \code{\link[smooth:adam]{smooth::adam()}} from package \CRANpkg{smooth}.

@@ -3,7 +3,7 @@
 #' @name mlr_learners_fcst.arima
 #'
 #' @description
-#' ARIMA model.
+#' Autoregressive Integrated Moving Average Forecast (ARIMA) model.
 #' Calls [forecast::Arima()] from package \CRANpkg{forecast}.
 #'
 #' @templateVar id fcst.arima

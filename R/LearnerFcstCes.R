@@ -1,4 +1,4 @@
-#' @title CES Forecast Learner
+#' @title Complex Exponential Smoothing Forecast Learner
 #'
 #' @name mlr_learners_fcst.ces
 #'

@@ -3,7 +3,7 @@
 #' @name mlr_learners_fcst.ets
 #'
 #' @description
-#' ETS model.
+#' Exponential Smoothing State Space (ETS) model.
 #' Calls [forecast::ets()] from package \CRANpkg{forecast}.
 #'
 #' @templateVar id fcst.ets

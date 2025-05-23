@@ -5,7 +5,8 @@
 \alias{LearnerFcstBats}
 \title{BATS Forecast Learner}
 \description{
-BATS model.
+Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components
+(BATS) model.
 Calls \code{\link[forecast:bats]{forecast::bats()}} from package \CRANpkg{forecast}.
 }
 \section{Dictionary}{

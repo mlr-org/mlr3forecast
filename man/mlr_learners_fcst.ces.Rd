@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.ces}
 \alias{mlr_learners_fcst.ces}
 \alias{LearnerFcstCes}
-\title{CES Forecast Learner}
+\title{Complex Exponential Smoothing Forecast Learner}
 \description{
 CES model.
 Calls \code{\link[smooth:ces]{smooth::ces()}} from package \CRANpkg{smooth}.
