@@ -110,7 +110,7 @@ ResamplingFcstHoldout = R6Class(
       }
     },
 
-    .sample_ids = function(ids, ...) {
+    .sample_ids = function(ids, task, ...) {
       if ("ordered" %nin% task$properties) {
         stopf("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
