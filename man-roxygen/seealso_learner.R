@@ -4,8 +4,8 @@
 #'   \url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-learners}
 #' * Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 #' * Package [mlr3extralearners](https://github.com/mlr-org/mlr3extralearners) for more learners.
-#' * [Dictionary][mlr3misc::Dictionary] of [Learners][Learner]: [mlr_learners]
-#' * `as.data.table(mlr_learners)` for a table of available [Learners][Learner] in the running session (depending on the loaded packages).
+#' * [Dictionary][mlr3misc::Dictionary] of [Learners][mlr3::Learner]: [mlr3::mlr_learners]
+#' * `as.data.table(mlr_learners)` for a table of available [Learners][mlr3::Learner] in the running session (depending on the loaded packages).
 #' * \CRANpkg{mlr3pipelines} to combine learners with pre- and postprocessing steps.
 #' * Package \CRANpkg{mlr3viz} for some generic visualizations.
 #' * Extension packages for additional task types:

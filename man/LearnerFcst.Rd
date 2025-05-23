@@ -7,7 +7,7 @@
 This Learner specializes \link[mlr3:LearnerRegr]{mlr3::LearnerRegr} for forecast problems:
 \itemize{
 \item \code{task_type} is set to \code{"fcst"}.
-\item Creates \link{Prediction}s of class \link[mlr3:PredictionRegr]{mlr3::PredictionRegr}.
+\item Creates \link[mlr3:Prediction]{mlr3::Prediction}s of class \link[mlr3:PredictionRegr]{mlr3::PredictionRegr}.
 \item Possible values for \code{predict_types} are:
 \itemize{
 \item \code{"response"}: Predicts a numeric response for each observation in the test set.
@@ -34,8 +34,8 @@ lrn("fcst.auto_arima")
 \url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-learners}
 \item Package \CRANpkg{mlr3learners} for a solid collection of essential learners.
 \item Package \href{https://github.com/mlr-org/mlr3extralearners}{mlr3extralearners} for more learners.
-\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Learner]{Learners}: \link{mlr_learners}
-\item \code{as.data.table(mlr_learners)} for a table of available \link[=Learner]{Learners} in the running session (depending on the loaded packages).
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Learner]{Learners}: \link[mlr3:mlr_learners]{mlr3::mlr_learners}
+\item \code{as.data.table(mlr_learners)} for a table of available \link[mlr3:Learner]{Learners} in the running session (depending on the loaded packages).
 \item \CRANpkg{mlr3pipelines} to combine learners with pre- and postprocessing steps.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
 \item Extension packages for additional task types:
@@ -116,21 +116,21 @@ Identifier for the new instance.}
 Set of hyperparameters.}
 
 \item{\code{predict_types}}{(\code{character()})\cr
-Supported predict types. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_predict_types}}.}
+Supported predict types. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_predict_types}}.}
 
 \item{\code{feature_types}}{(\code{character()})\cr
-Feature types the learner operates on. Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$task_feature_types}}.}
+Feature types the learner operates on. Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$task_feature_types}}.}
 
 \item{\code{properties}}{(\code{character()})\cr
-Set of properties of the \link{Learner}.
-Must be a subset of \code{\link[=mlr_reflections]{mlr_reflections$learner_properties}}.
+Set of properties of the \link[mlr3:Learner]{mlr3::Learner}.
+Must be a subset of \code{\link[mlr3:mlr_reflections]{mlr_reflections$learner_properties}}.
 The following properties are currently standardized and understood by learners in \CRANpkg{mlr3}:
 \itemize{
 \item \code{"missings"}: The learner can handle missing values in the data.
 \item \code{"weights"}: The learner supports observation weights.
-\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link{Learner}).
-\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link{Learner}).
-\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link{Learner}).
+\item \code{"importance"}: The learner supports extraction of importance scores, i.e. comes with an \verb{$importance()} extractor function (see section on optional extractors in \link[mlr3:Learner]{mlr3::Learner}).
+\item \code{"selected_features"}: The learner supports extraction of the set of selected features, i.e. comes with a \verb{$selected_features()} extractor function (see section on optional extractors in \link[mlr3:Learner]{mlr3::Learner}).
+\item \code{"oob_error"}: The learner supports extraction of estimated out of bag error, i.e. comes with a \code{oob_error()} extractor function (see section on optional extractors in \link[mlr3:Learner]{mlr3::Learner}).
 \item \code{"validation"}: The learner can use a validation task during training.
 \item \code{"internal_tuning"}: The learner is able to internally optimize hyperparameters (those are also tagged with \code{"internal_tuning"}).
 \item \code{"marshal"}: To save learners with this property, you need to call \verb{$marshal()} first.

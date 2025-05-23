@@ -4,12 +4,12 @@
 \alias{TaskFcst}
 \title{Forecast Task}
 \description{
-This task specializes \link{Task}, \link{TaskSupervised} and \link{TaskRegr} for forecasting problems.
+This task specializes \link[mlr3:Task]{mlr3::Task}, \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} and \link[mlr3:TaskRegr]{mlr3::TaskRegr} for forecasting problems.
 The target column is assumed to be numeric.
 The \code{task_type} is set to \code{"fcst"}.
 
 It is recommended to use \code{\link[=as_task_fcst]{as_task_fcst()}} for construction.
-Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link{mlr_tasks}.
+Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 }
 \examples{
 \dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
@@ -29,8 +29,8 @@ task$truth()
 \item Package \CRANpkg{mlr3data} for more toy tasks.
 \item Package \CRANpkg{mlr3oml} for downloading tasks from \url{https://www.openml.org}.
 \item Package \CRANpkg{mlr3viz} for some generic visualizations.
-\item \link[mlr3misc:Dictionary]{Dictionary} of \link[=Task]{Tasks}: \link{mlr_tasks}
-\item \code{as.data.table(mlr_tasks)} for a table of available \link[=Task]{Tasks} in the running session (depending on the loaded packages).
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Task]{Tasks}: \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}
+\item \code{as.data.table(mlr_tasks)} for a table of available \link[mlr3:Task]{Tasks} in the running session (depending on the loaded packages).
 \item \CRANpkg{mlr3fselect} and \CRANpkg{mlr3filters} for feature selection and feature filtering.
 \item Extension packages for additional task types:
 \itemize{
@@ -63,7 +63,7 @@ The frequency of the time series.}
 \describe{
 \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.
-Possible properties are are stored in \link[=mlr_reflections]{mlr_reflections$task_properties}.
+Possible properties are are stored in \link[mlr3:mlr_reflections]{mlr_reflections$task_properties}.
 The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
@@ -135,9 +135,9 @@ The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative
 \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
 
-\item{\code{backend}}{(\link{DataBackend})\cr
-Either a \link{DataBackend}, or any object which is convertible to a \link{DataBackend} with \code{as_data_backend()}.
-E.g., a \code{data.frame()} will be converted to a \link{DataBackendDataTable}.}
+\item{\code{backend}}{(\link[mlr3:DataBackend]{mlr3::DataBackend})\cr
+Either a \link[mlr3:DataBackend]{mlr3::DataBackend}, or any object which is convertible to a \link[mlr3:DataBackend]{mlr3::DataBackend} with \code{as_data_backend()}.
+E.g., a \code{data.frame()} will be converted to a \link[mlr3:DataBackendDataTable]{mlr3::DataBackendDataTable}.}
 
 \item{\code{target}}{(\code{character(1)})\cr
 Name of the target column.}
@@ -157,7 +157,7 @@ Label for the new instance.}
 
 \item{\code{extra_args}}{(named \code{list()})\cr
 Named list of constructor arguments, required for converting task types
-via \code{\link[=convert_task]{convert_task()}}.}
+via \code{\link[mlr3:convert_task]{mlr3::convert_task()}}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -166,10 +166,10 @@ via \code{\link[=convert_task]{convert_task()}}.}
 \if{html}{\out{<a id="method-TaskFcst-data"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskFcst-data}{}}}
 \subsection{Method \code{data()}}{
-Returns a slice of the data from the \link{DataBackend} as a \code{data.table}.
+Returns a slice of the data from the \link[mlr3:DataBackend]{mlr3::DataBackend} as a \code{data.table}.
 Rows default to observations with role \code{"use"}, and
 columns default to features with roles \code{"target"}, \code{"order"} or \code{"feature"}.
-If \code{rows} or \code{cols} are specified which do not exist in the \link{DataBackend},
+If \code{rows} or \code{cols} are specified which do not exist in the \link[mlr3:DataBackend]{mlr3::DataBackend},
 an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
@@ -197,7 +197,7 @@ If \code{TRUE}, data is ordered according to the columns with column role \code{
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Depending on the \link{DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}.
+Depending on the \link[mlr3:DataBackend]{mlr3::DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 \if{html}{\out{<hr>}}

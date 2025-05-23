@@ -1,5 +1,5 @@
 #' @section Dictionary:
-#' This [Measure] can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_measures] or with the associated sugar function [msr()]:
+#' This [mlr3::Measure] can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr3::mlr_measures] or with the associated sugar function [mlr3::msr()]:
 #' ```
 #' mlr_measures$get("<%= id %>")
 #' msr("<%= id %>")

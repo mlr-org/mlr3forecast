@@ -1,12 +1,12 @@
 #' @title Forecast Task
 #'
 #' @description
-#' This task specializes [Task], [TaskSupervised] and [TaskRegr] for forecasting problems.
+#' This task specializes [mlr3::Task], [mlr3::TaskSupervised] and [mlr3::TaskRegr] for forecasting problems.
 #' The target column is assumed to be numeric.
 #' The `task_type` is set to `"fcst"`.
 #'
 #' It is recommended to use [as_task_fcst()] for construction.
-#' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr_tasks].
+#' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr3::mlr_tasks].
 #'
 #' @template param_id
 #' @template param_backend
@@ -63,10 +63,10 @@ TaskFcst = R6Class(
     },
 
     #' @description
-    #' Returns a slice of the data from the [DataBackend] as a `data.table`.
+    #' Returns a slice of the data from the [mlr3::DataBackend] as a `data.table`.
     #' Rows default to observations with role `"use"`, and
     #' columns default to features with roles `"target"`, `"order"` or `"feature"`.
-    #' If `rows` or `cols` are specified which do not exist in the [DataBackend],
+    #' If `rows` or `cols` are specified which do not exist in the [mlr3::DataBackend],
     #' an exception is raised.
     #'
     #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
@@ -79,7 +79,7 @@ TaskFcst = R6Class(
     #' @param ordered (`logical(1)`)\cr
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
     #'
-    #' @return Depending on the [DataBackend], but usually a [data.table::data.table()].
+    #' @return Depending on the [mlr3::DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, ordered = FALSE) {
       col_roles = private$.col_roles
       order_cols = col_roles$order
@@ -113,7 +113,7 @@ TaskFcst = R6Class(
   active = list(
     #' @field properties (`character()`)\cr
     #' Set of task properties.
-    #' Possible properties are are stored in [mlr_reflections$task_properties][mlr_reflections].
+    #' Possible properties are are stored in [mlr_reflections$task_properties][mlr3::mlr_reflections].
     #' The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).

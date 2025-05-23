@@ -4,7 +4,7 @@
 #' This Learner specializes [mlr3::LearnerRegr] for forecast problems:
 #'
 #' * `task_type` is set to `"fcst"`.
-#' * Creates [Prediction]s of class [mlr3::PredictionRegr].
+#' * Creates [mlr3::Prediction]s of class [mlr3::PredictionRegr].
 #' * Possible values for `predict_types` are:
 #'   - `"response"`: Predicts a numeric response for each observation in the test set.
 #'   - `"se"`: Predicts the standard error for each value of response for each observation in the test set.

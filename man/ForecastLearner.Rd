@@ -14,7 +14,7 @@ Forecast Learner
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{learner}}{(\link{Learner})\cr
+\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
 The learner}
 
 \item{\code{lags}}{(\code{integer()})\cr
@@ -58,11 +58,11 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learner}}{(\link{Learner})\cr}
+\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr}
 
 \item{\code{lags}}{(\code{integer(1)})\cr}
 
-\item{\code{task}}{(\link{Task})\cr}
+\item{\code{task}}{(\link[mlr3:Task]{mlr3::Task})\cr}
 }
 \if{html}{\out{</div>}}
 }

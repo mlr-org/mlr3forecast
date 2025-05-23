@@ -5,14 +5,14 @@ ForecastLearnerManual = R6::R6Class(
   "ForecastLearnerManual",
   inherit = Learner,
   public = list(
-    #' @field learner ([Learner])\cr
+    #' @field learner ([mlr3::Learner])\cr
     #' The learner
     learner = NULL,
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param task ([Task])\cr
-    #' @param learner ([Learner])\cr
+    #' @param task ([mlr3::Task])\cr
+    #' @param learner ([mlr3::Learner])\cr
     initialize = function(learner) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
 
