@@ -7,7 +7,7 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Forecast Learner — LearnerFcst"><meta name="description" content='This Learner specializes mlr3::LearnerRegr for forecast problems:
 task_type is set to "fcst".
-Creates Predictions of class mlr3::PredictionRegr.
+Creates mlr3::Predictions of class mlr3::PredictionRegr.
 Possible values for predict_types are:
 "response": Predicts a numeric response for each observation in the test set.
 "se": Predicts the standard error for each value of response for each observation in the test set.
@@ -18,7 +18,7 @@ repository https://raphaels1.r-universe.dev).
 
 Predefined learners can be found in the dictionary mlr3::mlr_learners.'><meta property="og:description" content='This Learner specializes mlr3::LearnerRegr for forecast problems:
 task_type is set to "fcst".
-Creates Predictions of class mlr3::PredictionRegr.
+Creates mlr3::Predictions of class mlr3::PredictionRegr.
 Possible values for predict_types are:
 "response": Predicts a numeric response for each observation in the test set.
 "se": Predicts the standard error for each value of response for each observation in the test set.
@@ -73,7 +73,7 @@ Predefined learners can be found in the dictionary mlr3::mlr_learners.'></head><
 
     <div class="ref-description section level2">
     <p>This Learner specializes <a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">mlr3::LearnerRegr</a> for forecast problems:</p><ul><li><p><code>task_type</code> is set to <code>"fcst"</code>.</p></li>
-<li><p>Creates <a href="https://mlr3.mlr-org.com/reference/Prediction.html" class="external-link">Prediction</a>s of class <a href="https://mlr3.mlr-org.com/reference/PredictionRegr.html" class="external-link">mlr3::PredictionRegr</a>.</p></li>
+<li><p>Creates <a href="https://mlr3.mlr-org.com/reference/Prediction.html" class="external-link">mlr3::Prediction</a>s of class <a href="https://mlr3.mlr-org.com/reference/PredictionRegr.html" class="external-link">mlr3::PredictionRegr</a>.</p></li>
 <li><p>Possible values for <code>predict_types</code> are:</p><ul><li><p><code>"response"</code>: Predicts a numeric response for each observation in the test set.</p></li>
 <li><p><code>"se"</code>: Predicts the standard error for each value of response for each observation in the test set.</p></li>
 <li><p><code>"distr"</code>: Probability distribution as <code>VectorDistribution</code> object (requires package <code>distr6</code>, available via
@@ -90,7 +90,7 @@ repository <a href="https://raphaels1.r-universe.dev" class="external-link">http
 <a href="https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-learners" class="external-link">https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-learners</a></p></li>
 <li><p>Package <a href="https://CRAN.R-project.org/package=mlr3learners" class="external-link"><span class="pkg">mlr3learners</span></a> for a solid collection of essential learners.</p></li>
 <li><p>Package <a href="https://github.com/mlr-org/mlr3extralearners" class="external-link">mlr3extralearners</a> for more learners.</p></li>
-<li><p><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">Dictionary</a> of <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learners</a>: <a href="https://mlr3.mlr-org.com/reference/mlr_learners.html" class="external-link">mlr_learners</a></p></li>
+<li><p><a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">Dictionary</a> of <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learners</a>: <a href="https://mlr3.mlr-org.com/reference/mlr_learners.html" class="external-link">mlr3::mlr_learners</a></p></li>
 <li><p><code>as.data.table(mlr_learners)</code> for a table of available <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learners</a> in the running session (depending on the loaded packages).</p></li>
 <li><p><a href="https://CRAN.R-project.org/package=mlr3pipelines" class="external-link"><span class="pkg">mlr3pipelines</span></a> to combine learners with pre- and postprocessing steps.</p></li>
 <li><p>Package <a href="https://CRAN.R-project.org/package=mlr3viz" class="external-link"><span class="pkg">mlr3viz</span></a> for some generic visualizations.</p></li>
@@ -175,13 +175,13 @@ Feature types the learner operates on. Must be a subset of <code><a href="https:
 
 <dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Set of properties of the <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learner</a>.
+Set of properties of the <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a>.
 Must be a subset of <code><a href="https://mlr3.mlr-org.com/reference/mlr_reflections.html" class="external-link">mlr_reflections$learner_properties</a></code>.
 The following properties are currently standardized and understood by learners in <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>"missings"</code>: The learner can handle missing values in the data.</p></li>
 <li><p><code>"weights"</code>: The learner supports observation weights.</p></li>
-<li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learner</a>).</p></li>
-<li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learner</a>).</p></li>
-<li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">Learner</a>).</p></li>
+<li><p><code>"importance"</code>: The learner supports extraction of importance scores, i.e. comes with an <code>$importance()</code> extractor function (see section on optional extractors in <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a>).</p></li>
+<li><p><code>"selected_features"</code>: The learner supports extraction of the set of selected features, i.e. comes with a <code>$selected_features()</code> extractor function (see section on optional extractors in <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a>).</p></li>
+<li><p><code>"oob_error"</code>: The learner supports extraction of estimated out of bag error, i.e. comes with a <code>oob_error()</code> extractor function (see section on optional extractors in <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a>).</p></li>
 <li><p><code>"validation"</code>: The learner can use a validation task during training.</p></li>
 <li><p><code>"internal_tuning"</code>: The learner is able to internally optimize hyperparameters (those are also tagged with <code>"internal_tuning"</code>).</p></li>
 <li><p><code>"marshal"</code>: To save learners with this property, you need to call <code>$marshal()</code> first.
