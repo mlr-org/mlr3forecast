@@ -69,3 +69,4 @@ reference:
     - as_task_fcst
     - autoplot.TaskFcst
     - generate_newdata
+    - read_tsf
