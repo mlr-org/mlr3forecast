@@ -10,7 +10,10 @@ test_that("read_tsf works", {
   skip_on_cran()
   skip_on_ci()
 
+  # simple data
   expect_data_table(download_zenodo_record(4656222, "m3_yearly_dataset"))
   # no index col
   expect_data_table(download_zenodo_record(4656335, "m3_other_dataset"))
+  # large data w/ NAs
+  expect_data_table(download_zenodo_record(5129073, "temperature_rain_dataset_with_missing_values"))
 })

@@ -58,6 +58,7 @@ read_tsf = function(file) {
     file = file,
     sep = ":",
     header = FALSE,
+    na.strings = "?",
     skip = skip,
     col.names = c(col_names, "value"),
     colClasses = c(col_classes, "character")
