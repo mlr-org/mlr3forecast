@@ -1,13 +1,17 @@
-#' @title Read TSF files
+#' @title Read tsf files
 #'
 #' @description
 #' Parses a file located at `file` and returns a [data.table()].
 #'
 #' @param file (`character(1)`) the path to the TSF file.
 #' @return ([data.table()]).
+#'
+#' @references
+#' `r format_bib("godahewa2021monash")`
+#'
 #' @export
 read_tsf = function(file) {
-  assert_file(file)
+  assert_file(file, extension = "tsf")
 
   low_frequencies = c("daily", "weekly", "monthly", "quarterly", "yearly")
   low_freq_vals = c("1 day", "1 week", "1 month", "3 months", "1 year")
@@ -22,6 +26,8 @@ read_tsf = function(file) {
   skip = 1L
   metadata = character()
   freq = character()
+  horizon = integer()
+
   repeat {
     line = readLines(con, n = 1L, warn = FALSE)
     if (length(line) == 0L) {
@@ -36,11 +42,15 @@ read_tsf = function(file) {
     if (startsWith(line, "@frequency")) {
       freq = strsplit(line, " ", fixed = TRUE)[[1L]][[2L]]
     }
+    if (startsWith(line, "@horizon")) {
+      horizon = as.integer(strsplit(line, " ", fixed = TRUE)[[1L]][[2L]])
+    }
     skip = skip + 1L
   }
   if (length(freq) == 0L) {
     stopf("No @frequency section found")
   }
+  catf("Reading tsf file:\n* frequency: %s\n* horizon: %i", freq, horizon)
 
   metadata = setDT(tstrsplit(metadata, " ", fixed = TRUE, keep = c(2L, 3L)))
   setnames(metadata, c("name", "type"))
@@ -70,30 +80,39 @@ read_tsf = function(file) {
   set(dt, j = "value", value = NULL)
   dt = dt[dt_long, on = col_names]
   dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = freq_map[[freq]]), by = col_names]
-  dt[]
+  attr(dt, "frequency") = freq
+  class(dt) = c("tsf", class(dt))
+  dt
 }
 
-#' @title Download TSF file from Zenodo
+#' @title Download tsf file from Zenodo
 #'
 #' @description
-#' Downloads a TSF file from Zenodo using the provided record ID and dataset name.
+#' Downloads a tsf file from Zenodo using the provided record ID and dataset name.
 #'
 #' @param record_id (`character(1)`) the Zenodo record ID.
 #' @param dataset_name (`character(1)`) the name of the dataset to download.
 #' @return ([data.table()]).
+#'
+#' @references
+#' `r format_bib("godahewa2021monash")`
+#'
 #' @export
 download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly_dataset") {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
-  assert_string(dataset_name)
+  assert_string(dataset_name, min.chars = 1L)
 
   url = sprintf("https://zenodo.org/record/%i/files/%s.zip", record_id, dataset_name)
-  tmp = tempfile()
-  dir.create(tmp)
-  on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
-  tf = file.path(tmp, "tempfile.zip")
+  td = tempfile()
+  dir.create(td)
+  on.exit(unlink(td, recursive = TRUE), add = TRUE)
+  tf = file.path(td, "tempfile.zip")
   tryCatch(download.file(url, tf, quiet = TRUE), error = function(e) {
     stopf("Failed to download TSF file from Zenodo with id: %s and name: %s", record_id, dataset_name)
   })
-  file = utils::unzip(tf, exdir = tmp)
+  file = utils::unzip(tf, exdir = td)
+  if (tools::file_ext(file) != "tsf") {
+    stopf("Downloaded file is not a TSF file: %s", file)
+  }
   read_tsf(file)
 }

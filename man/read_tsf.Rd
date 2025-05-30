@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsf.R
 \name{read_tsf}
 \alias{read_tsf}
-\title{Read TSF files}
+\title{Read tsf files}
 \usage{
 read_tsf(file)
 }
@@ -14,4 +14,9 @@ read_tsf(file)
 }
 \description{
 Parses a file located at \code{file} and returns a \code{\link[=data.table]{data.table()}}.
+}
+\references{
+Godahewa, Rakshitha, Bergmeir, Christoph, Webb, I G, Hyndman, J R, Montero-Manso, Pablo (2021).
+\dQuote{Monash time series forecasting archive.}
+\emph{arXiv preprint arXiv:2105.06643}.
 }

@@ -5,6 +5,7 @@
 \alias{as_task_fcst.TaskFcst}
 \alias{as_task_fcst.DataBackend}
 \alias{as_task_fcst.data.frame}
+\alias{as_task_fcst.tsf}
 \title{Convert to a Forecast Task}
 \usage{
 as_task_fcst(x, ...)
@@ -32,6 +33,8 @@ as_task_fcst(x, ...)
   label = NA_character_,
   ...
 )
+
+\method{as_task_fcst}{tsf}(x, label = NA_character_, id = deparse1(substitute(x)), ...)
 }
 \arguments{
 \item{x}{(any)\cr

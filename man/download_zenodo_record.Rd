@@ -2,7 +2,7 @@
 % Please edit documentation in R/tsf.R
 \name{download_zenodo_record}
 \alias{download_zenodo_record}
-\title{Download TSF file from Zenodo}
+\title{Download tsf file from Zenodo}
 \usage{
 download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 }
@@ -15,5 +15,10 @@ download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 (\code{\link[=data.table]{data.table()}}).
 }
 \description{
-Downloads a TSF file from Zenodo using the provided record ID and dataset name.
+Downloads a tsf file from Zenodo using the provided record ID and dataset name.
+}
+\references{
+Godahewa, Rakshitha, Bergmeir, Christoph, Webb, I G, Hyndman, J R, Montero-Manso, Pablo (2021).
+\dQuote{Monash time series forecasting archive.}
+\emph{arXiv preprint arXiv:2105.06643}.
 }

@@ -156,6 +156,13 @@ bibentries = c(
     year = "2023",
     doi = "10.1201/9781003452652",
     url = "https://openforecast.org/adam/"
+  ),
+  godahewa2021monash = bibentry(
+    "article",
+    title = "Monash time series forecasting archive",
+    author = "Godahewa, Rakshitha and Bergmeir, Christoph and Webb, Geoffrey I and Hyndman, Rob J and Montero-Manso, Pablo",
+    journal = "arXiv preprint arXiv:2105.06643",
+    year = "2021"
   )
 )
 # nolint end

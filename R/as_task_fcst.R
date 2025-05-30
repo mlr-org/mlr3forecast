@@ -68,11 +68,11 @@ as_task_fcst.data.frame = function(
   force(id)
 
   assert_data_frame(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
-  nms = names(x)
-  assert_choice(target, nms)
-  assert_choice(order, nms)
+  cn = names(x)
+  assert_choice(target, cn)
+  assert_choice(order, cn)
   if (length(key) > 0L) {
-    assert_choice(key, nms)
+    assert_choice(key, cn)
   }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
@@ -81,4 +81,35 @@ as_task_fcst.data.frame = function(
   }
 
   TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
+}
+
+#' @rdname as_task_fcst
+#' @export
+as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x)), ...) {
+  force(id)
+
+  cn = names(x)
+  target = cn[length(cn)]
+  cn = cn[-length(cn)]
+  order = names(keep(x, inherits, c("POSIXct", "Date")))
+  if (length(order) != 1L) {
+    stopf("The tsf file must contain one index column (POSIXct or Date).")
+  }
+  key = cn[cn %nin% c(order, target)]
+
+  ii = which(map_lgl(keep(x, is.double), anyInfinite))
+  if (length(ii) > 0L) {
+    warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+  }
+
+  TaskFcst$new(
+    id = id,
+    backend = x,
+    target = target,
+    order = order,
+    key = key,
+    freq = attr(x, "frequency"),
+    label = label,
+    ...
+  )
 }
