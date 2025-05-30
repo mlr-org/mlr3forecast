@@ -47,9 +47,6 @@ read_tsf = function(file) {
     }
     skip = skip + 1L
   }
-  if (length(freq) == 0L) {
-    stopf("No @frequency section found")
-  }
   catf("Reading tsf file:\n* frequency: %s\n* horizon: %i", freq, horizon)
 
   metadata = setDT(tstrsplit(metadata, " ", fixed = TRUE, keep = c(2L, 3L)))
@@ -68,19 +65,24 @@ read_tsf = function(file) {
 
   value = name = NULL
   date_col = metadata["date", name, on = "type"]
-  if (freq %in% high_frequencies) {
-    set(dt, j = date_col, value = as.POSIXct(dt[[date_col]], tz = "UTC"))
-  } else if (freq %in% low_frequencies) {
-    set(dt, j = date_col, value = as.Date(dt[[date_col]]))
-  } else {
-    stopf("Invalid frequency.")
+  has_freq = length(freq) > 0L
+  if (has_freq) {
+    if (freq %in% high_frequencies) {
+      set(dt, j = date_col, value = as.POSIXct(dt[[date_col]], tz = "UTC"))
+    } else if (freq %in% low_frequencies) {
+      set(dt, j = date_col, value = as.Date(dt[[date_col]]))
+    } else {
+      stopf("Invalid frequency.")
+    }
   }
 
   dt_long = dt[, .(value = as.numeric(strsplit(value, ",", fixed = TRUE)[[1L]])), by = col_names]
   set(dt, j = "value", value = NULL)
   dt = dt[dt_long, on = col_names]
-  dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = freq_map[[freq]]), by = col_names]
-  attr(dt, "frequency") = freq
+  if (has_freq) {
+    dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = freq_map[[freq]]), by = col_names]
+    attr(dt, "frequency") = freq
+  }
   class(dt) = c("tsf", class(dt))
   dt
 }

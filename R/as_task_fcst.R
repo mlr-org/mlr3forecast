@@ -88,6 +88,7 @@ as_task_fcst.data.frame = function(
 as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x)), ...) {
   force(id)
 
+  assert_data_table(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
   cn = names(x)
   target = cn[length(cn)]
   cn = cn[-length(cn)]
