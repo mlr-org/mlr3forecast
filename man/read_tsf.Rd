@@ -13,5 +13,5 @@ read_tsf(file)
 (\code{\link[=data.table]{data.table()}}).
 }
 \description{
-Parses a file located at \code{file} and returns a \code{\link[=data.table]{data.table()}}.'
+Parses a file located at \code{file} and returns a \code{\link[=data.table]{data.table()}}.
 }

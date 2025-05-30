@@ -1,7 +1,7 @@
 #' @title Read TSF files
 #'
 #' @description
-#' Parses a file located at `file` and returns a [data.table()].'
+#' Parses a file located at `file` and returns a [data.table()].
 #'
 #' @param file (`character(1)`) the path to the TSF file.
 #' @return ([data.table()]).
@@ -56,94 +56,44 @@ read_tsf = function(file) {
     colClasses = c(col_classes, "character")
   )
 
-  value = type = name = NULL
-  date_col = metadata[type == "date", name]
+  value = name = NULL
+  date_col = metadata["date", name, on = "type"]
   if (freq %in% high_frequencies) {
-    dt[, (date_col) := as.POSIXct(get(date_col), format = "%Y-%m-%d %H-%M-%S", tz = "UTC")]
+    set(dt, j = date_col, value = as.POSIXct(dt[[date_col]], tz = "UTC"))
   } else if (freq %in% low_frequencies) {
-    dt[, (date_col) := as.Date(get(date_col), format = "%Y-%m-%d %H-%M-%S")]
+    set(dt, j = date_col, value = as.Date(dt[[date_col]]))
   } else {
     stopf("Invalid frequency.")
   }
 
   dt_long = dt[, .(value = as.numeric(strsplit(value, ",", fixed = TRUE)[[1L]])), by = col_names]
-  dt[, value := NULL]
+  set(dt, j = "value", value = NULL)
   dt = dt[dt_long, on = col_names]
   dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = freq_map[[freq]]), by = col_names]
   dt[]
 }
 
-download_zenodo_record = function(record_id = 4656222) {
-  record_id = assert_int(record_id, coerce = TRUE)
+#' @title Download TSF file from Zenodo
+#'
+#' @description
+#' Downloads a TSF file from Zenodo using the provided record ID and dataset name.
+#'
+#' @param record_id (`character(1)`) the Zenodo record ID.
+#' @param dataset_name (`character(1)`) the name of the dataset to download.
+#' @return ([data.table()]).
+#' @export
+download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly_dataset") {
+  record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
+  assert_string(dataset_name)
 
-  if (record_id %nin% names(mfr_ids)) {
-    stopf(
-      "The provided record_id is not valid. Please provide a valid record ID from the Monash Time Series Forecasting Repository." # nolint
-    )
-  }
-  data_name = mfr_ids[[as.character(record_id)]]
-  path = sprintf("https://zenodo.org/record/%i/files/%s.zip", record_id, data_name)
-  tf = tempfile()
-  on.exit(unlink(tf), add = TRUE)
-  download.file(path, tf, quite = TRUE)
-  file = utils::unzip(tf, list = TRUE)$Name
-  con = unz(tf, file)
-  browser()
+  url = sprintf("https://zenodo.org/record/%i/files/%s.zip", record_id, dataset_name)
+  tmp = tempfile()
+  dir.create(tmp)
+  on.exit(unlink(tmp, recursive = TRUE), add = TRUE)
+  tf = file.path(tmp, "tempfile.zip")
+  tryCatch(download.file(url, tf, quiet = TRUE), error = function(e) {
+    stopf("Failed to download TSF file from Zenodo with id: %s and name: %s", record_id, dataset_name)
+  })
+  file = utils::unzip(tf, exdir = tmp)
+  read_tsf(file)
 }
-
-# TODO: try to fetch from API
-mfr_ids = c(
-  "4656110" = "nn5_daily_dataset_with_missing_values",
-  "4656117" = "nn5_daily_dataset_without_missing_values",
-  "4656125" = "nn5_weekly_dataset",
-  "4656193" = "m1_yearly_dataset",
-  "4656154" = "m1_quarterly_dataset",
-  "4656159" = "m1_monthly_dataset",
-  "4656222" = "m3_yearly_dataset",
-  "4656262" = "m3_quarterly_dataset",
-  "4656298" = "m3_monthly_dataset",
-  "4656335" = "m3_other_dataset",
-  "4656379" = "m4_yearly_dataset",
-  "4656410" = "m4_quarterly_dataset",
-  "4656480" = "m4_monthly_dataset",
-  "4656522" = "m4_weekly_dataset",
-  "4656548" = "m4_daily_dataset",
-  "4656589" = "m4_hourly_dataset",
-  "4656103" = "tourism_yearly_dataset",
-  "4656093" = "tourism_quarterly_dataset",
-  "4656096" = "tourism_monthly_dataset",
-  "4656022" = "car_parts_dataset_with_missing_values",
-  "4656021" = "car_parts_dataset_without_missing_values",
-  "4656014" = "hospital_dataset",
-  "4654822" = "weather_dataset",
-  "4654802" = "dominick_dataset",
-  "4654833" = "fred_md_dataset",
-  "4656144" = "solar_10_minutes_dataset",
-  "4656151" = "solar_weekly_dataset",
-  "4656027" = "solar_4_seconds_dataset",
-  "4656032" = "wind_4_seconds_dataset",
-  "4654773" = "sunspot_dataset_with_missing_values",
-  "4654722" = "sunspot_dataset_without_missing_values",
-  "4654909" = "wind_farms_minutely_dataset_with_missing_values",
-  "4654858" = "wind_farms_minutely_dataset_without_missing_values",
-  "4656069" = "elecdemand_dataset",
-  "4656049" = "us_births_dataset",
-  "4656058" = "saugeenday_dataset",
-  "4656009" = "covid_deaths_dataset",
-  "4656042" = "cif_2016_dataset",
-  "4656072" = "london_smart_meters_dataset_with_missing_values",
-  "4656091" = "london_smart_meters_dataset_without_missing_values",
-  "4656080" = "kaggle_web_traffic_dataset_with_missing_values",
-  "4656075" = "kaggle_web_traffic_dataset_without_missing_values",
-  "4656664" = "kaggle_web_traffic_weekly_dataset",
-  "4656132" = "traffic_hourly_dataset",
-  "4656135" = "traffic_weekly_dataset",
-  "4656140" = "electricity_hourly_dataset",
-  "4656141" = "electricity_weekly_dataset",
-  "4656626" = "pedestrian_counts_dataset",
-  "4656719" = "kdd_cup_2018_dataset_with_missing_values",
-  "4656756" = "kdd_cup_2018_dataset_without_missing_values",
-  "4659727" = "australian_electricity_demand_dataset",
-  "4663762" = "covid_mobility_dataset_with_missing_values",
-  "4663809" = "covid_mobility_dataset_without_missing_values"
-)
