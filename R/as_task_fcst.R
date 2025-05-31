@@ -115,3 +115,28 @@ as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x
     ...
   )
 }
+
+#' @rdname as_task_fcst
+#' @export
+as_task_fcst.ts <- function(x, label = NA_character_, id = deparse1(substitute(x)), ...) {
+  require_namespaces("tsbox")
+  freq = stats::frequency(x)
+  freq = switch(
+    as.character(freq),
+    `1` = "yearly",
+    `4` = "quarterly",
+    `12` = "monthly",
+    `52` = "weekly",
+    `365.25` = "daily",
+    stopf("Unknown frequency: %s", freq)
+  )
+  as_task_fcst(
+    x = tsbox::ts_dt(x),
+    target = "value",
+    order = "time",
+    freq = freq,
+    id = id,
+    label = label,
+    ...
+  )
+}
