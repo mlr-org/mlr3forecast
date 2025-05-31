@@ -41,7 +41,7 @@ as.ts.TaskFcst = function(x, ...) {
   freq = switch(
     x$freq,
     daily = 365.25,
-    weekly = 52L,
+    weekly = 52.18,
     monthly = 12L,
     quarterly = 4L,
     yearly = 1L,
@@ -53,4 +53,12 @@ as.ts.TaskFcst = function(x, ...) {
 quantiles_to_level = function(x) {
   x = x[x != 0.5]
   sort(unique(abs(1 - 2 * x) * 100))
+}
+
+assert_frequency = function(x) {
+  assert(
+    check_null(x),
+    check_choice(x, c("daily", "weekly", "monthly", "quarterly", "yearly")),
+    check_number(x, lower = 0, finite = TRUE)
+  )
 }

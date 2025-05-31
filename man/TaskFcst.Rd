@@ -148,9 +148,9 @@ Name of the order column.}
 \item{\code{key}}{(\code{character(1)})\cr
 Name of the key column.}
 
-\item{\code{freq}}{(\code{character(1)})\cr
+\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)})\cr
 Frequency of the time series.
-One of \code{"daily"}, \code{"weekly"}, \code{"monthly"}, \code{"quarterly"}, \code{"yearly"}.}
+Either a positive number or one of \code{"daily"}, \code{"weekly"}, \code{"monthly"}, \code{"quarterly"}, \code{"yearly"}.}
 
 \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
