@@ -94,9 +94,10 @@ as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x
   cn = cn[-length(cn)]
   order = names(keep(x, inherits, c("POSIXct", "Date")))
   if (length(order) != 1L) {
-    stopf("The tsf file must contain one index column (POSIXct or Date).")
+    order = "index"
+    x = copy(x)[, (order) := seq_len(.N), by = cn]
   }
-  key = cn[cn %nin% c(order, target)]
+  key = cn[cn %nin% order]
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
