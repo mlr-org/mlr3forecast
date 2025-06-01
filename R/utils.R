@@ -18,11 +18,14 @@ generate_newdata = function(task, n = 1L) {
   if (inherits(max_index, c("Date", "POSIXct"))) {
     unit = switch(
       task$freq,
+      secondly = "second",
+      minutely = "minute",
+      hourly = "hour",
       daily = "day",
       weekly = "week",
       monthly = "month",
       quarterly = "quarter",
-      yearly = "quarterly"
+      yearly = "yearly"
     )
     unit = sprintf("1 %s", unit)
     index = seq(max_index, length.out = n + 1L, by = unit)
@@ -38,15 +41,20 @@ generate_newdata = function(task, n = 1L) {
 
 #' @export
 as.ts.TaskFcst = function(x, ...) {
-  freq = switch(
-    x$freq,
-    daily = 365.25,
-    weekly = 52.18,
-    monthly = 12L,
-    quarterly = 4L,
-    yearly = 1L,
-    stopf("Unknown frequency: %s", x$freq)
-  )
+  freq = x$freq
+  if (is.character(freq)) {
+    freq = switch(
+      freq,
+      secondly = 60L,
+      minutely = 1440L,
+      hourly = 24L,
+      daily = 365.25,
+      weekly = 52.18,
+      monthly = 12L,
+      quarterly = 4L,
+      yearly = 1L
+    )
+  }
   stats::ts(x$truth(), freq = freq)
 }
 
@@ -58,7 +66,7 @@ quantiles_to_level = function(x) {
 assert_frequency = function(x) {
   assert(
     check_null(x),
-    check_choice(x, c("daily", "weekly", "monthly", "quarterly", "yearly")),
-    check_number(x, lower = 0, finite = TRUE)
+    check_choice(x, c("secondly", "minutely", "hourly", "daily", "weekly", "monthly", "quarterly", "yearly")),
+    check_count(x, positive = TRUE)
   )
 }

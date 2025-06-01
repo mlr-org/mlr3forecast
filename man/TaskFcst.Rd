@@ -16,7 +16,7 @@ Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link[
 library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
 setnames(airpassengers, c("month", "passengers"))
-task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
+task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "hourly")
 task$task_type
 task$formula()
 task$truth()
@@ -148,9 +148,16 @@ Name of the order column.}
 \item{\code{key}}{(\code{character(1)})\cr
 Name of the key column.}
 
-\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)})\cr
+\item{\code{freq}}{(\code{character(1)} | \code{integer(1)})\cr
 Frequency of the time series.
-Either a positive number or one of \code{"daily"}, \code{"weekly"}, \code{"monthly"}, \code{"quarterly"}, \code{"yearly"}.}
+Either a positive number or one of the following:
+* \code{"minutely"}
+* \code{"hourly"}
+* \code{"daily"}
+* \code{"weekly"}
+* \code{"monthly"}
+* \code{"quarterly"}
+* \code{"yearly"}}
 
 \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}

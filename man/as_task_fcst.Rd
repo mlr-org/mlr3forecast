@@ -58,9 +58,16 @@ Name of the order column.}
 \item{key}{(\code{character(1)})\cr
 Name of the key column.}
 
-\item{freq}{(\code{character(1)} | \code{numeric(1)})\cr
+\item{freq}{(\code{character(1)} | \code{integer(1)})\cr
 Frequency of the time series.
-Either a positive number or one of \code{"daily"}, \code{"weekly"}, \code{"monthly"}, \code{"quarterly"}, \code{"yearly"}.}
+Either a positive number or one of the following:
+* \code{"minutely"}
+* \code{"hourly"}
+* \code{"daily"}
+* \code{"weekly"}
+* \code{"monthly"}
+* \code{"quarterly"}
+* \code{"yearly"}}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
