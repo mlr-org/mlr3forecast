@@ -27,7 +27,9 @@ named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
 register_item = function(env, type) {
   function(name, constructor) {
-    if (name %chin% names(env)) stopf("%s %s registered twice.", type, name)
+    if (name %chin% names(env)) {
+      stopf("%s %s registered twice.", type, name)
+    }
     env[[name]] = constructor
   }
 }
@@ -35,7 +37,9 @@ register_item = function(env, type) {
 # metainf must be manually added in the register_mlr3pipelines function
 # Because the value is substituted, we cannot pass it through this function
 register_po = function(name, constructor) {
-  if (name %chin% names(mlr3forecast_pipeops)) stopf("pipeop %s registered twice.", name)
+  if (name %chin% names(mlr3forecast_pipeops)) {
+    stopf("pipeop %s registered twice.", name)
+  }
   mlr3forecast_pipeops[[name]] = list(constructor = constructor)
 }
 

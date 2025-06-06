@@ -14,7 +14,9 @@ read_tsf_ref = function(file) {
     file = file(file, "r")
     on.exit(close(file))
   }
-  if (!inherits(file, "connection")) stopf("Argument 'file' must be a character string or connection.")
+  if (!inherits(file, "connection")) {
+    stopf("Argument 'file' must be a character string or connection.")
+  }
   if (!isOpen(file)) {
     open(file, "r")
     on.exit(close(file), add = TRUE)
@@ -30,7 +32,9 @@ read_tsf_ref = function(file) {
       line = scan(text = line, what = character(), quiet = TRUE)
 
       if (line[1L] == "@attribute") {
-        if (length(line) != 3L) stopf("Invalid meta-data specification.")
+        if (length(line) != 3L) {
+          stopf("Invalid meta-data specification.")
+        }
         col_types[[line[2L]]] = line[3L]
       } else if (length(line) != 2L) {
         stopf("Invalid meta-data specification.")
@@ -41,29 +45,40 @@ read_tsf_ref = function(file) {
     line = readLines(file, n = 1L)
   }
 
-  if (length(line) == 0L) stopf("Missing data section.")
-  if (length(col_types) == 0L) stopf("Missing attribute section.")
+  if (length(line) == 0L) {
+    stopf("Missing data section.")
+  }
+  if (length(col_types) == 0L) {
+    stopf("Missing attribute section.")
+  }
 
   line = readLines(file, n = 1L)
 
-  if (length(line) == 0L) stopf("Missing series information under data section.")
+  if (length(line) == 0L) {
+    stopf("Missing series information under data section.")
+  }
 
   data = list()
 
   while (length(line) != 0L) {
     row_data = strsplit(line, ":", fixed = TRUE)[[1L]]
 
-    if (length(row_data) != length(col_types) + 1L) stopf("Missing attributes/values in series.")
+    if (length(row_data) != length(col_types) + 1L) {
+      stopf("Missing attributes/values in series.")
+    }
 
     series = scan(text = row_data[length(row_data)], sep = ",", na.strings = "?", quiet = TRUE)
-    if (all(is.na(series)))
+    if (all(is.na(series))) {
       stopf(
         "All series values are missing. A given series should contains a set of comma separated numeric values. At least one numeric value should be there in a series."
       )
+    }
 
     for (col in seq_along(col_types)) {
       val = if (col_types[[col]] == "date") {
-        if (is.null(metadata$frequency)) stopf("Frequency is missing.")
+        if (is.null(metadata$frequency)) {
+          stopf("Frequency is missing.")
+        }
         if (metadata$frequency %in% high_frequencies) {
           start_time = as.POSIXct(row_data[[col]], format = "%Y-%m-%d %H-%M-%S", tz = "UTC")
         } else if (metadata$frequency %in% low_frequencies) {
@@ -72,7 +87,9 @@ read_tsf_ref = function(file) {
           stopf("Invalid frequency.")
         }
 
-        if (is.na(start_time)) stopf("Incorrect timestamp format. Specify your timestamps as YYYY-mm-dd HH-MM-SS")
+        if (is.na(start_time)) {
+          stopf("Incorrect timestamp format. Specify your timestamps as YYYY-mm-dd HH-MM-SS")
+        }
         seq(start_time, length.out = length(series), by = freq_map[[metadata$frequency]])
       } else if (col_types[[col]] == "numeric") {
         as.numeric(row_data[[col]])
