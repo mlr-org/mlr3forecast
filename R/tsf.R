@@ -84,10 +84,9 @@ read_tsf = function(file) {
   dt = dt[dt_long, on = col_names]
   if (has_freq) {
     dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = freq_map[[freq]]), by = col_names]
-    attr(dt, "frequency") = freq
+    setattr(dt, "frequency", freq)
   }
-  class(dt) = c("tsf", class(dt))
-  dt
+  setattr(dt, "class", c("tsf", class(dt)))
 }
 
 #' @title Download tsf file from Zenodo

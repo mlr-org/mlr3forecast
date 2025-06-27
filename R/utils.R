@@ -40,8 +40,8 @@ generate_newdata = function(task, n = 1L) {
 }
 
 #' @export
-as.ts.TaskFcst = function(x, ...) {
-  freq = x$freq
+as.ts.TaskFcst = function(x, ..., freq = NULL) {
+  freq = freq %??% x$freq
   if (is.character(freq)) {
     freq = switch(
       freq,
