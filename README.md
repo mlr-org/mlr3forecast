@@ -51,11 +51,13 @@ library(mlr3forecast)
 
 task = tsk("airpassengers")
 task
-#> <TaskFcst:airpassengers> (144 x 1): Monthly Airline Passenger Numbers 1949-1960
-#> * Target: passengers
-#> * Properties: ordered
-#> * Order by: month
-#> * Frequency: monthly
+#> 
+#> ── <TaskFcst> (144x1): Monthly Airline Passenger Numbers 1949-1960 ─────────────
+#> • Target: passengers
+#> • Properties: ordered
+#> 
+#> • Order by: month
+#> • Frequency: monthly
 
 # or plot the task
 autoplot(task)
@@ -69,7 +71,7 @@ learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.85493
+#>  13.85518
 
 # generate new data to forecast unseen data
 newdata = generate_newdata(task, 12L)
@@ -88,15 +90,16 @@ newdata
 #> 11: 1961-11-01         NA
 #> 12: 1961-12-01         NA
 learner$predict_newdata(newdata, task)
-#> <PredictionRegr> for 12 observations:
+#> 
+#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 445.6349
-#>        2    NA 420.3950
-#>        3    NA 449.1983
+#>        1    NA 445.6351
+#>        2    NA 420.3953
+#>        3    NA 449.1988
 #>      ---   ---      ---
-#>       10    NA 494.1266
-#>       11    NA 423.3327
-#>       12    NA 465.5075
+#>       10    NA 494.1275
+#>       11    NA 423.3336
+#>       12    NA 465.5085
 
 # works with quantile response
 learner = lrn("fcst.auto_arima",
@@ -105,15 +108,16 @@ learner = lrn("fcst.auto_arima",
   quantile_response = 0.5
 )$train(task)
 learner$predict_newdata(newdata, task)
-#> <PredictionRegr> for 12 observations:
+#> 
+#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth     q0.1    q0.15     q0.5    q0.85     q0.9 response
-#>        1    NA 430.8903 433.7105 445.6349 457.5593 460.3794 445.6349
-#>        2    NA 403.0907 406.4004 420.3950 434.3895 437.6993 420.3950
-#>        3    NA 429.7726 433.4880 449.1983 464.9085 468.6240 449.1983
+#>        1    NA 430.8905 433.7106 445.6351 457.5595 460.3796 445.6351
+#>        2    NA 403.0907 406.4005 420.3953 434.3901 437.6999 420.3953
+#>        3    NA 429.7726 433.4882 449.1988 464.9093 468.6249 449.1988
 #>      ---   ---      ---      ---      ---      ---      ---      ---
-#>       10    NA 469.8624 474.5033 494.1266 513.7498 518.3908 494.1266
-#>       11    NA 398.8381 403.5231 423.3327 443.1422 447.8272 423.3327
-#>       12    NA 440.8228 445.5442 465.5075 485.4709 490.1922 465.5075
+#>       10    NA 469.8626 474.5036 494.1275 513.7514 518.3925 494.1275
+#>       11    NA 398.8383 403.5234 423.3336 443.1438 447.8290 423.3336
+#>       12    NA 440.8230 445.5445 465.5085 485.4725 490.1940 465.5085
 ```
 
 ### Example: forecasting with regression learner
@@ -127,34 +131,36 @@ flrn = ForecastLearner$new(learner, lags = 1:12)$train(task)
 newdata = generate_newdata(task, 3L)
 prediction = flrn$predict_newdata(newdata, task)
 prediction
-#> <PredictionRegr> for 3 observations:
+#> 
+#> ── <PredictionRegr> for 3 observations: ────────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 432.2894
-#>        2    NA 436.7491
-#>        3    NA 455.5295
+#>        1    NA 435.9561
+#>        2    NA 437.4602
+#>        3    NA 455.1434
 prediction = flrn$predict(task, 142:144)
 prediction
-#> <PredictionRegr> for 3 observations:
+#> 
+#> ── <PredictionRegr> for 3 observations: ────────────────────────────────────────
 #>  row_ids truth response
-#>        1   461 455.2531
-#>        2   390 410.9306
-#>        3   432 431.8593
+#>        1   461 459.2106
+#>        2   390 415.5198
+#>        3   432 433.7613
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  12.53176
+#>    14.805
 
 flrn = ForecastLearner$new(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>   47.5613
+#>  50.44675
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  27.52723
+#>  25.44631
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -182,7 +188,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  14.95393
+#>  13.08766
 ```
 
 ### Example: forecasting electricity demand
@@ -215,15 +221,16 @@ newdata = data.frame(
 )
 prediction = glrn$predict_newdata(newdata, task)
 prediction
-#> <PredictionRegr> for 14 observations:
+#> 
+#> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 187497.9
-#>        2    NA 197235.8
-#>        3    NA 187901.7
+#>        1    NA 186063.3
+#>        2    NA 195678.8
+#>        3    NA 187641.4
 #>      ---   ---      ---
-#>       12    NA 221181.7
-#>       13    NA 225137.7
-#>       14    NA 227246.3
+#>       12    NA 221330.0
+#>       13    NA 225238.7
+#>       14    NA 227470.5
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -267,14 +274,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  21637.75
+#>  22443.27
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  92912.11
+#>  90762.38
 ```
 
 ### Example: global vs local forecasting
