@@ -134,7 +134,7 @@ TaskFcst = R6Class(
     #' If the task has a column with designated role `"order"`, a table with two or more columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * `order` (`Date()` | `POSIXct()` | numeric()).
+    #' * `order` (`Date()` | `POSIXct()` | `numeric()`).
     #'
     #' Returns `NULL` if there are is no order column.
     order = function(rhs) {

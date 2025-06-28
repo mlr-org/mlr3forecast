@@ -79,7 +79,7 @@ Note that above listed properties are calculated from the \verb{$col_roles} and 
 If the task has a column with designated role \code{"order"}, a table with two or more columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
-\item \code{order} (\code{Date()} | \code{POSIXct()} | numeric()).
+\item \code{order} (\code{Date()} | \code{POSIXct()} | \code{numeric()}).
 }
 
 Returns \code{NULL} if there are is no order column.}
