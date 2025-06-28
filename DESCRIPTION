@@ -10,11 +10,12 @@ URL: https://mlr3forecast.mlr-org.com,
     https://github.com/mlr-org/mlr3forecast
 BugReports: https://github.com/mlr-org/mlr3forecast/issues
 Depends:
-    mlr3 (>= 0.23.0),
+    mlr3 (>= 1.0.0),
     R (>= 3.3.0)
 Imports:
     backports,
     checkmate (>= 2.3.2),
+    cli,
     data.table (>= 1.16.4),
     ggplot2,
     lgr,
@@ -24,8 +25,8 @@ Imports:
     R6 (>= 2.6.0),
     stats
 Suggests:
-    generics (>= 0.1.2),
     forecast,
+    generics (>= 0.1.2),
     smooth,
     testthat (>= 3.2.0),
     tsbox,

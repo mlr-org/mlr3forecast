@@ -105,7 +105,7 @@ TaskFcst = R6Class(
     #' @param ... (ignored).
     print = function(...) {
       super$print()
-      catf(str_indent("* Frequency:", self$freq))
+      cat_cli(cli::cli_li("Frequency: {self$freq}"))
     }
   ),
 
