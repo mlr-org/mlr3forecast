@@ -16,7 +16,7 @@ Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link[
 library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
 setnames(airpassengers, c("month", "passengers"))
-task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "hourly")
+task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
 task$task_type
 task$formula()
 task$truth()
@@ -74,6 +74,25 @@ The following properties are currently standardized and understood by tasks in \
 }
 
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
+
+\item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+If the task has a column with designated role \code{"order"}, a table with two or more columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item \code{order} (\code{Date()} | \code{POSIXct()} | numeric()).
+}
+
+Returns \code{NULL} if there are is no order column.}
+
+\item{\code{key}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+If the task has a column with designated role \code{"key"}, a table with two or more columns:
+\itemize{
+\item \code{row_id} (\code{integer()}), and
+\item key variable(s) (\code{factor()}).
+}
+
+If there is only one key column, it will be named as \code{key}.
+Returns \code{NULL} if there are are no key columns.}
 }
 \if{html}{\out{</div>}}
 }

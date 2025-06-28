@@ -128,6 +128,50 @@ TaskFcst = R6Class(
       } else {
         super$properties = rhs
       }
+    },
+
+    #' @field order ([data.table::data.table()])\cr
+    #' If the task has a column with designated role `"order"`, a table with two or more columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * `order` (`Date()` | `POSIXct()` | numeric()).
+    #'
+    #' Returns `NULL` if there are is no order column.
+    order = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      order_cols = private$.col_roles$order
+      # TODO: revisit once finalised, since order should must likely be compulsory
+      if (length(order_cols) == 0L) {
+        return()
+      }
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, order_cols))
+      setnames(data, c("row_id", "order"))[]
+    },
+
+    #' @field key ([data.table::data.table()])\cr
+    #' If the task has a column with designated role `"key"`, a table with two or more columns:
+    #'
+    #' * `row_id` (`integer()`), and
+    #' * key variable(s) (`factor()`).
+    #'
+    #' If there is only one key column, it will be named as `key`.
+    #' Returns `NULL` if there are are no key columns.
+    key = function(rhs) {
+      assert_has_backend(self)
+      assert_ro_binding(rhs)
+      key_cols = private$.col_roles$key
+      if (length(key_cols) == 0L) {
+        return()
+      }
+
+      data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, key_cols))
+      # TODO: is there a valid reason for this handling, copyied from mlr3 offset binding?
+      if (length(key_cols) == 1L) {
+        setnames(data, c("row_id", "key"))[]
+      } else {
+        setnames(data, c("row_id", key_cols))[]
+      }
     }
   )
 )

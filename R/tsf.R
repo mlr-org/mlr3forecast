@@ -87,6 +87,7 @@ read_tsf = function(file) {
     setattr(dt, "frequency", freq)
   }
   setattr(dt, "class", c("tsf", class(dt)))
+  dt[]
 }
 
 #' @title Download tsf file from Zenodo
@@ -102,6 +103,10 @@ read_tsf = function(file) {
 #' `r format_bib("godahewa2021monash")`
 #'
 #' @export
+#' @examples
+#' \dontrun{
+#' dt = download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+#' }
 download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly_dataset") {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
   assert_string(dataset_name, min.chars = 1L)

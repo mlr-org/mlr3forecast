@@ -17,6 +17,11 @@ download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 \description{
 Downloads a tsf file from Zenodo using the provided record ID and dataset name.
 }
+\examples{
+\dontrun{
+dt = download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+}
+}
 \references{
 Godahewa, Rakshitha, Bergmeir, Christoph, Webb, I G, Hyndman, J R, Montero-Manso, Pablo (2021).
 \dQuote{Monash time series forecasting archive.}

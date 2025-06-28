@@ -66,6 +66,7 @@ Collate:
     'TaskFcstLynx.R'
     'TaskFcstUsaccdeaths.R'
     'as_task_fcst.R'
+    'assertions.R'
     'autoplot.R'
     'bibentries.R'
     'reexports.R'
