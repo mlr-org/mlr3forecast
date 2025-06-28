@@ -106,6 +106,15 @@ read_tsf = function(file) {
 #' @examples
 #' \dontrun{
 #' dt = download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+#'
+#' # optional renaming
+#' setnames(dt, c("id", "date", "value"))
+#'
+#' # transform into single task
+#' task = as_task_fcst(dt)
+#'
+#' # or split up for forecast learners that don't allow key columns
+#' tasks = split(dt, ~id) |> map(remove_named, "id") |> map(as_task_fcst)
 #' }
 download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly_dataset") {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)

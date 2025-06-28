@@ -20,6 +20,15 @@ Downloads a tsf file from Zenodo using the provided record ID and dataset name.
 \examples{
 \dontrun{
 dt = download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+
+# optional renaming
+setnames(dt, c("id", "date", "value"))
+
+# transform into single task
+task = as_task_fcst(dt)
+
+# or split up for forecast learners that don't allow key columns
+tasks = split(dt, ~id) |> map(remove_named, "id") |> map(as_task_fcst)
 }
 }
 \references{

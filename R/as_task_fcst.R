@@ -97,7 +97,7 @@ as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x
     order = "index"
     x = copy(x)[, (order) := seq_len(.N), by = cn]
   }
-  key = cn[cn %nin% order]
+  key = setdiff(cn, order)
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
