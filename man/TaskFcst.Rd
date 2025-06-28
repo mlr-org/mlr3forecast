@@ -169,14 +169,16 @@ Name of the key column.}
 
 \item{\code{freq}}{(\code{character(1)} | \code{integer(1)})\cr
 Frequency of the time series.
-Either a positive number or one of the following:\cr
-* \code{"minutely"}
-* \code{"hourly"}
-* \code{"daily"}
-* \code{"weekly"}
-* \code{"monthly"}
-* \code{"quarterly"}
-* \code{"yearly"}}
+Either a positive number or one of the following:
+\itemize{
+\item \code{"minutely"}
+\item \code{"hourly"}
+\item \code{"daily"}
+\item \code{"weekly"}
+\item \code{"monthly"}
+\item \code{"quarterly"}
+\item \code{"yearly"}
+}}
 
 \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
