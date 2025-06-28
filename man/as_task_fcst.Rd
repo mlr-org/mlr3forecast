@@ -60,7 +60,7 @@ Name of the key column.}
 
 \item{freq}{(\code{character(1)} | \code{integer(1)})\cr
 Frequency of the time series.
-Either a positive number or one of the following:
+Either a positive number or one of the following:\cr
 * \code{"minutely"}
 * \code{"hourly"}
 * \code{"daily"}
