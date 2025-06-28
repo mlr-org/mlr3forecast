@@ -62,6 +62,7 @@ Name of the key column.}
 Frequency of the time series.
 Either a positive number or one of the following:
 \itemize{
+\item \code{"secondly"}
 \item \code{"minutely"}
 \item \code{"hourly"}
 \item \code{"daily"}
