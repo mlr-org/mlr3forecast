@@ -10,7 +10,7 @@ URL: https://mlr3forecast.mlr-org.com,
     https://github.com/mlr-org/mlr3forecast
 BugReports: https://github.com/mlr-org/mlr3forecast/issues
 Depends:
-    mlr3 (>= 1.0.0),
+    mlr3 (>= 1.0.1),
     R (>= 3.3.0)
 Imports:
     backports,

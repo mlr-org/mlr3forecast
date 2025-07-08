@@ -46,7 +46,7 @@ ForecastLearner = R6::R6Class(
       private$.task = task$clone()
       target = task$target_names
       dt = private$.lag_transform(task$data(), target)
-      if (order_cols %nin% c(col_roles$feature)) {
+      if (order_cols %nin% col_roles$feature) {
         dt[, (order_cols) := NULL]
       }
       new_task = as_task_regr(dt, target = target)
