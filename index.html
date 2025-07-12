@@ -177,33 +177,33 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── &lt;PredictionRegr&gt; for 3 observations: ────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  row_ids truth response</span></span>
-<span><span class="co">#&gt;        1    NA 437.1598</span></span>
-<span><span class="co">#&gt;        2    NA 433.9036</span></span>
-<span><span class="co">#&gt;        3    NA 455.5044</span></span>
+<span><span class="co">#&gt;        1    NA 438.3420</span></span>
+<span><span class="co">#&gt;        2    NA 435.7122</span></span>
+<span><span class="co">#&gt;        3    NA 458.8526</span></span>
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="fl">142</span><span class="op">:</span><span class="fl">144</span><span class="op">)</span></span>
 <span><span class="va">prediction</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── &lt;PredictionRegr&gt; for 3 observations: ────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  row_ids truth response</span></span>
-<span><span class="co">#&gt;        1   461 459.6533</span></span>
-<span><span class="co">#&gt;        2   390 412.1005</span></span>
-<span><span class="co">#&gt;        3   432 432.9565</span></span>
+<span><span class="co">#&gt;        1   461 457.9648</span></span>
+<span><span class="co">#&gt;        2   390 412.8050</span></span>
+<span><span class="co">#&gt;        3   432 430.9594</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;   12.7953</span></span>
+<span><span class="co">#&gt;  13.29616</span></span>
 <span></span>
 <span><span class="va">flrn</span> <span class="op">=</span> <span class="va"><a href="reference/ForecastLearner.html">ForecastLearner</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">learner</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">rsmp</a></span><span class="op">(</span><span class="st">"fcst.holdout"</span>, ratio <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
 <span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/resample.html" class="external-link">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">flrn</span>, <span class="va">resampling</span><span class="op">)</span></span>
 <span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  48.42478</span></span>
+<span><span class="co">#&gt;  48.98844</span></span>
 <span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">rsmp</a></span><span class="op">(</span><span class="st">"fcst.cv"</span><span class="op">)</span></span>
 <span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/resample.html" class="external-link">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">flrn</span>, <span class="va">resampling</span><span class="op">)</span></span>
 <span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  24.28508</span></span></code></pre></div>
+<span><span class="co">#&gt;  25.20903</span></span></code></pre></div>
 <p>Or with some feature engineering using mlr3pipelines:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span>
@@ -228,7 +228,7 @@
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">glrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="fl">142</span><span class="op">:</span><span class="fl">144</span><span class="op">)</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  13.48036</span></span></code></pre></div>
+<span><span class="co">#&gt;  13.56701</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-forecasting-electricity-demand">Example: forecasting electricity demand<a class="anchor" aria-label="anchor" href="#example-forecasting-electricity-demand"></a>
@@ -264,13 +264,13 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── &lt;PredictionRegr&gt; for 14 observations: ───────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  row_ids truth response</span></span>
-<span><span class="co">#&gt;        1    NA 187479.9</span></span>
-<span><span class="co">#&gt;        2    NA 196534.3</span></span>
-<span><span class="co">#&gt;        3    NA 188444.0</span></span>
+<span><span class="co">#&gt;        1    NA 186623.9</span></span>
+<span><span class="co">#&gt;        2    NA 196380.5</span></span>
+<span><span class="co">#&gt;        3    NA 188796.4</span></span>
 <span><span class="co">#&gt;      ---   ---      ---</span></span>
-<span><span class="co">#&gt;       12    NA 219925.8</span></span>
-<span><span class="co">#&gt;       13    NA 223201.3</span></span>
-<span><span class="co">#&gt;       14    NA 225661.7</span></span></code></pre></div>
+<span><span class="co">#&gt;       12    NA 221352.7</span></span>
+<span><span class="co">#&gt;       13    NA 224603.7</span></span>
+<span><span class="co">#&gt;       14    NA 226637.7</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-global-forecasting-longitudinal-data">Example: global forecasting (longitudinal data)<a class="anchor" aria-label="anchor" href="#example-global-forecasting-longitudinal-data"></a>
@@ -314,14 +314,14 @@
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="fl">4460</span><span class="op">:</span><span class="fl">4464</span><span class="op">)</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  22262.08</span></span>
+<span><span class="co">#&gt;  22076.39</span></span>
 <span></span>
 <span><span class="va">flrn</span> <span class="op">=</span> <span class="va"><a href="reference/ForecastLearner.html">ForecastLearner</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">rsmp</a></span><span class="op">(</span><span class="st">"fcst.holdout"</span>, ratio <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
 <span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/resample.html" class="external-link">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">flrn</span>, <span class="va">resampling</span><span class="op">)</span></span>
 <span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  90543.39</span></span></code></pre></div>
+<span><span class="co">#&gt;  93632.14</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-global-vs-local-forecasting">Example: global vs local forecasting<a class="anchor" aria-label="anchor" href="#example-global-vs-local-forecasting"></a>
@@ -354,12 +354,12 @@
 <span>  <span class="fu"><a href="reference/as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"aus_livestock"</span>, target <span class="op">=</span> <span class="st">"count"</span>, order <span class="op">=</span> <span class="st">"month"</span><span class="op">)</span></span>
 <span><span class="va">task</span> <span class="op">=</span> <span class="va">graph</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">flrn</span> <span class="op">=</span> <span class="va"><a href="reference/ForecastLearner.html">ForecastLearner</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>, <span class="fl">1L</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span><span class="va">tab</span> <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span></span>
+<span><span class="va">dt</span> <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span></span>
 <span>  rows <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">row_ids</span>,</span>
 <span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="va">primary_key</span>, <span class="st">"month.year"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu">setnames</span><span class="op">(</span><span class="va">tab</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row_id"</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">row_ids</span> <span class="op">=</span> <span class="va">tab</span><span class="op">[</span><span class="va">year</span> <span class="op">&gt;=</span> <span class="fl">2015</span>, <span class="va">row_id</span><span class="op">]</span></span>
+<span><span class="fu">setnames</span><span class="op">(</span><span class="va">dt</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row_id"</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">row_ids</span> <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">year</span> <span class="op">&gt;=</span> <span class="fl">2015</span>, <span class="va">row_id</span><span class="op">]</span></span>
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="va">row_ids</span><span class="op">)</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
@@ -374,12 +374,12 @@
 <span><span class="va">task</span> <span class="op">=</span> <span class="va">graph</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
 <span><span class="va">task</span><span class="op">$</span><span class="va">col_roles</span><span class="op">$</span><span class="va">key</span> <span class="op">=</span> <span class="st">"state"</span></span>
 <span><span class="va">flrn</span> <span class="op">=</span> <span class="va"><a href="reference/ForecastLearner.html">ForecastLearner</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>, <span class="fl">1L</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span><span class="va">tab</span> <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span></span>
+<span><span class="va">dt</span> <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span></span>
 <span>  rows <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">row_ids</span>,</span>
 <span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="va">primary_key</span>, <span class="st">"month.year"</span>, <span class="st">"state"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu">setnames</span><span class="op">(</span><span class="va">tab</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row_id"</span>, <span class="st">"year"</span>, <span class="st">"state"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">row_ids</span> <span class="op">=</span> <span class="va">tab</span><span class="op">[</span><span class="va">year</span> <span class="op">&gt;=</span> <span class="fl">2015</span> <span class="op">&amp;</span> <span class="va">state</span> <span class="op">==</span> <span class="st">"Western Australia"</span>, <span class="va">row_id</span><span class="op">]</span></span>
+<span><span class="fu">setnames</span><span class="op">(</span><span class="va">dt</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row_id"</span>, <span class="st">"year"</span>, <span class="st">"state"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">row_ids</span> <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">year</span> <span class="op">&gt;=</span> <span class="fl">2015</span> <span class="op">&amp;</span> <span class="va">state</span> <span class="op">==</span> <span class="st">"Western Australia"</span>, <span class="va">row_id</span><span class="op">]</span></span>
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="va">row_ids</span><span class="op">)</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
