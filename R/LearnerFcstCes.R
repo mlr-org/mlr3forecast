@@ -56,7 +56,7 @@ LearnerFcstCes = R6Class(
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
-      invoke(smooth::ces, data = as.ts(task), .args = pv)
+      invoke(smooth::ces, y = as.ts(task), .args = pv)
     },
 
     .predict = function(task) {

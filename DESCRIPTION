@@ -27,7 +27,7 @@ Imports:
 Suggests:
     forecast,
     generics (>= 0.1.2),
-    smooth,
+    smooth (>= 4.3.0),
     testthat (>= 3.2.0),
     tsbox,
     tsibbledata,

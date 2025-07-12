@@ -54,10 +54,7 @@ LearnerFcstAutoCes = R6Class(
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
-
-      with_package("smooth", {
-        invoke(smooth::auto.ces, data = as.ts(task), .args = pv)
-      })
+      invoke(smooth::auto.ces, y = as.ts(task), .args = pv)
     },
 
     .predict = function(task) {
