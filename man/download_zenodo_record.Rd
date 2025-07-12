@@ -12,7 +12,7 @@ download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 \item{dataset_name}{(\code{character(1)}) the name of the dataset to download.}
 }
 \value{
-(\code{\link[=data.table]{data.table()}}).
+(\code{\link[data.table:data.table]{data.table::data.table()}}).
 }
 \description{
 Downloads a tsf file from Zenodo using the provided record ID and dataset name.

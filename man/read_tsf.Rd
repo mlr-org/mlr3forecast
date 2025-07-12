@@ -10,10 +10,10 @@ read_tsf(file)
 \item{file}{(\code{character(1)}) the path to the TSF file.}
 }
 \value{
-(\code{\link[=data.table]{data.table()}}).
+(\code{\link[data.table:data.table]{data.table::data.table()}}).
 }
 \description{
-Parses a file located at \code{file} and returns a \code{\link[=data.table]{data.table()}}.
+Parses a file located at \code{file} and returns a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 \references{
 Godahewa, Rakshitha, Bergmeir, Christoph, Webb, I G, Hyndman, J R, Montero-Manso, Pablo (2021).

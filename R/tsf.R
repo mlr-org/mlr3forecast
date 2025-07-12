@@ -1,10 +1,10 @@
 #' @title Read tsf files
 #'
 #' @description
-#' Parses a file located at `file` and returns a [data.table()].
+#' Parses a file located at `file` and returns a [data.table::data.table()].
 #'
 #' @param file (`character(1)`) the path to the TSF file.
-#' @return ([data.table()]).
+#' @return ([data.table::data.table()]).
 #'
 #' @references
 #' `r format_bib("godahewa2021monash")`
@@ -97,7 +97,7 @@ read_tsf = function(file) {
 #'
 #' @param record_id (`character(1)`) the Zenodo record ID.
 #' @param dataset_name (`character(1)`) the name of the dataset to download.
-#' @return ([data.table()]).
+#' @return ([data.table::data.table()]).
 #'
 #' @references
 #' `r format_bib("godahewa2021monash")`
@@ -125,7 +125,7 @@ download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly
   dir.create(td)
   on.exit(unlink(td, recursive = TRUE), add = TRUE)
   tf = file.path(td, "tempfile.zip")
-  tryCatch(download.file(url, tf, quiet = TRUE), error = function(e) {
+  tryCatch(utils::download.file(url, tf, quiet = TRUE), error = function(e) {
     stopf("Failed to download TSF file from Zenodo with id: %s and name: %s", record_id, dataset_name)
   })
   file = utils::unzip(tf, exdir = td)

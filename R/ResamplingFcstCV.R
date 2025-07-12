@@ -95,15 +95,15 @@ ResamplingFcstCV = R6Class(
       key_cols = task$col_roles$key
       has_key = length(key_cols) > 0L
 
-      tab = task$backend$data(
+      dt = task$backend$data(
         rows = ids,
         cols = c(task$backend$primary_key, order_cols, key_cols)
       )
 
       if (!has_key) {
-        setnames(tab, c("row_id", "order"))
-        setorderv(tab, "order")
-        train_end = tab[.N - horizon, row_id]
+        setnames(dt, c("row_id", "order"))
+        setorderv(dt, "order")
+        train_end = dt[.N - horizon, row_id]
         train_end = seq(from = train_end, by = -pars$step_size, length.out = pars$folds)
         if (!pars$fixed_window) {
           train_ids = map(train_end, function(x) ids[1L]:x)
@@ -115,9 +115,9 @@ ResamplingFcstCV = R6Class(
           (x[n] + 1L):(x[n] + horizon)
         })
       } else {
-        setnames(tab, "..row_id", "row_id")
-        setorderv(tab, c(key_cols, order_cols))
-        ids = tab[,
+        setnames(dt, "..row_id", "row_id")
+        setorderv(dt, c(key_cols, order_cols))
+        ids = dt[,
           {
             train_end = seq(from = .N - horizon, by = -pars$step_size, length.out = pars$folds)
             if (pars$fixed_window) {

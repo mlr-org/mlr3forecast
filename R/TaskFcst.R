@@ -80,23 +80,31 @@ TaskFcst = R6Class(
     #'
     #' @return Depending on the [mlr3::DataBackend], but usually a [data.table::data.table()].
     data = function(rows = NULL, cols = NULL, ordered = FALSE) {
+      assert_has_backend(self)
+      assert_flag(ordered)
+
       col_roles = private$.col_roles
-      order_cols = col_roles$order
-      key_cols = col_roles$key
+      order_cols = c(col_roles$key, col_roles$order)
 
       if (is.null(cols)) {
-        cols = c(col_roles$target, col_roles$feature)
-        cols = union(order_cols, cols)
+        query_cols = cols = c(col_roles$target, col_roles$feature)
+        cols = union(cols, order_cols)
       } else {
         assert_subset(cols, self$col_info$id)
+        query_cols = cols
       }
-      data = super$data(rows, cols, ordered = FALSE)
+      query_cols = union(query_cols, order_cols)
+
+      data = super$data(rows, query_cols)
+      if (ncol(data) == 0L) {
+        return(data)
+      }
 
       if (ordered) {
-        setorderv(data, c(key_cols, order_cols))
+        setorderv(data, order_cols)
       }
-      setcolorder(data, c(key_cols, order_cols))
-      data
+      setcolorder(data, order_cols)
+      remove_named(data, setdiff(query_cols, cols))
     },
 
     #' @description
