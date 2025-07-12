@@ -1,9 +1,9 @@
-#' @title Augmented Dynamic Adaptive Model Forecast Learner
+#' @title ADAM Forecast Learner
 #'
 #' @name mlr_learners_fcst.adam
 #'
 #' @description
-#' ADAM model.
+#' Augmented Dynamic Adaptive Model (ADAM) Forecast Learner model.
 #' Calls [smooth::adam()] from package \CRANpkg{smooth}.
 #'
 #' @templateVar id fcst.adam

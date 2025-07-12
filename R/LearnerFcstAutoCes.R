@@ -1,9 +1,9 @@
-#' @title Auto Complex Exponential Smoothing Forecast Learner
+#' @title Auto CES Forecast Learner
 #'
 #' @name mlr_learners_fcst.auto_ces
 #'
 #' @description
-#' Auto CES model.
+#' Auto Complex Exponential Smoothing (CES) model.
 #' Calls [smooth::auto.ces()] from package \CRANpkg{smooth}.
 #'
 #' @templateVar id fcst.auto_ces

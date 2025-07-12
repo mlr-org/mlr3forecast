@@ -3,9 +3,9 @@
 \name{mlr_learners_fcst.auto_ces}
 \alias{mlr_learners_fcst.auto_ces}
 \alias{LearnerFcstAutoCes}
-\title{Auto Complex Exponential Smoothing Forecast Learner}
+\title{Auto CES Forecast Learner}
 \description{
-Auto CES model.
+Auto Complex Exponential Smoothing (CES) model.
 Calls \code{\link[smooth:ces]{smooth::auto.ces()}} from package \CRANpkg{smooth}.
 }
 \section{Dictionary}{
