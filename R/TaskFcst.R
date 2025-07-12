@@ -82,6 +82,8 @@ TaskFcst = R6Class(
     data = function(rows = NULL, cols = NULL, ordered = FALSE) {
       col_roles = private$.col_roles
       order_cols = col_roles$order
+      key_cols = col_roles$key
+
       if (is.null(cols)) {
         cols = c(col_roles$target, col_roles$feature)
         cols = union(order_cols, cols)
@@ -91,12 +93,9 @@ TaskFcst = R6Class(
       data = super$data(rows, cols, ordered = FALSE)
 
       if (ordered) {
-        if (length(col_roles$key) > 0L) {
-          setorderv(data, c(order_cols, col_roles$key))
-        } else {
-          setorderv(data, order_cols)
-        }
+        setorderv(data, c(key_cols, order_cols))
       }
+      setcolorder(data, c(key_cols, order_cols))
       data
     },
 

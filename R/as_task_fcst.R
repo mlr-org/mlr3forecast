@@ -98,6 +98,10 @@ as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x
     x = copy(x)[, (order) := seq_len(.N), by = cn]
   }
   key = setdiff(cn, order)
+  # TODO: check the convention here and if this should not already be done in read_tsf
+  if (length(key) > 0L) {
+    x[, (key) := as.factor(get(key))]
+  }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
