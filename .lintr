@@ -19,5 +19,6 @@ linters: all_linters(
     ))
   )
 exclusions: list(
-    "tests/testthat.R"
+    "tests/testthat.R",
+    "tests/testthat/helper_tsf.R"
   )

@@ -93,20 +93,20 @@ ResamplingFcstHoldout = R6Class(
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
       has_key_cols = length(key_cols) > 0L
-      tab = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
+      dt = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
       if (has_key_cols) {
-        setnames(tab, "..row_id", "row_id")
-        setorderv(tab, c(key_cols, order_cols))
-        n_groups = uniqueN(tab, by = key_cols)
+        setnames(dt, "..row_id", "row_id")
+        setorderv(dt, c(key_cols, order_cols))
+        n_groups = uniqueN(dt, by = key_cols)
         nr = if (has_ratio) nr %/% n_groups else nr
         list(
-          train = tab[, .SD[1:nr], by = key_cols][, row_id],
-          test = tab[, .SD[(nr + 1L):.N], by = key_cols][, row_id]
+          train = dt[, .SD[1:nr], by = key_cols][, row_id],
+          test = dt[, .SD[(nr + 1L):.N], by = key_cols][, row_id]
         )
       } else {
-        setnames(tab, c("row_id", "order"))
-        setorderv(tab, "order")
-        list(train = tab[1:nr, row_id], test = tab[(nr + 1L):.N, row_id])
+        setnames(dt, c("row_id", "order"))
+        setorderv(dt, "order")
+        list(train = dt[1:nr, row_id], test = dt[(nr + 1L):.N, row_id])
       }
     },
 

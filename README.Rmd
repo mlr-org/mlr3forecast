@@ -248,12 +248,12 @@ task = tsibbledata::aus_livestock |>
   as_task_fcst(id = "aus_livestock", target = "count", order = "month")
 task = graph$train(task)[[1L]]
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1L)$train(task)
-tab = task$backend$data(
+dt = task$backend$data(
   rows = task$row_ids,
   cols = c(task$backend$primary_key, "month.year")
 )
-setnames(tab, c("row_id", "year"))
-row_ids = tab[year >= 2015, row_id]
+setnames(dt, c("row_id", "year"))
+row_ids = dt[year >= 2015, row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
 
@@ -268,12 +268,12 @@ task = tsibbledata::aus_livestock |>
 task = graph$train(task)[[1L]]
 task$col_roles$key = "state"
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1L)$train(task)
-tab = task$backend$data(
+dt = task$backend$data(
   rows = task$row_ids,
   cols = c(task$backend$primary_key, "month.year", "state")
 )
-setnames(tab, c("row_id", "year", "state"))
-row_ids = tab[year >= 2015 & state == "Western Australia", row_id]
+setnames(dt, c("row_id", "year", "state"))
+row_ids = dt[year >= 2015 & state == "Western Australia", row_id]
 prediction = flrn$predict(task, row_ids)
 prediction$score(msr("regr.rmse"))
 ```

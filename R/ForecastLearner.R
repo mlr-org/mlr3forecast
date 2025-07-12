@@ -75,7 +75,7 @@ ForecastLearner = R6::R6Class(
         pred
       })
       preds = do.call(c, preds)
-      preds$data$row_ids = seq_len(length(row_ids))
+      preds$data$row_ids = seq_along(row_ids)
       preds
     },
 
