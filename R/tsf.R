@@ -26,7 +26,7 @@ read_tsf = function(file) {
   skip = 1L
   metadata = character()
   freq = character()
-  horizon = integer()
+  horizon = integer() # nolint
 
   repeat {
     line = readLines(con, n = 1L, warn = FALSE)
@@ -47,7 +47,12 @@ read_tsf = function(file) {
     }
     skip = skip + 1L
   }
-  catf("Reading tsf file:\n* frequency: %s\n* horizon: %i", freq, horizon)
+
+  cat_cli({
+    cli::cli_text("Reading tsf file:")
+    cli::cli_li("frequency: {freq}")
+    cli::cli_li("horizon: {horizon}")
+  })
 
   metadata = setDT(tstrsplit(metadata, " ", fixed = TRUE, keep = c(2L, 3L)))
   setnames(metadata, c("name", "type"))

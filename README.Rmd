@@ -43,21 +43,21 @@ pak::pak("mlr-org/mlr3forecast")
 
 ## Usage
 
-The goal of mlr3forecast is to extend mlr3 to time series forecasting.
-This is achieved by introducing new classes and methods for forecasting tasks,
-learners, and resamplers. For now the forecasting task and learner is restricted
-to time series regression tasks, but might be extended to classification tasks
-in the future.
+The goal of mlr3forecast is to extend mlr3 to time series forecasting. This is
+achieved by introducing new classes and methods for forecasting tasks,
+learners, and resamplers. For now the forecasting task and learner is
+restricted to time series regression tasks, but might be extended to
+classification tasks in the future.
 
 We have two goals, one to support traditional forecasting learners and the
-other to support machine learning forecasting, i.e. using regression
-learners and applying them to forecasting tasks. The design of the latter is
-still in flux and may change.
+other to support machine learning forecasting, i.e. using regression learners
+and applying them to forecasting tasks. The design of the latter is still in
+flux and may change.
 
 ### Example: forecasting with forecast learner
 
-Currently, we support native forecasting learners from the forecast package.
-In the future, we plan to support more forecasting learners.
+Currently, we support native forecasting learners from the forecast and smooth
+packages. In the future, we plan to support more learners.
 
 ```{r, message = FALSE, dpi = 300}
 library(mlr3forecast)
