@@ -22,7 +22,8 @@ linters: all_linters(
       warning = "use warningf()",
       message = "use messagef()",
       # perf
-      ifelse = "use fifelse()"
+      ifelse = "use fifelse()",
+      rank = "use frank()"
     ))
   )
 exclusions: list(
