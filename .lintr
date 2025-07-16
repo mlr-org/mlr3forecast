@@ -20,7 +20,9 @@ linters: all_linters(
       cat = "use catf()",
       stop = "use stopf()",
       warning = "use warningf()",
-      message = "use messagef()"
+      message = "use messagef()",
+      # perf
+      ifelse = "use fifelse()"
     ))
   )
 exclusions: list(
