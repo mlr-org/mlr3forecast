@@ -40,10 +40,10 @@ read_tsf = function(file) {
       metadata = c(metadata, line)
     }
     if (startsWith(line, "@frequency")) {
-      freq = strsplit(line, " ", fixed = TRUE)[[1L]][[2L]]
+      freq = strsplit1(line, " ")[[2L]]
     }
     if (startsWith(line, "@horizon")) {
-      horizon = as.integer(strsplit(line, " ", fixed = TRUE)[[1L]][[2L]])
+      horizon = as.integer(strsplit1(line, " ")[[2L]])
     }
     skip = skip + 1L
   }
@@ -82,7 +82,7 @@ read_tsf = function(file) {
     }
   }
 
-  dt_long = dt[, .(value = strsplit(value, ",", fixed = TRUE)[[1L]]), by = col_names]
+  dt_long = dt[, .(value = strsplit1(value, ",")), by = col_names]
   dt_long["?", value := NA_character_, on = "value"]
   dt_long[, value := as.numeric(value)]
   dt[, value := NULL]
@@ -138,4 +138,8 @@ download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly
     stopf("Downloaded file is not a TSF file: %s", file)
   }
   read_tsf(file)
+}
+
+strsplit1 = function(x, pattern) {
+  strsplit(x, pattern, fixed = TRUE)[[1L]]
 }
