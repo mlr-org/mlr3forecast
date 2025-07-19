@@ -55,7 +55,7 @@ register_mlr3 = function() {
   # fmt: skip
   mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
     ~type, ~package, ~task, ~learner, ~prediction, ~prediction_data, ~measure,
-    "fcst", "mlr3forecast", "TaskFcst", "LearnerRegr", "PredictionRegr", "PredictionDataRegr", "MeasureRegr" # nolint
+    "fcst", "mlr3forecast", "TaskFcst", "LearnerRegr", "PredictionRegr", "PredictionDataRegr", "MeasureRegr"
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
   mlr_reflections$learner_properties$fcst = union(

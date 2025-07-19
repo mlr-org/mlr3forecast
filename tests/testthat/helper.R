@@ -24,7 +24,10 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
     data.table(target = target, date = seq(from = as.Date("2020-01-01"), by = "day", length.out = N)),
     generate_data(learner, N)
   )
-  tasks = list(TaskFcst$new("proto", as_data_backend(data), target = "target", order = "date"))
+  tasks = list()
+  task = TaskFcst$new("proto", as_data_backend(data), target = "target", order = "date", freq = "daily")
+  task$col_roles$feature = setdiff(task$col_roles$feature, "date")
+  tasks[[1L]] = task
 
   # generate sanity task
   data = withr::with_seed(100, {
@@ -40,6 +43,6 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
   tasks$sanity = TaskFcst$new("sanity", as_data_backend(data), target = "y", order = "dt")
   tasks$sanity_reordered = TaskFcst$new("sanity_reordered", as_data_backend(data), target = "y", order = "dt")
 
-  list(tasks)
+  tasks
 }
 registerS3method("generate_tasks", "LearnerFcst", generate_tasks.LearnerFcst, envir = parent.frame())

@@ -41,7 +41,8 @@ generate_newdata = function(task, n = 1L) {
 
 #' @export
 as.ts.TaskFcst = function(x, ..., freq = NULL) {
-  freq = freq %??% x$freq
+  # TODO: come back to this once decided if a task requires a frequency or falls back to 1L
+  freq = freq %??% x$freq %??% 1L
   if (is.character(freq)) {
     freq = switch(
       freq,
