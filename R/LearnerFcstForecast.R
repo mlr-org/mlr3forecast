@@ -16,7 +16,7 @@ LearnerFcstForecast = R6Class(
         return(list(response = response))
       }
 
-      if ("featureless" %chin% self$properties || length(task$feature_names) == 0L) {
+      if ("exogenous" %chin% self$properties || length(task$feature_names) == 0L) {
         args = list(h = length(task$row_ids))
       } else {
         newdata = as.matrix(task$data(cols = task$feature_names))

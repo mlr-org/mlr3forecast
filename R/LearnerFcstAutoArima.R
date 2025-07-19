@@ -45,7 +45,7 @@ LearnerFcstAutoArima = R6Class(
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = c("logical", "integer", "numeric"),
-        properties = c("featureless", "missings"),
+        properties = c("featureless", "exogenous", "missings"),
         packages = c("mlr3forecast", "forecast"),
         label = "Auto ARIMA",
         man = "mlr3forecast::mlr_learners_fcst.auto_arima"
@@ -59,6 +59,7 @@ LearnerFcstAutoArima = R6Class(
       pv = self$param_set$get_values(tags = "train")
 
       xreg = NULL
+      # TODO: make this into a function/active binding in TaskFcst
       if (length(task$feature_names) > 0L) {
         xreg = as.matrix(task$data(cols = task$feature_names))
       }
