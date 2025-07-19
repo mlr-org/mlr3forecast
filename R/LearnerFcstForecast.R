@@ -16,11 +16,11 @@ LearnerFcstForecast = R6Class(
         return(list(response = response))
       }
 
-      if ("exogenous" %chin% self$properties && length(task$feature_names) > 0L) {
+      if ("exogenous" %chin% self$properties && task$n_features > 0L) {
         newdata = as.matrix(task$data(cols = task$feature_names))
         args = list(xreg = newdata)
       } else {
-        args = list(h = length(task$row_ids))
+        args = list(h = task$nrow)
       }
       if (is_quantile) {
         args = insert_named(args, list(level = quantiles_to_level(private$.quantiles)))

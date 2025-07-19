@@ -63,7 +63,7 @@ LearnerFcstAutoCes = R6Class(
         response = stats::fitted(self$model)[task$row_ids]
         return(list(response = response))
       }
-      args = list(h = length(task$row_ids))
+      args = list(h = task$nrow)
       pred = invoke(generics::forecast, self$model, .args = args)
       list(response = as.numeric(pred$mean))
     }

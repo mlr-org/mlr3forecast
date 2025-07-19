@@ -57,7 +57,7 @@ LearnerFcstArima = R6Class(
       pv = self$param_set$get_values(tags = "train")
 
       xreg = NULL
-      if (length(task$feature_names) > 0L) {
+      if (task$n_features > 0L) {
         xreg = as.matrix(task$data(cols = task$feature_names))
       }
       invoke(forecast::Arima, y = as.ts(task), xreg = xreg, .args = pv)
