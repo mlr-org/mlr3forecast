@@ -233,9 +233,11 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># get all forecast learners from mlr_learners:</span></span></span>
-<span class="r-in"><span><span class="va">lrns</span> <span class="op">=</span> <span class="va">mlr_learners</span><span class="op">$</span><span class="fu">mget</span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="st">"^forecast"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">lrns</span> <span class="op">=</span> <span class="va">mlr_learners</span><span class="op">$</span><span class="fu">mget</span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="st">"^fcst"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lrns</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> character(0)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "fcst.adam"       "fcst.arfima"     "fcst.arima"      "fcst.auto_adam" </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "fcst.auto_arima" "fcst.auto_ces"   "fcst.bats"       "fcst.ces"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "fcst.ets"        "fcst.nnetar"     "fcst.tbats"     </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># get a specific learner from mlr_learners:</span></span></span>
 <span class="r-in"><span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"fcst.ets"</span><span class="op">)</span></span></span>
