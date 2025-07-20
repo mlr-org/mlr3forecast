@@ -94,10 +94,10 @@ library(mlr3learners)
 task = tsk("airpassengers")
 learner = lrn("regr.ranger")
 flrn = ForecastLearner$new(learner, lags = 1:12)$train(task)
-newdata = generate_newdata(task, 3L)
+newdata = generate_newdata(task, 12L)
 prediction = flrn$predict_newdata(newdata, task)
 prediction
-prediction = flrn$predict(task, 142:144)
+prediction = flrn$predict(task, 140:144)
 prediction
 prediction$score(msr("regr.rmse"))
 

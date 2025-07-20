@@ -1,8 +1,7 @@
 test_that("forecast measures", {
-  skip("the assertion in the score method of the measure won't allow for fcst learner")
   keys = mlr_measures$keys("^fcst\\.")
-  task = tsk("airpassengers")
-  learner = lrn("fcst.auto_arima")
+  task = tsk("california_housing")
+  learner = lrn("regr.rpart")
   p = learner$train(task)$predict(task)
 
   for (key in keys) {

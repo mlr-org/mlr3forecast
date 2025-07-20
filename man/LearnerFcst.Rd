@@ -21,7 +21,7 @@ Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \
 }
 \examples{
 # get all forecast learners from mlr_learners:
-lrns = mlr_learners$mget(mlr_learners$keys("^forecast"))
+lrns = mlr_learners$mget(mlr_learners$keys("^fcst"))
 names(lrns)
 
 # get a specific learner from mlr_learners:

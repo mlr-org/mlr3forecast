@@ -71,8 +71,8 @@ Other Measure:
 \code{\link{mlr_measures_fcst.mdv}}
 }
 \concept{Measure}
-\section{Super class}{
-\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{MeasureMDPV}
+\section{Super classes}{
+\code{\link[mlr3:Measure]{mlr3::Measure}} -> \code{\link[mlr3:MeasureRegr]{mlr3::MeasureRegr}} -> \code{MeasureMDPV}
 }
 \section{Methods}{
 \subsection{Public methods}{

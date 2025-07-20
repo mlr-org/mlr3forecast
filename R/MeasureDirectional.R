@@ -31,7 +31,7 @@
 #' @export
 MeasureMDA = R6Class(
   "MeasureMDA",
-  inherit = Measure,
+  inherit = MeasureRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -41,8 +41,8 @@ MeasureMDA = R6Class(
 
       super$initialize(
         id = "fcst.mda",
-        task_type = "regr",
         param_set = param_set,
+        range = c(-Inf, Inf),
         minimize = FALSE,
         packages = "mlr3forecast",
         label = "Mean Directional Accuracy",
@@ -99,14 +99,14 @@ MeasureMDA = R6Class(
 #' @export
 MeasureMDV = R6Class(
   "MeasureMDV",
-  inherit = Measure,
+  inherit = MeasureRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "fcst.mdv",
-        task_type = "regr",
+        range = c(-Inf, Inf),
         minimize = FALSE,
         packages = "mlr3forecast",
         label = "Mean Directional Value",
@@ -160,14 +160,14 @@ MeasureMDV = R6Class(
 #' @export
 MeasureMDPV = R6Class(
   "MeasureMDPV",
-  inherit = Measure,
+  inherit = MeasureRegr,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       super$initialize(
         id = "fcst.mdpv",
-        task_type = "regr",
+        range = c(-Inf, Inf),
         minimize = FALSE,
         packages = "mlr3forecast",
         label = "Mean Directional Percentage Value",
