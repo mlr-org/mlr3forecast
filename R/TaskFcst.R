@@ -56,16 +56,17 @@ TaskFcst = R6Class(
       assert_frequency(freq)
       self$freq = freq
 
-      private$.col_roles = insert_named(private$.col_roles, list(key = character()))
-      self$extra_args = insert_named(self$extra_args, list(order = order, key = key))
+      col_roles = self$col_roles
+      self$col_roles = insert_named(col_roles, list(key = character()))
 
-      assert_subset(order, self$col_roles$feature)
+      assert_subset(order, empty.ok = FALSE, col_roles$feature)
       self$col_roles$order = order
-      self$col_roles$feature = setdiff(self$col_roles$feature, order)
+      self$col_roles$feature = setdiff(col_roles$feature, order)
       if (!is.null(key)) {
-        assert_subset(key, self$col_roles$feature)
+        assert_subset(key, col_roles$feature)
         self$col_roles$key = key
       }
+      self$extra_args = insert_named(self$extra_args, list(order = order, key = key, freq = freq))
     },
 
     #' @description
@@ -90,7 +91,7 @@ TaskFcst = R6Class(
       assert_has_backend(self)
       assert_flag(ordered)
 
-      col_roles = private$.col_roles
+      col_roles = self$col_roles
       order_cols = c(col_roles$key, col_roles$order)
 
       if (is.null(cols)) {
@@ -138,7 +139,7 @@ TaskFcst = R6Class(
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
       if (missing(rhs)) {
-        c(super$properties, if (length(private$.col_roles$key)) "keys" else NULL)
+        c(super$properties, if (length(self$col_roles$key)) "keys" else NULL)
       } else {
         super$properties = rhs
       }
@@ -154,11 +155,7 @@ TaskFcst = R6Class(
     order = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
-      order_cols = private$.col_roles$order
-      # TODO: revisit once finalised, since order should must likely be compulsory
-      if (length(order_cols) == 0L) {
-        return()
-      }
+      order_cols = self$col_roles$order
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, order_cols))
       setnames(data, c("row_id", "order"))[]
     },
@@ -174,7 +171,7 @@ TaskFcst = R6Class(
     key = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
-      key_cols = private$.col_roles$key
+      key_cols = self$col_roles$key
       if (length(key_cols) == 0L) {
         return()
       }

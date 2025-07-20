@@ -68,9 +68,31 @@ autoplot(task)
 
 learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
+prediction
+#> 
+#> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
+#>  row_ids truth response
+#>      140   606 623.9219
+#>      141   508 513.8585
+#>      142   461 450.7762
+#>      143   390 410.8961
+#>      144   432 439.9462
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
 #>  13.85518
+
+# currently there is no specialized prediction object
+# for now you can do the following to add the order column to the prediction
+tab = as.data.table(prediction)
+tab = tab[task$order, on = .(row_ids = row_id), nomatch = NULL]
+setcolorder(tab, c("row_ids", "order"))
+tab
+#>    row_ids      order truth response
+#> 1:     140 1960-08-01   606 623.9219
+#> 2:     141 1960-09-01   508 513.8585
+#> 3:     142 1960-10-01   461 450.7762
+#> 4:     143 1960-11-01   390 410.8961
+#> 5:     144 1960-12-01   432 439.9462
 
 # generate new data to forecast unseen data
 newdata = generate_newdata(task, 12L)
@@ -88,7 +110,8 @@ newdata
 #> 10: 1961-10-01         NA
 #> 11: 1961-11-01         NA
 #> 12: 1961-12-01         NA
-learner$predict_newdata(newdata, task)
+prediction = learner$predict_newdata(newdata, task)
+prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response
@@ -100,8 +123,28 @@ learner$predict_newdata(newdata, task)
 #>       11    NA 423.3336
 #>       12    NA 465.5085
 
+# add the order column to the prediction
+tab = as.data.table(prediction)
+tab[, order := newdata[, month]]
+setcolorder(tab, c("row_ids", "order"))
+tab
+#>     row_ids      order truth response
+#>  1:       1 1961-01-01    NA 445.6351
+#>  2:       2 1961-02-01    NA 420.3953
+#>  3:       3 1961-03-01    NA 449.1988
+#>  4:       4 1961-04-01    NA 491.8405
+#>  5:       5 1961-05-01    NA 503.3951
+#>  6:       6 1961-06-01    NA 566.8632
+#>  7:       7 1961-07-01    NA 654.2610
+#>  8:       8 1961-08-01    NA 638.5983
+#>  9:       9 1961-09-01    NA 540.8846
+#> 10:      10 1961-10-01    NA 494.1275
+#> 11:      11 1961-11-01    NA 423.3336
+#> 12:      12 1961-12-01    NA 465.5085
+
 # works with quantile response
-learner = lrn("fcst.auto_arima",
+learner = lrn(
+  "fcst.auto_arima",
   predict_type = "quantiles",
   quantiles = c(0.1, 0.15, 0.5, 0.85, 0.9),
   quantile_response = 0.5
@@ -133,39 +176,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 438.4378
-#>        2    NA 437.7703
-#>        3    NA 456.9411
+#>        1    NA 436.4751
+#>        2    NA 435.4251
+#>        3    NA 456.9745
 #>      ---   ---      ---
-#>       10    NA 475.0416
-#>       11    NA 439.0798
-#>       12    NA 442.5230
+#>       10    NA 477.8047
+#>       11    NA 439.6778
+#>       12    NA 441.5493
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response
-#>        1   606 571.2172
-#>        2   508 505.0174
-#>        3   461 453.7483
-#>        4   390 414.5908
-#>        5   432 434.4137
+#>        1   606 579.1398
+#>        2   508 502.5889
+#>        3   461 453.2040
+#>        4   390 413.0088
+#>        5   432 433.7961
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>   19.4003
+#>  16.39609
 
 flrn = ForecastLearner$new(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  48.71685
+#>  45.78503
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  27.13656
+#>  26.29561
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -174,7 +217,8 @@ Or with some feature engineering using mlr3pipelines:
 library(mlr3pipelines)
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_year = FALSE,
@@ -193,7 +237,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  12.64343
+#>  14.53524
 ```
 
 ### Example: forecasting electricity demand
@@ -205,7 +249,8 @@ library(mlr3pipelines)
 task = tsk("electricity")
 task$set_col_roles("date", add = "feature")
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       year = FALSE,
       is_day = FALSE,
@@ -229,13 +274,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 187800.8
-#>        2    NA 197096.1
-#>        3    NA 187779.2
+#>        1    NA 187861.3
+#>        2    NA 196900.3
+#>        3    NA 187363.1
 #>      ---   ---      ---
-#>       12    NA 221883.9
-#>       13    NA 226314.6
-#>       14    NA 227078.9
+#>       12    NA 221692.8
+#>       13    NA 225259.0
+#>       14    NA 227028.7
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -261,7 +306,8 @@ task = tsibbledata::aus_livestock |>
 task$set_col_roles("month", add = "feature")
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
@@ -279,14 +325,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  22406.93
+#>  22801.38
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  91882.22
+#>  93869.57
 ```
 
 ### Example: global vs local forecasting
@@ -299,7 +345,8 @@ forecasting.
 # TODO: find better task example, since the effect is minor here
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
@@ -366,7 +413,8 @@ new_task$data()
 task = tsk("airpassengers")
 graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
@@ -402,7 +450,8 @@ Some common target transformations in forecasting are:
   [here](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_targettrafoscalerange.html)
 
 ``` r
-trafo = po("targetmutate",
+trafo = po(
+  "targetmutate",
   param_vals = list(
     trafo = function(x) log(x),
     inverter = function(x) list(response = exp(x$response))
@@ -411,7 +460,8 @@ trafo = po("targetmutate",
 
 graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
@@ -436,7 +486,8 @@ prediction$score(msr("regr.rmse"))
 ``` r
 graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,

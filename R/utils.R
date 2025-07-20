@@ -39,6 +39,13 @@ generate_newdata = function(task, n = 1L) {
   newdata
 }
 
+predict_forecast = function(task, learner, h = 12L) {
+  learner = assert_learner(as_learner(learner))
+  h = assert_count(h, positive = TRUE, coerce = TRUE)
+  newdata = generate_newdata(task, h)
+  learner$predict_newdata(newdata, task)
+}
+
 #' @export
 as.ts.TaskFcst = function(x, ..., freq = NULL) {
   # TODO: come back to this once decided if a task requires a frequency or falls back to 1L

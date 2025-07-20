@@ -70,15 +70,31 @@ autoplot(task)
 
 learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
+prediction
 prediction$score(msr("regr.rmse"))
+
+# currently there is no specialized prediction object
+# for now you can do the following to add the order column to the prediction
+tab = as.data.table(prediction)
+tab = tab[task$order, on = .(row_ids = row_id), nomatch = NULL]
+setcolorder(tab, c("row_ids", "order"))
+tab
 
 # generate new data to forecast unseen data
 newdata = generate_newdata(task, 12L)
 newdata
-learner$predict_newdata(newdata, task)
+prediction = learner$predict_newdata(newdata, task)
+prediction
+
+# add the order column to the prediction
+tab = as.data.table(prediction)
+tab[, order := newdata[, month]]
+setcolorder(tab, c("row_ids", "order"))
+tab
 
 # works with quantile response
-learner = lrn("fcst.auto_arima",
+learner = lrn(
+  "fcst.auto_arima",
   predict_type = "quantiles",
   quantiles = c(0.1, 0.15, 0.5, 0.85, 0.9),
   quantile_response = 0.5
@@ -117,7 +133,8 @@ Or with some feature engineering using mlr3pipelines:
 library(mlr3pipelines)
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_year = FALSE,
@@ -146,7 +163,8 @@ library(mlr3pipelines)
 task = tsk("electricity")
 task$set_col_roles("date", add = "feature")
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       year = FALSE,
       is_day = FALSE,
@@ -192,7 +210,8 @@ task = tsibbledata::aus_livestock |>
 task$set_col_roles("month", add = "feature")
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
@@ -225,7 +244,8 @@ and longitudinal data is often refered to local and global forecasting.
 # TODO: find better task example, since the effect is minor here
 
 graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
@@ -292,7 +312,8 @@ new_task$data()
 task = tsk("airpassengers")
 graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
@@ -324,7 +345,8 @@ Some common target transformations in forecasting are:
 - scaling/normalization, available see [here](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_targettrafoscalerange.html)
 
 ```{r, eval = FALSE}
-trafo = po("targetmutate",
+trafo = po(
+  "targetmutate",
   param_vals = list(
     trafo = function(x) log(x),
     inverter = function(x) list(response = exp(x$response))
@@ -333,7 +355,8 @@ trafo = po("targetmutate",
 
 graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
@@ -358,7 +381,8 @@ prediction$score(msr("regr.rmse"))
 ```{r, eval = FALSE}
 graph = po("fcst.lag", lags = 1:12) %>>%
   ppl("convert_types", "Date", "POSIXct") %>>%
-  po("datefeatures",
+  po(
+    "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
