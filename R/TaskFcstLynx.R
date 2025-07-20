@@ -30,7 +30,6 @@ load_task_lynx = function(id = "lynx") {
     label = "Annual Canadian Lynx Trappings 1821-1934"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_lynx"
-  task$col_roles$feature = setdiff(task$col_roles$feature, "year")
   task
 }
 

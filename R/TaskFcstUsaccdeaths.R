@@ -32,7 +32,6 @@ load_task_usaccdeaths = function(id = "usaccdeaths") {
     label = "Monthly Accidental Deaths in the US 1973-1978"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_usaccdeaths"
-  task$col_roles$feature = setdiff(task$col_roles$feature, "month")
   task
 }
 

@@ -51,14 +51,21 @@ TaskFcst = R6Class(
       label = NA_character_,
       extra_args = list()
     ) {
-      assert_frequency(freq)
       super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
       self$task_type = "fcst"
+      assert_frequency(freq)
       self$freq = freq
+
       private$.col_roles = insert_named(private$.col_roles, list(key = character()))
       self$extra_args = insert_named(self$extra_args, list(order = order, key = key))
-      self$set_col_roles(order, add = "order")
-      self$set_col_roles(key, add = "key")
+
+      assert_subset(order, self$col_roles$feature)
+      self$col_roles$order = order
+      self$col_roles$feature = setdiff(self$col_roles$feature, order)
+      if (!is.null(key)) {
+        assert_subset(key, self$col_roles$feature)
+        self$col_roles$key = key
+      }
     },
 
     #' @description

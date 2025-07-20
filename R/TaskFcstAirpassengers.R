@@ -32,7 +32,6 @@ load_task_airpassengers = function(id = "airpassengers") {
     label = "Monthly Airline Passenger Numbers 1949-1960"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_airpassengers"
-  task$col_roles$feature = setdiff(task$col_roles$feature, "month")
   task
 }
 

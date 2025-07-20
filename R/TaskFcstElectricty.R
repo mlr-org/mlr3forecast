@@ -30,7 +30,6 @@ load_task_electricty = function(id = "electricity") {
     label = "Daily electricity demand for Victoria, Australia"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_electricity"
-  task$col_roles$feature = setdiff(task$col_roles$feature, "date")
   task
 }
 

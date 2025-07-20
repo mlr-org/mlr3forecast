@@ -30,7 +30,6 @@ load_task_livestock = function(id = "livestock") {
     label = "Australian livestock slaughter"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_livestock"
-  task$col_roles$feature = setdiff(task$col_roles$feature, "month")
   task
 }
 
