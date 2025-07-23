@@ -15,7 +15,7 @@ generate_newdata = function(task, n = 1L) {
   order_cols = task$col_roles$order
   max_index = max(task$data(cols = order_cols)[[1L]])
 
-  if (inherits(max_index, c("Date", "POSIXct"))) {
+  if (inherits(max_index, c("Date", "POSIXct")) && !is.null(task$freq)) {
     unit = switch(
       task$freq,
       secondly = "second",
@@ -51,7 +51,7 @@ generate_newdata2 = function(task, n = 1L) {
   newdata = map(lst, function(dt) {
     dt = dt[get(order_cols) == max(get(order_cols)), c(key_cols, order_cols), with = FALSE]
     max_index = dt[[order_cols]]
-    if (inherits(max_index, c("Date", "POSIXct"))) {
+    if (inherits(max_index, c("Date", "POSIXct")) && !is.null(task$freq)) {
       unit = switch(
         task$freq,
         secondly = "second",
