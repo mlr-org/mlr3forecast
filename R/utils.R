@@ -47,8 +47,7 @@ generate_newdata2 = function(task, n = 1L) {
   key_cols = task$col_roles$key
   dt = task$data(cols = c(order_cols, key_cols))
 
-  lst = split(dt, by = key_cols, drop = TRUE)
-  newdata = map(lst, function(dt) {
+  newdata = map_dtr(split(dt, by = key_cols, drop = TRUE), function(dt) {
     dt = dt[get(order_cols) == max(get(order_cols)), c(key_cols, order_cols), with = FALSE]
     max_index = dt[[order_cols]]
     if (inherits(max_index, c("Date", "POSIXct")) && !is.null(task$freq)) {
@@ -71,7 +70,6 @@ generate_newdata2 = function(task, n = 1L) {
     dt = rbindlist(replicate(n, dt, simplify = FALSE))
     dt[, (order_cols) := index[2:(n + 1L)]]
   })
-  newdata = rbindlist(newdata)
   newdata[, (task$target_names) := NA_real_][]
 }
 
