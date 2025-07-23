@@ -43,6 +43,7 @@ ForecastLearner = R6::R6Class(
       col_roles = task$col_roles
       order_cols = col_roles$order
       private$.max_index = max(task$data(cols = order_cols)[[1L]])
+      # TODO: it's sufficient to store the max index + lags of the training data, like done in PipeOpFcstLags
       private$.task = task$clone()
       target = task$target_names
       dt = private$.lag_transform(task$data(), target)
@@ -67,11 +68,14 @@ ForecastLearner = R6::R6Class(
         row_ids = task$row_ids
         dt = private$.task$data()
       }
+      if (length(task$col_roles$key_cols) > 0L) {
+        stopf("ForecastLearner does not yet support key columns for prediction.")
+      }
       # one model for all steps
       preds = map(row_ids, function(i) {
         new_x = private$.lag_transform(dt, target)[i]
         pred = self$model$learner$predict_newdata(new_x)
-        dt[i, (target) := pred$response]
+        set(dt, i = i, j = target, value = pred$response)
         pred
       })
       preds = do.call(c, preds)
@@ -89,12 +93,16 @@ ForecastLearner = R6::R6Class(
       lags = self$lags
       nms = sprintf("%s_lag_%i", target, lags)
       dt = copy(dt)
-      key_cols = private$.task$col_roles$key
-      order_cols = private$.task$col_roles$order
+      col_roles = private$.task$col_roles
+      order_cols = col_roles$order
+      key_cols = col_roles$key
+      # TODO: sorting here is overkill, remove once done
       if (length(key_cols) > 0L) {
-        dt[, (nms) := shift(.SD, lags), by = key_cols, .SDcols = target]
+        setorderv(dt, c(key_cols, order_cols))
+        dt[, (nms) := shift(get(target), lags), by = key_cols]
       } else {
-        dt[, (nms) := shift(.SD, lags), .SDcols = target]
+        setorderv(dt, order_cols)
+        dt[, (nms) := shift(get(target), lags)]
       }
       dt
     },

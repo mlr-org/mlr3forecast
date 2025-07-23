@@ -7,15 +7,31 @@ assert_has_backend = function(task) {
   }
 }
 
-assert_frequency = function(x) {
+assert_frequency = function(x, .var.name = vname(x)) {
   assert(
     check_null(x),
     check_choice(x, c("secondly", "minutely", "hourly", "daily", "weekly", "monthly", "quarterly", "yearly")),
-    check_count(x, positive = TRUE)
+    check_count(x, positive = TRUE),
+    .var.name = .var.name
   )
 }
 
-check_frequency = function(x) {
+assert_freq = function(x, .var.name = vname(x)) {
+  if (is.null(x)) {
+    return()
+  }
+  if (test_count(x, positive = TRUE)) {
+    storage.mode(x) = "integer"
+    return(x)
+  }
+  choices = c("secondly", "minutely", "hourly", "daily", "weekly", "monthly", "quarterly", "yearly")
+  if (test_choice(x, choices)) {
+    return(x)
+  }
+  stopf("'%s' must be either: \n* `NULL`\n* a positive integer\n* one of: %s.", .var.name, toString(choices))
+}
+
+check_frequency2 = function(x) {
   # plus an integer before, can also be abbreivated (pmatch) with optional s suffix
   dt = c("day", "week", "month", "quarter", "year")
   dttm = c("sec", "min", "hour", "day", "DSTday", "week", "month", "quarter", "year")

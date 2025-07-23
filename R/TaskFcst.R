@@ -53,8 +53,7 @@ TaskFcst = R6Class(
     ) {
       super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
       self$task_type = "fcst"
-      assert_frequency(freq)
-      self$freq = freq
+      self$freq = assert_freq(freq)
 
       col_roles = self$col_roles
       self$col_roles = insert_named(col_roles, list(key = character()))

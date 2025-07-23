@@ -53,7 +53,7 @@ ForecastLearnerManual = R6::R6Class(
         ii = which(lags == min(i, max_lag))
         lag = lags[seq_len(ii)]
         nms = sprintf("%s_lag_%i", target, lag)
-        dt[, (nms) := shift(.SD, lag), .SDcols = target]
+        dt[, (nms) := shift(get(target), lag)]
       }
       preds = do.call(c, preds)
       preds$data$row_ids = seq_len(task$nrow)
