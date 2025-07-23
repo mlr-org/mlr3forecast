@@ -60,6 +60,9 @@ ForecastLearner = R6::R6Class(
     },
 
     .predict_recursive = function(task) {
+      if (length(task$col_roles$key) > 0L) {
+        stopf("ForecastLearner does not yet support key columns for prediction.")
+      }
       target = private$.task$target_names
       if (private$.is_newdata(task)) {
         row_ids = private$.task$nrow + seq_len(task$nrow)
@@ -68,9 +71,7 @@ ForecastLearner = R6::R6Class(
         row_ids = task$row_ids
         dt = private$.task$data()
       }
-      if (length(task$col_roles$key_cols) > 0L) {
-        stopf("ForecastLearner does not yet support key columns for prediction.")
-      }
+
       # one model for all steps
       preds = map(row_ids, function(i) {
         new_x = private$.lag_transform(dt, target)[i]
