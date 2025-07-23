@@ -39,6 +39,65 @@ generate_newdata = function(task, n = 1L) {
   newdata
 }
 
+generate_newdata2 = function(task, n = 1L) {
+  task = assert_task(as_task(task), task_type = "fcst")
+  n = assert_count(n, positive = TRUE, coerce = TRUE)
+
+  order_cols = task$col_roles$order
+  key_cols = task$col_roles$key
+  dt = task$data(cols = c(order_cols, key_cols))
+
+  lst = split(dt, by = key_cols, drop = TRUE)
+  newdata = map(lst, function(dt) {
+    dt = dt[get(order_cols) == max(get(order_cols)), c(key_cols, order_cols), with = FALSE]
+    max_index = dt[[order_cols]]
+    if (inherits(max_index, c("Date", "POSIXct"))) {
+      unit = switch(
+        task$freq,
+        secondly = "second",
+        minutely = "minute",
+        hourly = "hour",
+        daily = "day",
+        weekly = "week",
+        monthly = "month",
+        quarterly = "quarter",
+        yearly = "yearly"
+      )
+      unit = sprintf("1 %s", unit)
+      index = seq(max_index, length.out = n + 1L, by = unit)
+    } else {
+      index = seq(max_index + 1L, length.out = n + 1L)
+    }
+    dt = rbindlist(replicate(n, dt, simplify = FALSE))
+    dt[, (order_cols) := index[2:(n + 1L)]]
+  })
+  newdata = rbindlist(newdata)
+  newdata[, (task$target_names) := NA_real_][]
+}
+
+generate_index = function(dt, n = 1L) {
+  max_index = max(dt[[1L]])
+
+  if (inherits(max_index, c("Date", "POSIXct"))) {
+    unit = switch(
+      task$freq,
+      secondly = "second",
+      minutely = "minute",
+      hourly = "hour",
+      daily = "day",
+      weekly = "week",
+      monthly = "month",
+      quarterly = "quarter",
+      yearly = "yearly"
+    )
+    unit = sprintf("1 %s", unit)
+    index = seq(max_index, length.out = n + 1L, by = unit)
+  } else {
+    index = seq(max_index + 1L, length.out = n + 1L)
+  }
+  index[2:length(index)]
+}
+
 predict_forecast = function(task, learner, h = 12L) {
   learner = assert_learner(as_learner(learner))
   h = assert_count(h, positive = TRUE, coerce = TRUE)
