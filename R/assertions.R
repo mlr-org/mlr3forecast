@@ -1,12 +1,3 @@
-assert_has_backend = function(task) {
-  if (is.null(task$backend)) {
-    stopf(
-      "The backend of Task '%s' has been removed. Set `store_backends` to `TRUE` during model fitting to conserve it.",
-      task$id
-    )
-  }
-}
-
 assert_frequency = function(x, .var.name = vname(x)) {
   assert(
     check_null(x),
