@@ -73,30 +73,7 @@ generate_newdata2 = function(task, n = 1L) {
   newdata[, (task$target_names) := NA_real_][]
 }
 
-generate_index = function(dt, n = 1L) {
-  max_index = max(dt[[1L]])
-
-  if (inherits(max_index, c("Date", "POSIXct"))) {
-    unit = switch(
-      task$freq,
-      secondly = "second",
-      minutely = "minute",
-      hourly = "hour",
-      daily = "day",
-      weekly = "week",
-      monthly = "month",
-      quarterly = "quarter",
-      yearly = "yearly"
-    )
-    unit = sprintf("1 %s", unit)
-    index = seq(max_index, length.out = n + 1L, by = unit)
-  } else {
-    index = seq(max_index + 1L, length.out = n + 1L)
-  }
-  index[2:length(index)]
-}
-
-predict_forecast = function(task, learner, h = 12L) {
+predict_forecast = function(learner, task, h = 12L) {
   learner = assert_learner(as_learner(learner))
   h = assert_count(h, positive = TRUE, coerce = TRUE)
   newdata = generate_newdata(task, h)

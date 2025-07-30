@@ -56,38 +56,58 @@ ForecastLearner = R6::R6Class(
     },
 
     .predict = function(task) {
-      private$.predict_recursive(task)
-    },
-
-    .predict_recursive = function(task) {
-      if (length(task$col_roles$key) > 0L) {
-        stopf("ForecastLearner does not yet support key columns for prediction.")
-      }
-      target = private$.task$target_names
-      if (private$.is_newdata(task)) {
-        row_ids = private$.task$nrow + seq_len(task$nrow)
-        dt = rbind(private$.task$data(), task$data(), fill = TRUE)
-      } else {
-        row_ids = task$row_ids
-        dt = private$.task$data()
-      }
-
-      # one model for all steps
-      preds = map(row_ids, function(i) {
-        new_x = private$.lag_transform(dt, target)[i]
-        pred = self$model$learner$predict_newdata(new_x)
-        set(dt, i = i, j = target, value = pred$response)
-        pred
-      })
-      preds = do.call(c, preds)
-      preds$data$row_ids = seq_along(row_ids)
+      preds = if (length(task$col_roles$key) > 0L) private$.predict_global(task) else private$.predict_local(task)
+      assert_true(length(preds$data$row_ids) == task$nrow)
       preds
     },
 
-    .predict_direct = function(dt, n) {
-      # one model for each step, would also need to adjust .train(),
-      # might make more sense have a special class for each method
-      .NotYetImplemented()
+    .predict_local = function(task) {
+      target = task$target_names
+      order_cols = task$col_roles$order
+      is_newdata = private$.is_newdata(task)
+      stored = private$.task$data()
+      dt = task$data()
+      full = if (is_newdata) stored else stored[!dt, on = order_cols]
+      assert_true(anyDuplicated(full[[order_cols]]) == 0L)
+
+      preds = vector("list", nrow(dt))
+      for (i in seq_len(nrow(dt))) {
+        full = rbind(full, dt[i, ])
+        new_x = private$.lag_transform(full, target)
+        pred = self$model$learner$predict_newdata(new_x[.N])
+        set(full, i = nrow(full), j = target, value = pred$response)
+        preds[[i]] = pred
+      }
+      preds = do.call(c, preds)
+      preds$data$row_ids = task$row_ids
+      preds
+    },
+
+    .predict_global = function(task) {
+      target = task$target_names
+      order_cols = task$col_roles$order
+      key_cols = task$col_roles$key
+      is_newdata = private$.is_newdata(task)
+      stored = private$.task$data()
+
+      preds = map(split(task$data(), by = key_cols, drop = TRUE), function(dt) {
+        full = stored[dt[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
+        full = if (is_newdata) full else full[!dt, on = order_cols]
+        assert_true(anyDuplicated(full[[order_cols]]) == 0L)
+
+        preds = vector("list", nrow(dt))
+        for (i in seq_len(nrow(dt))) {
+          full = rbind(full, dt[i, ])
+          new_x = private$.lag_transform(full, target)
+          pred = self$model$learner$predict_newdata(new_x[.N])
+          set(full, i = nrow(full), j = target, value = pred$response)
+          preds[[i]] = pred
+        }
+        do.call(c, preds)
+      })
+      preds = do.call(c, preds)
+      preds$data$row_ids = task$row_ids
+      preds
     },
 
     .lag_transform = function(dt, target) {

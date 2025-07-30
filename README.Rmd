@@ -177,7 +177,7 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 glrn = as_learner(graph %>>% flrn)$train(task)
 
 max_date = task$data()[.N, date]
-newdata = data.frame(
+newdata = data.table(
   date = max_date + 1:14,
   demand = rep(NA_real_, 14L),
   temperature = 26,
