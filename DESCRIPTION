@@ -10,7 +10,7 @@ URL: https://mlr3forecast.mlr-org.com,
     https://github.com/mlr-org/mlr3forecast
 BugReports: https://github.com/mlr-org/mlr3forecast/issues
 Depends:
-    mlr3 (>= 1.0.1.9000),
+    mlr3 (>= 1.1.0),
     R (>= 3.3.0)
 Imports:
     backports,
@@ -34,8 +34,6 @@ Suggests:
     tsbox,
     tsibbledata,
     withr (>= 3.0.0)
-Remotes:
-    mlr-org/mlr3
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
