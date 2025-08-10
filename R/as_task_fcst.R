@@ -132,7 +132,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.ts = function(x, freq = freq, id = deparse1(substitute(x)), label = NA_character_, ...) {
+as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
   require_namespaces("tsbox")
   if (is.null(freq)) {
     freq = stats::frequency(x)

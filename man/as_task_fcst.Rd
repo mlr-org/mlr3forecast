@@ -41,7 +41,7 @@ as_task_fcst(x, ...)
 
 \method{as_task_fcst}{ts}(
   x,
-  freq = freq,
+  freq = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
