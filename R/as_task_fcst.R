@@ -25,6 +25,24 @@ as_task_fcst = function(x, ...) {
 
 #' @rdname as_task_fcst
 #' @export
+as_tasks_fcst = function(x, ...) {
+  UseMethod("as_tasks_fcst")
+}
+
+#' @rdname as_task_fcst
+#' @export
+as_tasks_fcst.default = function(x, ...) {
+  list(as_task_fcst(x, ...))
+}
+
+#' @rdname as_task_fcst
+#' @export
+as_tasks_fcst.list = function(x, ...) {
+  lapply(x, as_task_fcst, ...)
+}
+
+#' @rdname as_task_fcst
+#' @export
 as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) {
   if (clone) x$clone() else x
 }
