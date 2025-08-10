@@ -8,41 +8,6 @@ generate_newdata = function(task, n = 1L) {
   task = assert_task(as_task(task), task_type = "fcst")
   n = assert_count(n, positive = TRUE, coerce = TRUE)
 
-  if ("keys" %chin% task$properties) {
-    stopf("`generate_newdata()` does not yet support tasks with keys.")
-  }
-
-  order_cols = task$col_roles$order
-  max_index = max(task$data(cols = order_cols)[[1L]])
-
-  if (inherits(max_index, c("Date", "POSIXct")) && !is.null(task$freq)) {
-    unit = switch(
-      task$freq,
-      secondly = "second",
-      minutely = "minute",
-      hourly = "hour",
-      daily = "day",
-      weekly = "week",
-      monthly = "month",
-      quarterly = "quarter",
-      yearly = "yearly"
-    )
-    unit = sprintf("1 %s", unit)
-    index = seq(max_index, length.out = n + 1L, by = unit)
-  } else {
-    index = seq(max_index + 1L, length.out = n + 1L)
-  }
-  index = index[2:length(index)]
-
-  newdata = data.table(index = index, target = rep(NA_real_, n))
-  setnames(newdata, c(order_cols, task$target_names))
-  newdata
-}
-
-generate_newdata2 = function(task, n = 1L) {
-  task = assert_task(as_task(task), task_type = "fcst")
-  n = assert_count(n, positive = TRUE, coerce = TRUE)
-
   order_cols = task$col_roles$order
   key_cols = task$col_roles$key
   dt = task$data(cols = c(order_cols, key_cols))
