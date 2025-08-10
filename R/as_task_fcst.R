@@ -96,7 +96,7 @@ as_task_fcst.data.frame = function(
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x)), ...) {
+as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
 
   assert_data_table(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
@@ -132,18 +132,50 @@ as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.ts = function(x, label = NA_character_, id = deparse1(substitute(x)), ...) {
+as_task_fcst.ts = function(x, freq = freq, id = deparse1(substitute(x)), label = NA_character_, ...) {
   require_namespaces("tsbox")
-  freq = stats::frequency(x)
-  freq = switch(
-    as.character(freq),
-    `365.25` = "daily",
-    `52` = "weekly",
-    `12` = "monthly",
-    `4` = "quarterly",
-    `1` = "yearly",
-    stopf("Unknown frequency: %s", freq)
+  if (is.null(freq)) {
+    freq = stats::frequency(x)
+    freq = switch(
+      as.character(freq),
+      `365.25` = "daily",
+      `52` = "weekly",
+      `12` = "monthly",
+      `4` = "quarterly",
+      `1` = "yearly",
+      stopf("Unknown frequency: %s", freq)
+    )
+  }
+  as_task_fcst(
+    x = tsbox::ts_dt(x),
+    target = "value",
+    order = "time",
+    freq = freq,
+    id = id,
+    label = label,
+    ...
   )
+}
+
+#' @rdname as_task_fcst
+#' @export
+as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+  require_namespaces("tsbox")
+  as_task_fcst(
+    x = tsbox::ts_dt(x),
+    target = "value",
+    order = "time",
+    freq = freq,
+    id = id,
+    label = label,
+    ...
+  )
+}
+
+#' @rdname as_task_fcst
+#' @export
+as_task_fcst.xts = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+  require_namespaces("tsbox")
   as_task_fcst(
     x = tsbox::ts_dt(x),
     target = "value",
