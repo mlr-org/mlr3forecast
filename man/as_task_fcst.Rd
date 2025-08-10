@@ -17,8 +17,8 @@ as_task_fcst(x, ...)
 
 \method{as_task_fcst}{DataBackend}(
   x,
-  target = NULL,
-  order = character(),
+  target,
+  order,
   key = character(),
   freq = NULL,
   id = deparse1(substitute(x)),
@@ -28,8 +28,8 @@ as_task_fcst(x, ...)
 
 \method{as_task_fcst}{data.frame}(
   x,
-  target = NULL,
-  order = character(),
+  target,
+  order,
   key = character(),
   freq = NULL,
   id = deparse1(substitute(x)),

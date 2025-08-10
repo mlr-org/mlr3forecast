@@ -33,8 +33,8 @@ as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) {
 #' @export
 as_task_fcst.DataBackend = function(
   x,
-  target = NULL,
-  order = character(),
+  target,
+  order,
   key = character(),
   freq = NULL,
   id = deparse1(substitute(x)),
@@ -57,8 +57,8 @@ as_task_fcst.DataBackend = function(
 #' @export
 as_task_fcst.data.frame = function(
   x,
-  target = NULL,
-  order = character(),
+  target,
+  order,
   key = character(),
   freq = NULL,
   id = deparse1(substitute(x)),
@@ -143,13 +143,19 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
       `12` = "monthly",
       `4` = "quarterly",
       `1` = "yearly",
-      stopf("Unknown frequency: %s", freq)
+      freq
     )
   }
+  is_mts = inherits(x, "mts")
+  x = tsbox::ts_dt(x)
+  if (is_mts) {
+    x[, id := as.factor(id)]
+  }
   as_task_fcst(
-    x = tsbox::ts_dt(x),
+    x = x,
     target = "value",
     order = "time",
+    key = if (is_mts) "id" else NULL,
     freq = freq,
     id = id,
     label = label,
