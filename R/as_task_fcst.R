@@ -71,13 +71,24 @@ as_task_fcst.data.frame = function(
   cn = names(x)
   assert_choice(target, cn)
   assert_choice(order, cn)
-  if (length(key) > 0L) {
+  has_key = length(key) > 0L
+  if (has_key) {
     assert_choice(key, cn)
   }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
     warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+  }
+
+  has_dups = NULL
+  dup = if (has_key) {
+    x[, .(has_dups = anyDuplicated(get(order)) > 0L), by = key][, any(has_dups)]
+  } else {
+    anyDuplicated(x[[order]]) > 0L
+  }
+  if (dup) {
+    stopf("`order` values must be unique for each time series.")
   }
 
   TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
@@ -98,7 +109,6 @@ as_task_fcst.tsf = function(x, label = NA_character_, id = deparse1(substitute(x
     x = copy(x)[, (order) := seq_len(.N), by = cn]
   }
   key = setdiff(cn, order)
-  # TODO: check the convention here and if this should not already be done in read_tsf
   if (length(key) > 0L) {
     x[, (key) := as.factor(get(key))]
   }
