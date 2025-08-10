@@ -13,6 +13,17 @@ test_that("as_task conversion", {
 })
 
 test_that("as_task_fcst assertions", {
+  # target can't be NA
+  value = rnorm(20L)
+  value[1:10] = NA
+  expect_error(
+    as_task_fcst(
+      data.table(date = rep(seq(as.Date("2025-01-01"), length.out = 10L), 2), value = value),
+      target = "value",
+      order = "date"
+    ),
+    "`target` must not contain `NA` values."
+  )
   # unique order values
   expect_error(
     as_task_fcst(
