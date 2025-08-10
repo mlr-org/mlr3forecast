@@ -68,7 +68,6 @@ ForecastLearner = R6::R6Class(
       stored = private$.task$data()
       dt = task$data()
       full = if (is_newdata) stored else stored[!dt, on = order_cols]
-      assert_true(anyDuplicated(full[[order_cols]]) == 0L)
 
       preds = vector("list", nrow(dt))
       for (i in seq_len(nrow(dt))) {
@@ -93,7 +92,6 @@ ForecastLearner = R6::R6Class(
       preds = map(split(task$data(), by = key_cols, drop = TRUE), function(dt) {
         full = stored[dt[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
         full = if (is_newdata) full else full[!dt, on = order_cols]
-        assert_true(anyDuplicated(full[[order_cols]]) == 0L)
 
         preds = vector("list", nrow(dt))
         for (i in seq_len(nrow(dt))) {
