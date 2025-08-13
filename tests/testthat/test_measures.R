@@ -38,7 +38,7 @@ test_that("MeasureMDA works", {
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mda = 0.0))
   # returns 1 for constant series
-  truth = response = rep(7, 5)
+  truth = response = rep.int(7, 5)
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mda = 1.0))
 })
@@ -56,7 +56,7 @@ test_that("MeasureMDV works", {
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mdv = -1.0))
   # returns 0 for constant series
-  truth = response = rep(7, 5)
+  truth = response = rep.int(7, 5)
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mdv = 0.0))
 })
@@ -69,11 +69,11 @@ test_that("MeasureMDPV works", {
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mdpv = 1.0))
   # returns –100 when all directions are wrong
-  response = rep(0, length(truth))
+  response = rep.int(0, length(truth))
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mdpv = -1.0))
   # returns 0 for constant series
-  truth = response = rep(7, 5)
+  truth = response = rep.int(7, 5)
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mdpv = 0.0))
 })

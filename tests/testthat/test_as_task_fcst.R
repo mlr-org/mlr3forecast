@@ -16,8 +16,8 @@ test_that("as_task conversion", {
   # xts object
   expect_no_error(as_task_fcst(xts::xts(rnorm(100L), seq(as.Date("2020-01-01"), by = "day", length.out = 100L))))
   x = xts::xts(
-    matrix(rnorm(400), ncol = 4, dimnames = list(NULL, c("A", "B", "C", "D"))),
-    seq(as.Date("2020-01-01"), by = "day", length.out = 100L)
+    matrix(rnorm(150L), ncol = 3L, dimnames = list(NULL, c("series1", "series2", "series3"))),
+    seq(as.Date("2020-01-01"), by = "month", length.out = 50L)
   )
   expect_no_error(as_task_fcst(x))
 })
@@ -28,7 +28,7 @@ test_that("as_task_fcst assertions", {
   value[1:10] = NA
   expect_error(
     as_task_fcst(
-      data.table(date = rep(seq(as.Date("2025-01-01"), length.out = 10L), 2), value = value),
+      data.table(date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2L), value = value),
       target = "value",
       order = "date"
     ),
@@ -37,7 +37,7 @@ test_that("as_task_fcst assertions", {
   # unique order values
   expect_error(
     as_task_fcst(
-      data.table(date = rep(seq(as.Date("2025-01-01"), length.out = 10L), 2), value = rnorm(20L)),
+      data.table(date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2L), value = rnorm(20L)),
       target = "value",
       order = "date"
     ),
@@ -46,7 +46,7 @@ test_that("as_task_fcst assertions", {
   # with key col
   expect_no_error(as_task_fcst(
     data.table(
-      date = rep(seq(as.Date("2025-01-01"), length.out = 10L), 2),
+      date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2),
       value = rnorm(20L),
       id = rep(c("a", "b"), each = 10L)
     ),
@@ -58,7 +58,7 @@ test_that("as_task_fcst assertions", {
   expect_error(
     as_task_fcst(
       data.table(
-        date = rep(seq(as.Date("2025-01-01"), length.out = 10L), 2),
+        date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2),
         value = rnorm(20L),
         id = rep_len("a", 20L)
       ),
