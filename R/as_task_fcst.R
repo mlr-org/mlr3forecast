@@ -189,10 +189,16 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
 #' @export
 as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
   require_namespaces("tsbox")
+  x = tsbox::ts_dt(x)
+  is_multi = "id" %in% names(x)
+  if (is_multi) {
+    x[, id := as.factor(id)]
+  }
   as_task_fcst(
-    x = tsbox::ts_dt(x),
+    x = x,
     target = "value",
     order = "time",
+    key = if (is_multi) "id" else NULL,
     freq = freq,
     id = id,
     label = label,
@@ -204,10 +210,16 @@ as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label 
 #' @export
 as_task_fcst.xts = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
   require_namespaces("tsbox")
+  x = tsbox::ts_dt(x)
+  is_multi = "id" %in% names(x)
+  if (is_multi) {
+    x[, id := as.factor(id)]
+  }
   as_task_fcst(
-    x = tsbox::ts_dt(x),
+    x = x,
     target = "value",
     order = "time",
+    key = if (is_multi) "id" else NULL,
     freq = freq,
     id = id,
     label = label,

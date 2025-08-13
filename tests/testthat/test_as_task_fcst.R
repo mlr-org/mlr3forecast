@@ -8,8 +8,18 @@ test_that("as_task conversion", {
   expect_no_error(as_task_fcst(EuStockMarkets))
   # zoo object
   expect_no_error(as_task_fcst(zoo::zoo(rnorm(50L), seq(as.Date("2020-01-01"), by = "month", length.out = 50L))))
+  x = zoo::zoo(
+    matrix(rnorm(150L), ncol = 3L, dimnames = list(NULL, c("series1", "series2", "series3"))),
+    seq(as.Date("2020-01-01"), by = "month", length.out = 50L)
+  )
+  expect_no_error(as_task_fcst(x))
   # xts object
   expect_no_error(as_task_fcst(xts::xts(rnorm(100L), seq(as.Date("2020-01-01"), by = "day", length.out = 100L))))
+  x = xts::xts(
+    matrix(rnorm(400), ncol = 4, dimnames = list(NULL, c("A", "B", "C", "D"))),
+    seq(as.Date("2020-01-01"), by = "day", length.out = 100L)
+  )
+  expect_no_error(as_task_fcst(x))
 })
 
 test_that("as_task_fcst assertions", {
