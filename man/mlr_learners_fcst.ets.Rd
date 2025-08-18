@@ -39,8 +39,8 @@ lrn("fcst.ets")
    additive.only \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    lambda \tab untyped \tab - \tab  \tab - \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   lower \tab untyped \tab c(rep(1e-04, 3), 0.8) \tab  \tab - \cr
-   upper \tab untyped \tab c(rep(0.9999, 3), 0.98) \tab  \tab - \cr
+   lower \tab untyped \tab c(rep.int(1e-04, 3), 0.8) \tab  \tab - \cr
+   upper \tab untyped \tab c(rep.int(0.9999, 3), 0.98) \tab  \tab - \cr
    opt.crit \tab character \tab lik \tab lik, amse, mse, sigma, mae \tab - \cr
    nmse \tab integer \tab 3 \tab  \tab \eqn{[0, 30]}{[0, 30]} \cr
    bounds \tab character \tab both \tab both, usual, admissible \tab - \cr

@@ -132,20 +132,15 @@ Or with some feature engineering using mlr3pipelines:
 ```{r}
 library(mlr3pipelines)
 
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_year = FALSE,
-      day_of_month = FALSE,
-      day_of_week = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
-    )
+graph = po(
+  "datefeatures",
+  param_vals = list(
+    week_of_year = FALSE,
+    day_of_year = FALSE,
+    day_of_month = FALSE,
+    day_of_week = FALSE
   )
+)
 task = tsk("airpassengers")
 task$set_col_roles("month", add = "feature")
 flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)
@@ -162,17 +157,7 @@ library(mlr3pipelines)
 
 task = tsk("electricity")
 task$set_col_roles("date", add = "feature")
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
-    )
-  )
+graph = po("datefeatures", param_vals = list(year = FALSE))
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 glrn = as_learner(graph %>>% flrn)$train(task)
 
@@ -209,21 +194,16 @@ task = tsibbledata::aus_livestock |>
   )
 task$set_col_roles("month", add = "feature")
 
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_week = FALSE,
-      day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
-    )
+graph = po(
+  "datefeatures",
+  param_vals = list(
+    week_of_year = FALSE,
+    day_of_week = FALSE,
+    day_of_month = FALSE,
+    day_of_year = FALSE
   )
-task = graph$train(task)[[1L]]
+)
+task = graph$train(list(task))[[1L]]
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
@@ -243,20 +223,15 @@ and longitudinal data is often refered to local and global forecasting.
 ```{r, eval = FALSE}
 # TODO: find better task example, since the effect is minor here
 
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_week = FALSE,
-      day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
-    )
+graph = po(
+  "datefeatures",
+  param_vals = list(
+    week_of_year = FALSE,
+    day_of_week = FALSE,
+    day_of_month = FALSE,
+    day_of_year = FALSE
   )
+)
 
 # local forecasting
 task = tsibbledata::aus_livestock |>
@@ -311,18 +286,13 @@ new_task$data()
 
 task = tsk("airpassengers")
 graph = po("fcst.lag", lags = 1:12) %>>%
-  ppl("convert_types", "Date", "POSIXct") %>>%
   po(
     "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
       day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
+      day_of_year = FALSE
     )
   )
 flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
@@ -354,18 +324,13 @@ trafo = po(
 )
 
 graph = po("fcst.lag", lags = 1:12) %>>%
-  ppl("convert_types", "Date", "POSIXct") %>>%
   po(
     "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
       day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
+      day_of_year = FALSE
     )
   )
 
@@ -380,18 +345,13 @@ prediction$score(msr("regr.rmse"))
 
 ```{r, eval = FALSE}
 graph = po("fcst.lag", lags = 1:12) %>>%
-  ppl("convert_types", "Date", "POSIXct") %>>%
   po(
     "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
       day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
+      day_of_year = FALSE
     )
   )
 

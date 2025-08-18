@@ -176,39 +176,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 435.5989
-#>        2    NA 438.9610
-#>        3    NA 458.6746
+#>        1    NA 435.8481
+#>        2    NA 436.2096
+#>        3    NA 456.4471
 #>      ---   ---      ---
-#>       10    NA 478.4519
-#>       11    NA 443.8189
-#>       12    NA 443.5902
+#>       10    NA 479.4638
+#>       11    NA 437.7485
+#>       12    NA 443.4462
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response
-#>      140   606 574.7406
-#>      141   508 503.8808
-#>      142   461 456.2646
-#>      143   390 415.7320
-#>      144   432 432.3549
+#>      140   606 581.6170
+#>      141   508 504.8674
+#>      142   461 452.0536
+#>      143   390 412.9880
+#>      144   432 431.3343
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  18.32379
+#>  15.57737
 
 flrn = ForecastLearner$new(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  45.97396
+#>  47.85834
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>   25.4249
+#>  26.47087
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -216,20 +216,15 @@ Or with some feature engineering using mlr3pipelines:
 ``` r
 library(mlr3pipelines)
 
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_year = FALSE,
-      day_of_month = FALSE,
-      day_of_week = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
-    )
+graph = po(
+  "datefeatures",
+  param_vals = list(
+    week_of_year = FALSE,
+    day_of_year = FALSE,
+    day_of_month = FALSE,
+    day_of_week = FALSE
   )
+)
 task = tsk("airpassengers")
 task$set_col_roles("month", add = "feature")
 flrn = ForecastLearner$new(lrn("regr.ranger"), lags = 1:12)
@@ -237,7 +232,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.16281
+#>  14.74236
 ```
 
 ### Example: forecasting electricity demand
@@ -248,17 +243,7 @@ library(mlr3pipelines)
 
 task = tsk("electricity")
 task$set_col_roles("date", add = "feature")
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
-    )
-  )
+graph = po("datefeatures", param_vals = list(year = FALSE))
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 glrn = as_learner(graph %>>% flrn)$train(task)
 
@@ -274,13 +259,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 186794.5
-#>        2    NA 196938.2
-#>        3    NA 187213.3
+#>        1    NA 188354.5
+#>        2    NA 198233.7
+#>        3    NA 189357.9
 #>      ---   ---      ---
-#>       12    NA 220378.7
-#>       13    NA 223362.3
-#>       14    NA 225587.7
+#>       12    NA 222304.7
+#>       13    NA 226509.6
+#>       14    NA 226994.2
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -305,34 +290,29 @@ task = tsibbledata::aus_livestock |>
   )
 task$set_col_roles("month", add = "feature")
 
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_week = FALSE,
-      day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
-    )
+graph = po(
+  "datefeatures",
+  param_vals = list(
+    week_of_year = FALSE,
+    day_of_week = FALSE,
+    day_of_month = FALSE,
+    day_of_year = FALSE
   )
-task = graph$train(task)[[1L]]
+)
+task = graph$train(list(task))[[1L]]
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  22832.03
+#>  20273.11
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  90981.36
+#>  90255.11
 ```
 
 ### Example: global vs local forecasting
@@ -344,20 +324,15 @@ forecasting.
 ``` r
 # TODO: find better task example, since the effect is minor here
 
-graph = ppl("convert_types", "Date", "POSIXct") %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_week = FALSE,
-      day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
-    )
+graph = po(
+  "datefeatures",
+  param_vals = list(
+    week_of_year = FALSE,
+    day_of_week = FALSE,
+    day_of_month = FALSE,
+    day_of_year = FALSE
   )
+)
 
 # local forecasting
 task = tsibbledata::aus_livestock |>
@@ -412,18 +387,13 @@ new_task$data()
 
 task = tsk("airpassengers")
 graph = po("fcst.lag", lags = 1:12) %>>%
-  ppl("convert_types", "Date", "POSIXct") %>>%
   po(
     "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
       day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
+      day_of_year = FALSE
     )
   )
 flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
@@ -459,18 +429,13 @@ trafo = po(
 )
 
 graph = po("fcst.lag", lags = 1:12) %>>%
-  ppl("convert_types", "Date", "POSIXct") %>>%
   po(
     "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
       day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
+      day_of_year = FALSE
     )
   )
 
@@ -485,18 +450,13 @@ prediction$score(msr("regr.rmse"))
 
 ``` r
 graph = po("fcst.lag", lags = 1:12) %>>%
-  ppl("convert_types", "Date", "POSIXct") %>>%
   po(
     "datefeatures",
     param_vals = list(
       week_of_year = FALSE,
       day_of_week = FALSE,
       day_of_month = FALSE,
-      day_of_year = FALSE,
-      is_day = FALSE,
-      hour = FALSE,
-      minute = FALSE,
-      second = FALSE
+      day_of_year = FALSE
     )
   )
 
