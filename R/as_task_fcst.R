@@ -177,7 +177,7 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
     x = x,
     target = "value",
     order = "time",
-    key = if (is_mts) "id" else NULL,
+    key = if (is_mts) "id" else character(),
     freq = freq,
     id = id,
     label = label,
@@ -198,7 +198,26 @@ as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label 
     x = x,
     target = "value",
     order = "time",
-    key = if (is_multi) "id" else NULL,
+    key = if (is_multi) "id" else character(),
+    freq = freq,
+    id = id,
+    label = label,
+    ...
+  )
+}
+
+#' @rdname as_task_fcst
+#' @export
+as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+  require_namespaces(c("tsbox", "tsibble"))
+  order = tsibble::index_var(x)
+  key = tsibble::key_vars(x)
+  x = tsbox::ts_dt(x)
+  as_task_fcst(
+    x = x,
+    target = target,
+    order = order,
+    key = key,
     freq = freq,
     id = id,
     label = label,

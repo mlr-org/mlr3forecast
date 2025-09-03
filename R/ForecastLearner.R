@@ -43,12 +43,13 @@ ForecastLearner = R6::R6Class(
       col_roles = task$col_roles
       order_cols = col_roles$order
       private$.max_index = max(task$data(cols = order_cols)[[1L]])
+      # TODO: check for all variants, I believe for in-sample forecasting I will need the entire task
       # TODO: it's sufficient to store the max index + lags of the training data, like done in PipeOpFcstLags
       private$.task = task$clone()
       target = task$target_names
       dt = private$.lag_transform(task$data(), target)
       if (order_cols %nin% col_roles$feature) {
-        dt[, (order_cols) := NULL]
+        set(dt, j = order_cols, value = NULL)
       }
       new_task = as_task_regr(dt, target = target)
       learner = self$learner$clone(deep = TRUE)$train(new_task)
@@ -56,7 +57,11 @@ ForecastLearner = R6::R6Class(
     },
 
     .predict = function(task) {
-      preds = if (length(task$col_roles$key) > 0L) private$.predict_global(task) else private$.predict_local(task)
+      if (length(task$col_roles$key) > 0L) {
+        preds = private$.predict_global(task)
+      } else {
+        preds = private$.predict_local(task)
+      }
       assert_true(length(preds$data$row_ids) == task$nrow)
       preds
     },
@@ -111,11 +116,11 @@ ForecastLearner = R6::R6Class(
     .lag_transform = function(dt, target) {
       lags = self$lags
       nms = sprintf("%s_lag_%i", target, lags)
-      dt = copy(dt)
       col_roles = private$.task$col_roles
       order_cols = col_roles$order
       key_cols = col_roles$key
       # TODO: sorting here is overkill, remove once done
+      dt = copy(dt)
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))
         dt[, (nms) := shift(get(target), lags), by = key_cols]

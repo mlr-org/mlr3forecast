@@ -179,19 +179,12 @@ library(mlr3learners)
 library(mlr3pipelines)
 library(tsibble)
 
-task = tsibbledata::aus_livestock |>
-  as.data.table() |>
-  setnames(tolower) |>
-  _[, month := as.Date(month)] |>
-  _[, .(count = sum(count)), by = .(state, month)] |>
-  setorder(state, month) |>
-  as_task_fcst(
-    id = "aus_livestock",
-    target = "count",
-    order = "month",
-    key = "state",
-    freq = "monthly"
-  )
+dt = setDT(tsibbledata::aus_livestock)
+setnames(dt, tolower)
+dt[, month := as.Date(month)]
+dt = dt[, .(count = sum(count)), by = .(state, month)]
+setorder(dt, state, month)
+task = as_task_fcst(dt, id = "aus_livestock", target = "count", order = "month", key = "state", freq = "monthly")
 task$set_col_roles("month", add = "feature")
 
 graph = po(

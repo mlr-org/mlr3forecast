@@ -46,7 +46,7 @@ TaskFcst = R6Class(
       backend,
       target,
       order,
-      key = NULL,
+      key = character(),
       freq = NULL,
       label = NA_character_,
       extra_args = list()
@@ -58,10 +58,10 @@ TaskFcst = R6Class(
       col_roles = self$col_roles
       self$col_roles = insert_named(col_roles, list(key = character()))
 
-      assert_subset(order, empty.ok = FALSE, col_roles$feature)
+      assert_subset(order, col_roles$feature, empty.ok = FALSE)
       self$col_roles$order = order
       self$col_roles$feature = setdiff(col_roles$feature, order)
-      if (!is.null(key)) {
+      if (length(key) > 0L) {
         assert_subset(key, col_roles$feature)
         self$col_roles$key = key
       }
@@ -138,7 +138,7 @@ TaskFcst = R6Class(
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
       if (missing(rhs)) {
-        c(super$properties, if (length(self$col_roles$key)) "keys" else NULL)
+        c(super$properties, if (length(self$col_roles$key) > 0L) "keys" else NULL)
       } else {
         super$properties = rhs
       }

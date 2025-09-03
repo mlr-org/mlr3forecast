@@ -11,6 +11,7 @@
 \alias{as_task_fcst.tsf}
 \alias{as_task_fcst.ts}
 \alias{as_task_fcst.zoo}
+\alias{as_task_fcst.tbl_ts}
 \title{Convert to a Forecast Task}
 \usage{
 as_task_fcst(x, ...)
@@ -57,6 +58,15 @@ as_tasks_fcst(x, ...)
 
 \method{as_task_fcst}{zoo}(
   x,
+  freq = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+)
+
+\method{as_task_fcst}{tbl_ts}(
+  x,
+  target,
   freq = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,

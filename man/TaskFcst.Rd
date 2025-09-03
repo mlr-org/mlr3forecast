@@ -141,7 +141,7 @@ The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative
   backend,
   target,
   order,
-  key = NULL,
+  key = character(),
   freq = NULL,
   label = NA_character_,
   extra_args = list()
