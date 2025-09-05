@@ -60,7 +60,7 @@ TaskFcst = R6Class(
 
       assert_subset(order, col_roles$feature, empty.ok = FALSE)
       self$col_roles$order = order
-      self$col_roles$feature = setdiff(col_roles$feature, order)
+      self$col_roles$feature = union(col_roles$feature, order)
       if (length(key) > 0L) {
         assert_subset(key, col_roles$feature)
         self$col_roles$key = key
