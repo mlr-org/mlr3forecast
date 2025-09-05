@@ -1,7 +1,14 @@
-skip_if_not_installed(c("mlr3learners", "ranger"))
+skip_if_not_installed(c("mlr3learners", "ranger", "dplyr"))
 
 test_that("autotest", {
-  fcst_tsk = tsk("airpassengers")
+  fcst_dat = tsk("airpassengers")$data() |>
+    dplyr::mutate(month = as.numeric(month))
+  fcst_tsk = as_task_fcst(
+    fcst_dat,
+    target = "passengers",
+    order = "month",
+    freq = "monthly"
+  )
   learner = lrn("regr.ranger")
 
   learner$train(fcst_tsk)
