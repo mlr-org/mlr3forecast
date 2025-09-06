@@ -125,7 +125,7 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 }
 }
 \examples{
-\dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("tsbox", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
 setnames(airpassengers, c("month", "passengers"))

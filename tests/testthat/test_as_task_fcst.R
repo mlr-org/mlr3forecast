@@ -9,14 +9,14 @@ test_that("as_task conversion", {
   # zoo object
   expect_no_error(as_task_fcst(zoo::zoo(rnorm(50L), seq(as.Date("2020-01-01"), by = "month", length.out = 50L))))
   x = zoo::zoo(
-    matrix(rnorm(150L), ncol = 3L, dimnames = list(NULL, c("series1", "series2", "series3"))),
+    matrix(rnorm(150L), ncol = 3L, dimnames = list(NULL, c("x", "y", "z"))),
     seq(as.Date("2020-01-01"), by = "month", length.out = 50L)
   )
   expect_no_error(as_task_fcst(x))
   # xts object
   expect_no_error(as_task_fcst(xts::xts(rnorm(100L), seq(as.Date("2020-01-01"), by = "day", length.out = 100L))))
   x = xts::xts(
-    matrix(rnorm(150L), ncol = 3L, dimnames = list(NULL, c("series1", "series2", "series3"))),
+    matrix(rnorm(150L), ncol = 3L, dimnames = list(NULL, c("x", "y", "z"))),
     seq(as.Date("2020-01-01"), by = "month", length.out = 50L)
   )
   expect_no_error(as_task_fcst(x))
@@ -34,6 +34,7 @@ test_that("as_task_fcst assertions", {
     ),
     "`target` must not contain `NA` values."
   )
+
   # unique order values
   expect_error(
     as_task_fcst(
@@ -43,6 +44,7 @@ test_that("as_task_fcst assertions", {
     ),
     "`order` values must be unique for each time series."
   )
+
   # with key col
   expect_no_error(as_task_fcst(
     data.table(
@@ -54,6 +56,7 @@ test_that("as_task_fcst assertions", {
     order = "date",
     key = "id"
   ))
+
   # with key col
   expect_error(
     as_task_fcst(

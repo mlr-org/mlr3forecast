@@ -12,7 +12,7 @@ It is recommended to use \code{\link[=as_task_fcst]{as_task_fcst()}} for constru
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 }
 \examples{
-\dontshow{if (requireNamespace("tsbox", quietly = TRUE)) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (requireNamespace("tsbox", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
 setnames(airpassengers, c("month", "passengers"))
