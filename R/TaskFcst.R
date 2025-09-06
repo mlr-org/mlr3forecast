@@ -185,12 +185,3 @@ TaskFcst = R6Class(
     }
   )
 )
-
-#' @export
-task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
-  if (length(new_roles[["order"]]) > 1L) {
-    stopf("There may only be up to one column with role 'order'")
-  }
-
-  NextMethod()
-}
