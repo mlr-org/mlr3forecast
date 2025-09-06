@@ -44,6 +44,34 @@ lrn("fcst.bats")
 }
 }
 
+\examples{
+\dontshow{if (mlr3misc::require_namespaces(lrn("fcst.bats")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+# Define the Learner and set parameter values
+learner = lrn("fcst.bats")
+print(learner)
+
+# Define a Task
+task = tsk("airpassengers")
+
+# Create train and test set
+ids = partition(task)
+
+# Train the learner on the training ids
+learner$train(task, row_ids = ids$train)
+
+# Print the model
+print(learner$model)
+
+# Importance method
+if ("importance" \%in\% learner$properties) print(learner$importance)
+
+# Make predictions for the test rows
+predictions = learner$predict(task, row_ids = ids$test)
+
+# Score the predictions
+predictions$score()
+\dontshow{\}) # examplesIf}
+}
 \references{
 De Livera, A.M., Hyndman, R.J., Snyder &, D. R (2011).
 \dQuote{Forecasting time series with complex seasonal patterns using exponential smoothing.}

@@ -14,6 +14,7 @@
 #'
 #' @export
 #' @template seealso_learner
+#' @template example
 LearnerFcstArima = R6Class(
   "LearnerFcstArima",
   inherit = LearnerFcstForecast,

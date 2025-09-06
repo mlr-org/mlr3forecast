@@ -14,6 +14,7 @@
 #'
 #' @export
 #' @template seealso_learner
+#' @template example
 LearnerFcstCes = R6Class(
   "LearnerFcstCes",
   inherit = LearnerFcst,

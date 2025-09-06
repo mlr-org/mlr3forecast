@@ -42,6 +42,34 @@ lrn("fcst.auto_ces")
 }
 }
 
+\examples{
+\dontshow{if (mlr3misc::require_namespaces(lrn("fcst.auto_ces")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+# Define the Learner and set parameter values
+learner = lrn("fcst.auto_ces")
+print(learner)
+
+# Define a Task
+task = tsk("airpassengers")
+
+# Create train and test set
+ids = partition(task)
+
+# Train the learner on the training ids
+learner$train(task, row_ids = ids$train)
+
+# Print the model
+print(learner$model)
+
+# Importance method
+if ("importance" \%in\% learner$properties) print(learner$importance)
+
+# Make predictions for the test rows
+predictions = learner$predict(task, row_ids = ids$test)
+
+# Score the predictions
+predictions$score()
+\dontshow{\}) # examplesIf}
+}
 \references{
 Svetunkov I (2023).
 \dQuote{Smooth forecasting with the smooth package in R.}

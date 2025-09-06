@@ -42,6 +42,34 @@ lrn("fcst.arfima")
 }
 }
 
+\examples{
+\dontshow{if (mlr3misc::require_namespaces(lrn("fcst.arfima")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+# Define the Learner and set parameter values
+learner = lrn("fcst.arfima")
+print(learner)
+
+# Define a Task
+task = tsk("airpassengers")
+
+# Create train and test set
+ids = partition(task)
+
+# Train the learner on the training ids
+learner$train(task, row_ids = ids$train)
+
+# Print the model
+print(learner$model)
+
+# Importance method
+if ("importance" \%in\% learner$properties) print(learner$importance)
+
+# Make predictions for the test rows
+predictions = learner$predict(task, row_ids = ids$test)
+
+# Score the predictions
+predictions$score()
+\dontshow{\}) # examplesIf}
+}
 \references{
 Haslett, John, Raftery, E A (1989).
 \dQuote{Space-time Modelling with Long-memory Dependence: Assessing Ireland's Wind Power Resource.}
