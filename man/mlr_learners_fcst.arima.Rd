@@ -35,7 +35,7 @@ lrn("fcst.arima")
    include.mean \tab logical \tab TRUE \tab TRUE, FALSE \cr
    include.drift \tab logical \tab FALSE \tab TRUE, FALSE \cr
    include.constant \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   lambda \tab untyped \tab - \tab  \cr
+   lambda \tab untyped \tab NULL \tab  \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
    method \tab character \tab CSS-ML \tab CSS-ML, ML, CSS \cr
 }

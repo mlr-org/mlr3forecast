@@ -37,7 +37,7 @@ lrn("fcst.ets")
    gamma \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    phi \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    additive.only \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   lambda \tab untyped \tab - \tab  \tab - \cr
+   lambda \tab untyped \tab NULL \tab  \tab - \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    lower \tab untyped \tab c(rep.int(1e-04, 3), 0.8) \tab  \tab - \cr
    upper \tab untyped \tab c(rep.int(0.9999, 3), 0.98) \tab  \tab - \cr
