@@ -22,10 +22,10 @@ LearnerFcstAutoArima = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        d = p_int(0L, default = NA, tags = "train", special_vals = list(NA)),
-        D = p_int(0L, default = NA, tags = "train", special_vals = list(NA)),
-        max.q = p_int(0L, default = 5, tags = "train"),
+        d = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
+        D = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
         max.p = p_int(0L, default = 5, tags = "train"),
+        max.q = p_int(0L, default = 5, tags = "train"),
         max.P = p_int(0L, default = 2, tags = "train"),
         max.Q = p_int(0L, default = 2, tags = "train"),
         max.order = p_int(0L, default = 5, tags = "train"),
@@ -35,9 +35,24 @@ LearnerFcstAutoArima = R6Class(
         start.q = p_int(0L, default = 2, tags = "train"),
         start.P = p_int(0L, default = 2, tags = "train"),
         start.Q = p_int(0L, default = 2, tags = "train"),
+        stationary = p_lgl(default = FALSE, tags = "train"),
+        seasonal = p_lgl(default = FALSE, tags = "train"),
+        ic = p_fct(c("aicc", "aic", "bic"), default = "aicc", tags = "train"),
         stepwise = p_lgl(default = FALSE, tags = "train"),
+        nmodels = p_int(0L, default = 94, tags = "train"),
+        trace = p_lgl(default = FALSE, tags = "train"),
+        approximation = p_uty(tags = "train"),
+        method = p_uty(default = NULL, tags = "train"),
+        truncate = p_uty(default = NULL, tags = "train"),
+        test = p_fct(c("kpss", "adf", "pp"), default = "kpss", tags = "train"),
+        test.args = p_uty(default = list(), tags = "train", custom_check = check_list),
+        seasonal.test = p_fct(c("seas", "ocsb", "hegy", "ch"), default = "seas", tags = "train"),
+        seasonal.test.args = p_uty(default = list(), tags = "train", custom_check = check_list),
         allowdrift = p_lgl(default = TRUE, tags = "train"),
-        seasonal = p_lgl(default = FALSE, tags = "train")
+        allowmean = p_lgl(default = TRUE, tags = "train"),
+        biasadj = p_lgl(default = FALSE, tags = "train"),
+        parallel = p_lgl(default = FALSE, tags = "train"),
+        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train")
       )
 
       super$initialize(

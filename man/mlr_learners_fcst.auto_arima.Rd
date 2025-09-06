@@ -32,8 +32,8 @@ lrn("fcst.auto_arima")
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    d \tab integer \tab NA \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    D \tab integer \tab NA \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   max.q \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    max.p \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   max.q \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    max.P \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    max.Q \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    max.order \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
@@ -43,9 +43,24 @@ lrn("fcst.auto_arima")
    start.q \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    start.P \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    start.Q \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   stepwise \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   allowdrift \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   stationary \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    seasonal \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   ic \tab character \tab aicc \tab aicc, aic, bic \tab - \cr
+   stepwise \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   nmodels \tab integer \tab 94 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   trace \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   approximation \tab untyped \tab - \tab  \tab - \cr
+   method \tab untyped \tab NULL \tab  \tab - \cr
+   truncate \tab untyped \tab NULL \tab  \tab - \cr
+   test \tab character \tab kpss \tab kpss, adf, pp \tab - \cr
+   test.args \tab untyped \tab list() \tab  \tab - \cr
+   seasonal.test \tab character \tab seas \tab seas, ocsb, hegy, ch \tab - \cr
+   seasonal.test.args \tab untyped \tab list() \tab  \tab - \cr
+   allowdrift \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   allowmean \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   parallel \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   num.cores \tab integer \tab 2 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
 }
 }
 
