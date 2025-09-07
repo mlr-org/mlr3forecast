@@ -52,7 +52,7 @@ lrn("fcst.ets")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(lrn("fcst.ets")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(learner$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Define the Learner and set parameter values
 learner = lrn("fcst.ets")
 print(learner)
@@ -61,10 +61,10 @@ print(learner)
 task = tsk("airpassengers")
 
 # Create train and test set
-resampling = rsmp("fcst.holdout")$instantiate(task)
+resampling = rsmp("fcst.holdout", ratio = 0.7)$instantiate(task)
 
 # Train the learner on the training ids
-learner$train(task, row_ids = resampling$train_set(1L))
+learner$train(task, row_ids = resampling$train_set(1))
 
 # Print the model
 print(learner$model)
@@ -73,7 +73,7 @@ print(learner$model)
 if ("importance" \%in\% learner$properties) print(learner$importance)
 
 # Make predictions for the test rows
-predictions = learner$predict(task, row_ids = resampling$test_set(1L))
+predictions = learner$predict(task, row_ids = resampling$test_set(1))
 
 # Score the predictions
 predictions$score()

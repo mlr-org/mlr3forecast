@@ -1,8 +1,8 @@
 <%
-lrn = mlr3::lrn(id)
-pkgs = setdiff(lrn$packages, c("mlr3", "mlr3forecast"))
+learner = mlr3::lrn(id)
+pkgs = setdiff(learner$packages, c("mlr3", "mlr3forecast"))
 %>
-#' <%= sprintf("@examplesIf mlr3misc::require_namespaces(lrn(\"%s\")$packages, quietly = TRUE)", id) %>
+#' @examplesIf mlr3misc::require_namespaces(learner$packages, quietly = TRUE)
 #' # Define the Learner and set parameter values
 #' <%= sprintf("learner = lrn(\"%s\")", id)%>
 #' print(learner)
@@ -11,10 +11,10 @@ pkgs = setdiff(lrn$packages, c("mlr3", "mlr3forecast"))
 #' task = tsk("airpassengers")
 #'
 #' # Create train and test set
-#' resampling = rsmp("fcst.holdout")$instantiate(task)
+#' resampling = rsmp("fcst.holdout", ratio = 0.7)$instantiate(task)
 #'
 #' # Train the learner on the training ids
-#' learner$train(task, row_ids = resampling$train_set(1L))
+#' learner$train(task, row_ids = resampling$train_set(1))
 #'
 #' # Print the model
 #' print(learner$model)
@@ -23,7 +23,7 @@ pkgs = setdiff(lrn$packages, c("mlr3", "mlr3forecast"))
 #' if ("importance" %in% learner$properties) print(learner$importance)
 #'
 #' # Make predictions for the test rows
-#' predictions = learner$predict(task, row_ids = resampling$test_set(1L))
+#' predictions = learner$predict(task, row_ids = resampling$test_set(1))
 #'
 #' # Score the predictions
 #' predictions$score()
