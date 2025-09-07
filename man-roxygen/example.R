@@ -11,10 +11,10 @@ pkgs = setdiff(lrn$packages, c("mlr3", "mlr3forecast"))
 #' task = tsk("airpassengers")
 #'
 #' # Create train and test set
-#' <%= sprintf("ids = partition(task)")%>
+#' resampling = rsmp("fcst.holdout")$instantiate(task)
 #'
 #' # Train the learner on the training ids
-#' <%= sprintf("learner$train(task, row_ids = ids$train)")%>
+#' learner$train(task, row_ids = resampling$train_set(1L))
 #'
 #' # Print the model
 #' print(learner$model)
@@ -23,7 +23,7 @@ pkgs = setdiff(lrn$packages, c("mlr3", "mlr3forecast"))
 #' if ("importance" %in% learner$properties) print(learner$importance)
 #'
 #' # Make predictions for the test rows
-#' <%= sprintf("predictions = learner$predict(task, row_ids = ids$test)")%>
+#' predictions = learner$predict(task, row_ids = resampling$test_set(1L))
 #'
 #' # Score the predictions
 #' predictions$score()
