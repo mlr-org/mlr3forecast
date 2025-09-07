@@ -43,7 +43,7 @@ lrn("fcst.arfima")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(learner$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(lrn("fcst.arfima")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Define the Learner and set parameter values
 learner = lrn("fcst.arfima")
 print(learner)

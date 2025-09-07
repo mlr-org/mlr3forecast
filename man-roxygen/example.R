@@ -1,10 +1,6 @@
-<%
-learner = mlr3::lrn(id)
-pkgs = setdiff(learner$packages, c("mlr3", "mlr3forecast"))
-%>
-#' @examplesIf mlr3misc::require_namespaces(learner$packages, quietly = TRUE)
+#' <%= sprintf("@examplesIf mlr3misc::require_namespaces(lrn(\"%s\")$packages, quietly = TRUE)", id) %>
 #' # Define the Learner and set parameter values
-#' <%= sprintf("learner = lrn(\"%s\")", id)%>
+#' <%= sprintf("learner = lrn(\"%s\")", id) %>
 #' print(learner)
 #'
 #' # Define a Task

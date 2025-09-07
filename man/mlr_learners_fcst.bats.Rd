@@ -45,7 +45,7 @@ lrn("fcst.bats")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(learner$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(lrn("fcst.bats")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Define the Learner and set parameter values
 learner = lrn("fcst.bats")
 print(learner)

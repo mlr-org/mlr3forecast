@@ -52,7 +52,7 @@ lrn("fcst.ets")
 }
 
 \examples{
-\dontshow{if (mlr3misc::require_namespaces(learner$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(lrn("fcst.ets")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # Define the Learner and set parameter values
 learner = lrn("fcst.ets")
 print(learner)
