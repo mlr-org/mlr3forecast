@@ -247,7 +247,7 @@ If <code>cols</code> is <code>NULL</code>, the column order defaults to
 Note that it is recommended to <strong>not</strong> rely on the order of columns, and instead always
 address columns with their respective column name.</p><div class="section">
 <h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskFcst</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span>, cols <span class="op">=</span> <span class="cn">NULL</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">TaskFcst</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span>rows <span class="op">=</span> <span class="cn">NULL</span>, cols <span class="op">=</span> <span class="cn">NULL</span>, ordered <span class="op">=</span> <span class="cn">FALSE</span>, include_order <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div>
 
 <div class="section">
@@ -265,6 +265,11 @@ Vector of column names.</p></dd>
 <dt><code>ordered</code></dt>
 <dd><p>(<code>logical(1)</code>)<br>
 If <code>TRUE</code>, data is ordered according to the columns with column role <code>"order"</code>.</p></dd>
+
+
+<dt><code>include_order</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+If <code>TRUE</code>, columns with column role <code>"order"</code> and <code>"key"</code> are included in the result.</p></dd>
 
 
 </dl><p></p></div>
