@@ -15,7 +15,9 @@
 #' autoplot(task)
 autoplot.TaskFcst = function(object, theme = ggplot2::theme_minimal(), ...) {
   .data = NULL
-  ggplot2::ggplot(object$data(), ggplot2::aes(x = .data[[object$col_roles$order]], y = .data[[object$target_names]])) +
+  col_roles = object$col_roles
+  cols = c(col_roles$target, union(col_roles$order, col_roles$feature))
+  ggplot2::ggplot(object$data(cols = cols), ggplot2::aes(x = .data[[col_roles$order]], y = .data[[col_roles$target]])) +
     ggplot2::geom_line() +
     theme
 }

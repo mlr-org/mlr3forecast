@@ -84,23 +84,29 @@ TaskFcst = R6Class(
     #'
     #' @param ordered (`logical(1)`)\cr
     #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
+    #' @param include_order (`logical(1)`)\cr
+    #'   If `TRUE`, columns with column role `"order"` and `"key"` are included in the result.
     #'
     #' @return Depending on the [mlr3::DataBackend], but usually a [data.table::data.table()].
-    data = function(rows = NULL, cols = NULL, ordered = FALSE) {
+    data = function(rows = NULL, cols = NULL, ordered = FALSE, include_order = FALSE) {
       assert_has_backend(self)
       assert_flag(ordered)
+      assert_flag(include_order)
 
       col_roles = self$col_roles
       order_cols = c(col_roles$key, col_roles$order)
 
       if (is.null(cols)) {
         query_cols = cols = c(col_roles$target, col_roles$feature)
-        cols = union(cols, order_cols)
       } else {
         assert_subset(cols, self$col_info$id)
         query_cols = cols
       }
-      query_cols = union(query_cols, order_cols)
+
+      if (include_order) {
+        query_cols = union(query_cols, order_cols)
+        cols = union(cols, order_cols)
+      }
 
       data = super$data(rows, query_cols)
       if (ncol(data) == 0L) {
@@ -110,7 +116,9 @@ TaskFcst = R6Class(
       if (ordered) {
         setorderv(data, order_cols)
       }
-      setcolorder(data, order_cols)
+      if (include_order) {
+        setcolorder(data, order_cols)
+      }
       remove_named(data, setdiff(query_cols, cols))
     },
 

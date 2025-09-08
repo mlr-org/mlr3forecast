@@ -41,13 +41,13 @@ ForecastLearner = R6::R6Class(
 
     .train = function(task) {
       col_roles = task$col_roles
+      target = col_roles$target
       order_cols = col_roles$order
       private$.max_index = max(task$data(cols = order_cols)[[1L]])
       # TODO: check for all variants, I believe for in-sample forecasting I will need the entire task
       # TODO: it's sufficient to store the max index + lags of the training data, like done in PipeOpFcstLags
       private$.task = task$clone()
-      target = task$target_names
-      dt = private$.lag_transform(task$data(), target)
+      dt = private$.lag_transform(task$data(include_order = TRUE), target)
       if (order_cols %nin% col_roles$feature) {
         set(dt, j = order_cols, value = NULL)
       }
@@ -70,8 +70,8 @@ ForecastLearner = R6::R6Class(
       target = task$target_names
       order_cols = task$col_roles$order
       is_newdata = private$.is_newdata(task)
-      stored = private$.task$data()
-      dt = task$data()
+      stored = private$.task$data(include_order = TRUE)
+      dt = task$data(include_order = TRUE)
       full = if (is_newdata) stored else stored[!dt, on = order_cols]
 
       preds = vector("list", nrow(dt))
@@ -92,9 +92,9 @@ ForecastLearner = R6::R6Class(
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
       is_newdata = private$.is_newdata(task)
-      stored = private$.task$data()
+      stored = private$.task$data(include_order = TRUE)
 
-      preds = map(split(task$data(), by = key_cols, drop = TRUE), function(dt) {
+      preds = map(split(task$data(include_order = TRUE), by = key_cols, drop = TRUE), function(dt) {
         full = stored[dt[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
         full = if (is_newdata) full else full[!dt, on = order_cols]
 

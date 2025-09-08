@@ -209,7 +209,7 @@ If \code{cols} is \code{NULL}, the column order defaults to
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$data(rows = NULL, cols = NULL, ordered = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$data(rows = NULL, cols = NULL, ordered = FALSE, include_order = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -223,6 +223,9 @@ Vector of column names.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
 If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
+
+\item{\code{include_order}}{(\code{logical(1)})\cr
+If \code{TRUE}, columns with column role \code{"order"} and \code{"key"} are included in the result.}
 }
 \if{html}{\out{</div>}}
 }
