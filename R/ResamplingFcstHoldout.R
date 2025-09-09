@@ -90,10 +90,12 @@ ResamplingFcstHoldout = R6Class(
         nr = max(n_obs + n, 0L)
       }
 
-      order_cols = task$col_roles$order
-      key_cols = task$col_roles$key
+      col_roles = task$col_roles
+      order_cols = col_roles$order
+      key_cols = col_roles$key
       has_key_cols = length(key_cols) > 0L
       dt = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
+
       if (has_key_cols) {
         setnames(dt, "..row_id", "row_id")
         setorderv(dt, c(key_cols, order_cols))
@@ -106,7 +108,10 @@ ResamplingFcstHoldout = R6Class(
       } else {
         setnames(dt, c("row_id", "order"))
         setorderv(dt, "order")
-        list(train = dt[1:nr, row_id], test = dt[(nr + 1L):.N, row_id])
+        list(
+          train = dt[1:nr, row_id],
+          test = if (nrow(dt) > nr) dt[(nr + 1L):.N, row_id] else integer()
+        )
       }
     },
 

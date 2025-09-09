@@ -49,10 +49,10 @@ print(learner)
 task = tsk("airpassengers")
 
 # Create train and test set
-resampling = rsmp("fcst.holdout", ratio = 0.7)$instantiate(task)
+ids = partition(task)
 
 # Train the learner on the training ids
-learner$train(task, row_ids = resampling$train_set(1))
+learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
@@ -61,7 +61,7 @@ print(learner$model)
 if ("importance" \%in\% learner$properties) print(learner$importance)
 
 # Make predictions for the test rows
-predictions = learner$predict(task, row_ids = resampling$test_set(1))
+predictions = learner$predict(task, row_ids = ids$test)
 
 # Score the predictions
 predictions$score()
