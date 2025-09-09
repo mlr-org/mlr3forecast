@@ -10,8 +10,8 @@ partition.TaskFcst = function(task, ratio = 0.67) {
   } else {
     ratio[3L] = 1 - (ratio[1L] + ratio[2L])
   }
-  r1 = rsmp("fcst.holdout", ratio = ratio[1L])$instantiate(task)
 
+  r1 = rsmp("fcst.holdout", ratio = ratio[1L])$instantiate(task)
   task$row_roles$use = r1$test_set(1L)
   r2 = rsmp("fcst.holdout", ratio = ratio[2L] / (1 - ratio[1L]))$instantiate(task)
 

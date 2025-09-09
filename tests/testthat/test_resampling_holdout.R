@@ -35,6 +35,10 @@ test_that("fcst.holdout basic properties", {
   expect_length(resampling$train_set(1L), task$nrow - 10L)
   expect_length(resampling$test_set(1L), 10L)
 
+  resampling = rsmp("fcst.holdout", ratio = 1.0)$instantiate(task)
+  expect_length(resampling$train_set(1L), task$nrow)
+  expect_length(resampling$test_set(1L), 0L)
+
   # task with a key
   task = tsk("livestock")
   resampling = rsmp("fcst.holdout", ratio = 0.8)
@@ -59,6 +63,11 @@ test_that("fcst.holdout works", {
   resampling$instantiate(task)
   expect_identical(resampling$train_set(1L), 1:72)
   expect_identical(resampling$test_set(1L), 73:144)
+
+  resampling = rsmp("fcst.holdout", ratio = 1.0)
+  resampling$instantiate(task)
+  expect_identical(resampling$train_set(1L), 1:144)
+  expect_identical(resampling$test_set(1L), integer())
 })
 
 test_that("fcst.holdout repeated instantiation", {
