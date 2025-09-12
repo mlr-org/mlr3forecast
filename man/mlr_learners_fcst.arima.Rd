@@ -28,16 +28,21 @@ lrn("fcst.arima")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   order \tab untyped \tab c(0L, 0L, 0L) \tab  \cr
-   seasonal \tab untyped \tab c(0L, 0L, 0L) \tab  \cr
-   include.mean \tab logical \tab TRUE \tab TRUE, FALSE \cr
-   include.drift \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   include.constant \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   lambda \tab untyped \tab NULL \tab  \cr
-   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   method \tab character \tab CSS-ML \tab CSS-ML, ML, CSS \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   order \tab untyped \tab c(0L, 0L, 0L) \tab  \tab - \cr
+   seasonal \tab untyped \tab c(0L, 0L, 0L) \tab  \tab - \cr
+   include.mean \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   include.drift \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   include.constant \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   lambda \tab untyped \tab NULL \tab  \tab - \cr
+   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   method \tab character \tab CSS-ML \tab CSS-ML, ML, CSS \tab - \cr
+   transform.pars \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   SSinit \tab character \tab Gardner1980 \tab Gardner1980, Rossignol2011 \tab - \cr
+   optim.method \tab character \tab BFGS \tab Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent \tab - \cr
+   optim.control \tab untyped \tab list() \tab  \tab - \cr
+   kappa \tab numeric \tab 1e+06 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
 }
 }
 

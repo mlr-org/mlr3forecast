@@ -38,7 +38,17 @@ LearnerFcstArima = R6Class(
         include.constant = p_lgl(default = FALSE, tags = "train"),
         lambda = p_uty(default = NULL, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = "train"),
-        method = p_fct(c("CSS-ML", "ML", "CSS"), default = "CSS-ML", tags = "train")
+        method = p_fct(c("CSS-ML", "ML", "CSS"), default = "CSS-ML", tags = "train"),
+        # additional arguments to stats::arima
+        transform.pars = p_lgl(default = TRUE, tags = "train"),
+        SSinit = p_fct(c("Gardner1980", "Rossignol2011"), default = "Gardner1980", tags = "train"),
+        optim.method = p_fct(
+          c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent"),
+          default = "BFGS",
+          tags = "train"
+        ),
+        optim.control = p_uty(default = list(), tags = "train", custom_check = check_list),
+        kappa = p_dbl(default = 1e6, tags = "train")
       )
 
       super$initialize(
