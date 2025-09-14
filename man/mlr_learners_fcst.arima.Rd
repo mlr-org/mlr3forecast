@@ -38,6 +38,8 @@ lrn("fcst.arima")
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    method \tab character \tab CSS-ML \tab CSS-ML, ML, CSS \tab - \cr
+   bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   npaths \tab integer \tab 5000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    transform.pars \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    fixed \tab untyped \tab NULL \tab  \tab - \cr
    init \tab untyped \tab NULL \tab  \tab - \cr

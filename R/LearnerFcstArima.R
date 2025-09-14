@@ -36,9 +36,11 @@ LearnerFcstArima = R6Class(
         include.mean = p_lgl(default = TRUE, tags = "train"),
         include.drift = p_lgl(default = FALSE, tags = "train"),
         include.constant = p_lgl(default = FALSE, tags = "train"),
-        lambda = p_uty(default = NULL, tags = "train"),
-        biasadj = p_lgl(default = FALSE, tags = "train"),
+        lambda = p_uty(default = NULL, tags = c("train", "predict")),
+        biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         method = p_fct(c("CSS-ML", "ML", "CSS"), default = "CSS-ML", tags = "train"),
+        bootstrap = p_lgl(default = FALSE, tags = "predict"),
+        npaths = p_int(1L, default = 5000, tags = "predict"),
         # additional arguments to stats::arima
         transform.pars = p_lgl(default = TRUE, tags = "train"),
         fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),

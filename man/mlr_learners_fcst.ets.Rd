@@ -48,6 +48,9 @@ lrn("fcst.ets")
    restrict \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    allow.multiplicative.trend \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    na.action \tab character \tab na.contiguous \tab na.contiguous, na.interp, na.fail \tab - \cr
+   simulate \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   npaths \tab integer \tab 5000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
 }
 }
 

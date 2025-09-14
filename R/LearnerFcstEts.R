@@ -31,7 +31,7 @@ LearnerFcstEts = R6Class(
         phi = p_dbl(default = NULL, special_vals = list(NULL), tags = "train"),
         additive.only = p_lgl(default = FALSE, tags = "train"),
         lambda = p_uty(default = NULL, tags = "train"),
-        biasadj = p_lgl(default = FALSE, tags = "train"),
+        biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         lower = p_uty(default = c(rep.int(1e-04, 3), 0.8), tags = "train"),
         upper = p_uty(default = c(rep.int(0.9999, 3), 0.98), tags = "train"),
         opt.crit = p_fct(default = "lik", levels = c("lik", "amse", "mse", "sigma", "mae"), tags = "train"),
@@ -44,7 +44,10 @@ LearnerFcstEts = R6Class(
           default = "na.contiguous",
           levels = c("na.contiguous", "na.interp", "na.fail"),
           tags = "train"
-        )
+        ),
+        simulate = p_lgl(default = FALSE, tags = "predict"),
+        bootstrap = p_lgl(default = FALSE, tags = "predict"),
+        npaths = p_int(1L, default = 5000, tags = "predict")
       )
 
       super$initialize(
