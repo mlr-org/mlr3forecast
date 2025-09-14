@@ -28,17 +28,50 @@ lrn("fcst.arfima")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   drange \tab untyped \tab c(0, 0.5) \tab  \cr
-   estim \tab character \tab mle \tab mle, ls \cr
-   lambda \tab untyped \tab NULL \tab  \cr
-   order \tab untyped \tab c(0L, 0L, 0L) \tab  \cr
-   seasonal \tab untyped \tab c(0L, 0L, 0L) \tab  \cr
-   include.mean \tab logical \tab TRUE \tab TRUE, FALSE \cr
-   include.drift \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   method \tab character \tab CSS-ML \tab CSS-ML, ML, CSS \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   drange \tab untyped \tab c(0, 0.5) \tab  \tab - \cr
+   estim \tab character \tab mle \tab mle, ls \tab - \cr
+   lambda \tab untyped \tab NULL \tab  \tab - \cr
+   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   d \tab integer \tab NA \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   D \tab integer \tab NA \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   max.p \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   max.q \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   max.order \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   max.d \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   max.D \tab integer \tab 1 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   start.p \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   start.q \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   start.P \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   start.Q \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   seasonal \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   ic \tab character \tab aicc \tab aicc, aic, bic \tab - \cr
+   stepwise \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   nmodels \tab integer \tab 94 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   trace \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   approximation \tab untyped \tab - \tab  \tab - \cr
+   method \tab untyped \tab NULL \tab  \tab - \cr
+   truncate \tab untyped \tab NULL \tab  \tab - \cr
+   test \tab character \tab kpss \tab kpss, adf, pp \tab - \cr
+   test.args \tab untyped \tab list() \tab  \tab - \cr
+   seasonal.test \tab character \tab seas \tab seas, ocsb, hegy, ch \tab - \cr
+   seasonal.test.args \tab untyped \tab list() \tab  \tab - \cr
+   allowdrift \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   allowmean \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   parallel \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   num.cores \tab integer \tab 2 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   include.mean \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   include.drift \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   include.constant \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   transform.pars \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   fixed \tab untyped \tab NULL \tab  \tab - \cr
+   init \tab untyped \tab NULL \tab  \tab - \cr
+   SSinit \tab character \tab Gardner1980 \tab Gardner1980, Rossignol2011 \tab - \cr
+   n.cond \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   optim.method \tab character \tab BFGS \tab Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent \tab - \cr
+   optim.control \tab untyped \tab list() \tab  \tab - \cr
+   kappa \tab numeric \tab 1e+06 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
 }
 }
 

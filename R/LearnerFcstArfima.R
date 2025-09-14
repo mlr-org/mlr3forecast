@@ -26,20 +26,52 @@ LearnerFcstArfima = R6Class(
         drange = p_uty(default = c(0, 0.5), tags = "train"),
         estim = p_fct(default = "mle", levels = c("mle", "ls"), tags = "train"),
         lambda = p_uty(default = NULL, tags = "train"),
-        order = p_uty(
-          default = c(0L, 0L, 0L),
-          tags = "train",
-          custom_check = crate(function(x) check_integerish(x, lower = 0L, len = 3L))
-        ),
-        seasonal = p_uty(
-          default = c(0L, 0L, 0L),
-          tags = "train",
-          custom_check = crate(function(x) check_integerish(x, lower = 0L, len = 3L))
-        ),
+        biasadj = p_lgl(default = FALSE, tags = "train"),
+        # additional arguments to forecast::auto.arima
+        d = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
+        D = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
+        max.p = p_int(0L, default = 5, tags = "train"),
+        max.q = p_int(0L, default = 5, tags = "train"),
+        max.order = p_int(0L, default = 5, tags = "train"),
+        max.d = p_int(0L, default = 2, tags = "train"),
+        max.D = p_int(0L, default = 1, tags = "train"),
+        start.p = p_int(0L, default = 2, tags = "train"),
+        start.q = p_int(0L, default = 2, tags = "train"),
+        start.P = p_int(0L, default = 2, tags = "train"),
+        start.Q = p_int(0L, default = 2, tags = "train"),
+        seasonal = p_lgl(default = FALSE, tags = "train"),
+        ic = p_fct(c("aicc", "aic", "bic"), default = "aicc", tags = "train"),
+        stepwise = p_lgl(default = FALSE, tags = "train"),
+        nmodels = p_int(0L, default = 94, tags = "train"),
+        trace = p_lgl(default = FALSE, tags = "train"),
+        approximation = p_uty(tags = "train"),
+        method = p_uty(default = NULL, tags = "train"),
+        truncate = p_uty(default = NULL, tags = "train"),
+        test = p_fct(c("kpss", "adf", "pp"), default = "kpss", tags = "train"),
+        test.args = p_uty(default = list(), tags = "train", custom_check = check_list),
+        seasonal.test = p_fct(c("seas", "ocsb", "hegy", "ch"), default = "seas", tags = "train"),
+        seasonal.test.args = p_uty(default = list(), tags = "train", custom_check = check_list),
+        allowdrift = p_lgl(default = TRUE, tags = "train"),
+        allowmean = p_lgl(default = TRUE, tags = "train"),
+        parallel = p_lgl(default = FALSE, tags = "train"),
+        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train"),
+        # additional arguments to forecast::Arima
         include.mean = p_lgl(default = TRUE, tags = "train"),
         include.drift = p_lgl(default = FALSE, tags = "train"),
-        biasadj = p_lgl(default = FALSE, tags = "train"),
-        method = p_fct(c("CSS-ML", "ML", "CSS"), default = "CSS-ML", tags = "train")
+        include.constant = p_lgl(default = FALSE, tags = "train"),
+        # additional arguments to stats::arima
+        transform.pars = p_lgl(default = TRUE, tags = "train"),
+        fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
+        init = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
+        SSinit = p_fct(c("Gardner1980", "Rossignol2011"), default = "Gardner1980", tags = "train"),
+        n.cond = p_int(lower = 1L, tags = "train"),
+        optim.method = p_fct(
+          c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent"),
+          default = "BFGS",
+          tags = "train"
+        ),
+        optim.control = p_uty(default = list(), tags = "train", custom_check = check_list),
+        kappa = p_dbl(default = 1e6, tags = "train")
       )
 
       super$initialize(
