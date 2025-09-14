@@ -89,8 +89,9 @@ ForecastLearner = R6::R6Class(
 
     .predict_global = function(task) {
       target = task$target_names
-      order_cols = task$col_roles$order
-      key_cols = task$col_roles$key
+      col_roles = task$col_roles
+      order_cols = col_roles$order
+      key_cols = col_roles$key
       is_newdata = private$.is_newdata(task)
       stored = private$.task$data(include_order = TRUE)
 

@@ -91,8 +91,9 @@ ResamplingFcstCV = R6Class(
       window_size = pars$window_size
       horizon = pars$horizon
 
-      order_cols = task$col_roles$order
-      key_cols = task$col_roles$key
+      col_roles = task$col_roles
+      order_cols = col_roles$order
+      key_cols = col_roles$key
       has_key = length(key_cols) > 0L
 
       dt = task$backend$data(

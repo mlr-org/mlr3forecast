@@ -8,8 +8,9 @@ generate_newdata = function(task, n = 1L) {
   task = assert_task(as_task(task), task_type = "fcst")
   n = assert_count(n, positive = TRUE, coerce = TRUE)
 
-  order_cols = task$col_roles$order
-  key_cols = task$col_roles$key
+  col_roles = task$col_roles
+  order_cols = col_roles$order
+  key_cols = col_roles$key
   dt = task$data(cols = c(order_cols, key_cols))
 
   newdata = map_dtr(split(dt, by = key_cols, drop = TRUE), function(dt) {
