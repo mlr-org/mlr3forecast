@@ -100,7 +100,7 @@ as_task_fcst.data.frame = function(
 
   has_dups = NULL
   dup = if (has_key) {
-    x[, .(has_dups = anyDuplicated(get(order)) > 0L), by = key][, any(has_dups)]
+    x[, list(has_dups = anyDuplicated(get(order)) > 0L), by = key][, any(has_dups)]
   } else {
     anyDuplicated(x[[order]]) > 0L
   }

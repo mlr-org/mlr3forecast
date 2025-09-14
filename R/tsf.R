@@ -82,7 +82,7 @@ read_tsf = function(file) {
     }
   }
 
-  dt_long = dt[, .(value = strsplit1(value, ",")), by = col_names]
+  dt_long = dt[, list(value = strsplit1(value, ",")), by = col_names]
   dt_long["?", value := NA_character_, on = "value"]
   dt_long[, value := as.numeric(value)]
   dt[, value := NULL]

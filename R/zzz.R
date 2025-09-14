@@ -9,8 +9,6 @@
 #' @importFrom stats as.ts
 "_PACKAGE"
 
-utils::globalVariables(".")
-
 mlr3forecast_resamplings = new.env()
 mlr3forecast_tasks = new.env()
 mlr3forecast_learners = new.env()

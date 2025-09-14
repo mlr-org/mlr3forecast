@@ -132,7 +132,7 @@ ResamplingFcstCV = R6Class(
             list(train_ids = train_ids, test_ids = test_ids)
           },
           by = key_cols
-        ][, .(train_ids, test_ids)]
+        ][, list(train_ids, test_ids)]
         train_ids = ids$train_ids
         test_ids = ids$test_ids
       }
