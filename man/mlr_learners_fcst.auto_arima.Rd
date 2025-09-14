@@ -61,6 +61,18 @@ lrn("fcst.auto_arima")
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    parallel \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    num.cores \tab integer \tab 2 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   include.mean \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   include.drift \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   include.constant \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   lambda \tab untyped \tab NULL \tab  \tab - \cr
+   transform.pars \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   fixed \tab untyped \tab NULL \tab  \tab - \cr
+   init \tab untyped \tab NULL \tab  \tab - \cr
+   SSinit \tab character \tab Gardner1980 \tab Gardner1980, Rossignol2011 \tab - \cr
+   n.cond \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   optim.method \tab character \tab BFGS \tab Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent \tab - \cr
+   optim.control \tab untyped \tab list() \tab  \tab - \cr
+   kappa \tab numeric \tab 1e+06 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
 }
 }
 

@@ -53,7 +53,25 @@ LearnerFcstAutoArima = R6Class(
         allowmean = p_lgl(default = TRUE, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = "train"),
         parallel = p_lgl(default = FALSE, tags = "train"),
-        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train")
+        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train"),
+        # additional arguments to forecast::Arima
+        include.mean = p_lgl(default = TRUE, tags = "train"),
+        include.drift = p_lgl(default = FALSE, tags = "train"),
+        include.constant = p_lgl(default = FALSE, tags = "train"),
+        lambda = p_uty(default = NULL, tags = "train"),
+        # additional arguments to stats::arima
+        transform.pars = p_lgl(default = TRUE, tags = "train"),
+        fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
+        init = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
+        SSinit = p_fct(c("Gardner1980", "Rossignol2011"), default = "Gardner1980", tags = "train"),
+        n.cond = p_int(lower = 1L, tags = "train"),
+        optim.method = p_fct(
+          c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent"),
+          default = "BFGS",
+          tags = "train"
+        ),
+        optim.control = p_uty(default = list(), tags = "train", custom_check = check_list),
+        kappa = p_dbl(default = 1e6, tags = "train")
       )
 
       super$initialize(
