@@ -62,13 +62,15 @@ LearnerFcstCes = R6Class(
 
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
+      res = list(extra = as.list(task$data(cols = task$col_roles$order)))
       if (!private$.is_newdata(task)) {
         response = stats::fitted(self$model)[task$row_ids]
-        return(list(response = response))
+        res = insert_named(res, list(response = response))
+        return(res)
       }
       args = list(h = task$nrow)
       pred = invoke(generics::forecast, self$model, .args = args)
-      list(response = as.numeric(pred$mean))
+      insert_named(res, list(response = as.numeric(pred$mean)))
     }
   )
 )
