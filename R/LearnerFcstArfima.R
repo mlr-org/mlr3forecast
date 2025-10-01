@@ -25,8 +25,8 @@ LearnerFcstArfima = R6Class(
       param_set = ps(
         drange = p_uty(default = c(0, 0.5), tags = "train"),
         estim = p_fct(default = "mle", levels = c("mle", "ls"), tags = "train"),
-        lambda = p_uty(default = NULL, tags = "train"),
-        biasadj = p_lgl(default = FALSE, tags = "train"),
+        lambda = p_uty(default = NULL, tags = c("train", "predict")),
+        biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         # additional arguments to forecast::auto.arima
         d = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
         D = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),

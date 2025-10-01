@@ -32,7 +32,7 @@ lrn("fcst.adam")
    Id \tab Type \tab Default \tab Levels \cr
    model \tab untyped \tab "ZXZ" \tab  \cr
    lags \tab untyped \tab - \tab  \cr
-   orders \tab untyped \tab - \tab  \cr
+   orders \tab untyped \tab list(ar = 0, i = 0, ma = 0, select = FALSE) \tab  \cr
    constant \tab logical \tab FALSE \tab TRUE, FALSE \cr
    regressors \tab character \tab use \tab use, select, adapt \cr
    occurrence \tab character \tab none \tab none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct \cr
@@ -47,6 +47,7 @@ lrn("fcst.adam")
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
    bounds \tab character \tab usual \tab usual, admissible, none \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   ets \tab character \tab conventional \tab conventional, adam \cr
 }
 }
 

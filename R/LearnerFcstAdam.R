@@ -25,7 +25,7 @@ LearnerFcstAdam = R6Class(
       param_set = ps(
         model = p_uty(default = "ZXZ", tags = "train"),
         lags = p_uty(tags = "train"),
-        orders = p_uty(tags = "train"),
+        orders = p_uty(default = list(ar = 0, i = 0, ma = 0, select = FALSE), tags = "train"),
         constant = p_lgl(default = FALSE, tags = "train"),
         regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train"),
         occurrence = p_fct(
@@ -51,7 +51,8 @@ LearnerFcstAdam = R6Class(
         arma = p_uty(default = NULL, tags = "train"),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),
-        silent = p_lgl(default = TRUE, tags = "train")
+        silent = p_lgl(default = TRUE, tags = "train"),
+        ets = p_fct(c("conventional", "adam"), default = "conventional", tags = "train")
       )
 
       super$initialize(

@@ -30,7 +30,7 @@ LearnerFcstEts = R6Class(
         gamma = p_dbl(default = NULL, special_vals = list(NULL), tags = "train"),
         phi = p_dbl(default = NULL, special_vals = list(NULL), tags = "train"),
         additive.only = p_lgl(default = FALSE, tags = "train"),
-        lambda = p_uty(default = NULL, tags = "train"),
+        lambda = p_uty(default = NULL, tags = c("train", "predict")),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         lower = p_uty(default = c(rep.int(1e-04, 3), 0.8), tags = "train"),
         upper = p_uty(default = c(rep.int(0.9999, 3), 0.98), tags = "train"),

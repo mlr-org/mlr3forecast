@@ -24,7 +24,7 @@ LearnerFcstAutoAdam = R6Class(
     initialize = function() {
       param_set = ps(
         model = p_uty(default = "ZXZ", tags = "train"),
-        lags = p_uty(tags = "train"),
+        lags = p_uty(tags = "train", custom_check = check_numeric),
         orders = p_uty(tags = "train"),
         regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train"),
         occurrence = p_fct(
@@ -46,7 +46,8 @@ LearnerFcstAutoAdam = R6Class(
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train"),
-        parallel = p_lgl(default = FALSE, tags = "train")
+        parallel = p_lgl(default = FALSE, tags = "train"),
+        ets = p_fct(c("conventional", "adam"), default = "conventional", tags = "train")
       )
 
       super$initialize(

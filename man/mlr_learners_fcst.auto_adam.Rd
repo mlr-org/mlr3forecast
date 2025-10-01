@@ -46,6 +46,7 @@ lrn("fcst.auto_adam")
    bounds \tab character \tab usual \tab usual, admissible, none \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
    parallel \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   ets \tab character \tab conventional \tab conventional, adam \cr
 }
 }
 

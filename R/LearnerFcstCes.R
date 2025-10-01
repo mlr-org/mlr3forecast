@@ -25,11 +25,9 @@ LearnerFcstCes = R6Class(
       param_set = ps(
         seasonality = p_fct(c("none", "simple", "partial", "full"), default = "none", tags = "train"),
         lags = p_uty(tags = "train", custom_check = check_numeric),
-        regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train"),
         initial = p_fct(c("backcasting", "optimal", "complete"), default = "backcasting", tags = "train"),
         a = p_uty(default = NULL, tags = "train"),
         b = p_uty(default = NULL, tags = "train"),
-        ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         loss = p_fct(
           c("likelihood", "MSE", "MAE", "HAM", "MSEh", "TMSE", "GTMSE", "MSCE"),
           default = "likelihood",
@@ -37,7 +35,8 @@ LearnerFcstCes = R6Class(
         ),
         holdout = p_lgl(default = FALSE, tags = "train"),
         bounds = p_fct(c("admissible", "none"), default = "admissible", tags = "train"),
-        silent = p_lgl(default = TRUE, tags = "train")
+        silent = p_lgl(default = TRUE, tags = "train"),
+        regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train")
       )
 
       super$initialize(
