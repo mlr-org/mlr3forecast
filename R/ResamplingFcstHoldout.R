@@ -96,23 +96,23 @@ ResamplingFcstHoldout = R6Class(
       has_key_cols = length(key_cols) > 0L
       dt = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
 
-      if (has_key_cols) {
-        setnames(dt, "..row_id", "row_id")
-        setorderv(dt, c(key_cols, order_cols))
-        n_groups = uniqueN(dt, by = key_cols)
-        nr = if (has_ratio) nr %/% n_groups else nr
-        list(
-          train = dt[, .SD[1:nr], by = key_cols][, row_id],
-          test = dt[, .SD[(nr + 1L):.N], by = key_cols][, row_id]
-        )
-      } else {
+      if (!has_key_cols) {
         setnames(dt, c("row_id", "order"))
         setorderv(dt, "order")
-        list(
+        return(list(
           train = dt[1:nr, row_id],
           test = if (nrow(dt) > nr) dt[(nr + 1L):.N, row_id] else integer()
-        )
+        ))
       }
+
+      setnames(dt, "..row_id", "row_id")
+      setorderv(dt, c(key_cols, order_cols))
+      n_groups = uniqueN(dt, by = key_cols)
+      nr = if (has_ratio) nr %/% n_groups else nr
+      list(
+        train = dt[, .SD[1:nr], by = key_cols][, row_id],
+        test = dt[, .SD[(nr + 1L):.N], by = key_cols][, row_id]
+      )
     },
 
     .sample_ids = function(ids, task, ...) {

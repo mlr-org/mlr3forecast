@@ -115,28 +115,29 @@ ResamplingFcstCV = R6Class(
           n = length(x)
           (x[n] + 1L):(x[n] + horizon)
         })
-      } else {
-        setnames(dt, "..row_id", "row_id")
-        setorderv(dt, c(key_cols, order_cols))
-        ids = dt[,
-          {
-            train_end = seq(from = .N - horizon, by = -pars$step_size, length.out = pars$folds)
-            if (pars$fixed_window) {
-              train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, row_id])
-            } else {
-              train_ids = map(train_end, function(x) .SD[1L:x, row_id])
-            }
-            test_ids = map(train_ids, function(x) {
-              n = length(x)
-              (x[n] + 1L):(x[n] + horizon)
-            })
-            list(train_ids = train_ids, test_ids = test_ids)
-          },
-          by = key_cols
-        ][, list(train_ids, test_ids)]
-        train_ids = ids$train_ids
-        test_ids = ids$test_ids
+        return(list(train = train_ids, test_ids))
       }
+
+      setnames(dt, "..row_id", "row_id")
+      setorderv(dt, c(key_cols, order_cols))
+      ids = dt[,
+        {
+          train_end = seq(from = .N - horizon, by = -pars$step_size, length.out = pars$folds)
+          if (pars$fixed_window) {
+            train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, row_id])
+          } else {
+            train_ids = map(train_end, function(x) .SD[1L:x, row_id])
+          }
+          test_ids = map(train_ids, function(x) {
+            n = length(x)
+            (x[n] + 1L):(x[n] + horizon)
+          })
+          list(train_ids = train_ids, test_ids = test_ids)
+        },
+        by = key_cols
+      ][, list(train_ids, test_ids)]
+      train_ids = ids$train_ids
+      test_ids = ids$test_ids
       list(train = train_ids, test = test_ids)
     },
 
