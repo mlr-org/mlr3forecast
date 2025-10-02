@@ -14,9 +14,9 @@ Depends:
     R (>= 3.3.0)
 Imports:
     backports,
-    checkmate (>= 2.3.2),
+    checkmate (>= 2.3.3),
     cli,
-    data.table (>= 1.16.4),
+    data.table (>= 1.17.0),
     ggplot2,
     lgr,
     mlr3misc (>= 0.17.0),
@@ -26,7 +26,7 @@ Imports:
     stats,
     utils
 Suggests:
-    forecast,
+    forecast (>= 8.24.0),
     generics (>= 0.1.2),
     rpart,
     smooth (>= 4.3.0),
