@@ -115,7 +115,7 @@ ResamplingFcstCV = R6Class(
           n = length(x)
           (x[n] + 1L):(x[n] + horizon)
         })
-        return(list(train = train_ids, test_ids))
+        return(list(train = train_ids, test = test_ids))
       }
 
       setnames(dt, "..row_id", "row_id")
