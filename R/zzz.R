@@ -9,16 +9,16 @@
 #' @importFrom stats as.ts
 "_PACKAGE"
 
-mlr3forecast_resamplings = new.env()
-mlr3forecast_tasks = new.env()
-mlr3forecast_learners = new.env()
-mlr3forecast_measures = new.env()
+mlr3forecast_resamplings = new.env(parent = emptyenv())
+mlr3forecast_tasks = new.env(parent = emptyenv())
+mlr3forecast_learners = new.env(parent = emptyenv())
+mlr3forecast_measures = new.env(parent = emptyenv())
 mlr3forecast_feature_types = c(dte = "Date")
 mlr3forecast_col_roles = "key"
 mlr3forecast_learner_properties = "exogenous"
 mlr3forecast_task_print_col_roles = c("Key by" = "key")
 mlr3forecast_task_properties = c("univariate", "multivariate", "ordered", "keys")
-mlr3forecast_pipeops = new.env()
+mlr3forecast_pipeops = new.env(parent = emptyenv())
 mlr3forecast_pipeop_tags = "fcst"
 
 named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
