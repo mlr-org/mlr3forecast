@@ -31,7 +31,7 @@ LearnerFcstNnetar = R6Class(
         scale.inputs = p_lgl(default = TRUE, tags = "train"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 1000L, tags = "predict"),
-        innov = p_uty(default = NULL,  tags = "predict")
+        innov = p_uty(default = NULL, tags = "predict")
       )
 
       super$initialize(
