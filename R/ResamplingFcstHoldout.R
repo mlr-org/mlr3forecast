@@ -76,18 +76,9 @@ ResamplingFcstHoldout = R6Class(
       pars = self$param_set$get_values()
       ratio = pars$ratio
       n = pars$n
-      n_obs = task$nrow
 
-      has_ratio = !is.null(ratio)
-      if (!xor(!has_ratio, is.null(n))) {
+      if (!xor(is.null(ratio), is.null(n))) {
         stopf("Either parameter `ratio` (x)or `n` must be provided.")
-      }
-      if (has_ratio) {
-        nr = round(n_obs * ratio)
-      } else if (n > 0L) {
-        nr = min(n_obs, n)
-      } else {
-        nr = max(n_obs + n, 0L)
       }
 
       col_roles = task$col_roles
@@ -99,19 +90,28 @@ ResamplingFcstHoldout = R6Class(
       if (!has_key_cols) {
         setnames(dt, c("row_id", "order"))
         setorderv(dt, "order")
+        ids = make_split(task$nrow, ratio, n)
         return(list(
-          train = dt[1:nr, row_id],
-          test = if (nrow(dt) > nr) dt[(nr + 1L):.N, row_id] else integer()
+          train = dt[ids$train, "row_id"][[1L]],
+          test = dt[ids$test, "row_id"][[1L]]
         ))
       }
 
       setnames(dt, "..row_id", "row_id")
       setorderv(dt, c(key_cols, order_cols))
-      n_groups = uniqueN(dt, by = key_cols)
-      nr = if (has_ratio) nr %/% n_groups else nr
+      splits = dt[,
+        {
+          ids = make_split(.N, ratio, n)
+          list(
+            train = list(.SD[ids$train, "row_id"][[1L]]),
+            test = list(.SD[ids$test, "row_id"][[1L]])
+          )
+        },
+        by = key_cols
+      ]
       list(
-        train = dt[, .SD[1:nr], by = key_cols][, row_id],
-        test = dt[, .SD[(nr + 1L):.N], by = key_cols][, row_id]
+        train = unlist(splits$train, use.names = FALSE),
+        test = unlist(splits$test, use.names = FALSE)
       )
     },
 
@@ -138,8 +138,7 @@ ResamplingFcstHoldout = R6Class(
       }
 
       ids = sort(ids)
-      ii = ids[1:nr]
-      list(train = ii, test = ids[(nr + 1L):n_obs])
+      list(train = ids[seq_len(nr)], test = ids[(nr + 1L):n_obs])
     },
 
     .get_train = function(i) {
@@ -155,6 +154,20 @@ ResamplingFcstHoldout = R6Class(
     }
   )
 )
+
+make_split = function(n_obs, ratio, n) {
+  if (!is.null(ratio)) {
+    nr = round(n_obs * ratio)
+  } else if (n > 0L) {
+    nr = min(n_obs, n)
+  } else {
+    nr = max(n_obs + n, 0L)
+  }
+  list(
+    train = seq_len(nr),
+    test = if (n_obs > nr) (nr + 1L):n_obs else integer()
+  )
+}
 
 #' @include zzz.R
 register_resampling("fcst.holdout", ResamplingFcstHoldout)

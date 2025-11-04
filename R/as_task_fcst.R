@@ -99,10 +99,10 @@ as_task_fcst.data.frame = function(
   }
 
   has_dups = NULL
-  dup = if (has_key) {
-    x[, list(has_dups = anyDuplicated(get(order)) > 0L), by = key][, any(has_dups)]
+  if (has_key) {
+    dup = x[, list(has_dups = anyDuplicated(get(order)) > 0L), by = key][, any(has_dups)]
   } else {
-    anyDuplicated(x[[order]]) > 0L
+    dup = anyDuplicated(x[[order]]) > 0L
   }
   if (dup) {
     stopf("`order` values must be unique for each time series.")
