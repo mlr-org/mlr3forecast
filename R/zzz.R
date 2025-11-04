@@ -1,10 +1,10 @@
-#' @import R6
 #' @import checkmate
 #' @import data.table
 #' @import mlr3
 #' @import mlr3misc
 #' @import mlr3pipelines
 #' @import paradox
+#' @importFrom R6 R6Class
 #' @importFrom ggplot2 autoplot
 #' @importFrom stats as.ts
 "_PACKAGE"
