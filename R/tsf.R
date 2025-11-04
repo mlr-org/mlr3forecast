@@ -69,8 +69,7 @@ read_tsf = function(file) {
     colClasses = c(col_classes, "character")
   )
 
-  value = name = NULL
-  date_col = metadata["date", name, on = "type"]
+  date_col = metadata["date", "name", on = "type"][[1L]]
   has_freq = length(freq) > 0L
   if (has_freq) {
     if (freq %in% high_frequencies) {
@@ -82,10 +81,11 @@ read_tsf = function(file) {
     }
   }
 
+  value = NULL
   dt_long = dt[, list(value = strsplit1(value, ",")), by = col_names]
-  dt_long["?", value := NA_character_, on = "value"]
-  dt_long[, value := as.numeric(value)]
-  dt[, value := NULL]
+  dt_long["?", "value" := NA_character_, on = "value"]
+  dt_long[, "value" := as.numeric(value)]
+  dt[, "value" := NULL]
   dt = dt[dt_long, on = col_names]
   if (has_freq) {
     dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = freq_map[[freq]]), by = col_names]

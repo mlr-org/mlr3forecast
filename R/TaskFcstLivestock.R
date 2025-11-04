@@ -17,7 +17,7 @@ load_task_livestock = function(id = "livestock") {
   require_namespaces(c("tsibbledata", "tsibble"))
   dt = as.data.table(load_dataset("aus_livestock", "tsibbledata"))
   setnames(dt, tolower)
-  dt[, month := as.Date(month)]
+  dt[, "month" := as.Date(month)]
   b = as_data_backend(dt)
 
   task = TaskFcst$new(
