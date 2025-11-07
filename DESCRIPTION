@@ -20,7 +20,7 @@ Imports:
     ggplot2,
     lgr,
     mlr3misc (>= 0.17.0),
-    mlr3pipelines (>= 0.9.0.9000),
+    mlr3pipelines (>= 0.10.0),
     paradox (>= 1.0.1),
     R6 (>= 2.6.0),
     stats,
@@ -38,8 +38,7 @@ Suggests:
     xts,
     zoo
 Remotes:
-    mlr-org/mlr3,
-    mlr-org/mlr3pipelines
+    mlr-org/mlr3
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
