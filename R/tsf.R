@@ -3,7 +3,8 @@
 #' @description
 #' Parses a file located at `file` and returns a [data.table::data.table()].
 #'
-#' @param file (`character(1)`) the path to the TSF file.
+#' @param file (`character(1)`)\cr
+#'   The path to the TSF file.
 #' @return ([data.table::data.table()]).
 #'
 #' @references
@@ -100,8 +101,10 @@ read_tsf = function(file) {
 #' @description
 #' Downloads a tsf file from Zenodo using the provided record ID and dataset name.
 #'
-#' @param record_id (`character(1)`) the Zenodo record ID.
-#' @param dataset_name (`character(1)`) the name of the dataset to download.
+#' @param record_id (`character(1)`)\cr
+#'   The Zenodo record ID.
+#' @param dataset_name (`character(1)`)\cr
+#'   The name of the dataset to download.
 #' @return ([data.table::data.table()]).
 #'
 #' @references

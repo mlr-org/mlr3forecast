@@ -7,9 +7,11 @@
 generate_newdata(task, n = 1L)
 }
 \arguments{
-\item{task}{\link{TaskFcst}}
+\item{task}{\link{TaskFcst}\cr
+Task.}
 
-\item{n}{(\code{integer(1)}) number of new data points to generate. Default \code{1L}.}
+\item{n}{(\code{integer(1)})\cr
+Number of new data points to generate. Default \code{1L}.}
 }
 \value{
 A \code{\link[data.table:data.table]{data.table::data.table()}} with \code{n} new data points.

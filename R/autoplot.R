@@ -5,7 +5,7 @@
 #'
 #' @param object ([TaskFcst]).
 #' @template param_theme
-#' @param ... (`any`):
+#' @param ... (`any`)\cr
 #'   Additional argument, passed down to the underlying `geom` or plot functions.
 #' @return [ggplot2::ggplot()] object.
 #'

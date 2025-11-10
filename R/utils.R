@@ -1,7 +1,9 @@
 #' Generate new data for a forecast task
 #'
-#' @param task [TaskFcst]
-#' @param n (`integer(1)`) number of new data points to generate. Default `1L`.
+#' @param task [TaskFcst]\cr
+#'   Task.
+#' @param n (`integer(1)`)\cr
+#'   Number of new data points to generate. Default `1L`.
 #' @return A [data.table::data.table()] with `n` new data points.
 #' @export
 generate_newdata = function(task, n = 1L) {

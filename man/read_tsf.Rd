@@ -7,7 +7,8 @@
 read_tsf(file)
 }
 \arguments{
-\item{file}{(\code{character(1)}) the path to the TSF file.}
+\item{file}{(\code{character(1)})\cr
+The path to the TSF file.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}).
