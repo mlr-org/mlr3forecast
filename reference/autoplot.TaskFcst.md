@@ -25,8 +25,9 @@ autoplot(object, theme = ggplot2::theme_minimal(), ...)
 
 - ...:
 
-  (`any`): Additional argument, passed down to the underlying `geom` or
-  plot functions.
+  (`any`)  
+  Additional argument, passed down to the underlying `geom` or plot
+  functions.
 
 ## Value
 

@@ -13,11 +13,13 @@ download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 
 - record_id:
 
-  (`character(1)`) the Zenodo record ID.
+  (`character(1)`)  
+  The Zenodo record ID.
 
 - dataset_name:
 
-  (`character(1)`) the name of the dataset to download.
+  (`character(1)`)  
+  The name of the dataset to download.
 
 ## Value
 

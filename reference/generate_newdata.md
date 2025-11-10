@@ -12,11 +12,13 @@ generate_newdata(task, n = 1L)
 
 - task:
 
-  [TaskFcst](https://mlr3forecast.mlr-org.com/reference/TaskFcst.md)
+  [TaskFcst](https://mlr3forecast.mlr-org.com/reference/TaskFcst.md)  
+  Task.
 
 - n:
 
-  (`integer(1)`) number of new data points to generate. Default `1L`.
+  (`integer(1)`)  
+  Number of new data points to generate. Default `1L`.
 
 ## Value
 

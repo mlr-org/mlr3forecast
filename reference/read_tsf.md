@@ -13,7 +13,8 @@ read_tsf(file)
 
 - file:
 
-  (`character(1)`) the path to the TSF file.
+  (`character(1)`)  
+  The path to the TSF file.
 
 ## Value
 
