@@ -40,7 +40,12 @@ test_that("fcst.holdout basic properties", {
   expect_length(resampling$test_set(1L), 0L)
 
   # task with a key
-  task = tsk("livestock")
+  orange = setDT(load_dataset("Orange", "datasets"))
+  orange[, age := as.integer(age)]
+  setnames(orange, tolower)
+  b = as_data_backend(orange)
+  task = TaskFcst$new(id = "orange", backend = b, target = "circumference", order = "age", key = "tree")
+
   resampling = rsmp("fcst.holdout", ratio = 0.8)
   expect_resampling(resampling, task, strata = FALSE)
   resampling$instantiate(task)
@@ -70,10 +75,20 @@ test_that("fcst.holdout works", {
   expect_identical(resampling$test_set(1L), integer())
 
   # task with a key
-  task = tsk("livestock")
+  orange = setDT(load_dataset("Orange", "datasets"))
+  orange[, age := as.integer(age)]
+  setnames(orange, tolower)
+  b = as_data_backend(orange)
+  task = TaskFcst$new(id = "orange", backend = b, target = "circumference", order = "age", key = "tree")
+
+  resampling = rsmp("fcst.holdout", ratio = 0.7)
+  resampling$instantiate(task)
+  expect_identical(resampling$train_set(1L), c(15:19, 1:5, 29:33, 8:12, 22:26))
+  expect_identical(resampling$test_set(1L), c(20:21, 6:7, 34:35, 13:14, 27:28))
+
   resampling = rsmp("fcst.holdout", ratio = 1.0)
   resampling$instantiate(task)
-  expect_identical(resampling$train_set(1L), 1:29364)
+  expect_identical(resampling$train_set(1L), c(15:21, 1:7, 29:35, 8:14, 22:28))
   expect_identical(resampling$test_set(1L), integer())
 })
 
