@@ -2,10 +2,22 @@ test_that("as_task conversion", {
   skip_if_not_installed("zoo")
   skip_if_not_installed("xts")
 
+  # data.frame
+  df = data.frame(
+    date = seq(as.Date("1959-01-01"), by = "month", length.out = length(co2)),
+    co2 = as.numeric(load_dataset("co2", "datasets"))
+  )
+  expect_no_error(as_task_fcst(df, target = "co2", order = "date"))
+  expect_no_error(as_task_fcst(
+    load_dataset("Orange", "datasets"),
+    target = "circumference",
+    order = "age",
+    key = "Tree"
+  ))
   # ts object
-  expect_no_error(as_task_fcst(AirPassengers))
+  expect_no_error(as_task_fcst(load_dataset("AirPassengers", "datasets")))
   # mts object
-  expect_no_error(as_task_fcst(EuStockMarkets))
+  expect_no_error(as_task_fcst(load_dataset("EuStockMarkets", "datasets")))
   # zoo object
   expect_no_error(as_task_fcst(zoo::zoo(rnorm(50L), seq(as.Date("2020-01-01"), by = "month", length.out = 50L))))
   x = zoo::zoo(
