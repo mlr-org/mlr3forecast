@@ -40,11 +40,8 @@ test_that("fcst.holdout basic properties", {
   expect_length(resampling$test_set(1L), 0L)
 
   # task with a key
-  orange = setDT(load_dataset("Orange", "datasets"))
-  orange[, age := as.integer(age)]
-  setnames(orange, tolower)
-  b = as_data_backend(orange)
-  task = TaskFcst$new(id = "orange", backend = b, target = "circumference", order = "age", key = "tree")
+  b = as_data_backend(load_dataset("Orange", "datasets"))
+  task = TaskFcst$new(id = "orange", backend = b, target = "circumference", order = "age", key = "Tree")
 
   resampling = rsmp("fcst.holdout", ratio = 0.8)
   expect_resampling(resampling, task, strata = FALSE)
@@ -75,11 +72,8 @@ test_that("fcst.holdout works", {
   expect_identical(resampling$test_set(1L), integer())
 
   # task with a key
-  orange = setDT(load_dataset("Orange", "datasets"))
-  orange[, age := as.integer(age)]
-  setnames(orange, tolower)
-  b = as_data_backend(orange)
-  task = TaskFcst$new(id = "orange", backend = b, target = "circumference", order = "age", key = "tree")
+  b = as_data_backend(load_dataset("Orange", "datasets"))
+  task = TaskFcst$new(id = "orange", backend = b, target = "circumference", order = "age", key = "Tree")
 
   resampling = rsmp("fcst.holdout", ratio = 0.7)
   resampling$instantiate(task)
