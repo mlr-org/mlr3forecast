@@ -88,9 +88,9 @@ ResamplingFcstHoldout = R6Class(
       dt = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
 
       if (!has_key_cols) {
-        setnames(dt, c("row_id", "order"))
-        setorderv(dt, "order")
-        ids = make_split(task$nrow, ratio, n)
+        setnames(dt, "..row_id", "row_id")
+        setorderv(dt, order_cols)
+        ids = make_split(nrow(dt), ratio, n)
         return(list(
           train = dt[ids$train, "row_id"][[1L]],
           test = dt[ids$test, "row_id"][[1L]]
