@@ -132,37 +132,17 @@ task$filter(1:20)
 # Instantiate Resampling
 cv = rsmp("fcst.cv", folds = 3, fixed_window = FALSE)
 cv$instantiate(task)
+#> Error in is.finite(if (is.character(from)) from <- as.numeric(from) else from): default method not implemented for type 'list'
 
 # Individual sets:
 cv$train_set(1)
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+#> Error: Resampling 'fcst.cv' has not been instantiated yet
 cv$test_set(1)
-#> [1] 20
+#> Error: Resampling 'fcst.cv' has not been instantiated yet
 intersect(cv$train_set(1), cv$test_set(1))
-#> integer(0)
+#> Error: Resampling 'fcst.cv' has not been instantiated yet
 
 # Internal storage:
 cv$instance #  list
-#> $train
-#> $train[[1]]
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
-#> 
-#> $train[[2]]
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18
-#> 
-#> $train[[3]]
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
-#> 
-#> 
-#> $test
-#> $test[[1]]
-#> [1] 20
-#> 
-#> $test[[2]]
-#> [1] 19
-#> 
-#> $test[[3]]
-#> [1] 18
-#> 
-#> 
+#> NULL
 ```
