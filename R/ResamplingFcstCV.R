@@ -104,7 +104,7 @@ ResamplingFcstCV = R6Class(
       if (!has_key) {
         setnames(dt, "..row_id", "row_id")
         setorderv(dt, order_cols)
-        train_end = dt[.N - horizon, "row_id"]
+        train_end = dt[.N - horizon, "row_id"][[1L]]
         train_end = seq(from = train_end, by = -pars$step_size, length.out = pars$folds)
         if (!pars$fixed_window) {
           train_ids = map(train_end, function(x) ids[1L]:x)
