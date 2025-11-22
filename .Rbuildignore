@@ -29,6 +29,7 @@
 ^doc$
 ^docs$
 ^inst/extdata/.+\.R$
+^jarl\.toml$
 ^man-roxygen$
 ^paper$
 ^pkgdown$
