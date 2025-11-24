@@ -44,8 +44,6 @@ ForecastLearner = R6::R6Class(
       target = col_roles$target
       order_cols = col_roles$order
       private$.max_index = max(task$data(cols = order_cols)[[1L]])
-      # TODO: check for all variants, I believe for in-sample forecasting I will need the entire task
-      # TODO: it's sufficient to store the max index + lags of the training data, like done in PipeOpFcstLags
       private$.task = task$clone()
       dt = private$.lag_transform(task$data(include_order = TRUE), target)
       if (order_cols %nin% col_roles$feature) {
@@ -76,7 +74,7 @@ ForecastLearner = R6::R6Class(
 
       preds = vector("list", nrow(dt))
       for (i in seq_len(nrow(dt))) {
-        full = rbind(full, dt[i, ])
+        full = rbind(full, dt[i])
         new_x = private$.lag_transform(full, target)
         pred = self$model$learner$predict_newdata(new_x[.N])
         set(full, i = nrow(full), j = target, value = pred$response)
@@ -101,7 +99,7 @@ ForecastLearner = R6::R6Class(
 
         preds = vector("list", nrow(dt))
         for (i in seq_len(nrow(dt))) {
-          full = rbind(full, dt[i, ])
+          full = rbind(full, dt[i])
           new_x = private$.lag_transform(full, target)
           pred = self$model$learner$predict_newdata(new_x[.N])
           set(full, i = nrow(full), j = target, value = pred$response)
@@ -133,8 +131,7 @@ ForecastLearner = R6::R6Class(
     },
 
     .is_newdata = function(task) {
-      order_cols = task$col_roles$order
-      dt = task$backend$data(rows = task$row_ids, cols = order_cols)
+      dt = task$backend$data(rows = task$row_ids, cols = task$col_roles$order)
       if (nrow(dt) == 0L) {
         return(TRUE)
       }

@@ -76,9 +76,11 @@ LearnerFcst = R6Class(
     },
 
     .is_newdata = function(task) {
-      order_cols = task$col_roles$order
-      idx = task$backend$data(rows = task$row_ids, cols = order_cols)[[1L]]
-      !any(private$.max_index %in% idx)
+      dt = task$backend$data(rows = task$row_ids, cols = task$col_roles$order)
+      if (nrow(dt) == 0L) {
+        return(TRUE)
+      }
+      !any(private$.max_index %in% dt[[1L]])
     }
   )
 )
