@@ -3,7 +3,7 @@
 #' @name mlr_resamplings_fcst.cv
 #'
 #' @description
-#' Splits data using a `folds`-folds (default: 10 folds) rolling window cross-validation.
+#' Splits data using a `folds`-folds (default: 5 folds) rolling window cross-validation.
 #'
 #' @templateVar id fcst.cv
 #' @template resampling
@@ -17,7 +17,7 @@
 #'   Step size between windows.
 #' * `window_size` (`integer(1)`)\cr
 #'   (Minimal) Size of the rolling window.
-#' * `fixed_window` (`logial(1)`)\cr
+#' * `fixed_window` (`logical(1)`)\cr
 #'   Should a fixed sized window be used? If `FALSE` an expanding window is used.
 #'
 #' @references
@@ -107,13 +107,13 @@ ResamplingFcstCV = R6Class(
         train_end = dt[.N - horizon, "row_id"][[1L]]
         train_end = seq(from = train_end, by = -pars$step_size, length.out = pars$folds)
         if (!pars$fixed_window) {
-          train_ids = map(train_end, function(x) ids[1L]:x)
+          train_ids = map(train_end, function(x) dt[1L:x, "row_id"][[1L]])
         } else {
-          train_ids = map(train_end, function(x) (x - window_size + 1L):x)
+          train_ids = map(train_end, function(x) dt[(x - window_size + 1L):x, "row_id"][[1L]])
         }
         test_ids = map(train_ids, function(x) {
           n = length(x)
-          (x[n] + 1L):(x[n] + horizon)
+          dt[(x[n] + 1L):(x[n] + horizon), "row_id"][[1L]]
         })
         return(list(train = train_ids, test = test_ids))
       }
@@ -124,9 +124,9 @@ ResamplingFcstCV = R6Class(
         {
           train_end = seq(from = .N - horizon, by = -pars$step_size, length.out = pars$folds)
           if (pars$fixed_window) {
-            train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, row_id])
+            train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, "row_id"][[1L]])
           } else {
-            train_ids = map(train_end, function(x) .SD[1L:x, row_id])
+            train_ids = map(train_end, function(x) .SD[1L:x, "row_id"][[1L]])
           }
           test_ids = map(train_ids, function(x) {
             n = length(x)
@@ -135,7 +135,7 @@ ResamplingFcstCV = R6Class(
           list(train_ids = train_ids, test_ids = test_ids)
         },
         by = key_cols
-      ][, list(train_ids, test_ids)]
+      ][, c("train_ids", "test_ids")]
       list(train = ids$train_ids, test = ids$test_ids)
     },
 

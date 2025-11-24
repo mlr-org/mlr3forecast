@@ -5,7 +5,7 @@
 \alias{ResamplingFcstCV}
 \title{Forecast Cross-Validation Resampling}
 \description{
-Splits data using a \code{folds}-folds (default: 10 folds) rolling window cross-validation.
+Splits data using a \code{folds}-folds (default: 5 folds) rolling window cross-validation.
 }
 \section{Dictionary}{
 
@@ -27,7 +27,7 @@ Number of folds.
 Step size between windows.
 \item \code{window_size} (\code{integer(1)})\cr
 (Minimal) Size of the rolling window.
-\item \code{fixed_window} (\code{logial(1)})\cr
+\item \code{fixed_window} (\code{logical(1)})\cr
 Should a fixed sized window be used? If \code{FALSE} an expanding window is used.
 }
 }
