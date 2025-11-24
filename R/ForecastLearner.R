@@ -67,17 +67,16 @@ ForecastLearner = R6::R6Class(
     .predict_local = function(task) {
       target = task$target_names
       order_cols = task$col_roles$order
-      is_newdata = private$.is_newdata(task)
-      stored = private$.task$data(include_order = TRUE)
+      history = private$.task$data(include_order = TRUE)
       dt = task$data(include_order = TRUE)
-      full = if (is_newdata) stored else stored[!dt, on = order_cols]
+      history = if (private$.is_newdata(task)) history else history[!dt, on = order_cols]
 
       preds = vector("list", nrow(dt))
       for (i in seq_len(nrow(dt))) {
-        full = rbind(full, dt[i])
-        new_x = private$.lag_transform(full, target)
-        pred = self$model$learner$predict_newdata(new_x[.N])
-        set(full, i = nrow(full), j = target, value = pred$response)
+        history = rbind(history, dt[i])
+        lagged = private$.lag_transform(history, target)
+        pred = self$model$learner$predict_newdata(lagged[.N])
+        set(history, i = nrow(history), j = target, value = pred$response)
         preds[[i]] = pred
       }
       preds = do.call(c, preds)
@@ -91,18 +90,18 @@ ForecastLearner = R6::R6Class(
       order_cols = col_roles$order
       key_cols = col_roles$key
       is_newdata = private$.is_newdata(task)
-      stored = private$.task$data(include_order = TRUE)
+      history = private$.task$data(include_order = TRUE)
 
       preds = map(split(task$data(include_order = TRUE), by = key_cols, drop = TRUE), function(dt) {
-        full = stored[dt[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
-        full = if (is_newdata) full else full[!dt, on = order_cols]
+        history = history[dt[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
+        history = if (is_newdata) history else history[!dt, on = order_cols]
 
         preds = vector("list", nrow(dt))
         for (i in seq_len(nrow(dt))) {
-          full = rbind(full, dt[i])
-          new_x = private$.lag_transform(full, target)
-          pred = self$model$learner$predict_newdata(new_x[.N])
-          set(full, i = nrow(full), j = target, value = pred$response)
+          history = rbind(history, dt[i])
+          lagged = private$.lag_transform(history, target)
+          pred = self$model$learner$predict_newdata(lagged[.N])
+          set(history, i = nrow(history), j = target, value = pred$response)
           preds[[i]] = pred
         }
         do.call(c, preds)

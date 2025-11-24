@@ -58,7 +58,7 @@ TaskFcst = R6Class(
       col_roles = self$col_roles
       self$col_roles = insert_named(col_roles, list(key = character()))
 
-      assert_subset(order, col_roles$feature, empty.ok = FALSE)
+      assert_choice(order, col_roles$feature)
       self$col_roles$order = order
       self$col_roles$feature = setdiff(col_roles$feature, order)
       if (length(key) > 0L) {

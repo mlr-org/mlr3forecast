@@ -65,7 +65,7 @@ as_task_fcst.DataBackend = function(
   assert_choice(target, cn)
   assert_choice(order, cn)
   if (length(key) > 0L) {
-    assert_choice(key, cn)
+    assert_subset(key, cn)
   }
 
   TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
@@ -91,7 +91,7 @@ as_task_fcst.data.frame = function(
   assert_choice(order, cn)
   has_key = length(key) > 0L
   if (has_key) {
-    assert_choice(key, cn)
+    assert_subset(key, cn)
   }
 
   if (anyNA(x[[target]])) {
