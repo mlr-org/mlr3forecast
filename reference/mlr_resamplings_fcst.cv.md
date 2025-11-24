@@ -1,6 +1,6 @@
 # Forecast Cross-Validation Resampling
 
-Splits data using a `folds`-folds (default: 10 folds) rolling window
+Splits data using a `folds`-folds (default: 5 folds) rolling window
 cross-validation.
 
 ## Dictionary
@@ -30,7 +30,7 @@ or with the associated sugar function
 - `window_size` (`integer(1)`)  
   (Minimal) Size of the rolling window.
 
-- `fixed_window` (`logial(1)`)  
+- `fixed_window` (`logical(1)`)  
   Should a fixed sized window be used? If `FALSE` an expanding window is
   used.
 
@@ -135,9 +135,9 @@ cv$instantiate(task)
 
 # Individual sets:
 cv$train_set(1)
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
 cv$test_set(1)
-#> [1] 20
+#> [1] 18
 intersect(cv$train_set(1), cv$test_set(1))
 #> integer(0)
 
@@ -145,24 +145,24 @@ intersect(cv$train_set(1), cv$test_set(1))
 cv$instance #  list
 #> $train
 #> $train[[1]]
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
+#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
 #> 
 #> $train[[2]]
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18
 #> 
 #> $train[[3]]
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
+#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19
 #> 
 #> 
 #> $test
 #> $test[[1]]
-#> [1] 20
+#> [1] 18
 #> 
 #> $test[[2]]
 #> [1] 19
 #> 
 #> $test[[3]]
-#> [1] 18
+#> [1] 20
 #> 
 #> 
 ```
