@@ -6,14 +6,14 @@
 \title{Forecast Holdout Resampling}
 \description{
 Splits data into a training set and a test set.
-Parameter \code{ratio} determines the ratio of observation going into the training set (default: 2/3).
+Parameter \code{ratio} determines the ratio of observation going into the training set.
 }
 \section{Dictionary}{
 
 This \link[mlr3:Resampling]{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_resamplings]{mlr_resamplings} or with the associated sugar function \link[mlr3:mlr_sugar]{rsmp()}:
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("fcst.cv")
-rsmp("fcst.cv")
+\if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("fcst.holdout")
+rsmp("fcst.holdout")
 }\if{html}{\out{</div>}}
 }
 

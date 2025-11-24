@@ -7,9 +7,9 @@ test_that("fcst.holdout basic properties", {
   # mutually exclusive params
   task = tsk("airpassengers")
   resampling = rsmp("fcst.holdout", ratio = 0.8, n = 10L)
-  expect_error(resampling$instantiate(task), "Either parameter `ratio` (x)or `n` must be provided", fixed = TRUE)
+  expect_error(resampling$instantiate(task), "One of 'ratio' or 'n' must be provided, not both.", fixed = TRUE)
   resampling = rsmp("fcst.holdout")
-  expect_error(resampling$instantiate(task), "Either parameter `ratio` (x)or `n` must be provided", fixed = TRUE)
+  expect_error(resampling$instantiate(task), "One of 'ratio' or 'n' must be provided, not both.", fixed = TRUE)
 
   # task without a key
   task = tsk("airpassengers")

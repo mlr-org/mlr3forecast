@@ -4,9 +4,9 @@
 #'
 #' @description
 #' Splits data into a training set and a test set.
-#' Parameter `ratio` determines the ratio of observation going into the training set (default: 2/3).
+#' Parameter `ratio` determines the ratio of observation going into the training set.
 #'
-#' @templateVar id fcst.cv
+#' @templateVar id fcst.holdout
 #' @template resampling
 #'
 #' @section Parameters:
@@ -78,7 +78,7 @@ ResamplingFcstHoldout = R6Class(
       n = pars$n
 
       if (!xor(is.null(ratio), is.null(n))) {
-        stopf("Either parameter `ratio` (x)or `n` must be provided.")
+        stopf("One of 'ratio' or 'n' must be provided, not both.")
       }
 
       col_roles = task$col_roles
