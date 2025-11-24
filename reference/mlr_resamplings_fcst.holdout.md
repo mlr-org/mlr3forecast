@@ -1,8 +1,7 @@
 # Forecast Holdout Resampling
 
 Splits data into a training set and a test set. Parameter `ratio`
-determines the ratio of observation going into the training set
-(default: 2/3).
+determines the ratio of observation going into the training set.
 
 ## Dictionary
 
@@ -13,8 +12,8 @@ can be instantiated via the
 or with the associated sugar function
 [rsmp()](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_resamplings$get("fcst.cv")
-    rsmp("fcst.cv")
+    mlr_resamplings$get("fcst.holdout")
+    rsmp("fcst.holdout")
 
 ## Parameters
 
