@@ -8,15 +8,15 @@ LearnerFcstForecast = R6Class(
       pv = self$param_set$get_values(tags = "predict")
       is_quantile = self$predict_type == "quantiles"
 
-      res = list(extra = as.list(task$data(cols = task$col_roles$order)))
+      prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
 
       if (!private$.is_newdata(task)) {
         if (is_quantile) {
           stopf("Quantile prediction not supported for in-sample prediction.")
         }
         response = stats::fitted(self$model)[task$row_ids]
-        res = insert_named(res, list(response = response))
-        return(res)
+        prediction = insert_named(prediction, list(response = response))
+        return(prediction)
       }
 
       if ("exogenous" %chin% self$properties && task$n_features > 0L) {
@@ -31,15 +31,15 @@ LearnerFcstForecast = R6Class(
       pred = invoke(forecast::forecast, self$model, .args = args)
 
       if (!is_quantile) {
-        res = insert_named(res, list(response = as.numeric(pred$mean)))
-        return(res)
+        prediction = insert_named(prediction, list(response = as.numeric(pred$mean)))
+        return(prediction)
       }
 
       pred$lower = pred$lower[, rev(seq_len(ncol(pred$lower)))]
       quantiles = cbind(pred$lower, if (0.5 %in% private$.quantiles) pred$mean, pred$upper)
       setattr(quantiles, "probs", private$.quantiles)
       setattr(quantiles, "response", private$.quantile_response)
-      insert_named(res, list(quantiles = quantiles))
+      insert_named(prediction, list(quantiles = quantiles))
     }
   )
 )
