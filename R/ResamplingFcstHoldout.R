@@ -86,9 +86,9 @@ ResamplingFcstHoldout = R6Class(
       key_cols = col_roles$key
       has_key_cols = length(key_cols) > 0L
       dt = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
+      setnames(dt, "..row_id", "row_id")
 
       if (!has_key_cols) {
-        setnames(dt, "..row_id", "row_id")
         setorderv(dt, order_cols)
         ids = make_split(nrow(dt), ratio, n)
         return(list(
@@ -97,7 +97,6 @@ ResamplingFcstHoldout = R6Class(
         ))
       }
 
-      setnames(dt, "..row_id", "row_id")
       setorderv(dt, c(key_cols, order_cols))
       splits = dt[,
         {

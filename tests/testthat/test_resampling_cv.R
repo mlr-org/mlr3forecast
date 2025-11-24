@@ -30,17 +30,17 @@ test_that("fcst.cv works", {
   task = tsk("airpassengers")
   resampling = rsmp("fcst.cv", folds = 3L, horizon = 3L, window_size = 5L, fixed_window = FALSE)
   resampling$instantiate(task)
-  expect_identical(resampling$train_set(1L), 1:141)
+  expect_identical(resampling$train_set(1L), 1:139)
   expect_identical(resampling$train_set(2L), 1:140)
-  expect_identical(resampling$train_set(3L), 1:139)
-  expect_identical(resampling$test_set(1L), 142:144)
+  expect_identical(resampling$train_set(3L), 1:141)
+  expect_identical(resampling$test_set(1L), 140:142)
   walk(1:3, function(i) expect_length(resampling$test_set(i), 3L))
 
   resampling = rsmp("fcst.cv", folds = 3L, horizon = 5L, window_size = 25L, fixed_window = TRUE)
   resampling$instantiate(task)
   walk(1:3, function(i) expect_length(resampling$train_set(i), 25L))
   walk(1:3, function(i) expect_length(resampling$test_set(i), 5L))
-  walk(0:2, function(i) expect_identical(resampling$train_set(i + 1L), (115L - i):(139L - i)))
+  walk(0:2, function(i) expect_identical(resampling$train_set(i + 1L), (113L + i):(137L + i)))
 })
 
 test_that("fcst.cv fixed vs. expanding window", {
@@ -50,16 +50,16 @@ test_that("fcst.cv fixed vs. expanding window", {
   # fixed window
   resampling = rsmp("fcst.cv", folds = 3L, horizon = 3L, window_size = 5L, fixed_window = TRUE)
   resampling$instantiate(task)
-  expect_identical(resampling$train_set(1L), 23:27)
+  expect_identical(resampling$train_set(1L), 21:25)
   expect_identical(resampling$train_set(2L), 22:26)
-  expect_identical(resampling$train_set(3L), 21:25)
+  expect_identical(resampling$train_set(3L), 23:27)
 
   # expanding window
   resampling = rsmp("fcst.cv", folds = 3L, horizon = 3L, window_size = 5L, fixed_window = FALSE)
   resampling$instantiate(task)
-  expect_identical(resampling$train_set(1L), 1:27)
+  expect_identical(resampling$train_set(1L), 1:25)
   expect_identical(resampling$train_set(2L), 1:26)
-  expect_identical(resampling$train_set(3L), 1:25)
+  expect_identical(resampling$train_set(3L), 1:27)
 })
 
 test_that("fcst.cv with various parameter combinations", {
@@ -76,10 +76,10 @@ test_that("fcst.cv with various parameter combinations", {
     fixed_window = TRUE
   )
   resampling$instantiate(task)
-  expect_identical(resampling$train_set(1L), 26:28)
-  expect_identical(resampling$test_set(1L), 29:30)
-  expect_identical(resampling$train_set(2L), 24:26)
-  expect_identical(resampling$test_set(2L), 27:28)
+  expect_identical(resampling$train_set(1L), 18:20)
+  expect_identical(resampling$test_set(1L), 21:22)
+  expect_identical(resampling$train_set(2L), 20:22)
+  expect_identical(resampling$test_set(2L), 23:24)
   expect_identical(resampling$train_set(3L), 22:24)
   expect_identical(resampling$test_set(3L), 25:26)
 
@@ -93,12 +93,12 @@ test_that("fcst.cv with various parameter combinations", {
     fixed_window = FALSE
   )
   resampling$instantiate(task)
-  expect_identical(resampling$train_set(1L), 1:29)
-  expect_identical(resampling$test_set(1L), 30L)
-  expect_identical(resampling$train_set(2L), 1:28)
-  expect_identical(resampling$test_set(2L), 29L)
-  expect_identical(resampling$train_set(3L), 1:27)
-  expect_identical(resampling$test_set(3L), 28L)
-  expect_identical(resampling$train_set(4L), 1:26)
-  expect_identical(resampling$test_set(4L), 27L)
+  expect_identical(resampling$train_set(1L), 1:26)
+  expect_identical(resampling$test_set(1L), 27L)
+  expect_identical(resampling$train_set(2L), 1:27)
+  expect_identical(resampling$test_set(2L), 28L)
+  expect_identical(resampling$train_set(3L), 1:28)
+  expect_identical(resampling$test_set(3L), 29L)
+  expect_identical(resampling$train_set(4L), 1:29)
+  expect_identical(resampling$test_set(4L), 30L)
 })

@@ -144,39 +144,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 435.5006
-#>        2    NA 436.1145
-#>        3    NA 457.2183
+#>        1    NA 436.9643
+#>        2    NA 436.0116
+#>        3    NA 453.6819
 #>      ---   ---      ---
-#>       10    NA 475.9872
-#>       11    NA 441.2326
-#>       12    NA 441.9683
+#>       10    NA 472.4614
+#>       11    NA 442.4828
+#>       12    NA 441.1149
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response
-#>      140   606 576.3159
-#>      141   508 499.9260
-#>      142   461 451.9590
-#>      143   390 410.9010
-#>      144   432 431.0902
+#>      140   606 576.4034
+#>      141   508 499.0833
+#>      142   461 454.9573
+#>      143   390 415.3921
+#>      144   432 433.9666
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  17.12166
+#>  18.11413
 
 flrn = ForecastLearner$new(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.78682
+#>  46.60244
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.54243
+#>  26.26599
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -200,7 +200,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.34622
+#>  14.91126
 ```
 
 ### Example: forecasting electricity demand
@@ -227,13 +227,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response
-#>        1    NA 187886.4
-#>        2    NA 197064.8
-#>        3    NA 190532.2
+#>        1    NA 187809.7
+#>        2    NA 196889.1
+#>        3    NA 190013.9
 #>      ---   ---      ---
-#>       12    NA 222026.6
-#>       13    NA 226146.1
-#>       14    NA 227465.6
+#>       12    NA 223187.0
+#>       13    NA 227815.0
+#>       14    NA 227958.1
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -266,14 +266,14 @@ flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>   19566.6
+#>  22721.05
 
 flrn = ForecastLearner$new(lrn("regr.ranger"), 1:3)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>   91348.8
+#>  90540.55
 ```
 
 ### Example: global vs local forecasting

@@ -100,38 +100,31 @@ ResamplingFcstCV = R6Class(
         rows = ids,
         cols = c(task$backend$primary_key, order_cols, key_cols)
       )
+      setnames(dt, "..row_id", "row_id")
 
       if (!has_key) {
-        setnames(dt, "..row_id", "row_id")
         setorderv(dt, order_cols)
-        train_end = dt[.N - horizon, "row_id"][[1L]]
-        train_end = seq(from = train_end, by = -pars$step_size, length.out = pars$folds)
+        n = nrow(dt)
+        train_end = rev(seq(from = n - horizon, by = -pars$step_size, length.out = pars$folds))
         if (!pars$fixed_window) {
-          train_ids = map(train_end, function(x) dt[1L:x, "row_id"][[1L]])
+          train_ids = map(train_end, function(i) dt[1L:i, "row_id"][[1L]])
         } else {
-          train_ids = map(train_end, function(x) dt[(x - window_size + 1L):x, "row_id"][[1L]])
+          train_ids = map(train_end, function(i) dt[(i - window_size + 1L):i, "row_id"][[1L]])
         }
-        test_ids = map(train_ids, function(x) {
-          n = length(x)
-          dt[(x[n] + 1L):(x[n] + horizon), "row_id"][[1L]]
-        })
+        test_ids = map(train_end, function(i) dt[(i + 1L):(i + horizon), "row_id"][[1L]])
         return(list(train = train_ids, test = test_ids))
       }
 
-      setnames(dt, "..row_id", "row_id")
       setorderv(dt, c(key_cols, order_cols))
       ids = dt[,
         {
-          train_end = seq(from = .N - horizon, by = -pars$step_size, length.out = pars$folds)
+          train_end = rev(seq(from = .N - horizon, by = -pars$step_size, length.out = pars$folds))
           if (pars$fixed_window) {
-            train_ids = map(train_end, function(x) .SD[(x - window_size + 1L):x, "row_id"][[1L]])
+            train_ids = map(train_end, function(i) .SD[(i - window_size + 1L):i, "row_id"][[1L]])
           } else {
-            train_ids = map(train_end, function(x) .SD[1L:x, "row_id"][[1L]])
+            train_ids = map(train_end, function(i) .SD[1L:i, "row_id"][[1L]])
           }
-          test_ids = map(train_ids, function(x) {
-            n = length(x)
-            (x[n] + 1L):(x[n] + horizon)
-          })
+          test_ids = map(train_end, function(i) .SD[(i + 1L):(i + horizon), "row_id"][[1L]])
           list(train_ids = train_ids, test_ids = test_ids)
         },
         by = key_cols
