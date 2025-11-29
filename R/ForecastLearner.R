@@ -45,11 +45,11 @@ ForecastLearner = R6::R6Class(
       order_cols = col_roles$order
       private$.max_index = max(task$data(cols = order_cols)[[1L]])
       private$.task = task$clone()
-      dt = private$.lag_transform(task$data(include_order = TRUE), target)
+      lagged = private$.lag_transform(task$data(include_order = TRUE), target)
       if (order_cols %nin% col_roles$feature) {
-        set(dt, j = order_cols, value = NULL)
+        set(lagged, j = order_cols, value = NULL)
       }
-      new_task = as_task_regr(dt, target = target)
+      new_task = as_task_regr(lagged, target = target)
       learner = self$learner$clone(deep = TRUE)$train(new_task)
       structure(list(learner = learner), class = c("forecast_learner_model", "list"))
     },

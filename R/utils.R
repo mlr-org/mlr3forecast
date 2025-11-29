@@ -36,9 +36,10 @@ generate_newdata = function(task, n = 1L) {
       index = seq(max_index + 1L, length.out = n + 1L)
     }
     dt = rbindlist(replicate(n, dt, simplify = FALSE))
-    dt[, (order_cols) := index[2:(n + 1L)]]
+    set(dt, j = order_cols, value = index[2:(n + 1L)])
   })
-  newdata[, (task$target_names) := NA_real_][]
+  set(newdata, j = task$target_names, value = NA_real_)
+  newdata
 }
 
 predict_forecast = function(learner, task, h = 12L) {

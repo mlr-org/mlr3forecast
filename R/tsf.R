@@ -85,8 +85,8 @@ read_tsf = function(file) {
   value = NULL
   dt_long = dt[, list(value = strsplit1(value, ",")), by = col_names]
   dt_long["?", "value" := NA_character_, on = "value"]
-  dt_long[, "value" := as.numeric(value)]
-  dt[, "value" := NULL]
+  set(dt_long, j = "value", value = as.numeric(dt_long$value))
+  set(dt, j = "value", value = NULL)
   dt = dt[dt_long, on = col_names]
   if (has_freq) {
     dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = freq_map[[freq]]), by = col_names]

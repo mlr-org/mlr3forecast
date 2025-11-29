@@ -132,7 +132,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   }
   key = setdiff(cn, order)
   if (length(key) > 0L) {
-    x[, (key) := as.factor(get(key))]
+    set(x, j = key, value = as.factor(x$key))
   }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
@@ -171,7 +171,7 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
   is_mts = inherits(x, "mts")
   x = tsbox::ts_dt(x)
   if (is_mts) {
-    x[, "id" := as.factor(id)]
+    set(x, j = "id", value = as.factor(x$id))
   }
   as_task_fcst(
     x = x,
@@ -192,7 +192,7 @@ as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label 
   x = tsbox::ts_dt(x)
   is_multi = "id" %in% names(x)
   if (is_multi) {
-    x[, "id" := as.factor(id)]
+    set(x, j = "id", value = as.factor(x$id))
   }
   as_task_fcst(
     x = x,
