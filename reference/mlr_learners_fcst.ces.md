@@ -195,7 +195,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.02 seconds
+#> Time elapsed: 0.03 seconds
 #> Model estimated using ces() function: CES(none)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
