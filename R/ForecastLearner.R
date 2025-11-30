@@ -68,19 +68,22 @@ ForecastLearner = R6::R6Class(
       target = task$target_names
       order_cols = task$col_roles$order
       history = private$.task$data(include_order = TRUE)
-      dt = task$data(include_order = TRUE)
-      history = if (private$.is_newdata(task)) history else history[!dt, on = order_cols]
+      newdata = task$data(include_order = TRUE)
+      history = if (private$.is_newdata(task)) history else history[!newdata, on = order_cols]
 
-      preds = vector("list", nrow(dt))
-      for (i in seq_len(nrow(dt))) {
-        history = rbind(history, dt[i])
+      preds = vector("list", nrow(newdata))
+      for (i in seq_len(nrow(newdata))) {
+        history = rbind(history, newdata[i])
         lagged = private$.lag_transform(history, target)
         pred = self$model$learner$predict_newdata(lagged[.N])
         set(history, i = nrow(history), j = target, value = pred$response)
         preds[[i]] = pred
       }
       preds = do.call(c, preds)
-      preds$data$row_ids = task$row_ids
+      preds$data = insert_named(
+        preds$data,
+        list(row_ids = task$row_ids, extra = as.list(newdata[, order_cols, with = FALSE]))
+      )
       preds
     },
 
@@ -92,13 +95,13 @@ ForecastLearner = R6::R6Class(
       is_newdata = private$.is_newdata(task)
       history = private$.task$data(include_order = TRUE)
 
-      preds = map(split(task$data(include_order = TRUE), by = key_cols, drop = TRUE), function(dt) {
-        history = history[dt[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
-        history = if (is_newdata) history else history[!dt, on = order_cols]
+      preds = map(split(task$data(include_order = TRUE), by = key_cols, drop = TRUE), function(newdata) {
+        history = history[newdata[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
+        history = if (is_newdata) history else history[!newdata, on = order_cols]
 
-        preds = vector("list", nrow(dt))
-        for (i in seq_len(nrow(dt))) {
-          history = rbind(history, dt[i])
+        preds = vector("list", nrow(newdata))
+        for (i in seq_len(nrow(newdata))) {
+          history = rbind(history, newdata[i])
           lagged = private$.lag_transform(history, target)
           pred = self$model$learner$predict_newdata(lagged[.N])
           set(history, i = nrow(history), j = target, value = pred$response)
@@ -107,7 +110,10 @@ ForecastLearner = R6::R6Class(
         do.call(c, preds)
       })
       preds = do.call(c, preds)
-      preds$data$row_ids = task$row_ids
+      preds$data = insert_named(
+        preds$data,
+        list(row_ids = task$row_ids, extra = as.list(task$data(cols = c(key_cols, order_cols))))
+      )
       preds
     },
 
