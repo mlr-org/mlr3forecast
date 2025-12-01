@@ -1,8 +1,7 @@
-# Forecast Learner
+# Encapsulate a Learner as a Forecast Learner
 
-Forecast Learner
-
-Forecast Learner
+The ForecastLearner wraps a
+[mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html).
 
 ## Super class
 
@@ -14,12 +13,12 @@ Forecast Learner
 - `learner`:
 
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
-  The learner
+  Learner to wrap.
 
 - `lags`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html))  
-  The lags
+  The lags to create.
 
 ## Methods
 
