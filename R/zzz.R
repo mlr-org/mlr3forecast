@@ -13,7 +13,6 @@ mlr3forecast_resamplings = new.env(parent = emptyenv())
 mlr3forecast_tasks = new.env(parent = emptyenv())
 mlr3forecast_learners = new.env(parent = emptyenv())
 mlr3forecast_measures = new.env(parent = emptyenv())
-mlr3forecast_feature_types = c(dte = "Date")
 mlr3forecast_col_roles = "key"
 mlr3forecast_learner_properties = "exogenous"
 mlr3forecast_task_print_col_roles = c("Key by" = "key")
@@ -62,7 +61,6 @@ register_mlr3 = function() {
   )
   # remove regr roles that should have no effect or expect setting
   mlr_reflections$task_col_roles$fcst = union(mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles)
-  mlr_reflections$task_feature_types = named_union(mlr_reflections$task_feature_types, mlr3forecast_feature_types)
   mlr_reflections$task_properties$fcst = mlr3forecast_task_properties
   mlr_reflections$measure_properties$fcst = mlr_reflections$measure_properties$regr
   mlr_reflections$task_print_col_roles$after = named_union(
@@ -114,9 +112,6 @@ register_mlr3pipelines = function() {
   walk(names(mlr3forecast_pipeops), function(nm) mlr_pipeops$remove(nm))
 
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
-  mlr_reflections$task_feature_types = mlr_reflections$task_feature_types[
-    mlr_reflections$task_feature_types %nin% mlr3forecast_feature_types
-  ]
   reflections = c("learner_predict_types", "task_col_roles", "task_properties")
   walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
   mlr_reflections$pipeops$valid_tags = setdiff(mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags)

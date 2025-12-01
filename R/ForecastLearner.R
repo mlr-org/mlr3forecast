@@ -22,7 +22,7 @@ ForecastLearner = R6::R6Class(
     #' @param learner ([mlr3::Learner])\cr
     #' @param lags (`integer(1)`)\cr
     initialize = function(learner, lags) {
-      self$learner = assert_learner(as_learner(learner, clone = TRUE))
+      self$learner = assert_learner(as_learner(learner, clone = TRUE), task_type = "regr")
       self$lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
 
       super$initialize(
@@ -146,6 +146,11 @@ ForecastLearner = R6::R6Class(
   )
 )
 
+#' @title Convert to a Forecast Learner
+#'
+#' @param learner ([mlr3::Learner])\cr
+#' @param lags (`integer()`)\cr
+#' @return [ForecastLearner].
 #' @export
 as_learner_fcst = function(learner, lags) {
   ForecastLearner$new(learner, lags)

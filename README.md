@@ -158,39 +158,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 435.4356 1961-01-01
-#>        2    NA 436.3505 1961-02-01
-#>        3    NA 457.6370 1961-03-01
+#>        1    NA 439.2258 1961-01-01
+#>        2    NA 438.4510 1961-02-01
+#>        3    NA 458.6977 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 478.0104 1961-10-01
-#>       11    NA 441.8672 1961-11-01
-#>       12    NA 440.7932 1961-12-01
+#>       10    NA 483.6278 1961-10-01
+#>       11    NA 442.8991 1961-11-01
+#>       12    NA 444.0402 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 579.3439 1960-08-01
-#>      141   508 504.7630 1960-09-01
-#>      142   461 457.5243 1960-10-01
-#>      143   390 411.0244 1960-11-01
-#>      144   432 431.5973 1960-12-01
+#>      140   606 573.8292 1960-08-01
+#>      141   508 502.2517 1960-09-01
+#>      142   461 455.8772 1960-10-01
+#>      143   390 415.1775 1960-11-01
+#>      144   432 433.9062 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.33164
+#>  18.61065
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.48679
+#>  49.07614
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  24.69529
+#>  26.64304
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -214,7 +214,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.26907
+#>  14.57942
 ```
 
 ### Example: forecasting electricity demand
@@ -241,13 +241,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 188057.4 2015-01-01
-#>        2    NA 197409.8 2015-01-02
-#>        3    NA 188775.1 2015-01-03
+#>        1    NA 186530.9 2015-01-01
+#>        2    NA 197087.2 2015-01-02
+#>        3    NA 189725.5 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 223271.8 2015-01-12
-#>       13    NA 227054.7 2015-01-13
-#>       14    NA 227190.4 2015-01-14
+#>       12    NA 222738.5 2015-01-12
+#>       13    NA 227139.2 2015-01-13
+#>       14    NA 228322.0 2015-01-14
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -280,14 +280,14 @@ flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  20921.31
+#>  21056.51
 
 flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  91727.97
+#>  90880.65
 ```
 
 ### Example: global vs local forecasting
