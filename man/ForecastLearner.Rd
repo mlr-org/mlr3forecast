@@ -2,11 +2,9 @@
 % Please edit documentation in R/ForecastLearner.R
 \name{ForecastLearner}
 \alias{ForecastLearner}
-\title{Forecast Learner}
+\title{Encapsulate a Learner as a Forecast Learner}
 \description{
-Forecast Learner
-
-Forecast Learner
+The \link{ForecastLearner} wraps a \link[mlr3:Learner]{mlr3::Learner}.
 }
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{ForecastLearner}
@@ -15,10 +13,10 @@ Forecast Learner
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
 \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-The learner}
+Learner to wrap.}
 
 \item{\code{lags}}{(\code{integer()})\cr
-The lags}
+The lags to create.}
 }
 \if{html}{\out{</div>}}
 }

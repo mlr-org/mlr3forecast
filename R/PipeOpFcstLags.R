@@ -51,13 +51,13 @@ PipeOpFcstLags = R6Class(
 
       dt = task$data()
       self$state = list(dt = dt[(.N - max(lags)):.N])
-      nms = sprintf("%s_lag_%i", target, lags)
+      lag_cols = sprintf("%s_lag_%i", target, lags)
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))
-        dt[, (nms) := shift(get(target), lags), by = key_cols]
+        dt[, (lag_cols) := shift(get(target), lags), by = key_cols]
       } else {
         setorderv(dt, order_cols)
-        dt[, (nms) := shift(get(target), lags)]
+        dt[, (lag_cols) := shift(get(target), lags)]
       }
       task$select(task$feature_names)$cbind(dt)
     },
@@ -71,13 +71,13 @@ PipeOpFcstLags = R6Class(
       order_cols = col_roles$order
 
       dt = rbind(self$state$dt, task$data())
-      nms = sprintf("%s_lag_%i", target, lags)
+      lag_cols = sprintf("%s_lag_%i", target, lags)
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))
-        dt[, (nms) := shift(get(target), lags), by = key_cols]
+        dt[, (lag_cols) := shift(get(target), lags), by = key_cols]
       } else {
         setorderv(dt, order_cols)
-        dt[, (nms) := shift(get(target), lags)]
+        dt[, (lag_cols) := shift(get(target), lags)]
       }
       dt = dt[(.N - task$nrow + 1L):.N]
       task$select(task$feature_names)$cbind(dt)

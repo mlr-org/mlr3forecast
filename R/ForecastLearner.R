@@ -1,4 +1,7 @@
-#' @title Forecast Learner
+#' @title Encapsulate a Learner as a Forecast Learner
+#'
+#' @description
+#' The [ForecastLearner] wraps a [mlr3::Learner].
 #'
 #' @export
 ForecastLearner = R6::R6Class(
@@ -6,11 +9,11 @@ ForecastLearner = R6::R6Class(
   inherit = Learner,
   public = list(
     #' @field learner ([mlr3::Learner])\cr
-    #' The learner
+    #' Learner to wrap.
     learner = NULL,
 
     #' @field lags (`integer()`)\cr
-    #' The lags
+    #' The lags to create.
     lags = NULL,
 
     #' @description
@@ -56,12 +59,10 @@ ForecastLearner = R6::R6Class(
 
     .predict = function(task) {
       if (length(task$col_roles$key) > 0L) {
-        preds = private$.predict_global(task)
+        private$.predict_global(task)
       } else {
-        preds = private$.predict_local(task)
+        private$.predict_local(task)
       }
-      assert_true(length(preds$data$row_ids) == task$nrow)
-      preds
     },
 
     .predict_local = function(task) {
@@ -119,18 +120,18 @@ ForecastLearner = R6::R6Class(
 
     .lag_transform = function(dt, target) {
       lags = self$lags
-      nms = sprintf("%s_lag_%i", target, lags)
       col_roles = private$.task$col_roles
       order_cols = col_roles$order
       key_cols = col_roles$key
+      lag_cols = sprintf("%s_lag_%i", target, lags)
       # TODO: sorting here is overkill, remove once done
       dt = copy(dt)
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))
-        dt[, (nms) := shift(get(target), lags), by = key_cols]
+        dt[, (lag_cols) := shift(get(target), lags), by = key_cols]
       } else {
         setorderv(dt, order_cols)
-        dt[, (nms) := shift(get(target), lags)]
+        dt[, (lag_cols) := shift(get(target), lags)]
       }
       dt
     },
@@ -144,3 +145,8 @@ ForecastLearner = R6::R6Class(
     }
   )
 )
+
+#' @export
+as_learner_fcst = function(learner, lags) {
+  ForecastLearner$new(learner, lags)
+}
