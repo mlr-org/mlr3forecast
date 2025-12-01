@@ -61,6 +61,7 @@ packages. In the future, we plan to support more learners.
 
 ```{r, message = FALSE, dpi = 300}
 library(mlr3forecast)
+library(mlr3pipelines)
 
 task = tsk("airpassengers")
 task
@@ -68,9 +69,20 @@ task
 # or plot the task
 autoplot(task)
 
+# train a forecast learner
 learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
 prediction
+prediction$score(msr("regr.rmse"))
+
+# add a target log transformation
+learner = as_learner(ppl(
+  "targettrafo",
+  graph = lrn("fcst.auto_arima"),
+  targetmutate.trafo = function(x) log(x),
+  targetmutate.inverter = function(x) list(response = exp(x$response))
+))
+prediction = learner$train(task)$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 
 # generate new data to forecast unseen data
@@ -282,45 +294,6 @@ prediction$score(msr("regr.rmse"))
 
 newdata = generate_newdata(task, 12L)
 glrn$predict_newdata(newdata, task)
-```
-
-### Example: common target transformations
-
-Some common target transformations in forecasting are:
-
-- differencing (WIP)
-- log transformation, see example below
-- power transformations such as [Box-Cox](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_boxcox.html) and [Yeo-Johnson](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_yeojohnson.html)
-  currently only supported as feature transformation and not target
-- scaling/normalization, available see [here](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_targettrafoscalerange.html)
-
-```{r, eval = FALSE}
-trafo = po(
-  "targetmutate",
-  param_vals = list(
-    trafo = function(x) log(x),
-    inverter = function(x) list(response = exp(x$response))
-  )
-)
-
-graph = po("fcst.lag", lags = 1:12) %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_week = FALSE,
-      day_of_month = FALSE,
-      day_of_year = FALSE
-    )
-  )
-
-task = tsk("airpassengers")
-flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
-glrn = as_learner(graph %>>% flrn)
-pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
-glrn = as_learner(pipeline)$train(task)
-prediction = glrn$predict(task, 142:144)
-prediction$score(msr("regr.rmse"))
 ```
 
 ```{r, eval = FALSE}

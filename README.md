@@ -48,6 +48,7 @@ smooth packages. In the future, we plan to support more learners.
 
 ``` r
 library(mlr3forecast)
+library(mlr3pipelines)
 
 task = tsk("airpassengers")
 task
@@ -66,6 +67,7 @@ autoplot(task)
 
 ``` r
 
+# train a forecast learner
 learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
 prediction
@@ -80,6 +82,18 @@ prediction
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
 #>  13.85518
+
+# add a target log transformation
+learner = as_learner(ppl(
+  "targettrafo",
+  graph = lrn("fcst.auto_arima"),
+  targetmutate.trafo = function(x) log(x),
+  targetmutate.inverter = function(x) list(response = exp(x$response))
+))
+prediction = learner$train(task)$predict(task, 140:144)
+prediction$score(msr("regr.rmse"))
+#> regr.rmse 
+#>  12.29896
 
 # generate new data to forecast unseen data
 newdata = generate_newdata(task, 12L)
@@ -101,14 +115,14 @@ prediction = learner$predict_newdata(newdata, task)
 prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
-#>  row_ids truth response      month
-#>        1    NA 445.6351 1961-01-01
-#>        2    NA 420.3953 1961-02-01
-#>        3    NA 449.1988 1961-03-01
-#>      ---   ---      ---        ---
-#>       10    NA 494.1275 1961-10-01
-#>       11    NA 423.3336 1961-11-01
-#>       12    NA 465.5085 1961-12-01
+#>  row_ids truth response
+#>        1    NA 450.4224
+#>        2    NA 425.7172
+#>        3    NA 479.0068
+#>      ---   ---      ---
+#>       10    NA 497.2078
+#>       11    NA 429.8720
+#>       12    NA 477.2426
 
 # works with quantile response
 learner = lrn(
@@ -144,39 +158,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 436.0613 1961-01-01
-#>        2    NA 437.1690 1961-02-01
-#>        3    NA 457.2309 1961-03-01
+#>        1    NA 435.4356 1961-01-01
+#>        2    NA 436.3505 1961-02-01
+#>        3    NA 457.6370 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 476.3421 1961-10-01
-#>       11    NA 440.2066 1961-11-01
-#>       12    NA 440.0837 1961-12-01
+#>       10    NA 478.0104 1961-10-01
+#>       11    NA 441.8672 1961-11-01
+#>       12    NA 440.7932 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 576.4031 1960-08-01
-#>      141   508 498.1172 1960-09-01
-#>      142   461 456.0990 1960-10-01
-#>      143   390 412.1646 1960-11-01
-#>      144   432 431.3359 1960-12-01
+#>      140   606 579.3439 1960-08-01
+#>      141   508 504.7630 1960-09-01
+#>      142   461 457.5243 1960-10-01
+#>      143   390 411.0244 1960-11-01
+#>      144   432 431.5973 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  17.25907
+#>  15.33164
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.41487
+#>  47.48679
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  27.30992
+#>  24.69529
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -200,7 +214,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.91118
+#>  15.26907
 ```
 
 ### Example: forecasting electricity demand
@@ -227,13 +241,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 187768.0 2015-01-01
-#>        2    NA 195916.6 2015-01-02
-#>        3    NA 188571.9 2015-01-03
+#>        1    NA 188057.4 2015-01-01
+#>        2    NA 197409.8 2015-01-02
+#>        3    NA 188775.1 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 223477.5 2015-01-12
-#>       13    NA 227755.0 2015-01-13
-#>       14    NA 227765.7 2015-01-14
+#>       12    NA 223271.8 2015-01-12
+#>       13    NA 227054.7 2015-01-13
+#>       14    NA 227190.4 2015-01-14
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -266,14 +280,14 @@ flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  21960.92
+#>  20921.31
 
 flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  90588.74
+#>  91727.97
 ```
 
 ### Example: global vs local forecasting
@@ -364,49 +378,6 @@ prediction$score(msr("regr.rmse"))
 
 newdata = generate_newdata(task, 12L)
 glrn$predict_newdata(newdata, task)
-```
-
-### Example: common target transformations
-
-Some common target transformations in forecasting are:
-
-- differencing (WIP)
-- log transformation, see example below
-- power transformations such as
-  [Box-Cox](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_boxcox.html)
-  and
-  [Yeo-Johnson](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_yeojohnson.html)
-  currently only supported as feature transformation and not target
-- scaling/normalization, available see
-  [here](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_targettrafoscalerange.html)
-
-``` r
-trafo = po(
-  "targetmutate",
-  param_vals = list(
-    trafo = function(x) log(x),
-    inverter = function(x) list(response = exp(x$response))
-  )
-)
-
-graph = po("fcst.lag", lags = 1:12) %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_week = FALSE,
-      day_of_month = FALSE,
-      day_of_year = FALSE
-    )
-  )
-
-task = tsk("airpassengers")
-flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
-glrn = as_learner(graph %>>% flrn)
-pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
-glrn = as_learner(pipeline)$train(task)
-prediction = glrn$predict(task, 142:144)
-prediction$score(msr("regr.rmse"))
 ```
 
 ``` r
