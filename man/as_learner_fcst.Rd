@@ -12,7 +12,7 @@ as_learner_fcst(learner, lags)
 \item{lags}{(\code{integer()})\cr}
 }
 \value{
-\link{FcstLearner}.
+\link{ForecastLearner}.
 }
 \description{
 Convert to a Forecast Learner

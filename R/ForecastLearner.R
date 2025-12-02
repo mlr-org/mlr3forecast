@@ -35,6 +35,13 @@ ForecastLearner = R6::R6Class(
         packages = c("mlr3forecast", learner$packages),
         man = learner$man
       )
+    },
+
+    #' Printer.
+    #' @param ... (ignored).
+    print = function() {
+      super$print()
+      cat_cli(cli::cli_li("Lags: {self$lags}"))
     }
   ),
 

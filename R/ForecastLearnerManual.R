@@ -42,6 +42,9 @@ ForecastLearnerManual = R6::R6Class(
       target = task$target_names
       dt = task$data()
       lags = grep(sprintf("%s_lag_[0-9]+$", target), names(dt), value = TRUE)
+      if (length(lag_cols) == 0L) {
+        stopf("No lag columns found.")
+      }
       lags = sort(as.integer(sub(sprintf("%s_lag_", target), "", lags, fixed = TRUE)))
       max_lag = max(lags)
 
