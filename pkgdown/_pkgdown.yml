@@ -66,6 +66,7 @@ reference:
       - starts_with("mlr_pipeops")
   - title: Helper
     contents:
+      - as_learner_fcst
       - as_task_fcst
       - autoplot.TaskFcst
       - generate_newdata
