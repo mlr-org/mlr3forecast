@@ -69,29 +69,25 @@ TaskFcst = R6Class(
     },
 
     #' @description
-    #' Returns a slice of the data from the [mlr3::DataBackend] as a `data.table`.
-    #' Rows default to observations with role `"use"`, and
-    #' columns default to features with roles `"target"`, `"order"` or `"feature"`.
-    #' If `rows` or `cols` are specified which do not exist in the [mlr3::DataBackend],
-    #' an exception is raised.
+    #' Returns a slice of the data from the [mlr3::DataBackend] as a [data.table::data.table()].
+    #' Rows default to observations with role `"use"`, and columns default to features with roles
+    #' `"target"`, `"order"`, `"key"` or `"feature"`. If `rows` or `cols` are specified which do not
+    #' exist in the [mlr3::DataBackend], an exception is raised.
     #'
     #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`.
     #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
-    #' If `cols` is `NULL`, the column order defaults to
-    #' `c(task$target_names, task$feature_names)`.
+    #' If `cols` is `NULL`, the column order defaults to `c(task$target_names, task$feature_names,
+    #' task$col_roles$key, task$col_roles$order)`.
     #' Note that it is recommended to **not** rely on the order of columns, and instead always
     #' address columns with their respective column name.
     #'
     #' @param ordered (`logical(1)`)\cr
-    #'   If `TRUE`, data is ordered according to the columns with column role `"order"`.
-    #' @param include_order (`logical(1)`)\cr
-    #'   If `TRUE`, columns with column role `"order"` and `"key"` are included in the result.
+    #'   If `TRUE`, data is ordered according to the columns with column role `"order"` and `"key"`.
     #'
-    #' @return Depending on the [mlr3::DataBackend], but usually a [data.table::data.table()].
-    data = function(rows = NULL, cols = NULL, ordered = FALSE, include_order = FALSE) {
+    #' @return A [data.table::data.table()].
+    view = function(rows = NULL, cols = NULL, ordered = FALSE) {
       assert_has_backend(self)
       assert_flag(ordered)
-      assert_flag(include_order)
 
       col_roles = self$col_roles
       order_cols = c(col_roles$key, col_roles$order)
@@ -103,12 +99,10 @@ TaskFcst = R6Class(
         query_cols = cols
       }
 
-      if (include_order) {
-        query_cols = union(query_cols, order_cols)
-        cols = union(cols, order_cols)
-      }
+      query_cols = union(query_cols, order_cols)
+      cols = union(cols, order_cols)
 
-      data = super$data(rows, query_cols)
+      data = self$data(rows, query_cols)
       if (ncol(data) == 0L) {
         return(data)
       }
@@ -116,9 +110,7 @@ TaskFcst = R6Class(
       if (ordered) {
         setorderv(data, order_cols)
       }
-      if (include_order) {
-        setcolorder(data, order_cols)
-      }
+      setcolorder(data, order_cols)
       remove_named(data, setdiff(query_cols, cols))
     },
 
@@ -184,7 +176,6 @@ TaskFcst = R6Class(
       }
 
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, key_cols))
-      # TODO: is there a valid reason for this handling, copyied from mlr3 offset binding?
       if (length(key_cols) == 1L) {
         setnames(data, c("row_id", "key"))[]
       } else {

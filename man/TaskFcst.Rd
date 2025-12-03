@@ -100,7 +100,7 @@ Returns \code{NULL} if there are are no key columns.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-TaskFcst-new}{\code{TaskFcst$new()}}
-\item \href{#method-TaskFcst-data}{\code{TaskFcst$data()}}
+\item \href{#method-TaskFcst-view}{\code{TaskFcst$view()}}
 \item \href{#method-TaskFcst-print}{\code{TaskFcst$print()}}
 \item \href{#method-TaskFcst-clone}{\code{TaskFcst$clone()}}
 }
@@ -110,6 +110,7 @@ Returns \code{NULL} if there are are no key columns.}
 <ul>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href='../../mlr3/html/Task.html#method-Task-add_strata'><code>mlr3::Task$add_strata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-Task-cbind'><code>mlr3::Task$cbind()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-Task-data'><code>mlr3::Task$data()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="divide"><a href='../../mlr3/html/Task.html#method-Task-divide'><code>mlr3::Task$divide()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href='../../mlr3/html/Task.html#method-Task-droplevels'><code>mlr3::Task$droplevels()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-Task-filter'><code>mlr3::Task$filter()</code></a></span></li>
@@ -193,23 +194,21 @@ via \code{\link[mlr3:convert_task]{mlr3::convert_task()}}.}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TaskFcst-data"></a>}}
-\if{latex}{\out{\hypertarget{method-TaskFcst-data}{}}}
-\subsection{Method \code{data()}}{
-Returns a slice of the data from the \link[mlr3:DataBackend]{mlr3::DataBackend} as a \code{data.table}.
-Rows default to observations with role \code{"use"}, and
-columns default to features with roles \code{"target"}, \code{"order"} or \code{"feature"}.
-If \code{rows} or \code{cols} are specified which do not exist in the \link[mlr3:DataBackend]{mlr3::DataBackend},
-an exception is raised.
+\if{html}{\out{<a id="method-TaskFcst-view"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskFcst-view}{}}}
+\subsection{Method \code{view()}}{
+Returns a slice of the data from the \link[mlr3:DataBackend]{mlr3::DataBackend} as a \code{\link[data.table:data.table]{data.table::data.table()}}.
+Rows default to observations with role \code{"use"}, and columns default to features with roles
+\code{"target"}, \code{"order"}, \code{"key"} or \code{"feature"}. If \code{rows} or \code{cols} are specified which do not
+exist in the \link[mlr3:DataBackend]{mlr3::DataBackend}, an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
-If \code{cols} is \code{NULL}, the column order defaults to
-\code{c(task$target_names, task$feature_names)}.
+If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order)}.
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$data(rows = NULL, cols = NULL, ordered = FALSE, include_order = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$view(rows = NULL, cols = NULL, ordered = FALSE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -222,15 +221,12 @@ Vector or row indices.}
 Vector of column names.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr
-If \code{TRUE}, data is ordered according to the columns with column role \code{"order"}.}
-
-\item{\code{include_order}}{(\code{logical(1)})\cr
-If \code{TRUE}, columns with column role \code{"order"} and \code{"key"} are included in the result.}
+If \code{TRUE}, data is ordered according to the columns with column role \code{"order"} and \code{"key"}.}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Depending on the \link[mlr3:DataBackend]{mlr3::DataBackend}, but usually a \code{\link[data.table:data.table]{data.table::data.table()}}.
+A \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 }
 \if{html}{\out{<hr>}}

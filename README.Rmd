@@ -75,6 +75,12 @@ prediction = learner$predict(task, 140:144)
 prediction
 prediction$score(msr("regr.rmse"))
 
+# generate new data to forecast unseen data
+newdata = generate_newdata(task, 12L)
+newdata
+prediction = learner$predict_newdata(newdata, task)
+prediction
+
 # add a target log transformation
 learner = as_learner(ppl(
   "targettrafo",
@@ -84,12 +90,6 @@ learner = as_learner(ppl(
 ))
 prediction = learner$train(task)$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
-
-# generate new data to forecast unseen data
-newdata = generate_newdata(task, 12L)
-newdata
-prediction = learner$predict_newdata(newdata, task)
-prediction
 
 # works with quantile response
 learner = lrn(

@@ -55,7 +55,7 @@ ForecastLearner = R6::R6Class(
       order_cols = col_roles$order
       private$.max_index = max(task$data(cols = order_cols)[[1L]])
       private$.task = task$clone()
-      lagged = private$.lag_transform(task$data(include_order = TRUE), target)
+      lagged = private$.lag_transform(task$view(), target)
       if (order_cols %nin% col_roles$feature) {
         set(lagged, j = order_cols, value = NULL)
       }
@@ -75,8 +75,8 @@ ForecastLearner = R6::R6Class(
     .predict_local = function(task) {
       target = task$target_names
       order_cols = task$col_roles$order
-      history = private$.task$data(include_order = TRUE)
-      newdata = task$data(include_order = TRUE)
+      history = private$.task$view()
+      newdata = task$view()
       history = if (private$.is_newdata(task)) history else history[!newdata, on = order_cols]
 
       preds = vector("list", nrow(newdata))
@@ -101,9 +101,9 @@ ForecastLearner = R6::R6Class(
       order_cols = col_roles$order
       key_cols = col_roles$key
       is_newdata = private$.is_newdata(task)
-      history = private$.task$data(include_order = TRUE)
+      history = private$.task$view()
 
-      preds = map(split(task$data(include_order = TRUE), by = key_cols, drop = TRUE), function(newdata) {
+      preds = map(split(task$view(), by = key_cols, drop = TRUE), function(newdata) {
         history = history[newdata[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
         history = if (is_newdata) history else history[!newdata, on = order_cols]
 
