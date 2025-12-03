@@ -77,7 +77,7 @@ prediction$score(msr("regr.rmse"))
 
 # generate new data to forecast unseen data
 newdata = generate_newdata(task, 12L)
-newdata
+head(newdata)
 prediction = learner$predict_newdata(newdata, task)
 prediction
 
@@ -99,6 +99,12 @@ learner = lrn(
   quantile_response = 0.5
 )$train(task)
 learner$predict_newdata(newdata, task)
+
+# resampling
+learner = lrn("fcst.auto_arima")
+resampling = rsmp("fcst.holdout", ratio = 0.7)
+rr = resample(task, learner, resampling)
+rr$aggregate(msr("regr.rmse"))
 ```
 
 ### Example: forecasting with regression learner
