@@ -92,6 +92,8 @@
 
 ## Helper
 
+- [`as_learner_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_learner_fcst.md)
+  : Convert to a Forecast Learner
 - [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_task_fcst.md)
   [`as_tasks_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_task_fcst.md)
   : Convert to a Forecast Task

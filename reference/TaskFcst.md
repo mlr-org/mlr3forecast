@@ -128,7 +128,7 @@ Other Task:
 
 - [`TaskFcst$new()`](#method-TaskFcst-new)
 
-- [`TaskFcst$data()`](#method-TaskFcst-data)
+- [`TaskFcst$view()`](#method-TaskFcst-view)
 
 - [`TaskFcst$print()`](#method-TaskFcst-print)
 
@@ -138,6 +138,7 @@ Inherited methods
 
 - [`mlr3::Task$add_strata()`](https://mlr3.mlr-org.com/reference/Task.html#method-add_strata)
 - [`mlr3::Task$cbind()`](https://mlr3.mlr-org.com/reference/Task.html#method-cbind)
+- [`mlr3::Task$data()`](https://mlr3.mlr-org.com/reference/Task.html#method-data)
 - [`mlr3::Task$divide()`](https://mlr3.mlr-org.com/reference/Task.html#method-divide)
 - [`mlr3::Task$droplevels()`](https://mlr3.mlr-org.com/reference/Task.html#method-droplevels)
 - [`mlr3::Task$filter()`](https://mlr3.mlr-org.com/reference/Task.html#method-filter)
@@ -249,26 +250,28 @@ provides an alternative way to construct forecast tasks.
 
 ------------------------------------------------------------------------
 
-### Method [`data()`](https://rdrr.io/r/utils/data.html)
+### Method `view()`
 
 Returns a slice of the data from the
 [mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html)
-as a `data.table`. Rows default to observations with role `"use"`, and
-columns default to features with roles `"target"`, `"order"` or
-`"feature"`. If `rows` or `cols` are specified which do not exist in the
+as a
+[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+Rows default to observations with role `"use"`, and columns default to
+features with roles `"target"`, `"order"`, `"key"` or `"feature"`. If
+`rows` or `cols` are specified which do not exist in the
 [mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html),
 an exception is raised.
 
 Rows and columns are returned in the order specified via the arguments
 `rows` and `cols`. If `rows` is `NULL`, rows are returned in the order
 of `task$row_ids`. If `cols` is `NULL`, the column order defaults to
-`c(task$target_names, task$feature_names)`. Note that it is recommended
-to **not** rely on the order of columns, and instead always address
-columns with their respective column name.
+`c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order)`.
+Note that it is recommended to **not** rely on the order of columns, and
+instead always address columns with their respective column name.
 
 #### Usage
 
-    TaskFcst$data(rows = NULL, cols = NULL, ordered = FALSE, include_order = FALSE)
+    TaskFcst$view(rows = NULL, cols = NULL, ordered = FALSE)
 
 #### Arguments
 
@@ -286,19 +289,11 @@ columns with their respective column name.
 
   (`logical(1)`)  
   If `TRUE`, data is ordered according to the columns with column role
-  `"order"`.
-
-- `include_order`:
-
-  (`logical(1)`)  
-  If `TRUE`, columns with column role `"order"` and `"key"` are included
-  in the result.
+  `"order"` and `"key"`.
 
 #### Returns
 
-Depending on the
-[mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html),
-but usually a
+A
 [`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
 
 ------------------------------------------------------------------------

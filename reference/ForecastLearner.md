@@ -26,6 +26,8 @@ The ForecastLearner wraps a
 
 - [`ForecastLearner$new()`](#method-ForecastLearner-new)
 
+- [`ForecastLearner$print()`](#method-ForecastLearner-print)
+
 - [`ForecastLearner$clone()`](#method-ForecastLearner-clone)
 
 Inherited methods
@@ -37,7 +39,6 @@ Inherited methods
 - [`mlr3::Learner$help()`](https://mlr3.mlr-org.com/reference/Learner.html#method-help)
 - [`mlr3::Learner$predict()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict)
 - [`mlr3::Learner$predict_newdata()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict_newdata)
-- [`mlr3::Learner$print()`](https://mlr3.mlr-org.com/reference/Learner.html#method-print)
 - [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
 - [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
@@ -62,10 +63,25 @@ Creates a new instance of this
 - `lags`:
 
   (`integer(1)`)  
+  Printer.
 
 - `task`:
 
   ([mlr3::Task](https://mlr3.mlr-org.com/reference/Task.html))  
+
+------------------------------------------------------------------------
+
+### Method [`print()`](https://rdrr.io/r/base/print.html)
+
+#### Usage
+
+    ForecastLearner$print()
+
+#### Arguments
+
+- `...`:
+
+  (ignored).
 
 ------------------------------------------------------------------------
 
