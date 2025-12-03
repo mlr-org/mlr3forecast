@@ -160,39 +160,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 434.1089 1961-01-01
-#>        2    NA 435.1952 1961-02-01
-#>        3    NA 453.3213 1961-03-01
+#>        1    NA 435.7965 1961-01-01
+#>        2    NA 435.4132 1961-02-01
+#>        3    NA 457.0184 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 480.7029 1961-10-01
-#>       11    NA 440.3154 1961-11-01
-#>       12    NA 439.9652 1961-12-01
+#>       10    NA 473.8832 1961-10-01
+#>       11    NA 441.8629 1961-11-01
+#>       12    NA 441.0064 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 580.4945 1960-08-01
-#>      141   508 503.9283 1960-09-01
-#>      142   461 453.5133 1960-10-01
-#>      143   390 414.3402 1960-11-01
-#>      144   432 431.9185 1960-12-01
+#>      140   606 573.3534 1960-08-01
+#>      141   508 500.6443 1960-09-01
+#>      142   461 454.1364 1960-10-01
+#>      143   390 415.2856 1960-11-01
+#>      144   432 430.7669 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.22105
+#>  19.01525
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.60131
+#>  48.15081
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.99407
+#>  24.15805
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -216,7 +216,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  14.55323
+#>  13.59271
 ```
 
 ### Example: forecasting electricity demand
@@ -243,13 +243,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 188367.1 2015-01-01
-#>        2    NA 197059.7 2015-01-02
-#>        3    NA 189557.6 2015-01-03
+#>        1    NA 187072.4 2015-01-01
+#>        2    NA 197213.8 2015-01-02
+#>        3    NA 190341.2 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 222577.0 2015-01-12
-#>       13    NA 227080.0 2015-01-13
-#>       14    NA 227389.6 2015-01-14
+#>       12    NA 222999.3 2015-01-12
+#>       13    NA 227657.7 2015-01-13
+#>       14    NA 228146.6 2015-01-14
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -282,14 +282,14 @@ flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  20657.83
+#>  19611.76
 
 flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>     91283
+#>  90730.41
 ```
 
 ### Example: global vs local forecasting
@@ -358,12 +358,12 @@ library(mlr3learners)
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
-pop = po("fcst.lag", lags = 1:12)
+pop = po("fcst.lags", lags = 1:12)
 new_task = pop$train(list(task))[[1L]]
 new_task$data()
 
 task = tsk("airpassengers")
-graph = po("fcst.lag", lags = 1:12) %>>%
+graph = po("fcst.lags", lags = 1:12) %>>%
   po(
     "datefeatures",
     param_vals = list(
@@ -375,7 +375,7 @@ graph = po("fcst.lag", lags = 1:12) %>>%
   )
 flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)$train(task)
-prediction = glrn$predict(task, 142:144)
+prediction = glrn$predict(task, 1:12)
 prediction$score(msr("regr.rmse"))
 
 newdata = generate_newdata(task, 12L)
@@ -383,7 +383,7 @@ glrn$predict_newdata(newdata, task)
 ```
 
 ``` r
-graph = po("fcst.lag", lags = 1:12) %>>%
+graph = po("fcst.lags", lags = 1:12) %>>%
   po(
     "datefeatures",
     param_vals = list(

@@ -50,12 +50,17 @@ ForecastLearner = R6::R6Class(
     .max_index = NULL,
 
     .train = function(task) {
+      if (max(self$lags) >= task$nrow) {
+        stopf("Not enough data to create the required lags.")
+      }
+
       col_roles = task$col_roles
       target = col_roles$target
       order_cols = col_roles$order
+      key_cols = col_roles$key
       private$.max_index = max(task$data(cols = order_cols)[[1L]])
       private$.task = task$clone()
-      lagged = private$.lag_transform(task$view(), target)
+      lagged = private$.lag_transform(task$view(), target, order_cols, key_cols)
       if (order_cols %nin% col_roles$feature) {
         set(lagged, j = order_cols, value = NULL)
       }
@@ -78,13 +83,15 @@ ForecastLearner = R6::R6Class(
       history = private$.task$view()
       newdata = task$view()
       history = if (private$.is_newdata(task)) history else history[!newdata, on = order_cols]
+      window = tail(history, max(self$lags))
 
       preds = vector("list", nrow(newdata))
       for (i in seq_len(nrow(newdata))) {
-        history = rbind(history, newdata[i])
-        lagged = private$.lag_transform(history, target)
+        window = rbind(window, newdata[i])
+        lagged = private$.lag_transform(window, target, order_cols)
         pred = self$model$learner$predict_newdata(lagged[.N])
-        set(history, i = nrow(history), j = target, value = pred$response)
+        set(window, i = nrow(window), j = target, value = pred$response)
+        window = window[-1L]
         preds[[i]] = pred
       }
       preds = do.call(c, preds)
@@ -110,7 +117,7 @@ ForecastLearner = R6::R6Class(
         preds = vector("list", nrow(newdata))
         for (i in seq_len(nrow(newdata))) {
           history = rbind(history, newdata[i])
-          lagged = private$.lag_transform(history, target)
+          lagged = private$.lag_transform(history, target, order_cols, key_cols)
           pred = self$model$learner$predict_newdata(lagged[.N])
           set(history, i = nrow(history), j = target, value = pred$response)
           preds[[i]] = pred
@@ -125,13 +132,9 @@ ForecastLearner = R6::R6Class(
       preds
     },
 
-    .lag_transform = function(dt, target) {
+    .lag_transform = function(dt, target, order_cols, key_cols = NULL) {
       lags = self$lags
-      col_roles = private$.task$col_roles
-      order_cols = col_roles$order
-      key_cols = col_roles$key
       lag_cols = sprintf("%s_lag_%i", target, lags)
-      # TODO: sorting here is overkill, remove once done
       dt = copy(dt)
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))

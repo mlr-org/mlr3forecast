@@ -42,14 +42,15 @@ ForecastLearnerManual = R6::R6Class(
       target = task$target_names
       dt = task$data()
       lags = grep(sprintf("%s_lag_[0-9]+$", target), names(dt), value = TRUE)
-      if (length(lag_cols) == 0L) {
+      if (length(lags) == 0L) {
         stopf("No lag columns found.")
       }
       lags = sort(as.integer(sub(sprintf("%s_lag_", target), "", lags, fixed = TRUE)))
       max_lag = max(lags)
 
-      preds = vector("list", length = task$nrow)
-      for (i in seq_len(task$nrow)) {
+      n = task$nrow
+      preds = vector("list", length = n)
+      for (i in seq_len(n)) {
         pred = self$model$learner$predict_newdata(dt[i])
         preds[[i]] = pred
         set(dt, i = i, j = target, value = pred$response)
@@ -59,7 +60,7 @@ ForecastLearnerManual = R6::R6Class(
         dt[, (lag_cols) := shift(get(target), lag)]
       }
       preds = do.call(c, preds)
-      preds$data$row_ids = seq_len(task$nrow)
+      preds$data$row_ids = seq_len(n)
       preds
     }
   )

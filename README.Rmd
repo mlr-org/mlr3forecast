@@ -278,12 +278,12 @@ library(mlr3learners)
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
-pop = po("fcst.lag", lags = 1:12)
+pop = po("fcst.lags", lags = 1:12)
 new_task = pop$train(list(task))[[1L]]
 new_task$data()
 
 task = tsk("airpassengers")
-graph = po("fcst.lag", lags = 1:12) %>>%
+graph = po("fcst.lags", lags = 1:12) %>>%
   po(
     "datefeatures",
     param_vals = list(
@@ -295,7 +295,7 @@ graph = po("fcst.lag", lags = 1:12) %>>%
   )
 flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
 glrn = as_learner(graph %>>% flrn)$train(task)
-prediction = glrn$predict(task, 142:144)
+prediction = glrn$predict(task, 1:12)
 prediction$score(msr("regr.rmse"))
 
 newdata = generate_newdata(task, 12L)
@@ -303,7 +303,7 @@ glrn$predict_newdata(newdata, task)
 ```
 
 ```{r, eval = FALSE}
-graph = po("fcst.lag", lags = 1:12) %>>%
+graph = po("fcst.lags", lags = 1:12) %>>%
   po(
     "datefeatures",
     param_vals = list(
