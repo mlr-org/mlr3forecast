@@ -177,9 +177,9 @@ prediction = glrn$predict_newdata(newdata, task)
 prediction
 ```
 
-### Example: global forecasting (longitudinal data)
+### Example: global forecasting
 
-```{r, message = FALSE}
+```{r}
 library(mlr3learners)
 library(mlr3pipelines)
 library(tsibble)
@@ -215,59 +215,62 @@ rr$aggregate(msr("regr.rmse"))
 ### Example: global vs local forecasting
 
 In machine learning forecasting the difference between forecasting a time series
-and longitudinal data is often refered to local and global forecasting.
+and longitudinal data is often referred to local and global forecasting.
 
 ```{r, eval = FALSE}
-graph = po(
-  "datefeatures",
-  param_vals = list(
-    week_of_year = FALSE,
-    day_of_week = FALSE,
-    day_of_month = FALSE,
-    day_of_year = FALSE
-  )
-)
-learner = lrn("regr.ranger")
-
-# local forecasting
-task = tsibbledata::aus_livestock |>
-  as.data.table() |>
-  setnames(tolower) |>
-  _[, month := as.Date(month)] |>
-  _[state == "Western Australia", .(count = sum(count)), by = month] |>
-  setorder(month) |>
-  as_task_fcst(id = "aus_livestock", target = "count", order = "month")
-task$set_col_roles("month", add = "feature")
-task = graph$train(list(task))[[1L]]
-flrn = as_learner_fcst(learner, 1:12)$train(task)
-dt = task$backend$data(
-  rows = task$row_ids,
-  cols = c(task$backend$primary_key, "month.year")
-)
-setnames(dt, c("row_id", "year"))
-row_ids = dt[year >= 2015, row_id]
-prediction = flrn$predict(task, row_ids)
-prediction$score(msr("regr.rmse"))
+retail = setDT(tsibbledata::aus_retail)
+setnames(retail, tolower)
+retail[, month := as.Date(month)]
+vic = retail[state == "Victoria"]
+vic[, let(state = NULL, `series id` = NULL)]
+vic_train = vic[month < as.Date("2015-01-01")]
+vic_test = vic[month >= as.Date("2015-01-01")]
 
 # global forecasting
-task = tsibbledata::aus_livestock |>
-  as.data.table() |>
-  setnames(tolower) |>
-  _[, month := as.Date(month)] |>
-  _[, .(count = sum(count)), by = .(state, month)] |>
-  setorder(state, month) |>
-  as_task_fcst(id = "aus_livestock", target = "count", order = "month", key = "state")
-task$set_col_roles("month", add = "feature")
-task = graph$train(list(task))[[1L]]
-flrn = as_learner_fcst(learner, 1:12)$train(task)
-dt = task$backend$data(
-  rows = task$row_ids,
-  cols = c(task$backend$primary_key, "month.year", "state")
+task_train = as_task_fcst(
+  vic_train,
+  id = "aus_retail_vic",
+  target = "turnover",
+  order = "month",
+  key = "industry",
+  freq = "monthly"
 )
-setnames(dt, c("row_id", "year", "state"))
-row_ids = dt[year >= 2015 & state == "Western Australia", row_id]
-prediction = flrn$predict(task, row_ids)
-prediction$score(msr("regr.rmse"))
+task_test = as_task_fcst(
+  vic_test,
+  id = "aus_retail_vic",
+  target = "turnover",
+  order = "month",
+  key = "industry",
+  freq = "monthly"
+)
+
+learner = lrn("regr.ranger")
+flrn = as_learner_fcst(learner, lags = 1:12)$train(task_train)
+prediction_global = flrn$predict(task_test)
+prediction_global
+prediction_global$score(msr("regr.rmse"))
+
+# local forecasting
+prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
+  task_train = as_task_fcst(
+    dt[month < as.Date("2015-01-01")],
+    id = "aus_retail_vic_local",
+    target = "turnover",
+    order = "month",
+    freq = "monthly"
+  )
+  task_test = as_task_fcst(
+    dt[month >= as.Date("2015-01-01")],
+    id = "aus_retail_vic_local",
+    target = "turnover",
+    order = "month",
+    freq = "monthly"
+  )
+  flrn = as_learner_fcst(learner, lags = 1:12)$train(task_train)
+  prediction = flrn$predict(task_test)
+  prediction
+})
+do.call(c, prediction_local)$score(msr("regr.rmse"))
 ```
 
 ### Example: Custom PipeOps
