@@ -19,7 +19,7 @@ LearnerFcstForecast = R6Class(
         return(prediction)
       }
 
-      if ("exogenous" %chin% self$properties && task$n_features > 0L) {
+      if ("exogenous" %in% self$properties && task$n_features > 0L) {
         newdata = as.matrix(task$data(cols = task$feature_names))
         args = list(xreg = newdata)
       } else {
