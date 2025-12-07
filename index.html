@@ -204,39 +204,39 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── &lt;PredictionRegr&gt; for 12 observations: ───────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  row_ids truth response      month</span></span>
-<span><span class="co">#&gt;        1    NA 435.7374 1961-01-01</span></span>
-<span><span class="co">#&gt;        2    NA 435.3384 1961-02-01</span></span>
-<span><span class="co">#&gt;        3    NA 456.0375 1961-03-01</span></span>
+<span><span class="co">#&gt;        1    NA 435.0533 1961-01-01</span></span>
+<span><span class="co">#&gt;        2    NA 437.6080 1961-02-01</span></span>
+<span><span class="co">#&gt;        3    NA 456.1184 1961-03-01</span></span>
 <span><span class="co">#&gt;      ---   ---      ---        ---</span></span>
-<span><span class="co">#&gt;       10    NA 485.0751 1961-10-01</span></span>
-<span><span class="co">#&gt;       11    NA 442.7696 1961-11-01</span></span>
-<span><span class="co">#&gt;       12    NA 440.9337 1961-12-01</span></span>
+<span><span class="co">#&gt;       10    NA 468.6514 1961-10-01</span></span>
+<span><span class="co">#&gt;       11    NA 433.2618 1961-11-01</span></span>
+<span><span class="co">#&gt;       12    NA 439.3617 1961-12-01</span></span>
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="fl">140</span><span class="op">:</span><span class="fl">144</span><span class="op">)</span></span>
 <span><span class="va">prediction</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── &lt;PredictionRegr&gt; for 5 observations: ────────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  row_ids truth response      month</span></span>
-<span><span class="co">#&gt;      140   606 575.9995 1960-08-01</span></span>
-<span><span class="co">#&gt;      141   508 503.0068 1960-09-01</span></span>
-<span><span class="co">#&gt;      142   461 455.7510 1960-10-01</span></span>
-<span><span class="co">#&gt;      143   390 410.8442 1960-11-01</span></span>
-<span><span class="co">#&gt;      144   432 431.9392 1960-12-01</span></span>
+<span><span class="co">#&gt;      140   606 574.2205 1960-08-01</span></span>
+<span><span class="co">#&gt;      141   508 500.4466 1960-09-01</span></span>
+<span><span class="co">#&gt;      142   461 455.8346 1960-10-01</span></span>
+<span><span class="co">#&gt;      143   390 413.2558 1960-11-01</span></span>
+<span><span class="co">#&gt;      144   432 430.3340 1960-12-01</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;   16.6553</span></span>
+<span><span class="co">#&gt;  18.09576</span></span>
 <span></span>
 <span><span class="va">flrn</span> <span class="op">=</span> <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="va">learner</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">rsmp</a></span><span class="op">(</span><span class="st">"fcst.holdout"</span>, ratio <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
 <span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/resample.html" class="external-link">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">flrn</span>, <span class="va">resampling</span><span class="op">)</span></span>
 <span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  48.14536</span></span>
+<span><span class="co">#&gt;  47.84519</span></span>
 <span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">rsmp</a></span><span class="op">(</span><span class="st">"fcst.cv"</span><span class="op">)</span></span>
 <span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/resample.html" class="external-link">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">flrn</span>, <span class="va">resampling</span><span class="op">)</span></span>
 <span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  24.68607</span></span></code></pre></div>
+<span><span class="co">#&gt;  25.59244</span></span></code></pre></div>
 <p>Or with some feature engineering using mlr3pipelines:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span>
@@ -257,7 +257,7 @@
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">glrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="fl">142</span><span class="op">:</span><span class="fl">144</span><span class="op">)</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  15.03337</span></span></code></pre></div>
+<span><span class="co">#&gt;  15.60555</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-forecasting-electricity-demand">Example: forecasting electricity demand<a class="anchor" aria-label="anchor" href="#example-forecasting-electricity-demand"></a>
@@ -284,21 +284,32 @@
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; ── &lt;PredictionRegr&gt; for 14 observations: ───────────────────────────────────────</span></span>
 <span><span class="co">#&gt;  row_ids truth response       date</span></span>
-<span><span class="co">#&gt;        1    NA 188373.2 2015-01-01</span></span>
-<span><span class="co">#&gt;        2    NA 195959.9 2015-01-02</span></span>
-<span><span class="co">#&gt;        3    NA 189741.3 2015-01-03</span></span>
+<span><span class="co">#&gt;        1    NA 187373.1 2015-01-01</span></span>
+<span><span class="co">#&gt;        2    NA 197780.0 2015-01-02</span></span>
+<span><span class="co">#&gt;        3    NA 189779.0 2015-01-03</span></span>
 <span><span class="co">#&gt;      ---   ---      ---        ---</span></span>
-<span><span class="co">#&gt;       12    NA 222621.7 2015-01-12</span></span>
-<span><span class="co">#&gt;       13    NA 226682.3 2015-01-13</span></span>
-<span><span class="co">#&gt;       14    NA 227208.0 2015-01-14</span></span></code></pre></div>
+<span><span class="co">#&gt;       12    NA 222898.1 2015-01-12</span></span>
+<span><span class="co">#&gt;       13    NA 226969.3 2015-01-13</span></span>
+<span><span class="co">#&gt;       14    NA 227466.1 2015-01-14</span></span></code></pre></div>
 </div>
 <div class="section level3">
-<h3 id="example-global-forecasting-longitudinal-data">Example: global forecasting (longitudinal data)<a class="anchor" aria-label="anchor" href="#example-global-forecasting-longitudinal-data"></a>
+<h3 id="example-global-forecasting">Example: global forecasting<a class="anchor" aria-label="anchor" href="#example-global-forecasting"></a>
 </h3>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3learners.mlr-org.com" class="external-link">mlr3learners</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibble.tidyverts.org" class="external-link">tsibble</a></span><span class="op">)</span></span>
+<span><span class="co">#&gt; Registered S3 method overwritten by 'tsibble':</span></span>
+<span><span class="co">#&gt;   method               from </span></span>
+<span><span class="co">#&gt;   as_tibble.grouped_df dplyr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'tsibble'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:data.table':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     key</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, union</span></span>
 <span></span>
 <span><span class="va">dt</span> <span class="op">=</span> <span class="fu">setDT</span><span class="op">(</span><span class="fu">tsibbledata</span><span class="fu">::</span><span class="va"><a href="https://tsibbledata.tidyverts.org/reference/aus_livestock.html" class="external-link">aus_livestock</a></span><span class="op">)</span></span>
 <span><span class="fu">setnames</span><span class="op">(</span><span class="va">dt</span>, <span class="va">tolower</span><span class="op">)</span></span>
@@ -323,69 +334,72 @@
 <span><span class="va">prediction</span> <span class="op">=</span> <span class="va">glrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="fl">4460</span><span class="op">:</span><span class="fl">4464</span><span class="op">)</span></span>
 <span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  24528.55</span></span>
+<span><span class="co">#&gt;  25626.45</span></span>
 <span></span>
 <span><span class="va">resampling</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">rsmp</a></span><span class="op">(</span><span class="st">"fcst.holdout"</span>, ratio <span class="op">=</span> <span class="fl">0.9</span><span class="op">)</span></span>
 <span><span class="va">rr</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/resample.html" class="external-link">resample</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">glrn</span>, <span class="va">resampling</span><span class="op">)</span></span>
 <span><span class="va">rr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  110577.2</span></span></code></pre></div>
+<span><span class="co">#&gt;  110980.6</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-global-vs-local-forecasting">Example: global vs local forecasting<a class="anchor" aria-label="anchor" href="#example-global-vs-local-forecasting"></a>
 </h3>
-<p>In machine learning forecasting the difference between forecasting a time series and longitudinal data is often refered to local and global forecasting.</p>
+<p>In machine learning forecasting the difference between forecasting a time series and longitudinal data is often referred to local and global forecasting.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">graph</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span></span>
-<span>  <span class="st">"datefeatures"</span>,</span>
-<span>  param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>    week_of_year <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    day_of_week <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    day_of_month <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>    day_of_year <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span>  <span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># local forecasting</span></span>
-<span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsibbledata</span><span class="fu">::</span><span class="va"><a href="https://tsibbledata.tidyverts.org/reference/aus_livestock.html" class="external-link">aus_livestock</a></span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">setnames</span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="va">_</span><span class="op">[</span>, <span class="va">month</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">month</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span></span>
-<span>  <span class="va">_</span><span class="op">[</span><span class="va">state</span> <span class="op">==</span> <span class="st">"Western Australia"</span>, <span class="fu">.</span><span class="op">(</span>count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">count</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="va">month</span><span class="op">]</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">setorder</span><span class="op">(</span><span class="va">month</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"aus_livestock"</span>, target <span class="op">=</span> <span class="st">"count"</span>, order <span class="op">=</span> <span class="st">"month"</span><span class="op">)</span></span>
-<span><span class="va">task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="st">"month"</span>, add <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span>
-<span><span class="va">task</span> <span class="op">=</span> <span class="va">graph</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">flrn</span> <span class="op">=</span> <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="va">learner</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span><span class="va">dt</span> <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span></span>
-<span>  rows <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">row_ids</span>,</span>
-<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="va">primary_key</span>, <span class="st">"month.year"</span><span class="op">)</span></span>
-<span><span class="op">)</span></span>
-<span><span class="fu">setnames</span><span class="op">(</span><span class="va">dt</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row_id"</span>, <span class="st">"year"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">row_ids</span> <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">year</span> <span class="op">&gt;=</span> <span class="fl">2015</span>, <span class="va">row_id</span><span class="op">]</span></span>
-<span><span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="va">row_ids</span><span class="op">)</span></span>
-<span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">retail</span> <span class="op">=</span> <span class="fu">setDT</span><span class="op">(</span><span class="fu">tsibbledata</span><span class="fu">::</span><span class="va"><a href="https://tsibbledata.tidyverts.org/reference/aus_retail.html" class="external-link">aus_retail</a></span><span class="op">)</span></span>
+<span><span class="fu">setnames</span><span class="op">(</span><span class="va">retail</span>, <span class="va">tolower</span><span class="op">)</span></span>
+<span><span class="va">retail</span><span class="op">[</span>, <span class="va">month</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">month</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">vic</span> <span class="op">=</span> <span class="va">retail</span><span class="op">[</span><span class="va">state</span> <span class="op">==</span> <span class="st">"Victoria"</span><span class="op">]</span></span>
+<span><span class="va">vic</span><span class="op">[</span>, <span class="fu">let</span><span class="op">(</span>state <span class="op">=</span> <span class="cn">NULL</span>, `series id` <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">vic_train</span> <span class="op">=</span> <span class="va">vic</span><span class="op">[</span><span class="va">month</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2015-01-01"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">vic_test</span> <span class="op">=</span> <span class="va">vic</span><span class="op">[</span><span class="va">month</span> <span class="op">&gt;=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2015-01-01"</span><span class="op">)</span><span class="op">]</span></span>
 <span></span>
 <span><span class="co"># global forecasting</span></span>
-<span><span class="va">task</span> <span class="op">=</span> <span class="fu">tsibbledata</span><span class="fu">::</span><span class="va"><a href="https://tsibbledata.tidyverts.org/reference/aus_livestock.html" class="external-link">aus_livestock</a></span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="https://rdatatable.gitlab.io/data.table/reference/as.data.table.html" class="external-link">as.data.table</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">setnames</span><span class="op">(</span><span class="va">tolower</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="va">_</span><span class="op">[</span>, <span class="va">month</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">month</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span></span>
-<span>  <span class="va">_</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span>count <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">count</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="fu">.</span><span class="op">(</span><span class="va">state</span>, <span class="va">month</span><span class="op">)</span><span class="op">]</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu">setorder</span><span class="op">(</span><span class="va">state</span>, <span class="va">month</span><span class="op">)</span> <span class="op">|&gt;</span></span>
-<span>  <span class="fu"><a href="reference/as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span>id <span class="op">=</span> <span class="st">"aus_livestock"</span>, target <span class="op">=</span> <span class="st">"count"</span>, order <span class="op">=</span> <span class="st">"month"</span>, key <span class="op">=</span> <span class="st">"state"</span><span class="op">)</span></span>
-<span><span class="va">task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="st">"month"</span>, add <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span>
-<span><span class="va">task</span> <span class="op">=</span> <span class="va">graph</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">flrn</span> <span class="op">=</span> <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="va">learner</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span><span class="va">dt</span> <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span></span>
-<span>  rows <span class="op">=</span> <span class="va">task</span><span class="op">$</span><span class="va">row_ids</span>,</span>
-<span>  cols <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">task</span><span class="op">$</span><span class="va">backend</span><span class="op">$</span><span class="va">primary_key</span>, <span class="st">"month.year"</span>, <span class="st">"state"</span><span class="op">)</span></span>
+<span><span class="va">task_train</span> <span class="op">=</span> <span class="fu"><a href="reference/as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span></span>
+<span>  <span class="va">vic_train</span>,</span>
+<span>  id <span class="op">=</span> <span class="st">"aus_retail_vic"</span>,</span>
+<span>  target <span class="op">=</span> <span class="st">"turnover"</span>,</span>
+<span>  order <span class="op">=</span> <span class="st">"month"</span>,</span>
+<span>  key <span class="op">=</span> <span class="st">"industry"</span>,</span>
+<span>  freq <span class="op">=</span> <span class="st">"monthly"</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu">setnames</span><span class="op">(</span><span class="va">dt</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"row_id"</span>, <span class="st">"year"</span>, <span class="st">"state"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">row_ids</span> <span class="op">=</span> <span class="va">dt</span><span class="op">[</span><span class="va">year</span> <span class="op">&gt;=</span> <span class="fl">2015</span> <span class="op">&amp;</span> <span class="va">state</span> <span class="op">==</span> <span class="st">"Western Australia"</span>, <span class="va">row_id</span><span class="op">]</span></span>
-<span><span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="va">row_ids</span><span class="op">)</span></span>
-<span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span><span class="va">task_test</span> <span class="op">=</span> <span class="fu"><a href="reference/as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span></span>
+<span>  <span class="va">vic_test</span>,</span>
+<span>  id <span class="op">=</span> <span class="st">"aus_retail_vic"</span>,</span>
+<span>  target <span class="op">=</span> <span class="st">"turnover"</span>,</span>
+<span>  order <span class="op">=</span> <span class="st">"month"</span>,</span>
+<span>  key <span class="op">=</span> <span class="st">"industry"</span>,</span>
+<span>  freq <span class="op">=</span> <span class="st">"monthly"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span></span>
+<span><span class="va">flrn</span> <span class="op">=</span> <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="va">learner</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task_train</span><span class="op">)</span></span>
+<span><span class="va">prediction_global</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task_test</span><span class="op">)</span></span>
+<span><span class="va">prediction_global</span></span>
+<span><span class="va">prediction_global</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># local forecasting</span></span>
+<span><span class="va">prediction_local</span> <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">vic</span>, by <span class="op">=</span> <span class="st">"industry"</span>, drop <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">dt</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">task_train</span> <span class="op">=</span> <span class="fu"><a href="reference/as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span></span>
+<span>    <span class="va">dt</span><span class="op">[</span><span class="va">month</span> <span class="op">&lt;</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2015-01-01"</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>    id <span class="op">=</span> <span class="st">"aus_retail_vic_local"</span>,</span>
+<span>    target <span class="op">=</span> <span class="st">"turnover"</span>,</span>
+<span>    order <span class="op">=</span> <span class="st">"month"</span>,</span>
+<span>    freq <span class="op">=</span> <span class="st">"monthly"</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="va">task_test</span> <span class="op">=</span> <span class="fu"><a href="reference/as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span></span>
+<span>    <span class="va">dt</span><span class="op">[</span><span class="va">month</span> <span class="op">&gt;=</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2015-01-01"</span><span class="op">)</span><span class="op">]</span>,</span>
+<span>    id <span class="op">=</span> <span class="st">"aus_retail_vic_local"</span>,</span>
+<span>    target <span class="op">=</span> <span class="st">"turnover"</span>,</span>
+<span>    order <span class="op">=</span> <span class="st">"month"</span>,</span>
+<span>    freq <span class="op">=</span> <span class="st">"monthly"</span></span>
+<span>  <span class="op">)</span></span>
+<span>  <span class="va">flrn</span> <span class="op">=</span> <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="va">learner</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task_train</span><span class="op">)</span></span>
+<span>  <span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task_test</span><span class="op">)</span></span>
+<span>  <span class="va">prediction</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/do.call.html" class="external-link">do.call</a></span><span class="op">(</span><span class="va">c</span>, <span class="va">prediction_local</span><span class="op">)</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="example-custom-pipeops">Example: Custom PipeOps<a class="anchor" aria-label="anchor" href="#example-custom-pipeops"></a>
