@@ -109,17 +109,20 @@ ForecastLearner = R6::R6Class(
       key_cols = col_roles$key
       is_newdata = private$.is_newdata(task)
       history = private$.task$view()
+      max_lag = max(self$lags)
 
       preds = map(split(task$view(), by = key_cols, drop = TRUE), function(newdata) {
-        history = history[newdata[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
-        history = if (is_newdata) history else history[!newdata, on = order_cols]
+        key_history = history[newdata[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
+        key_history = if (is_newdata) key_history else key_history[!newdata, on = order_cols]
+        window = tail(key_history, max_lag)
 
         preds = vector("list", nrow(newdata))
         for (i in seq_len(nrow(newdata))) {
-          history = rbind(history, newdata[i])
-          lagged = private$.lag_transform(history, target, order_cols, key_cols)
+          window = rbind(window, newdata[i])
+          lagged = private$.lag_transform(window, target, order_cols, key_cols)
           pred = self$model$learner$predict_newdata(lagged[.N])
-          set(history, i = nrow(history), j = target, value = pred$response)
+          set(window, i = nrow(window), j = target, value = pred$response)
+          window = window[-1L]
           preds[[i]] = pred
         }
         do.call(c, preds)

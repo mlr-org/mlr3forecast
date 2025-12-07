@@ -160,39 +160,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 435.7965 1961-01-01
-#>        2    NA 435.4132 1961-02-01
-#>        3    NA 457.0184 1961-03-01
+#>        1    NA 435.7374 1961-01-01
+#>        2    NA 435.3384 1961-02-01
+#>        3    NA 456.0375 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 473.8832 1961-10-01
-#>       11    NA 441.8629 1961-11-01
-#>       12    NA 441.0064 1961-12-01
+#>       10    NA 485.0751 1961-10-01
+#>       11    NA 442.7696 1961-11-01
+#>       12    NA 440.9337 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 573.3534 1960-08-01
-#>      141   508 500.6443 1960-09-01
-#>      142   461 454.1364 1960-10-01
-#>      143   390 415.2856 1960-11-01
-#>      144   432 430.7669 1960-12-01
+#>      140   606 575.9995 1960-08-01
+#>      141   508 503.0068 1960-09-01
+#>      142   461 455.7510 1960-10-01
+#>      143   390 410.8442 1960-11-01
+#>      144   432 431.9392 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  19.01525
+#>   16.6553
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  48.15081
+#>  48.14536
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  24.15805
+#>  24.68607
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -216,7 +216,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.59271
+#>  15.03337
 ```
 
 ### Example: forecasting electricity demand
@@ -243,13 +243,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 187072.4 2015-01-01
-#>        2    NA 197213.8 2015-01-02
-#>        3    NA 190341.2 2015-01-03
+#>        1    NA 188373.2 2015-01-01
+#>        2    NA 195959.9 2015-01-02
+#>        3    NA 189741.3 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 222999.3 2015-01-12
-#>       13    NA 227657.7 2015-01-13
-#>       14    NA 228146.6 2015-01-14
+#>       12    NA 222621.7 2015-01-12
+#>       13    NA 226682.3 2015-01-13
+#>       14    NA 227208.0 2015-01-14
 ```
 
 ### Example: global forecasting (longitudinal data)
@@ -276,20 +276,19 @@ graph = po(
     day_of_year = FALSE
   )
 )
-task = graph$train(list(task))[[1L]]
 
-flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)$train(task)
-prediction = flrn$predict(task, 4460:4464)
+flrn = as_learner_fcst(lrn("regr.ranger"), 1:12)
+glrn = as_learner(graph %>>% flrn)$train(task)
+prediction = glrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  19611.76
+#>  24528.55
 
-flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
-rr = resample(task, flrn, resampling)
+rr = resample(task, glrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  90730.41
+#>  110577.2
 ```
 
 ### Example: global vs local forecasting
@@ -299,8 +298,6 @@ time series and longitudinal data is often refered to local and global
 forecasting.
 
 ``` r
-# TODO: find better task example, since the effect is minor here
-
 graph = po(
   "datefeatures",
   param_vals = list(
@@ -310,17 +307,19 @@ graph = po(
     day_of_year = FALSE
   )
 )
+learner = lrn("regr.ranger")
 
 # local forecasting
 task = tsibbledata::aus_livestock |>
   as.data.table() |>
   setnames(tolower) |>
   _[, month := as.Date(month)] |>
-  _[state == "Western Australia", .(count = sum(count)), by = .(month)] |>
+  _[state == "Western Australia", .(count = sum(count)), by = month] |>
   setorder(month) |>
   as_task_fcst(id = "aus_livestock", target = "count", order = "month")
-task = graph$train(task)[[1L]]
-flrn = as_learner_fcst(lrn("regr.ranger"), 1L)$train(task)
+task$set_col_roles("month", add = "feature")
+task = graph$train(list(task))[[1L]]
+flrn = as_learner_fcst(learner, 1:12)$train(task)
 dt = task$backend$data(
   rows = task$row_ids,
   cols = c(task$backend$primary_key, "month.year")
@@ -338,9 +337,9 @@ task = tsibbledata::aus_livestock |>
   _[, .(count = sum(count)), by = .(state, month)] |>
   setorder(state, month) |>
   as_task_fcst(id = "aus_livestock", target = "count", order = "month", key = "state")
-task = graph$train(task)[[1L]]
-task$col_roles$key = "state"
-flrn = as_learner_fcst(lrn("regr.ranger"), 1L)$train(task)
+task$set_col_roles("month", add = "feature")
+task = graph$train(list(task))[[1L]]
+flrn = as_learner_fcst(learner, 1:12)$train(task)
 dt = task$backend$data(
   rows = task$row_ids,
   cols = c(task$backend$primary_key, "month.year", "state")
