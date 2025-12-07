@@ -179,7 +179,7 @@ prediction
 
 ### Example: global forecasting
 
-```{r}
+```{r, message = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
 library(tsibble)
