@@ -45,6 +45,16 @@ ForecastLearner = R6::R6Class(
     }
   ),
 
+  active = list(
+    param_set = function(rhs) {
+      param_set = self$learner$param_set
+      if (!missing(rhs) && !identical(rhs, param_set)) {
+        stopf("param_set is read-only.")
+      }
+      param_set
+    }
+  ),
+
   private = list(
     .task = NULL,
     .max_index = NULL,
