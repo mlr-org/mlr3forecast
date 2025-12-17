@@ -66,7 +66,7 @@ LearnerFcstAutoArima = R6Class(
         fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
         init = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
         SSinit = p_fct(c("Gardner1980", "Rossignol2011"), default = "Gardner1980", tags = "train"),
-        n.cond = p_int(lower = 1L, tags = "train"),
+        n.cond = p_int(1L, tags = "train"),
         optim.method = p_fct(
           c("Nelder-Mead", "BFGS", "CG", "L-BFGS-B", "SANN", "Brent"),
           default = "BFGS",

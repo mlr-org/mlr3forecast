@@ -163,6 +163,50 @@ bibentries = c(
     author = "Godahewa, Rakshitha and Bergmeir, Christoph and Webb, Geoffrey I and Hyndman, Rob J and Montero-Manso, Pablo",
     journal = "arXiv preprint arXiv:2105.06643",
     year = "2021"
+  ),
+  croston1972forecasting = bibentry(
+    "article",
+    title = "Forecasting and stock control for intermittent demands",
+    author = "Croston, John D",
+    journal = "Journal of the Operational Research Society",
+    volume = "23",
+    number = "3",
+    paes = "289--303",
+    year = "1972",
+    publisher = "Taylor & Francis"
+  ),
+  shale2006forecasting = bibentry(
+    "article",
+    title = "Forecasting for intermittent demand: the estimation of an unbiased average",
+    author = "Shale, Estelle A and Boylan, John E and Johnston, FR",
+    journal = "Journal of the Operational Research Society",
+    volume = "57",
+    number = "5",
+    pages = "588--592",
+    year = "2006",
+    publisher = "Taylor & Francis"
+  ),
+  shenstone2005stochastic = bibentry(
+    "article",
+    title = "Stochastic models underlying Croston's method for intermittent demand forecasting",
+    author = "Shenstone, Lydia and Hyndman, Rob J",
+    journal = "Journal of Forecasting",
+    volume = "24",
+    number = "6",
+    pages = "389--402",
+    year = "2005",
+    publisher = "Wiley Online Library"
+  ),
+  syntetos2001bias = bibentry(
+    "article",
+    title = "On the bias of intermittent demand estimates",
+    author = "Syntetos, Aris A and Boylan, John E",
+    journal = "International Journal of Production Economics",
+    volume = "71",
+    number = "1-3",
+    pages = "457--466",
+    year = "2001",
+    publisher = "Elsevier"
   )
 )
 # nolint end

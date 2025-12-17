@@ -67,10 +67,10 @@ LearnerFcst = R6Class(
     .train = function(task) {
       properties = task$properties
       if ("ordered" %nin% properties) {
-        stopf("%s learner requires an ordered task.", self$id)
+        error_input("%s learner requires an ordered task.", self$id)
       }
       if ("keys" %in% properties) {
-        stopf("%s learner does not support tasks with keys.", self$id)
+        error_input("%s learner does not support tasks with keys.", self$id)
       }
       private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
     },

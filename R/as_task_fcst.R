@@ -95,7 +95,7 @@ as_task_fcst.data.frame = function(
   }
 
   if (anyNA(x[[target]])) {
-    stopf("`target` must not contain `NA` values.")
+    error_input("`target` must not contain `NA` values.")
   }
 
   has_dups = NULL
@@ -105,12 +105,12 @@ as_task_fcst.data.frame = function(
     dup = anyDuplicated(x[[order]]) > 0L
   }
   if (dup) {
-    stopf("`order` values must be unique for each time series.")
+    error_input("`order` values must be unique for each time series.")
   }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
-    warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
   TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
@@ -137,7 +137,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
-    warningf("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
   TaskFcst$new(

@@ -84,7 +84,7 @@ ResamplingFcstCV = R6Class(
   private = list(
     .sample = function(ids, task, ...) {
       if ("ordered" %nin% task$properties) {
-        stopf("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
+        error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
 
       pars = self$param_set$get_values()
@@ -137,7 +137,7 @@ ResamplingFcstCV = R6Class(
 
     .sample_ids = function(ids, task, ...) {
       if ("ordered" %nin% task$properties) {
-        stopf("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
+        error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
 
       pars = self$param_set$get_values()

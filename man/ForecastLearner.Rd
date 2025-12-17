@@ -20,6 +20,14 @@ The lags to create.}
 }
 \if{html}{\out{</div>}}
 }
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
+\describe{
+\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
+Set of hyperparameters.}
+}
+\if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{

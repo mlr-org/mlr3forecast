@@ -46,10 +46,11 @@ ForecastLearner = R6::R6Class(
   ),
 
   active = list(
+    #' @template field_param_set
     param_set = function(rhs) {
       param_set = self$learner$param_set
       if (!missing(rhs) && !identical(rhs, param_set)) {
-        stopf("param_set is read-only.")
+        error_input("param_set is read-only.")
       }
       param_set
     }
@@ -61,7 +62,7 @@ ForecastLearner = R6::R6Class(
 
     .train = function(task) {
       if (max(self$lags) >= task$nrow) {
-        stopf("Not enough data to create the required lags.")
+        error_input("Not enough data to create the required lags.")
       }
 
       col_roles = task$col_roles

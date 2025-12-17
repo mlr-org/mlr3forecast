@@ -125,6 +125,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.auto_ces}},
 \code{\link{mlr_learners_fcst.bats}},
 \code{\link{mlr_learners_fcst.ces}},
+\code{\link{mlr_learners_fcst.croston}},
 \code{\link{mlr_learners_fcst.nnetar}},
 \code{\link{mlr_learners_fcst.tbats}}
 }
