@@ -1,7 +1,7 @@
-# ETS Forecast Learner
+# Croston Forecast Learner
 
-Exponential Smoothing State Space (ETS) model. Calls
-[`forecast::ets()`](https://pkg.robjhyndman.com/forecast/reference/ets.html)
+Croston model. Calls
+[`forecast::croston_model()`](https://pkg.robjhyndman.com/forecast/reference/croston_model.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
 ## Dictionary
@@ -13,17 +13,16 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.ets")
-    lrn("fcst.ets")
+    mlr_learners$get("fcst.croston")
+    lrn("fcst.croston")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”, “quantiles”
+- Predict Types: “response”
 
-- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
-  “ordered”, “POSIXct”, “Date”
+- Feature Types: “logical”, “integer”, “numeric”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
@@ -31,44 +30,28 @@ or with the associated sugar function
 
 ## Parameters
 
-|                            |           |                             |                                   |                       |
-|----------------------------|-----------|-----------------------------|-----------------------------------|-----------------------|
-| Id                         | Type      | Default                     | Levels                            | Range                 |
-| model                      | untyped   | "ZZZ"                       |                                   | \-                    |
-| damped                     | logical   | NULL                        | TRUE, FALSE                       | \-                    |
-| alpha                      | numeric   | NULL                        |                                   | \\(-\infty, \infty)\\ |
-| beta                       | numeric   | NULL                        |                                   | \\(-\infty, \infty)\\ |
-| gamma                      | numeric   | NULL                        |                                   | \\(-\infty, \infty)\\ |
-| phi                        | numeric   | NULL                        |                                   | \\(-\infty, \infty)\\ |
-| additive.only              | logical   | FALSE                       | TRUE, FALSE                       | \-                    |
-| lambda                     | untyped   | NULL                        |                                   | \-                    |
-| biasadj                    | logical   | FALSE                       | TRUE, FALSE                       | \-                    |
-| lower                      | untyped   | c(rep.int(1e-04, 3), 0.8)   |                                   | \-                    |
-| upper                      | untyped   | c(rep.int(0.9999, 3), 0.98) |                                   | \-                    |
-| opt.crit                   | character | lik                         | lik, amse, mse, sigma, mae        | \-                    |
-| nmse                       | integer   | 3                           |                                   | \\\[0, 30\]\\         |
-| bounds                     | character | both                        | both, usual, admissible           | \-                    |
-| ic                         | character | aicc                        | aicc, aic, bic                    | \-                    |
-| restrict                   | logical   | TRUE                        | TRUE, FALSE                       | \-                    |
-| allow.multiplicative.trend | logical   | FALSE                       | TRUE, FALSE                       | \-                    |
-| na.action                  | character | na.contiguous               | na.contiguous, na.interp, na.fail | \-                    |
-| simulate                   | logical   | FALSE                       | TRUE, FALSE                       | \-                    |
-| bootstrap                  | logical   | FALSE                       | TRUE, FALSE                       | \-                    |
-| npaths                     | integer   | 5000                        |                                   | \\\[1, \infty)\\      |
+|       |           |         |                   |              |
+|-------|-----------|---------|-------------------|--------------|
+| Id    | Type      | Default | Levels            | Range        |
+| alpha | numeric   | 0.1     |                   | \\\[0, 1\]\\ |
+| type  | character | croston | croston, sba, sbj | \-           |
 
 ## References
 
-Hyndman, R.J., Koehler, A.B., Snyder, R.D., Grose, S. (2002). “A state
-space framework for automatic forecasting using exponential smoothing
-methods.” *International J. Forecasting*, **18**(3), 439–454.
+Croston, D J (1972). “Forecasting and stock control for intermittent
+demands.” *Journal of the Operational Research Society*, **23**(3).
 
-Hyndman, R.J., Akram, Md., Archibald, B. (2008). “The admissible
-parameter space for exponential smoothing models.” *Annals of
-Statistical Mathematics*, **60**(2), 407–426.
+Shale, A E, Boylan, E J, Johnston, FR (2006). “Forecasting for
+intermittent demand: the estimation of an unbiased average.” *Journal of
+the Operational Research Society*, **57**(5), 588–592.
 
-Hyndman, R.J., Koehler, A.B., Ord, J.K., Snyder, R.D. (2008).
-*Forecasting with exponential smoothing: the state space approach*.
-Springer-Verlag. <http://www.exponentialsmoothing.net>.
+Shenstone, Lydia, Hyndman, J R (2005). “Stochastic models underlying
+Croston's method for intermittent demand forecasting.” *Journal of
+Forecasting*, **24**(6), 389–402.
+
+Syntetos, A A, Boylan, E J (2001). “On the bias of intermittent demand
+estimates.” *International Journal of Production Economics*,
+**71**(1-3), 457–466.
 
 ## See also
 
@@ -120,7 +103,7 @@ Other Learner:
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
-[`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
+[`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
 
@@ -132,15 +115,15 @@ Other Learner:
 [`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
 [`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstEts`
+-\> `LearnerFcstCroston`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstEts$new()`](#method-LearnerFcstEts-new)
+- [`LearnerFcstCroston$new()`](#method-LearnerFcstCroston-new)
 
-- [`LearnerFcstEts$clone()`](#method-LearnerFcstEts-clone)
+- [`LearnerFcstCroston$clone()`](#method-LearnerFcstCroston-clone)
 
 Inherited methods
 
@@ -166,7 +149,7 @@ Creates a new instance of this
 
 #### Usage
 
-    LearnerFcstEts$new()
+    LearnerFcstCroston$new()
 
 ------------------------------------------------------------------------
 
@@ -176,7 +159,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstEts$clone(deep = FALSE)
+    LearnerFcstCroston$clone(deep = FALSE)
 
 #### Arguments
 
@@ -188,16 +171,15 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.ets")
+learner = lrn("fcst.croston")
 print(learner)
 #> 
-#> ── <LearnerFcstEts> (fcst.ets): ETS ────────────────────────────────────────────
+#> ── <LearnerFcstCroston> (fcst.croston): Croston ────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, numeric, character, factor, ordered,
-#> POSIXct, and Date
+#> • Predict Types: [response]
+#> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error'
@@ -213,27 +195,10 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> ETS(M,Ad,M) 
+#> Call: forecast::croston_model(y = as.ts(task)) 
 #> 
-#> Call:
-#> forecast::ets(y = as.ts(task))
-#> 
-#>   Smoothing parameters:
-#>     alpha = 0.6938 
-#>     beta  = 0.0321 
-#>     gamma = 1e-04 
-#>     phi   = 0.9789 
-#> 
-#>   Initial states:
-#>     l = 120.1012 
-#>     b = 1.8118 
-#>     s = 0.9047 0.7971 0.9166 1.0554 1.191 1.2065
-#>            1.0963 0.9774 0.9928 1.0383 0.9118 0.912
-#> 
-#>   sigma:  0.038
-#> 
-#>      AIC     AICc      BIC 
-#> 846.1827 855.0658 892.3409 
+#> alpha: 0.1 
+#> method: croston 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance)
@@ -244,5 +209,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 2983.694 
+#> 16044.81 
 ```

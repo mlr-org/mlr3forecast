@@ -20,6 +20,13 @@ The ForecastLearner wraps a
   ([`integer()`](https://rdrr.io/r/base/integer.html))  
   The lags to create.
 
+## Active bindings
+
+- `param_set`:
+
+  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
+  Set of hyperparameters.
+
 ## Methods
 
 ### Public methods
