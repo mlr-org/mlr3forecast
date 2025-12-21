@@ -133,7 +133,7 @@ download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly
   dir.create(td)
   on.exit(unlink(td, recursive = TRUE), add = TRUE)
   tf = file.path(td, "tempfile.zip")
-  tryCatch(utils::download.file(url, tf, quiet = TRUE), error = function(e) {
+  tryCatch(utils::download.file(url, tf, quiet = TRUE, mode = "wb"), error = function(e) {
     stopf("Failed to download TSF file from Zenodo with id: %s and name: %s", record_id, dataset_name)
   })
   file = utils::unzip(tf, exdir = td)
