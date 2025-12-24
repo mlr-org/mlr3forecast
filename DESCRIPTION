@@ -11,7 +11,7 @@ URL: https://mlr3forecast.mlr-org.com,
 BugReports: https://github.com/mlr-org/mlr3forecast/issues
 Depends:
     mlr3 (>= 1.3.0.9000),
-    R (>= 3.3.0)
+    R (>= 3.4.0)
 Imports:
     backports,
     checkmate (>= 2.3.3),
