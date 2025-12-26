@@ -24,7 +24,8 @@ linters: all_linters(
       message = "use messagef()",
       # perf
       ifelse = "use fifelse()",
-      rank = "use frank()"
+      rank = "use frank()",
+      rev = "use frev()"
     ))
   )
 exclusions: list(

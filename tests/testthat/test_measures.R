@@ -29,7 +29,7 @@ test_that("MeasureMDA works", {
   expect_identical(pred$score(measure), c(fcst.mda = 1.0))
   # returns 0.5 when half the directions are correct
   truth = 1:5
-  response = rev(truth)
+  response = frev(truth)
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mda = 0.5))
   # returns 0 when all directions are wrong

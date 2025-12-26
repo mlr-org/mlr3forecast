@@ -108,7 +108,7 @@ ResamplingFcstCV = R6Class(
       if (!has_key) {
         setorderv(dt, order_cols)
         n = nrow(dt)
-        train_end = rev(seq(from = n - horizon, by = -step_size, length.out = folds))
+        train_end = frev(seq(from = n - horizon, by = -step_size, length.out = folds))
         if (fixed_window) {
           train_ids = map(train_end, function(i) dt[(i - window_size + 1L):i, "row_id"][[1L]])
         } else {
@@ -121,7 +121,7 @@ ResamplingFcstCV = R6Class(
       setorderv(dt, c(key_cols, order_cols))
       ids = dt[,
         {
-          train_end = rev(seq(from = .N - horizon, by = -step_size, length.out = folds))
+          train_end = frev(seq(from = .N - horizon, by = -step_size, length.out = folds))
           if (fixed_window) {
             train_ids = map(train_end, function(i) .SD[(i - window_size + 1L):i, "row_id"][[1L]])
           } else {

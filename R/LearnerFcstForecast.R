@@ -35,7 +35,7 @@ LearnerFcstForecast = R6Class(
         return(prediction)
       }
 
-      pred$lower = pred$lower[, rev(seq_len(ncol(pred$lower)))]
+      pred$lower = pred$lower[, frev(seq_len(ncol(pred$lower)))]
       quantiles = cbind(pred$lower, if (0.5 %in% private$.quantiles) pred$mean, pred$upper)
       setattr(quantiles, "probs", private$.quantiles)
       setattr(quantiles, "response", private$.quantile_response)

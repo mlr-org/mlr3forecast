@@ -16,7 +16,7 @@ Imports:
     backports,
     checkmate (>= 2.3.3),
     cli,
-    data.table (>= 1.17.0),
+    data.table (>= 1.18.0),
     ggplot2,
     lgr,
     mlr3misc (>= 0.17.0),
