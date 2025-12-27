@@ -132,7 +132,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   }
   key = setdiff(cn, order)
   if (length(key) > 0L) {
-    set(x, j = key, value = as.factor(x$key))
+    set(x, j = key, value = as.factor(x[[key]]))
   }
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
