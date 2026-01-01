@@ -47,6 +47,9 @@
 - [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md)
   [`LearnerFcstNnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md)
   : Neural Network Forecast Learner
+- [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md)
+  [`LearnerFcstRandomWalk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md)
+  : Random Walk Forecast Learner
 - [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md)
   [`LearnerFcstSpline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md)
   : Spline Forecast Learner

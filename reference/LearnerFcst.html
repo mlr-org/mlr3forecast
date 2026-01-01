@@ -111,6 +111,7 @@ for established default tuning spaces.</p></li>
 <code><a href="mlr_learners_fcst.croston.html">mlr_learners_fcst.croston</a></code>,
 <code><a href="mlr_learners_fcst.ets.html">mlr_learners_fcst.ets</a></code>,
 <code><a href="mlr_learners_fcst.nnetar.html">mlr_learners_fcst.nnetar</a></code>,
+<code><a href="mlr_learners_fcst.random_walk.html">mlr_learners_fcst.random_walk</a></code>,
 <code><a href="mlr_learners_fcst.spline.html">mlr_learners_fcst.spline</a></code>,
 <code><a href="mlr_learners_fcst.tbats.html">mlr_learners_fcst.tbats</a></code>,
 <code><a href="mlr_learners_fcst.theta.html">mlr_learners_fcst.theta</a></code></p></div>
@@ -239,10 +240,10 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># get all forecast learners from mlr_learners:</span></span></span>
 <span class="r-in"><span><span class="va">lrns</span> <span class="op">=</span> <span class="va">mlr_learners</span><span class="op">$</span><span class="fu">mget</span><span class="op">(</span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">keys</span><span class="op">(</span><span class="st">"^fcst"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lrns</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "fcst.adam"       "fcst.arfima"     "fcst.arima"      "fcst.auto_adam" </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "fcst.auto_arima" "fcst.auto_ces"   "fcst.bats"       "fcst.ces"       </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "fcst.croston"    "fcst.ets"        "fcst.nnetar"     "fcst.spline"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "fcst.tbats"      "fcst.theta"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "fcst.adam"        "fcst.arfima"      "fcst.arima"       "fcst.auto_adam"  </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "fcst.auto_arima"  "fcst.auto_ces"    "fcst.bats"        "fcst.ces"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "fcst.croston"     "fcst.ets"         "fcst.nnetar"      "fcst.random_walk"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "fcst.spline"      "fcst.tbats"       "fcst.theta"      </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># get a specific learner from mlr_learners:</span></span></span>
 <span class="r-in"><span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"fcst.ets"</span><span class="op">)</span></span></span>
