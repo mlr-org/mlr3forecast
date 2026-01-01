@@ -78,7 +78,7 @@ ResamplingFcstHoldout = R6Class(
       n = pars$n
 
       if (!xor(is.null(ratio), is.null(n))) {
-        error_input("One of 'ratio' or 'n' must be provided, not both.")
+        error_config("One of 'ratio' or 'n' must be provided, not both.")
       }
 
       col_roles = task$col_roles
@@ -126,7 +126,7 @@ ResamplingFcstHoldout = R6Class(
 
       has_ratio = !is.null(ratio)
       if (!xor(!has_ratio, is.null(n))) {
-        error_input("Either parameter `ratio` (x)or `n` must be provided.")
+        error_config("Either parameter `ratio` (x)or `n` must be provided.")
       }
       if (has_ratio) {
         nr = round(n_obs * ratio)
