@@ -1,7 +1,7 @@
-# Croston Forecast Learner
+# Spline Forecast Learner
 
-Croston model. Calls
-[`forecast::croston_model()`](https://pkg.robjhyndman.com/forecast/reference/croston_model.html)
+Cubic spline stochastic model. Calls
+[`forecast::spline_model()`](https://pkg.robjhyndman.com/forecast/reference/spline_model.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
 ## Dictionary
@@ -13,14 +13,14 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.croston")
-    lrn("fcst.croston")
+    mlr_learners$get("fcst.spline")
+    lrn("fcst.spline")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”
+- Predict Types: “response”, “quantiles”
 
 - Feature Types: “logical”, “integer”, “numeric”
 
@@ -30,28 +30,18 @@ or with the associated sugar function
 
 ## Parameters
 
-|       |           |         |                   |              |
-|-------|-----------|---------|-------------------|--------------|
-| Id    | Type      | Default | Levels            | Range        |
-| alpha | numeric   | 0.1     |                   | \\\[0, 1\]\\ |
-| type  | character | croston | croston, sba, sbj | \-           |
+|         |           |         |             |
+|---------|-----------|---------|-------------|
+| Id      | Type      | Default | Levels      |
+| method  | character | gcv     | gcv, mle    |
+| lambda  | untyped   | NULL    |             |
+| biasadj | logical   | FALSE   | TRUE, FALSE |
 
 ## References
 
-Croston, D J (1972). “Forecasting and stock control for intermittent
-demands.” *Journal of the Operational Research Society*, **23**(3).
-
-Shale, A E, Boylan, E J, Johnston, FR (2006). “Forecasting for
-intermittent demand: the estimation of an unbiased average.” *Journal of
-the Operational Research Society*, **57**(5), 588–592.
-
-Shenstone, Lydia, Hyndman, J R (2005). “Stochastic models underlying
-Croston's method for intermittent demand forecasting.” *Journal of
-Forecasting*, **24**(6), 389–402.
-
-Syntetos, A A, Boylan, E J (2001). “On the bias of intermittent demand
-estimates.” *International Journal of Production Economics*,
-**71**(1-3), 457–466.
+Hyndman, J R, King, L M, Pitrun, Ivet, Billah, Baki (2005). “Local
+linear forecasts using cubic smoothing splines.” *Australian & New
+Zealand Journal of Statistics*, **47**(1), 87–99.
 
 ## See also
 
@@ -103,9 +93,9 @@ Other Learner:
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
+[`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
-[`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
 
@@ -117,15 +107,15 @@ Other Learner:
 [`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
 [`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstCroston`
+-\> `LearnerFcstSpline`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstCroston$new()`](#method-LearnerFcstCroston-new)
+- [`LearnerFcstSpline$new()`](#method-LearnerFcstSpline-new)
 
-- [`LearnerFcstCroston$clone()`](#method-LearnerFcstCroston-clone)
+- [`LearnerFcstSpline$clone()`](#method-LearnerFcstSpline-clone)
 
 Inherited methods
 
@@ -151,7 +141,7 @@ Creates a new instance of this
 
 #### Usage
 
-    LearnerFcstCroston$new()
+    LearnerFcstSpline$new()
 
 ------------------------------------------------------------------------
 
@@ -161,7 +151,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstCroston$clone(deep = FALSE)
+    LearnerFcstSpline$clone(deep = FALSE)
 
 #### Arguments
 
@@ -173,14 +163,14 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.croston")
+learner = lrn("fcst.spline")
 print(learner)
 #> 
-#> ── <LearnerFcstCroston> (fcst.croston): Croston ────────────────────────────────
+#> ── <LearnerFcstSpline> (fcst.spline): Spline ───────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response]
+#> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless and missings
@@ -197,10 +187,9 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Call: forecast::croston_model(y = as.ts(task)) 
-#> 
-#> alpha: 0.1 
-#> method: croston 
+#> Cubic spline stochastic model
+#> Call: forecast::spline_model(y = as.ts(task)) 
+#> Smoothing parameter: 0.08847 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance)
@@ -211,5 +200,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 16044.81 
+#> 570230.1 
 ```
