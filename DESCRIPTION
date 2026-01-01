@@ -62,6 +62,7 @@ Collate:
     'LearnerFcstEts.R'
     'LearnerFcstForecast.R'
     'LearnerFcstNnetar.R'
+    'LearnerFcstSpline.R'
     'LearnerFcstTbats.R'
     'LearnerFcstTheta.R'
     'MeasureDirectional.R'

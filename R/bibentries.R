@@ -229,6 +229,17 @@ bibentries = c(
     pages = "287--290",
     year = "2003",
     publisher = "Elsevier"
+  ),
+  hyndman2005local = bibentry(
+    "article",
+    title = "Local linear forecasts using cubic smoothing splines",
+    author = "Hyndman, Rob J and King, Maxwell L and Pitrun, Ivet and Billah, Baki",
+    journal = "Australian & New Zealand Journal of Statistics",
+    volume = "47",
+    number = "1",
+    pages = "87--99",
+    year = "2005",
+    publisher = "Wiley Online Library"
   )
 )
 # nolint end

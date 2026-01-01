@@ -127,6 +127,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.ces}},
 \code{\link{mlr_learners_fcst.croston}},
 \code{\link{mlr_learners_fcst.nnetar}},
+\code{\link{mlr_learners_fcst.spline}},
 \code{\link{mlr_learners_fcst.tbats}},
 \code{\link{mlr_learners_fcst.theta}}
 }
