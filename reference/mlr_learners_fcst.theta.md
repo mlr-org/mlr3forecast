@@ -1,8 +1,8 @@
-# ADAM Forecast Learner
+# Theta Forecast Learner
 
-Augmented Dynamic Adaptive Model (ADAM) Forecast Learner model. Calls
-[`smooth::adam()`](https://rdrr.io/pkg/smooth/man/adam.html) from
-package [smooth](https://CRAN.R-project.org/package=smooth).
+Theta model. Calls
+[`forecast::theta_model()`](https://pkg.robjhyndman.com/forecast/reference/theta_model.html)
+from package [forecast](https://CRAN.R-project.org/package=forecast).
 
 ## Dictionary
 
@@ -13,55 +13,37 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.adam")
-    lrn("fcst.adam")
+    mlr_learners$get("fcst.theta")
+    lrn("fcst.theta")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”
+- Predict Types: “response”, “quantiles”
 
-- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
-  “ordered”, “POSIXct”, “Date”
+- Feature Types: “logical”, “integer”, “numeric”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [smooth](https://CRAN.R-project.org/package=smooth)
+  [forecast](https://CRAN.R-project.org/package=forecast)
 
 ## Parameters
 
-|              |           |                                             |                                                                    |
-|--------------|-----------|---------------------------------------------|--------------------------------------------------------------------|
-| Id           | Type      | Default                                     | Levels                                                             |
-| model        | untyped   | "ZXZ"                                       |                                                                    |
-| lags         | untyped   | \-                                          |                                                                    |
-| orders       | untyped   | list(ar = 0, i = 0, ma = 0, select = FALSE) |                                                                    |
-| constant     | logical   | FALSE                                       | TRUE, FALSE                                                        |
-| regressors   | character | use                                         | use, select, adapt                                                 |
-| occurrence   | character | none                                        | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct |
-| distribution | character | default                                     | default, dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma    |
-| loss         | character | likelihood                                  | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE   |
-| outliers     | character | ignore                                      | ignore, use, select                                                |
-| holdout      | logical   | FALSE                                       | TRUE, FALSE                                                        |
-| persistence  | untyped   | NULL                                        |                                                                    |
-| phi          | untyped   | NULL                                        |                                                                    |
-| initial      | character | optimal                                     | optimal, backcasting, complete                                     |
-| arma         | untyped   | NULL                                        |                                                                    |
-| ic           | character | AICc                                        | AICc, AIC, BIC, BICc                                               |
-| bounds       | character | usual                                       | usual, admissible, none                                            |
-| silent       | logical   | TRUE                                        | TRUE, FALSE                                                        |
-| ets          | character | conventional                                | conventional, adam                                                 |
+|         |         |         |             |
+|---------|---------|---------|-------------|
+| Id      | Type    | Default | Levels      |
+| lambda  | untyped | NULL    |             |
+| biasadj | logical | FALSE   | TRUE, FALSE |
 
 ## References
 
-Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
-2301.01790, <https://arxiv.org/abs/2301.01790>.
+Assimakopoulos, Vassilis, Nikolopoulos, Konstantinos (2000). “The theta
+model: a decomposition approach to forecasting.” *International Journal
+of Forecasting*, **16**(4), 521–530.
 
-Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
-Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
-[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) ,
-<https://openforecast.org/adam/>.
+Hyndman, J R, Billah, Baki (2003). “Unmasking the Theta method.”
+*International Journal of Forecasting*, **19**(2), 287–290.
 
 ## See also
 
@@ -105,6 +87,7 @@ Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
 
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md),
+[`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
@@ -115,8 +98,7 @@ Other Learner:
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
-[`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
-[`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
+[`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
 
 ## Super classes
 
@@ -124,15 +106,17 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
 [`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
--\> `LearnerFcstAdam`
+-\>
+[`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
+-\> `LearnerFcstTheta`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstAdam$new()`](#method-LearnerFcstAdam-new)
+- [`LearnerFcstTheta$new()`](#method-LearnerFcstTheta-new)
 
-- [`LearnerFcstAdam$clone()`](#method-LearnerFcstAdam-clone)
+- [`LearnerFcstTheta$clone()`](#method-LearnerFcstTheta-clone)
 
 Inherited methods
 
@@ -158,7 +142,7 @@ Creates a new instance of this
 
 #### Usage
 
-    LearnerFcstAdam$new()
+    LearnerFcstTheta$new()
 
 ------------------------------------------------------------------------
 
@@ -168,7 +152,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstAdam$clone(deep = FALSE)
+    LearnerFcstTheta$clone(deep = FALSE)
 
 #### Arguments
 
@@ -180,16 +164,15 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.adam")
+learner = lrn("fcst.theta")
 print(learner)
 #> 
-#> ── <LearnerFcstAdam> (fcst.adam): ADAM ─────────────────────────────────────────
+#> ── <LearnerFcstTheta> (fcst.theta): Theta ──────────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and smooth
-#> • Predict Types: [response]
-#> • Feature Types: logical, integer, numeric, character, factor, ordered,
-#> POSIXct, and Date
+#> • Packages: mlr3, mlr3forecast, and forecast
+#> • Predict Types: [response] and quantiles
+#> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error'
@@ -205,21 +188,12 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.15 seconds
-#> Model estimated using adam() function: ETS(MAM)
-#> With backcasting initialisation
-#> Distribution assumed in the model: Gamma
-#> Loss function type: likelihood; Loss function value: 321.0178
-#> Persistence vector g:
-#>  alpha   beta  gamma 
-#> 0.6778 0.0030 0.0006 
-#> 
-#> Sample size: 96
-#> Number of estimated parameters: 4
-#> Number of degrees of freedom: 92
-#> Information criteria:
-#>      AIC     AICc      BIC     BICc 
-#> 650.0357 650.4752 660.2931 661.2962 
+#> Theta model: as.ts(task) 
+#> Call: forecast::theta_model(y = as.ts(task)) 
+#> Deseasonalized
+#>   alpha: 0.906 
+#>   drift: 1.168 
+#>   sigma^2: 55.44 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance)
@@ -230,5 +204,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1663.375 
+#> 3742.906 
 ```

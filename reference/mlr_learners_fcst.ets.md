@@ -60,7 +60,7 @@ or with the associated sugar function
 
 Hyndman, R.J., Koehler, A.B., Snyder, R.D., Grose, S. (2002). “A state
 space framework for automatic forecasting using exponential smoothing
-methods.” *International J. Forecasting*, **18**(3), 439–454.
+methods.” *International Journal of Forecasting*, **18**(3), 439–454.
 
 Hyndman, R.J., Akram, Md., Archibald, B. (2008). “The admissible
 parameter space for exponential smoothing models.” *Annals of
@@ -122,7 +122,8 @@ Other Learner:
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
-[`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
+[`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
+[`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
 
 ## Super classes
 

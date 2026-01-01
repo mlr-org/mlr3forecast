@@ -79,7 +79,8 @@ Other Learner:
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
-[`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
+[`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
+[`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
 
 ## Super classes
 
@@ -239,6 +240,7 @@ names(lrns)
 #>  [1] "fcst.adam"       "fcst.arfima"     "fcst.arima"      "fcst.auto_adam" 
 #>  [5] "fcst.auto_arima" "fcst.auto_ces"   "fcst.bats"       "fcst.ces"       
 #>  [9] "fcst.croston"    "fcst.ets"        "fcst.nnetar"     "fcst.tbats"     
+#> [13] "fcst.theta"     
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("fcst.ets")

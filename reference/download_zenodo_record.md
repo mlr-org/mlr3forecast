@@ -44,6 +44,6 @@ setnames(dt, c("id", "date", "value"))
 task = as_task_fcst(dt)
 
 # or split up for forecast learners that don't allow key columns
-tasks = split(dt, by = "id") |> map(remove_named, "id") |> as_tasks_fcst()
+tasks = as_tasks_fcst(map(split(dt, by = "id"), remove_named, "id"))
 } # }
 ```

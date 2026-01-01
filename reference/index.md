@@ -50,6 +50,9 @@
 - [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
   [`LearnerFcstTbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
   : TBATS Forecast Learner
+- [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
+  [`LearnerFcstTheta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
+  : Theta Forecast Learner
 
 ## Tasks
 
