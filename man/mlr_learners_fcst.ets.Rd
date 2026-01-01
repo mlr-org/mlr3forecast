@@ -85,7 +85,7 @@ predictions$score()
 \references{
 Hyndman, R.J., Koehler, A.B., Snyder, R.D., Grose, S. (2002).
 \dQuote{A state space framework for automatic forecasting using exponential smoothing methods.}
-\emph{International J. Forecasting}, \bold{18}(3), 439--454.
+\emph{International Journal of Forecasting}, \bold{18}(3), 439--454.
 
 Hyndman, R.J., Akram, Md., Archibald, B. (2008).
 \dQuote{The admissible parameter space for exponential smoothing models.}
@@ -127,7 +127,8 @@ Other Learner:
 \code{\link{mlr_learners_fcst.ces}},
 \code{\link{mlr_learners_fcst.croston}},
 \code{\link{mlr_learners_fcst.nnetar}},
-\code{\link{mlr_learners_fcst.tbats}}
+\code{\link{mlr_learners_fcst.tbats}},
+\code{\link{mlr_learners_fcst.theta}}
 }
 \concept{Learner}
 \section{Super classes}{

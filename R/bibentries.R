@@ -58,7 +58,7 @@ bibentries = c(
     "article",
     title = "A state space framework for automatic forecasting using exponential smoothing methods",
     author = "Hyndman, R.J., Koehler, A.B., Snyder, R.D., and Grose, S.",
-    journal = "International J. Forecasting",
+    journal = "International Journal of Forecasting",
     volume = "18",
     number = "3",
     pages = "439--454",
@@ -206,6 +206,28 @@ bibentries = c(
     number = "1-3",
     pages = "457--466",
     year = "2001",
+    publisher = "Elsevier"
+  ),
+  assimakopoulos2000theta = bibentry(
+    "article",
+    title = "The theta model: a decomposition approach to forecasting",
+    author = "Assimakopoulos, Vassilis and Nikolopoulos, Konstantinos",
+    journal = "International Journal of Forecasting",
+    volume = "16",
+    number = "4",
+    pages = "521--530",
+    year = "2000",
+    publisher = "Elsevier"
+  ),
+  hyndman2003unmasking = bibentry(
+    "article",
+    title = "Unmasking the Theta method",
+    author = "Hyndman, Rob J and Billah, Baki",
+    journal = "International Journal of Forecasting",
+    volume = "19",
+    number = "2",
+    pages = "287--290",
+    year = "2003",
     publisher = "Elsevier"
   )
 )

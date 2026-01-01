@@ -63,6 +63,7 @@ Collate:
     'LearnerFcstForecast.R'
     'LearnerFcstNnetar.R'
     'LearnerFcstTbats.R'
+    'LearnerFcstTheta.R'
     'MeasureDirectional.R'
     'PipeOpFcstLags.R'
     'PipeOpTargetTrafo.R'
