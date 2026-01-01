@@ -32,7 +32,7 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
   # generate sanity task
   data = withr::with_seed(100, {
     dt = seq(from = as.Date("2020-01-01"), by = "day", length.out = 100L)
-    y = seq(from = -10, to = 10, length.out = 100L)
+    y = seq(from = -10L, to = 10L, length.out = 100L)
     data.table(
       dt = dt,
       y = y,

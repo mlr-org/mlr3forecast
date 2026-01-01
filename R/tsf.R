@@ -122,7 +122,7 @@ read_tsf = function(file) {
 #' task = as_task_fcst(dt)
 #'
 #' # or split up for forecast learners that don't allow key columns
-#' tasks = split(dt, by = "id") |> map(remove_named, "id") |> as_tasks_fcst()
+#' tasks = as_tasks_fcst(map(split(dt, by = "id"), remove_named, "id"))
 #' }
 download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly_dataset") {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
