@@ -73,9 +73,9 @@ ResamplingFcstHoldout = R6Class(
         error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
 
-      pars = self$param_set$get_values()
-      ratio = pars$ratio
-      n = pars$n
+      pv = self$param_set$get_values()
+      ratio = pv$ratio
+      n = pv$n
 
       if (!xor(is.null(ratio), is.null(n))) {
         error_config("One of 'ratio' or 'n' must be provided, not both.")
@@ -119,9 +119,9 @@ ResamplingFcstHoldout = R6Class(
         error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
 
-      pars = self$param_set$get_values()
-      ratio = pars$ratio
-      n = pars$n
+      pv = self$param_set$get_values()
+      ratio = pv$ratio
+      n = pv$n
       n_obs = length(ids)
 
       has_ratio = !is.null(ratio)

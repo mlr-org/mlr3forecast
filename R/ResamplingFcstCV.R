@@ -76,8 +76,8 @@ ResamplingFcstCV = R6Class(
     #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
-      pars = self$param_set$get_values()
-      as.integer(pars$folds)
+      ps = self$param_set$get_values()
+      as.integer(ps$folds)
     }
   ),
 
@@ -87,12 +87,12 @@ ResamplingFcstCV = R6Class(
         error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
 
-      pars = self$param_set$get_values()
-      window_size = pars$window_size
-      horizon = pars$horizon
-      fixed_window = pars$fixed_window
-      step_size = pars$step_size
-      folds = pars$folds
+      pv = self$param_set$get_values()
+      window_size = pv$window_size
+      horizon = pv$horizon
+      fixed_window = pv$fixed_window
+      step_size = pv$step_size
+      folds = pv$folds
 
       col_roles = task$col_roles
       order_cols = col_roles$order
@@ -140,14 +140,14 @@ ResamplingFcstCV = R6Class(
         error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
 
-      pars = self$param_set$get_values()
-      window_size = pars$window_size
-      horizon = pars$horizon
+      pv = self$param_set$get_values()
+      window_size = pv$window_size
+      horizon = pv$horizon
 
       ids = sort(ids)
       train_end = ids[ids <= (max(ids) - horizon) & ids >= window_size]
-      train_end = seq(from = train_end[length(train_end)], by = -pars$step_size, length.out = pars$folds)
-      if (pars$fixed_window) {
+      train_end = seq(from = train_end[length(train_end)], by = -pv$step_size, length.out = pv$folds)
+      if (pv$fixed_window) {
         train_ids = map(train_end, function(x) (x - window_size + 1L):x)
       } else {
         train_ids = map(train_end, function(x) ids[1L]:x)

@@ -52,9 +52,9 @@ MeasureMDA = R6Class(
   ),
   private = list(
     .score = function(prediction, ...) {
-      pars = self$param_set$get_values()
-      penalty = pars$penalty
-      reward = pars$reward
+      pv = self$param_set$get_values()
+      penalty = pv$penalty
+      reward = pv$reward
       truth = prediction$truth
       response = prediction$response
 
