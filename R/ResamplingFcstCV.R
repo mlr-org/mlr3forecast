@@ -76,8 +76,8 @@ ResamplingFcstCV = R6Class(
     #' @template field_iters
     iters = function(rhs) {
       assert_ro_binding(rhs)
-      ps = self$param_set$get_values()
-      as.integer(ps$folds)
+      pv = self$param_set$get_values()
+      as.integer(pv$folds)
     }
   ),
 
