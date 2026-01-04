@@ -9,15 +9,15 @@ assert_frequency = function(x, .var.name = vname(x)) {
 
 assert_freq = function(x, .var.name = vname(x)) {
   if (is.null(x)) {
-    return()
+    return(invisible())
   }
   if (test_count(x, positive = TRUE)) {
     storage.mode(x) = "integer"
-    return(x)
+    return(invisible(x))
   }
   choices = c("secondly", "minutely", "hourly", "daily", "weekly", "monthly", "quarterly", "yearly")
   if (test_choice(x, choices)) {
-    return(x)
+    return(invisible(x))
   }
   stopf("'%s' must be either: \n* `NULL`\n* a positive integer\n* one of: %s.", .var.name, toString(choices))
 }
