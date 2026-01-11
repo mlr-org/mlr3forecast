@@ -26,7 +26,7 @@ Imports:
     stats,
     utils
 Suggests:
-    forecast (>= 8.24.0.9000),
+    forecast (>= 9.0.0),
     generics (>= 0.1.2),
     rpart,
     smooth (>= 4.3.0),
@@ -38,8 +38,7 @@ Suggests:
     xts,
     zoo
 Remotes:
-    mlr-org/mlr3,
-    robjhyndman/forecast
+    mlr-org/mlr3
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
