@@ -55,10 +55,6 @@ Creates a new instance of this
 
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
 
-- `task`:
-
-  ([mlr3::Task](https://mlr3.mlr-org.com/reference/Task.html))  
-
 ------------------------------------------------------------------------
 
 ### Method `clone()`
