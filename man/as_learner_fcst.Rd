@@ -7,9 +7,11 @@
 as_learner_fcst(learner, lags)
 }
 \arguments{
-\item{learner}{(\link[mlr3:Learner]{mlr3::Learner})\cr}
+\item{learner}{(\link[mlr3:Learner]{mlr3::Learner})\cr
+The regression learner to wrap.}
 
-\item{lags}{(\code{integer()})\cr}
+\item{lags}{(\code{integer()})\cr
+The lag values to use for creating lag features.}
 }
 \value{
 \link{ForecastLearner}.

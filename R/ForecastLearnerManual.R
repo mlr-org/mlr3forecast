@@ -11,7 +11,6 @@ ForecastLearnerManual = R6::R6Class(
 
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param task ([mlr3::Task])\cr
     #' @param learner ([mlr3::Learner])\cr
     initialize = function(learner) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))

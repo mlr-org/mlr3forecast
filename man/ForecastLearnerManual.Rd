@@ -56,8 +56,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr}
-
-\item{\code{task}}{(\link[mlr3:Task]{mlr3::Task})\cr}
 }
 \if{html}{\out{</div>}}
 }

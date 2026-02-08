@@ -64,9 +64,11 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr}
+\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
+The regression learner to wrap.}
 
-\item{\code{lags}}{(\code{integer(1)})\cr
+\item{\code{lags}}{(\code{integer()})\cr
+The lag values to use for creating lag features.
 Printer.}
 }
 \if{html}{\out{</div>}}
