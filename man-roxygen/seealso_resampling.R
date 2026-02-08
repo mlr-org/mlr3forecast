@@ -1,5 +1,5 @@
 #' @seealso
-#
+#'
 #' * Chapter in the [mlr3book](https://mlr3book.mlr-org.com/):
 #'   \url{https://mlr3book.mlr-org.com/chapters/chapter3/evaluation_and_benchmarking.html#sec-resampling}
 #' * Package \CRANpkg{mlr3spatiotempcv} for spatio-temporal resamplings.

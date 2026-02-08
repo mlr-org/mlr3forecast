@@ -68,8 +68,6 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 
 \item{\code{lags}}{(\code{integer(1)})\cr
 Printer.}
-
-\item{\code{task}}{(\link[mlr3:Task]{mlr3::Task})\cr}
 }
 \if{html}{\out{</div>}}
 }

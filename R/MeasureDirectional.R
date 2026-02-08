@@ -9,7 +9,7 @@
 #' \deqn{
 #'   \mathrm{MDA} = (a - b)\,\frac{1}{n-1}
 #'     \sum_{i=2}^n \mathbf{1}\{\mathrm{sign}(y_i - y_{i-1})
-#'     = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; p
+#'     = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; b
 #' }{
 #'   (a - b)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + b
 #' }

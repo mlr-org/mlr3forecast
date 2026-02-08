@@ -1,8 +1,8 @@
-#' @title Creat Lags of Target Variable
+#' @title Create Lags of Target Variable
 #' @name mlr_pipeops_fcst.lags
 #'
 #' @description
-#' ...
+#' Creates lagged versions of the target variable as new feature columns.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreproc],
@@ -12,7 +12,11 @@
 #'
 #' @export
 #' @examples
-#' set.seed(1234L)
+#' library(mlr3pipelines)
+#' task = tsk("airpassengers")
+#' po = po("fcst.lags", lags = 1:3)
+#' new_task = po$train(list(task))[[1L]]
+#' new_task$head()
 PipeOpFcstLags = R6Class(
   "PipeOpFcstLags",
   inherit = PipeOpTaskPreproc,

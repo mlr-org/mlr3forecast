@@ -11,7 +11,7 @@ Measure of the proportion of correctly predicted directions between successive o
 \deqn{
   \mathrm{MDA} = (a - b)\,\frac{1}{n-1}
     \sum_{i=2}^n \mathbf{1}\{\mathrm{sign}(y_i - y_{i-1})
-    = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; p
+    = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; b
 }{
   (a - b)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + b
 }
@@ -57,8 +57,8 @@ Blaskowitz, Herwartz H (2011).
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:
 \url{https://mlr3book.mlr-org.com/chapters/chapter2/data_and_basic_modeling.html#sec-eval}
 \item Package \CRANpkg{mlr3measures} for the scoring functions.
-\link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
-\code{as.data.table(mlr_measures)} for a table of available \link[mlr3:Measure]{Measures} in the running session (depending on the loaded packages).
+\item \link[mlr3misc:Dictionary]{Dictionary} of \link[mlr3:Measure]{Measures}: \link[mlr3:mlr_measures]{mlr3::mlr_measures}
+\item \code{as.data.table(mlr_measures)} for a table of available \link[mlr3:Measure]{Measures} in the running session (depending on the loaded packages).
 \item Extension packages for additional task types:
 \itemize{
 \item \CRANpkg{mlr3proba} for probabilistic supervised regression and survival analysis.
