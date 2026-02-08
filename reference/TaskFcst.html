@@ -105,12 +105,12 @@ The frequency of the time series.</p></dd>
     <p></p><div class="r6-active-bindings"><dl><dt><code>properties</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Set of task properties.
-Possible properties are are stored in <a href="https://mlr3.mlr-org.com/reference/mlr_reflections.html" class="external-link">mlr_reflections$task_properties</a>.
+Possible properties are stored in <a href="https://mlr3.mlr-org.com/reference/mlr_reflections.html" class="external-link">mlr_reflections$task_properties</a>.
 The following properties are currently standardized and understood by tasks in <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>:</p><ul><li><p><code>"strata"</code>: The task is resampled using one or more stratification variables (role <code>"stratum"</code>).</p></li>
 <li><p><code>"groups"</code>: The task comes with grouping/blocking information (role <code>"group"</code>).</p></li>
 <li><p><code>"weights"</code>: The task comes with observation weights (role <code>"weight"</code>).</p></li>
 <li><p><code>"ordered"</code>: The task has columns which define the row order (role <code>"order"</code>).</p></li>
-<li><p><code>"keys"</code>: The task has columns which define the time series <code>"key"</code>).</p></li>
+<li><p><code>"keys"</code>: The task has columns which define the time series <code>"key"</code>.</p></li>
 </ul><p>Note that above listed properties are calculated from the <code>$col_roles</code> and may not be set explicitly.</p></dd>
 
 
@@ -118,7 +118,7 @@ The following properties are currently standardized and understood by tasks in <
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
 If the task has a column with designated role <code>"order"</code>, a table with two or more columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p><code>order</code> (<code>Date()</code> | <code>POSIXct()</code> | <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></li>
-</ul><p>Returns <code>NULL</code> if there are is no order column.</p></dd>
+</ul><p>Returns <code>NULL</code> if there is no order column.</p></dd>
 
 
 <dt><code>key</code></dt>
@@ -126,7 +126,7 @@ If the task has a column with designated role <code>"order"</code>, a table with
 If the task has a column with designated role <code>"key"</code>, a table with two or more columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
 <li><p>key variable(s) (<code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code>).</p></li>
 </ul><p>If there is only one key column, it will be named as <code>key</code>.
-Returns <code>NULL</code> if there are are no key columns.</p></dd>
+Returns <code>NULL</code> if there are no key columns.</p></dd>
 
 
 </dl><p></p></div>
@@ -202,7 +202,7 @@ Name of the order column.</p></dd>
 
 
 <dt><code>key</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
 Name of the key column.</p></dd>
 
 

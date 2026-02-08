@@ -13,6 +13,14 @@ objects:
     provides an alternative to the constructor of
     [TaskFcst](https://mlr3forecast.mlr-org.com/reference/TaskFcst.md).
 
+3.  `ts`: from base R time series objects (univariate and multivariate).
+
+4.  `zoo` and `xts`: from zoo/xts time series objects.
+
+5.  `tsf`: from tsf format data.
+
+6.  `tbl_ts`: from tsibble objects.
+
 ## Usage
 
 ``` r
@@ -115,7 +123,7 @@ as_task_fcst(
 
 - key:
 
-  (`character(1)`)  
+  ([`character()`](https://rdrr.io/r/base/character.html))  
   Name of the key column.
 
 - freq:

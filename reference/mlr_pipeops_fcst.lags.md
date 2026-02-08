@@ -1,6 +1,6 @@
-# Creat Lags of Target Variable
+# Create Lags of Target Variable
 
-...
+Creates lagged versions of the target variable as new feature columns.
 
 ## Parameters
 
@@ -76,5 +76,17 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
-set.seed(1234L)
+library(mlr3pipelines)
+task = tsk("airpassengers")
+po = po("fcst.lags", lags = 1:3)
+new_task = po$train(list(task))[[1L]]
+new_task$head()
+#>    passengers      month passengers_lag_1 passengers_lag_2 passengers_lag_3
+#>         <num>     <Date>            <num>            <num>            <num>
+#> 1:        112 1949-01-01               NA               NA               NA
+#> 2:        118 1949-02-01              112               NA               NA
+#> 3:        132 1949-03-01              118              112               NA
+#> 4:        129 1949-04-01              132              118              112
+#> 5:        121 1949-05-01              129              132              118
+#> 6:        135 1949-06-01              121              129              132
 ```

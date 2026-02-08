@@ -100,7 +100,7 @@
 
 - [`mlr_pipeops_fcst.lags`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md)
   [`PipeOpFcstLags`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md)
-  : Creat Lags of Target Variable
+  : Create Lags of Target Variable
 
 ## Helper
 

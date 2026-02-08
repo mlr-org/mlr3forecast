@@ -72,10 +72,6 @@ Creates a new instance of this
   (`integer(1)`)  
   Printer.
 
-- `task`:
-
-  ([mlr3::Task](https://mlr3.mlr-org.com/reference/Task.html))  
-
 ------------------------------------------------------------------------
 
 ### Method [`print()`](https://rdrr.io/r/base/print.html)

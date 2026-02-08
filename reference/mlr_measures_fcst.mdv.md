@@ -56,10 +56,12 @@ forecasts.” *International Journal of Forecasting*, **27**(4),
 - Package
   [mlr3measures](https://CRAN.R-project.org/package=mlr3measures) for
   the scoring functions.
-  [Dictionary](https://mlr3misc.mlr-org.com/reference/Dictionary.html)
+
+- [Dictionary](https://mlr3misc.mlr-org.com/reference/Dictionary.html)
   of [Measures](https://mlr3.mlr-org.com/reference/Measure.html):
   [mlr3::mlr_measures](https://mlr3.mlr-org.com/reference/mlr_measures.html)
-  `as.data.table(mlr_measures)` for a table of available
+
+- `as.data.table(mlr_measures)` for a table of available
   [Measures](https://mlr3.mlr-org.com/reference/Measure.html) in the
   running session (depending on the loaded packages).
 

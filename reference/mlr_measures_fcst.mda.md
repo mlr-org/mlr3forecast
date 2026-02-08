@@ -7,7 +7,7 @@ successive observations in forecast tasks.
 
 \$\$ \mathrm{MDA} = (a - b)\\\frac{1}{n-1} \sum\_{i=2}^n
 \mathbf{1}\\\mathrm{sign}(y_i - y\_{i-1}) = \mathrm{sign}(\hat y_i -
-\hat y\_{i-1})\\ \\+\\ p \$\$ where `a` is the reward for a correct
+\hat y\_{i-1})\\ \\+\\ b \$\$ where `a` is the reward for a correct
 direction (default `1`), `b` is the penalty for an incorrect direction
 (default `0`), and `n` is the number of observations.
 
@@ -60,10 +60,12 @@ forecasts.” *International Journal of Forecasting*, **27**(4),
 - Package
   [mlr3measures](https://CRAN.R-project.org/package=mlr3measures) for
   the scoring functions.
-  [Dictionary](https://mlr3misc.mlr-org.com/reference/Dictionary.html)
+
+- [Dictionary](https://mlr3misc.mlr-org.com/reference/Dictionary.html)
   of [Measures](https://mlr3.mlr-org.com/reference/Measure.html):
   [mlr3::mlr_measures](https://mlr3.mlr-org.com/reference/mlr_measures.html)
-  `as.data.table(mlr_measures)` for a table of available
+
+- `as.data.table(mlr_measures)` for a table of available
   [Measures](https://mlr3.mlr-org.com/reference/Measure.html) in the
   running session (depending on the loaded packages).
 
