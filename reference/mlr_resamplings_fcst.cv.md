@@ -28,7 +28,10 @@ or with the associated sugar function
   Step size between windows.
 
 - `window_size` (`integer(1)`)  
-  (Minimal) Size of the rolling window.
+  Size of the rolling window. For `fixed_window = TRUE`, this is the
+  exact training window size. For `fixed_window = FALSE` (expanding
+  window), this is the minimum number of training observations in the
+  first fold.
 
 - `fixed_window` (`logical(1)`)  
   Should a fixed sized window be used? If `FALSE` an expanding window is
@@ -125,7 +128,7 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
-# Create a task with 10 observations
+# Create a task with 20 observations
 task = tsk("airpassengers")
 task$filter(1:20)
 
