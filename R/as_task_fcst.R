@@ -6,6 +6,10 @@
 #'
 #' 1. [TaskFcst]: ensure the identity
 #' 2. [data.frame()] and [mlr3::DataBackend]: provides an alternative to the constructor of [TaskFcst].
+#' 3. `ts`: from base R time series objects (univariate and multivariate).
+#' 4. `zoo` and `xts`: from zoo/xts time series objects.
+#' 5. `tsf`: from tsf format data.
+#' 6. `tbl_ts`: from tsibble objects.
 #'
 #' @inheritParams mlr3::as_task_regr
 #' @template param_order

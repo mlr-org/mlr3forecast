@@ -126,14 +126,14 @@ TaskFcst = R6Class(
   active = list(
     #' @field properties (`character()`)\cr
     #' Set of task properties.
-    #' Possible properties are are stored in [mlr_reflections$task_properties][mlr3::mlr_reflections].
+    #' Possible properties are stored in [mlr_reflections$task_properties][mlr3::mlr_reflections].
     #' The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
     #' * `"weights"`: The task comes with observation weights (role `"weight"`).
     #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
-    #' * `"keys"`: The task has columns which define the time series `"key"`).
+    #' * `"keys"`: The task has columns which define the time series `"key"`.
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
@@ -150,7 +150,7 @@ TaskFcst = R6Class(
     #' * `row_id` (`integer()`), and
     #' * `order` (`Date()` | `POSIXct()` | `numeric()`).
     #'
-    #' Returns `NULL` if there are is no order column.
+    #' Returns `NULL` if there is no order column.
     order = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
@@ -166,7 +166,7 @@ TaskFcst = R6Class(
     #' * key variable(s) (`factor()`).
     #'
     #' If there is only one key column, it will be named as `key`.
-    #' Returns `NULL` if there are are no key columns.
+    #' Returns `NULL` if there are no key columns.
     key = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)

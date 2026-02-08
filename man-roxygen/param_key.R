@@ -1,2 +1,2 @@
-#' @param key (`character(1)`)\cr
+#' @param key (`character()`)\cr
 #'   Name of the key column.

@@ -63,14 +63,14 @@ The frequency of the time series.}
 \describe{
 \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.
-Possible properties are are stored in \link[mlr3:mlr_reflections]{mlr_reflections$task_properties}.
+Possible properties are stored in \link[mlr3:mlr_reflections]{mlr_reflections$task_properties}.
 The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
 \item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
 \item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
-\item \code{"keys"}: The task has columns which define the time series \code{"key"}).
+\item \code{"keys"}: The task has columns which define the time series \code{"key"}.
 }
 
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
@@ -82,7 +82,7 @@ If the task has a column with designated role \code{"order"}, a table with two o
 \item \code{order} (\code{Date()} | \code{POSIXct()} | \code{numeric()}).
 }
 
-Returns \code{NULL} if there are is no order column.}
+Returns \code{NULL} if there is no order column.}
 
 \item{\code{key}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 If the task has a column with designated role \code{"key"}, a table with two or more columns:
@@ -92,7 +92,7 @@ If the task has a column with designated role \code{"key"}, a table with two or 
 }
 
 If there is only one key column, it will be named as \code{key}.
-Returns \code{NULL} if there are are no key columns.}
+Returns \code{NULL} if there are no key columns.}
 }
 \if{html}{\out{</div>}}
 }
@@ -166,7 +166,7 @@ Name of the target column.}
 \item{\code{order}}{(\code{character(1)})\cr
 Name of the order column.}
 
-\item{\code{key}}{(\code{character(1)})\cr
+\item{\code{key}}{(\code{character()})\cr
 Name of the key column.}
 
 \item{\code{freq}}{(\code{character(1)} | \code{integer(1)})\cr
