@@ -54,7 +54,7 @@ LearnerFcstBats = R6Class(
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
 
-      invoke(forecast::tbats, y = as.ts(task), .args = pv)
+      invoke(forecast::bats, y = as.ts(task), .args = pv)
     }
   )
 )

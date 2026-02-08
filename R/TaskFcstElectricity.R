@@ -13,7 +13,7 @@
 #' @template seealso_task
 NULL
 
-load_task_electricty = function(id = "electricity") {
+load_task_electricity = function(id = "electricity") {
   require_namespaces("tsibbledata")
   dt = as.data.table(load_dataset("vic_elec", "tsibbledata"))
   setnames(dt, tolower)
@@ -34,4 +34,4 @@ load_task_electricty = function(id = "electricity") {
 }
 
 #' @include zzz.R
-register_task("electricity", load_task_electricty)
+register_task("electricity", load_task_electricity)

@@ -28,7 +28,7 @@ generate_newdata = function(task, n = 1L) {
         weekly = "week",
         monthly = "month",
         quarterly = "quarter",
-        yearly = "yearly"
+        yearly = "year"
       )
       unit = sprintf("1 %s", unit)
       index = seq(max_index, length.out = n + 1L, by = unit)

@@ -27,7 +27,7 @@ check_frequency2 = function(x) {
   dt = c("day", "week", "month", "quarter", "year")
   dttm = c("sec", "min", "hour", "day", "DSTday", "week", "month", "quarter", "year")
   res = check_null(x)
-  if (isTRUE(x)) {
+  if (isTRUE(res)) {
     return(res)
   }
   res = check_count(x, positive = TRUE)

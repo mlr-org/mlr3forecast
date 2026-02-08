@@ -72,7 +72,7 @@ Collate:
     'ResamplingFcstHoldout.R'
     'TaskFcst.R'
     'TaskFcstAirpassengers.R'
-    'TaskFcstElectricty.R'
+    'TaskFcstElectricity.R'
     'TaskFcstLivestock.R'
     'TaskFcstLynx.R'
     'TaskFcstUsaccdeaths.R'

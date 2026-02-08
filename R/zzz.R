@@ -81,7 +81,7 @@ register_mlr3 = function() {
   iwalk(as.list(mlr3forecast_learners), function(learner, id) mlr_learners$add(id, learner))
 
   # add measures
-  mlr_learners = utils::getFromNamespace("mlr_measures", ns = "mlr3")
+  mlr_measures = utils::getFromNamespace("mlr_measures", ns = "mlr3")
   iwalk(as.list(mlr3forecast_measures), function(measure, id) mlr_measures$add(id, measure))
 }
 
