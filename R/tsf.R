@@ -101,7 +101,7 @@ read_tsf = function(file) {
 #' @description
 #' Downloads a tsf file from Zenodo using the provided record ID and dataset name.
 #'
-#' @param record_id (`character(1)`)\cr
+#' @param record_id (`integer(1)`)\cr
 #'   The Zenodo record ID.
 #' @param dataset_name (`character(1)`)\cr
 #'   The name of the dataset to download.

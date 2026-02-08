@@ -1,4 +1,7 @@
-#' @title Forecast Learner
+#' @title Forecast Learner Manual
+#'
+#' @description
+#' The [ForecastLearnerManual] wraps a [mlr3::Learner].
 #'
 #' @export
 ForecastLearnerManual = R6::R6Class(
@@ -12,6 +15,7 @@ ForecastLearnerManual = R6::R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param learner ([mlr3::Learner])\cr
+    #'   The regression learner to wrap.
     initialize = function(learner) {
       self$learner = assert_learner(as_learner(learner, clone = TRUE))
 

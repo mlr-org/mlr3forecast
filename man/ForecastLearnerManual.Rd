@@ -2,11 +2,9 @@
 % Please edit documentation in R/ForecastLearnerManual.R
 \name{ForecastLearnerManual}
 \alias{ForecastLearnerManual}
-\title{Forecast Learner}
+\title{Forecast Learner Manual}
 \description{
-Forecast Learner
-
-Forecast Learner
+The \link{ForecastLearnerManual} wraps a \link[mlr3:Learner]{mlr3::Learner}.
 }
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{ForecastLearnerManual}
@@ -55,7 +53,8 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr}
+\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
+The regression learner to wrap.}
 }
 \if{html}{\out{</div>}}
 }

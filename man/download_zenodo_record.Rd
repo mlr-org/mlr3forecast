@@ -7,7 +7,7 @@
 download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 }
 \arguments{
-\item{record_id}{(\code{character(1)})\cr
+\item{record_id}{(\code{integer(1)})\cr
 The Zenodo record ID.}
 
 \item{dataset_name}{(\code{character(1)})\cr
