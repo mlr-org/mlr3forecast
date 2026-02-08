@@ -31,27 +31,27 @@ or with the associated sugar function
 
 ## Parameters
 
-|              |           |                                             |                                                                    |
-|--------------|-----------|---------------------------------------------|--------------------------------------------------------------------|
-| Id           | Type      | Default                                     | Levels                                                             |
-| model        | untyped   | "ZXZ"                                       |                                                                    |
-| lags         | untyped   | \-                                          |                                                                    |
-| orders       | untyped   | list(ar = 0, i = 0, ma = 0, select = FALSE) |                                                                    |
-| constant     | logical   | FALSE                                       | TRUE, FALSE                                                        |
-| regressors   | character | use                                         | use, select, adapt                                                 |
-| occurrence   | character | none                                        | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct |
-| distribution | character | default                                     | default, dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma    |
-| loss         | character | likelihood                                  | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE   |
-| outliers     | character | ignore                                      | ignore, use, select                                                |
-| holdout      | logical   | FALSE                                       | TRUE, FALSE                                                        |
-| persistence  | untyped   | NULL                                        |                                                                    |
-| phi          | untyped   | NULL                                        |                                                                    |
-| initial      | character | optimal                                     | optimal, backcasting, complete                                     |
-| arma         | untyped   | NULL                                        |                                                                    |
-| ic           | character | AICc                                        | AICc, AIC, BIC, BICc                                               |
-| bounds       | character | usual                                       | usual, admissible, none                                            |
-| silent       | logical   | TRUE                                        | TRUE, FALSE                                                        |
-| ets          | character | conventional                                | conventional, adam                                                 |
+|              |           |                                             |                                                                                                           |
+|--------------|-----------|---------------------------------------------|-----------------------------------------------------------------------------------------------------------|
+| Id           | Type      | Default                                     | Levels                                                                                                    |
+| model        | untyped   | "ZXZ"                                       |                                                                                                           |
+| lags         | untyped   | \-                                          |                                                                                                           |
+| orders       | untyped   | list(ar = 0, i = 0, ma = 0, select = FALSE) |                                                                                                           |
+| constant     | logical   | FALSE                                       | TRUE, FALSE                                                                                               |
+| regressors   | character | use                                         | use, select, adapt                                                                                        |
+| occurrence   | character | none                                        | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct                                        |
+| distribution | character | default                                     | default, dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma                                           |
+| loss         | character | likelihood                                  | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) |
+| outliers     | character | ignore                                      | ignore, use, select                                                                                       |
+| holdout      | logical   | FALSE                                       | TRUE, FALSE                                                                                               |
+| persistence  | untyped   | NULL                                        |                                                                                                           |
+| phi          | untyped   | NULL                                        |                                                                                                           |
+| initial      | character | backcasting                                 | backcasting, optimal, two-stage, complete                                                                 |
+| arma         | untyped   | NULL                                        |                                                                                                           |
+| ic           | character | AICc                                        | AICc, AIC, BIC, BICc                                                                                      |
+| bounds       | character | usual                                       | usual, admissible, none                                                                                   |
+| silent       | logical   | TRUE                                        | TRUE, FALSE                                                                                               |
+| ets          | character | conventional                                | conventional, adam                                                                                        |
 
 ## References
 
@@ -207,7 +207,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.19 seconds
+#> Time elapsed: 0.2 seconds
 #> Model estimated using adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Gamma

@@ -39,11 +39,11 @@ or with the associated sugar function
 | use.trend        | logical | NULL    | TRUE, FALSE | \-                    |
 | use.damped.trend | logical | NULL    | TRUE, FALSE | \-                    |
 | seasonal.periods | untyped | NULL    |             | \-                    |
-| use.arma.errors  | logical | NULL    | TRUE, FALSE | \-                    |
+| use.arma.errors  | logical | TRUE    | TRUE, FALSE | \-                    |
 | use.parallel     | untyped | \-      |             | \-                    |
 | num.cores        | integer | 2       |             | \\\[1, \infty)\\      |
-| bc.lower         | integer | 0       |             | \\(-\infty, \infty)\\ |
-| bc.upper         | integer | 1       |             | \\(-\infty, \infty)\\ |
+| bc.lower         | numeric | 0       |             | \\(-\infty, \infty)\\ |
+| bc.upper         | numeric | 1       |             | \\(-\infty, \infty)\\ |
 | biasadj          | logical | FALSE   | TRUE, FALSE | \-                    |
 
 ## References

@@ -46,11 +46,11 @@ or with the associated sugar function
 | max.D              | integer   | 1           |                                              | \\\[0, \infty)\\      |
 | start.p            | integer   | 2           |                                              | \\\[0, \infty)\\      |
 | start.q            | integer   | 2           |                                              | \\\[0, \infty)\\      |
-| start.P            | integer   | 2           |                                              | \\\[0, \infty)\\      |
-| start.Q            | integer   | 2           |                                              | \\\[0, \infty)\\      |
-| seasonal           | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
+| start.P            | integer   | 1           |                                              | \\\[0, \infty)\\      |
+| start.Q            | integer   | 1           |                                              | \\\[0, \infty)\\      |
+| seasonal           | logical   | TRUE        | TRUE, FALSE                                  | \-                    |
 | ic                 | character | aicc        | aicc, aic, bic                               | \-                    |
-| stepwise           | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
+| stepwise           | logical   | TRUE        | TRUE, FALSE                                  | \-                    |
 | nmodels            | integer   | 94          |                                              | \\\[0, \infty)\\      |
 | trace              | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
 | approximation      | untyped   | \-          |                                              | \-                    |

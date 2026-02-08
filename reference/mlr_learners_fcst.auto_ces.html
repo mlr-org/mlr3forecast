@@ -77,7 +77,7 @@ Calls <code><a href="https://rdrr.io/pkg/smooth/man/ces.html" class="external-li
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td></tr><tr><td>seasonality</td><td>character</td><td>none</td><td>none, simple, partial, full</td></tr><tr><td>lags</td><td>untyped</td><td>-</td><td></td></tr><tr><td>initial</td><td>character</td><td>backcasting</td><td>backcasting, optimal, complete</td></tr><tr><td>ic</td><td>character</td><td>AICc</td><td>AICc, AIC, BIC, BICc</td></tr><tr><td>loss</td><td>character</td><td>likelihood</td><td>likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE</td></tr><tr><td>holdout</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td></tr><tr><td>bounds</td><td>character</td><td>admissible</td><td>admissible, none</td></tr><tr><td>silent</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td></tr><tr><td>regressors</td><td>character</td><td>use</td><td>use, select, adapt</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td></tr><tr><td>seasonality</td><td>character</td><td>none</td><td>none, simple, partial, full</td></tr><tr><td>lags</td><td>untyped</td><td>-</td><td></td></tr><tr><td>initial</td><td>character</td><td>backcasting</td><td>backcasting, optimal, two-stage, complete</td></tr><tr><td>ic</td><td>character</td><td>AICc</td><td>AICc, AIC, BIC, BICc</td></tr><tr><td>loss</td><td>character</td><td>likelihood</td><td>likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL</td></tr><tr><td>holdout</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td></tr><tr><td>bounds</td><td>character</td><td>admissible</td><td>admissible, none</td></tr><tr><td>silent</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td></tr><tr><td>regressors</td><td>character</td><td>use</td><td>use, select, adapt</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Svetunkov I (2023).
@@ -202,7 +202,7 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print the model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 0.13 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 0.14 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model estimated using ces() function: CES(full)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> With backcasting initialisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Distribution assumed in the model: Normal</span>
