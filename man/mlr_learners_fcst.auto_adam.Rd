@@ -40,7 +40,7 @@ lrn("fcst.auto_adam")
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
    persistence \tab untyped \tab NULL \tab  \cr
    phi \tab untyped \tab NULL \tab  \cr
-   initial \tab character \tab optimal \tab optimal, backcasting, complete \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr
    arma \tab untyped \tab NULL \tab  \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
    bounds \tab character \tab usual \tab usual, admissible, none \cr

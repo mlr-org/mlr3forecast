@@ -32,10 +32,10 @@ lrn("fcst.ces")
    Id \tab Type \tab Default \tab Levels \cr
    seasonality \tab character \tab none \tab none, simple, partial, full \cr
    lags \tab untyped \tab - \tab  \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, complete \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr
    a \tab untyped \tab NULL \tab  \cr
    b \tab untyped \tab NULL \tab  \cr
-   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
    bounds \tab character \tab admissible \tab admissible, none \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr

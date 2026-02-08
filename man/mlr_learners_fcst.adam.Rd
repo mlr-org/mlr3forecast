@@ -37,12 +37,12 @@ lrn("fcst.adam")
    regressors \tab character \tab use \tab use, select, adapt \cr
    occurrence \tab character \tab none \tab none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct \cr
    distribution \tab character \tab default \tab default, dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma \cr
-   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, \link{...} \cr
    outliers \tab character \tab ignore \tab ignore, use, select \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
    persistence \tab untyped \tab NULL \tab  \cr
    phi \tab untyped \tab NULL \tab  \cr
-   initial \tab character \tab optimal \tab optimal, backcasting, complete \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr
    arma \tab untyped \tab NULL \tab  \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
    bounds \tab character \tab usual \tab usual, admissible, none \cr

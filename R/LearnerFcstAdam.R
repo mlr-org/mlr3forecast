@@ -39,7 +39,7 @@ LearnerFcstAdam = R6Class(
           tags = "train"
         ),
         loss = p_fct(
-          c("likelihood", "MSE", "MAE", "HAM", "LASSO", "RIDGE", "MSEh", "TMSE", "GTMSE", "MSCE"),
+          c("likelihood", "MSE", "MAE", "HAM", "LASSO", "RIDGE", "MSEh", "TMSE", "GTMSE", "MSCE", "GPL"),
           default = "likelihood",
           tags = "train"
         ),
@@ -47,7 +47,7 @@ LearnerFcstAdam = R6Class(
         holdout = p_lgl(default = FALSE, tags = "train"),
         persistence = p_uty(default = NULL, tags = "train"),
         phi = p_uty(default = NULL, tags = "train"),
-        initial = p_fct(c("optimal", "backcasting", "complete"), default = "optimal", tags = "train"),
+        initial = p_fct(c("backcasting", "optimal", "two-stage", "complete"), default = "backcasting", tags = "train"),
         arma = p_uty(default = NULL, tags = "train"),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),

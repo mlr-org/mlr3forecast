@@ -29,7 +29,7 @@ Suggests:
     forecast (>= 9.0.0),
     generics (>= 0.1.2),
     rpart,
-    smooth (>= 4.3.0),
+    smooth (>= 4.4.0),
     testthat (>= 3.2.0),
     tsbox,
     tsibble,
