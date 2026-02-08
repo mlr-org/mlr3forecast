@@ -35,7 +35,7 @@ LearnerFcstEts = R6Class(
         lower = p_uty(default = c(rep.int(1e-04, 3), 0.8), tags = "train"),
         upper = p_uty(default = c(rep.int(0.9999, 3), 0.98), tags = "train"),
         opt.crit = p_fct(default = "lik", levels = c("lik", "amse", "mse", "sigma", "mae"), tags = "train"),
-        nmse = p_int(0L, 30L, default = 3, tags = "train"),
+        nmse = p_int(0L, 30L, default = 3L, tags = "train"),
         bounds = p_fct(default = "both", levels = c("both", "usual", "admissible"), tags = "train"),
         ic = p_fct(default = "aicc", levels = c("aicc", "aic", "bic"), tags = "train"),
         restrict = p_lgl(default = TRUE, tags = "train"),
@@ -47,7 +47,7 @@ LearnerFcstEts = R6Class(
         ),
         simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
-        npaths = p_int(1L, default = 5000, tags = "predict")
+        npaths = p_int(1L, default = 5000L, tags = "predict")
       )
 
       super$initialize(

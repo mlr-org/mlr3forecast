@@ -41,7 +41,7 @@ LearnerFcstArima = R6Class(
         method = p_fct(c("CSS-ML", "ML", "CSS"), default = "CSS-ML", tags = "train"),
         # forecast arguments
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
-        npaths = p_int(1L, default = 5000, tags = "predict"),
+        npaths = p_int(1L, default = 5000L, tags = "predict"),
         # additional arguments to stats::arima
         transform.pars = p_lgl(default = TRUE, tags = "train"),
         fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),

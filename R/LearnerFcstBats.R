@@ -28,11 +28,11 @@ LearnerFcstBats = R6Class(
         use.trend = p_lgl(default = NULL, special_vals = list(NULL), tags = "train"),
         use.damped.trend = p_lgl(default = NULL, special_vals = list(NULL), tags = "train"),
         seasonal.periods = p_uty(default = NULL, tags = "train"),
-        use.arma.errors = p_lgl(default = NULL, special_vals = list(NULL), tags = "train"),
+        use.arma.errors = p_lgl(default = TRUE, tags = "train"),
         use.parallel = p_uty(tags = "train"),
         num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train"),
-        bc.lower = p_int(default = 0, tags = "train"),
-        bc.upper = p_int(default = 1, tags = "train"),
+        bc.lower = p_dbl(default = 0, tags = "train"),
+        bc.upper = p_dbl(default = 1, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict"))
       )
 

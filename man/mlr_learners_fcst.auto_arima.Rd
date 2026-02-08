@@ -41,12 +41,12 @@ lrn("fcst.auto_arima")
    max.D \tab integer \tab 1 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    start.p \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    start.q \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   start.P \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   start.Q \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   start.P \tab integer \tab 1 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   start.Q \tab integer \tab 1 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    stationary \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   seasonal \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   seasonal \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    ic \tab character \tab aicc \tab aicc, aic, bic \tab - \cr
-   stepwise \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   stepwise \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    nmodels \tab integer \tab 94 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    trace \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    approximation \tab untyped \tab - \tab  \tab - \cr

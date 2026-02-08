@@ -35,11 +35,11 @@ lrn("fcst.bats")
    use.trend \tab logical \tab NULL \tab TRUE, FALSE \tab - \cr
    use.damped.trend \tab logical \tab NULL \tab TRUE, FALSE \tab - \cr
    seasonal.periods \tab untyped \tab NULL \tab  \tab - \cr
-   use.arma.errors \tab logical \tab NULL \tab TRUE, FALSE \tab - \cr
+   use.arma.errors \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    use.parallel \tab untyped \tab - \tab  \tab - \cr
    num.cores \tab integer \tab 2 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   bc.lower \tab integer \tab 0 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
-   bc.upper \tab integer \tab 1 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   bc.lower \tab numeric \tab 0 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   bc.upper \tab numeric \tab 1 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }
