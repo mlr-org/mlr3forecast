@@ -1,8 +1,7 @@
-# Forecast Learner
+# Forecast Learner Manual
 
-Forecast Learner
-
-Forecast Learner
+The ForecastLearnerManual wraps a
+[mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html).
 
 ## Super class
 
@@ -54,6 +53,7 @@ Creates a new instance of this
 - `learner`:
 
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
+  The regression learner to wrap.
 
 ------------------------------------------------------------------------
 

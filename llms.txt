@@ -408,7 +408,7 @@ prediction$score(msr("regr.rmse"))
 - [`ForecastLearner`](https://mlr3forecast.mlr-org.com/reference/ForecastLearner.md)
   : Encapsulate a Learner as a Forecast Learner
 - [`ForecastLearnerManual`](https://mlr3forecast.mlr-org.com/reference/ForecastLearnerManual.md)
-  : Forecast Learner
+  : Forecast Learner Manual
 - [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md)
   [`LearnerFcstAdam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md)
   : ADAM Forecast Learner
