@@ -199,37 +199,38 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> TBATS(0, {0,0}, 1, {<12,5>})
+#> BATS(0.001, {0,0}, 1, {12})
 #> 
-#> Call: forecast::tbats(y = as.ts(task))
+#> Call: forecast::bats(y = as.ts(task))
 #> 
 #> Parameters
-#>   Lambda: 0
-#>   Alpha: 0.6705538
-#>   Beta: 0.04675065
+#>   Lambda: 0.001323
+#>   Alpha: 0.7720669
+#>   Beta: 0.04383733
 #>   Damping Parameter: 1
-#>   Gamma-1 Values: 0.004508484
-#>   Gamma-2 Values: 0.01178641
+#>   Gamma Values: -0.07671992
 #> 
 #> Seed States:
 #>               [,1]
-#>  [1,]  4.808973955
-#>  [2,] -0.006979784
-#>  [3,] -0.132575268
-#>  [4,]  0.049822202
-#>  [5,] -0.009852127
-#>  [6,]  0.007714254
-#>  [7,]  0.001576272
-#>  [8,]  0.035970508
-#>  [9,]  0.062976543
-#> [10,] -0.025967892
-#> [11,] -0.036114544
-#> [12,] -0.020072721
+#>  [1,]  4.737291314
+#>  [2,] -0.007076601
+#>  [3,] -0.096905454
+#>  [4,] -0.222177523
+#>  [5,] -0.080521101
+#>  [6,]  0.060712206
+#>  [7,]  0.181980666
+#>  [8,]  0.194969610
+#>  [9,]  0.099418764
+#> [10,] -0.013829347
+#> [11,]  0.003219389
+#> [12,]  0.046487603
+#> [13,] -0.086452309
+#> [14,] -0.086797324
 #> attr(,"lambda")
-#> [1] 2.747722e-08
+#> [1] 0.001323467
 #> 
-#> Sigma: 0.03474871
-#> AIC: 846.5215
+#> Sigma: 0.03550602
+#> AIC: 851.3119
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance)
@@ -240,5 +241,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1761.171 
+#> 1484.959 
 ```

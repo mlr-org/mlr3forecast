@@ -198,22 +198,22 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.11 seconds
-#> Model estimated using ces() function: CES(partial)
+#> Time elapsed: 0.13 seconds
+#> Model estimated using ces() function: CES(full)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 366.9022
-#>    a0+ia1 
-#> 1.5239+1i
-#>      b 
-#> 0.7414 
+#> Loss function type: likelihood; Loss function value: 351.041
+#>        a0+ia1 
+#> 1.357+1.0115i
+#>         b0+ib1 
+#> 1.5462+1.1582i
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 4
-#> Number of degrees of freedom: 92
+#> Number of estimated parameters: 5
+#> Number of degrees of freedom: 91
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 741.8045 742.2440 752.0619 753.0650 
+#> 712.0820 712.7487 724.9038 726.4252 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance)
@@ -224,5 +224,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 8126.296 
+#> 611.4886 
 ```

@@ -206,21 +206,21 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 3.8 seconds
+#> Time elapsed: 3.76 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 320.7056
+#> Loss function type: likelihood; Loss function value: 327.5537
 #> Persistence vector g:
 #>  alpha   beta  gamma 
-#> 0.6772 0.0034 0.0000 
+#> 0.5640 0.0000 0.1468 
 #> 
 #> Sample size: 96
 #> Number of estimated parameters: 4
 #> Number of degrees of freedom: 92
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 649.4111 649.8507 659.6685 660.6717 
+#> 663.1073 663.5469 673.3647 674.3679 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance)
@@ -231,5 +231,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1569.368 
+#> 1233.255 
 ```

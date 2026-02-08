@@ -203,16 +203,16 @@ print(learner$model)
 #> Model estimated using ces() function: CES(none)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 438.0686
+#> Loss function type: likelihood; Loss function value: 437.9841
 #>         a0+ia1 
-#> 1.9916+0.9958i
+#> 1.9839+0.9918i
 #> 
 #> Sample size: 96
 #> Number of estimated parameters: 3
 #> Number of degrees of freedom: 93
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 882.1373 882.3981 889.8303 890.4257 
+#> 881.9682 882.2291 889.6613 890.2566 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance)
@@ -223,5 +223,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 21918.49 
+#> 26389.16 
 ```

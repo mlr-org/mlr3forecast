@@ -23,7 +23,7 @@ download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 
 ## Value
 
-([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)).
+([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)).
 
 ## References
 

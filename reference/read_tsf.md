@@ -1,7 +1,7 @@
 # Read tsf files
 
 Parses a file located at `file` and returns a
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 ## Usage
 
@@ -18,7 +18,7 @@ read_tsf(file)
 
 ## Value
 
-([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html)).
+([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)).
 
 ## References
 

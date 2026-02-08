@@ -98,7 +98,7 @@ Other Task:
 
 - `order`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has a column with designated role `"order"`, a table with
   two or more columns:
 
@@ -111,7 +111,7 @@ Other Task:
 
 - `key`:
 
-  ([`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
   If the task has a column with designated role `"key"`, a table with
   two or more columns:
 
@@ -255,7 +255,7 @@ provides an alternative way to construct forecast tasks.
 Returns a slice of the data from the
 [mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html)
 as a
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 Rows default to observations with role `"use"`, and columns default to
 features with roles `"target"`, `"order"`, `"key"` or `"feature"`. If
 `rows` or `cols` are specified which do not exist in the
@@ -294,7 +294,7 @@ instead always address columns with their respective column name.
 #### Returns
 
 A
-[`data.table::data.table()`](https://rdatatable.gitlab.io/data.table/reference/data.table.html).
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
 
 ------------------------------------------------------------------------
 

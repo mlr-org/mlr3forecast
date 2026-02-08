@@ -200,37 +200,38 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print the model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TBATS(0, {0,0}, 1, {&lt;12,5&gt;})</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> BATS(0.001, {0,0}, 1, {12})</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Call: forecast::tbats(y = as.ts(task))</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Call: forecast::bats(y = as.ts(task))</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Lambda: 0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Alpha: 0.6705538</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Beta: 0.04675065</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Lambda: 0.001323</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Alpha: 0.7720669</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Beta: 0.04383733</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Damping Parameter: 1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Gamma-1 Values: 0.004508484</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   Gamma-2 Values: 0.01178641</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   Gamma Values: -0.07671992</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Seed States:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>               [,1]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  4.808973955</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -0.006979784</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -0.132575268</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,]  0.049822202</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -0.009852127</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  0.007714254</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.001576272</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  0.035970508</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.062976543</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.025967892</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [11,] -0.036114544</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [12,] -0.020072721</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [1,]  4.737291314</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [2,] -0.007076601</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [3,] -0.096905454</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [4,] -0.222177523</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [5,] -0.080521101</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [6,]  0.060712206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7,]  0.181980666</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [8,]  0.194969610</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [9,]  0.099418764</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10,] -0.013829347</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [11,]  0.003219389</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [12,]  0.046487603</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13,] -0.086452309</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [14,] -0.086797324</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> attr(,"lambda")</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2.747722e-08</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.001323467</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Sigma: 0.03474871</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> AIC: 846.5215</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Sigma: 0.03550602</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AIC: 851.3119</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Importance method</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="st">"importance"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">learner</span><span class="op">$</span><span class="va">properties</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">importance</span><span class="op">)</span></span></span>
@@ -241,7 +242,7 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="co"># Score the predictions</span></span></span>
 <span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> regr.mse </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1761.171 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1484.959 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

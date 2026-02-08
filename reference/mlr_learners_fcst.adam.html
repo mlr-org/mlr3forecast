@@ -202,21 +202,21 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print the model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 0.15 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 0.2 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model estimated using adam() function: ETS(MAM)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> With backcasting initialisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Distribution assumed in the model: Gamma</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Loss function type: likelihood; Loss function value: 321.0178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Loss function type: likelihood; Loss function value: 328.324</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Persistence vector g:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  alpha   beta  gamma </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.6778 0.0030 0.0006 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5507 0.0095 0.1489 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sample size: 96</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of estimated parameters: 4</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Number of degrees of freedom: 92</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Information criteria:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      AIC     AICc      BIC     BICc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 650.0357 650.4752 660.2931 661.2962 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 664.6481 665.0877 674.9055 675.9086 </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Importance method</span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="st">"importance"</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">learner</span><span class="op">$</span><span class="va">properties</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">importance</span><span class="op">)</span></span></span>
@@ -227,7 +227,7 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="co"># Score the predictions</span></span></span>
 <span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> regr.mse </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1663.375 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 842.8001 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
