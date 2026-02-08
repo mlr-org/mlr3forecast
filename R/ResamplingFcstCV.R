@@ -16,7 +16,9 @@
 #' * `step_size` (`integer(1)`)\cr
 #'   Step size between windows.
 #' * `window_size` (`integer(1)`)\cr
-#'   (Minimal) Size of the rolling window.
+#'   Size of the rolling window. For `fixed_window = TRUE`, this is the exact
+#'   training window size. For `fixed_window = FALSE` (expanding window), this
+#'   is the minimum number of training observations in the first fold.
 #' * `fixed_window` (`logical(1)`)\cr
 #'   Should a fixed sized window be used? If `FALSE` an expanding window is used.
 #'
@@ -26,7 +28,7 @@
 #' @template seealso_resampling
 #' @export
 #' @examples
-#' # Create a task with 10 observations
+#' # Create a task with 20 observations
 #' task = tsk("airpassengers")
 #' task$filter(1:20)
 #'
@@ -108,6 +110,25 @@ ResamplingFcstCV = R6Class(
       if (!has_key) {
         setorderv(dt, order_cols)
         n = nrow(dt)
+        if (window_size + horizon > n) {
+          error_input(
+            "Resampling '%s': `window_size + horizon` (%i) exceeds the number of observations (%i) in Task '%s'.",
+            self$id,
+            window_size + horizon,
+            n,
+            task$id
+          )
+        }
+        max_folds = floor((n - horizon - window_size) / step_size) + 1L
+        if (folds > max_folds) {
+          error_input(
+            "Resampling '%s': `folds` (%i) exceeds the maximum feasible number of folds (%i) for Task '%s'.",
+            self$id,
+            folds,
+            max_folds,
+            task$id
+          )
+        }
         train_end = frev(seq(from = n - horizon, by = -step_size, length.out = folds))
         if (fixed_window) {
           train_ids = map(train_end, function(i) dt[(i - window_size + 1L):i, "row_id"][[1L]])
@@ -119,20 +140,47 @@ ResamplingFcstCV = R6Class(
       }
 
       setorderv(dt, c(key_cols, order_cols))
-      ids = dt[,
+      splits = dt[,
         {
-          train_end = frev(seq(from = .N - horizon, by = -step_size, length.out = folds))
+          n_group = .N
+          if (window_size + horizon > n_group) {
+            error_input(
+              "Resampling '%s': `window_size + horizon` (%i) exceeds the number of observations (%i) in group of Task '%s'.",
+              self$id,
+              window_size + horizon,
+              n_group,
+              task$id
+            )
+          }
+          max_folds = floor((n_group - horizon - window_size) / step_size) + 1L
+          if (folds > max_folds) {
+            error_input(
+              "Resampling '%s': `folds` (%i) exceeds the maximum feasible number of folds (%i) in group of Task '%s'.",
+              self$id,
+              folds,
+              max_folds,
+              task$id
+            )
+          }
+          train_end = frev(seq(from = n_group - horizon, by = -step_size, length.out = folds))
           if (fixed_window) {
             train_ids = map(train_end, function(i) .SD[(i - window_size + 1L):i, "row_id"][[1L]])
           } else {
             train_ids = map(train_end, function(i) .SD[1L:i, "row_id"][[1L]])
           }
           test_ids = map(train_end, function(i) .SD[(i + 1L):(i + horizon), "row_id"][[1L]])
-          list(train_ids = train_ids, test_ids = test_ids)
+          list(train_ids = train_ids, test_ids = test_ids, fold = seq_len(folds))
         },
         by = key_cols
-      ][, c("train_ids", "test_ids")]
-      list(train = ids$train_ids, test = ids$test_ids)
+      ]
+      merged = splits[,
+        list(
+          train = list(unlist(train_ids, use.names = FALSE)),
+          test = list(unlist(test_ids, use.names = FALSE))
+        ),
+        by = fold
+      ]
+      list(train = merged$train, test = merged$test)
     },
 
     .sample_ids = function(ids, task, ...) {
@@ -146,7 +194,7 @@ ResamplingFcstCV = R6Class(
 
       ids = sort(ids)
       train_end = ids[ids <= (max(ids) - horizon) & ids >= window_size]
-      train_end = seq(from = train_end[length(train_end)], by = -pv$step_size, length.out = pv$folds)
+      train_end = frev(seq(from = train_end[length(train_end)], by = -pv$step_size, length.out = pv$folds))
       if (pv$fixed_window) {
         train_ids = map(train_end, function(x) (x - window_size + 1L):x)
       } else {

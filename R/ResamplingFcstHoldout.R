@@ -137,7 +137,7 @@ ResamplingFcstHoldout = R6Class(
       }
 
       ids = sort(ids)
-      list(train = ids[seq_len(nr)], test = ids[(nr + 1L):n_obs])
+      list(train = ids[seq_len(nr)], test = if (n_obs > nr) ids[(nr + 1L):n_obs] else integer())
     },
 
     .get_train = function(i) {

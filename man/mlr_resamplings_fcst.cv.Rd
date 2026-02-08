@@ -26,14 +26,16 @@ Number of folds.
 \item \code{step_size} (\code{integer(1)})\cr
 Step size between windows.
 \item \code{window_size} (\code{integer(1)})\cr
-(Minimal) Size of the rolling window.
+Size of the rolling window. For \code{fixed_window = TRUE}, this is the exact
+training window size. For \code{fixed_window = FALSE} (expanding window), this
+is the minimum number of training observations in the first fold.
 \item \code{fixed_window} (\code{logical(1)})\cr
 Should a fixed sized window be used? If \code{FALSE} an expanding window is used.
 }
 }
 
 \examples{
-# Create a task with 10 observations
+# Create a task with 20 observations
 task = tsk("airpassengers")
 task$filter(1:20)
 
