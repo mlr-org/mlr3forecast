@@ -28,6 +28,7 @@ LearnerFcstForecast = R6Class(
       if (is_quantile) {
         args = insert_named(args, list(level = quantiles_to_level(private$.quantiles)))
       }
+      args = insert_named(args, pv)
       pred = invoke(forecast::forecast, self$model, .args = args)
 
       if (!is_quantile) {
