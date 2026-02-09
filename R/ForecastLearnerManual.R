@@ -8,16 +8,12 @@ ForecastLearnerManual = R6::R6Class(
   "ForecastLearnerManual",
   inherit = Learner,
   public = list(
-    #' @field learner ([mlr3::Learner])\cr
-    #' The learner
-    learner = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param learner ([mlr3::Learner])\cr
     #'   The regression learner to wrap.
     initialize = function(learner) {
-      self$learner = assert_learner(as_learner(learner, clone = TRUE))
+      private$.learner = assert_learner(as_learner(learner, clone = TRUE))
 
       super$initialize(
         id = learner$id,
@@ -32,7 +28,17 @@ ForecastLearnerManual = R6::R6Class(
     }
   ),
 
+  active = list(
+    #' @field learner ([mlr3::Learner])\cr
+    #' The wrapped learner.
+    learner = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.learner
+    }
+  ),
+
   private = list(
+    .learner = NULL,
     .train = function(task) {
       target = task$target_names
       dt = task$data()

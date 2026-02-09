@@ -27,10 +27,6 @@ TaskFcst = R6Class(
   "TaskFcst",
   inherit = TaskRegr,
   public = list(
-    #' @field freq (`character(1)`)\cr
-    #' The frequency of the time series.
-    freq = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' The function [as_task_fcst()] provides an alternative way to construct forecast tasks.
@@ -53,7 +49,7 @@ TaskFcst = R6Class(
     ) {
       super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
       self$task_type = "fcst"
-      self$freq = assert_freq(freq)
+      private$.freq = assert_freq(freq)
 
       col_roles = self$col_roles
       self$col_roles = insert_named(col_roles, list(key = character()))
@@ -122,6 +118,13 @@ TaskFcst = R6Class(
   ),
 
   active = list(
+    #' @field freq (`character(1)` | `numeric(1)`)\cr
+    #' The frequency of the time series.
+    freq = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.freq
+    },
+
     #' @field properties (`character()`)\cr
     #' Set of task properties.
     #' Possible properties are stored in [mlr_reflections$task_properties][mlr3::mlr_reflections].
@@ -180,5 +183,9 @@ TaskFcst = R6Class(
         setnames(data, c("row_id", key_cols))[]
       }
     }
+  ),
+
+  private = list(
+    .freq = NULL
   )
 )

@@ -8,14 +8,6 @@ ForecastLearner = R6::R6Class(
   "ForecastLearner",
   inherit = Learner,
   public = list(
-    #' @field learner ([mlr3::Learner])\cr
-    #' Learner to wrap.
-    learner = NULL,
-
-    #' @field lags (`integer()`)\cr
-    #' The lags to create.
-    lags = NULL,
-
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param learner ([mlr3::Learner])\cr
@@ -23,8 +15,8 @@ ForecastLearner = R6::R6Class(
     #' @param lags (`integer()`)\cr
     #'   The lag values to use for creating lag features.
     initialize = function(learner, lags) {
-      self$learner = assert_learner(as_learner(learner, clone = TRUE), task_type = "regr")
-      self$lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
+      private$.learner = assert_learner(as_learner(learner, clone = TRUE), task_type = "regr")
+      private$.lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
 
       super$initialize(
         id = learner$id,
@@ -47,6 +39,20 @@ ForecastLearner = R6::R6Class(
   ),
 
   active = list(
+    #' @field learner ([mlr3::Learner])\cr
+    #' The wrapped learner.
+    learner = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.learner
+    },
+
+    #' @field lags (`integer()`)\cr
+    #' The lags to create.
+    lags = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.lags
+    },
+
     #' @template field_param_set
     param_set = function(rhs) {
       param_set = self$learner$param_set
@@ -58,6 +64,8 @@ ForecastLearner = R6::R6Class(
   ),
 
   private = list(
+    .learner = NULL,
+    .lags = NULL,
     .task = NULL,
     .max_index = NULL,
 
