@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^CITATION\.cff$
+^CONTRIBUTING\.md$
 ^CRAN-RELEASE$
 ^CRAN-SUBMISSION$
 ^Dockerfile$
@@ -8,12 +9,14 @@
 ^Meta$
 ^README\.Rmd$
 ^README\.html$
-^[\.]?air\.toml$
+^\.?air\.toml$
 ^\.Renviron$
 ^\.Rproj\.user$
 ^\.ccache$
+^\.claude$
 ^\.dockerignore$
 ^\.editorconfig$
+^\.gitattributes$
 ^\.github$
 ^\.gitignore$
 ^\.httr-oauth$
@@ -22,12 +25,12 @@
 ^\.pre-commit-config\.yaml$
 ^\.vscode$
 ^_pkgdown\.yml$
+^attic$
 ^codecov\.yml$
 ^compose\.ya?ml$
 ^cran-comments\.md$
 ^data-raw$
-^doc$
-^docs$
+^docs?$
 ^inst/extdata/.+\.R$
 ^jarl\.toml$
 ^man-roxygen$
