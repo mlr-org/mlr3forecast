@@ -44,7 +44,7 @@ task
 #> • Target: passengers
 #> • Properties: ordered
 #> • Order by: month
-#> • Frequency: monthly
+#> • Frequency: month
 
 # or plot the task
 autoplot(task)
@@ -147,39 +147,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 435.1214 1961-01-01
-#>        2    NA 438.8793 1961-02-01
-#>        3    NA 455.9108 1961-03-01
+#>        1    NA 438.1652 1961-01-01
+#>        2    NA 441.0345 1961-02-01
+#>        3    NA 459.9077 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 474.2902 1961-10-01
-#>       11    NA 444.0297 1961-11-01
-#>       12    NA 442.0606 1961-12-01
+#>       10    NA 478.0484 1961-10-01
+#>       11    NA 448.1254 1961-11-01
+#>       12    NA 445.3418 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 579.0485 1960-08-01
-#>      141   508 501.7531 1960-09-01
-#>      142   461 455.3955 1960-10-01
-#>      143   390 417.2189 1960-11-01
-#>      144   432 435.9441 1960-12-01
+#>      140   606 576.9714 1960-08-01
+#>      141   508 499.5404 1960-09-01
+#>      142   461 451.9052 1960-10-01
+#>      143   390 417.9639 1960-11-01
+#>      144   432 436.8201 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  17.62523
+#>    18.985
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  49.46789
+#>   46.9633
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.72165
+#>  26.62801
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -203,7 +203,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  14.06635
+#>  15.81167
 ```
 
 ### Example: forecasting electricity demand
@@ -230,13 +230,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 187307.5 2015-01-01
-#>        2    NA 195614.6 2015-01-02
-#>        3    NA 191783.7 2015-01-03
+#>        1    NA 188692.4 2015-01-01
+#>        2    NA 197250.6 2015-01-02
+#>        3    NA 189536.3 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 223522.6 2015-01-12
-#>       13    NA 227951.5 2015-01-13
-#>       14    NA 228670.9 2015-01-14
+#>       12    NA 222919.5 2015-01-12
+#>       13    NA 228084.7 2015-01-13
+#>       14    NA 228822.6 2015-01-14
 ```
 
 ### Example: global forecasting
@@ -251,7 +251,7 @@ setnames(dt, tolower)
 dt[, month := as.Date(month)]
 dt = dt[, .(count = sum(count)), by = .(state, month)]
 setorder(dt, state, month)
-task = as_task_fcst(dt, id = "aus_livestock", target = "count", order = "month", key = "state", freq = "monthly")
+task = as_task_fcst(dt, id = "aus_livestock", target = "count", order = "month", key = "state", freq = "month")
 task$set_col_roles("month", add = "feature")
 
 graph = po(
@@ -269,13 +269,13 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  27978.75
+#>  23781.84
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, glrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  106327.9
+#>  110100.7
 ```
 
 ### Example: global vs local forecasting
@@ -300,7 +300,7 @@ task_train = as_task_fcst(
   target = "turnover",
   order = "month",
   key = "industry",
-  freq = "monthly"
+  freq = "month"
 )
 task_test = as_task_fcst(
   vic_test,
@@ -308,7 +308,7 @@ task_test = as_task_fcst(
   target = "turnover",
   order = "month",
   key = "industry",
-  freq = "monthly"
+  freq = "month"
 )
 
 learner = lrn("regr.ranger")
@@ -324,14 +324,14 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
     id = "aus_retail_vic_local",
     target = "turnover",
     order = "month",
-    freq = "monthly"
+    freq = "month"
   )
   task_test = as_task_fcst(
     dt[month >= as.Date("2015-01-01")],
     id = "aus_retail_vic_local",
     target = "turnover",
     order = "month",
-    freq = "monthly"
+    freq = "month"
   )
   flrn = as_learner_fcst(learner, lags = 1:12)$train(task_train)
   prediction = flrn$predict(task_test)

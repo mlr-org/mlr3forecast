@@ -128,25 +128,10 @@ as_task_fcst(
 
 - freq:
 
-  (`character(1)` \| `integer(1)`)  
-  Frequency of the time series. Either a positive number or one of the
-  following:
-
-  - `"secondly"`
-
-  - `"minutely"`
-
-  - `"hourly"`
-
-  - `"daily"`
-
-  - `"weekly"`
-
-  - `"monthly"`
-
-  - `"quarterly"`
-
-  - `"yearly"`
+  (`character(1)` \| `numeric(1)`)  
+  Frequency of the time series. Either a positive number or a
+  [`seq()`](https://rdrr.io/r/base/seq.html)-compatible string, e.g.:
+  `"1 month"`, `"day"`, `"3 months"`, `"1 hour"`, `"week"`.
 
 - id:
 
@@ -169,11 +154,11 @@ as_task_fcst(
 library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
 setnames(airpassengers, c("month", "passengers"))
-as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
+as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "month")
 #> 
 #> ── <TaskFcst> (144x1) ──────────────────────────────────────────────────────────
 #> • Target: passengers
 #> • Properties: ordered
 #> • Order by: month
-#> • Frequency: monthly
+#> • Frequency: month
 ```
