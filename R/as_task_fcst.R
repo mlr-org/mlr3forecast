@@ -98,8 +98,13 @@ as_task_fcst.data.frame = function(
     assert_subset(key, cn)
   }
 
-  if (anyNA(x[[target]])) {
-    error_input("`target` must not contain `NA` values.")
+  ii = which(map_lgl(keep(x, is.double), anyInfinite))
+  if (length(ii) > 0L) {
+    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+  }
+
+  if (anyMissing(x[[target]])) {
+    error_input("Target column '%s' must not contain missing values", target)
   }
 
   has_dups = NULL
@@ -112,11 +117,6 @@ as_task_fcst.data.frame = function(
     error_input("`order` values must be unique for each time series.")
   }
 
-  ii = which(map_lgl(keep(x, is.double), anyInfinite))
-  if (length(ii) > 0L) {
-    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
-  }
-
   TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
 }
 
@@ -126,6 +126,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   force(id)
 
   assert_data_table(x, min.rows = 1L, min.cols = 1L, col.names = "unique")
+
   cn = names(x)
   target = cn[length(cn)]
   cn = cn[-length(cn)]
@@ -139,24 +140,10 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
     set(x, j = k, value = as.factor(x[[k]]))
   }
 
-  ii = which(map_lgl(keep(x, is.double), anyInfinite))
-  if (length(ii) > 0L) {
-    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
-  }
-
   freq = attr(x, "frequency")
   freq = freq %??% tsf_to_seq(freq)
 
-  TaskFcst$new(
-    id = id,
-    backend = x,
-    target = target,
-    order = order,
-    key = key,
-    freq = freq,
-    label = label,
-    ...
-  )
+  as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 
 #' @rdname as_task_fcst
