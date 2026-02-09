@@ -92,19 +92,10 @@ Name of the order column.}
 \item{key}{(\code{character()})\cr
 Name of the key column.}
 
-\item{freq}{(\code{character(1)} | \code{integer(1)})\cr
+\item{freq}{(\code{character(1)} | \code{numeric(1)})\cr
 Frequency of the time series.
-Either a positive number or one of the following:
-\itemize{
-\item \code{"secondly"}
-\item \code{"minutely"}
-\item \code{"hourly"}
-\item \code{"daily"}
-\item \code{"weekly"}
-\item \code{"monthly"}
-\item \code{"quarterly"}
-\item \code{"yearly"}
-}}
+Either a positive number or a \code{seq()}-compatible string, e.g.:
+\code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.
@@ -133,6 +124,6 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
 setnames(airpassengers, c("month", "passengers"))
-as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
+as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "month")
 \dontshow{\}) # examplesIf}
 }

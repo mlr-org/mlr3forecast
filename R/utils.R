@@ -19,19 +19,7 @@ generate_newdata = function(task, n = 1L) {
     dt = dt[get(order_cols) == max(get(order_cols)), c(key_cols, order_cols), with = FALSE]
     max_index = dt[[order_cols]]
     if (inherits(max_index, c("Date", "POSIXct")) && !is.null(task$freq)) {
-      unit = switch(
-        task$freq,
-        secondly = "second",
-        minutely = "minute",
-        hourly = "hour",
-        daily = "day",
-        weekly = "week",
-        monthly = "month",
-        quarterly = "quarter",
-        yearly = "year"
-      )
-      unit = sprintf("1 %s", unit)
-      index = seq(max_index, length.out = n + 1L, by = unit)
+      index = seq(max_index, length.out = n + 1L, by = task$freq)
     } else {
       index = seq(max_index + 1L, length.out = n + 1L)
     }
@@ -51,19 +39,20 @@ predict_forecast = function(learner, task, h = 12L) {
 
 #' @export
 as.ts.TaskFcst = function(x, ..., freq = NULL) {
-  # TODO: come back to this once decided if a task requires a frequency or falls back to 1L
   freq = freq %??% x$freq %??% 1L
   if (is.character(freq)) {
+    # fmt: skip
     freq = switch(
       freq,
-      secondly = 60L,
-      minutely = 1440L,
-      hourly = 24L,
-      daily = 365.25,
-      weekly = 52.18,
-      monthly = 12L,
-      quarterly = 4L,
-      yearly = 1L
+      `1 sec` = , sec = , secs = 60L,
+      `1 min` = , min = , mins = 1440L,
+      `1 hour` = , hour = , hours = 24L,
+      `1 day` = , day = , days = 365.25,
+      `1 week` = , week = , weeks = 52.18,
+      `1 month` = , month = , months = 12L,
+      `3 months` = , `1 quarter` = , quarter = , quarters = 4L,
+      `1 year` = , year = , years = 1L,
+      1L
     )
   }
   stats::ts(x$truth(), freq = freq)
@@ -72,4 +61,8 @@ as.ts.TaskFcst = function(x, ..., freq = NULL) {
 quantiles_to_level = function(x) {
   x = x[x != 0.5]
   sort(unique(abs(1 - 2 * x) * 100))
+}
+
+strsplit1 = function(x, pattern) {
+  strsplit(x, pattern, fixed = TRUE)[[1L]]
 }

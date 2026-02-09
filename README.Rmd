@@ -189,7 +189,7 @@ setnames(dt, tolower)
 dt[, month := as.Date(month)]
 dt = dt[, .(count = sum(count)), by = .(state, month)]
 setorder(dt, state, month)
-task = as_task_fcst(dt, id = "aus_livestock", target = "count", order = "month", key = "state", freq = "monthly")
+task = as_task_fcst(dt, id = "aus_livestock", target = "count", order = "month", key = "state", freq = "month")
 task$set_col_roles("month", add = "feature")
 
 graph = po(
@@ -233,7 +233,7 @@ task_train = as_task_fcst(
   target = "turnover",
   order = "month",
   key = "industry",
-  freq = "monthly"
+  freq = "month"
 )
 task_test = as_task_fcst(
   vic_test,
@@ -241,7 +241,7 @@ task_test = as_task_fcst(
   target = "turnover",
   order = "month",
   key = "industry",
-  freq = "monthly"
+  freq = "month"
 )
 
 learner = lrn("regr.ranger")
@@ -257,14 +257,14 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
     id = "aus_retail_vic_local",
     target = "turnover",
     order = "month",
-    freq = "monthly"
+    freq = "month"
   )
   task_test = as_task_fcst(
     dt[month >= as.Date("2015-01-01")],
     id = "aus_retail_vic_local",
     target = "turnover",
     order = "month",
-    freq = "monthly"
+    freq = "month"
   )
   flrn = as_learner_fcst(learner, lags = 1:12)$train(task_train)
   prediction = flrn$predict(task_test)

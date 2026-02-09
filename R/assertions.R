@@ -1,42 +1,23 @@
-assert_frequency = function(x, .var.name = vname(x)) {
-  assert(
-    check_null(x),
-    check_choice(x, c("secondly", "minutely", "hourly", "daily", "weekly", "monthly", "quarterly", "yearly")),
-    check_count(x, positive = TRUE),
-    .var.name = .var.name
-  )
-}
-
-assert_freq = function(x, .var.name = vname(x)) {
-  if (is.null(x)) {
-    return(invisible())
+check_freq = function(x) {
+  if (is.null(x) || (test_number(x, finite = TRUE) && x > 0)) {
+    return(TRUE)
   }
-  if (test_count(x, positive = TRUE)) {
-    storage.mode(x) = "integer"
-    return(invisible(x))
+  if (!test_string(x)) {
+    return("Must be a string, a positive number, or NULL")
   }
-  choices = c("secondly", "minutely", "hourly", "daily", "weekly", "monthly", "quarterly", "yearly")
-  if (test_choice(x, choices)) {
-    return(invisible(x))
+  valid_units = c("secs", "mins", "hours", "days", "DSTdays", "weeks", "months", "quarters", "years")
+  parts = strsplit1(x, " ")
+  n_parts = length(parts)
+  if (n_parts < 1L || n_parts > 2L) {
+    return("Must be a seq()-compatible string (e.g. \"1 month\", \"day\")")
   }
-  stopf("'%s' must be either: \n* `NULL`\n* a positive integer\n* one of: %s.", .var.name, toString(choices))
-}
-
-check_frequency2 = function(x) {
-  # plus an integer before, can also be abbreivated (pmatch) with optional s suffix
-  dt = c("day", "week", "month", "quarter", "year")
-  dttm = c("sec", "min", "hour", "day", "DSTday", "week", "month", "quarter", "year")
-  res = check_null(x)
-  if (isTRUE(res)) {
-    return(res)
+  if (is.na(pmatch(parts[n_parts], valid_units))) {
+    return("Must be a seq()-compatible string (e.g. \"1 month\", \"day\")")
   }
-  res = check_count(x, positive = TRUE)
-  if (isTRUE(res)) {
-    return(res)
-  }
-  res = check_string(x, pattern = "^[1-9]+\\s+(secs?|mins?|hours?|days?|DSTdays?|weeks?|months?|quarters?|years?)$")
-  if (!isTRUE(res)) {
-    return(res)
+  if (n_parts == 2L && !grepl("^[1-9][0-9]*$", parts[1L])) {
+    return("Must be a seq()-compatible string (e.g. \"1 month\", \"day\")")
   }
   TRUE
 }
+
+assert_freq = makeAssertionFunction(check_freq)

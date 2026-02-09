@@ -28,7 +28,7 @@ load_task_usaccdeaths = function(id = "usaccdeaths") {
     backend = b,
     target = "deaths",
     order = "month",
-    freq = "monthly",
+    freq = "month",
     label = "Monthly Accidental Deaths in the US 1973-1978"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_usaccdeaths"

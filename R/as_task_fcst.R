@@ -22,7 +22,7 @@
 #' library(data.table)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
 #' setnames(airpassengers, c("month", "passengers"))
-#' as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
+#' as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "month")
 as_task_fcst = function(x, ...) {
   UseMethod("as_task_fcst")
 }
@@ -144,13 +144,16 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
     warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
   }
 
+  freq = attr(x, "frequency")
+  freq = freq %??% tsf_to_seq(freq)
+
   TaskFcst$new(
     id = id,
     backend = x,
     target = target,
     order = order,
     key = key,
-    freq = attr(x, "frequency"),
+    freq = freq,
     label = label,
     ...
   )
@@ -164,11 +167,11 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
     freq = stats::frequency(x)
     freq = switch(
       as.character(freq),
-      `365.25` = "daily",
-      `52` = "weekly",
-      `12` = "monthly",
-      `4` = "quarterly",
-      `1` = "yearly",
+      `365.25` = "day",
+      `52` = "week",
+      `12` = "month",
+      `4` = "quarter",
+      `1` = "year",
       freq
     )
   }

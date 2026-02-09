@@ -26,7 +26,7 @@ load_task_livestock = function(id = "livestock") {
     target = "count",
     order = "month",
     key = c("animal", "state"),
-    freq = "monthly",
+    freq = "month",
     label = "Australian livestock slaughter"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_livestock"

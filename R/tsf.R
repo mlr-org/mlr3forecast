@@ -15,12 +15,7 @@ read_tsf = function(file) {
   assert_file(file, extension = "tsf")
 
   low_frequencies = c("daily", "weekly", "monthly", "quarterly", "yearly")
-  low_freq_vals = c("1 day", "1 week", "1 month", "3 months", "1 year")
-  high_frequencies = c("4_seconds", "minutely", "10_minutes", "half_hourly", "hourly")
-  high_freq_vals = c("4 sec", "1 min", "10 min", "30 min", "1 hour")
-  frequencies = c(low_frequencies, high_frequencies)
-  freq_vals = c(low_freq_vals, high_freq_vals)
-  freq_map = set_names(freq_vals, frequencies)
+  high_frequencies = c("4_seconds", "minutely", "10_minutes", "15_minutes", "half_hourly", "hourly")
 
   con = file(file, "r")
   on.exit(close(con), add = TRUE)
@@ -89,7 +84,7 @@ read_tsf = function(file) {
   set(dt, j = "value", value = NULL)
   dt = dt[dt_long, on = col_names]
   if (has_freq) {
-    dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = freq_map[[freq]]), by = col_names]
+    dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = tsf_to_seq(freq)), by = col_names]
     setattr(dt, "frequency", freq)
   }
   setattr(dt, "class", c("tsf", class(dt)))
@@ -143,6 +138,19 @@ download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly
   read_tsf(file)
 }
 
-strsplit1 = function(x, pattern) {
-  strsplit(x, pattern, fixed = TRUE)[[1L]]
+tsf_to_seq = function(x) {
+  switch(
+    x,
+    `4_seconds` = "4 secs",
+    minutely = "min",
+    `10_minutes` = "10 mins",
+    `15_minutes` = "15 mins",
+    half_hourly = "30 mins",
+    hourly = "hour",
+    daily = "day",
+    weekly = "week",
+    monthly = "month",
+    quarterly = "quarter",
+    yearly = "year"
+  )
 }

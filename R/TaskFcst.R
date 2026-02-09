@@ -19,7 +19,7 @@
 #' library(data.table)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
 #' setnames(airpassengers, c("month", "passengers"))
-#' task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "monthly")
+#' task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "month")
 #' task$task_type
 #' task$formula()
 #' task$truth()

@@ -25,7 +25,7 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
     generate_data(learner, N)
   )
   tasks = list()
-  task = TaskFcst$new("proto", as_data_backend(data), target = "target", order = "date", freq = "daily")
+  task = TaskFcst$new("proto", as_data_backend(data), target = "target", order = "date", freq = "day")
   task$col_roles$feature = setdiff(task$col_roles$feature, "date")
   tasks[[1L]] = task
 

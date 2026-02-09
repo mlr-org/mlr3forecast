@@ -26,7 +26,7 @@ load_task_lynx = function(id = "lynx") {
     backend = b,
     target = "count",
     order = "year",
-    freq = "yearly",
+    freq = "year",
     label = "Annual Canadian Lynx Trappings 1821-1934"
   )
   b$hash = task$man = "mlr3forecast::mlr_tasks_lynx"
