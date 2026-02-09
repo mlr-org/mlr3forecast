@@ -50,17 +50,12 @@ Other Task:
 \section{Super classes}{
 \code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{\link[mlr3:TaskRegr]{mlr3::TaskRegr}} -> \code{TaskFcst}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{freq}}{(\code{character(1)})\cr
-The frequency of the time series.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)})\cr
+The frequency of the time series.}
+
 \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.
 Possible properties are stored in \link[mlr3:mlr_reflections]{mlr_reflections$task_properties}.

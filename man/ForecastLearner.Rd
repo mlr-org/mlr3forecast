@@ -9,20 +9,15 @@ The \link{ForecastLearner} wraps a \link[mlr3:Learner]{mlr3::Learner}.
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{ForecastLearner}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-Learner to wrap.}
-
-\item{\code{lags}}{(\code{integer()})\cr
-The lags to create.}
-}
-\if{html}{\out{</div>}}
-}
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
+\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
+The wrapped learner.}
+
+\item{\code{lags}}{(\code{integer()})\cr
+The lags to create.}
+
 \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 }

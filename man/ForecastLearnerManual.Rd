@@ -9,11 +9,11 @@ The \link{ForecastLearnerManual} wraps a \link[mlr3:Learner]{mlr3::Learner}.
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{ForecastLearnerManual}
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
+\section{Active bindings}{
+\if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-The learner}
+The wrapped learner.}
 }
 \if{html}{\out{</div>}}
 }
