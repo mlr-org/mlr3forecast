@@ -61,14 +61,12 @@ Other Task:
 -\> [`mlr3::TaskRegr`](https://mlr3.mlr-org.com/reference/TaskRegr.html)
 -\> `TaskFcst`
 
-## Public fields
+## Active bindings
 
 - `freq`:
 
-  (`character(1)`)  
+  (`character(1)` \| `numeric(1)`)  
   The frequency of the time series.
-
-## Active bindings
 
 - `properties`:
 

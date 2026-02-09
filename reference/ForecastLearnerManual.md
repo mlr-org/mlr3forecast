@@ -8,12 +8,12 @@ The ForecastLearnerManual wraps a
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 `ForecastLearnerManual`
 
-## Public fields
+## Active bindings
 
 - `learner`:
 
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
-  The learner
+  The wrapped learner.
 
 ## Methods
 

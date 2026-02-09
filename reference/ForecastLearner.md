@@ -8,19 +8,17 @@ The ForecastLearner wraps a
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 `ForecastLearner`
 
-## Public fields
+## Active bindings
 
 - `learner`:
 
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
-  Learner to wrap.
+  The wrapped learner.
 
 - `lags`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html))  
   The lags to create.
-
-## Active bindings
 
 - `param_set`:
 
