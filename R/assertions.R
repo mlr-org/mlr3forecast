@@ -9,13 +9,13 @@ check_freq = function(x) {
   parts = strsplit1(x, " ")
   n_parts = length(parts)
   if (n_parts < 1L || n_parts > 2L) {
-    return("Must be a seq()-compatible string (e.g. \"1 month\", \"day\")")
+    return("Must be a seq()-compatible string (e.g. '1 month', 'day')")
   }
   if (is.na(pmatch(parts[n_parts], valid_units))) {
-    return("Must be a seq()-compatible string (e.g. \"1 month\", \"day\")")
+    return("Must be a seq()-compatible string (e.g. '1 month', 'day')")
   }
   if (n_parts == 2L && !grepl("^[1-9][0-9]*$", parts[1L])) {
-    return("Must be a seq()-compatible string (e.g. \"1 month\", \"day\")")
+    return("Must be a seq()-compatible string (e.g. '1 month', 'day')")
   }
   TRUE
 }
