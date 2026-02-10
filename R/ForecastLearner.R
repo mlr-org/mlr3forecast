@@ -100,8 +100,8 @@ ForecastLearner = R6::R6Class(
     .predict_local = function(task) {
       target = task$target_names
       order_cols = task$col_roles$order
-      history = private$.task$view()
-      newdata = task$view()
+      history = private$.task$view(ordered = TRUE)
+      newdata = task$view(ordered = TRUE)
       history = if (private$.is_newdata(task)) history else history[!newdata, on = order_cols]
       window = tail(history, max(self$lags))
 
@@ -128,10 +128,10 @@ ForecastLearner = R6::R6Class(
       order_cols = col_roles$order
       key_cols = col_roles$key
       is_newdata = private$.is_newdata(task)
-      history = private$.task$view()
+      history = private$.task$view(ordered = TRUE)
       max_lag = max(self$lags)
 
-      preds = map(split(task$view(), by = key_cols, drop = TRUE), function(newdata) {
+      preds = map(split(task$view(ordered = TRUE), by = key_cols, drop = TRUE), function(newdata) {
         key_history = history[newdata[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
         key_history = if (is_newdata) key_history else key_history[!newdata, on = order_cols]
         window = tail(key_history, max_lag)

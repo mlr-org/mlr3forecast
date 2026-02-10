@@ -54,6 +54,9 @@ PipeOpFcstLags = R6Class(
       order_cols = col_roles$order
 
       dt = task$data(cols = c(target, key_cols, order_cols))
+      if (max(lags) >= nrow(dt)) {
+        error_input("Not enough data to create the required lags.")
+      }
       self$state = list(history = copy(dt))
       lag_cols = sprintf("%s_lag_%i", target, lags)
       if (length(key_cols) > 0L) {
