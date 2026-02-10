@@ -44,6 +44,17 @@ setnames(dt, c("id", "date", "value"))
 task = as_task_fcst(dt)
 
 # or split up for forecast learners that don't allow key columns
-tasks = as_tasks_fcst(map(split(dt, by = "id"), remove_named, "id"))
+tasks = map(split(dt, by = "id"), function(x) {
+  id = x[1L, id]
+  x[, id := NUL]
+  as_task_fcst(x, id = id)
+})
+
+# benchmark
+learners = lrns(c("fcst.auto_arima", "fcst.ets", "fcst.random_walk"))
+resampling = rsmp("fcst.holdout", ratio = 0.8)
+design = benchmark_grid(tasks, learners, resampling)
+bmr = benchmark(design)
+bmr$aggregate(msr("regr.rmse"))[, .(rmse = mean(regr.rmse)), by = learner_id]
 } # }
 ```
