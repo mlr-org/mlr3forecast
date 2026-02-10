@@ -44,7 +44,7 @@ test_that("as_task_fcst assertions", {
       target = "value",
       order = "date"
     ),
-    "`target` must not contain `NA` values."
+    "Target column 'value' must not contain missing values."
   )
 
   # unique order values

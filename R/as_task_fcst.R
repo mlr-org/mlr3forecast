@@ -141,9 +141,9 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   }
 
   freq = attr(x, "frequency")
-  freq = freq %??% tsf_to_seq(freq)
+  freq = if (!is.null(freq)) tsf_to_seq(freq) else NULL
 
-  as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
+  as_task_fcst.data.frame(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 
 #' @rdname as_task_fcst
