@@ -66,8 +66,7 @@ ForecastLearner = R6::R6Class(
   private = list(
     .learner = NULL,
     .lags = NULL,
-    .task = NULL,
-    .max_index = NULL,
+    .history = NULL,
 
     .train = function(task) {
       if (max(self$lags) >= task$nrow) {
@@ -78,9 +77,8 @@ ForecastLearner = R6::R6Class(
       target = col_roles$target
       order_cols = col_roles$order
       key_cols = col_roles$key
-      private$.max_index = max(task$data(cols = order_cols)[[1L]])
-      private$.task = task$clone()
-      lagged = private$.lag_transform(task$view(), target, order_cols, key_cols)
+      private$.history = task$view(ordered = TRUE)
+      lagged = private$.lag_transform(private$.history, target, order_cols, key_cols)
       if (order_cols %nin% col_roles$feature) {
         set(lagged, j = order_cols, value = NULL)
       }
@@ -100,9 +98,8 @@ ForecastLearner = R6::R6Class(
     .predict_local = function(task) {
       target = task$target_names
       order_cols = task$col_roles$order
-      history = private$.task$view(ordered = TRUE)
       newdata = task$view(ordered = TRUE)
-      history = if (private$.is_newdata(task)) history else history[!newdata, on = order_cols]
+      history = private$.history[!newdata, on = order_cols]
       window = tail(history, max(self$lags))
 
       preds = vector("list", nrow(newdata))
@@ -127,13 +124,12 @@ ForecastLearner = R6::R6Class(
       col_roles = task$col_roles
       order_cols = col_roles$order
       key_cols = col_roles$key
-      is_newdata = private$.is_newdata(task)
-      history = private$.task$view(ordered = TRUE)
+      history = private$.history
       max_lag = max(self$lags)
 
       preds = map(split(task$view(ordered = TRUE), by = key_cols, drop = TRUE), function(newdata) {
         key_history = history[newdata[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
-        key_history = if (is_newdata) key_history else key_history[!newdata, on = order_cols]
+        key_history = key_history[!newdata, on = order_cols]
         window = tail(key_history, max_lag)
 
         preds = vector("list", nrow(newdata))
@@ -167,14 +163,6 @@ ForecastLearner = R6::R6Class(
         dt[, (lag_cols) := shift(get(target), lags)]
       }
       dt
-    },
-
-    .is_newdata = function(task) {
-      dt = task$backend$data(rows = task$row_ids, cols = task$col_roles$order)
-      if (nrow(dt) == 0L) {
-        return(TRUE)
-      }
-      !any(private$.max_index %in% dt[[1L]])
     }
   )
 )
