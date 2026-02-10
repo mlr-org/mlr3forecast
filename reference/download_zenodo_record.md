@@ -46,7 +46,7 @@ task = as_task_fcst(dt)
 # or split up for forecast learners that don't allow key columns
 tasks = map(split(dt, by = "id"), function(x) {
   id = x[1L, id]
-  x[, id := NUL]
+  x[, id := NULL]
   as_task_fcst(x, id = id)
 })
 
