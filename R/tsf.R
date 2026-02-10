@@ -117,7 +117,18 @@ read_tsf = function(file) {
 #' task = as_task_fcst(dt)
 #'
 #' # or split up for forecast learners that don't allow key columns
-#' tasks = as_tasks_fcst(map(split(dt, by = "id"), remove_named, "id"))
+#' tasks = map(split(dt, by = "id"), function(x) {
+#'   id = x[1L, id]
+#'   x[, id := NULL]
+#'   as_task_fcst(x, id = id)
+#' })
+#'
+#' # benchmark
+#' learners = lrns(c("fcst.auto_arima", "fcst.ets", "fcst.random_walk"))
+#' resampling = rsmp("fcst.holdout", ratio = 0.8)
+#' design = benchmark_grid(tasks, learners, resampling)
+#' bmr = benchmark(design)
+#' bmr$aggregate(msr("regr.rmse"))[, .(rmse = mean(regr.rmse)), by = learner_id]
 #' }
 download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly_dataset") {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)

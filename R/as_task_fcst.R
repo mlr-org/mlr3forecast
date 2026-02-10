@@ -131,9 +131,10 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   target = cn[length(cn)]
   cn = cn[-length(cn)]
   order = names(keep(x, inherits, c("POSIXct", "Date")))
+  x = copy(x)
   if (length(order) != 1L) {
     order = "index"
-    x = copy(x)[, (order) := seq_len(.N), by = cn]
+    x[, (order) := seq_len(.N), by = cn]
   }
   key = setdiff(cn, order)
   for (k in key) {
