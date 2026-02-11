@@ -30,13 +30,6 @@ generate_newdata = function(task, n = 1L) {
   newdata
 }
 
-predict_forecast = function(learner, task, h = 12L) {
-  learner = assert_learner(as_learner(learner))
-  h = assert_count(h, positive = TRUE, coerce = TRUE)
-  newdata = generate_newdata(task, h)
-  learner$predict_newdata(newdata, task)
-}
-
 #' @export
 as.ts.TaskFcst = function(x, ..., freq = NULL) {
   freq = freq %??% x$freq %??% 1L
@@ -56,6 +49,13 @@ as.ts.TaskFcst = function(x, ..., freq = NULL) {
     )
   }
   stats::ts(x$truth(), freq = freq)
+}
+
+predict_forecast = function(learner, task, h = 12L) {
+  learner = assert_learner(as_learner(learner))
+  h = assert_count(h, positive = TRUE, coerce = TRUE)
+  newdata = generate_newdata(task, h)
+  learner$predict_newdata(newdata, task)
 }
 
 quantiles_to_level = function(x) {
