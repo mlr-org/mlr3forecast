@@ -43,7 +43,7 @@ as_tasks_fcst.default = function(x, ...) {
 #' @export
 as_tasks_fcst.list = function(x, ...) {
   if (is.null(names(x))) {
-    lapply(x, as_task_fcst, ...)
+    map(x, as_task_fcst, ...)
   } else {
     imap(x, function(x, id) as_task_fcst(x, id = id, ...))
   }
