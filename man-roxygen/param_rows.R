@@ -1,2 +1,2 @@
-#' @param rows (positive `integer()`)\cr
+#' @param rows (positive `integer()` | `NULL`)\cr
 #'   Vector or row indices.

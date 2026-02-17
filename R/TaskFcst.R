@@ -119,7 +119,7 @@ TaskFcst = R6Class(
   ),
 
   active = list(
-    #' @field freq (`character(1)` | `numeric(1)`)\cr
+    #' @field freq (`character(1)` | `numeric(1)` | `NULL`)\cr
     #' The frequency of the time series.
     freq = function(rhs) {
       assert_ro_binding(rhs)
@@ -147,12 +147,10 @@ TaskFcst = R6Class(
     },
 
     #' @field order ([data.table::data.table()])\cr
-    #' If the task has a column with designated role `"order"`, a table with two or more columns:
+    #' A table with two columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * `order` (`Date()` | `POSIXct()` | `numeric()`).
-    #'
-    #' Returns `NULL` if there is no order column.
+    #' * `order` (`Date()` | `POSIXct()` | `integer()` | `numeric()`).
     order = function(rhs) {
       assert_has_backend(self)
       assert_ro_binding(rhs)
@@ -161,11 +159,11 @@ TaskFcst = R6Class(
       setnames(data, c("row_id", "order"))[]
     },
 
-    #' @field key ([data.table::data.table()])\cr
+    #' @field key ([data.table::data.table()] | `NULL`)\cr
     #' If the task has a column with designated role `"key"`, a table with two or more columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * key variable(s) (`factor()`).
+    #' * key variable(s) (`factor()` | `ordered()`).
     #'
     #' If there is only one key column, it will be named as `key`.
     #' Returns `NULL` if there are no key columns.

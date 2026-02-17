@@ -53,7 +53,7 @@ Other Task:
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
-\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)})\cr
+\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 The frequency of the time series.}
 
 \item{\code{properties}}{(\code{character()})\cr
@@ -71,19 +71,17 @@ The following properties are currently standardized and understood by tasks in \
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
 
 \item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-If the task has a column with designated role \code{"order"}, a table with two or more columns:
+A table with two columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
-\item \code{order} (\code{Date()} | \code{POSIXct()} | \code{numeric()}).
-}
+\item \code{order} (\code{Date()} | \code{POSIXct()} | \code{integer()} | \code{numeric()}).
+}}
 
-Returns \code{NULL} if there is no order column.}
-
-\item{\code{key}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+\item{\code{key}}{(\code{\link[data.table:data.table]{data.table::data.table()}} | \code{NULL})\cr
 If the task has a column with designated role \code{"key"}, a table with two or more columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
-\item key variable(s) (\code{factor()}).
+\item key variable(s) (\code{factor()} | \code{ordered()}).
 }
 
 If there is only one key column, it will be named as \code{key}.
@@ -164,7 +162,7 @@ Name of the order column.}
 \item{\code{key}}{(\code{character()})\cr
 Name of the key column.}
 
-\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)})\cr
+\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Frequency of the time series.
 Either a positive number or a \code{seq()}-compatible string, e.g.:
 \code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.}
@@ -200,10 +198,10 @@ address columns with their respective column name.
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{rows}}{(positive \code{integer()})\cr
+\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.}
 
-\item{\code{cols}}{(\code{character()})\cr
+\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
 
 \item{\code{ordered}}{(\code{logical(1)})\cr

@@ -92,7 +92,7 @@ Name of the order column.}
 \item{key}{(\code{character()})\cr
 Name of the key column.}
 
-\item{freq}{(\code{character(1)} | \code{numeric(1)})\cr
+\item{freq}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Frequency of the time series.
 Either a positive number or a \code{seq()}-compatible string, e.g.:
 \code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.}
