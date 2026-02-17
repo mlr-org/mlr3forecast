@@ -294,7 +294,7 @@ rr$aggregate(msr("regr.rmse"))
 ### Example: global vs local forecasting
 
 In machine learning forecasting the difference between forecasting a
-time series and longitudinal data is often referred to local and global
+time series and longitudinal data is often referred to as local and global
 forecasting.
 
 ``` r

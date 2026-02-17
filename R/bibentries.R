@@ -171,7 +171,7 @@ bibentries = c(
     journal = "Journal of the Operational Research Society",
     volume = "23",
     number = "3",
-    paes = "289--303",
+    pages = "289--303",
     year = "1972",
     publisher = "Taylor & Francis"
   ),

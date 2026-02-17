@@ -66,7 +66,7 @@ predictions$score()
 \references{
 Croston, D J (1972).
 \dQuote{Forecasting and stock control for intermittent demands.}
-\emph{Journal of the Operational Research Society}, \bold{23}(3).
+\emph{Journal of the Operational Research Society}, \bold{23}(3), 289--303.
 
 Shale, A E, Boylan, E J, Johnston, FR (2006).
 \dQuote{Forecasting for intermittent demand: the estimation of an unbiased average.}

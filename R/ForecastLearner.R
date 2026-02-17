@@ -30,6 +30,7 @@ ForecastLearner = R6::R6Class(
       )
     },
 
+    #' @description
     #' Printer.
     #' @param ... (ignored).
     print = function() {

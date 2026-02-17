@@ -63,8 +63,7 @@ Creates a new instance of this \link[R6:R6Class]{R6} class.
 The regression learner to wrap.}
 
 \item{\code{lags}}{(\code{integer()})\cr
-The lag values to use for creating lag features.
-Printer.}
+The lag values to use for creating lag features.}
 }
 \if{html}{\out{</div>}}
 }
@@ -73,6 +72,7 @@ Printer.}
 \if{html}{\out{<a id="method-ForecastLearner-print"></a>}}
 \if{latex}{\out{\hypertarget{method-ForecastLearner-print}{}}}
 \subsection{Method \code{print()}}{
+Printer.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ForecastLearner$print()}\if{html}{\out{</div>}}
 }
