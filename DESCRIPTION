@@ -80,6 +80,7 @@ Collate:
     'assertions.R'
     'autoplot.R'
     'bibentries.R'
+    'helper_data_table.R'
     'partition.R'
     'reexports.R'
     'tsf.R'

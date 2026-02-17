@@ -189,3 +189,34 @@ TaskFcst = R6Class(
     .freq = NULL
   )
 )
+
+#' @export
+task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
+  order_cols = new_roles[["order"]]
+  if (length(order_cols) > 1L) {
+    error_input("There may only be up to one column with role 'order'")
+  }
+
+  if (
+    length(order_cols) > 0L &&
+      any(fget_keys(task$col_info, order_cols, "type", key = "id") %nin% c("Date", "POSIXct", "integer", "numeric"))
+  ) {
+    error_input(
+      "Order column '%s' must be a Date, POSIXct, numeric or integer column",
+      paste0("'", order_cols, "'", collapse = ", ")
+    )
+  }
+
+  key_cols = new_roles[["key"]]
+  if (
+    length(key_cols) > 0L &&
+      any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("factor", "ordered"))
+  ) {
+    error_input(
+      "Key column(s) '%s' must be factor, or ordered columns",
+      paste0("'", key_cols, "'", collapse = ", ")
+    )
+  }
+
+  NextMethod()
+}
