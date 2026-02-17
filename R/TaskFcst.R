@@ -52,13 +52,14 @@ TaskFcst = R6Class(
       private$.freq = assert_freq(freq)
 
       col_roles = self$col_roles
-      self$col_roles = insert_named(col_roles, list(key = character()))
-
-      self$col_roles$order = assert_choice(order, col_roles$feature)
-      self$col_roles$feature = setdiff(col_roles$feature, order)
+      col_roles$order = assert_choice(order, col_roles$feature)
       if (length(key) > 0L) {
-        self$col_roles$key = assert_subset(key, col_roles$feature)
+        col_roles$key = assert_subset(key, col_roles$feature)
+      } else {
+        col_roles$key = character()
       }
+      col_roles$feature = setdiff(col_roles$feature, order)
+      self$col_roles = col_roles
       self$extra_args = insert_named(self$extra_args, list(order = order, key = key, freq = freq))
     },
 
@@ -203,7 +204,7 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
   ) {
     error_input(
       "Order column '%s' must be a Date, POSIXct, numeric or integer column",
-      paste0("'", order_cols, "'", collapse = ", ")
+      order_cols
     )
   }
 
@@ -213,7 +214,7 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
       any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("factor", "ordered"))
   ) {
     error_input(
-      "Key column(s) '%s' must be factor, or ordered columns",
+      "Key column(s) %s must be factor or ordered columns",
       paste0("'", key_cols, "'", collapse = ", ")
     )
   }

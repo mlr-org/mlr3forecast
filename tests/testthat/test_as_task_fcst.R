@@ -62,7 +62,7 @@ test_that("as_task_fcst assertions", {
     data.table(
       date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2),
       value = rnorm(20L),
-      id = rep(c("a", "b"), each = 10L)
+      id = factor(rep(c("a", "b"), each = 10L))
     ),
     target = "value",
     order = "date",
