@@ -44,11 +44,7 @@ setnames(dt, c("id", "date", "value"))
 task = as_task_fcst(dt)
 
 # or split up for forecast learners that don't allow key columns
-tasks = map(split(dt, by = "id"), function(x) {
-  id = x[1L, id]
-  x[, id := NULL]
-  as_task_fcst(x, id = id)
-})
+tasks = as_tasks_fcst(split(dt, by = "id", keep.by = FALSE))
 
 # benchmark
 learners = lrns(c("fcst.auto_arima", "fcst.ets", "fcst.random_walk"))
