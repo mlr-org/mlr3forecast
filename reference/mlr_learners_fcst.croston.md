@@ -39,7 +39,8 @@ or with the associated sugar function
 ## References
 
 Croston, D J (1972). “Forecasting and stock control for intermittent
-demands.” *Journal of the Operational Research Society*, **23**(3).
+demands.” *Journal of the Operational Research Society*, **23**(3),
+289–303.
 
 Shale, A E, Boylan, E J, Johnston, FR (2006). “Forecasting for
 intermittent demand: the estimation of an unbiased average.” *Journal of

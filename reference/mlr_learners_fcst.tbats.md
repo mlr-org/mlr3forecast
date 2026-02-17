@@ -1,7 +1,7 @@
 # TBATS Forecast Learner
 
 Exponential smoothing state space model with Box-Cox transformation,
-ARMA errors, Trend and Seasonal component (TBATS) model. Calls
+ARMA errors, Trend and Seasonal components (TBATS) model. Calls
 [`forecast::tbats()`](https://pkg.robjhyndman.com/forecast/reference/tbats.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 

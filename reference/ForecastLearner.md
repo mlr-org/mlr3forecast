@@ -69,11 +69,13 @@ Creates a new instance of this
 - `lags`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html))  
-  The lag values to use for creating lag features. Printer.
+  The lag values to use for creating lag features.
 
 ------------------------------------------------------------------------
 
 ### Method [`print()`](https://rdrr.io/r/base/print.html)
+
+Printer.
 
 #### Usage
 
