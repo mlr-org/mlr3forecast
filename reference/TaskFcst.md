@@ -65,7 +65,7 @@ Other Task:
 
 - `freq`:
 
-  (`character(1)` \| `numeric(1)`)  
+  (`character(1)` \| `numeric(1)` \| `NULL`)  
   The frequency of the time series.
 
 - `properties`:
@@ -96,25 +96,25 @@ Other Task:
 - `order`:
 
   ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
-  If the task has a column with designated role `"order"`, a table with
-  two or more columns:
+  A table with two columns:
 
   - `row_id` ([`integer()`](https://rdrr.io/r/base/integer.html)), and
 
   - `order` (`Date()` \| `POSIXct()` \|
+    [`integer()`](https://rdrr.io/r/base/integer.html) \|
     [`numeric()`](https://rdrr.io/r/base/numeric.html)).
-
-  Returns `NULL` if there is no order column.
 
 - `key`:
 
-  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))  
+  ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
+  \| `NULL`)  
   If the task has a column with designated role `"key"`, a table with
   two or more columns:
 
   - `row_id` ([`integer()`](https://rdrr.io/r/base/integer.html)), and
 
-  - key variable(s) ([`factor()`](https://rdrr.io/r/base/factor.html)).
+  - key variable(s) ([`factor()`](https://rdrr.io/r/base/factor.html) \|
+    [`ordered()`](https://rdrr.io/r/base/factor.html)).
 
   If there is only one key column, it will be named as `key`. Returns
   `NULL` if there are no key columns.
@@ -213,7 +213,7 @@ provides an alternative way to construct forecast tasks.
 
 - `freq`:
 
-  (`character(1)` \| `numeric(1)`)  
+  (`character(1)` \| `numeric(1)` \| `NULL`)  
   Frequency of the time series. Either a positive number or a
   [`seq()`](https://rdrr.io/r/base/seq.html)-compatible string, e.g.:
   `"1 month"`, `"day"`, `"3 months"`, `"1 hour"`, `"week"`.
@@ -259,12 +259,13 @@ instead always address columns with their respective column name.
 
 - `rows`:
 
-  (positive [`integer()`](https://rdrr.io/r/base/integer.html))  
+  (positive [`integer()`](https://rdrr.io/r/base/integer.html) \|
+  `NULL`)  
   Vector or row indices.
 
 - `cols`:
 
-  ([`character()`](https://rdrr.io/r/base/character.html))  
+  ([`character()`](https://rdrr.io/r/base/character.html) \| `NULL`)  
   Vector of column names.
 
 - `ordered`:

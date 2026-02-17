@@ -94,7 +94,7 @@ Predefined tasks are stored in the <a href="https://mlr3misc.mlr-org.com/referen
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
     <p></p><div class="r6-active-bindings"><dl><dt><code>freq</code></dt>
-<dd><p>(<code>character(1)</code> | <code>numeric(1)</code>)<br>
+<dd><p>(<code>character(1)</code> | <code>numeric(1)</code> | <code>NULL</code>)<br>
 The frequency of the time series.</p></dd>
 
 
@@ -112,15 +112,15 @@ The following properties are currently standardized and understood by tasks in <
 
 <dt><code>order</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
-If the task has a column with designated role <code>"order"</code>, a table with two or more columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
-<li><p><code>order</code> (<code>Date()</code> | <code>POSIXct()</code> | <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></li>
-</ul><p>Returns <code>NULL</code> if there is no order column.</p></dd>
+A table with two columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
+<li><p><code>order</code> (<code>Date()</code> | <code>POSIXct()</code> | <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>).</p></li>
+</ul></dd>
 
 
 <dt><code>key</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> | <code>NULL</code>)<br>
 If the task has a column with designated role <code>"key"</code>, a table with two or more columns:</p><ul><li><p><code>row_id</code> (<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>), and</p></li>
-<li><p>key variable(s) (<code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code>).</p></li>
+<li><p>key variable(s) (<code><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor()</a></code> | <code><a href="https://rdrr.io/r/base/factor.html" class="external-link">ordered()</a></code>).</p></li>
 </ul><p>If there is only one key column, it will be named as <code>key</code>.
 Returns <code>NULL</code> if there are no key columns.</p></dd>
 
@@ -203,7 +203,7 @@ Name of the key column.</p></dd>
 
 
 <dt><code>freq</code></dt>
-<dd><p>(<code>character(1)</code> | <code>numeric(1)</code>)<br>
+<dd><p>(<code>character(1)</code> | <code>numeric(1)</code> | <code>NULL</code>)<br>
 Frequency of the time series.
 Either a positive number or a <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq()</a></code>-compatible string, e.g.:
 <code>"1 month"</code>, <code>"day"</code>, <code>"3 months"</code>, <code>"1 hour"</code>, <code>"week"</code>.</p></dd>
@@ -241,12 +241,12 @@ address columns with their respective column name.</p><div class="section">
 <div class="section">
 <h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>rows</code></dt>
-<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
+<dd><p>(positive <code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
 Vector or row indices.</p></dd>
 
 
 <dt><code>cols</code></dt>
-<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
+<dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code> | <code>NULL</code>)<br>
 Vector of column names.</p></dd>
 
 
