@@ -45,4 +45,5 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
 
   tasks
 }
+
 registerS3method("generate_tasks", "LearnerFcst", generate_tasks.LearnerFcst, envir = parent.frame())
