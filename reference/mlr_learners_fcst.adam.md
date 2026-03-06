@@ -207,7 +207,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.2 seconds
+#> Time elapsed: 0.19 seconds
 #> Model estimated using adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Gamma
@@ -232,5 +232,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 842.8001 
+#> 839.4905 
 ```

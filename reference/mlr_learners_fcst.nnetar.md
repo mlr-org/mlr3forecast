@@ -203,7 +203,7 @@ print(learner$model)
 #> a 2-2-1 network with 9 weights
 #> options were - linear output units 
 #> 
-#> sigma^2 estimated as 131.7
+#> sigma^2 estimated as 133.2
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance)
@@ -214,5 +214,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 3081.656 
+#> 2876.463 
 ```
