@@ -83,6 +83,14 @@ prediction$score(msr("regr.rmse"))
 #> regr.rmse 
 #>  13.85518
 
+# plot the prediction against the task
+autoplot(prediction, task, 1:139)
+```
+
+<img src="man/figures/README-unnamed-chunk-3-2.png" alt="" width="100%" />
+
+``` r
+
 # generate new data to forecast unseen data
 newdata = generate_newdata(task, 12L)
 head(newdata)
@@ -125,7 +133,8 @@ learner = lrn(
   quantiles = c(0.1, 0.15, 0.5, 0.85, 0.9),
   quantile_response = 0.5
 )$train(task)
-learner$predict_newdata(newdata, task)
+prediction = learner$predict_newdata(newdata, task)
+prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth     q0.1    q0.15     q0.5    q0.85     q0.9 response      month
@@ -136,6 +145,16 @@ learner$predict_newdata(newdata, task)
 #>       10    NA 469.8626 474.5036 494.1275 513.7514 518.3925 494.1275 1961-10-01
 #>       11    NA 398.8383 403.5234 423.3336 443.1438 447.8290 423.3336 1961-11-01
 #>       12    NA 440.8230 445.5445 465.5085 485.4725 490.1940 465.5085 1961-12-01
+
+# plot with prediction intervals
+autoplot(prediction)
+#> Warning: Removed 12 rows containing missing values or values outside the scale range
+#> (`geom_line()`).
+```
+
+<img src="man/figures/README-unnamed-chunk-3-3.png" alt="" width="100%" />
+
+``` r
 
 # resampling
 learner = lrn("fcst.auto_arima")
@@ -160,39 +179,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 438.1652 1961-01-01
-#>        2    NA 441.0345 1961-02-01
-#>        3    NA 459.9077 1961-03-01
+#>        1    NA 439.5150 1961-01-01
+#>        2    NA 439.5354 1961-02-01
+#>        3    NA 455.8347 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 478.0484 1961-10-01
-#>       11    NA 448.1254 1961-11-01
-#>       12    NA 445.3418 1961-12-01
+#>       10    NA 478.3803 1961-10-01
+#>       11    NA 444.9650 1961-11-01
+#>       12    NA 443.0616 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 576.9714 1960-08-01
-#>      141   508 499.5404 1960-09-01
-#>      142   461 451.9052 1960-10-01
-#>      143   390 417.9639 1960-11-01
-#>      144   432 436.8201 1960-12-01
+#>      140   606 574.6319 1960-08-01
+#>      141   508 504.0861 1960-09-01
+#>      142   461 456.6294 1960-10-01
+#>      143   390 413.8921 1960-11-01
+#>      144   432 433.3550 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>    18.985
+#>  17.83842
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>   46.9633
+#>  49.11027
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  26.62801
+#>  26.91789
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -216,7 +235,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.81167
+#>  13.90968
 ```
 
 ### Example: forecasting electricity demand
@@ -243,13 +262,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 188692.4 2015-01-01
-#>        2    NA 197250.6 2015-01-02
-#>        3    NA 189536.3 2015-01-03
+#>        1    NA 187028.3 2015-01-01
+#>        2    NA 196567.1 2015-01-02
+#>        3    NA 188954.6 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 222919.5 2015-01-12
-#>       13    NA 228084.7 2015-01-13
-#>       14    NA 228822.6 2015-01-14
+#>       12    NA 222068.6 2015-01-12
+#>       13    NA 225910.2 2015-01-13
+#>       14    NA 227227.6 2015-01-14
 ```
 
 ### Example: global forecasting
@@ -282,20 +301,20 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  23781.84
+#>  26017.31
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, glrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  110100.7
+#>    120505
 ```
 
 ### Example: global vs local forecasting
 
 In machine learning forecasting the difference between forecasting a
-time series and longitudinal data is often referred to as local and global
-forecasting.
+time series and longitudinal data is often referred to as local and
+global forecasting.
 
 ``` r
 retail = setDT(tsibbledata::aus_retail)
