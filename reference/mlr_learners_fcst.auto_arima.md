@@ -248,7 +248,7 @@ print(learner$model)
 #> AIC=615.97   AICc=616.27   BIC=623.22
 
 # Importance method
-if ("importance" %in% learner$properties) print(learner$importance)
+if ("importance" %in% learner$properties) print(learner$importance())
 
 # Make predictions for the test rows
 predictions = learner$predict(task, row_ids = ids$test)

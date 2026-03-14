@@ -171,6 +171,9 @@ Creates a new instance of this
 
   - `"weights"`: The learner supports observation weights.
 
+  - `"offset"`: The learner can incorporate offset values to adjust
+    predictions.
+
   - `"importance"`: The learner supports extraction of importance
     scores, i.e. comes with an `$importance()` extractor function (see
     section on optional extractors in
@@ -196,6 +199,14 @@ Creates a new instance of this
     `$marshal()` first. If a learner is in a marshaled state, you call
     first need to call `$unmarshal()` to use its model, e.g. for
     prediction.
+
+  - `"hotstart_forward"`: The learner supports to hotstart a model
+    forward.
+
+  - `"hotstart_backward"`: The learner supports hotstarting a model
+    backward.
+
+  - `"featureless"`: The learner does not use features.
 
 - `packages`:
 
