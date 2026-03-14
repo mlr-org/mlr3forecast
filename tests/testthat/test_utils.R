@@ -1,4 +1,4 @@
-test_that("generate_newdata works with integer order", {
+test_that("generate_newdata works", {
   task = tsk("airpassengers")
   newdata = generate_newdata(task)
   expect_data_table(newdata, nrows = 1L)
@@ -8,6 +8,15 @@ test_that("generate_newdata works with integer order", {
   newdata = generate_newdata(task, n = 5L)
   expect_data_table(newdata, nrows = 5L)
   expect_true(allMissing(newdata$passengers))
+})
+
+test_that("generate_newdata works with integer order", {
+  dt = data.table(time = 1:10, value = rnorm(10))
+  task = as_task_fcst(dt, target = "value", order = "time")
+  newdata = generate_newdata(task, n = 3L)
+  expect_data_table(newdata, nrows = 3L)
+  expect_identical(newdata$time, 11:13)
+  expect_true(allMissing(newdata$value))
 })
 
 test_that("generate_newdata works with Date order", {

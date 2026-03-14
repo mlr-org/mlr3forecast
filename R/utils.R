@@ -21,7 +21,7 @@ generate_newdata = function(task, n = 1L) {
     if (inherits(max_index, c("Date", "POSIXct")) && !is.null(task$freq)) {
       index = seq(max_index, length.out = n + 1L, by = task$freq)
     } else {
-      index = seq(max_index + 1L, length.out = n + 1L)
+      index = seq(max_index, length.out = n + 1L)
     }
     dt = rbindlist(replicate(n, dt, simplify = FALSE))
     set(dt, j = order_cols, value = index[2:(n + 1L)])
