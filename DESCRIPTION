@@ -67,6 +67,7 @@ Collate:
     'LearnerFcstSpline.R'
     'LearnerFcstTbats.R'
     'LearnerFcstTheta.R'
+    'LearnerFcstTslm.R'
     'MeasureACF1.R'
     'MeasureDirectional.R'
     'MeasureMPE.R'

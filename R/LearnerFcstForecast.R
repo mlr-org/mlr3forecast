@@ -4,6 +4,8 @@ LearnerFcstForecast = R6Class(
   "LearnerFcstForecast",
   inherit = LearnerFcst,
   private = list(
+    .exogenous_arg = "xreg",
+
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       is_quantile = self$predict_type == "quantiles"
@@ -20,8 +22,11 @@ LearnerFcstForecast = R6Class(
       }
 
       if ("exogenous" %in% self$properties && task$n_features > 0L) {
-        newdata = as.matrix(task$data(cols = task$feature_names))
-        args = list(xreg = newdata)
+        newdata = task$data(cols = task$feature_names)
+        if (private$.exogenous_arg == "xreg") {
+          newdata = as.matrix(newdata)
+        }
+        args = set_names(list(newdata), private$.exogenous_arg)
       } else {
         args = list(h = task$nrow)
       }
