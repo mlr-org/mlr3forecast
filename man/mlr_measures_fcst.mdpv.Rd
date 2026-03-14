@@ -67,8 +67,11 @@ Blaskowitz, Herwartz H (2011).
 }
 
 Other Measure: 
+\code{\link{mlr_measures_fcst.acf1}},
 \code{\link{mlr_measures_fcst.mda}},
-\code{\link{mlr_measures_fcst.mdv}}
+\code{\link{mlr_measures_fcst.mdv}},
+\code{\link{mlr_measures_fcst.mpe}},
+\code{\link{mlr_measures_fcst.winkler}}
 }
 \concept{Measure}
 \section{Super classes}{

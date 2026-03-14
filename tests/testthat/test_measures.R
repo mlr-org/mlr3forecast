@@ -6,7 +6,7 @@ test_that("forecast measures", {
 
   for (key in keys) {
     m = mlr_measures$get(key)
-    if (is.na(m$task_type) || m$task_type == "regr") {
+    if ((is.na(m$task_type) || m$task_type == "regr") && m$predict_type == "response") {
       perf = m$score(prediction = p, task = task, learner = learner)
       expect_number(perf, na.ok = FALSE, lower = m$range[1L], upper = m$range[2L])
     }
@@ -78,8 +78,68 @@ test_that("MeasureMDPV works", {
   expect_identical(pred$score(measure), c(fcst.mdpv = 0.0))
 })
 
+test_that("MeasureMPE works", {
+  measure = msr("fcst.mpe")
+  # perfect forecast
+  truth = c(10, 20, 30)
+  pred = PredictionRegr$new(truth = truth, response = truth, row_ids = seq_along(truth))
+  expect_identical(pred$score(measure), c(fcst.mpe = 0.0))
+  # under-forecasting gives positive MPE
+  response = c(8, 16, 24)
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
+  expect_true(unname(pred$score(measure)) > 0)
+  # over-forecasting gives negative MPE
+  response = c(12, 24, 36)
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
+  expect_true(unname(pred$score(measure)) < 0)
+})
+
+test_that("MeasureACF1 works", {
+  measure = msr("fcst.acf1")
+  # non-trivial residuals produce a value in [-1, 1]
+  truth = c(10, 12, 11, 15, 13, 18, 16)
+  response = c(10.5, 11.5, 12, 14, 14, 17, 15)
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
+  expect_number(unname(pred$score(measure)), lower = -1, upper = 1)
+  # single observation returns NA
+  pred = PredictionRegr$new(truth = 1, response = 1, row_ids = 1L)
+  expect_identical(unname(pred$score(measure)), NA_real_)
+})
+
+test_that("MeasureWinkler works", {
+  make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
+    q = cbind(lower, upper)
+    colnames(q) = sprintf("q%s", probs)
+    setattr(q, "probs", probs)
+    setattr(q, "response", probs[1L])
+    q
+  }
+  measure = msr("fcst.winkler")
+  truth = c(10, 20, 30, 40, 50)
+  # all observations inside the interval: score = width
+  quantiles = make_quantiles(c(5, 15, 25, 35, 45), c(15, 25, 35, 45, 55))
+  pred = PredictionRegr$new(
+    truth = truth,
+    response = rep(0, 5),
+    quantiles = quantiles,
+    row_ids = seq_along(truth)
+  )
+  expect_equal(unname(pred$score(measure)), 10)
+  # observation below interval: width + penalty
+  quantiles = make_quantiles(5, 15)
+  pred = PredictionRegr$new(truth = 0, response = 0, quantiles = quantiles, row_ids = 1L)
+  # width = 10, penalty = (2/0.05) * (5 - 0) = 200
+  expect_equal(unname(pred$score(measure)), 210)
+  # observation above interval: width + penalty
+  pred = PredictionRegr$new(truth = 20, response = 0, quantiles = quantiles, row_ids = 1L)
+  # width = 10, penalty = (2/0.05) * (20 - 15) = 200
+  expect_equal(unname(pred$score(measure)), 210)
+})
+
 test_that("measures match fabletools reference implementation", {
   skip_if_not_installed("fabletools")
+  skip_if_not_installed("distributional")
+  skip_if_not_installed("vctrs")
 
   truth = c(10, 12, 11, 15, 13, 18, 16)
   response = c(10.5, 11.5, 12, 14, 14, 17, 15)
@@ -101,4 +161,34 @@ test_that("measures match fabletools reference implementation", {
   # MDV
   expected_mdv = fabletools::MDV(resid, truth)
   expect_equal(unname(pred$score(msr("fcst.mdv"))), expected_mdv)
+
+  # MPE
+  expected_mpe = fabletools::MPE(resid, truth)
+  expect_equal(unname(pred$score(msr("fcst.mpe"))), expected_mpe)
+
+  # ACF1
+  expected_acf1 = fabletools::ACF1(resid)
+  expect_equal(unname(pred$score(msr("fcst.acf1"))), expected_acf1)
+
+  # Winkler
+  make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
+    q = cbind(lower, upper)
+    colnames(q) = sprintf("q%s", probs)
+    setattr(q, "probs", probs)
+    setattr(q, "response", probs[1L])
+    q
+  }
+  d = distributional::dist_normal(truth, 2)
+  h = distributional::hilo(d, 95)
+  lower = vctrs::field(h, "lower")
+  upper = vctrs::field(h, "upper")
+  quantiles = make_quantiles(lower, upper)
+  pred_q = PredictionRegr$new(
+    truth = truth,
+    response = response,
+    quantiles = quantiles,
+    row_ids = row_ids
+  )
+  expected_winkler = fabletools::winkler_score(d, truth, level = 95)
+  expect_equal(unname(pred_q$score(msr("fcst.winkler"))), expected_winkler)
 })
