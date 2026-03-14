@@ -32,6 +32,7 @@ Suggests:
     smooth (>= 4.4.0),
     testthat (>= 3.2.0),
     tsbox,
+    vdiffr (>= 1.0.0),
     tsibble,
     tsibbledata,
     withr (>= 3.0.0),

@@ -19,12 +19,12 @@ generate_newdata = function(task, n = 1L) {
     dt = dt[get(order_cols) == max(get(order_cols)), c(key_cols, order_cols), with = FALSE]
     max_index = dt[[order_cols]]
     if (inherits(max_index, c("Date", "POSIXct")) && !is.null(task$freq)) {
-      index = seq(max_index, length.out = n + 1L, by = task$freq)
+      index = seq(max_index, length.out = n + 1L, by = task$freq)[-1L]
     } else {
-      index = seq(max_index, length.out = n + 1L)
+      index = seq.int(max_index + 1L, length.out = n)
     }
     dt = rbindlist(replicate(n, dt, simplify = FALSE))
-    set(dt, j = order_cols, value = index[2:(n + 1L)])
+    set(dt, j = order_cols, value = index)
   })
   set(newdata, j = task$target_names, value = NA_real_)
   newdata
