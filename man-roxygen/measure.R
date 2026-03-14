@@ -7,8 +7,6 @@
 #'
 #' @section Meta Information:
 #' `r mlr3misc::rd_info(mlr3::msr("<%= id %>"))`
-#' @md
 #'
 #' @section Parameters:
 #' `r mlr3misc::rd_info(mlr3::msr("<%= id %>")$param_set)`
-#' @md
