@@ -77,3 +77,28 @@ test_that("MeasureMDPV works", {
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
   expect_identical(pred$score(measure), c(fcst.mdpv = 0.0))
 })
+
+test_that("measures match fabletools reference implementation", {
+  skip_if_not_installed("fabletools")
+
+  truth = c(10, 12, 11, 15, 13, 18, 16)
+  response = c(10.5, 11.5, 12, 14, 14, 17, 15)
+  resid = truth - response
+  row_ids = seq_along(truth)
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = row_ids)
+
+  # MDA
+  expected_mda = fabletools::MDA(resid, truth)
+  expect_equal(unname(pred$score(msr("fcst.mda"))), expected_mda)
+
+  # MDA with custom reward/penalty
+  expected_mda_custom = fabletools::MDA(resid, truth, reward = 1, penalty = -1)
+  expect_equal(
+    unname(pred$score(msr("fcst.mda", reward = 1, penalty = -1))),
+    expected_mda_custom
+  )
+
+  # MDV
+  expected_mdv = fabletools::MDV(resid, truth)
+  expect_equal(unname(pred$score(msr("fcst.mdv"))), expected_mdv)
+})

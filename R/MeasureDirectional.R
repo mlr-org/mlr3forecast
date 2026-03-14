@@ -9,9 +9,9 @@
 #' \deqn{
 #'   \mathrm{MDA} = (a - b)\,\frac{1}{n-1}
 #'     \sum_{i=2}^n \mathbf{1}\{\mathrm{sign}(y_i - y_{i-1})
-#'     = \mathrm{sign}(\hat y_i - \hat y_{i-1})\} \;+\; b
+#'     = \mathrm{sign}(\hat y_i - y_{i-1})\} \;+\; b
 #' }{
-#'   (a - b)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - \hat y_{i-1})) + b
+#'   (a - b)\,\frac{1}{n-1}\sum I(\sign(y_i - y_{i-1}) = \sign(\hat y_i - y_{i-1})) + b
 #' }
 #' where `a` is the reward for a correct direction (default `1`), `b` is the penalty for an incorrect direction
 #' (default `0`), and `n` is the number of observations.
@@ -58,7 +58,6 @@ MeasureMDA = R6Class(
       truth = prediction$truth
       response = prediction$response
 
-      resid = truth - response
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
       pred_direction = sign(response[-1L] - truth[-length(truth)])
@@ -81,7 +80,7 @@ MeasureMDA = R6Class(
 #'     \sum_{i=2}^n \lvert y_i - y_{i-1}\rvert \times
 #'     \begin{cases}
 #'       +1, & \text{if }\mathrm{sign}(y_i - y_{i-1})
-#'            = \mathrm{sign}(\hat y_i - \hat y_{i-1}),\\
+#'            = \mathrm{sign}(\hat y_i - y_{i-1}),\\
 #'       -1, & \text{otherwise.}
 #'     \end{cases}
 #' }{
@@ -119,7 +118,6 @@ MeasureMDV = R6Class(
       truth = prediction$truth
       response = prediction$response
 
-      resid = truth - response
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
       pred_direction = sign(response[-1L] - truth[-length(truth)])
@@ -142,11 +140,11 @@ MeasureMDV = R6Class(
 #'     \sum_{i=2}^n \left\lvert\frac{y_i - y_{i-1}}{y_{i-1}}\right\rvert \times
 #'     \begin{cases}
 #'       +1, & \text{if }\mathrm{sign}(y_i - y_{i-1})
-#'            = \mathrm{sign}(\hat y_i - \hat y_{i-1}),\\
+#'            = \mathrm{sign}(\hat y_i - y_{i-1}),\\
 #'       -1, & \text{otherwise.}
 #'     \end{cases}
 #' }{
-#'   100 \times \text{mean}\bigl(\lvert\Delta y / y_{-}\rvert \times \text{directional indicator}\bigr)
+#'   \text{mean}\bigl(\lvert\Delta y / y_{-}\rvert \times \text{directional indicator}\bigr)
 #' where `n` is the number of observations.
 #' }
 #'
@@ -180,7 +178,6 @@ MeasureMDPV = R6Class(
       truth = prediction$truth
       response = prediction$response
 
-      resid = truth - response
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
       pred_direction = sign(response[-1L] - truth[-length(truth)])

@@ -13,7 +13,7 @@ Measure of average magnitude‐weighted directional accuracy in forecast tasks.
     \sum_{i=2}^n \lvert y_i - y_{i-1}\rvert \times
     \begin{cases}
       +1, & \text{if }\mathrm{sign}(y_i - y_{i-1})
-           = \mathrm{sign}(\hat y_i - \hat y_{i-1}),\\
+           = \mathrm{sign}(\hat y_i - y_{i-1}),\\
       -1, & \text{otherwise.}
     \end{cases}
 }{
