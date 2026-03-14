@@ -37,6 +37,9 @@ or with the associated sugar function
 | estim              | character | mle         | mle, ls                                      | \-                    |
 | lambda             | untyped   | NULL        |                                              | \-                    |
 | biasadj            | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
+| simulate           | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
+| bootstrap          | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
+| npaths             | integer   | 5000        |                                              | \\\[1, \infty)\\      |
 | d                  | integer   | NA          |                                              | \\\[0, \infty)\\      |
 | D                  | integer   | NA          |                                              | \\\[0, \infty)\\      |
 | max.p              | integer   | 5           |                                              | \\\[0, \infty)\\      |

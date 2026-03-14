@@ -41,6 +41,7 @@ or with the associated sugar function
 | lambda           | untyped   | NULL          |                                              | \-                    |
 | biasadj          | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
 | method           | character | CSS-ML        | CSS-ML, ML, CSS                              | \-                    |
+| simulate         | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
 | bootstrap        | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
 | npaths           | integer   | 5000          |                                              | \\\[1, \infty)\\      |
 | transform.pars   | logical   | TRUE          | TRUE, FALSE                                  | \-                    |

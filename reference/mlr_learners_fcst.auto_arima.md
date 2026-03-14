@@ -68,6 +68,7 @@ or with the associated sugar function
 | include.drift      | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
 | include.constant   | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
 | lambda             | untyped   | NULL        |                                              | \-                    |
+| simulate           | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
 | bootstrap          | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
 | npaths             | integer   | 5000        |                                              | \\\[1, \infty)\\      |
 | transform.pars     | logical   | TRUE        | TRUE, FALSE                                  | \-                    |

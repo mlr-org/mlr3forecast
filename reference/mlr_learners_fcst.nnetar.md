@@ -39,6 +39,8 @@ or with the associated sugar function
 | repeats      | integer | 20      |             | \\(-\infty, \infty)\\ |
 | lambda       | untyped | NULL    |             | \-                    |
 | scale.inputs | logical | TRUE    | TRUE, FALSE | \-                    |
+| parallel     | logical | FALSE   | TRUE, FALSE | \-                    |
+| num.cores    | integer | 2       |             | \\\[1, \infty)\\      |
 | bootstrap    | logical | FALSE   | TRUE, FALSE | \-                    |
 | npaths       | integer | 1000    |             | \\\[1, \infty)\\      |
 | innov        | untyped | NULL    |             | \-                    |
