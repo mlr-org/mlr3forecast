@@ -78,6 +78,34 @@ test_that("MeasureMDPV works", {
   expect_identical(pred$score(measure), c(fcst.mdpv = 0.0))
 })
 
+test_that("MeasureMPE works", {
+  measure = msr("fcst.mpe")
+  # perfect forecast
+  truth = c(10, 20, 30)
+  pred = PredictionRegr$new(truth = truth, response = truth, row_ids = seq_along(truth))
+  expect_identical(pred$score(measure), c(fcst.mpe = 0.0))
+  # under-forecasting gives positive MPE
+  response = c(8, 16, 24)
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
+  expect_true(unname(pred$score(measure)) > 0)
+  # over-forecasting gives negative MPE
+  response = c(12, 24, 36)
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
+  expect_true(unname(pred$score(measure)) < 0)
+})
+
+test_that("MeasureACF1 works", {
+  measure = msr("fcst.acf1")
+  # non-trivial residuals produce a value in [-1, 1]
+  truth = c(10, 12, 11, 15, 13, 18, 16)
+  response = c(10.5, 11.5, 12, 14, 14, 17, 15)
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
+  expect_number(unname(pred$score(measure)), lower = -1, upper = 1)
+  # single observation returns NA
+  pred = PredictionRegr$new(truth = 1, response = 1, row_ids = 1L)
+  expect_identical(unname(pred$score(measure)), NA_real_)
+})
+
 test_that("measures match fabletools reference implementation", {
   skip_if_not_installed("fabletools")
 
@@ -101,4 +129,12 @@ test_that("measures match fabletools reference implementation", {
   # MDV
   expected_mdv = fabletools::MDV(resid, truth)
   expect_equal(unname(pred$score(msr("fcst.mdv"))), expected_mdv)
+
+  # MPE
+  expected_mpe = fabletools::MPE(resid, truth)
+  expect_equal(unname(pred$score(msr("fcst.mpe"))), expected_mpe)
+
+  # ACF1
+  expected_acf1 = fabletools::ACF1(resid)
+  expect_equal(unname(pred$score(msr("fcst.acf1"))), expected_acf1)
 })
