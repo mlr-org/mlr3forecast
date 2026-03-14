@@ -42,7 +42,7 @@ LearnerFcstTslm = R6Class(
   ),
 
   private = list(
-    .exogenous_arg = "newdata",
+    .newdata_arg = "newdata",
 
     .train = function(task) {
       super$.train(task)
