@@ -113,7 +113,7 @@ as_task_fcst.data.frame = function(
 
   has_dups = NULL
   if (has_key) {
-    dup = setDT(x)[, list(has_dups = anyDuplicated(get(order)) > 0L), by = key][, any(has_dups)]
+    dup = as.data.table(x)[, list(has_dups = anyDuplicated(get(order)) > 0L), by = key][, any(has_dups)]
   } else {
     dup = anyDuplicated(x[[order]]) > 0L
   }
@@ -148,7 +148,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   freq = attr(x, "frequency")
   freq = if (!is.null(freq)) tsf_to_seq(freq) else NULL
 
-  as_task_fcst.data.frame(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
+  as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 
 #' @rdname as_task_fcst
