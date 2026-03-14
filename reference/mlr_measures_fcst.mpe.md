@@ -1,15 +1,13 @@
-# Mean Directional Value
+# Mean Percentage Error
 
-Measure of average magnitude‐weighted directional accuracy in forecast
-tasks.
+Measure of the average signed percentage error of forecasts. Positive
+values indicate systematic under-forecasting, negative values indicate
+over-forecasting.
 
 ## Details
 
-\$\$ \mathrm{MDV} = \frac{1}{n-1} \sum\_{i=2}^n \lvert y_i -
-y\_{i-1}\rvert \times \begin{cases} +1, & \text{if }\mathrm{sign}(y_i -
-y\_{i-1}) = \mathrm{sign}(\hat y_i - y\_{i-1}),\\ -1, &
-\text{otherwise.} \end{cases} \$\$ where `n` is the number of
-observations.
+\$\$ \mathrm{MPE} = \frac{100}{n} \sum\_{i=1}^n \frac{y_i - \hat
+y_i}{y_i} \$\$
 
 ## Dictionary
 
@@ -20,8 +18,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.mdv")
-    msr("fcst.mdv")
+    mlr_measures$get("fcst.mpe")
+    msr("fcst.mpe")
 
 ## Meta Information
 
@@ -29,7 +27,7 @@ or with the associated sugar function
 
 - Range: \\(-\infty, \infty)\\
 
-- Minimize: FALSE
+- Minimize: NA
 
 - Average: macro
 
@@ -41,12 +39,6 @@ or with the associated sugar function
 ## Parameters
 
 Empty ParamSet
-
-## References
-
-Blaskowitz, Herwartz H (2011). “On economic evaluation of directional
-forecasts.” *International Journal of Forecasting*, **27**(4),
-1058–1065.
 
 ## See also
 
@@ -77,22 +69,22 @@ Other Measure:
 [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md),
 [`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
-[`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
+[`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
 [`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
 
 ## Super classes
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureMDV`
+-\> `MeasureMPE`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureMDV$new()`](#method-MeasureMDV-new)
+- [`MeasureMPE$new()`](#method-MeasureMPE-new)
 
-- [`MeasureMDV$clone()`](#method-MeasureMDV-clone)
+- [`MeasureMPE$clone()`](#method-MeasureMPE-clone)
 
 Inherited methods
 
@@ -112,7 +104,7 @@ Creates a new instance of this
 
 #### Usage
 
-    MeasureMDV$new()
+    MeasureMPE$new()
 
 ------------------------------------------------------------------------
 
@@ -122,7 +114,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureMDV$clone(deep = FALSE)
+    MeasureMPE$clone(deep = FALSE)
 
 #### Arguments
 

@@ -1,15 +1,18 @@
-# Mean Directional Value
+# Winkler Score
 
-Measure of average magnitude‐weighted directional accuracy in forecast
-tasks.
+Measures the quality of prediction intervals by combining their width
+with a penalty for observations falling outside the interval. Smaller
+scores indicate better calibrated and narrower intervals.
 
 ## Details
 
-\$\$ \mathrm{MDV} = \frac{1}{n-1} \sum\_{i=2}^n \lvert y_i -
-y\_{i-1}\rvert \times \begin{cases} +1, & \text{if }\mathrm{sign}(y_i -
-y\_{i-1}) = \mathrm{sign}(\hat y_i - y\_{i-1}),\\ -1, &
-\text{otherwise.} \end{cases} \$\$ where `n` is the number of
-observations.
+\$\$ W_i = \begin{cases} (u_i - l_i) + \frac{2}{\alpha}(l_i - y_i), &
+\text{if } y_i \< l_i \\ (u_i - l_i), & \text{if } l_i \le y_i \le u_i
+\\ (u_i - l_i) + \frac{2}{\alpha}(y_i - u_i), & \text{if } y_i \> u_i
+\end{cases} \$\$ where \\l_i\\ and \\u_i\\ are the lower and upper
+bounds of the prediction interval, \\y_i\\ is the observed value, and
+\\\alpha = 1 - \text{level}/100\\ is the significance level. The Winkler
+score is then the mean of \\W_i\\ over all observations.
 
 ## Dictionary
 
@@ -20,33 +23,36 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.mdv")
-    msr("fcst.mdv")
+    mlr_measures$get("fcst.winkler")
+    msr("fcst.winkler")
 
 ## Meta Information
 
 - Task type: “regr”
 
-- Range: \\(-\infty, \infty)\\
+- Range: \\\[0, \infty)\\
 
-- Minimize: FALSE
+- Minimize: TRUE
 
 - Average: macro
 
-- Required Prediction: “response”
+- Required Prediction: “quantiles”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast)
 
 ## Parameters
 
-Empty ParamSet
+|       |         |         |              |
+|-------|---------|---------|--------------|
+| Id    | Type    | Default | Range        |
+| alpha | numeric | \-      | \\\[0, 1\]\\ |
 
 ## References
 
-Blaskowitz, Herwartz H (2011). “On economic evaluation of directional
-forecasts.” *International Journal of Forecasting*, **27**(4),
-1058–1065.
+Winkler, L R (1972). “A Decision-Theoretic Approach to Interval
+Estimation.” *Journal of the American Statistical Association*,
+**67**(337), 187–191.
 
 ## See also
 
@@ -77,22 +83,22 @@ Other Measure:
 [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md),
 [`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
-[`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
-[`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
+[`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
+[`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md)
 
 ## Super classes
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureMDV`
+-\> `MeasureWinkler`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureMDV$new()`](#method-MeasureMDV-new)
+- [`MeasureWinkler$new()`](#method-MeasureWinkler-new)
 
-- [`MeasureMDV$clone()`](#method-MeasureMDV-clone)
+- [`MeasureWinkler$clone()`](#method-MeasureWinkler-clone)
 
 Inherited methods
 
@@ -112,7 +118,7 @@ Creates a new instance of this
 
 #### Usage
 
-    MeasureMDV$new()
+    MeasureWinkler$new()
 
 ------------------------------------------------------------------------
 
@@ -122,7 +128,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureMDV$clone(deep = FALSE)
+    MeasureWinkler$clone(deep = FALSE)
 
 #### Arguments
 

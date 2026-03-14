@@ -31,9 +31,12 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_fcst.cv.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_fcst.holdout.html</loc></url>

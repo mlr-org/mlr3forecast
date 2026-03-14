@@ -1,15 +1,13 @@
-# Mean Directional Value
+# Autocorrelation at Lag 1
 
-Measure of average magnitude‐weighted directional accuracy in forecast
-tasks.
+Measures the autocorrelation of the forecast residuals at lag 1. Values
+close to zero indicate that residuals are uncorrelated, while values far
+from zero suggest the model is not capturing all available information.
 
 ## Details
 
-\$\$ \mathrm{MDV} = \frac{1}{n-1} \sum\_{i=2}^n \lvert y_i -
-y\_{i-1}\rvert \times \begin{cases} +1, & \text{if }\mathrm{sign}(y_i -
-y\_{i-1}) = \mathrm{sign}(\hat y_i - y\_{i-1}),\\ -1, &
-\text{otherwise.} \end{cases} \$\$ where `n` is the number of
-observations.
+Computed as the sample autocorrelation of the residuals at lag 1 using
+[`stats::acf()`](https://rdrr.io/r/stats/acf.html).
 
 ## Dictionary
 
@@ -20,16 +18,16 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.mdv")
-    msr("fcst.mdv")
+    mlr_measures$get("fcst.acf1")
+    msr("fcst.acf1")
 
 ## Meta Information
 
 - Task type: “regr”
 
-- Range: \\(-\infty, \infty)\\
+- Range: \\\[-1, 1\]\\
 
-- Minimize: FALSE
+- Minimize: NA
 
 - Average: macro
 
@@ -41,12 +39,6 @@ or with the associated sugar function
 ## Parameters
 
 Empty ParamSet
-
-## References
-
-Blaskowitz, Herwartz H (2011). “On economic evaluation of directional
-forecasts.” *International Journal of Forecasting*, **27**(4),
-1058–1065.
 
 ## See also
 
@@ -74,9 +66,9 @@ forecasts.” *International Journal of Forecasting*, **27**(4),
     unsupervised clustering.
 
 Other Measure:
-[`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md),
 [`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
+[`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
 [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
 [`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
 
@@ -84,15 +76,15 @@ Other Measure:
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureMDV`
+-\> `MeasureACF1`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureMDV$new()`](#method-MeasureMDV-new)
+- [`MeasureACF1$new()`](#method-MeasureACF1-new)
 
-- [`MeasureMDV$clone()`](#method-MeasureMDV-clone)
+- [`MeasureACF1$clone()`](#method-MeasureACF1-clone)
 
 Inherited methods
 
@@ -112,7 +104,7 @@ Creates a new instance of this
 
 #### Usage
 
-    MeasureMDV$new()
+    MeasureACF1$new()
 
 ------------------------------------------------------------------------
 
@@ -122,7 +114,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureMDV$clone(deep = FALSE)
+    MeasureACF1$clone(deep = FALSE)
 
 #### Arguments
 

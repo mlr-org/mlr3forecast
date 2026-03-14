@@ -472,6 +472,9 @@ prediction$score(msr("regr.rmse"))
 
 ## Measures
 
+- [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md)
+  [`MeasureACF1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md)
+  : Autocorrelation at Lag 1
 - [`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md)
   [`MeasureMDA`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md)
   : Mean Directional Accuracy
@@ -481,6 +484,12 @@ prediction$score(msr("regr.rmse"))
 - [`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md)
   [`MeasureMDV`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md)
   : Mean Directional Value
+- [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md)
+  [`MeasureMPE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md)
+  : Mean Percentage Error
+- [`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
+  [`MeasureWinkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
+  : Winkler Score
 
 ## Resampling Strategies
 
