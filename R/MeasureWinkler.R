@@ -36,9 +36,7 @@ MeasureWinkler = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(
-        alpha = p_dbl(lower = 0, upper = 1, tags = "required")
-      )
+      param_set = ps(alpha = p_dbl(lower = 0, upper = 1, tags = "required"))
       param_set$set_values(alpha = 0.05)
 
       super$initialize(

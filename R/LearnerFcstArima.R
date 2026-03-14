@@ -40,6 +40,7 @@ LearnerFcstArima = R6Class(
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         method = p_fct(c("CSS-ML", "ML", "CSS"), default = "CSS-ML", tags = "train"),
         # forecast arguments
+        simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 5000L, tags = "predict"),
         # additional arguments to stats::arima

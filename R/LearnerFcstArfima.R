@@ -27,6 +27,9 @@ LearnerFcstArfima = R6Class(
         estim = p_fct(default = "mle", levels = c("mle", "ls"), tags = "train"),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
+        simulate = p_lgl(default = FALSE, tags = "predict"),
+        bootstrap = p_lgl(default = FALSE, tags = "predict"),
+        npaths = p_int(1L, default = 5000L, tags = "predict"),
         # additional arguments to forecast::auto.arima
         d = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
         D = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
@@ -54,7 +57,7 @@ LearnerFcstArfima = R6Class(
         allowdrift = p_lgl(default = TRUE, tags = "train"),
         allowmean = p_lgl(default = TRUE, tags = "train"),
         parallel = p_lgl(default = FALSE, tags = "train"),
-        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train"),
+        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
         # additional arguments to forecast::Arima
         include.mean = p_lgl(default = TRUE, tags = "train"),
         include.drift = p_lgl(default = FALSE, tags = "train"),

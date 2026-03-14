@@ -36,6 +36,8 @@ lrn("fcst.nnetar")
    repeats \tab integer \tab 20 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    scale.inputs \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   parallel \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   num.cores \tab integer \tab 2 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    npaths \tab integer \tab 1000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    innov \tab untyped \tab NULL \tab  \tab - \cr

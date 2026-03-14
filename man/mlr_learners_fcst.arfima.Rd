@@ -34,6 +34,9 @@ lrn("fcst.arfima")
    estim \tab character \tab mle \tab mle, ls \tab - \cr
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   simulate \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   npaths \tab integer \tab 5000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    d \tab integer \tab NA \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    D \tab integer \tab NA \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    max.p \tab integer \tab 5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr

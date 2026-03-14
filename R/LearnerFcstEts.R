@@ -40,11 +40,6 @@ LearnerFcstEts = R6Class(
         ic = p_fct(default = "aicc", levels = c("aicc", "aic", "bic"), tags = "train"),
         restrict = p_lgl(default = TRUE, tags = "train"),
         allow.multiplicative.trend = p_lgl(default = FALSE, tags = "train"),
-        na.action = p_fct(
-          default = "na.contiguous",
-          levels = c("na.contiguous", "na.interp", "na.fail"),
-          tags = "train"
-        ),
         simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 5000L, tags = "predict")
