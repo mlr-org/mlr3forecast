@@ -25,7 +25,7 @@ MeasureACF1 = R6Class(
       super$initialize(
         id = "fcst.acf1",
         range = c(-1, 1),
-        minimize = TRUE,
+        minimize = NA,
         predict_type = "response",
         packages = "mlr3forecast",
         label = "Autocorrelation at Lag 1",

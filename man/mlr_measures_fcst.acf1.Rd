@@ -26,7 +26,7 @@ msr("fcst.acf1")
 \itemize{
 \item Task type: \dQuote{regr}
 \item Range: \eqn{[-1, 1]}{[-1, 1]}
-\item Minimize: TRUE
+\item Minimize: NA
 \item Average: macro
 \item Required Prediction: \dQuote{response}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}
@@ -56,7 +56,8 @@ Other Measure:
 \code{\link{mlr_measures_fcst.mda}},
 \code{\link{mlr_measures_fcst.mdpv}},
 \code{\link{mlr_measures_fcst.mdv}},
-\code{\link{mlr_measures_fcst.mpe}}
+\code{\link{mlr_measures_fcst.mpe}},
+\code{\link{mlr_measures_fcst.winkler}}
 }
 \concept{Measure}
 \section{Super classes}{

@@ -240,6 +240,17 @@ bibentries = c(
     pages = "87--99",
     year = "2005",
     publisher = "Wiley Online Library"
+  ),
+  winkler1972scoring = bibentry(
+    "article",
+    title = "A Decision-Theoretic Approach to Interval Estimation",
+    author = "Winkler, Robert L",
+    journal = "Journal of the American Statistical Association",
+    volume = "67",
+    number = "337",
+    pages = "187--191",
+    year = "1972",
+    publisher = "Taylor & Francis"
   )
 )
 # nolint end

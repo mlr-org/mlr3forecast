@@ -26,6 +26,7 @@ Imports:
     stats,
     utils
 Suggests:
+    distributional,
     fabletools,
     forecast (>= 9.0.0),
     generics (>= 0.1.2),
@@ -35,6 +36,7 @@ Suggests:
     tsbox,
     tsibble,
     tsibbledata,
+    vctrs,
     vdiffr (>= 1.0.0),
     withr (>= 3.0.0),
     xts,
@@ -68,6 +70,7 @@ Collate:
     'MeasureACF1.R'
     'MeasureDirectional.R'
     'MeasureMPE.R'
+    'MeasureWinkler.R'
     'PipeOpFcstLags.R'
     'PipeOpTargetTrafo.R'
     'ResamplingFcstCV.R'

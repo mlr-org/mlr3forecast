@@ -28,7 +28,7 @@ MeasureMPE = R6Class(
       super$initialize(
         id = "fcst.mpe",
         range = c(-Inf, Inf),
-        minimize = TRUE,
+        minimize = NA,
         predict_type = "response",
         packages = "mlr3forecast",
         label = "Mean Percentage Error",

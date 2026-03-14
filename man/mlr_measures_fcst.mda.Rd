@@ -70,7 +70,8 @@ Other Measure:
 \code{\link{mlr_measures_fcst.acf1}},
 \code{\link{mlr_measures_fcst.mdpv}},
 \code{\link{mlr_measures_fcst.mdv}},
-\code{\link{mlr_measures_fcst.mpe}}
+\code{\link{mlr_measures_fcst.mpe}},
+\code{\link{mlr_measures_fcst.winkler}}
 }
 \concept{Measure}
 \section{Super classes}{
