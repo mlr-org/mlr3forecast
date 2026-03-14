@@ -1,7 +1,7 @@
-# ARIMA Forecast Learner
+# Time Series Linear Model Forecast Learner
 
-Autoregressive Integrated Moving Average Forecast (ARIMA) model. Calls
-[`forecast::Arima()`](https://pkg.robjhyndman.com/forecast/reference/Arima.html)
+Time series linear model. Calls
+[`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
 ## Dictionary
@@ -13,8 +13,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.arima")
-    lrn("fcst.arima")
+    mlr_learners$get("fcst.tslm")
+    lrn("fcst.tslm")
 
 ## Meta Information
 
@@ -30,28 +30,12 @@ or with the associated sugar function
 
 ## Parameters
 
-|                  |           |               |                                              |                       |
-|------------------|-----------|---------------|----------------------------------------------|-----------------------|
-| Id               | Type      | Default       | Levels                                       | Range                 |
-| order            | untyped   | c(0L, 0L, 0L) |                                              | \-                    |
-| seasonal         | untyped   | c(0L, 0L, 0L) |                                              | \-                    |
-| include.mean     | logical   | TRUE          | TRUE, FALSE                                  | \-                    |
-| include.drift    | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| include.constant | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| lambda           | untyped   | NULL          |                                              | \-                    |
-| biasadj          | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| method           | character | CSS-ML        | CSS-ML, ML, CSS                              | \-                    |
-| simulate         | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| bootstrap        | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| npaths           | integer   | 5000          |                                              | \\\[1, \infty)\\      |
-| transform.pars   | logical   | TRUE          | TRUE, FALSE                                  | \-                    |
-| fixed            | untyped   | NULL          |                                              | \-                    |
-| init             | untyped   | NULL          |                                              | \-                    |
-| SSinit           | character | Gardner1980   | Gardner1980, Rossignol2011                   | \-                    |
-| n.cond           | integer   | \-            |                                              | \\\[1, \infty)\\      |
-| optim.method     | character | BFGS          | Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent | \-                    |
-| optim.control    | untyped   | list()        |                                              | \-                    |
-| kappa            | numeric   | 1e+06         |                                              | \\(-\infty, \infty)\\ |
+|         |         |         |             |
+|---------|---------|---------|-------------|
+| Id      | Type    | Default | Levels      |
+| formula | untyped | \-      |             |
+| lambda  | untyped | NULL    |             |
+| biasadj | logical | FALSE   | TRUE, FALSE |
 
 ## References
 
@@ -103,6 +87,7 @@ Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md),
 [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
+[`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
 [`mlr_learners_fcst.auto_arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.md),
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
@@ -114,8 +99,7 @@ Other Learner:
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
-[`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md),
-[`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tslm.md)
+[`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
 
 ## Super classes
 
@@ -125,15 +109,15 @@ Other Learner:
 [`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
 [`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstArima`
+-\> `LearnerFcstTslm`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstArima$new()`](#method-LearnerFcstArima-new)
+- [`LearnerFcstTslm$new()`](#method-LearnerFcstTslm-new)
 
-- [`LearnerFcstArima$clone()`](#method-LearnerFcstArima-clone)
+- [`LearnerFcstTslm$clone()`](#method-LearnerFcstTslm-clone)
 
 Inherited methods
 
@@ -159,7 +143,7 @@ Creates a new instance of this
 
 #### Usage
 
-    LearnerFcstArima$new()
+    LearnerFcstTslm$new()
 
 ------------------------------------------------------------------------
 
@@ -169,7 +153,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstArima$clone(deep = FALSE)
+    LearnerFcstTslm$clone(deep = FALSE)
 
 #### Arguments
 
@@ -181,10 +165,10 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.arima")
+learner = lrn("fcst.tslm")
 print(learner)
 #> 
-#> ── <LearnerFcstArima> (fcst.arima): ARIMA ──────────────────────────────────────
+#> ── <LearnerFcstTslm> (fcst.tslm): Time Series Linear Model ─────────────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and forecast
@@ -205,16 +189,18 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Series: as.ts(task) 
-#> ARIMA(0,0,0) with non-zero mean 
+#> 
+#> Call:
+#> forecast::tslm(formula = y ~ trend + season)
 #> 
 #> Coefficients:
-#>           mean
-#>       213.7083
-#> s.e.    7.3018
+#> (Intercept)        trend      season2      season3      season4      season5  
+#>      82.652        2.348       -2.473       24.054       15.830       13.482  
+#>     season6      season7      season8      season9     season10     season11  
+#>      39.134       63.536       59.437       28.839       -1.634      -28.732  
+#>    season12  
+#>      -5.455  
 #> 
-#> sigma^2 = 5172:  log likelihood = -546.17
-#> AIC=1096.33   AICc=1096.46   BIC=1101.46
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -225,5 +211,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 45942.01 
+#> 2710.246 
 ```

@@ -59,6 +59,9 @@
 - [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
   [`LearnerFcstTheta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md)
   : Theta Forecast Learner
+- [`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tslm.md)
+  [`LearnerFcstTslm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tslm.md)
+  : Time Series Linear Model Forecast Learner
 
 ## Tasks
 
