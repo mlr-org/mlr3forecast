@@ -7,7 +7,7 @@ tasks.
 
 \$\$ \mathrm{MDV} = \frac{1}{n-1} \sum\_{i=2}^n \lvert y_i -
 y\_{i-1}\rvert \times \begin{cases} +1, & \text{if }\mathrm{sign}(y_i -
-y\_{i-1}) = \mathrm{sign}(\hat y_i - \hat y\_{i-1}),\\ -1, &
+y\_{i-1}) = \mathrm{sign}(\hat y_i - y\_{i-1}),\\ -1, &
 \text{otherwise.} \end{cases} \$\$ where `n` is the number of
 observations.
 

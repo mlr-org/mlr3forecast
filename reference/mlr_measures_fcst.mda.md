@@ -7,9 +7,9 @@ successive observations in forecast tasks.
 
 \$\$ \mathrm{MDA} = (a - b)\\\frac{1}{n-1} \sum\_{i=2}^n
 \mathbf{1}\\\mathrm{sign}(y_i - y\_{i-1}) = \mathrm{sign}(\hat y_i -
-\hat y\_{i-1})\\ \\+\\ b \$\$ where `a` is the reward for a correct
-direction (default `1`), `b` is the penalty for an incorrect direction
-(default `0`), and `n` is the number of observations.
+y\_{i-1})\\ \\+\\ b \$\$ where `a` is the reward for a correct direction
+(default `1`), `b` is the penalty for an incorrect direction (default
+`0`), and `n` is the number of observations.
 
 ## Dictionary
 
