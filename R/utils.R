@@ -18,18 +18,12 @@ generate_newdata = function(task, n = 1L) {
 
   last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else last_rows = dt[.N]
 
-  is_temporal = inherits(last_rows[[order_col]], c("Date", "POSIXct")) && !is.null(task$freq)
-  next_index = if (is_temporal) {
-    function(max_index) seq(max_index, length.out = n + 1L, by = task$freq)[-1L]
-  } else {
-    function(max_index) seq.int(max_index + 1L, length.out = n)
-  }
-
+  freq = task$freq %??% 1L
   newdata = last_rows[rep(seq_len(.N), each = n)]
   if (length(key_cols) > 0L) {
-    newdata[, (order_col) := next_index(.SD[[1L]][1L]), by = key_cols, .SDcols = order_col]
+    newdata[, (order_col) := seq(get(order_col)[1L], length.out = n + 1L, by = freq)[-1L], by = key_cols]
   } else {
-    set(newdata, j = order_col, value = next_index(last_rows[[order_col]]))
+    set(newdata, j = order_col, value = seq(last_rows[[order_col]], length.out = n + 1L, by = freq)[-1L])
   }
 
   set(newdata, j = task$target_names, value = NA_real_)
