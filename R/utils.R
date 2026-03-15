@@ -78,9 +78,9 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   }
 
   scores = map_dbl(names(groups), function(nm) {
-    p = prediction$clone()$filter(groups[[nm]])
-    ts = if (!is.null(train_set)) train_groups[[nm]]
-    score_fn(p, task, train_set = ts, ...)
+    pred = prediction$clone()$filter(groups[[nm]])
+    train_set = if (!is.null(train_set)) train_groups[[nm]]
+    score_fn(pred, task, train_set = train_set, ...)
   })
   mean(scores)
 }
