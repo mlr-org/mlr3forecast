@@ -11,21 +11,27 @@ generate_newdata = function(task, n = 1L) {
   n = assert_count(n, positive = TRUE, coerce = TRUE)
 
   col_roles = task$col_roles
-  order_cols = col_roles$order
+  order_col = col_roles$order
   key_cols = col_roles$key
-  dt = task$data(cols = c(order_cols, key_cols))
+  cols = c(order_col, key_cols)
+  dt = task$data(cols = cols)
 
-  newdata = map_dtr(split(dt, by = key_cols, drop = TRUE), function(dt) {
-    dt = dt[get(order_cols) == max(get(order_cols)), c(key_cols, order_cols), with = FALSE]
-    max_index = dt[[order_cols]]
-    if (inherits(max_index, c("Date", "POSIXct")) && !is.null(task$freq)) {
-      index = seq(max_index, length.out = n + 1L, by = task$freq)[-1L]
-    } else {
-      index = seq.int(max_index + 1L, length.out = n)
-    }
-    dt = rbindlist(replicate(n, dt, simplify = FALSE))
-    set(dt, j = order_cols, value = index)
-  })
+  last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else last_rows = dt[.N]
+
+  is_temporal = inherits(last_rows[[order_col]], c("Date", "POSIXct")) && !is.null(task$freq)
+  next_index = if (is_temporal) {
+    function(max_index) seq(max_index, length.out = n + 1L, by = task$freq)[-1L]
+  } else {
+    function(max_index) seq.int(max_index + 1L, length.out = n)
+  }
+
+  newdata = last_rows[rep(seq_len(.N), each = n)]
+  if (length(key_cols) > 0L) {
+    newdata[, (order_col) := next_index(.SD[[1L]][1L]), by = key_cols, .SDcols = order_col]
+  } else {
+    set(newdata, j = order_col, value = next_index(last_rows[[order_col]]))
+  }
+
   set(newdata, j = task$target_names, value = NA_real_)
   newdata
 }
