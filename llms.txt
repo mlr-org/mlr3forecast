@@ -478,6 +478,9 @@ prediction$score(msr("regr.rmse"))
 - [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md)
   [`MeasureACF1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md)
   : Autocorrelation at Lag 1
+- [`mlr_measures_fcst.coverage`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.coverage.md)
+  [`MeasureCoverage`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.coverage.md)
+  : Empirical Coverage
 - [`mlr_measures_fcst.mase`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mase.md)
   [`MeasureMASE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mase.md)
   : Mean Absolute Scaled Error

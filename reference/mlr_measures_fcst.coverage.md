@@ -1,18 +1,14 @@
-# Winkler Score
+# Empirical Coverage
 
-Measures the quality of prediction intervals by combining their width
-with a penalty for observations falling outside the interval. Smaller
-scores indicate better calibrated and narrower intervals.
+Measures the proportion of true values that fall within the prediction
+interval. A well-calibrated prediction interval at level \\1 - \alpha\\
+should have coverage close to \\1 - \alpha\\.
 
 ## Details
 
-\$\$ W_i = \begin{cases} (u_i - l_i) + \frac{2}{\alpha}(l_i - y_i), &
-\text{if } y_i \< l_i \\ (u_i - l_i), & \text{if } l_i \le y_i \le u_i
-\\ (u_i - l_i) + \frac{2}{\alpha}(y_i - u_i), & \text{if } y_i \> u_i
-\end{cases} \$\$ where \\l_i\\ and \\u_i\\ are the lower and upper
-bounds of the prediction interval, \\y_i\\ is the observed value, and
-\\\alpha = 1 - \text{level}/100\\ is the significance level. The Winkler
-score is then the mean of \\W_i\\ over all observations.
+\$\$ \mathrm{Coverage} = \frac{1}{n} \sum\_{i=1}^n \mathbf{1}\\l_i \le
+y_i \le u_i\\ \$\$ where \\l_i\\ and \\u_i\\ are the lower and upper
+bounds of the prediction interval and \\y_i\\ is the observed value.
 
 ## Dictionary
 
@@ -23,16 +19,16 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.winkler")
-    msr("fcst.winkler")
+    mlr_measures$get("fcst.coverage")
+    msr("fcst.coverage")
 
 ## Meta Information
 
 - Task type: “regr”
 
-- Range: \\\[0, \infty)\\
+- Range: \\\[0, 1\]\\
 
-- Minimize: TRUE
+- Minimize: FALSE
 
 - Average: macro
 
@@ -47,12 +43,6 @@ or with the associated sugar function
 |-------|---------|---------|--------------|
 | Id    | Type    | Default | Range        |
 | alpha | numeric | \-      | \\\[0, 1\]\\ |
-
-## References
-
-Winkler, L R (1972). “A Decision-Theoretic Approach to Interval
-Estimation.” *Journal of the American Statistical Association*,
-**67**(337), 187–191.
 
 ## See also
 
@@ -81,27 +71,27 @@ Estimation.” *Journal of the American Statistical Association*,
 
 Other Measure:
 [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md),
-[`mlr_measures_fcst.coverage`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.coverage.md),
 [`mlr_measures_fcst.mase`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mase.md),
 [`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
 [`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
 [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
-[`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md)
+[`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md),
+[`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
 
 ## Super classes
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureWinkler`
+-\> `MeasureCoverage`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureWinkler$new()`](#method-MeasureWinkler-new)
+- [`MeasureCoverage$new()`](#method-MeasureCoverage-new)
 
-- [`MeasureWinkler$clone()`](#method-MeasureWinkler-clone)
+- [`MeasureCoverage$clone()`](#method-MeasureCoverage-clone)
 
 Inherited methods
 
@@ -121,7 +111,7 @@ Creates a new instance of this
 
 #### Usage
 
-    MeasureWinkler$new()
+    MeasureCoverage$new()
 
 ------------------------------------------------------------------------
 
@@ -131,7 +121,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureWinkler$clone(deep = FALSE)
+    MeasureCoverage$clone(deep = FALSE)
 
 #### Arguments
 
