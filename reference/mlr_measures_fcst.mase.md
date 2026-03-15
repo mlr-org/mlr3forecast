@@ -1,15 +1,15 @@
-# Mean Directional Accuracy
+# Mean Absolute Scaled Error
 
-Measure of the proportion of correctly predicted directions between
-successive observations in forecast tasks.
+Measures the mean absolute error of the forecast scaled by the in-sample
+mean absolute error of the naive (or seasonal naive) forecast. Values
+less than one indicate the forecast is better than the naive baseline.
 
 ## Details
 
-\$\$ \mathrm{MDA} = (a - b)\\\frac{1}{n-1} \sum\_{i=2}^n
-\mathbf{1}\\\mathrm{sign}(y_i - y\_{i-1}) = \mathrm{sign}(\hat y_i -
-y\_{i-1})\\ \\+\\ b \$\$ where `a` is the reward for a correct direction
-(default `1`), `b` is the penalty for an incorrect direction (default
-`0`), and `n` is the number of observations.
+\$\$ \mathrm{MASE} = \frac{1}{n} \sum\_{i=1}^n \frac{\lvert y_i - \hat
+y_i \rvert} {\frac{1}{T-m} \sum\_{t=m+1}^T \lvert z_t - z\_{t-m} \rvert}
+\$\$ where \\z\\ is the training series, \\m\\ is the seasonal period,
+and \\T\\ is the length of the training series.
 
 ## Dictionary
 
@@ -20,16 +20,16 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.mda")
-    msr("fcst.mda")
+    mlr_measures$get("fcst.mase")
+    msr("fcst.mase")
 
 ## Meta Information
 
 - Task type: “regr”
 
-- Range: \\(-\infty, \infty)\\
+- Range: \\\[0, \infty)\\
 
-- Minimize: FALSE
+- Minimize: TRUE
 
 - Average: macro
 
@@ -40,17 +40,15 @@ or with the associated sugar function
 
 ## Parameters
 
-|         |         |         |                       |
-|---------|---------|---------|-----------------------|
-| Id      | Type    | Default | Range                 |
-| reward  | numeric | \-      | \\(-\infty, \infty)\\ |
-| penalty | numeric | \-      | \\(-\infty, \infty)\\ |
+|        |         |         |                  |
+|--------|---------|---------|------------------|
+| Id     | Type    | Default | Range            |
+| period | integer | \-      | \\\[1, \infty)\\ |
 
 ## References
 
-Blaskowitz, Herwartz H (2011). “On economic evaluation of directional
-forecasts.” *International Journal of Forecasting*, **27**(4),
-1058–1065.
+Hyndman, J R, Koehler, B A (2006). “Another look at measures of forecast
+accuracy.” *International Journal of Forecasting*, **22**(4), 679–688.
 
 ## See also
 
@@ -79,7 +77,7 @@ forecasts.” *International Journal of Forecasting*, **27**(4),
 
 Other Measure:
 [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md),
-[`mlr_measures_fcst.mase`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mase.md),
+[`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
 [`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
 [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
@@ -90,15 +88,15 @@ Other Measure:
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureMDA`
+-\> `MeasureMASE`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureMDA$new()`](#method-MeasureMDA-new)
+- [`MeasureMASE$new()`](#method-MeasureMASE-new)
 
-- [`MeasureMDA$clone()`](#method-MeasureMDA-clone)
+- [`MeasureMASE$clone()`](#method-MeasureMASE-clone)
 
 Inherited methods
 
@@ -118,7 +116,7 @@ Creates a new instance of this
 
 #### Usage
 
-    MeasureMDA$new()
+    MeasureMASE$new()
 
 ------------------------------------------------------------------------
 
@@ -128,7 +126,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureMDA$clone(deep = FALSE)
+    MeasureMASE$clone(deep = FALSE)
 
 #### Arguments
 

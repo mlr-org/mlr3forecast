@@ -83,6 +83,9 @@
 - [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md)
   [`MeasureACF1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md)
   : Autocorrelation at Lag 1
+- [`mlr_measures_fcst.mase`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mase.md)
+  [`MeasureMASE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mase.md)
+  : Mean Absolute Scaled Error
 - [`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md)
   [`MeasureMDA`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md)
   : Mean Directional Accuracy
@@ -95,6 +98,9 @@
 - [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md)
   [`MeasureMPE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md)
   : Mean Percentage Error
+- [`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md)
+  [`MeasureRMSSE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md)
+  : Root Mean Squared Scaled Error
 - [`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
   [`MeasureWinkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
   : Winkler Score
