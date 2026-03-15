@@ -2,12 +2,13 @@ test_that("forecast measures", {
   keys = mlr_measures$keys("^fcst\\.")
   task = tsk("california_housing")
   learner = lrn("regr.rpart")
+  train_set = seq_len(task$nrow)
   p = learner$train(task)$predict(task)
 
   for (key in keys) {
     m = mlr_measures$get(key)
     if ((is.na(m$task_type) || m$task_type == "regr") && m$predict_type == "response") {
-      perf = m$score(prediction = p, task = task, learner = learner)
+      perf = m$score(prediction = p, task = task, learner = learner, train_set = train_set)
       expect_number(perf, na.ok = FALSE, lower = m$range[1L], upper = m$range[2L])
     }
   }
@@ -136,6 +137,36 @@ test_that("MeasureWinkler works", {
   expect_equal(unname(pred$score(measure)), 210)
 })
 
+test_that("MeasureMASE works", {
+  measure = msr("fcst.mase")
+  task = tsk("airpassengers")
+  train_ids = 1:120
+  test_ids = 121:144
+  truth = task$data(rows = test_ids, cols = task$target_names)[[1L]]
+  response = truth + 10
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = test_ids)
+  result = unname(pred$score(measure, task = task, train_set = train_ids))
+  expect_number(result, lower = 0)
+  # perfect forecast gives 0
+  pred = PredictionRegr$new(truth = truth, response = truth, row_ids = test_ids)
+  expect_equal(unname(pred$score(measure, task = task, train_set = train_ids)), 0)
+})
+
+test_that("MeasureRMSSE works", {
+  measure = msr("fcst.rmsse")
+  task = tsk("airpassengers")
+  train_ids = 1:120
+  test_ids = 121:144
+  truth = task$data(rows = test_ids, cols = task$target_names)[[1L]]
+  response = truth + 10
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = test_ids)
+  result = unname(pred$score(measure, task = task, train_set = train_ids))
+  expect_number(result, lower = 0)
+  # perfect forecast gives 0
+  pred = PredictionRegr$new(truth = truth, response = truth, row_ids = test_ids)
+  expect_equal(unname(pred$score(measure, task = task, train_set = train_ids)), 0)
+})
+
 test_that("measures match fabletools reference implementation", {
   skip_if_not_installed("fabletools")
   skip_if_not_installed("distributional")
@@ -191,4 +222,38 @@ test_that("measures match fabletools reference implementation", {
   )
   expected_winkler = fabletools::winkler_score(d, truth, level = 95)
   expect_equal(unname(pred_q$score(msr("fcst.winkler"))), expected_winkler)
+
+  # MASE
+  task = tsk("airpassengers")
+  train_ids = 1:120
+  test_ids = 121:144
+  train_data = task$data(rows = train_ids, cols = task$target_names)[[1L]]
+  test_truth = task$data(rows = test_ids, cols = task$target_names)[[1L]]
+  test_response = test_truth + rnorm(length(test_ids))
+  test_resid = test_truth - test_response
+  pred_ts = PredictionRegr$new(truth = test_truth, response = test_response, row_ids = test_ids)
+  expected_mase = fabletools::MASE(test_resid, train_data, .period = 1)
+  expect_equal(
+    unname(pred_ts$score(msr("fcst.mase"), task = task, train_set = train_ids)),
+    expected_mase
+  )
+  # seasonal MASE with lag = 12
+  expected_mase_12 = fabletools::MASE(test_resid, train_data, .period = 12)
+  expect_equal(
+    unname(pred_ts$score(msr("fcst.mase", period = 12L), task = task, train_set = train_ids)),
+    expected_mase_12
+  )
+
+  # RMSSE
+  expected_rmsse = fabletools::RMSSE(test_resid, train_data, .period = 1)
+  expect_equal(
+    unname(pred_ts$score(msr("fcst.rmsse"), task = task, train_set = train_ids)),
+    expected_rmsse
+  )
+  # seasonal RMSSE with lag = 12
+  expected_rmsse_12 = fabletools::RMSSE(test_resid, train_data, .period = 12)
+  expect_equal(
+    unname(pred_ts$score(msr("fcst.rmsse", period = 12L), task = task, train_set = train_ids)),
+    expected_rmsse_12
+  )
 })

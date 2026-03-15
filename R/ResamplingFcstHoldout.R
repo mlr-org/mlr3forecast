@@ -126,7 +126,7 @@ ResamplingFcstHoldout = R6Class(
 
       has_ratio = !is.null(ratio)
       if (!xor(!has_ratio, is.null(n))) {
-        error_config("Either parameter `ratio` (x)or `n` must be provided.")
+        error_config("One of 'ratio' or 'n' must be provided, not both.")
       }
       if (has_ratio) {
         nr = round(n_obs * ratio)

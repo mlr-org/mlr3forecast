@@ -72,10 +72,12 @@ Winkler, L R (1972).
 
 Other Measure: 
 \code{\link{mlr_measures_fcst.acf1}},
+\code{\link{mlr_measures_fcst.mase}},
 \code{\link{mlr_measures_fcst.mda}},
 \code{\link{mlr_measures_fcst.mdpv}},
 \code{\link{mlr_measures_fcst.mdv}},
-\code{\link{mlr_measures_fcst.mpe}}
+\code{\link{mlr_measures_fcst.mpe}},
+\code{\link{mlr_measures_fcst.rmsse}}
 }
 \concept{Measure}
 \section{Super classes}{

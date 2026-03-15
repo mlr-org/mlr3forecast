@@ -71,6 +71,7 @@ Collate:
     'MeasureACF1.R'
     'MeasureDirectional.R'
     'MeasureMPE.R'
+    'MeasureScaled.R'
     'MeasureWinkler.R'
     'PipeOpFcstLags.R'
     'PipeOpTargetTrafo.R'

@@ -241,6 +241,17 @@ bibentries = c(
     year = "2005",
     publisher = "Wiley Online Library"
   ),
+  hyndman2006another = bibentry(
+    "article",
+    title = "Another look at measures of forecast accuracy",
+    author = "Hyndman, Rob J and Koehler, Anne B",
+    journal = "International Journal of Forecasting",
+    volume = "22",
+    number = "4",
+    pages = "679--688",
+    year = "2006",
+    publisher = "Elsevier"
+  ),
   winkler1972scoring = bibentry(
     "article",
     title = "A Decision-Theoretic Approach to Interval Estimation",
