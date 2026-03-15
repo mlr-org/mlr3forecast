@@ -53,6 +53,7 @@ Empty ParamSet
 }
 
 Other Measure: 
+\code{\link{mlr_measures_fcst.coverage}},
 \code{\link{mlr_measures_fcst.mase}},
 \code{\link{mlr_measures_fcst.mda}},
 \code{\link{mlr_measures_fcst.mdpv}},

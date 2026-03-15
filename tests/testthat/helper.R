@@ -47,3 +47,11 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
 }
 
 registerS3method("generate_tasks", "LearnerFcst", generate_tasks.LearnerFcst, envir = parent.frame())
+
+make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
+  q = cbind(lower, upper)
+  colnames(q) = sprintf("q%s", probs)
+  setattr(q, "probs", probs)
+  setattr(q, "response", probs[1L])
+  q
+}

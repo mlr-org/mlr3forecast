@@ -107,14 +107,43 @@ test_that("MeasureACF1 works", {
   expect_identical(unname(pred$score(measure)), NA_real_)
 })
 
+test_that("MeasureCoverage works", {
+  measure = msr("fcst.coverage")
+  truth = c(10, 20, 30, 40, 50)
+  # all inside
+  quantiles = make_quantiles(c(5, 15, 25, 35, 45), c(15, 25, 35, 45, 55))
+  pred = PredictionRegr$new(
+    truth = truth,
+    response = rep(0, 5),
+    quantiles = quantiles,
+    row_ids = seq_along(truth)
+  )
+  expect_equal(unname(pred$score(measure)), 1)
+  # all outside
+  quantiles = make_quantiles(c(11, 21, 31, 41, 51), c(12, 22, 32, 42, 52))
+  pred = PredictionRegr$new(
+    truth = truth,
+    response = rep(0, 5),
+    quantiles = quantiles,
+    row_ids = seq_along(truth)
+  )
+  expect_equal(unname(pred$score(measure)), 0)
+  # 3 out of 5 inside
+  quantiles = make_quantiles(c(5, 15, 31, 35, 51), c(15, 25, 32, 45, 52))
+  pred = PredictionRegr$new(
+    truth = truth,
+    response = rep(0, 5),
+    quantiles = quantiles,
+    row_ids = seq_along(truth)
+  )
+  expect_equal(unname(pred$score(measure)), 0.6)
+  # on boundary counts as inside
+  quantiles = make_quantiles(10, 10)
+  pred = PredictionRegr$new(truth = 10, response = 0, quantiles = quantiles, row_ids = 1L)
+  expect_equal(unname(pred$score(measure)), 1)
+})
+
 test_that("MeasureWinkler works", {
-  make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
-    q = cbind(lower, upper)
-    colnames(q) = sprintf("q%s", probs)
-    setattr(q, "probs", probs)
-    setattr(q, "response", probs[1L])
-    q
-  }
   measure = msr("fcst.winkler")
   truth = c(10, 20, 30, 40, 50)
   # all observations inside the interval: score = width
@@ -202,13 +231,6 @@ test_that("measures match fabletools reference implementation", {
   expect_equal(unname(pred$score(msr("fcst.acf1"))), expected_acf1)
 
   # Winkler
-  make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
-    q = cbind(lower, upper)
-    colnames(q) = sprintf("q%s", probs)
-    setattr(q, "probs", probs)
-    setattr(q, "response", probs[1L])
-    q
-  }
   d = distributional::dist_normal(truth, 2)
   h = distributional::hilo(d, 95)
   lower = vctrs::field(h, "lower")

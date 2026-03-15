@@ -68,6 +68,7 @@ Hyndman, J R, Koehler, B A (2006).
 
 Other Measure: 
 \code{\link{mlr_measures_fcst.acf1}},
+\code{\link{mlr_measures_fcst.coverage}},
 \code{\link{mlr_measures_fcst.mda}},
 \code{\link{mlr_measures_fcst.mdpv}},
 \code{\link{mlr_measures_fcst.mdv}},

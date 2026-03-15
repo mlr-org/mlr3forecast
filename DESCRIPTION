@@ -69,6 +69,7 @@ Collate:
     'LearnerFcstTheta.R'
     'LearnerFcstTslm.R'
     'MeasureACF1.R'
+    'MeasureCoverage.R'
     'MeasureDirectional.R'
     'MeasureMPE.R'
     'MeasureScaled.R'
