@@ -50,6 +50,9 @@ MeasureMASE = R6Class(
   ),
   private = list(
     .score = function(prediction, task, train_set, ...) {
+      if ("keys" %in% task$properties) {
+        error_input("%s does not support grouped tasks yet.", self$id)
+      }
       train = task$data(rows = train_set, cols = task$target_names)[[1L]]
       period = self$param_set$get_values()$period
       scale = mean(abs(diff(train, lag = period)), na.rm = TRUE)
@@ -111,6 +114,9 @@ MeasureRMSSE = R6Class(
   ),
   private = list(
     .score = function(prediction, task, train_set, ...) {
+      if ("keys" %in% task$properties) {
+        error_input("%s does not support grouped tasks yet.", self$id)
+      }
       train = task$data(rows = train_set, cols = task$target_names)[[1L]]
       period = self$param_set$get_values()$period
       scale = mean(diff(train, lag = period)^2, na.rm = TRUE)
