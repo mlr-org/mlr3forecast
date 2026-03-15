@@ -45,14 +45,20 @@ MeasureMDA = R6Class(
         range = c(-Inf, Inf),
         minimize = FALSE,
         packages = "mlr3forecast",
+        properties = "requires_task",
         label = "Mean Directional Accuracy",
         man = "mlr3forecast::mlr_measures_fcst.mda"
       )
     }
   ),
   private = list(
-    .score = function(prediction, ...) {
-      warning_input("%s does not support grouped tasks yet, results may be incorrect.", self$id)
+    .score = function(prediction, task, ...) {
+      if ("keys" %in% task$properties) {
+        return(score_grouped(private$.score_ungrouped, prediction, task, ...))
+      }
+      private$.score_ungrouped(prediction, task, ...)
+    },
+    .score_ungrouped = function(prediction, ...) {
       pv = self$param_set$get_values()
       penalty = pv$penalty
       reward = pv$reward
@@ -109,14 +115,20 @@ MeasureMDV = R6Class(
         range = c(-Inf, Inf),
         minimize = FALSE,
         packages = "mlr3forecast",
+        properties = "requires_task",
         label = "Mean Directional Value",
         man = "mlr3forecast::mlr_measures_fcst.mdv"
       )
     }
   ),
   private = list(
-    .score = function(prediction, ...) {
-      warning_input("%s does not support grouped tasks yet, results may be incorrect.", self$id)
+    .score = function(prediction, task, ...) {
+      if ("keys" %in% task$properties) {
+        return(score_grouped(private$.score_ungrouped, prediction, task, ...))
+      }
+      private$.score_ungrouped(prediction, task, ...)
+    },
+    .score_ungrouped = function(prediction, ...) {
       truth = prediction$truth
       response = prediction$response
 
@@ -170,14 +182,20 @@ MeasureMDPV = R6Class(
         range = c(-Inf, Inf),
         minimize = FALSE,
         packages = "mlr3forecast",
+        properties = "requires_task",
         label = "Mean Directional Percentage Value",
         man = "mlr3forecast::mlr_measures_fcst.mdpv"
       )
     }
   ),
   private = list(
-    .score = function(prediction, ...) {
-      warning_input("%s does not support grouped tasks yet, results may be incorrect.", self$id)
+    .score = function(prediction, task, ...) {
+      if ("keys" %in% task$properties) {
+        return(score_grouped(private$.score_ungrouped, prediction, task, ...))
+      }
+      private$.score_ungrouped(prediction, task, ...)
+    },
+    .score_ungrouped = function(prediction, ...) {
       truth = prediction$truth
       response = prediction$response
 

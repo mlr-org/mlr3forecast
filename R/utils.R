@@ -66,3 +66,21 @@ quantiles_to_level = function(x) {
 strsplit1 = function(x, pattern) {
   strsplit(x, pattern, fixed = TRUE)[[1L]]
 }
+
+score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
+  key_cols = task$col_roles$key
+  key_data = task$data(rows = prediction$row_ids, cols = key_cols)
+  groups = split(prediction$row_ids, key_data)
+
+  if (!is.null(train_set)) {
+    train_key_data = task$data(rows = train_set, cols = key_cols)
+    train_groups = split(train_set, train_key_data)
+  }
+
+  scores = map_dbl(names(groups), function(nm) {
+    p = prediction$clone()$filter(groups[[nm]])
+    ts = if (!is.null(train_set)) train_groups[[nm]]
+    score_fn(p, task, train_set = ts, ...)
+  })
+  mean(scores)
+}

@@ -28,14 +28,20 @@ MeasureACF1 = R6Class(
         minimize = NA,
         predict_type = "response",
         packages = "mlr3forecast",
+        properties = "requires_task",
         label = "Autocorrelation at Lag 1",
         man = "mlr3forecast::mlr_measures_fcst.acf1"
       )
     }
   ),
   private = list(
-    .score = function(prediction, ...) {
-      warning_input("%s does not support grouped tasks yet, results may be incorrect.", self$id)
+    .score = function(prediction, task, ...) {
+      if ("keys" %in% task$properties) {
+        return(score_grouped(private$.score_ungrouped, prediction, task, ...))
+      }
+      private$.score_ungrouped(prediction, task, ...)
+    },
+    .score_ungrouped = function(prediction, ...) {
       resid = prediction$truth - prediction$response
       if (length(resid) <= 1L) {
         return(NA_real_)
