@@ -52,6 +52,7 @@ MeasureMDA = R6Class(
   ),
   private = list(
     .score = function(prediction, ...) {
+      warning_input("%s does not support grouped tasks yet, results may be incorrect.", self$id)
       pv = self$param_set$get_values()
       penalty = pv$penalty
       reward = pv$reward
@@ -115,6 +116,7 @@ MeasureMDV = R6Class(
   ),
   private = list(
     .score = function(prediction, ...) {
+      warning_input("%s does not support grouped tasks yet, results may be incorrect.", self$id)
       truth = prediction$truth
       response = prediction$response
 
@@ -175,6 +177,7 @@ MeasureMDPV = R6Class(
   ),
   private = list(
     .score = function(prediction, ...) {
+      warning_input("%s does not support grouped tasks yet, results may be incorrect.", self$id)
       truth = prediction$truth
       response = prediction$response
 

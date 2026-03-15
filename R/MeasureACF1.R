@@ -35,6 +35,7 @@ MeasureACF1 = R6Class(
   ),
   private = list(
     .score = function(prediction, ...) {
+      warning_input("%s does not support grouped tasks yet, results may be incorrect.", self$id)
       resid = prediction$truth - prediction$response
       if (length(resid) <= 1L) {
         return(NA_real_)
