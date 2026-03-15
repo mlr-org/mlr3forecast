@@ -16,7 +16,7 @@ generate_newdata = function(task, n = 1L) {
   cols = c(order_col, key_cols)
   dt = task$data(cols = cols)
 
-  last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else last_rows = dt[.N]
+  last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else dt[.N]
 
   freq = task$freq %??% 1L
   newdata = last_rows[rep(seq_len(.N), each = n)]
