@@ -134,6 +134,8 @@
   : Plot for Forecast Tasks
 - [`generate_newdata()`](https://mlr3forecast.mlr-org.com/reference/generate_newdata.md)
   : Generate new data for a forecast task
+- [`partition(`*`<TaskFcst>`*`)`](https://mlr3forecast.mlr-org.com/reference/partition.TaskFcst.md)
+  : Manually Partition into Training, Test and Validation Set
 - [`read_tsf()`](https://mlr3forecast.mlr-org.com/reference/read_tsf.md)
   : Read tsf files
 - [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/reference/download_zenodo_record.md)
