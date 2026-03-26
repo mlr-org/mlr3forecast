@@ -1,4 +1,14 @@
+#' @title Manually Partition into Training, Test and Validation Set
+#'
+#' @description
+#' Creates a split of the row ids of a [Task] into a training and a test set, and optionally a validation set.
+#'
+#' @inheritParams mlr3::partition
+#'
 #' @export
+#' @examples
+#' task = tsk("airpassengers")
+#' split = partition(task, ratio = 0.8)
 partition.TaskFcst = function(task, ratio = 0.67) {
   task = task$clone(deep = TRUE)
   if (sum(ratio) >= 1) {

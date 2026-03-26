@@ -70,5 +70,6 @@ reference:
       - as_task_fcst
       - autoplot.TaskFcst
       - generate_newdata
+      - partition.TaskFcst
       - read_tsf
       - download_zenodo_record
