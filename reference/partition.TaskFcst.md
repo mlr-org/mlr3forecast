@@ -1,8 +1,8 @@
 # Manually Partition into Training, Test and Validation Set
 
 Creates a split of the row ids of a
-[mlr3::Task](https://mlr3.mlr-org.com/reference/Task.html) into a
-training and a test set, and optionally a validation set.
+[Task](https://mlr3.mlr-org.com/reference/Task.html) into a training and
+a test set, and optionally a validation set.
 
 ## Usage
 
