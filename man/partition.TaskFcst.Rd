@@ -16,7 +16,7 @@ If a 2 element vector is provided, the first element is the ratio for the traini
 The validation set will contain the remaining observations.}
 }
 \description{
-Creates a split of the row ids of a \link[mlr3:Task]{mlr3::Task} into a training and a test set, and optionally a validation set.
+Creates a split of the row ids of a \link[mlr3]{Task} into a training and a test set, and optionally a validation set.
 }
 \examples{
 task = tsk("airpassengers")
