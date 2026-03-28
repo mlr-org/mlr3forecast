@@ -1,8 +1,7 @@
-# TBATS Forecast Learner
+# Mean Forecast Learner
 
-Exponential smoothing state space model with Box-Cox transformation,
-ARMA errors, Trend and Seasonal components (TBATS) model. Calls
-[`forecast::tbats()`](https://pkg.robjhyndman.com/forecast/reference/tbats.html)
+Mean model. Calls
+[`forecast::mean_model()`](https://pkg.robjhyndman.com/forecast/reference/mean_model.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
 ## Dictionary
@@ -14,8 +13,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.tbats")
-    lrn("fcst.tbats")
+    mlr_learners$get("fcst.mean")
+    lrn("fcst.mean")
 
 ## Meta Information
 
@@ -32,26 +31,17 @@ or with the associated sugar function
 
 ## Parameters
 
-|                  |         |         |             |                       |
-|------------------|---------|---------|-------------|-----------------------|
-| Id               | Type    | Default | Levels      | Range                 |
-| use.box.cox      | logical | NULL    | TRUE, FALSE | \-                    |
-| use.trend        | logical | NULL    | TRUE, FALSE | \-                    |
-| use.damped.trend | logical | NULL    | TRUE, FALSE | \-                    |
-| seasonal.periods | untyped | NULL    |             | \-                    |
-| use.arma.errors  | logical | TRUE    | TRUE, FALSE | \-                    |
-| use.parallel     | untyped | \-      |             | \-                    |
-| num.cores        | integer | 2       |             | \\\[1, \infty)\\      |
-| bc.lower         | numeric | 0       |             | \\(-\infty, \infty)\\ |
-| bc.upper         | numeric | 1       |             | \\(-\infty, \infty)\\ |
-| biasadj          | logical | FALSE   | TRUE, FALSE | \-                    |
+|         |         |         |             |
+|---------|---------|---------|-------------|
+| Id      | Type    | Default | Levels      |
+| lambda  | untyped | NULL    |             |
+| biasadj | logical | FALSE   | TRUE, FALSE |
 
 ## References
 
-De Livera, A.M., Hyndman, R.J., Snyder &, D. R (2011). “Forecasting time
-series with complex seasonal patterns using exponential smoothing.”
-*Journal of the American Statistical Association*, **106**(496),
-1513–1527.
+Hyndman, R.J., Athanasopoulos, G. (2018). *Forecasting: principles and
+practice*, 2nd edition. OTexts, Melbourne, Australia.
+<https://OTexts.com/fpp2/>.
 
 ## See also
 
@@ -105,11 +95,11 @@ Other Learner:
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
-[`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
+[`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md),
 [`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tslm.md)
 
@@ -121,15 +111,15 @@ Other Learner:
 [`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
 [`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstTbats`
+-\> `LearnerFcstMean`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstTbats$new()`](#method-LearnerFcstTbats-new)
+- [`LearnerFcstMean$new()`](#method-LearnerFcstMean-new)
 
-- [`LearnerFcstTbats$clone()`](#method-LearnerFcstTbats-clone)
+- [`LearnerFcstMean$clone()`](#method-LearnerFcstMean-clone)
 
 Inherited methods
 
@@ -155,7 +145,7 @@ Creates a new instance of this
 
 #### Usage
 
-    LearnerFcstTbats$new()
+    LearnerFcstMean$new()
 
 ------------------------------------------------------------------------
 
@@ -165,7 +155,7 @@ The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstTbats$clone(deep = FALSE)
+    LearnerFcstMean$clone(deep = FALSE)
 
 #### Arguments
 
@@ -177,10 +167,10 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.tbats")
+learner = lrn("fcst.mean")
 print(learner)
 #> 
-#> ── <LearnerFcstTbats> (fcst.tbats): TBATS ──────────────────────────────────────
+#> ── <LearnerFcstMean> (fcst.mean): Mean ─────────────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and forecast
@@ -202,37 +192,10 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> TBATS(0, {0,0}, 1, {<12,5>})
+#> Call: forecast::mean_model(y = as.ts(task)) 
 #> 
-#> Call: forecast::tbats(y = as.ts(task))
-#> 
-#> Parameters
-#>   Lambda: 0
-#>   Alpha: 0.6705538
-#>   Beta: 0.04675065
-#>   Damping Parameter: 1
-#>   Gamma-1 Values: 0.004508484
-#>   Gamma-2 Values: 0.01178641
-#> 
-#> Seed States:
-#>               [,1]
-#>  [1,]  4.808973955
-#>  [2,] -0.006979784
-#>  [3,] -0.132575268
-#>  [4,]  0.049822202
-#>  [5,] -0.009852127
-#>  [6,]  0.007714254
-#>  [7,]  0.001576272
-#>  [8,]  0.035970508
-#>  [9,]  0.062976543
-#> [10,] -0.025967892
-#> [11,] -0.036114544
-#> [12,] -0.020072721
-#> attr(,"lambda")
-#> [1] 2.747722e-08
-#> 
-#> Sigma: 0.03474871
-#> AIC: 846.5215
+#> Mean: 213.7 
+#> Standard deviation: 71.92 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -243,5 +206,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1761.171 
+#> 45942.01 
 ```

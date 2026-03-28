@@ -439,6 +439,9 @@ prediction$score(msr("regr.rmse"))
 - [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md)
   [`LearnerFcstEts`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md)
   : ETS Forecast Learner
+- [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md)
+  [`LearnerFcstMean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md)
+  : Mean Forecast Learner
 - [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md)
   [`LearnerFcstNnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md)
   : Neural Network Forecast Learner
