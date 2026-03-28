@@ -68,6 +68,7 @@ reference:
     contents:
       - as_learner_fcst
       - as_task_fcst
+      - as.ts.TaskFcst
       - autoplot.TaskFcst
       - generate_newdata
       - partition.TaskFcst
