@@ -28,8 +28,9 @@ Imports:
 Suggests:
     distributional,
     fabletools,
-    forecast (>= 9.0.0),
+    forecast (>= 9.0.2),
     generics (>= 0.1.2),
+    prophet (>= 1.1.7),
     rpart,
     smooth (>= 4.4.0),
     testthat (>= 3.2.0),
@@ -63,6 +64,7 @@ Collate:
     'LearnerFcstEts.R'
     'LearnerFcstForecast.R'
     'LearnerFcstNnetar.R'
+    'LearnerFcstProphet.R'
     'LearnerFcstRandomWalk.R'
     'LearnerFcstSpline.R'
     'LearnerFcstTbats.R'

@@ -262,6 +262,18 @@ bibentries = c(
     pages = "187--191",
     year = "1972",
     publisher = "Taylor & Francis"
+  ),
+  taylor2018forecasting = bibentry(
+    "article",
+    title = "Forecasting at Scale",
+    author = "Taylor, Sean J. and Letham, Benjamin",
+    journal = "The American Statistician",
+    volume = "72",
+    number = "1",
+    pages = "37--45",
+    year = "2018",
+    publisher = "Taylor & Francis",
+    doi = "10.1080/00031305.2017.1380080"
   )
 )
 # nolint end
