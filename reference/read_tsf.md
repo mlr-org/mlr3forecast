@@ -18,10 +18,20 @@ read_tsf(file)
 
 ## Value
 
-([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)).
+([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
+with class `"tsf"`. If the file contains a frequency, the `"frequency"`
+attribute is set.
 
 ## References
 
 Godahewa, Rakshitha, Bergmeir, Christoph, Webb, I G, Hyndman, J R,
 Montero-Manso, Pablo (2021). “Monash time series forecasting archive.”
 *arXiv preprint arXiv:2105.06643*.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+dt = read_tsf("path/to/file.tsf")
+} # }
+```
