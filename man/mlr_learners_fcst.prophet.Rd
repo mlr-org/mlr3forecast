@@ -111,6 +111,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.ces}},
 \code{\link{mlr_learners_fcst.croston}},
 \code{\link{mlr_learners_fcst.ets}},
+\code{\link{mlr_learners_fcst.mean}},
 \code{\link{mlr_learners_fcst.nnetar}},
 \code{\link{mlr_learners_fcst.random_walk}},
 \code{\link{mlr_learners_fcst.spline}},

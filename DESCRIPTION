@@ -63,6 +63,7 @@ Collate:
     'LearnerFcstCroston.R'
     'LearnerFcstEts.R'
     'LearnerFcstForecast.R'
+    'LearnerFcstMean.R'
     'LearnerFcstNnetar.R'
     'LearnerFcstProphet.R'
     'LearnerFcstRandomWalk.R'

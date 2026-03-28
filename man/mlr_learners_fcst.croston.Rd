@@ -110,6 +110,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.bats}},
 \code{\link{mlr_learners_fcst.ces}},
 \code{\link{mlr_learners_fcst.ets}},
+\code{\link{mlr_learners_fcst.mean}},
 \code{\link{mlr_learners_fcst.nnetar}},
 \code{\link{mlr_learners_fcst.prophet}},
 \code{\link{mlr_learners_fcst.random_walk}},
