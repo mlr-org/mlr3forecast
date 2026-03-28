@@ -14,7 +14,8 @@ The Zenodo record ID.}
 The name of the dataset to download.}
 }
 \value{
-(\code{\link[data.table:data.table]{data.table::data.table()}}).
+(\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}. If the file contains a frequency, the \code{"frequency"}
+attribute is set.
 }
 \description{
 Downloads a tsf file from Zenodo using the provided record ID and dataset name.

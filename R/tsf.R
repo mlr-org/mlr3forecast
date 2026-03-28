@@ -5,12 +5,17 @@
 #'
 #' @param file (`character(1)`)\cr
 #'   The path to the TSF file.
-#' @return ([data.table::data.table()]).
+#' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency, the `"frequency"`
+#'   attribute is set.
 #'
 #' @references
 #' `r format_bib("godahewa2021monash")`
 #'
 #' @export
+#' @examples
+#' \dontrun{
+#' dt = read_tsf("path/to/file.tsf")
+#' }
 read_tsf = function(file) {
   assert_file(file, extension = "tsf")
 
@@ -100,7 +105,8 @@ read_tsf = function(file) {
 #'   The Zenodo record ID.
 #' @param dataset_name (`character(1)`)\cr
 #'   The name of the dataset to download.
-#' @return ([data.table::data.table()]).
+#' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency, the `"frequency"`
+#'   attribute is set.
 #'
 #' @references
 #' `r format_bib("godahewa2021monash")`
