@@ -10,7 +10,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![RCMD
 Check](https://github.com/mlr-org/mlr3forecast/actions/workflows/rcmdcheck.yaml/badge.svg)](https://github.com/mlr-org/mlr3forecast/actions/workflows/rcmdcheck.yaml)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/mlr3forecast)](https://CRAN.R-project.org/package=mlr3forecast)
+status](https://img.shields.io/badge/CRAN-not%20published-orange)](https://CRAN.R-project.org/package=mlr3forecast)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
@@ -160,39 +160,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 437.5155 1961-01-01
-#>        2    NA 437.4899 1961-02-01
-#>        3    NA 453.4379 1961-03-01
+#>        1    NA 437.3629 1961-01-01
+#>        2    NA 441.3288 1961-02-01
+#>        3    NA 456.6467 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 482.2173 1961-10-01
-#>       11    NA 440.7513 1961-11-01
-#>       12    NA 441.8966 1961-12-01
+#>       10    NA 477.3932 1961-10-01
+#>       11    NA 447.7766 1961-11-01
+#>       12    NA 444.5611 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 575.2289 1960-08-01
-#>      141   508 502.4025 1960-09-01
-#>      142   461 453.3136 1960-10-01
-#>      143   390 411.7272 1960-11-01
-#>      144   432 431.7336 1960-12-01
+#>      140   606 576.3468 1960-08-01
+#>      141   508 504.1615 1960-09-01
+#>      142   461 453.9902 1960-10-01
+#>      143   390 414.4783 1960-11-01
+#>      144   432 432.5528 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  17.37478
+#>  17.56518
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  47.88757
+#>   47.9691
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  26.14554
+#>  27.77535
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -216,7 +216,7 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.17144
+#>  17.69303
 ```
 
 ### Example: forecasting electricity demand
@@ -243,13 +243,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 186650.4 2015-01-01
-#>        2    NA 197599.4 2015-01-02
-#>        3    NA 190414.6 2015-01-03
+#>        1    NA 187362.0 2015-01-01
+#>        2    NA 195840.6 2015-01-02
+#>        3    NA 189705.5 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 222277.8 2015-01-12
-#>       13    NA 226352.2 2015-01-13
-#>       14    NA 226882.5 2015-01-14
+#>       12    NA 221665.8 2015-01-12
+#>       13    NA 226033.0 2015-01-13
+#>       14    NA 227405.3 2015-01-14
 ```
 
 ### Example: global forecasting
@@ -282,13 +282,13 @@ glrn = as_learner(graph %>>% flrn)$train(task)
 prediction = glrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  24574.32
+#>   25455.7
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, glrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>    109763
+#>  107346.4
 ```
 
 ### Example: global vs local forecasting
