@@ -5,11 +5,7 @@
 #' model `h` uses lags `h:(h+p-1)`, so that at prediction time only observed values are needed.
 #' Unlike [ForecastLearner], predictions do not feed back into subsequent steps (no error accumulation).
 #'
-#' Can be constructed in two ways:
-#' * **Simple**: `DirectForecaster$new(learner, lags = 1:3, horizons = 3)` -- internally builds
-#'   one graph per horizon with offset lags.
-#' * **Graph**: `DirectForecaster$new(graph, lags = 1:3, horizons = 3)` -- the graph should NOT
-#'   contain [PipeOpFcstLags]; offset lags are prepended automatically per horizon.
+#' Lag features are managed internally -- do not include [PipeOpFcstLags] in the learner or graph.
 #'
 #' @export
 #' @examples
@@ -47,7 +43,7 @@ DirectForecaster = R6::R6Class(
       private$.lags = lags
       private$.horizons = horizons
 
-      if (inherits(learner, "Graph") || inherits(learner, "PipeOp")) {
+      if (inherits(learner, c("Graph", "PipeOp"))) {
         graph = as_graph(learner, clone = TRUE)
       } else {
         assert_learner(as_learner(learner), task_type = "regr")
@@ -132,15 +128,12 @@ DirectForecaster = R6::R6Class(
       horizons = private$.horizons
       graph = private$.learner$graph
 
-      models = set_names(
-        map(horizons, function(h) {
-          offset_lags = lags + (h - 1L)
-          g = po("fcst.lags", lags = offset_lags) %>>% as_graph(graph, clone = TRUE)
-          glrn = GraphLearner$new(g, task_type = "regr")
-          glrn$train(task)
-        }),
-        horizons
-      )
+      models = map(horizons, function(h) {
+        offset_lags = lags + (h - 1L)
+        g = po("fcst.lags", lags = offset_lags) %>>% as_graph(graph, clone = TRUE)
+        glrn = GraphLearner$new(g, task_type = "regr")
+        glrn$train(task)
+      })
 
       structure(list(models = models), class = c("direct_forecaster_model", "list"))
     },
@@ -148,24 +141,24 @@ DirectForecaster = R6::R6Class(
     .predict = function(task) {
       models = self$model$models
       horizons = private$.horizons
-      H = length(horizons)
+      n_horizons = length(horizons)
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
 
       ord = task$data(cols = c(key_cols, order_cols))
-      ord[, "..row_id" := task$row_ids]
+      set(ord, j = "..row_id", value = task$row_ids)
       setorderv(ord, c(key_cols, order_cols))
 
       if (length(key_cols) > 0L) {
         preds = map(split(ord, by = key_cols, drop = TRUE), function(group) {
           row_ids = group[["..row_id"]]
-          horizon_idx = rep_len(seq_len(H), length(row_ids))
+          horizon_idx = rep_len(seq_len(n_horizons), length(row_ids))
           private$.predict_horizons(task, models, row_ids, horizon_idx)
         })
         combined = do.call(c, preds)
       } else {
         row_ids = ord[["..row_id"]]
-        horizon_idx = rep_len(seq_len(H), length(row_ids))
+        horizon_idx = rep_len(seq_len(n_horizons), length(row_ids))
         combined = private$.predict_horizons(task, models, row_ids, horizon_idx)
       }
 

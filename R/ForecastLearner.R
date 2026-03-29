@@ -135,7 +135,7 @@ ForecastLearner = R6::R6Class(
       key_cols = task$col_roles$key
 
       ord = task$data(cols = c(key_cols, order_cols))
-      ord[, "..row_id" := task$row_ids]
+      set(ord, j = "..row_id", value = task$row_ids)
       setorderv(ord, c(key_cols, order_cols))
       row_ids = ord[["..row_id"]]
       n = length(row_ids)
