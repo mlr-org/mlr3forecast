@@ -51,7 +51,6 @@ Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.3.3
 Collate:
     'DirectForecaster.R'
-    'ForecastLearner.R'
     'LearnerFcst.R'
     'zzz.R'
     'LearnerFcstAdam.R'
@@ -84,6 +83,7 @@ Collate:
     'PipeOpFcstRolling.R'
     'PipeOpFcstTsfeats.R'
     'PipeOpTargetTrafo.R'
+    'RecursiveForecaster.R'
     'ResamplingFcstCV.R'
     'ResamplingFcstHoldout.R'
     'TaskFcst.R'

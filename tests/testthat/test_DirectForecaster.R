@@ -44,7 +44,7 @@ test_that("as_learner_fcst dispatches on horizons", {
   expect_class(learner, "DirectForecaster")
 
   learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
-  expect_class(learner, "ForecastLearner")
+  expect_class(learner, "RecursiveForecaster")
 })
 
 test_that("DirectForecaster active bindings", {
