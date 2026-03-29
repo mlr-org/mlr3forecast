@@ -3,7 +3,7 @@
 #' @description
 #' Trains a separate model for each forecast horizon. For horizon `h` with base lags `1:p`,
 #' model `h` uses lags `h:(h+p-1)`, so that at prediction time only observed values are needed.
-#' Unlike [ForecastLearner], predictions do not feed back into subsequent steps (no error accumulation).
+#' Unlike [RecursiveForecaster], predictions do not feed back into subsequent steps (no error accumulation).
 #'
 #' Lag features are managed internally -- do not include [PipeOpFcstLags] in the learner or graph.
 #'

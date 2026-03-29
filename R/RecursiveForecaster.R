@@ -7,9 +7,9 @@
 #' so that lag features reflect predicted values.
 #'
 #' Can be constructed in two ways:
-#' * **Simple**: `ForecastLearner$new(learner, lags = 1:3)` -- internally builds
+#' * **Simple**: `RecursiveForecaster$new(learner, lags = 1:3)` -- internally builds
 #'   `po("fcst.lags", lags = lags) %>>% learner`.
-#' * **Graph**: `ForecastLearner$new(graph)` -- takes an arbitrary
+#' * **Graph**: `RecursiveForecaster$new(graph)` -- takes an arbitrary
 #'   [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
 #'
 #' @export
@@ -18,18 +18,18 @@
 #'
 #' # simple: learner + lags
 #' task = tsk("airpassengers")
-#' flrn = ForecastLearner$new(lrn("regr.rpart"), lags = 1:3)
+#' flrn = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
 #' split = partition(task, ratio = 0.8)
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
 #'
 #' # graph: custom preprocessing pipeline
 #' graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
-#' flrn = ForecastLearner$new(graph)
+#' flrn = RecursiveForecaster$new(graph)
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
-ForecastLearner = R6::R6Class(
-  "ForecastLearner",
+RecursiveForecaster = R6::R6Class(
+  "RecursiveForecaster",
   inherit = GraphLearner,
   public = list(
     #' @description
@@ -179,8 +179,8 @@ ForecastLearner = R6::R6Class(
 #' @title Convert to a Forecast Learner
 #'
 #' @description
-#' Creates a [ForecastLearner] (recursive strategy) or [DirectForecaster] (direct strategy).
-#' If `horizons` is provided, a [DirectForecaster] is created; otherwise a [ForecastLearner].
+#' Creates a [RecursiveForecaster] (recursive strategy) or [DirectForecaster] (direct strategy).
+#' If `horizons` is provided, a [DirectForecaster] is created; otherwise a [RecursiveForecaster].
 #'
 #' @param learner ([mlr3::Learner] | [mlr3pipelines::Graph] | [mlr3pipelines::PipeOp])\cr
 #'   A regression learner (when `lags` is provided) or a graph/PipeOp.
@@ -190,8 +190,8 @@ ForecastLearner = R6::R6Class(
 #'   If provided, creates a [DirectForecaster] with one model per horizon.
 #'   A single integer `H` is expanded to `1:H`.
 #' @param ... (any)\cr
-#'   Additional arguments passed to [ForecastLearner] or [DirectForecaster].
-#' @return [ForecastLearner] or [DirectForecaster].
+#'   Additional arguments passed to [RecursiveForecaster] or [DirectForecaster].
+#' @return [RecursiveForecaster] or [DirectForecaster].
 #' @export
 #' @examples
 #' library(mlr3pipelines)
@@ -209,6 +209,6 @@ as_learner_fcst = function(learner, lags = NULL, horizons = NULL, ...) {
   if (!is.null(horizons)) {
     DirectForecaster$new(learner, lags = lags, horizons = horizons, ...)
   } else {
-    ForecastLearner$new(learner, lags = lags, ...)
+    RecursiveForecaster$new(learner, lags = lags, ...)
   }
 }

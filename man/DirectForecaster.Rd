@@ -6,7 +6,7 @@
 \description{
 Trains a separate model for each forecast horizon. For horizon \code{h} with base lags \code{1:p},
 model \code{h} uses lags \code{h:(h+p-1)}, so that at prediction time only observed values are needed.
-Unlike \link{ForecastLearner}, predictions do not feed back into subsequent steps (no error accumulation).
+Unlike \link{RecursiveForecaster}, predictions do not feed back into subsequent steps (no error accumulation).
 
 Lag features are managed internally -- do not include \link{PipeOpFcstLags} in the learner or graph.
 }
