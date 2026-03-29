@@ -4,14 +4,17 @@
 \alias{as_learner_fcst}
 \title{Convert to a Forecast Learner}
 \usage{
-as_learner_fcst(learner, lags)
+as_learner_fcst(learner, lags = NULL, ...)
 }
 \arguments{
-\item{learner}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-The regression learner to wrap.}
+\item{learner}{(\link[mlr3:Learner]{mlr3::Learner} | \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp})\cr
+A regression learner (when \code{lags} is provided) or a graph/PipeOp.}
 
-\item{lags}{(\code{integer()})\cr
+\item{lags}{(\code{integer()} | \code{NULL})\cr
 The lag values to use for creating lag features.}
+
+\item{...}{(any)\cr
+Additional arguments passed to \link{ForecastLearner}.}
 }
 \value{
 \link{ForecastLearner}.

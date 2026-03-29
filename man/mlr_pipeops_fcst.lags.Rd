@@ -31,6 +31,7 @@ new_task$head()
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-PipeOpFcstLags-new}{\code{PipeOpFcstLags$new()}}
+\item \href{#method-PipeOpFcstLags-update_history}{\code{PipeOpFcstLags$update_history()}}
 \item \href{#method-PipeOpFcstLags-clone}{\code{PipeOpFcstLags$clone()}}
 }
 }
@@ -62,6 +63,26 @@ Identifier of resulting object, default \code{"fcst.lags"}.}
 \item{\code{param_vals}}{(named \code{list()})\cr
 List of hyperparameter settings, overwriting the hyperparameter settings that would
 otherwise be set during construction. Default \code{list()}.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-PipeOpFcstLags-update_history"></a>}}
+\if{latex}{\out{\hypertarget{method-PipeOpFcstLags-update_history}{}}}
+\subsection{Method \code{update_history()}}{
+Update the stored history with a new row. Used during iterative one-step-ahead forecasting
+to feed predicted values back as lag features for the next step.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{PipeOpFcstLags$update_history(new_row)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{new_row}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+A single-row data.table containing the target (set to the predicted value),
+order columns, and key columns.}
 }
 \if{html}{\out{</div>}}
 }

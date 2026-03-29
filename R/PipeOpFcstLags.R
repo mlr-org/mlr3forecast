@@ -41,6 +41,16 @@ PipeOpFcstLags = R6Class(
         feature_types = c("numeric", "integer", "Date", "factor"), # NOTE: this filters based on features
         tags = "fcst"
       )
+    },
+
+    #' @description
+    #' Update the stored history with a new row. Used during iterative one-step-ahead forecasting
+    #' to feed predicted values back as lag features for the next step.
+    #' @param new_row ([data.table::data.table()])\cr
+    #'   A single-row data.table containing the target (set to the predicted value),
+    #'   order columns, and key columns.
+    update_history = function(new_row) {
+      self$state$history = rbindlist(list(self$state$history, new_row), use.names = TRUE, fill = TRUE)
     }
   ),
 
@@ -66,7 +76,7 @@ PipeOpFcstLags = R6Class(
         setorderv(dt, order_cols)
         dt[, (lag_cols) := shift(get(target), lags)]
       }
-      task$select(task$feature_names)$cbind(dt)
+      task$select(task$feature_names)$cbind(dt[, lag_cols, with = FALSE])
     },
 
     .predict_task = function(task) {
@@ -92,7 +102,7 @@ PipeOpFcstLags = R6Class(
       }
       combined = na.omit(combined, cols = "row_id")
       set(combined, j = "row_id", value = NULL)
-      task$select(task$feature_names)$cbind(combined)
+      task$select(task$feature_names)$cbind(combined[, lag_cols, with = FALSE])
     }
   )
 )
