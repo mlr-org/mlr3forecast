@@ -13,6 +13,21 @@
 #'   [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
 #'
 #' @export
+#' @examples
+#' library(mlr3pipelines)
+#'
+#' # simple: learner + lags
+#' task = tsk("airpassengers")
+#' flrn = ForecastLearner$new(lrn("regr.rpart"), lags = 1:3)
+#' split = partition(task, ratio = 0.8)
+#' flrn$train(task, split$train)
+#' flrn$predict(task, split$test)
+#'
+#' # graph: custom preprocessing pipeline
+#' graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
+#' flrn = ForecastLearner$new(graph)
+#' flrn$train(task, split$train)
+#' flrn$predict(task, split$test)
 ForecastLearner = R6::R6Class(
   "ForecastLearner",
   inherit = GraphLearner,
@@ -178,6 +193,18 @@ ForecastLearner = R6::R6Class(
 #'   Additional arguments passed to [ForecastLearner] or [DirectForecaster].
 #' @return [ForecastLearner] or [DirectForecaster].
 #' @export
+#' @examples
+#' library(mlr3pipelines)
+#'
+#' # recursive forecasting (default)
+#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
+#'
+#' # recursive with a custom graph
+#' graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
+#' flrn = as_learner_fcst(graph)
+#'
+#' # direct forecasting (one model per horizon)
+#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 3)
 as_learner_fcst = function(learner, lags = NULL, horizons = NULL, ...) {
   if (!is.null(horizons)) {
     DirectForecaster$new(learner, lags = lags, horizons = horizons, ...)

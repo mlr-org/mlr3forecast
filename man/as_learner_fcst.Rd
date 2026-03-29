@@ -27,3 +27,16 @@ Additional arguments passed to \link{ForecastLearner} or \link{DirectForecaster}
 Creates a \link{ForecastLearner} (recursive strategy) or \link{DirectForecaster} (direct strategy).
 If \code{horizons} is provided, a \link{DirectForecaster} is created; otherwise a \link{ForecastLearner}.
 }
+\examples{
+library(mlr3pipelines)
+
+# recursive forecasting (default)
+flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
+
+# recursive with a custom graph
+graph = po("fcst.lags", lags = 1:3) \%>>\% lrn("regr.rpart")
+flrn = as_learner_fcst(graph)
+
+# direct forecasting (one model per horizon)
+flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+}
