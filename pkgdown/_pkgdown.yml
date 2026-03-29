@@ -49,7 +49,6 @@ reference:
     contents:
       - LearnerFcst
       - ForecastLearner
-      - ForecastLearnerManual
       - starts_with("mlr_learners")
   - title: Tasks
     contents:
@@ -64,6 +63,9 @@ reference:
   - title: Pipeline Operators
     contents:
       - starts_with("mlr_pipeops")
+  - title: Selectors
+    contents:
+      - selector_fcst_lags
   - title: Helper
     contents:
       - as_learner_fcst

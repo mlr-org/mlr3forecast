@@ -4,22 +4,30 @@
 \alias{ForecastLearner}
 \title{Encapsulate a Learner as a Forecast Learner}
 \description{
-The \link{ForecastLearner} wraps a \link[mlr3:Learner]{mlr3::Learner}.
+A \link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner} subclass for iterative one-step-ahead forecasting.
+Training is fully delegated to the graph, while prediction iterates row by row,
+updating PipeOps that implement the \code{update_history()} method (e.g., \link{PipeOpFcstLags})
+so that lag features reflect predicted values.
+
+Can be constructed in two ways:
+\itemize{
+\item \strong{Simple}: \code{ForecastLearner$new(learner, lags = 1:3)} -- internally builds
+\code{po("fcst.lags", lags = lags) \%>>\% learner}.
+\item \strong{Graph}: \code{ForecastLearner$new(graph)} -- takes an arbitrary
+\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
 }
-\section{Super class}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{ForecastLearner}
+}
+\section{Super classes}{
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}} -> \code{ForecastLearner}
 }
 \section{Active bindings}{
 \if{html}{\out{<div class="r6-active-bindings">}}
 \describe{
 \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-The wrapped learner.}
+The base regression learner.}
 
-\item{\code{lags}}{(\code{integer()})\cr
-The lags to create.}
-
-\item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
+\item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
+The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
 }
 \if{html}{\out{</div>}}
 }
@@ -34,7 +42,6 @@ Set of hyperparameters.}
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href='../../mlr3/html/Learner.html#method-Learner-configure'><code>mlr3::Learner$configure()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
@@ -42,8 +49,17 @@ Set of hyperparameters.}
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href='../../mlr3/html/Learner.html#method-Learner-selected_features'><code>mlr3::Learner$selected_features()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="base_learner"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-base_learner'><code>mlr3pipelines::GraphLearner$base_learner()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="ids"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-ids'><code>mlr3pipelines::GraphLearner$ids()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="importance"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-importance'><code>mlr3pipelines::GraphLearner$importance()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="loglik"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-loglik'><code>mlr3pipelines::GraphLearner$loglik()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="marshal"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-marshal'><code>mlr3pipelines::GraphLearner$marshal()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="oob_error"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-oob_error'><code>mlr3pipelines::GraphLearner$oob_error()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="plot"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-plot'><code>mlr3pipelines::GraphLearner$plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="predict_newdata_fast"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-predict_newdata_fast'><code>mlr3pipelines::GraphLearner$predict_newdata_fast()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="selected_features"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-selected_features'><code>mlr3pipelines::GraphLearner$selected_features()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="unmarshal"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-unmarshal'><code>mlr3pipelines::GraphLearner$unmarshal()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -53,17 +69,38 @@ Set of hyperparameters.}
 \subsection{Method \code{new()}}{
 Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ForecastLearner$new(learner, lags)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ForecastLearner$new(
+  learner,
+  lags = NULL,
+  id = NULL,
+  param_vals = list(),
+  predict_type = NULL,
+  clone_graph = TRUE
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-The regression learner to wrap.}
+\item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner} | \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp})\cr
+A regression learner (when \code{lags} is provided) or a graph/PipeOp.}
 
-\item{\code{lags}}{(\code{integer()})\cr
-The lag values to use for creating lag features.}
+\item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
+The lag values to use for creating lag features. If provided, \code{learner} is wrapped with
+\code{po("fcst.lags", lags = lags)}. If \code{NULL}, \code{learner} must be a \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or
+\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.}
+
+\item{\code{id}}{(\code{character(1)} | \code{NULL})\cr
+Identifier, default \code{NULL} (auto-generated).}
+
+\item{\code{param_vals}}{(named \code{list()})\cr
+List of hyperparameter settings.}
+
+\item{\code{predict_type}}{(\code{character(1)} | \code{NULL})\cr
+The predict type, default \code{NULL}.}
+
+\item{\code{clone_graph}}{(\code{logical(1)})\cr
+Whether to clone the graph, default \code{TRUE}.}
 }
 \if{html}{\out{</div>}}
 }

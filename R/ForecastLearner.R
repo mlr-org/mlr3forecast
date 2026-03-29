@@ -1,33 +1,70 @@
 #' @title Encapsulate a Learner as a Forecast Learner
 #'
 #' @description
-#' The [ForecastLearner] wraps a [mlr3::Learner].
+#' A [mlr3pipelines::GraphLearner] subclass for iterative one-step-ahead forecasting.
+#' Training is fully delegated to the graph, while prediction iterates row by row,
+#' updating PipeOps that implement the `update_history()` method (e.g., [PipeOpFcstLags])
+#' so that lag features reflect predicted values.
+#'
+#' Can be constructed in two ways:
+#' * **Simple**: `ForecastLearner$new(learner, lags = 1:3)` -- internally builds
+#'   `po("fcst.lags", lags = lags) %>>% learner`.
+#' * **Graph**: `ForecastLearner$new(graph)` -- takes an arbitrary
+#'   [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
 #'
 #' @export
 ForecastLearner = R6::R6Class(
   "ForecastLearner",
-  inherit = Learner,
+  inherit = GraphLearner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
-    #' @param learner ([mlr3::Learner])\cr
-    #'   The regression learner to wrap.
-    #' @param lags (`integer()`)\cr
-    #'   The lag values to use for creating lag features.
-    initialize = function(learner, lags) {
-      private$.learner = assert_learner(as_learner(learner, clone = TRUE), task_type = "regr")
-      private$.lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
+    #' @param learner ([mlr3::Learner] | [mlr3pipelines::Graph] | [mlr3pipelines::PipeOp])\cr
+    #'   A regression learner (when `lags` is provided) or a graph/PipeOp.
+    #' @param lags (`integer()` | `NULL`)\cr
+    #'   The lag values to use for creating lag features. If provided, `learner` is wrapped with
+    #'   `po("fcst.lags", lags = lags)`. If `NULL`, `learner` must be a [mlr3pipelines::Graph] or
+    #'   [mlr3pipelines::PipeOp].
+    #' @param id (`character(1)` | `NULL`)\cr
+    #'   Identifier, default `NULL` (auto-generated).
+    #' @param param_vals (named `list()`)\cr
+    #'   List of hyperparameter settings.
+    #' @param predict_type (`character(1)` | `NULL`)\cr
+    #'   The predict type, default `NULL`.
+    #' @param clone_graph (`logical(1)`)\cr
+    #'   Whether to clone the graph, default `TRUE`.
+    initialize = function(
+      learner,
+      lags = NULL,
+      id = NULL,
+      param_vals = list(),
+      predict_type = NULL,
+      clone_graph = TRUE
+    ) {
+      if (!is.null(lags)) {
+        assert_learner(as_learner(learner), task_type = "regr")
+        lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
+        graph = po("fcst.lags", lags = lags) %>>% as_learner(learner, clone = TRUE)
+      } else {
+        graph = learner
+      }
 
       super$initialize(
-        id = learner$id,
+        graph = graph,
+        id = id,
+        param_vals = param_vals,
         task_type = "regr",
-        param_set = learner$param_set,
-        predict_types = learner$predict_types,
-        feature_types = learner$feature_types,
-        properties = learner$properties,
-        packages = c("mlr3forecast", learner$packages),
-        man = learner$man
+        predict_type = predict_type,
+        clone_graph = clone_graph
       )
+
+      has_iterative = any(map_lgl(
+        self$graph$pipeops,
+        function(po) exists("update_history", envir = po, inherits = FALSE)
+      ))
+      if (!has_iterative) {
+        warning_input("Graph contains no PipeOps with iterative forecasting support (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting.")
+      }
     },
 
     #' @description
@@ -35,147 +72,103 @@ ForecastLearner = R6::R6Class(
     #' @param ... (ignored).
     print = function() {
       super$print()
-      cat_cli(cli::cli_li("Lags: {self$lags}"))
+      lags = self$lags
+      if (!is.null(lags)) {
+        cat_cli(cli::cli_li("Lags: {lags}"))
+      }
     }
   ),
 
   active = list(
     #' @field learner ([mlr3::Learner])\cr
-    #' The wrapped learner.
+    #' The base regression learner.
     learner = function(rhs) {
       assert_ro_binding(rhs)
-      private$.learner
+      self$base_learner()
     },
 
-    #' @field lags (`integer()`)\cr
-    #' The lags to create.
+    #' @field lags (`integer()` | `NULL`)\cr
+    #' The lags used, or `NULL` if no [PipeOpFcstLags] is in the graph.
     lags = function(rhs) {
       assert_ro_binding(rhs)
-      private$.lags
-    },
-
-    #' @template field_param_set
-    param_set = function(rhs) {
-      param_set = self$learner$param_set
-      if (!missing(rhs) && !identical(rhs, param_set)) {
-        error_input("param_set is read-only.")
+      lag_po = private$.find_lag_po()
+      if (is.null(lag_po)) {
+        return(NULL)
       }
-      param_set
+      lag_po$param_set$get_values()$lags
     }
   ),
 
   private = list(
-    .learner = NULL,
-    .lags = NULL,
-    .history = NULL,
-
-    .train = function(task) {
-      if (max(self$lags) >= task$nrow) {
-        error_input("Not enough data to create the required lags.")
-      }
-
-      col_roles = task$col_roles
-      target = col_roles$target
-      order_cols = col_roles$order
-      key_cols = col_roles$key
-      private$.history = task$view(ordered = TRUE)
-      lagged = private$.lag_transform(private$.history, target, order_cols, key_cols)
-      if (order_cols %nin% col_roles$feature) {
-        set(lagged, j = order_cols, value = NULL)
-      }
-      new_task = as_task_regr(lagged, target = target)
-      learner = self$learner$clone(deep = TRUE)$train(new_task)
-      structure(list(learner = learner), class = c("forecast_learner_model", "list"))
-    },
-
     .predict = function(task) {
-      if (length(task$col_roles$key) > 0L) {
-        private$.predict_global(task)
-      } else {
-        private$.predict_local(task)
-      }
-    },
+      on.exit({
+        self$graph$state = NULL
+      })
+      self$graph$state = self$model
 
-    .predict_local = function(task) {
+      iterative_pos = keep(self$graph$pipeops, function(po) exists("update_history", envir = po, inherits = FALSE))
+
+      if (length(iterative_pos) == 0L) {
+        prediction = self$graph$predict(task)
+        return(prediction[[1L]])
+      }
+
       target = task$target_names
       order_cols = task$col_roles$order
-      newdata = task$view(ordered = TRUE)
-      history = private$.history[!newdata, on = order_cols]
-      window = tail(history, max(self$lags))
+      key_cols = task$col_roles$key
 
-      preds = vector("list", nrow(newdata))
-      for (i in seq_len(nrow(newdata))) {
-        window = rbind(window, newdata[i])
-        lagged = private$.lag_transform(window, target, order_cols)
-        pred = self$model$learner$predict_newdata(lagged[.N])
-        set(window, i = nrow(window), j = target, value = pred$response)
-        window = window[-1L]
-        preds[[i]] = pred
-      }
-      preds = do.call(c, preds)
-      preds$data = insert_named(
-        preds$data,
-        list(row_ids = task$row_ids, extra = as.list(newdata[, order_cols, with = FALSE]))
-      )
-      preds
-    },
+      ord = task$data(cols = c(key_cols, order_cols))
+      ord[, "..row_id" := task$row_ids]
+      setorderv(ord, c(key_cols, order_cols))
+      row_ids = ord[["..row_id"]]
+      n = length(row_ids)
 
-    .predict_global = function(task) {
-      target = task$target_names
-      col_roles = task$col_roles
-      order_cols = col_roles$order
-      key_cols = col_roles$key
-      history = private$.history
-      max_lag = max(self$lags)
+      single_task = task$clone()
+      preds = vector("list", n)
+      for (i in seq_len(n)) {
+        single_task$row_roles$use = row_ids[i]
 
-      preds = map(split(task$view(ordered = TRUE), by = key_cols, drop = TRUE), function(newdata) {
-        key_history = history[newdata[1L, key_cols, with = FALSE], on = key_cols, nomatch = NULL]
-        key_history = key_history[!newdata, on = order_cols]
-        window = tail(key_history, max_lag)
+        prediction = self$graph$predict(single_task)
+        preds[[i]] = prediction[[1L]]
 
-        preds = vector("list", nrow(newdata))
-        for (i in seq_len(nrow(newdata))) {
-          window = rbind(window, newdata[i])
-          lagged = private$.lag_transform(window, target, order_cols, key_cols)
-          pred = self$model$learner$predict_newdata(lagged[.N])
-          set(window, i = nrow(window), j = target, value = pred$response)
-          window = window[-1L]
-          preds[[i]] = pred
+        new_row = task$data(rows = row_ids[i], cols = c(target, order_cols, key_cols))
+        set(new_row, j = target, value = prediction[[1L]]$response)
+        for (po in iterative_pos) {
+          po$update_history(new_row)
         }
-        do.call(c, preds)
-      })
-      preds = do.call(c, preds)
-      preds$data = insert_named(
-        preds$data,
-        list(row_ids = task$row_ids, extra = as.list(task$data(cols = c(key_cols, order_cols))))
+      }
+
+      combined = do.call(c, preds)
+      combined$data = insert_named(
+        combined$data,
+        list(row_ids = row_ids, extra = as.list(task$data(cols = c(key_cols, order_cols))))
       )
-      preds
+      combined
     },
 
-    .lag_transform = function(dt, target, order_cols, key_cols = NULL) {
-      lags = self$lags
-      lag_cols = sprintf("%s_lag_%i", target, lags)
-      dt = copy(dt)
-      if (length(key_cols) > 0L) {
-        setorderv(dt, c(key_cols, order_cols))
-        dt[, (lag_cols) := shift(get(target), lags), by = key_cols]
-      } else {
-        setorderv(dt, order_cols)
-        dt[, (lag_cols) := shift(get(target), lags)]
+    .find_lag_po = function() {
+      lag_po_id = detect(
+        names(self$graph$pipeops),
+        function(id) inherits(self$graph$pipeops[[id]], "PipeOpFcstLags")
+      )
+      if (is.null(lag_po_id)) {
+        return(NULL)
       }
-      dt
+      self$graph$pipeops[[lag_po_id]]
     }
   )
 )
 
 #' @title Convert to a Forecast Learner
 #'
-#' @param learner ([mlr3::Learner])\cr
-#'   The regression learner to wrap.
-#' @param lags (`integer()`)\cr
+#' @param learner ([mlr3::Learner] | [mlr3pipelines::Graph] | [mlr3pipelines::PipeOp])\cr
+#'   A regression learner (when `lags` is provided) or a graph/PipeOp.
+#' @param lags (`integer()` | `NULL`)\cr
 #'   The lag values to use for creating lag features.
+#' @param ... (any)\cr
+#'   Additional arguments passed to [ForecastLearner].
 #' @return [ForecastLearner].
 #' @export
-as_learner_fcst = function(learner, lags) {
-  ForecastLearner$new(learner, lags)
+as_learner_fcst = function(learner, lags = NULL, ...) {
+  ForecastLearner$new(learner, lags = lags, ...)
 }

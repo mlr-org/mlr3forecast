@@ -49,7 +49,6 @@ Roxygen: list(markdown = TRUE, r6 = TRUE)
 RoxygenNote: 7.3.3
 Collate:
     'ForecastLearner.R'
-    'ForecastLearnerManual.R'
     'LearnerFcst.R'
     'zzz.R'
     'LearnerFcstAdam.R'
@@ -94,5 +93,6 @@ Collate:
     'helper_data_table.R'
     'partition.R'
     'reexports.R'
+    'selector.R'
     'tsf.R'
     'utils.R'
