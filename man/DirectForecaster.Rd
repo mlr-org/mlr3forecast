@@ -8,13 +8,7 @@ Trains a separate model for each forecast horizon. For horizon \code{h} with bas
 model \code{h} uses lags \code{h:(h+p-1)}, so that at prediction time only observed values are needed.
 Unlike \link{ForecastLearner}, predictions do not feed back into subsequent steps (no error accumulation).
 
-Can be constructed in two ways:
-\itemize{
-\item \strong{Simple}: \code{DirectForecaster$new(learner, lags = 1:3, horizons = 3)} -- internally builds
-one graph per horizon with offset lags.
-\item \strong{Graph}: \code{DirectForecaster$new(graph, lags = 1:3, horizons = 3)} -- the graph should NOT
-contain \link{PipeOpFcstLags}; offset lags are prepended automatically per horizon.
-}
+Lag features are managed internally -- do not include \link{PipeOpFcstLags} in the learner or graph.
 }
 \examples{
 library(mlr3pipelines)
