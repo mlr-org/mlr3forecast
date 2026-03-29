@@ -63,7 +63,9 @@ ForecastLearner = R6::R6Class(
         function(po) exists("update_history", envir = po, inherits = FALSE)
       ))
       if (!has_iterative) {
-        warning_input("Graph contains no PipeOps with iterative forecasting support (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting.")
+        warning_input(
+          "Graph contains no PipeOps with iterative forecasting support (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting."
+        )
       }
     },
 
@@ -161,14 +163,25 @@ ForecastLearner = R6::R6Class(
 
 #' @title Convert to a Forecast Learner
 #'
+#' @description
+#' Creates a [ForecastLearner] (recursive strategy) or [DirectForecaster] (direct strategy).
+#' If `horizons` is provided, a [DirectForecaster] is created; otherwise a [ForecastLearner].
+#'
 #' @param learner ([mlr3::Learner] | [mlr3pipelines::Graph] | [mlr3pipelines::PipeOp])\cr
 #'   A regression learner (when `lags` is provided) or a graph/PipeOp.
 #' @param lags (`integer()` | `NULL`)\cr
 #'   The lag values to use for creating lag features.
+#' @param horizons (`integer(1)` | `integer()` | `NULL`)\cr
+#'   If provided, creates a [DirectForecaster] with one model per horizon.
+#'   A single integer `H` is expanded to `1:H`.
 #' @param ... (any)\cr
-#'   Additional arguments passed to [ForecastLearner].
-#' @return [ForecastLearner].
+#'   Additional arguments passed to [ForecastLearner] or [DirectForecaster].
+#' @return [ForecastLearner] or [DirectForecaster].
 #' @export
-as_learner_fcst = function(learner, lags = NULL, ...) {
-  ForecastLearner$new(learner, lags = lags, ...)
+as_learner_fcst = function(learner, lags = NULL, horizons = NULL, ...) {
+  if (!is.null(horizons)) {
+    DirectForecaster$new(learner, lags = lags, horizons = horizons, ...)
+  } else {
+    ForecastLearner$new(learner, lags = lags, ...)
+  }
 }
