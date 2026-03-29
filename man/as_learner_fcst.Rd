@@ -4,7 +4,7 @@
 \alias{as_learner_fcst}
 \title{Convert to a Forecast Learner}
 \usage{
-as_learner_fcst(learner, lags = NULL, ...)
+as_learner_fcst(learner, lags = NULL, horizons = NULL, ...)
 }
 \arguments{
 \item{learner}{(\link[mlr3:Learner]{mlr3::Learner} | \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp})\cr
@@ -13,12 +13,17 @@ A regression learner (when \code{lags} is provided) or a graph/PipeOp.}
 \item{lags}{(\code{integer()} | \code{NULL})\cr
 The lag values to use for creating lag features.}
 
+\item{horizons}{(\code{integer(1)} | \code{integer()} | \code{NULL})\cr
+If provided, creates a \link{DirectForecaster} with one model per horizon.
+A single integer \code{H} is expanded to \code{1:H}.}
+
 \item{...}{(any)\cr
-Additional arguments passed to \link{ForecastLearner}.}
+Additional arguments passed to \link{ForecastLearner} or \link{DirectForecaster}.}
 }
 \value{
-\link{ForecastLearner}.
+\link{ForecastLearner} or \link{DirectForecaster}.
 }
 \description{
-Convert to a Forecast Learner
+Creates a \link{ForecastLearner} (recursive strategy) or \link{DirectForecaster} (direct strategy).
+If \code{horizons} is provided, a \link{DirectForecaster} is created; otherwise a \link{ForecastLearner}.
 }

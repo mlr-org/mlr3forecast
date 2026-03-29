@@ -49,6 +49,7 @@ reference:
     contents:
       - LearnerFcst
       - ForecastLearner
+      - DirectForecaster
       - starts_with("mlr_learners")
   - title: Tasks
     contents:
