@@ -12,6 +12,20 @@
 #'   contain [PipeOpFcstLags]; offset lags are prepended automatically per horizon.
 #'
 #' @export
+#' @examples
+#' library(mlr3pipelines)
+#'
+#' # simple: one model per horizon
+#' task = tsk("airpassengers")
+#' flrn = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+#' split = partition(task, ratio = 0.8)
+#' flrn$train(task, split$train)
+#' flrn$predict(task, split$test)
+#'
+#' # or use as_learner_fcst with horizons argument
+#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+#' flrn$train(task, split$train)
+#' flrn$predict(task, split$test)
 DirectForecaster = R6::R6Class(
   "DirectForecaster",
   inherit = Learner,

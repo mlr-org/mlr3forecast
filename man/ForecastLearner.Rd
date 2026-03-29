@@ -17,6 +17,22 @@ Can be constructed in two ways:
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
 }
 }
+\examples{
+library(mlr3pipelines)
+
+# simple: learner + lags
+task = tsk("airpassengers")
+flrn = ForecastLearner$new(lrn("regr.rpart"), lags = 1:3)
+split = partition(task, ratio = 0.8)
+flrn$train(task, split$train)
+flrn$predict(task, split$test)
+
+# graph: custom preprocessing pipeline
+graph = po("fcst.lags", lags = 1:3) \%>>\% lrn("regr.rpart")
+flrn = ForecastLearner$new(graph)
+flrn$train(task, split$train)
+flrn$predict(task, split$test)
+}
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}} -> \code{ForecastLearner}
 }
