@@ -21,20 +21,21 @@ lrn("fcst.tscount")
 
 \itemize{
 \item Task type: \dQuote{fcst}
-\item Predict Types: \dQuote{response}
+\item Predict Types: \dQuote{response}, \dQuote{quantiles}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}, \CRANpkg{tscount}
 }
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   past_obs \tab untyped \tab NULL \tab  \cr
-   past_mean \tab untyped \tab NULL \tab  \cr
-   external \tab untyped \tab FALSE \tab  \cr
-   link \tab character \tab identity \tab identity, log \cr
-   distr \tab character \tab poisson \tab poisson, nbinom \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   past_obs \tab untyped \tab NULL \tab  \tab - \cr
+   past_mean \tab untyped \tab NULL \tab  \tab - \cr
+   external \tab untyped \tab FALSE \tab  \tab - \cr
+   link \tab character \tab identity \tab identity, log \tab - \cr
+   distr \tab character \tab poisson \tab poisson, nbinom \tab - \cr
+   B \tab integer \tab 1000 \tab  \tab \eqn{[10, \infty)}{[10, Inf)} \cr
 }
 }
 
