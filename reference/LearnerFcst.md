@@ -85,6 +85,7 @@ Other Learner:
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md),
+[`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tscount.md),
 [`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tslm.md)
 
 ## Super classes
@@ -257,7 +258,7 @@ names(lrns)
 #>  [5] "fcst.auto_arima"  "fcst.auto_ces"    "fcst.bats"        "fcst.ces"        
 #>  [9] "fcst.croston"     "fcst.ets"         "fcst.mean"        "fcst.nnetar"     
 #> [13] "fcst.prophet"     "fcst.random_walk" "fcst.spline"      "fcst.tbats"      
-#> [17] "fcst.theta"       "fcst.tslm"       
+#> [17] "fcst.theta"       "fcst.tscount"     "fcst.tslm"       
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("fcst.ets")
@@ -271,7 +272,7 @@ mlr_learners$get("fcst.ets")
 #> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless and missings
-#> • Other settings: use_weights = 'error'
+#> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 lrn("fcst.auto_arima")
 #> 
 #> ── <LearnerFcstAutoArima> (fcst.auto_arima): Auto ARIMA ────────────────────────
@@ -282,5 +283,5 @@ lrn("fcst.auto_arima")
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties: exogenous, featureless, and missings
-#> • Other settings: use_weights = 'error'
+#> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 ```

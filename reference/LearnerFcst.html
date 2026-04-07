@@ -117,6 +117,7 @@ for established default tuning spaces.</p></li>
 <code><a href="mlr_learners_fcst.spline.html">mlr_learners_fcst.spline</a></code>,
 <code><a href="mlr_learners_fcst.tbats.html">mlr_learners_fcst.tbats</a></code>,
 <code><a href="mlr_learners_fcst.theta.html">mlr_learners_fcst.theta</a></code>,
+<code><a href="mlr_learners_fcst.tscount.html">mlr_learners_fcst.tscount</a></code>,
 <code><a href="mlr_learners_fcst.tslm.html">mlr_learners_fcst.tslm</a></code></p></div>
     </div>
     <div class="section level2">
@@ -251,7 +252,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [5] "fcst.auto_arima"  "fcst.auto_ces"    "fcst.bats"        "fcst.ces"        </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [9] "fcst.croston"     "fcst.ets"         "fcst.mean"        "fcst.nnetar"     </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [13] "fcst.prophet"     "fcst.random_walk" "fcst.spline"      "fcst.tbats"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "fcst.theta"       "fcst.tslm"       </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [17] "fcst.theta"       "fcst.tscount"     "fcst.tslm"       </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># get a specific learner from mlr_learners:</span></span></span>
 <span class="r-in"><span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"fcst.ets"</span><span class="op">)</span></span></span>
@@ -265,7 +266,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> POSIXct, and Date</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: featureless and missings</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'error'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'error', predict_raw = 'FALSE'</span>
 <span class="r-in"><span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"fcst.auto_arima"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;LearnerFcstAutoArima&gt;</span><span style="font-weight: bold;"> (fcst.auto_arima): Auto ARIMA</span> <span style="color: #00BBBB;">────────────────────────</span></span>
@@ -276,7 +277,7 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Feature Types: logical, integer, and numeric</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: exogenous, featureless, and missings</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'error'</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'error', predict_raw = 'FALSE'</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
