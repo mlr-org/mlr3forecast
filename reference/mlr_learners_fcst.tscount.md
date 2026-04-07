@@ -30,14 +30,15 @@ or with the associated sugar function
 
 ## Parameters
 
-|           |           |          |                 |
-|-----------|-----------|----------|-----------------|
-| Id        | Type      | Default  | Levels          |
-| past_obs  | untyped   | NULL     |                 |
-| past_mean | untyped   | NULL     |                 |
-| external  | untyped   | FALSE    |                 |
-| link      | character | identity | identity, log   |
-| distr     | character | poisson  | poisson, nbinom |
+|           |           |          |                 |                   |
+|-----------|-----------|----------|-----------------|-------------------|
+| Id        | Type      | Default  | Levels          | Range             |
+| past_obs  | untyped   | NULL     |                 | \-                |
+| past_mean | untyped   | NULL     |                 | \-                |
+| external  | untyped   | FALSE    |                 | \-                |
+| link      | character | identity | identity, log   | \-                |
+| distr     | character | poisson  | poisson, nbinom | \-                |
+| B         | integer   | 1000     |                 | \\\[10, \infty)\\ |
 
 ## References
 
