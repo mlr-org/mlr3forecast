@@ -34,6 +34,7 @@ Suggests:
     rpart,
     smooth (>= 4.4.0),
     testthat (>= 3.2.0),
+    tscount (>= 1.4.3),
     tsbox,
     tsibble,
     tsibbledata,
@@ -70,6 +71,7 @@ Collate:
     'LearnerFcstSpline.R'
     'LearnerFcstTbats.R'
     'LearnerFcstTheta.R'
+    'LearnerFcstTscount.R'
     'LearnerFcstTslm.R'
     'MeasureACF1.R'
     'MeasureCoverage.R'

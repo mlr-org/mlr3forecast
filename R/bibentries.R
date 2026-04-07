@@ -263,6 +263,17 @@ bibentries = c(
     year = "1972",
     publisher = "Taylor & Francis"
   ),
+  liboschik2017tscount = bibentry(
+    "article",
+    title = "tscount: An R Package for Analysis of Count Time Series Following Generalized Linear Models",
+    author = "Liboschik, Tobias and Fokianos, Konstantinos and Fried, Roland",
+    journal = "Journal of Statistical Software",
+    volume = "82",
+    number = "5",
+    pages = "1--51",
+    year = "2017",
+    doi = "10.18637/jss.v082.i05"
+  ),
   taylor2018forecasting = bibentry(
     "article",
     title = "Forecasting at Scale",

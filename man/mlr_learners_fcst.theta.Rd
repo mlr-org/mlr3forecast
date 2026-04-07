@@ -109,6 +109,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.random_walk}},
 \code{\link{mlr_learners_fcst.spline}},
 \code{\link{mlr_learners_fcst.tbats}},
+\code{\link{mlr_learners_fcst.tscount}},
 \code{\link{mlr_learners_fcst.tslm}}
 }
 \concept{Learner}
