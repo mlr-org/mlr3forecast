@@ -131,9 +131,15 @@
 - [`mlr_pipeops_fcst.lags`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md)
   [`PipeOpFcstLags`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md)
   : Create Lags of Target Variable
+- [`mlr_pipeops_fcst.rolling`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.md)
+  [`PipeOpFcstRolling`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.md)
+  : Create Rolling Window Features of Target Variable
 - [`mlr_pipeops_fcst.targetdiff`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetdiff.md)
   [`PipeOpTargetTrafoDifference`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetdiff.md)
   : Difference the Target Variable
+- [`mlr_pipeops_fcst.tsfeats`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md)
+  [`PipeOpFcstTsfeats`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md)
+  : Time Series Feature Extraction
 
 ## Helper
 

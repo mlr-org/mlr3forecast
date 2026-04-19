@@ -45,7 +45,9 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetdiff.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_fcst.cv.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_fcst.holdout.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_tasks_airpassengers.html</loc></url>
