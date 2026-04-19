@@ -22,10 +22,7 @@ PipeOpTargetTrafoDifference = R6Class(
     .get_state = function(task) {
       lag = self$param_set$get_values(tags = "train")$lag
       target = task$data(cols = task$target_names)[[1L]]
-      list(
-        head = target[lag],
-        tail = tail(target, lag)
-      )
+      list(tail = tail(target, lag))
     },
 
     .transform = function(task, phase) {
@@ -49,13 +46,10 @@ PipeOpTargetTrafoDifference = R6Class(
     },
 
     .invert = function(prediction, predict_phase_state) {
-      .NotYetImplemented()
-      response = self$state$head + cumsum(prediction$response)
-      PredictionRegr$new(
-        row_ids = prediction$row_ids,
-        truth = predict_phase_state$truth,
-        response = response
-      )
+      lag = self$param_set$get_values(tags = "train")$lag
+      inverted = stats::diffinv(prediction$response, lag = lag, xi = self$state$tail)
+      inverted = inverted[-seq_len(lag)]
+      PredictionRegr$new(row_ids = prediction$row_ids, truth = predict_phase_state$truth, response = inverted)
     }
   )
 )
