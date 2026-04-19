@@ -82,8 +82,30 @@ freq_to_int = function(freq) {
   )
 }
 
-predict_forecast = function(learner, task, h = 12L) {
-  learner = assert_learner(as_learner(learner))
+#' @title Forecast from a Trained Learner
+#'
+#' @description
+#' Generates `h` future rows from the task's skeleton (using [generate_newdata()]), optionally
+#' overlays user-supplied `newdata` onto those rows, and predicts with the trained learner via
+#' [mlr3::Learner]`$predict_newdata()`. Works with [RecursiveForecaster], [DirectForecaster],
+#' and classic `LearnerFcst*` forecasters.
+#'
+#' @param object ([mlr3::Learner])\cr
+#'   A trained forecast learner.
+#' @param task ([TaskFcst])\cr
+#'   The task used for training (or compatible; used to infer frequency, order, and keys).
+#' @param h (`integer(1)`)\cr
+#'   Forecast horizon — number of future time steps per key.
+#' @param newdata ([data.frame()] | `NULL`)\cr
+#'   Optional exogenous features for future rows. Must contain the order column (and any key
+#'   columns for keyed tasks). Columns other than those are overlaid onto the generated skeleton.
+#' @param ... (any)\cr
+#'   Ignored.
+#' @return [mlr3::Prediction].
+#' @export
+forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
+  assert_learner(object)
+  task = assert_task(as_task_fcst(task), task_type = "fcst")
   h = assert_count(h, positive = TRUE, coerce = TRUE)
 
   generated = generate_newdata(task, h)

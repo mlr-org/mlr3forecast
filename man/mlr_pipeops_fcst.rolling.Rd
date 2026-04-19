@@ -31,7 +31,7 @@ new_task = po$train(list(task))[[1L]]
 new_task$head()
 }
 \section{Super classes}{
-\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{mlr3forecast::PipeOpFcstIterative} -> \code{PipeOpFcstRolling}
+\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{\link[mlr3forecast:PipeOpFcstIterative]{mlr3forecast::PipeOpFcstIterative}} -> \code{PipeOpFcstRolling}
 }
 \section{Methods}{
 \subsection{Public methods}{

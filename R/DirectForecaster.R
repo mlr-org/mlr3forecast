@@ -141,7 +141,6 @@ DirectForecaster = R6::R6Class(
     .predict = function(task) {
       models = self$model$models
       horizons = private$.horizons
-      n_horizons = length(horizons)
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
 
@@ -149,17 +148,29 @@ DirectForecaster = R6::R6Class(
       set(ord, j = "..row_id", value = task$row_ids)
       setorderv(ord, c(key_cols, order_cols))
 
+      assign_horizons = function(row_ids) {
+        steps = seq_along(row_ids)
+        idx = match(steps, horizons)
+        if (anyNA(idx)) {
+          bad = steps[is.na(idx)]
+          stopf(
+            "Test set extends to step(s) %s which were not trained (horizons: %s).",
+            toString(bad),
+            toString(horizons)
+          )
+        }
+        idx
+      }
+
       if (length(key_cols) > 0L) {
         preds = map(split(ord, by = key_cols, drop = TRUE), function(group) {
           row_ids = group[["..row_id"]]
-          horizon_idx = rep_len(seq_len(n_horizons), length(row_ids))
-          private$.predict_horizons(task, models, row_ids, horizon_idx)
+          private$.predict_horizons(task, models, row_ids, assign_horizons(row_ids))
         })
         combined = do.call(c, preds)
       } else {
         row_ids = ord[["..row_id"]]
-        horizon_idx = rep_len(seq_len(n_horizons), length(row_ids))
-        combined = private$.predict_horizons(task, models, row_ids, horizon_idx)
+        combined = private$.predict_horizons(task, models, row_ids, assign_horizons(row_ids))
       }
 
       combined$data = insert_named(

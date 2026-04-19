@@ -1,8 +1,12 @@
 test_that("DirectForecaster basic train/predict works", {
   task = tsk("airpassengers")
-  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
-
   split = partition(task, ratio = 0.8)
+  learner = DirectForecaster$new(
+    lrn("regr.rpart"),
+    lags = 1:3,
+    horizons = length(split$test)
+  )
+
   learner$train(task, split$train)
   prediction = learner$predict(task, split$test)
 
@@ -12,9 +16,13 @@ test_that("DirectForecaster basic train/predict works", {
 
 test_that("DirectForecaster predictions differ across horizons", {
   task = tsk("airpassengers")
-  learner = DirectForecaster$new(lrn("regr.rpart", minsplit = 2L, cp = 0), lags = 1:3, horizons = 3)
-
   split = partition(task, ratio = 0.8)
+  learner = DirectForecaster$new(
+    lrn("regr.rpart", minsplit = 2L, cp = 0),
+    lags = 1:3,
+    horizons = length(split$test)
+  )
+
   learner$train(task, split$train)
   prediction = learner$predict(task, split$test)
 
@@ -24,14 +32,26 @@ test_that("DirectForecaster predictions differ across horizons", {
 test_that("DirectForecaster works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")
-  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+  split = partition(task, ratio = 0.99)
+  key = task$col_roles$key
+  test_dt = task$data(rows = split$test, cols = c(key, task$col_roles$order))
+  test_dt[, "..step" := seq_len(.N), by = key]
+  max_step = max(test_dt[["..step"]])
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = max_step)
 
-  split = partition(task, ratio = 0.8)
   learner$train(task, split$train)
   prediction = learner$predict(task, split$test)
 
   expect_class(prediction, "PredictionRegr")
   expect_length(prediction$response, length(split$test))
+})
+
+test_that("DirectForecaster errors when test extends past trained horizons", {
+  task = tsk("airpassengers")
+  split = partition(task, ratio = 0.8)
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 2)
+  learner$train(task, split$train)
+  expect_error(learner$predict(task, split$test), "not trained")
 })
 
 test_that("DirectForecaster scalar horizon expands to 1:H", {
