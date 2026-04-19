@@ -63,6 +63,7 @@ reference:
       - starts_with("mlr_resamplings")
   - title: Pipeline Operators
     contents:
+      - PipeOpFcstIterative
       - starts_with("mlr_pipeops")
   - title: Selectors
     contents:

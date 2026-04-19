@@ -31,13 +31,12 @@ new_task = po$train(list(task))[[1L]]
 new_task$head()
 }
 \section{Super classes}{
-\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{PipeOpFcstRolling}
+\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{mlr3forecast::PipeOpFcstIterative} -> \code{PipeOpFcstRolling}
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-PipeOpFcstRolling-new}{\code{PipeOpFcstRolling$new()}}
-\item \href{#method-PipeOpFcstRolling-update_history}{\code{PipeOpFcstRolling$update_history()}}
 \item \href{#method-PipeOpFcstRolling-clone}{\code{PipeOpFcstRolling$clone()}}
 }
 }
@@ -48,6 +47,7 @@ new_task$head()
 <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-predict'><code>mlr3pipelines::PipeOp$predict()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-print'><code>mlr3pipelines::PipeOp$print()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-train'><code>mlr3pipelines::PipeOp$train()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="mlr3forecast" data-topic="PipeOpFcstIterative" data-id="update_history"><a href='../../mlr3forecast/html/PipeOpFcstIterative.html#method-PipeOpFcstIterative-update_history'><code>mlr3forecast::PipeOpFcstIterative$update_history()</code></a></span></li>
 </ul>
 </details>
 }}
@@ -69,26 +69,6 @@ Identifier of resulting object, default \code{"fcst.rolling"}.}
 \item{\code{param_vals}}{(named \code{list()})\cr
 List of hyperparameter settings, overwriting the hyperparameter settings that would
 otherwise be set during construction. Default \code{list()}.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PipeOpFcstRolling-update_history"></a>}}
-\if{latex}{\out{\hypertarget{method-PipeOpFcstRolling-update_history}{}}}
-\subsection{Method \code{update_history()}}{
-Update the stored history with a new row. Used during iterative one-step-ahead forecasting
-so that rolling-window features reflect predicted values.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpFcstRolling$update_history(new_row)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{new_row}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-A single-row data.table containing the target (set to the predicted value),
-order columns, and key columns.}
 }
 \if{html}{\out{</div>}}
 }

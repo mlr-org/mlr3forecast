@@ -79,6 +79,7 @@ Collate:
     'MeasureMPE.R'
     'MeasureScaled.R'
     'MeasureWinkler.R'
+    'PipeOpFcstIterative.R'
     'PipeOpFcstLags.R'
     'PipeOpFcstRolling.R'
     'PipeOpFcstTsfeats.R'

@@ -82,7 +82,7 @@ RecursiveForecaster = R6::R6Class(
 
       has_iterative = any(map_lgl(
         self$graph$pipeops,
-        function(po) exists("update_history", envir = po, inherits = FALSE)
+        function(po) inherits(po, "PipeOpFcstIterative")
       ))
       if (!has_iterative) {
         warning_input(
@@ -130,7 +130,7 @@ RecursiveForecaster = R6::R6Class(
       })
       self$graph$state = self$model
 
-      iterative_pos = keep(self$graph$pipeops, function(po) exists("update_history", envir = po, inherits = FALSE))
+      iterative_pos = keep(self$graph$pipeops, function(po) inherits(po, "PipeOpFcstIterative"))
 
       if (length(iterative_pos) == 0L) {
         prediction = self$graph$predict(task)
