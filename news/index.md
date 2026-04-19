@@ -1,5 +1,5 @@
 # Changelog
 
-## mlr3forecast 0.0.1
+## mlr3forecast 0.1.0
 
 - Initial CRAN submission.

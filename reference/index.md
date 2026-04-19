@@ -131,6 +131,9 @@
 - [`mlr_pipeops_fcst.lags`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md)
   [`PipeOpFcstLags`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md)
   : Create Lags of Target Variable
+- [`mlr_pipeops_fcst.targetdiff`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetdiff.md)
+  [`PipeOpTargetTrafoDifference`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetdiff.md)
+  : Difference the Target Variable
 
 ## Helper
 
