@@ -20,4 +20,3 @@ test_that("PipeOpFcstRolling works with keyed task", {
   expect_true(any(grepl("_roll_mean_3$", out$feature_names)))
   expect_equal(out$nrow, task$nrow)
 })
-
