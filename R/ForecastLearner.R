@@ -104,7 +104,7 @@ ForecastLearner = R6::R6Class(
       window = tail(history, max(self$lags))
 
       preds = vector("list", nrow(newdata))
-      for (i in seq_len(nrow(newdata))) {
+      for (i in seq_row(newdata)) {
         window = rbind(window, newdata[i])
         lagged = private$.lag_transform(window, target, order_cols)
         pred = self$model$learner$predict_newdata(lagged[.N])
@@ -134,7 +134,7 @@ ForecastLearner = R6::R6Class(
         window = tail(key_history, max_lag)
 
         preds = vector("list", nrow(newdata))
-        for (i in seq_len(nrow(newdata))) {
+        for (i in seq_row(newdata)) {
           window = rbind(window, newdata[i])
           lagged = private$.lag_transform(window, target, order_cols, key_cols)
           pred = self$model$learner$predict_newdata(lagged[.N])
