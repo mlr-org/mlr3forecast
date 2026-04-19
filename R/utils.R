@@ -56,23 +56,30 @@ infer_freq = function(order) {
 
 #' @export
 as.ts.TaskFcst = function(x, ..., freq = NULL) {
-  freq = freq %??% x$freq %??% 1L
-  if (is.character(freq)) {
-    # fmt: skip
-    freq = switch(
-      freq,
-      `1 sec` = , sec = , secs = 60L,
-      `1 min` = , min = , mins = 1440L,
-      `1 hour` = , hour = , hours = 24L,
-      `1 day` = , day = , days = 365.25,
-      `1 week` = , week = , weeks = 52.18,
-      `1 month` = , month = , months = 12L,
-      `3 months` = , `1 quarter` = , quarter = , quarters = 4L,
-      `1 year` = , year = , years = 1L,
-      1L
-    )
-  }
+  freq = freq_to_int(freq %??% x$freq)
   stats::ts(x$truth(), freq = freq)
+}
+
+freq_to_int = function(freq) {
+  if (is.null(freq)) {
+    return(1L)
+  }
+  if (!is.character(freq)) {
+    return(freq)
+  }
+  # fmt: skip
+  switch(
+    freq,
+    `1 sec` = , sec = , secs = 60L,
+    `1 min` = , min = , mins = 1440L,
+    `1 hour` = , hour = , hours = 24L,
+    `1 day` = , day = , days = 365.25,
+    `1 week` = , week = , weeks = 52.18,
+    `1 month` = , month = , months = 12L,
+    `3 months` = , `1 quarter` = , quarter = , quarters = 4L,
+    `1 year` = , year = , years = 1L,
+    1L
+  )
 }
 
 predict_forecast = function(learner, task, h = 12L) {

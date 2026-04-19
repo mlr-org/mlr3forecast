@@ -81,7 +81,7 @@ PipeOpFcstTsfeats = R6Class(
     .train_task = function(task) {
       target = task$target_names
       key_cols = task$col_roles$key
-      freq = fcst_freq_int(task)
+      freq = freq_to_int(task$freq)
 
       if (length(key_cols) > 0L) {
         dt = task$data(cols = c(target, key_cols))
@@ -124,26 +124,6 @@ PipeOpFcstTsfeats = R6Class(
     }
   )
 )
-
-fcst_freq_int = function(task) {
-  freq = task$freq %??% 1L
-  if (!is.character(freq)) {
-    return(freq)
-  }
-  # fmt: skip
-  switch(
-    freq,
-    `1 sec` = , sec = , secs = 60L,
-    `1 min` = , min = , mins = 1440L,
-    `1 hour` = , hour = , hours = 24L,
-    `1 day` = , day = , days = 365.25,
-    `1 week` = , week = , weeks = 52.18,
-    `1 month` = , month = , months = 12L,
-    `3 months` = , `1 quarter` = , quarter = , quarters = 4L,
-    `1 year` = , year = , years = 1L,
-    1L
-  )
-}
 
 #' @include zzz.R
 register_po("fcst.tsfeats", PipeOpFcstTsfeats)

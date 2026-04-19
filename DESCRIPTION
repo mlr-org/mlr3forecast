@@ -82,6 +82,7 @@ Collate:
     'MeasureWinkler.R'
     'PipeOpFcstLags.R'
     'PipeOpFcstRolling.R'
+    'PipeOpFcstTsfeats.R'
     'PipeOpTargetTrafo.R'
     'ResamplingFcstCV.R'
     'ResamplingFcstHoldout.R'
