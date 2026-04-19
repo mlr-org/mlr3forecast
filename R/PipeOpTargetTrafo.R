@@ -1,7 +1,29 @@
+#' @title Difference the Target Variable
+#' @name mlr_pipeops_fcst.targetdiff
+#'
+#' @description
+#' Differences the target variable with lag `lag`, producing the new target `y'_t = y_t - y_{t - lag}`. The first `lag`
+#' rows are dropped during training. Predictions are inverted via stride-`lag` cumulative sums anchored at the last
+#' `lag` training values, yielding original-scale predictions.
+#'
+#' Use `lag = 1` to remove a trend and `lag = 12` (or the seasonal period) to remove seasonality.
+#'
+#' @section Parameters:
+#' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTargetTrafo], as well as the following:
+#' * `lag` :: `integer(1)`\cr
+#'   Lag to difference at. Default `1L`.
+#'
+#' @export
 PipeOpTargetTrafoDifference = R6Class(
   "PipeOpTargetTrafoDifference",
   inherit = PipeOpTargetTrafo,
   public = list(
+    #' @description Initializes a new instance of this Class.
+    #' @param id (`character(1)`)\cr
+    #'   Identifier of resulting object, default `"fcst.targetdiff"`.
+    #' @param param_vals (named `list()`)\cr
+    #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
+    #'   otherwise be set during construction. Default `list()`.
     initialize = function(id = "fcst.targetdiff", param_vals = list()) {
       param_set = ps(
         lag = p_int(1L, tags = c("train", "required"))
@@ -31,17 +53,12 @@ PipeOpTargetTrafoDifference = R6Class(
       if (phase == "predict") {
         x = c(self$state$tail, x)
       }
-      new_target = diff(x, lag = lag)
-      new_target = as.data.table(new_target)
+      new_target = as.data.table(diff(x, lag = lag))
       setnames(new_target, paste0(task$target_names, ".diff"))
-      # TODO: check if there is a better approach
       if (phase == "train") {
-        row_ids = task$row_ids
-        row_ids = row_ids[(1L + lag):length(row_ids)]
-        task$filter(row_ids)
+        task$filter(tail(task$row_ids, -lag))
       }
       task$cbind(new_target)
-      # TODO: check difference to task$rename, difference seems to be in backend logic
       convert_task(task, target = names(new_target), drop_original_target = TRUE)
     },
 
