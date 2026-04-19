@@ -85,8 +85,20 @@ freq_to_int = function(freq) {
 predict_forecast = function(learner, task, h = 12L) {
   learner = assert_learner(as_learner(learner))
   h = assert_count(h, positive = TRUE, coerce = TRUE)
-  newdata = generate_newdata(task, h)
-  learner$predict_newdata(newdata, task)
+
+  generated = generate_newdata(task, h)
+  if (!is.null(newdata)) {
+    newdata = as.data.table(newdata)
+    by_cols = intersect(c(task$col_roles$order, task$col_roles$key), names(newdata))
+    if (length(by_cols) == 0L) {
+      error_input("`newdata` must contain the order column and any key columns of `task`.")
+    }
+    overlay_cols = setdiff(names(newdata), by_cols)
+    for (col in overlay_cols) {
+      generated[newdata, on = by_cols, (col) := mget(paste0("i.", col))]
+    }
+  }
+  object$predict_newdata(generated, task)
 }
 
 quantiles_to_level = function(x) {

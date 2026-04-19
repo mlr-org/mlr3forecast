@@ -57,6 +57,16 @@ PipeOpFcstRolling = R6Class(
         feature_types = c("numeric", "integer", "Date", "factor"),
         tags = "fcst"
       )
+    },
+
+    #' @description
+    #' Update the stored history with a new row. Used during iterative one-step-ahead forecasting
+    #' so that rolling-window features reflect predicted values.
+    #' @param new_row ([data.table::data.table()])\cr
+    #'   A single-row data.table containing the target (set to the predicted value),
+    #'   order columns, and key columns.
+    update_history = function(new_row) {
+      self$state$history = fcst_history_append(self$state$history, new_row)
     }
   ),
 
