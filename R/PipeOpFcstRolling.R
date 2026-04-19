@@ -118,9 +118,17 @@ PipeOpFcstRolling = R6Class(
 )
 
 fcst_rolls = function(x, spec) {
+  rolls = list(
+    mean = data.table::frollmean,
+    median = data.table::frollmedian,
+    sd = data.table::frollsd,
+    min = data.table::frollmin,
+    max = data.table::frollmax,
+    sum = data.table::frollsum
+  )
   shifted = shift(x, n = spec$lag)
   map(seq_along(spec$fun), function(i) {
-    invoke(match.fun(paste0("froll", spec$fun[i])), x = shifted, n = spec$size[i])
+    invoke(rolls[[spec$fun[i]]], x = shifted, n = spec$size[i])
   })
 }
 
