@@ -18,7 +18,7 @@ generate_newdata = function(task, n = 1L) {
 
   last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else dt[.N]
 
-  freq = task$freq %??% 1L
+  freq = task$freq %??% infer_freq(dt[[order_col]])
   newdata = last_rows[rep(seq_len(.N), each = n)]
   if (length(key_cols) > 0L) {
     newdata[, (order_col) := seq(get(order_col)[1L], length.out = n + 1L, by = freq)[-1L], by = key_cols]
@@ -28,6 +28,30 @@ generate_newdata = function(task, n = 1L) {
 
   set(newdata, j = task$target_names, value = NA_real_)
   newdata
+}
+
+infer_freq = function(order) {
+  if (!inherits(order, c("Date", "POSIXct", "POSIXlt")) || length(order) < 2L) {
+    return(1L)
+  }
+  p = as.numeric(stats::median(diff(as.POSIXct(order))), units = "secs")
+  if (p < 60) {
+    "sec"
+  } else if (p < 3600) {
+    "min"
+  } else if (p < 86400) {
+    "hour"
+  } else if (p == 86400) {
+    "day"
+  } else if (p <= 604800) {
+    "week"
+  } else if (p <= 2678400) {
+    "month"
+  } else if (p <= 7948800) {
+    "quarter"
+  } else {
+    "year"
+  }
 }
 
 #' @export
