@@ -85,9 +85,9 @@ PipeOpFcstTsfeats = R6Class(
 
       if (length(key_cols) > 0L) {
         dt = task$data(cols = c(target, key_cols))
-        tslist = split(dt[[target]], dt[, key_cols, with = FALSE], drop = TRUE)
-        tslist = map(tslist, function(x) stats::ts(x, frequency = freq))
-        keys = unique(dt[, key_cols, with = FALSE])
+        ts_dt = dt[, list(.ts = list(stats::ts(get(target), frequency = freq))), by = key_cols]
+        tslist = ts_dt$.ts
+        keys = ts_dt[, !".ts"]
       } else {
         tslist = list(stats::ts(task$data(cols = target)[[1L]], frequency = freq))
         keys = NULL
@@ -100,26 +100,27 @@ PipeOpFcstTsfeats = R6Class(
         feats = cbind(keys, feats)
       }
       self$state = list(features = feats, key_cols = key_cols)
-      private$.broadcast(task, feats, key_cols)
+      feat_cols = setdiff(names(feats), key_cols)
+      if (length(key_cols) > 0L) {
+        joined = feats[task$data(cols = key_cols), on = key_cols]
+        task$select(task$feature_names)$cbind(joined[, feat_cols, with = FALSE])
+      } else {
+        task$select(task$feature_names)$cbind(feats[rep(1L, task$nrow)])
+      }
     },
 
     .predict_task = function(task) {
       feats = self$state$features
       key_cols = self$state$key_cols
-      private$.broadcast(task, feats, key_cols)
-    },
-
-    .broadcast = function(task, feats, key_cols) {
       feat_cols = setdiff(names(feats), key_cols)
       if (length(key_cols) > 0L) {
         joined = feats[task$data(cols = key_cols), on = key_cols]
-        if (anyNA(joined[[feat_cols[1L]]])) {
+        if (anyMissing(joined[[feat_cols[1L]]])) {
           error_input("PipeOpFcstTsfeats: some keys were not seen during training.")
         }
         task$select(task$feature_names)$cbind(joined[, feat_cols, with = FALSE])
       } else {
-        broadcast = feats[rep(1L, task$nrow)]
-        task$select(task$feature_names)$cbind(broadcast)
+        task$select(task$feature_names)$cbind(feats[rep(1L, task$nrow)])
       }
     }
   )
