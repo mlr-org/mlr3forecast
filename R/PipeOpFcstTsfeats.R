@@ -55,12 +55,12 @@ PipeOpFcstTsfeats = R6Class(
         ),
         scale = p_lgl(default = TRUE, tags = "train"),
         trim = p_lgl(default = FALSE, tags = "train"),
-        trim_amount = p_dbl(lower = 0, default = 0.1, tags = "train", depends = quote(trim == TRUE)),
+        trim_amount = p_dbl(lower = 0, default = 0.1, tags = "train", depends = quote(trim == TRUE)), # nolint
         parallel = p_lgl(default = FALSE, tags = "train"),
         multiprocess = p_uty(
           default = future::multisession,
           tags = "train",
-          depends = quote(parallel == TRUE),
+          depends = quote(parallel == TRUE), # nolint
           custom_check = check_function
         ),
         na.action = p_uty(default = stats::na.pass, tags = "train", custom_check = check_function)
