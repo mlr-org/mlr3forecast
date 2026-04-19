@@ -12,6 +12,13 @@
 #' * **Graph**: `RecursiveForecaster$new(graph)` -- takes an arbitrary
 #'   [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
 #'
+#' @section Limitations:
+#' Target transformations (e.g. [mlr_pipeops_fcst.targetdiff], [mlr3pipelines::PipeOpTargetMutate])
+#' are currently **not supported** in combination with `RecursiveForecaster`. The iterative
+#' update feeds the inverted (original-scale) prediction back into lag history, which is stored
+#' in the transformed scale -- yielding a scale mismatch. Use [DirectForecaster] or a plain
+#' [mlr3pipelines::GraphLearner] with `ppl("targettrafo", ...)` if you need target trafos.
+#'
 #' @export
 #' @examples
 #' library(mlr3pipelines)

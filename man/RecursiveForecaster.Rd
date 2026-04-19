@@ -17,6 +17,15 @@ Can be constructed in two ways:
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
 }
 }
+\section{Limitations}{
+
+Target transformations (e.g. \link{mlr_pipeops_fcst.targetdiff}, \link[mlr3pipelines:mlr_pipeops_targetmutate]{mlr3pipelines::PipeOpTargetMutate})
+are currently \strong{not supported} in combination with \code{RecursiveForecaster}. The iterative
+update feeds the inverted (original-scale) prediction back into lag history, which is stored
+in the transformed scale -- yielding a scale mismatch. Use \link{DirectForecaster} or a plain
+\link[mlr3pipelines:mlr_learners_graph]{mlr3pipelines::GraphLearner} with \code{ppl("targettrafo", ...)} if you need target trafos.
+}
+
 \examples{
 library(mlr3pipelines)
 
