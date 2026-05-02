@@ -39,7 +39,7 @@ task$truth()
 }
 }
 
-Other Task: 
+Other Task:
 \code{\link{mlr_tasks_airpassengers}},
 \code{\link{mlr_tasks_electricity}},
 \code{\link{mlr_tasks_livestock}},
@@ -51,12 +51,12 @@ Other Task:
 \code{\link[mlr3:Task]{mlr3::Task}} -> \code{\link[mlr3:TaskSupervised]{mlr3::TaskSupervised}} -> \code{\link[mlr3:TaskRegr]{mlr3::TaskRegr}} -> \code{TaskFcst}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 The frequency of the time series.}
 
-\item{\code{properties}}{(\code{character()})\cr
+    \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.
 Possible properties are stored in \link[mlr3:mlr_reflections]{mlr_reflections$task_properties}.
 The following properties are currently standardized and understood by tasks in \CRANpkg{mlr3}:
@@ -70,14 +70,14 @@ The following properties are currently standardized and understood by tasks in \
 
 Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
 
-\item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
+    \item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with two columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
 \item \code{order} (\code{Date()} | \code{POSIXct()} | \code{integer()} | \code{numeric()}).
 }}
 
-\item{\code{key}}{(\code{\link[data.table:data.table]{data.table::data.table()}} | \code{NULL})\cr
+    \item{\code{key}}{(\code{\link[data.table:data.table]{data.table::data.table()}} | \code{NULL})\cr
 If the task has a column with designated role \code{"key"}, a table with two or more columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
@@ -86,52 +86,51 @@ If the task has a column with designated role \code{"key"}, a table with two or 
 
 If there is only one key column, it will be named as \code{key}.
 Returns \code{NULL} if there are no key columns.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-TaskFcst-new}{\code{TaskFcst$new()}}
-\item \href{#method-TaskFcst-view}{\code{TaskFcst$view()}}
-\item \href{#method-TaskFcst-print}{\code{TaskFcst$print()}}
-\item \href{#method-TaskFcst-clone}{\code{TaskFcst$clone()}}
+  \itemize{
+    \item \href{#method-TaskFcst-initialize}{\code{TaskFcst$new()}}
+    \item \href{#method-TaskFcst-view}{\code{TaskFcst$view()}}
+    \item \href{#method-TaskFcst-print}{\code{TaskFcst$print()}}
+    \item \href{#method-TaskFcst-clone}{\code{TaskFcst$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href='../../mlr3/html/Task.html#method-Task-add_strata'><code>mlr3::Task$add_strata()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-Task-cbind'><code>mlr3::Task$cbind()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-Task-data'><code>mlr3::Task$data()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="divide"><a href='../../mlr3/html/Task.html#method-Task-divide'><code>mlr3::Task$divide()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href='../../mlr3/html/Task.html#method-Task-droplevels'><code>mlr3::Task$droplevels()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-Task-filter'><code>mlr3::Task$filter()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-Task-format'><code>mlr3::Task$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-Task-formula'><code>mlr3::Task$formula()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href='../../mlr3/html/Task.html#method-Task-head'><code>mlr3::Task$head()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-Task-help'><code>mlr3::Task$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-Task-levels'><code>mlr3::Task$levels()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="materialize_view"><a href='../../mlr3/html/Task.html#method-Task-materialize_view'><code>mlr3::Task$materialize_view()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-Task-missings'><code>mlr3::Task$missings()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href='../../mlr3/html/Task.html#method-Task-rbind'><code>mlr3::Task$rbind()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-Task-rename'><code>mlr3::Task$rename()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href='../../mlr3/html/Task.html#method-Task-select'><code>mlr3::Task$select()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href='../../mlr3/html/Task.html#method-Task-set_col_roles'><code>mlr3::Task$set_col_roles()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href='../../mlr3/html/Task.html#method-Task-set_levels'><code>mlr3::Task$set_levels()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href='../../mlr3/html/Task.html#method-Task-set_row_roles'><code>mlr3::Task$set_row_roles()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskRegr" data-id="truth"><a href='../../mlr3/html/TaskRegr.html#method-TaskRegr-truth'><code>mlr3::TaskRegr$truth()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="add_strata"><a href='../../mlr3/html/Task.html#method-Task-add_strata'><code>mlr3::Task$add_strata()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="cbind"><a href='../../mlr3/html/Task.html#method-Task-cbind'><code>mlr3::Task$cbind()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="data"><a href='../../mlr3/html/Task.html#method-Task-data'><code>mlr3::Task$data()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="divide"><a href='../../mlr3/html/Task.html#method-Task-divide'><code>mlr3::Task$divide()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="droplevels"><a href='../../mlr3/html/Task.html#method-Task-droplevels'><code>mlr3::Task$droplevels()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="filter"><a href='../../mlr3/html/Task.html#method-Task-filter'><code>mlr3::Task$filter()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="format"><a href='../../mlr3/html/Task.html#method-Task-format'><code>mlr3::Task$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="formula"><a href='../../mlr3/html/Task.html#method-Task-formula'><code>mlr3::Task$formula()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="head"><a href='../../mlr3/html/Task.html#method-Task-head'><code>mlr3::Task$head()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="help"><a href='../../mlr3/html/Task.html#method-Task-help'><code>mlr3::Task$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="levels"><a href='../../mlr3/html/Task.html#method-Task-levels'><code>mlr3::Task$levels()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="materialize_view"><a href='../../mlr3/html/Task.html#method-Task-materialize_view'><code>mlr3::Task$materialize_view()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="missings"><a href='../../mlr3/html/Task.html#method-Task-missings'><code>mlr3::Task$missings()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rbind"><a href='../../mlr3/html/Task.html#method-Task-rbind'><code>mlr3::Task$rbind()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="rename"><a href='../../mlr3/html/Task.html#method-Task-rename'><code>mlr3::Task$rename()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="select"><a href='../../mlr3/html/Task.html#method-Task-select'><code>mlr3::Task$select()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_col_roles"><a href='../../mlr3/html/Task.html#method-Task-set_col_roles'><code>mlr3::Task$set_col_roles()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_levels"><a href='../../mlr3/html/Task.html#method-Task-set_levels'><code>mlr3::Task$set_levels()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Task" data-id="set_row_roles"><a href='../../mlr3/html/Task.html#method-Task-set_row_roles'><code>mlr3::Task$set_row_roles()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="TaskRegr" data-id="truth"><a href='../../mlr3/html/TaskRegr.html#method-TaskRegr-truth'><code>mlr3::TaskRegr$truth()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-TaskFcst-new"></a>}}
-\if{latex}{\out{\hypertarget{method-TaskFcst-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
+\if{html}{\out{<a id="method-TaskFcst-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-TaskFcst-initialize}{}}}
+\subsection{\code{TaskFcst$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
 The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative way to construct forecast tasks.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$new(
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskFcst$new(
   id,
   backend,
   target,
@@ -140,48 +139,42 @@ The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative
   freq = NULL,
   label = NA_character_,
   extra_args = list()
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{id}}{(\code{character(1)})\cr
 Identifier for the new instance.}
-
-\item{\code{backend}}{(\link[mlr3:DataBackend]{mlr3::DataBackend})\cr
+      \item{\code{backend}}{(\link[mlr3:DataBackend]{mlr3::DataBackend})\cr
 Either a \link[mlr3:DataBackend]{mlr3::DataBackend}, or any object which is convertible to a \link[mlr3:DataBackend]{mlr3::DataBackend} with \code{as_data_backend()}.
 E.g., a \code{data.frame()} will be converted to a \link[mlr3:DataBackendDataTable]{mlr3::DataBackendDataTable}.}
-
-\item{\code{target}}{(\code{character(1)})\cr
+      \item{\code{target}}{(\code{character(1)})\cr
 Name of the target column.}
-
-\item{\code{order}}{(\code{character(1)})\cr
+      \item{\code{order}}{(\code{character(1)})\cr
 Name of the order column.}
-
-\item{\code{key}}{(\code{character()})\cr
+      \item{\code{key}}{(\code{character()})\cr
 Name of the key column.}
-
-\item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
+      \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Frequency of the time series.
 Either a positive number or a \code{seq()}-compatible string, e.g.:
 \code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.}
-
-\item{\code{label}}{(\code{character(1)})\cr
+      \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
-
-\item{\code{extra_args}}{(named \code{list()})\cr
+      \item{\code{extra_args}}{(named \code{list()})\cr
 Named list of constructor arguments, required for converting task types
 via \code{\link[mlr3:convert_task]{mlr3::convert_task()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskFcst-view"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskFcst-view}{}}}
-\subsection{Method \code{view()}}{
-Returns a slice of the data from the \link[mlr3:DataBackend]{mlr3::DataBackend} as a \code{\link[data.table:data.table]{data.table::data.table()}}.
+\subsection{\code{TaskFcst$view()}}{
+  Returns a slice of the data from the \link[mlr3:DataBackend]{mlr3::DataBackend} as a \code{\link[data.table:data.table]{data.table::data.table()}}.
 Rows default to observations with role \code{"use"}, and columns default to features with roles
 \code{"target"}, \code{"order"}, \code{"key"} or \code{"feature"}. If \code{rows} or \code{cols} are specified which do not
 exist in the \link[mlr3:DataBackend]{mlr3::DataBackend}, an exception is raised.
@@ -191,60 +184,64 @@ If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_
 If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order)}.
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$view(rows = NULL, cols = NULL, ordered = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskFcst$view(rows = NULL, cols = NULL, ordered = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{rows}}{(positive \code{integer()} | \code{NULL})\cr
 Vector or row indices.}
-
-\item{\code{cols}}{(\code{character()} | \code{NULL})\cr
+      \item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
-
-\item{\code{ordered}}{(\code{logical(1)})\cr
+      \item{\code{ordered}}{(\code{logical(1)})\cr
 If \code{TRUE}, data is ordered according to the columns with column role \code{"order"} and \code{"key"}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A \code{\link[data.table:data.table]{data.table::data.table()}}.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A \code{\link[data.table:data.table]{data.table::data.table()}}.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskFcst-print"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskFcst-print}{}}}
-\subsection{Method \code{print()}}{
-Printer.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$print(...)}\if{html}{\out{</div>}}
+\subsection{\code{TaskFcst$print()}}{
+  Printer.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskFcst$print(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{(ignored).}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-TaskFcst-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskFcst-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{TaskFcst$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{TaskFcst$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{TaskFcst$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

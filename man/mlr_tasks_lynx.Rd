@@ -19,7 +19,7 @@ The task represents the annual numbers of lynx trappings in Canada from 1821 to 
 \section{Dictionary}{
 
 This \link[mlr3:Task]{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_tasks]{mlr_tasks}
-or with the associated sugar function \link[mlr3:mlr_sugar]{tsk()}:
+or with the associated sugar function \link[mlr3:tsk]{tsk()}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("lynx")
 tsk("lynx")
@@ -55,7 +55,7 @@ tsk("lynx")
 }
 }
 
-Other Task: 
+Other Task:
 \code{\link{TaskFcst}},
 \code{\link{mlr_tasks_airpassengers}},
 \code{\link{mlr_tasks_electricity}},

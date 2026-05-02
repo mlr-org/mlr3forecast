@@ -18,7 +18,7 @@ The task represents the monthly totals of accidental deaths in the US from 1973 
 \section{Dictionary}{
 
 This \link[mlr3:Task]{Task} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_tasks]{mlr_tasks}
-or with the associated sugar function \link[mlr3:mlr_sugar]{tsk()}:
+or with the associated sugar function \link[mlr3:tsk]{tsk()}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_tasks$get("usaccdeaths")
 tsk("usaccdeaths")
@@ -54,7 +54,7 @@ tsk("usaccdeaths")
 }
 }
 
-Other Task: 
+Other Task:
 \code{\link{TaskFcst}},
 \code{\link{mlr_tasks_airpassengers}},
 \code{\link{mlr_tasks_electricity}},
