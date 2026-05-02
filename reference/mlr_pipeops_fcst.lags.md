@@ -22,7 +22,7 @@ as well as the following parameters:
 
 ### Public methods
 
-- [`PipeOpFcstLags$new()`](#method-PipeOpFcstLags-new)
+- [`PipeOpFcstLags$new()`](#method-PipeOpFcstLags-initialize)
 
 - [`PipeOpFcstLags$clone()`](#method-PipeOpFcstLags-clone)
 
@@ -35,7 +35,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `PipeOpFcstLags$new()`
 
 Initializes a new instance of this Class.
 
@@ -59,7 +59,7 @@ Initializes a new instance of this Class.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `PipeOpFcstLags$clone()`
 
 The objects of this class are cloneable with this method.
 

@@ -29,7 +29,7 @@ The ForecastLearner wraps a
 
 ### Public methods
 
-- [`ForecastLearner$new()`](#method-ForecastLearner-new)
+- [`ForecastLearner$new()`](#method-ForecastLearner-initialize)
 
 - [`ForecastLearner$print()`](#method-ForecastLearner-print)
 
@@ -50,7 +50,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ForecastLearner$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -73,7 +73,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `ForecastLearner$print()`
 
 Printer.
 
@@ -81,15 +81,9 @@ Printer.
 
     ForecastLearner$print()
 
-#### Arguments
-
-- `...`:
-
-  (ignored).
-
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ForecastLearner$clone()`
 
 The objects of this class are cloneable with this method.
 

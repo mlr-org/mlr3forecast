@@ -19,7 +19,7 @@ The ForecastLearnerManual wraps a
 
 ### Public methods
 
-- [`ForecastLearnerManual$new()`](#method-ForecastLearnerManual-new)
+- [`ForecastLearnerManual$new()`](#method-ForecastLearnerManual-initialize)
 
 - [`ForecastLearnerManual$clone()`](#method-ForecastLearnerManual-clone)
 
@@ -39,7 +39,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ForecastLearnerManual$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -57,7 +57,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ForecastLearnerManual$clone()`
 
 The objects of this class are cloneable with this method.
 

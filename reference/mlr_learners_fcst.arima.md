@@ -30,28 +30,28 @@ or with the associated sugar function
 
 ## Parameters
 
-|                  |           |               |                                              |                       |
-|------------------|-----------|---------------|----------------------------------------------|-----------------------|
-| Id               | Type      | Default       | Levels                                       | Range                 |
-| order            | untyped   | c(0L, 0L, 0L) |                                              | \-                    |
-| seasonal         | untyped   | c(0L, 0L, 0L) |                                              | \-                    |
-| include.mean     | logical   | TRUE          | TRUE, FALSE                                  | \-                    |
-| include.drift    | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| include.constant | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| lambda           | untyped   | NULL          |                                              | \-                    |
-| biasadj          | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| method           | character | CSS-ML        | CSS-ML, ML, CSS                              | \-                    |
-| simulate         | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| bootstrap        | logical   | FALSE         | TRUE, FALSE                                  | \-                    |
-| npaths           | integer   | 5000          |                                              | \\\[1, \infty)\\      |
-| transform.pars   | logical   | TRUE          | TRUE, FALSE                                  | \-                    |
-| fixed            | untyped   | NULL          |                                              | \-                    |
-| init             | untyped   | NULL          |                                              | \-                    |
-| SSinit           | character | Gardner1980   | Gardner1980, Rossignol2011                   | \-                    |
-| n.cond           | integer   | \-            |                                              | \\\[1, \infty)\\      |
-| optim.method     | character | BFGS          | Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent | \-                    |
-| optim.control    | untyped   | list()        |                                              | \-                    |
-| kappa            | numeric   | 1e+06         |                                              | \\(-\infty, \infty)\\ |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| order | untyped | c(0L, 0L, 0L) |  | \- |
+| seasonal | untyped | c(0L, 0L, 0L) |  | \- |
+| include.mean | logical | TRUE | TRUE, FALSE | \- |
+| include.drift | logical | FALSE | TRUE, FALSE | \- |
+| include.constant | logical | FALSE | TRUE, FALSE | \- |
+| lambda | untyped | NULL |  | \- |
+| biasadj | logical | FALSE | TRUE, FALSE | \- |
+| method | character | CSS-ML | CSS-ML, ML, CSS | \- |
+| simulate | logical | FALSE | TRUE, FALSE | \- |
+| bootstrap | logical | FALSE | TRUE, FALSE | \- |
+| npaths | integer | 5000 |  | \\\[1, \infty)\\ |
+| transform.pars | logical | TRUE | TRUE, FALSE | \- |
+| fixed | untyped | NULL |  | \- |
+| init | untyped | NULL |  | \- |
+| SSinit | character | Gardner1980 | Gardner1980, Rossignol2011 | \- |
+| n.cond | integer | \- |  | \\\[1, \infty)\\ |
+| optim.method | character | BFGS | Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent | \- |
+| optim.control | untyped | list() |  | \- |
+| kappa | numeric | 1e+06 |  | \\(-\infty, \infty)\\ |
 
 ## References
 
@@ -125,16 +125,16 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
-[`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
 -\> `LearnerFcstArima`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstArima$new()`](#method-LearnerFcstArima-new)
+- [`LearnerFcstArima$new()`](#method-LearnerFcstArima-initialize)
 
 - [`LearnerFcstArima$clone()`](#method-LearnerFcstArima-clone)
 
@@ -155,7 +155,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstArima$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -166,7 +166,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstArima$clone()`
 
 The objects of this class are cloneable with this method.
 

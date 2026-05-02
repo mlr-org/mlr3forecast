@@ -85,7 +85,7 @@ Other Resampling:
 
 ### Public methods
 
-- [`ResamplingFcstCV$new()`](#method-ResamplingFcstCV-new)
+- [`ResamplingFcstCV$new()`](#method-ResamplingFcstCV-initialize)
 
 - [`ResamplingFcstCV$clone()`](#method-ResamplingFcstCV-clone)
 
@@ -100,7 +100,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ResamplingFcstCV$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -111,7 +111,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ResamplingFcstCV$clone()`
 
 The objects of this class are cloneable with this method.
 

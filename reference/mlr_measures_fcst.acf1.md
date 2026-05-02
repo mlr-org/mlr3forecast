@@ -85,7 +85,7 @@ Other Measure:
 
 ### Public methods
 
-- [`MeasureACF1$new()`](#method-MeasureACF1-new)
+- [`MeasureACF1$new()`](#method-MeasureACF1-initialize)
 
 - [`MeasureACF1$clone()`](#method-MeasureACF1-clone)
 
@@ -100,7 +100,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MeasureACF1$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -111,7 +111,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MeasureACF1$clone()`
 
 The objects of this class are cloneable with this method.
 

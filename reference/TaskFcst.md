@@ -123,7 +123,7 @@ Other Task:
 
 ### Public methods
 
-- [`TaskFcst$new()`](#method-TaskFcst-new)
+- [`TaskFcst$new()`](#method-TaskFcst-initialize)
 
 - [`TaskFcst$view()`](#method-TaskFcst-view)
 
@@ -156,7 +156,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `TaskFcst$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class. The function
@@ -232,7 +232,7 @@ provides an alternative way to construct forecast tasks.
 
 ------------------------------------------------------------------------
 
-### Method `view()`
+### `TaskFcst$view()`
 
 Returns a slice of the data from the
 [mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html)
@@ -281,7 +281,7 @@ A
 
 ------------------------------------------------------------------------
 
-### Method [`print()`](https://rdrr.io/r/base/print.html)
+### `TaskFcst$print()`
 
 Printer.
 
@@ -297,7 +297,7 @@ Printer.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `TaskFcst$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -315,6 +315,11 @@ The objects of this class are cloneable with this method.
 
 ``` r
 library(data.table)
+#> 
+#> Attaching package: ‘data.table’
+#> The following object is masked from ‘package:base’:
+#> 
+#>     %notin%
 airpassengers = tsbox::ts_dt(AirPassengers)
 setnames(airpassengers, c("month", "passengers"))
 task = as_task_fcst(airpassengers, target = "passengers", order = "month", freq = "month")

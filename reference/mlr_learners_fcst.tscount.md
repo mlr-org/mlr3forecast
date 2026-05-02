@@ -114,14 +114,14 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\> `LearnerFcstTscount`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstTscount$new()`](#method-LearnerFcstTscount-new)
+- [`LearnerFcstTscount$new()`](#method-LearnerFcstTscount-initialize)
 
 - [`LearnerFcstTscount$clone()`](#method-LearnerFcstTscount-clone)
 
@@ -142,7 +142,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstTscount$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -153,7 +153,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstTscount$clone()`
 
 The objects of this class are cloneable with this method.
 

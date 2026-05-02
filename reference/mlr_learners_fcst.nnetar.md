@@ -118,16 +118,16 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
-[`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
 -\> `LearnerFcstNnetar`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstNnetar$new()`](#method-LearnerFcstNnetar-new)
+- [`LearnerFcstNnetar$new()`](#method-LearnerFcstNnetar-initialize)
 
 - [`LearnerFcstNnetar$clone()`](#method-LearnerFcstNnetar-clone)
 
@@ -148,7 +148,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstNnetar$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -159,7 +159,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstNnetar$clone()`
 
 The objects of this class are cloneable with this method.
 

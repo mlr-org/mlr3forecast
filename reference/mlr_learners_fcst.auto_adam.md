@@ -31,26 +31,26 @@ or with the associated sugar function
 
 ## Parameters
 
-|              |           |              |                                                                    |
-|--------------|-----------|--------------|--------------------------------------------------------------------|
-| Id           | Type      | Default      | Levels                                                             |
-| model        | untyped   | "ZXZ"        |                                                                    |
-| lags         | untyped   | \-           |                                                                    |
-| orders       | untyped   | \-           |                                                                    |
-| regressors   | character | use          | use, select, adapt                                                 |
-| occurrence   | character | none         | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct |
-| distribution | character | dnorm        | dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma             |
-| outliers     | character | ignore       | ignore, use, select                                                |
-| holdout      | logical   | FALSE        | TRUE, FALSE                                                        |
-| persistence  | untyped   | NULL         |                                                                    |
-| phi          | untyped   | NULL         |                                                                    |
-| initial      | character | backcasting  | backcasting, optimal, two-stage, complete                          |
-| arma         | untyped   | NULL         |                                                                    |
-| ic           | character | AICc         | AICc, AIC, BIC, BICc                                               |
-| bounds       | character | usual        | usual, admissible, none                                            |
-| silent       | logical   | TRUE         | TRUE, FALSE                                                        |
-| parallel     | logical   | FALSE        | TRUE, FALSE                                                        |
-| ets          | character | conventional | conventional, adam                                                 |
+|  |  |  |  |
+|----|----|----|----|
+| Id | Type | Default | Levels |
+| model | untyped | "ZXZ" |  |
+| lags | untyped | \- |  |
+| orders | untyped | \- |  |
+| regressors | character | use | use, select, adapt |
+| occurrence | character | none | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct |
+| distribution | character | dnorm | dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma |
+| outliers | character | ignore | ignore, use, select |
+| holdout | logical | FALSE | TRUE, FALSE |
+| persistence | untyped | NULL |  |
+| phi | untyped | NULL |  |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| arma | untyped | NULL |  |
+| ic | character | AICc | AICc, AIC, BIC, BICc |
+| bounds | character | usual | usual, admissible, none |
+| silent | logical | TRUE | TRUE, FALSE |
+| parallel | logical | FALSE | TRUE, FALSE |
+| ets | character | conventional | conventional, adam |
 
 ## References
 
@@ -59,7 +59,7 @@ Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
 
 Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
 Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
-[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) ,
+[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
 <https://openforecast.org/adam/>.
 
 ## See also
@@ -128,14 +128,14 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\> `LearnerFcstAutoAdam`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstAutoAdam$new()`](#method-LearnerFcstAutoAdam-new)
+- [`LearnerFcstAutoAdam$new()`](#method-LearnerFcstAutoAdam-initialize)
 
 - [`LearnerFcstAutoAdam$clone()`](#method-LearnerFcstAutoAdam-clone)
 
@@ -156,7 +156,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstAutoAdam$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -167,7 +167,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstAutoAdam$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -210,7 +210,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 3.34 seconds
+#> Time elapsed: 3.58 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

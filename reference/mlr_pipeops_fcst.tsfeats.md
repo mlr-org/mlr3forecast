@@ -56,7 +56,7 @@ as well as:
 
 ### Public methods
 
-- [`PipeOpFcstTsfeats$new()`](#method-PipeOpFcstTsfeats-new)
+- [`PipeOpFcstTsfeats$new()`](#method-PipeOpFcstTsfeats-initialize)
 
 - [`PipeOpFcstTsfeats$clone()`](#method-PipeOpFcstTsfeats-clone)
 
@@ -69,7 +69,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `PipeOpFcstTsfeats$new()`
 
 Initializes a new instance of this Class.
 
@@ -93,7 +93,7 @@ Initializes a new instance of this Class.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `PipeOpFcstTsfeats$clone()`
 
 The objects of this class are cloneable with this method.
 

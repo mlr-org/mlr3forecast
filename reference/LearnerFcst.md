@@ -98,7 +98,7 @@ Other Learner:
 
 ### Public methods
 
-- [`LearnerFcst$new()`](#method-LearnerFcst-new)
+- [`LearnerFcst$new()`](#method-LearnerFcst-initialize)
 
 - [`LearnerFcst$clone()`](#method-LearnerFcst-clone)
 
@@ -119,7 +119,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcst$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -234,7 +234,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcst$clone()`
 
 The objects of this class are cloneable with this method.
 

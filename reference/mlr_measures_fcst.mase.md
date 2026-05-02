@@ -95,7 +95,7 @@ Other Measure:
 
 ### Public methods
 
-- [`MeasureMASE$new()`](#method-MeasureMASE-new)
+- [`MeasureMASE$new()`](#method-MeasureMASE-initialize)
 
 - [`MeasureMASE$clone()`](#method-MeasureMASE-clone)
 
@@ -110,7 +110,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MeasureMASE$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -121,7 +121,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MeasureMASE$clone()`
 
 The objects of this class are cloneable with this method.
 

@@ -11,6 +11,7 @@ Extending mlr3 to time series forecasting.
 Install the development version from [GitHub](https://github.com/):
 
 ``` r
+
 # install.packages("pak")
 pak::pak("mlr-org/mlr3forecast")
 ```
@@ -34,6 +35,7 @@ Currently, we support native forecasting learners from the forecast and
 smooth packages. In the future, we plan to support more learners.
 
 ``` r
+
 library(mlr3forecast)
 library(mlr3pipelines)
 
@@ -53,6 +55,7 @@ autoplot(task)
 ![](reference/figures/README-unnamed-chunk-3-1.png)
 
 ``` r
+
 
 # train a forecast learner
 learner = lrn("fcst.auto_arima")$train(task)
@@ -136,6 +139,7 @@ rr$aggregate(msr("regr.rmse"))
 ### Example: forecasting with regression learner
 
 ``` r
+
 library(mlr3learners)
 
 task = tsk("airpassengers")
@@ -185,6 +189,7 @@ rr$aggregate(msr("regr.rmse"))
 Or with some feature engineering using mlr3pipelines:
 
 ``` r
+
 library(mlr3pipelines)
 
 graph = po(
@@ -209,6 +214,7 @@ prediction$score(msr("regr.rmse"))
 ### Example: forecasting electricity demand
 
 ``` r
+
 library(mlr3learners)
 library(mlr3pipelines)
 
@@ -242,6 +248,7 @@ prediction
 ### Example: global forecasting
 
 ``` r
+
 library(mlr3learners)
 library(mlr3pipelines)
 library(tsibble)
@@ -285,6 +292,7 @@ time series and longitudinal data is often referred to as local and
 global forecasting.
 
 ``` r
+
 retail = setDT(tsibbledata::aus_retail)
 setnames(retail, tolower)
 retail[, month := as.Date(month)]
@@ -343,6 +351,7 @@ do.call(c, prediction_local)$score(msr("regr.rmse"))
 ### Example: Custom PipeOps
 
 ``` r
+
 library(mlr3learners)
 library(mlr3pipelines)
 
@@ -372,6 +381,7 @@ glrn$predict_newdata(newdata, task)
 ```
 
 ``` r
+
 graph = po("fcst.lags", lags = 1:12) %>>%
   po(
     "datefeatures",

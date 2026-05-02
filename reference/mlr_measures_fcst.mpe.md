@@ -85,7 +85,7 @@ Other Measure:
 
 ### Public methods
 
-- [`MeasureMPE$new()`](#method-MeasureMPE-new)
+- [`MeasureMPE$new()`](#method-MeasureMPE-initialize)
 
 - [`MeasureMPE$clone()`](#method-MeasureMPE-clone)
 
@@ -100,7 +100,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MeasureMPE$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -111,7 +111,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MeasureMPE$clone()`
 
 The objects of this class are cloneable with this method.
 

@@ -29,7 +29,7 @@ as well as the following:
 
 ### Public methods
 
-- [`PipeOpTargetTrafoDifference$new()`](#method-PipeOpTargetTrafoDifference-new)
+- [`PipeOpTargetTrafoDifference$new()`](#method-PipeOpTargetTrafoDifference-initialize)
 
 - [`PipeOpTargetTrafoDifference$clone()`](#method-PipeOpTargetTrafoDifference-clone)
 
@@ -42,7 +42,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `PipeOpTargetTrafoDifference$new()`
 
 Initializes a new instance of this Class.
 
@@ -66,7 +66,7 @@ Initializes a new instance of this Class.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `PipeOpTargetTrafoDifference$clone()`
 
 The objects of this class are cloneable with this method.
 

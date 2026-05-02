@@ -30,62 +30,62 @@ or with the associated sugar function
 
 ## Parameters
 
-|                    |           |             |                                              |                       |
-|--------------------|-----------|-------------|----------------------------------------------|-----------------------|
-| Id                 | Type      | Default     | Levels                                       | Range                 |
-| d                  | integer   | NA          |                                              | \\\[0, \infty)\\      |
-| D                  | integer   | NA          |                                              | \\\[0, \infty)\\      |
-| max.p              | integer   | 5           |                                              | \\\[0, \infty)\\      |
-| max.q              | integer   | 5           |                                              | \\\[0, \infty)\\      |
-| max.P              | integer   | 2           |                                              | \\\[0, \infty)\\      |
-| max.Q              | integer   | 2           |                                              | \\\[0, \infty)\\      |
-| max.order          | integer   | 5           |                                              | \\\[0, \infty)\\      |
-| max.d              | integer   | 2           |                                              | \\\[0, \infty)\\      |
-| max.D              | integer   | 1           |                                              | \\\[0, \infty)\\      |
-| start.p            | integer   | 2           |                                              | \\\[0, \infty)\\      |
-| start.q            | integer   | 2           |                                              | \\\[0, \infty)\\      |
-| start.P            | integer   | 1           |                                              | \\\[0, \infty)\\      |
-| start.Q            | integer   | 1           |                                              | \\\[0, \infty)\\      |
-| stationary         | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
-| seasonal           | logical   | TRUE        | TRUE, FALSE                                  | \-                    |
-| ic                 | character | aicc        | aicc, aic, bic                               | \-                    |
-| stepwise           | logical   | TRUE        | TRUE, FALSE                                  | \-                    |
-| nmodels            | integer   | 94          |                                              | \\\[0, \infty)\\      |
-| trace              | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
-| approximation      | untyped   | \-          |                                              | \-                    |
-| method             | untyped   | NULL        |                                              | \-                    |
-| truncate           | untyped   | NULL        |                                              | \-                    |
-| test               | character | kpss        | kpss, adf, pp                                | \-                    |
-| test.args          | untyped   | list()      |                                              | \-                    |
-| seasonal.test      | character | seas        | seas, ocsb, hegy, ch                         | \-                    |
-| seasonal.test.args | untyped   | list()      |                                              | \-                    |
-| allowdrift         | logical   | TRUE        | TRUE, FALSE                                  | \-                    |
-| allowmean          | logical   | TRUE        | TRUE, FALSE                                  | \-                    |
-| biasadj            | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
-| parallel           | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
-| num.cores          | integer   | 2           |                                              | \\\[1, \infty)\\      |
-| include.mean       | logical   | TRUE        | TRUE, FALSE                                  | \-                    |
-| include.drift      | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
-| include.constant   | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
-| lambda             | untyped   | NULL        |                                              | \-                    |
-| simulate           | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
-| bootstrap          | logical   | FALSE       | TRUE, FALSE                                  | \-                    |
-| npaths             | integer   | 5000        |                                              | \\\[1, \infty)\\      |
-| transform.pars     | logical   | TRUE        | TRUE, FALSE                                  | \-                    |
-| fixed              | untyped   | NULL        |                                              | \-                    |
-| init               | untyped   | NULL        |                                              | \-                    |
-| SSinit             | character | Gardner1980 | Gardner1980, Rossignol2011                   | \-                    |
-| n.cond             | integer   | \-          |                                              | \\\[1, \infty)\\      |
-| optim.method       | character | BFGS        | Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent | \-                    |
-| optim.control      | untyped   | list()      |                                              | \-                    |
-| kappa              | numeric   | 1e+06       |                                              | \\(-\infty, \infty)\\ |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| d | integer | NA |  | \\\[0, \infty)\\ |
+| D | integer | NA |  | \\\[0, \infty)\\ |
+| max.p | integer | 5 |  | \\\[0, \infty)\\ |
+| max.q | integer | 5 |  | \\\[0, \infty)\\ |
+| max.P | integer | 2 |  | \\\[0, \infty)\\ |
+| max.Q | integer | 2 |  | \\\[0, \infty)\\ |
+| max.order | integer | 5 |  | \\\[0, \infty)\\ |
+| max.d | integer | 2 |  | \\\[0, \infty)\\ |
+| max.D | integer | 1 |  | \\\[0, \infty)\\ |
+| start.p | integer | 2 |  | \\\[0, \infty)\\ |
+| start.q | integer | 2 |  | \\\[0, \infty)\\ |
+| start.P | integer | 1 |  | \\\[0, \infty)\\ |
+| start.Q | integer | 1 |  | \\\[0, \infty)\\ |
+| stationary | logical | FALSE | TRUE, FALSE | \- |
+| seasonal | logical | TRUE | TRUE, FALSE | \- |
+| ic | character | aicc | aicc, aic, bic | \- |
+| stepwise | logical | TRUE | TRUE, FALSE | \- |
+| nmodels | integer | 94 |  | \\\[0, \infty)\\ |
+| trace | logical | FALSE | TRUE, FALSE | \- |
+| approximation | untyped | \- |  | \- |
+| method | untyped | NULL |  | \- |
+| truncate | untyped | NULL |  | \- |
+| test | character | kpss | kpss, adf, pp | \- |
+| test.args | untyped | list() |  | \- |
+| seasonal.test | character | seas | seas, ocsb, hegy, ch | \- |
+| seasonal.test.args | untyped | list() |  | \- |
+| allowdrift | logical | TRUE | TRUE, FALSE | \- |
+| allowmean | logical | TRUE | TRUE, FALSE | \- |
+| biasadj | logical | FALSE | TRUE, FALSE | \- |
+| parallel | logical | FALSE | TRUE, FALSE | \- |
+| num.cores | integer | 2 |  | \\\[1, \infty)\\ |
+| include.mean | logical | TRUE | TRUE, FALSE | \- |
+| include.drift | logical | FALSE | TRUE, FALSE | \- |
+| include.constant | logical | FALSE | TRUE, FALSE | \- |
+| lambda | untyped | NULL |  | \- |
+| simulate | logical | FALSE | TRUE, FALSE | \- |
+| bootstrap | logical | FALSE | TRUE, FALSE | \- |
+| npaths | integer | 5000 |  | \\\[1, \infty)\\ |
+| transform.pars | logical | TRUE | TRUE, FALSE | \- |
+| fixed | untyped | NULL |  | \- |
+| init | untyped | NULL |  | \- |
+| SSinit | character | Gardner1980 | Gardner1980, Rossignol2011 | \- |
+| n.cond | integer | \- |  | \\\[1, \infty)\\ |
+| optim.method | character | BFGS | Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent | \- |
+| optim.control | untyped | list() |  | \- |
+| kappa | numeric | 1e+06 |  | \\(-\infty, \infty)\\ |
 
 ## References
 
 Hyndman, J. R, Khandakar, Yeasmin (2008). “Automatic Time Series
 Forecasting: The forecast Package for R.” *Journal of Statistical
 Software*, **27**(3), 1–22.
-[doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03) ,
+[doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03) .
 <https://www.jstatsoft.org/index.php/jss/article/view/v027i03>.
 
 Wang, Xiaozhe, Smith, Kate, Hyndman, Rob (2006). “Characteristic-based
@@ -158,16 +158,16 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
-[`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
 -\> `LearnerFcstAutoArima`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstAutoArima$new()`](#method-LearnerFcstAutoArima-new)
+- [`LearnerFcstAutoArima$new()`](#method-LearnerFcstAutoArima-initialize)
 
 - [`LearnerFcstAutoArima$clone()`](#method-LearnerFcstAutoArima-clone)
 
@@ -188,7 +188,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstAutoArima$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -199,7 +199,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstAutoArima$clone()`
 
 The objects of this class are cloneable with this method.
 

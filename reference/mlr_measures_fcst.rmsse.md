@@ -96,7 +96,7 @@ Other Measure:
 
 ### Public methods
 
-- [`MeasureRMSSE$new()`](#method-MeasureRMSSE-new)
+- [`MeasureRMSSE$new()`](#method-MeasureRMSSE-initialize)
 
 - [`MeasureRMSSE$clone()`](#method-MeasureRMSSE-clone)
 
@@ -111,7 +111,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MeasureRMSSE$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -122,7 +122,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MeasureRMSSE$clone()`
 
 The objects of this class are cloneable with this method.
 

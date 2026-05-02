@@ -99,7 +99,7 @@ Other Measure:
 
 ### Public methods
 
-- [`MeasureWinkler$new()`](#method-MeasureWinkler-new)
+- [`MeasureWinkler$new()`](#method-MeasureWinkler-initialize)
 
 - [`MeasureWinkler$clone()`](#method-MeasureWinkler-clone)
 
@@ -114,7 +114,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `MeasureWinkler$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -125,7 +125,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `MeasureWinkler$clone()`
 
 The objects of this class are cloneable with this method.
 

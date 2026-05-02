@@ -30,22 +30,22 @@ or with the associated sugar function
 
 ## Parameters
 
-|                         |           |          |                          |                  |
-|-------------------------|-----------|----------|--------------------------|------------------|
-| Id                      | Type      | Default  | Levels                   | Range            |
-| growth                  | character | linear   | linear, logistic, flat   | \-               |
-| n.changepoints          | integer   | 25       |                          | \\\[0, \infty)\\ |
-| changepoint.range       | numeric   | 0.8      |                          | \\\[0, 1\]\\     |
-| yearly.seasonality      | untyped   | "auto"   |                          | \-               |
-| weekly.seasonality      | untyped   | "auto"   |                          | \-               |
-| daily.seasonality       | untyped   | "auto"   |                          | \-               |
-| seasonality.mode        | character | additive | additive, multiplicative | \-               |
-| seasonality.prior.scale | numeric   | 10       |                          | \\\[0, \infty)\\ |
-| holidays.prior.scale    | numeric   | 10       |                          | \\\[0, \infty)\\ |
-| changepoint.prior.scale | numeric   | 0.05     |                          | \\\[0, \infty)\\ |
-| mcmc.samples            | integer   | 0        |                          | \\\[0, \infty)\\ |
-| interval.width          | numeric   | 0.8      |                          | \\\[0, 1\]\\     |
-| uncertainty.samples     | integer   | 1000     |                          | \\\[0, \infty)\\ |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| growth | character | linear | linear, logistic, flat | \- |
+| n.changepoints | integer | 25 |  | \\\[0, \infty)\\ |
+| changepoint.range | numeric | 0.8 |  | \\\[0, 1\]\\ |
+| yearly.seasonality | untyped | "auto" |  | \- |
+| weekly.seasonality | untyped | "auto" |  | \- |
+| daily.seasonality | untyped | "auto" |  | \- |
+| seasonality.mode | character | additive | additive, multiplicative | \- |
+| seasonality.prior.scale | numeric | 10 |  | \\\[0, \infty)\\ |
+| holidays.prior.scale | numeric | 10 |  | \\\[0, \infty)\\ |
+| changepoint.prior.scale | numeric | 0.05 |  | \\\[0, \infty)\\ |
+| mcmc.samples | integer | 0 |  | \\\[0, \infty)\\ |
+| interval.width | numeric | 0.8 |  | \\\[0, 1\]\\ |
+| uncertainty.samples | integer | 1000 |  | \\\[0, \infty)\\ |
 
 ## References
 
@@ -120,14 +120,14 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\> `LearnerFcstProphet`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstProphet$new()`](#method-LearnerFcstProphet-new)
+- [`LearnerFcstProphet$new()`](#method-LearnerFcstProphet-initialize)
 
 - [`LearnerFcstProphet$clone()`](#method-LearnerFcstProphet-clone)
 
@@ -148,7 +148,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstProphet$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -159,7 +159,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstProphet$clone()`
 
 The objects of this class are cloneable with this method.
 

@@ -68,7 +68,7 @@ Other Resampling:
 
 ### Public methods
 
-- [`ResamplingFcstHoldout$new()`](#method-ResamplingFcstHoldout-new)
+- [`ResamplingFcstHoldout$new()`](#method-ResamplingFcstHoldout-initialize)
 
 - [`ResamplingFcstHoldout$clone()`](#method-ResamplingFcstHoldout-clone)
 
@@ -83,7 +83,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `ResamplingFcstHoldout$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -94,7 +94,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `ResamplingFcstHoldout$clone()`
 
 The objects of this class are cloneable with this method.
 

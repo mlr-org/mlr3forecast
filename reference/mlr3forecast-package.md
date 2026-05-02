@@ -16,3 +16,8 @@ Useful links:
 
 **Maintainer**: Maximilian Mücke <muecke.maximilian@gmail.com>
 ([ORCID](https://orcid.org/0009-0000-9432-9795))
+
+Authors:
+
+- Maximilian Mücke <muecke.maximilian@gmail.com>
+  ([ORCID](https://orcid.org/0009-0000-9432-9795))

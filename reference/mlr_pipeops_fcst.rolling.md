@@ -33,7 +33,7 @@ as well as the following parameters:
 
 ### Public methods
 
-- [`PipeOpFcstRolling$new()`](#method-PipeOpFcstRolling-new)
+- [`PipeOpFcstRolling$new()`](#method-PipeOpFcstRolling-initialize)
 
 - [`PipeOpFcstRolling$clone()`](#method-PipeOpFcstRolling-clone)
 
@@ -46,7 +46,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `PipeOpFcstRolling$new()`
 
 Initializes a new instance of this Class.
 
@@ -70,7 +70,7 @@ Initializes a new instance of this Class.
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `PipeOpFcstRolling$clone()`
 
 The objects of this class are cloneable with this method.
 

@@ -2,14 +2,12 @@
 
 Abstract class for forecast package learner
 
-Abstract class for forecast package learner
-
 ## Super classes
 
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\> `LearnerFcstForecast`
 
 ## Methods
@@ -32,11 +30,11 @@ Inherited methods
 - [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
 - [`mlr3::LearnerRegr$predict_newdata_fast()`](https://mlr3.mlr-org.com/reference/LearnerRegr.html#method-predict_newdata_fast)
-- [`mlr3forecast::LearnerFcst$initialize()`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.html#method-initialize)
+- [`LearnerFcst$initialize()`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.html#method-initialize)
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstForecast$clone()`
 
 The objects of this class are cloneable with this method.
 

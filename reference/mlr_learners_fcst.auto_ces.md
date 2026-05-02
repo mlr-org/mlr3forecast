@@ -31,18 +31,18 @@ or with the associated sugar function
 
 ## Parameters
 
-|             |           |             |                                                         |
-|-------------|-----------|-------------|---------------------------------------------------------|
-| Id          | Type      | Default     | Levels                                                  |
-| seasonality | character | none        | none, simple, partial, full                             |
-| lags        | untyped   | \-          |                                                         |
-| initial     | character | backcasting | backcasting, optimal, two-stage, complete               |
-| ic          | character | AICc        | AICc, AIC, BIC, BICc                                    |
-| loss        | character | likelihood  | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
-| holdout     | logical   | FALSE       | TRUE, FALSE                                             |
-| bounds      | character | admissible  | admissible, none                                        |
-| silent      | logical   | TRUE        | TRUE, FALSE                                             |
-| regressors  | character | use         | use, select, adapt                                      |
+|  |  |  |  |
+|----|----|----|----|
+| Id | Type | Default | Levels |
+| seasonality | character | none | none, simple, partial, full |
+| lags | untyped | \- |  |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| ic | character | AICc | AICc, AIC, BIC, BICc |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
+| holdout | logical | FALSE | TRUE, FALSE |
+| bounds | character | admissible | admissible, none |
+| silent | logical | TRUE | TRUE, FALSE |
+| regressors | character | use | use, select, adapt |
 
 ## References
 
@@ -51,7 +51,7 @@ Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
 
 Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
 Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
-[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) ,
+[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
 <https://openforecast.org/adam/>.
 
 ## See also
@@ -120,14 +120,14 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\> `LearnerFcstAutoCes`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstAutoCes$new()`](#method-LearnerFcstAutoCes-new)
+- [`LearnerFcstAutoCes$new()`](#method-LearnerFcstAutoCes-initialize)
 
 - [`LearnerFcstAutoCes$clone()`](#method-LearnerFcstAutoCes-clone)
 
@@ -148,7 +148,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstAutoCes$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -159,7 +159,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstAutoCes$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -202,7 +202,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.12 seconds
+#> Time elapsed: 0.11 seconds
 #> Model estimated using ces() function: CES(full)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

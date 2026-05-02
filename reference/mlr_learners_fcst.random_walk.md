@@ -104,16 +104,16 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
-[`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
 -\> `LearnerFcstRandomWalk`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstRandomWalk$new()`](#method-LearnerFcstRandomWalk-new)
+- [`LearnerFcstRandomWalk$new()`](#method-LearnerFcstRandomWalk-initialize)
 
 - [`LearnerFcstRandomWalk$clone()`](#method-LearnerFcstRandomWalk-clone)
 
@@ -134,7 +134,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstRandomWalk$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -145,7 +145,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstRandomWalk$clone()`
 
 The objects of this class are cloneable with this method.
 

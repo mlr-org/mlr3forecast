@@ -31,29 +31,29 @@ or with the associated sugar function
 
 ## Parameters
 
-|                            |           |                             |                            |                       |
-|----------------------------|-----------|-----------------------------|----------------------------|-----------------------|
-| Id                         | Type      | Default                     | Levels                     | Range                 |
-| model                      | untyped   | "ZZZ"                       |                            | \-                    |
-| damped                     | logical   | NULL                        | TRUE, FALSE                | \-                    |
-| alpha                      | numeric   | NULL                        |                            | \\(-\infty, \infty)\\ |
-| beta                       | numeric   | NULL                        |                            | \\(-\infty, \infty)\\ |
-| gamma                      | numeric   | NULL                        |                            | \\(-\infty, \infty)\\ |
-| phi                        | numeric   | NULL                        |                            | \\(-\infty, \infty)\\ |
-| additive.only              | logical   | FALSE                       | TRUE, FALSE                | \-                    |
-| lambda                     | untyped   | NULL                        |                            | \-                    |
-| biasadj                    | logical   | FALSE                       | TRUE, FALSE                | \-                    |
-| lower                      | untyped   | c(rep.int(1e-04, 3), 0.8)   |                            | \-                    |
-| upper                      | untyped   | c(rep.int(0.9999, 3), 0.98) |                            | \-                    |
-| opt.crit                   | character | lik                         | lik, amse, mse, sigma, mae | \-                    |
-| nmse                       | integer   | 3                           |                            | \\\[0, 30\]\\         |
-| bounds                     | character | both                        | both, usual, admissible    | \-                    |
-| ic                         | character | aicc                        | aicc, aic, bic             | \-                    |
-| restrict                   | logical   | TRUE                        | TRUE, FALSE                | \-                    |
-| allow.multiplicative.trend | logical   | FALSE                       | TRUE, FALSE                | \-                    |
-| simulate                   | logical   | FALSE                       | TRUE, FALSE                | \-                    |
-| bootstrap                  | logical   | FALSE                       | TRUE, FALSE                | \-                    |
-| npaths                     | integer   | 5000                        |                            | \\\[1, \infty)\\      |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| model | untyped | "ZZZ" |  | \- |
+| damped | logical | NULL | TRUE, FALSE | \- |
+| alpha | numeric | NULL |  | \\(-\infty, \infty)\\ |
+| beta | numeric | NULL |  | \\(-\infty, \infty)\\ |
+| gamma | numeric | NULL |  | \\(-\infty, \infty)\\ |
+| phi | numeric | NULL |  | \\(-\infty, \infty)\\ |
+| additive.only | logical | FALSE | TRUE, FALSE | \- |
+| lambda | untyped | NULL |  | \- |
+| biasadj | logical | FALSE | TRUE, FALSE | \- |
+| lower | untyped | c(rep.int(1e-04, 3), 0.8) |  | \- |
+| upper | untyped | c(rep.int(0.9999, 3), 0.98) |  | \- |
+| opt.crit | character | lik | lik, amse, mse, sigma, mae | \- |
+| nmse | integer | 3 |  | \\\[0, 30\]\\ |
+| bounds | character | both | both, usual, admissible | \- |
+| ic | character | aicc | aicc, aic, bic | \- |
+| restrict | logical | TRUE | TRUE, FALSE | \- |
+| allow.multiplicative.trend | logical | FALSE | TRUE, FALSE | \- |
+| simulate | logical | FALSE | TRUE, FALSE | \- |
+| bootstrap | logical | FALSE | TRUE, FALSE | \- |
+| npaths | integer | 5000 |  | \\\[1, \infty)\\ |
 
 ## References
 
@@ -135,16 +135,16 @@ Other Learner:
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
-[`mlr3forecast::LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+[`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
-[`mlr3forecast::LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
 -\> `LearnerFcstEts`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstEts$new()`](#method-LearnerFcstEts-new)
+- [`LearnerFcstEts$new()`](#method-LearnerFcstEts-initialize)
 
 - [`LearnerFcstEts$clone()`](#method-LearnerFcstEts-clone)
 
@@ -165,7 +165,7 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `LearnerFcstEts$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
@@ -176,7 +176,7 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `LearnerFcstEts$clone()`
 
 The objects of this class are cloneable with this method.
 
