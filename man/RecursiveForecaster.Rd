@@ -55,6 +55,10 @@ The base regression learner.}
 
     \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
 The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
+
+    \item{\code{graph_model}}{(\link[mlr3pipelines:Graph]{mlr3pipelines::Graph})\cr
+The trained \link[mlr3pipelines:Graph]{mlr3pipelines::Graph}. Overrides \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}'s \verb{$graph_model} because the
+\link{RecursiveForecaster} model wraps the graph state in \verb{$graph_state} alongside auxiliary metadata.}
   }
   \if{html}{\out{</div>}}
 }

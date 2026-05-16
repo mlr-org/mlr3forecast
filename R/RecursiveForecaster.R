@@ -122,6 +122,21 @@ RecursiveForecaster = R6::R6Class(
         return(NULL)
       }
       lag_po$param_set$get_values()$lags
+    },
+
+    #' @field graph_model ([mlr3pipelines::Graph])\cr
+    #' The trained [mlr3pipelines::Graph]. Overrides [mlr3pipelines::GraphLearner]'s `$graph_model` because the
+    #' [RecursiveForecaster] model wraps the graph state in `$graph_state` alongside auxiliary metadata.
+    graph_model = function(rhs) {
+      if (!missing(rhs) && !identical(rhs, self$graph)) {
+        stop("graph_model is read-only")
+      }
+      if (is.null(self$model)) {
+        return(self$graph)
+      }
+      g = self$graph$clone(deep = TRUE)
+      g$state = self$model$graph_state
+      g
     }
   ),
 
@@ -148,7 +163,7 @@ RecursiveForecaster = R6::R6Class(
         feature_names = task$feature_names,
         freq = task$freq
       )
-      class(state) = c("graph_learner_model", class(state))
+      class(state) = c("recursive_forecaster_model", class(state))
       state
     },
 
@@ -234,6 +249,33 @@ RecursiveForecaster = R6::R6Class(
     }
   )
 )
+
+#' @export
+#' @method marshal_model recursive_forecaster_model
+marshal_model.recursive_forecaster_model = function(model, inplace = FALSE, ...) {
+  gs = model$graph_state
+  class(gs) = c("graph_learner_model", "list")
+  marshaled_gs = marshal_model(gs, inplace = inplace, ...)
+  if (!is_marshaled_model(marshaled_gs)) {
+    return(model)
+  }
+  structure(
+    list(
+      marshaled = insert_named(model, list(graph_state = marshaled_gs)),
+      packages = c("mlr3pipelines", "mlr3forecast")
+    ),
+    class = c("recursive_forecaster_model_marshaled", "list_marshaled", "marshaled")
+  )
+}
+
+#' @export
+#' @method unmarshal_model recursive_forecaster_model_marshaled
+unmarshal_model.recursive_forecaster_model_marshaled = function(model, inplace = FALSE, ...) {
+  m = model$marshaled
+  m$graph_state = unmarshal_model(m$graph_state, inplace = inplace, ...)
+  class(m$graph_state) = setdiff(class(m$graph_state), "graph_learner_model")
+  structure(m, class = c("recursive_forecaster_model", "list"))
+}
 
 #' @title Convert to a Forecast Learner
 #'
