@@ -78,7 +78,14 @@ Stores the currently active predict type.}
   Creates a new instance of this \link[R6:R6Class]{R6} class.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{DirectForecaster$new(learner, lags, horizons)}
+    \preformatted{DirectForecaster$new(
+  learner,
+  lags,
+  horizons,
+  id = NULL,
+  param_vals = list(),
+  predict_type = NULL
+)}
     \if{html}{\out{</div>}}
   }
   \subsection{Arguments}{
@@ -90,6 +97,13 @@ A regression learner or a graph/PipeOp (without \link{PipeOpFcstLags}).}
 The base lag values.}
       \item{\code{horizons}}{(\code{integer()})\cr
 Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector of specific horizons.}
+      \item{\code{id}}{(\code{character(1)} | \code{NULL})\cr
+Identifier, default \code{NULL} (auto-generated from the learner id).}
+      \item{\code{param_vals}}{(named \code{list()})\cr
+Hyperparameter values applied to every horizon model. Per-horizon hyperparameters are not
+currently supported.}
+      \item{\code{predict_type}}{(\code{character(1)} | \code{NULL})\cr
+The predict type, default \code{NULL}.}
     }
     \if{html}{\out{</div>}}
   }

@@ -35,7 +35,21 @@ DirectForecaster = R6::R6Class(
     #'   The base lag values.
     #' @param horizons (`integer()`)\cr
     #'   Either a single integer `H` (expanded to `1:H`) or an integer vector of specific horizons.
-    initialize = function(learner, lags, horizons) {
+    #' @param id (`character(1)` | `NULL`)\cr
+    #'   Identifier, default `NULL` (auto-generated from the learner id).
+    #' @param param_vals (named `list()`)\cr
+    #'   Hyperparameter values applied to every horizon model. Per-horizon hyperparameters are not
+    #'   currently supported.
+    #' @param predict_type (`character(1)` | `NULL`)\cr
+    #'   The predict type, default `NULL`.
+    initialize = function(
+      learner,
+      lags,
+      horizons,
+      id = NULL,
+      param_vals = list(),
+      predict_type = NULL
+    ) {
       lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
       horizons = assert_integerish(horizons, lower = 1L, any.missing = FALSE, coerce = TRUE)
       if (length(horizons) == 1L) {
@@ -52,8 +66,12 @@ DirectForecaster = R6::R6Class(
       }
 
       private$.learner = GraphLearner$new(graph, task_type = "regr")
+      if (length(param_vals)) {
+        private$.learner$param_set$values = insert_named(private$.learner$param_set$values, param_vals)
+      }
+
       super$initialize(
-        id = private$.learner$id,
+        id = id %??% private$.learner$id,
         task_type = "regr",
         predict_types = private$.learner$predict_types,
         feature_types = private$.learner$feature_types,
@@ -62,6 +80,7 @@ DirectForecaster = R6::R6Class(
         man = private$.learner$man
       )
       private$.predict_type = private$.learner$predict_type
+      if (!is.null(predict_type)) self$predict_type = predict_type
     },
 
     #' @description
