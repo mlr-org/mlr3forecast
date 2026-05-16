@@ -96,7 +96,7 @@ RecursiveForecaster = R6::R6Class(
     #' @description
     #' Printer.
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       super$print()
       lags = self$lags
       if (!is.null(lags)) {

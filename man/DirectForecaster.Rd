@@ -102,7 +102,14 @@ Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector o
   Printer.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{DirectForecaster$print()}
+    \preformatted{DirectForecaster$print(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
     \if{html}{\out{</div>}}
   }
 }

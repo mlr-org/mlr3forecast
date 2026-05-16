@@ -138,7 +138,14 @@ Whether to clone the graph, default \code{TRUE}.}
   Printer.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
-    \preformatted{RecursiveForecaster$print()}
+    \preformatted{RecursiveForecaster$print(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(ignored).}
+    }
     \if{html}{\out{</div>}}
   }
 }

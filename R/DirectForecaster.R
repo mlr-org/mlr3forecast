@@ -67,7 +67,7 @@ DirectForecaster = R6::R6Class(
     #' @description
     #' Printer.
     #' @param ... (ignored).
-    print = function() {
+    print = function(...) {
       super$print()
       cat_cli(cli::cli_li("Lags: {self$lags}"))
       cat_cli(cli::cli_li("Horizons: {self$horizons}"))
