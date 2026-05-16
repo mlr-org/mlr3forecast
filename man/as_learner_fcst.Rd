@@ -38,5 +38,5 @@ graph = po("fcst.lags", lags = 1:3) \%>>\% lrn("regr.rpart")
 flrn = as_learner_fcst(graph)
 
 # direct forecasting (one model per horizon)
-flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 12)
 }

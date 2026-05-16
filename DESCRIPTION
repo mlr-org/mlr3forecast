@@ -17,6 +17,7 @@ Imports:
     checkmate (>= 2.0.0),
     cli,
     data.table (>= 1.18.0),
+    generics (>= 0.1.2),
     ggplot2,
     lgr,
     mlr3misc (>= 0.21.0),
@@ -29,7 +30,6 @@ Suggests:
     distributional,
     fabletools,
     forecast (>= 9.0.2),
-    generics (>= 0.1.2),
     prophet (>= 1.1.7),
     rpart,
     smooth (>= 4.4.0),
@@ -97,7 +97,6 @@ Collate:
     'assertions.R'
     'autoplot.R'
     'bibentries.R'
-    'fcst_history.R'
     'helper_data_table.R'
     'partition.R'
     'reexports.R'

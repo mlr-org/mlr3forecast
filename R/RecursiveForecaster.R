@@ -1,10 +1,12 @@
-#' @title Encapsulate a Learner as a Forecast Learner
+#' @title Recursive Forecast Learner
 #'
 #' @description
-#' A [mlr3pipelines::GraphLearner] subclass for iterative one-step-ahead forecasting.
-#' Training is fully delegated to the graph, while prediction iterates row by row,
-#' updating PipeOps that implement the `update_history()` method (e.g., [PipeOpFcstLags])
-#' so that lag features reflect predicted values.
+#' A [mlr3pipelines::GraphLearner] subclass for iterative one-step-ahead forecasting. Training is
+#' fully delegated to the graph. At predict time the forecaster builds a combined task (training
+#' history + test rows with `NA` targets) backed by a single mutable [data.table::data.table()],
+#' iterates through the test rows in `(key, order)` order, and writes each prediction back into
+#' the combined task's target column so that lag and rolling features for the next step reflect
+#' the freshly predicted value.
 #'
 #' Can be constructed in two ways:
 #' * **Simple**: `RecursiveForecaster$new(learner, lags = 1:3)` -- internally builds
@@ -13,17 +15,17 @@
 #'   [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
 #'
 #' @section Limitations:
-#' Target transformations (e.g. [mlr_pipeops_fcst.targetdiff], [mlr3pipelines::PipeOpTargetMutate])
-#' are currently **not supported** in combination with `RecursiveForecaster`. The iterative
-#' update feeds the inverted (original-scale) prediction back into lag history, which is stored
-#' in the transformed scale -- yielding a scale mismatch. Use [DirectForecaster] or a plain
-#' [mlr3pipelines::GraphLearner] with `ppl("targettrafo", ...)` if you need target trafos.
+#' Target transformations placed *inside* the graph (e.g. [mlr_pipeops_fcst.targetdiff],
+#' [mlr3pipelines::PipeOpTargetMutate]) are not currently supported because the trafo only
+#' transforms the active row at predict time, while iterative features such as lags require
+#' transformed values for all historical rows. Use [DirectForecaster] for target trafos. A
+#' workaround for `RecursiveForecaster` is to transform the task target outside the graph
+#' (preprocess the task once, fit on transformed scale, then invert predictions afterwards).
 #'
 #' @export
 #' @examples
 #' library(mlr3pipelines)
 #'
-#' # simple: learner + lags
 #' task = tsk("airpassengers")
 #' flrn = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
 #' split = partition(task, ratio = 0.8)
@@ -124,50 +126,100 @@ RecursiveForecaster = R6::R6Class(
   ),
 
   private = list(
+    .train = function(task) {
+      on.exit({
+        self$graph$state = NULL
+      })
+      self$graph$train(task)
+      graph_state = self$graph$state
+
+      cols = unique(c(
+        task$target_names,
+        task$feature_names,
+        task$col_roles$key,
+        task$col_roles$order
+      ))
+      state = list(
+        graph_state = graph_state,
+        train_data = task$data(cols = cols),
+        target = task$target_names,
+        key_cols = task$col_roles$key,
+        order_cols = task$col_roles$order,
+        feature_names = task$feature_names,
+        freq = task$freq
+      )
+      class(state) = c("graph_learner_model", class(state))
+      state
+    },
+
     .predict = function(task) {
       on.exit({
         self$graph$state = NULL
       })
-      self$graph$state = self$model
+      self$graph$state = self$model$graph_state
 
       iterative_pos = keep(self$graph$pipeops, function(po) inherits(po, "PipeOpFcstIterative"))
-
       if (length(iterative_pos) == 0L) {
         prediction = self$graph$predict(task)
         return(prediction[[1L]])
       }
 
-      target = task$target_names
-      order_cols = task$col_roles$order
-      key_cols = task$col_roles$key
+      target = self$model$target
+      key_cols = self$model$key_cols
+      order_cols = self$model$order_cols
+      train_data = self$model$train_data
 
-      ord = task$data(cols = c(key_cols, order_cols))
-      set(ord, j = "..row_id", value = task$row_ids)
+      test_cols = unique(c(
+        target,
+        intersect(self$model$feature_names, task$feature_names),
+        key_cols,
+        order_cols
+      ))
+      test_data = task$data(cols = test_cols)
+
+      combined = rbindlist(list(train_data, test_data), use.names = TRUE, fill = TRUE)
+      n_train = nrow(train_data)
+      n_test = nrow(test_data)
+      test_cids = seq.int(n_train + 1L, n_train + n_test)
+      set(combined, i = test_cids, j = target, value = NA_real_)
+      set(combined, j = "..rid", value = seq_len(nrow(combined)))
+
+      backend = DataBackendDataTable$new(combined, "..rid")
+      step_task = as_task_fcst(
+        backend,
+        target = target,
+        order = order_cols,
+        key = key_cols,
+        freq = self$model$freq
+      )
+
+      ord = combined[test_cids, c(key_cols, order_cols, "..rid"), with = FALSE]
       setorderv(ord, c(key_cols, order_cols))
-      row_ids = ord[["..row_id"]]
-      n = length(row_ids)
+      active_cids = ord[["..rid"]]
 
-      single_task = task$clone()
-      preds = vector("list", n)
-      for (i in seq_len(n)) {
-        single_task$row_roles$use = row_ids[i]
-
-        prediction = self$graph$predict(single_task)
-        preds[[i]] = prediction[[1L]]
-
-        new_row = task$data(rows = row_ids[i], cols = c(target, order_cols, key_cols))
-        set(new_row, j = target, value = prediction[[1L]]$response)
-        for (po in iterative_pos) {
-          po$update_history(new_row)
-        }
+      preds = vector("list", n_test)
+      for (i in seq_len(n_test)) {
+        cid = active_cids[i]
+        step_task$row_roles$use = cid
+        prediction = self$graph$predict(step_task)[[1L]]
+        preds[[i]] = prediction
+        set(combined, i = cid, j = target, value = prediction$response)
       }
 
-      combined = do.call(c, preds)
-      combined$data = insert_named(
-        combined$data,
-        list(row_ids = row_ids, extra = as.list(task$data(cols = c(key_cols, order_cols))))
+      out = do.call(c, preds)
+      orig_row_ids = task$row_ids
+      orig_idx_for_active = active_cids - n_train
+      out_row_ids = orig_row_ids[orig_idx_for_active]
+      original_truth = task$data(rows = orig_row_ids, cols = target)[[1L]]
+      out$data = insert_named(
+        out$data,
+        list(
+          row_ids = out_row_ids,
+          truth = original_truth[orig_idx_for_active],
+          extra = as.list(task$data(rows = out_row_ids, cols = c(key_cols, order_cols)))
+        )
       )
-      combined
+      out
     },
 
     .find_lag_po = function() {
@@ -211,7 +263,7 @@ RecursiveForecaster = R6::R6Class(
 #' flrn = as_learner_fcst(graph)
 #'
 #' # direct forecasting (one model per horizon)
-#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 12)
 as_learner_fcst = function(learner, lags = NULL, horizons = NULL, ...) {
   if (!is.null(horizons)) {
     DirectForecaster$new(learner, lags = lags, horizons = horizons, ...)
