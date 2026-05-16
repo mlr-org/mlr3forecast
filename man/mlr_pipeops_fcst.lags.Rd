@@ -6,6 +6,11 @@
 \title{Create Lags of Target Variable}
 \description{
 Creates lagged versions of the target variable as new feature columns.
+
+At predict time, lags are computed from the task's full backend (i.e. including rows outside
+\code{row_roles$use}), then joined onto the active rows. Used inside \link{RecursiveForecaster}, where the
+forecaster writes each step's prediction into the combined task's target column between steps so
+lag features for the next step reflect the freshly predicted value.
 }
 \section{Parameters}{
 
@@ -25,63 +30,63 @@ new_task = po$train(list(task))[[1L]]
 new_task$head()
 }
 \section{Super classes}{
-\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{\link[mlr3forecast:PipeOpFcstIterative]{mlr3forecast::PipeOpFcstIterative}} -> \code{PipeOpFcstLags}
+\code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{\link[mlr3forecast:PipeOpFcstIterative]{PipeOpFcstIterative}} -> \code{PipeOpFcstLags}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-PipeOpFcstLags-new}{\code{PipeOpFcstLags$new()}}
-\item \href{#method-PipeOpFcstLags-clone}{\code{PipeOpFcstLags$clone()}}
+  \itemize{
+    \item \href{#method-PipeOpFcstLags-initialize}{\code{PipeOpFcstLags$new()}}
+    \item \href{#method-PipeOpFcstLags-clone}{\code{PipeOpFcstLags$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="help"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-help'><code>mlr3pipelines::PipeOp$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-predict'><code>mlr3pipelines::PipeOp$predict()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-print'><code>mlr3pipelines::PipeOp$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-train'><code>mlr3pipelines::PipeOp$train()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3forecast" data-topic="PipeOpFcstIterative" data-id="update_history"><a href='../../mlr3forecast/html/PipeOpFcstIterative.html#method-PipeOpFcstIterative-update_history'><code>mlr3forecast::PipeOpFcstIterative$update_history()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="help"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-help'><code>mlr3pipelines::PipeOp$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-predict'><code>mlr3pipelines::PipeOp$predict()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-print'><code>mlr3pipelines::PipeOp$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-train'><code>mlr3pipelines::PipeOp$train()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PipeOpFcstLags-new"></a>}}
-\if{latex}{\out{\hypertarget{method-PipeOpFcstLags-new}{}}}
-\subsection{Method \code{new()}}{
-Initializes a new instance of this Class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpFcstLags$new(id = "fcst.lags", param_vals = list())}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{id}}{(\code{character(1)})\cr
+\if{html}{\out{<a id="method-PipeOpFcstLags-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-PipeOpFcstLags-initialize}{}}}
+\subsection{\code{PipeOpFcstLags$new()}}{
+  Initializes a new instance of this Class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PipeOpFcstLags$new(id = "fcst.lags", param_vals = list())}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{id}}{(\code{character(1)})\cr
 Identifier of resulting object, default \code{"fcst.lags"}.}
-
-\item{\code{param_vals}}{(named \code{list()})\cr
+      \item{\code{param_vals}}{(named \code{list()})\cr
 List of hyperparameter settings, overwriting the hyperparameter settings that would
 otherwise be set during construction. Default \code{list()}.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PipeOpFcstLags-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-PipeOpFcstLags-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpFcstLags$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{PipeOpFcstLags$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PipeOpFcstLags$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

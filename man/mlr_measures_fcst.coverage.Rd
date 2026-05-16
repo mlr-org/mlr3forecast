@@ -20,7 +20,7 @@ where \eqn{l_i} and \eqn{u_i} are the lower and upper bounds of the prediction i
 }
 \section{Dictionary}{
 
-This \link[mlr3:Measure]{mlr3::Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures} or with the associated sugar function \code{\link[mlr3:mlr_sugar]{mlr3::msr()}}:
+This \link[mlr3:Measure]{mlr3::Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures} or with the associated sugar function \code{\link[mlr3:msr]{mlr3::msr()}}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("fcst.coverage")
 msr("fcst.coverage")
@@ -60,7 +60,7 @@ msr("fcst.coverage")
 }
 }
 
-Other Measure: 
+Other Measure:
 \code{\link{mlr_measures_fcst.acf1}},
 \code{\link{mlr_measures_fcst.mase}},
 \code{\link{mlr_measures_fcst.mda}},
@@ -76,48 +76,50 @@ Other Measure:
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MeasureCoverage-new}{\code{MeasureCoverage$new()}}
-\item \href{#method-MeasureCoverage-clone}{\code{MeasureCoverage$clone()}}
+  \itemize{
+    \item \href{#method-MeasureCoverage-initialize}{\code{MeasureCoverage$new()}}
+    \item \href{#method-MeasureCoverage-clone}{\code{MeasureCoverage$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href='../../mlr3/html/Measure.html#method-Measure-obs_loss'><code>mlr3::Measure$obs_loss()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href='../../mlr3/html/Measure.html#method-Measure-obs_loss'><code>mlr3::Measure$obs_loss()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureCoverage-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureCoverage-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureCoverage$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-MeasureCoverage-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureCoverage-initialize}{}}}
+\subsection{\code{MeasureCoverage$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MeasureCoverage$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureCoverage-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MeasureCoverage-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureCoverage$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MeasureCoverage$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MeasureCoverage$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

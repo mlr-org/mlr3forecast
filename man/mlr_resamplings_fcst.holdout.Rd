@@ -10,7 +10,7 @@ Parameter \code{ratio} determines the ratio of observation going into the traini
 }
 \section{Dictionary}{
 
-This \link[mlr3:Resampling]{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_resamplings]{mlr_resamplings} or with the associated sugar function \link[mlr3:mlr_sugar]{rsmp()}:
+This \link[mlr3:Resampling]{Resampling} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_resamplings]{mlr_resamplings} or with the associated sugar function \link[mlr3:rsmp]{rsmp()}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_resamplings$get("fcst.holdout")
 rsmp("fcst.holdout")
@@ -60,7 +60,7 @@ holdout$instance # simple list
 tasks.
 }
 
-Other Resampling: 
+Other Resampling:
 \code{\link{mlr_resamplings_fcst.cv}}
 }
 \concept{Resampling}
@@ -68,57 +68,59 @@ Other Resampling:
 \code{\link[mlr3:Resampling]{mlr3::Resampling}} -> \code{ResamplingFcstHoldout}
 }
 \section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{iters}}{(\code{integer(1)})\cr
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{iters}}{(\code{integer(1)})\cr
 Returns the number of resampling iterations, depending on the values stored in the \code{param_set}.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-ResamplingFcstHoldout-new}{\code{ResamplingFcstHoldout$new()}}
-\item \href{#method-ResamplingFcstHoldout-clone}{\code{ResamplingFcstHoldout$clone()}}
+  \itemize{
+    \item \href{#method-ResamplingFcstHoldout-initialize}{\code{ResamplingFcstHoldout$new()}}
+    \item \href{#method-ResamplingFcstHoldout-clone}{\code{ResamplingFcstHoldout$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>mlr3::Resampling$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>mlr3::Resampling$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate"><a href='../../mlr3/html/Resampling.html#method-Resampling-instantiate'><code>mlr3::Resampling$instantiate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>mlr3::Resampling$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>mlr3::Resampling$test_set()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>mlr3::Resampling$train_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="format"><a href='../../mlr3/html/Resampling.html#method-Resampling-format'><code>mlr3::Resampling$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="help"><a href='../../mlr3/html/Resampling.html#method-Resampling-help'><code>mlr3::Resampling$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="instantiate"><a href='../../mlr3/html/Resampling.html#method-Resampling-instantiate'><code>mlr3::Resampling$instantiate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="print"><a href='../../mlr3/html/Resampling.html#method-Resampling-print'><code>mlr3::Resampling$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="test_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-test_set'><code>mlr3::Resampling$test_set()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Resampling" data-id="train_set"><a href='../../mlr3/html/Resampling.html#method-Resampling-train_set'><code>mlr3::Resampling$train_set()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ResamplingFcstHoldout-new"></a>}}
-\if{latex}{\out{\hypertarget{method-ResamplingFcstHoldout-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingFcstHoldout$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-ResamplingFcstHoldout-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-ResamplingFcstHoldout-initialize}{}}}
+\subsection{\code{ResamplingFcstHoldout$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingFcstHoldout$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ResamplingFcstHoldout-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-ResamplingFcstHoldout-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ResamplingFcstHoldout$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{ResamplingFcstHoldout$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{ResamplingFcstHoldout$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

@@ -5,16 +5,12 @@
 \title{Abstract Base Class for Iterative Forecasting PipeOps}
 \description{
 Abstract base class for \link[mlr3pipelines:PipeOp]{PipeOps} that participate in recursive
-(iterative one-step-ahead) forecasting within \link{RecursiveForecaster}. Subclasses maintain a
-\code{history} slot in \code{self$state} and implement (or inherit) \code{update_history(new_row)}, which
-appends the most recently predicted row so subsequent prediction steps can compute features
-from it.
+(iterative one-step-ahead) forecasting within \link{RecursiveForecaster}. Subclasses compute
+time-dependent features (lags, rolling windows, etc.) from the full task backend rather than
+only from rows in \code{row_roles$use}, so that predictions written into the backend by
+\link{RecursiveForecaster} between steps are visible on the next iteration.
 
 \link{RecursiveForecaster} detects participating PipeOps via \code{inherits(po, "PipeOpFcstIterative")}.
-
-The default \code{update_history()} implementation appends \code{new_row} to \code{self$state$history}, which
-covers the common case (lag features, rolling-window features). Override in a subclass when a
-different history representation is needed.
 }
 \section{Subclasses}{
 
@@ -29,57 +25,36 @@ different history representation is needed.
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-PipeOpFcstIterative-update_history}{\code{PipeOpFcstIterative$update_history()}}
-\item \href{#method-PipeOpFcstIterative-clone}{\code{PipeOpFcstIterative$clone()}}
+  \itemize{
+    \item \href{#method-PipeOpFcstIterative-clone}{\code{PipeOpFcstIterative$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details open><summary>Inherited methods</summary>
+\if{html}{\out{<details open><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="help"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-help'><code>mlr3pipelines::PipeOp$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-predict'><code>mlr3pipelines::PipeOp$predict()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-print'><code>mlr3pipelines::PipeOp$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-train'><code>mlr3pipelines::PipeOp$train()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOpTaskPreproc" data-id="initialize"><a href='../../mlr3pipelines/html/PipeOpTaskPreproc.html#method-PipeOpTaskPreproc-initialize'><code>mlr3pipelines::PipeOpTaskPreproc$initialize()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="help"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-help'><code>mlr3pipelines::PipeOp$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-predict'><code>mlr3pipelines::PipeOp$predict()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="print"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-print'><code>mlr3pipelines::PipeOp$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="train"><a href='../../mlr3pipelines/html/PipeOp.html#method-PipeOp-train'><code>mlr3pipelines::PipeOp$train()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOpTaskPreproc" data-id="initialize"><a href='../../mlr3pipelines/html/PipeOpTaskPreproc.html#method-PipeOpTaskPreproc-initialize'><code>mlr3pipelines::PipeOpTaskPreproc$initialize()</code></a></span></li>
 </ul>
-</details>
-}}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-PipeOpFcstIterative-update_history"></a>}}
-\if{latex}{\out{\hypertarget{method-PipeOpFcstIterative-update_history}{}}}
-\subsection{Method \code{update_history()}}{
-Append a newly-predicted row to \code{self$state$history}. Called by \link{RecursiveForecaster} after
-each prediction step. Override to customize history maintenance.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpFcstIterative$update_history(new_row)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{new_row}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
-A single-row data.table containing the target (set to the predicted value), order
-columns, and key columns.}
-}
-\if{html}{\out{</div>}}
-}
-}
+</details>}}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-PipeOpFcstIterative-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-PipeOpFcstIterative-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{PipeOpFcstIterative$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{PipeOpFcstIterative$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PipeOpFcstIterative$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

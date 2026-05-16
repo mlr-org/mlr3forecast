@@ -25,7 +25,7 @@ The Winkler score is then the mean of \eqn{W_i} over all observations.
 }
 \section{Dictionary}{
 
-This \link[mlr3:Measure]{mlr3::Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures} or with the associated sugar function \code{\link[mlr3:mlr_sugar]{mlr3::msr()}}:
+This \link[mlr3:Measure]{mlr3::Measure} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_measures]{mlr3::mlr_measures} or with the associated sugar function \code{\link[mlr3:msr]{mlr3::msr()}}:
 
 \if{html}{\out{<div class="sourceCode">}}\preformatted{mlr_measures$get("fcst.winkler")
 msr("fcst.winkler")
@@ -70,7 +70,7 @@ Winkler, L R (1972).
 }
 }
 
-Other Measure: 
+Other Measure:
 \code{\link{mlr_measures_fcst.acf1}},
 \code{\link{mlr_measures_fcst.coverage}},
 \code{\link{mlr_measures_fcst.mase}},
@@ -86,48 +86,50 @@ Other Measure:
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-MeasureWinkler-new}{\code{MeasureWinkler$new()}}
-\item \href{#method-MeasureWinkler-clone}{\code{MeasureWinkler$clone()}}
+  \itemize{
+    \item \href{#method-MeasureWinkler-initialize}{\code{MeasureWinkler$new()}}
+    \item \href{#method-MeasureWinkler-clone}{\code{MeasureWinkler$clone()}}
+  }
 }
-}
-\if{html}{\out{
-<details><summary>Inherited methods</summary>
+\if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href='../../mlr3/html/Measure.html#method-Measure-obs_loss'><code>mlr3::Measure$obs_loss()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="aggregate"><a href='../../mlr3/html/Measure.html#method-Measure-aggregate'><code>mlr3::Measure$aggregate()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="format"><a href='../../mlr3/html/Measure.html#method-Measure-format'><code>mlr3::Measure$format()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="help"><a href='../../mlr3/html/Measure.html#method-Measure-help'><code>mlr3::Measure$help()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="obs_loss"><a href='../../mlr3/html/Measure.html#method-Measure-obs_loss'><code>mlr3::Measure$obs_loss()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="print"><a href='../../mlr3/html/Measure.html#method-Measure-print'><code>mlr3::Measure$print()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Measure" data-id="score"><a href='../../mlr3/html/Measure.html#method-Measure-score'><code>mlr3::Measure$score()</code></a></span></li>
 </ul>
-</details>
-}}
+</details>}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MeasureWinkler-new"></a>}}
-\if{latex}{\out{\hypertarget{method-MeasureWinkler-new}{}}}
-\subsection{Method \code{new()}}{
-Creates a new instance of this \link[R6:R6Class]{R6} class.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureWinkler$new()}\if{html}{\out{</div>}}
+\if{html}{\out{<a id="method-MeasureWinkler-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-MeasureWinkler-initialize}{}}}
+\subsection{\code{MeasureWinkler$new()}}{
+  Creates a new instance of this \link[R6:R6Class]{R6} class.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MeasureWinkler$new()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-MeasureWinkler-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-MeasureWinkler-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MeasureWinkler$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{MeasureWinkler$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{MeasureWinkler$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }
