@@ -82,6 +82,17 @@ RecursiveForecaster = R6::R6Class(
         clone_graph = clone_graph
       )
 
+      target_trafo_ids = keep(
+        names(self$graph$pipeops),
+        function(id) inherits(self$graph$pipeops[[id]], "PipeOpTargetTrafo")
+      )
+      if (length(target_trafo_ids) > 0L) {
+        error_input(
+          "Target transformations inside a RecursiveForecaster graph are not supported (found: %s). Apply the transformation outside the graph, or use DirectForecaster.",
+          toString(target_trafo_ids)
+        )
+      }
+
       has_iterative = any(map_lgl(
         self$graph$pipeops,
         function(po) "fcst_iterative" %in% po$properties
@@ -192,6 +203,11 @@ RecursiveForecaster = R6::R6Class(
       ))
       test_data = task$data(cols = test_cols)
 
+      # Drop training rows whose (key, order) overlap with the test set so the combined
+      # backend has unique (key, order) — otherwise the lag/rolling joins return >1 row
+      # per active row and downstream cbind/backend construction fails.
+      join_cols = c(key_cols, order_cols)
+      train_data = train_data[!test_data, on = join_cols]
       combined = rbindlist(list(train_data, test_data), use.names = TRUE, fill = TRUE)
       n_train = nrow(train_data)
       n_test = nrow(test_data)
@@ -207,6 +223,9 @@ RecursiveForecaster = R6::R6Class(
         key = key_cols,
         freq = self$model$freq
       )
+      # Preserve the feature col_roles from training so PipeOpTaskPreproc's layout
+      # check passes (e.g., when the order column was also marked as a feature).
+      step_task$col_roles$feature = intersect(self$model$feature_names, names(combined))
 
       ord = combined[test_cids, c(key_cols, order_cols, "..rid"), with = FALSE]
       setorderv(ord, c(key_cols, order_cols))

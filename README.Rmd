@@ -131,6 +131,22 @@ rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 ```
 
+By default `as_learner_fcst()` builds a recursive forecaster (one model, applied
+iteratively). Pass `strategy = "direct"` together with `horizons` to train one
+model per horizon — predictions then come straight from each horizon's model,
+with no error accumulation:
+
+```{r, message = FALSE}
+task = tsk("airpassengers")
+flrn = as_learner_fcst(
+  lrn("regr.ranger"),
+  lags = 1:12,
+  strategy = "direct",
+  horizons = 12
+)$train(task, 1:132)
+flrn$predict(task, 133:144)$score(msr("regr.rmse"))
+```
+
 Or with some feature engineering using mlr3pipelines:
 
 ```{r}
@@ -193,6 +209,27 @@ pipeline = ppl(
 learner = as_learner(pipeline)$train(task)
 prediction = learner$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
+```
+
+### Example: comparing classical and ML forecasters
+
+ML forecasters declare `task_type = "fcst"`, so they can be benchmarked
+side-by-side with classical learners on the same task in a single
+`benchmark()` call:
+
+```{r, message = FALSE}
+task = tsk("airpassengers")
+resampling = rsmp("fcst.holdout", ratio = 0.9)$instantiate(task)
+n_test = length(resampling$test_set(1L))
+
+learners = list(
+  lrn("fcst.arima"),
+  as_learner_fcst(lrn("regr.ranger"), lags = 1:12),
+  as_learner_fcst(lrn("regr.ranger"), lags = 1:12, strategy = "direct", horizons = n_test)
+)
+design = benchmark_grid(task, learners, resampling)
+bmr = benchmark(design)
+bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 ```
 
 ### Example: forecasting electricity demand

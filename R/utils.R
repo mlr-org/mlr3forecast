@@ -93,7 +93,10 @@ freq_to_int = function(freq) {
 #' @param object ([mlr3::Learner])\cr
 #'   A trained forecast learner.
 #' @param task ([TaskFcst])\cr
-#'   The task used for training (or compatible; used to infer frequency, order, and keys).
+#'   Provides the metadata needed to construct future rows: the order column (to extend the time
+#'   index), key columns (for keyed tasks), `freq`, and the column-type schema expected by
+#'   `predict_newdata()`. The task's data values are not used. Pass the training task or any other
+#'   schema-compatible [TaskFcst].
 #' @param h (`integer(1)`)\cr
 #'   Forecast horizon — number of future time steps per key.
 #' @param newdata ([data.frame()] | `NULL`)\cr

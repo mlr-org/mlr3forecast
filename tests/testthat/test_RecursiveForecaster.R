@@ -55,6 +55,20 @@ test_that("RecursiveForecaster warns without iterative PipeOps", {
   expect_warning(RecursiveForecaster$new(graph), "recursive")
 })
 
+test_that("RecursiveForecaster handles predict rows overlapping training rows", {
+  task = tsk("airpassengers")
+  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)$train(task)
+  prediction = flrn$predict(task, 140:144)
+  expect_class(prediction, "PredictionRegr")
+  expect_length(prediction$response, 5L)
+})
+
+test_that("RecursiveForecaster errors on target trafo inside the graph", {
+  inner = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
+  graph = ppl("targettrafo", graph = inner, trafo_pipeop = po("fcst.targetdiff", lag = 1L))
+  expect_snapshot(RecursiveForecaster$new(graph), error = TRUE)
+})
+
 test_that("as_learner_fcst helper works", {
   learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
   expect_class(learner, "RecursiveForecaster")

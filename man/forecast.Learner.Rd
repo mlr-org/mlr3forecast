@@ -11,7 +11,10 @@
 A trained forecast learner.}
 
 \item{task}{(\link{TaskFcst})\cr
-The task used for training (or compatible; used to infer frequency, order, and keys).}
+Provides the metadata needed to construct future rows: the order column (to extend the time
+index), key columns (for keyed tasks), \code{freq}, and the column-type schema expected by
+\code{predict_newdata()}. The task's data values are not used. Pass the training task or any other
+schema-compatible \link{TaskFcst}.}
 
 \item{h}{(\code{integer(1)})\cr
 Forecast horizon — number of future time steps per key.}
