@@ -15,7 +15,8 @@
 #' selector_fcst_lags()(new_task)
 selector_fcst_lags = function() {
   selector = function(task) {
-    pattern = sprintf("^%s_lag_[0-9]+$", task$target_names)
+    target = assert_string(task$target_names)
+    pattern = sprintf("^%s_lag_[0-9]+$", target)
     grep(pattern, task$feature_names, value = TRUE)
   }
   structure(selector, repr = "selector_fcst_lags()", class = c("Selector", "function"))
@@ -39,7 +40,8 @@ selector_fcst_lags = function() {
 #' selector_fcst_rolling()(new_task)
 selector_fcst_rolling = function() {
   selector = function(task) {
-    pattern = sprintf("^%s_roll_(mean|median|sd|min|max|sum)_[0-9]+$", task$target_names)
+    target = assert_string(task$target_names)
+    pattern = sprintf("^%s_roll_(mean|median|sd|min|max|sum)_[0-9]+$", target)
     grep(pattern, task$feature_names, value = TRUE)
   }
   structure(selector, repr = "selector_fcst_rolling()", class = c("Selector", "function"))
