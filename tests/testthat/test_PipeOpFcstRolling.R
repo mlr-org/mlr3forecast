@@ -1,3 +1,7 @@
+test_that("PipeOpFcstRolling declares fcst_iterative property", {
+  expect_subset("fcst_iterative", po("fcst.rolling")$properties)
+})
+
 test_that("PipeOpFcstRolling basic train/predict on airpassengers", {
   task = tsk("airpassengers")
   po = po("fcst.rolling", funs = c("mean", "sd"), window_sizes = c(3L, 12L), lag = 1L)

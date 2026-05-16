@@ -20,6 +20,7 @@ mlr3forecast_task_print_col_roles = c("Key by" = "key")
 mlr3forecast_task_properties = c("univariate", "multivariate", "ordered", "keys")
 mlr3forecast_pipeops = new.env(parent = emptyenv())
 mlr3forecast_pipeop_tags = "fcst"
+mlr3forecast_pipeop_properties = "fcst_iterative"
 
 named_union = function(x, y) set_names(union(x, y), union(names(x), names(y)))
 
@@ -91,6 +92,7 @@ register_mlr3pipelines = function() {
   mlr_pipeops = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
   iwalk(as.list(mlr3forecast_pipeops), function(value, name) mlr_pipeops$add(name, value$constructor, value$metainf))
   mlr_reflections$pipeops$valid_tags = union(mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags)
+  mlr_reflections$pipeops$properties = union(mlr_reflections$pipeops$properties, mlr3forecast_pipeop_properties)
 }
 
 .onLoad = function(libname, pkgname) {
@@ -116,6 +118,7 @@ register_mlr3pipelines = function() {
   reflections = c("learner_predict_types", "task_col_roles", "task_properties")
   walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
   mlr_reflections$pipeops$valid_tags = setdiff(mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags)
+  mlr_reflections$pipeops$properties = setdiff(mlr_reflections$pipeops$properties, mlr3forecast_pipeop_properties)
 }
 
 leanify_package()

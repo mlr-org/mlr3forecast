@@ -24,7 +24,7 @@
 #' new_task$head()
 PipeOpFcstLags = R6Class(
   "PipeOpFcstLags",
-  inherit = PipeOpFcstIterative,
+  inherit = PipeOpTaskPreproc,
   public = list(
     #' @description Initializes a new instance of this Class.
     #' @param id (`character(1)`)\cr
@@ -46,6 +46,7 @@ PipeOpFcstLags = R6Class(
         feature_types = c("numeric", "integer", "Date", "factor"),
         tags = "fcst"
       )
+      self$properties = union(self$properties, "fcst_iterative")
     }
   ),
 

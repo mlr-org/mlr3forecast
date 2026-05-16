@@ -84,11 +84,11 @@ RecursiveForecaster = R6::R6Class(
 
       has_iterative = any(map_lgl(
         self$graph$pipeops,
-        function(po) inherits(po, "PipeOpFcstIterative")
+        function(po) "fcst_iterative" %in% po$properties
       ))
       if (!has_iterative) {
         warning_input(
-          "Graph contains no PipeOps with iterative forecasting support (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting."
+          "Graph contains no PipeOps with the 'fcst_iterative' property (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting."
         )
       }
     },
@@ -173,7 +173,7 @@ RecursiveForecaster = R6::R6Class(
       })
       self$graph$state = self$model$graph_state
 
-      iterative_pos = keep(self$graph$pipeops, function(po) inherits(po, "PipeOpFcstIterative"))
+      iterative_pos = keep(self$graph$pipeops, function(po) "fcst_iterative" %in% po$properties)
       if (length(iterative_pos) == 0L) {
         prediction = self$graph$predict(task)
         return(prediction[[1L]])
