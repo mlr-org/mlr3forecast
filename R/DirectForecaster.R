@@ -90,6 +90,22 @@ DirectForecaster = R6::R6Class(
       super$print()
       cat_cli(cli::cli_li("Lags: {self$lags}"))
       cat_cli(cli::cli_li("Horizons: {self$horizons}"))
+    },
+
+    #' @description
+    #' Marshal the learner's model.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`mlr3::marshal_model()`].
+    marshal = function(...) {
+      learner_marshal(.learner = self, ...)
+    },
+
+    #' @description
+    #' Unmarshal the learner's model.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`mlr3::unmarshal_model()`].
+    unmarshal = function(...) {
+      learner_unmarshal(.learner = self, ...)
     }
   ),
 
@@ -122,6 +138,12 @@ DirectForecaster = R6::R6Class(
         error_input("param_set is read-only.")
       }
       param_set
+    },
+
+    #' @field marshaled (`logical(1)`)\cr
+    #' Whether the learner's model is currently in marshaled form.
+    marshaled = function() {
+      learner_marshaled(self)
     },
 
     #' @field predict_type (`character(1)`)\cr
@@ -213,3 +235,64 @@ DirectForecaster = R6::R6Class(
     }
   )
 )
+
+#' @export
+#' @method marshal_model direct_forecaster_model
+marshal_model.direct_forecaster_model = function(model, inplace = FALSE, ...) {
+  if (inplace) {
+    model$models = map(model$models, function(m) {
+      m$model = marshal_model(m$model, inplace = TRUE, ...)
+      m
+    })
+    return(structure(
+      list(marshaled = model, packages = c("mlr3pipelines", "mlr3forecast")),
+      class = c(paste0(class(model), "_marshaled"), "marshaled")
+    ))
+  }
+  # inplace = FALSE: clone each learner without its model so the deep clone is cheap,
+  # then attach the marshaled model to the clone. Restore the original on exit.
+  marshaled_models = map(model$models, function(m) {
+    learner_model = m$model
+    on.exit(
+      {
+        m$model = learner_model
+      },
+      add = TRUE
+    )
+    m$model = NULL
+    m_clone = m$clone(deep = TRUE)
+    m_clone$model = marshal_model(learner_model, inplace = FALSE, ...)
+    m_clone
+  })
+  structure(
+    list(marshaled = list(models = marshaled_models), packages = c("mlr3pipelines", "mlr3forecast")),
+    class = c(paste0(class(model), "_marshaled"), "marshaled")
+  )
+}
+
+#' @export
+#' @method unmarshal_model direct_forecaster_model_marshaled
+unmarshal_model.direct_forecaster_model_marshaled = function(model, inplace = FALSE, ...) {
+  m_inner = model$marshaled
+  if (inplace) {
+    m_inner$models = map(m_inner$models, function(m) {
+      m$model = unmarshal_model(m$model, inplace = TRUE, ...)
+      m
+    })
+    return(structure(m_inner, class = c("direct_forecaster_model", "list")))
+  }
+  unmarshaled_models = map(m_inner$models, function(m) {
+    prev_model = m$model
+    on.exit(
+      {
+        m$model = prev_model
+      },
+      add = TRUE
+    )
+    m$model = NULL
+    m_clone = m$clone(deep = TRUE)
+    m_clone$model = unmarshal_model(prev_model, inplace = FALSE, ...)
+    m_clone
+  })
+  structure(list(models = unmarshaled_models), class = c("direct_forecaster_model", "list"))
+}

@@ -264,7 +264,7 @@ marshal_model.recursive_forecaster_model = function(model, inplace = FALSE, ...)
       marshaled = insert_named(model, list(graph_state = marshaled_gs)),
       packages = c("mlr3pipelines", "mlr3forecast")
     ),
-    class = c("recursive_forecaster_model_marshaled", "list_marshaled", "marshaled")
+    class = c(paste0(class(model), "_marshaled"), "marshaled")
   )
 }
 

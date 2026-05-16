@@ -44,6 +44,9 @@ The forecast horizons.}
     \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
+    \item{\code{marshaled}}{(\code{logical(1)})\cr
+Whether the learner's model is currently in marshaled form.}
+
     \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type.}
   }
@@ -54,6 +57,8 @@ Stores the currently active predict type.}
   \itemize{
     \item \href{#method-DirectForecaster-initialize}{\code{DirectForecaster$new()}}
     \item \href{#method-DirectForecaster-print}{\code{DirectForecaster$print()}}
+    \item \href{#method-DirectForecaster-marshal}{\code{DirectForecaster$marshal()}}
+    \item \href{#method-DirectForecaster-unmarshal}{\code{DirectForecaster$unmarshal()}}
     \item \href{#method-DirectForecaster-clone}{\code{DirectForecaster$clone()}}
   }
 }
@@ -123,6 +128,46 @@ The predict type, default \code{NULL}.}
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DirectForecaster-marshal"></a>}}
+\if{latex}{\out{\hypertarget{method-DirectForecaster-marshal}{}}}
+\subsection{\code{DirectForecaster$marshal()}}{
+  Marshal the learner's model.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DirectForecaster$marshal(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[mlr3:marshal_model]{mlr3::marshal_model()}}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DirectForecaster-unmarshal"></a>}}
+\if{latex}{\out{\hypertarget{method-DirectForecaster-unmarshal}{}}}
+\subsection{\code{DirectForecaster$unmarshal()}}{
+  Unmarshal the learner's model.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DirectForecaster$unmarshal(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{(any)\cr
+Additional arguments passed to \code{\link[mlr3:unmarshal_model]{mlr3::unmarshal_model()}}.}
     }
     \if{html}{\out{</div>}}
   }
