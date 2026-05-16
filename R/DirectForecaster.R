@@ -19,8 +19,8 @@
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
 #'
-#' # or use as_learner_fcst with horizons argument
-#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
+#' # or use as_learner_fcst with strategy = "direct"
+#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = length(split$test))
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
 DirectForecaster = R6::R6Class(
@@ -33,7 +33,7 @@ DirectForecaster = R6::R6Class(
     #'   A regression learner or a graph/PipeOp (without [PipeOpFcstLags]).
     #' @param lags (`integer()`)\cr
     #'   The base lag values.
-    #' @param horizons (`integer(1)` | `integer()`)\cr
+    #' @param horizons (`integer()`)\cr
     #'   Either a single integer `H` (expanded to `1:H`) or an integer vector of specific horizons.
     initialize = function(learner, lags, horizons) {
       lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)

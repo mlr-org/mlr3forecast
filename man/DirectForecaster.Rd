@@ -21,8 +21,8 @@ flrn = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = length(spl
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 
-# or use as_learner_fcst with horizons argument
-flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
+# or use as_learner_fcst with strategy = "direct"
+flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = length(split$test))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 }
@@ -88,7 +88,7 @@ Stores the currently active predict type.}
 A regression learner or a graph/PipeOp (without \link{PipeOpFcstLags}).}
       \item{\code{lags}}{(\code{integer()})\cr
 The base lag values.}
-      \item{\code{horizons}}{(\code{integer(1)} | \code{integer()})\cr
+      \item{\code{horizons}}{(\code{integer()})\cr
 Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector of specific horizons.}
     }
     \if{html}{\out{</div>}}

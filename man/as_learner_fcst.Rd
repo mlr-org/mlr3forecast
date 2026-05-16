@@ -4,7 +4,13 @@
 \alias{as_learner_fcst}
 \title{Convert to a Forecast Learner}
 \usage{
-as_learner_fcst(learner, lags = NULL, horizons = NULL, ...)
+as_learner_fcst(
+  learner,
+  lags = NULL,
+  strategy = "recursive",
+  horizons = NULL,
+  ...
+)
 }
 \arguments{
 \item{learner}{(\link[mlr3:Learner]{mlr3::Learner} | \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp})\cr
@@ -13,8 +19,11 @@ A regression learner (when \code{lags} is provided) or a graph/PipeOp.}
 \item{lags}{(\code{integer()} | \code{NULL})\cr
 The lag values to use for creating lag features.}
 
-\item{horizons}{(\code{integer(1)} | \code{integer()} | \code{NULL})\cr
-If provided, creates a \link{DirectForecaster} with one model per horizon.
+\item{strategy}{(\code{character(1)})\cr
+Forecasting strategy. One of \code{"recursive"} (default) or \code{"direct"}.}
+
+\item{horizons}{(\code{integer()} | \code{NULL})\cr
+Required when \code{strategy = "direct"}; must be \code{NULL} when \code{strategy = "recursive"}.
 A single integer \code{H} is expanded to \code{1:H}.}
 
 \item{...}{(any)\cr
@@ -24,8 +33,8 @@ Additional arguments passed to \link{RecursiveForecaster} or \link{DirectForecas
 \link{RecursiveForecaster} or \link{DirectForecaster}.
 }
 \description{
-Creates a \link{RecursiveForecaster} (recursive strategy) or \link{DirectForecaster} (direct strategy).
-If \code{horizons} is provided, a \link{DirectForecaster} is created; otherwise a \link{RecursiveForecaster}.
+Creates a \link{RecursiveForecaster} (recursive strategy) or \link{DirectForecaster} (direct strategy),
+selected via \code{strategy}.
 }
 \examples{
 library(mlr3pipelines)
@@ -38,5 +47,5 @@ graph = po("fcst.lags", lags = 1:3) \%>>\% lrn("regr.rpart")
 flrn = as_learner_fcst(graph)
 
 # direct forecasting (one model per horizon)
-flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 12)
+flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 12)
 }

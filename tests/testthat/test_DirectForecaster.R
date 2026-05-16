@@ -59,12 +59,26 @@ test_that("DirectForecaster scalar horizon expands to 1:H", {
   expect_equal(learner$horizons, 1:5)
 })
 
-test_that("as_learner_fcst dispatches on horizons", {
-  learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+test_that("as_learner_fcst dispatches on strategy", {
+  learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 3)
   expect_class(learner, "DirectForecaster")
 
   learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
   expect_class(learner, "RecursiveForecaster")
+
+  learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "recursive")
+  expect_class(learner, "RecursiveForecaster")
+})
+
+test_that("as_learner_fcst rejects mismatched horizons and strategy", {
+  expect_snapshot(
+    as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct"),
+    error = TRUE
+  )
+  expect_snapshot(
+    as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 3),
+    error = TRUE
+  )
 })
 
 test_that("DirectForecaster active bindings", {

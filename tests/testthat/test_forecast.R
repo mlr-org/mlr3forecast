@@ -10,7 +10,7 @@ test_that("forecast() works with RecursiveForecaster", {
 
 test_that("forecast() works with DirectForecaster", {
   task = tsk("airpassengers")
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 6L)
+  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 6L)
   flrn$train(task)
 
   pred = forecast(flrn, task, h = 6L)
