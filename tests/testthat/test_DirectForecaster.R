@@ -81,6 +81,33 @@ test_that("as_learner_fcst rejects mismatched horizons and strategy", {
   )
 })
 
+test_that("DirectForecaster aligns row_ids and extras when storage order differs from (key, order)", {
+  dt = rbindlist(list(
+    data.table(
+      state = factor("B", levels = c("A", "B")),
+      month = as.Date("2020-01-01") + 30 * (0:5),
+      y = 100 + 0:5
+    ),
+    data.table(
+      state = factor("A", levels = c("A", "B")),
+      month = as.Date("2020-01-01") + 30 * (0:5),
+      y = 500 + 0:5
+    )
+  ))
+  task = as_task_fcst(dt, target = "y", order = "month", key = "state", freq = "month")
+  train_ids = c(1:4, 7:10)
+  test_ids = c(5:6, 11:12)
+
+  flrn = DirectForecaster$new(lrn("regr.rpart", minsplit = 2L, cp = 0), lags = 1L, horizons = 2L)
+  flrn$train(task, train_ids)
+  pred = as.data.table(flrn$predict(task, test_ids))
+
+  truth_by_row = task$data(rows = pred$row_ids, cols = "y")[[1L]]
+  expect_equal(pred$truth, truth_by_row)
+  state_by_row = task$data(rows = pred$row_ids, cols = "state")[[1L]]
+  expect_equal(pred$state, state_by_row)
+})
+
 test_that("DirectForecaster active bindings", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:5, horizons = 3)
   expect_equal(learner$lags, 1:5)

@@ -177,8 +177,7 @@ DirectForecaster = R6::R6Class(
       combined$data = insert_named(
         combined$data,
         list(
-          row_ids = task$row_ids,
-          extra = as.list(task$data(cols = c(key_cols, order_cols)))
+          extra = as.list(task$data(rows = combined$data$row_ids, cols = c(key_cols, order_cols)))
         )
       )
       combined
