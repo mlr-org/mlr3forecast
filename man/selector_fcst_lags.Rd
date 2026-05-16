@@ -20,4 +20,8 @@ pop = po("fcst.lags", lags = 1:3)
 new_task = pop$train(list(task))[[1L]]
 selector_fcst_lags()(new_task)
 }
+\seealso{
+Other Selectors:
+\code{\link[=selector_fcst_rolling]{selector_fcst_rolling()}}
+}
 \concept{Selectors}

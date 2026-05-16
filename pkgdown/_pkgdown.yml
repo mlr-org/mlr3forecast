@@ -67,6 +67,7 @@ reference:
   - title: Selectors
     contents:
       - selector_fcst_lags
+      - selector_fcst_rolling
   - title: Helper
     contents:
       - as_learner_fcst
