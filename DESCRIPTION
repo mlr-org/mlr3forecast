@@ -30,6 +30,7 @@ Suggests:
     distributional,
     fabletools,
     forecast (>= 9.0.2),
+    mlr3tuning,
     prophet (>= 1.1.7),
     rpart,
     smooth (>= 4.4.0),

@@ -77,7 +77,7 @@ RecursiveForecaster = R6::R6Class(
         graph = graph,
         id = id,
         param_vals = param_vals,
-        task_type = "regr",
+        task_type = "fcst",
         predict_type = predict_type,
         clone_graph = clone_graph
       )

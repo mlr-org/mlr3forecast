@@ -72,7 +72,7 @@ DirectForecaster = R6::R6Class(
 
       super$initialize(
         id = id %??% private$.learner$id,
-        task_type = "regr",
+        task_type = "fcst",
         predict_types = private$.learner$predict_types,
         feature_types = private$.learner$feature_types,
         properties = private$.learner$properties,
