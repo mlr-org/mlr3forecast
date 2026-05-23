@@ -73,7 +73,7 @@ reference:
       - as_learner_fcst
       - as_task_fcst
       - autoplot.TaskFcst
-      - forecast
+      - forecast.Learner
       - generate_newdata
       - partition.TaskFcst
       - read_tsf
