@@ -94,10 +94,7 @@ PipeOpFcstRolling = R6Class(
       key_cols = col_roles$key
       order_cols = col_roles$order
 
-      full = task$backend$data(
-        rows = task$backend$rownames,
-        cols = c(target, key_cols, order_cols)
-      )
+      full = task$backend$data(rows = task$backend$rownames, cols = c(target, key_cols, order_cols))
       roll_spec = private$.roll_spec(target)
       if (length(key_cols) > 0L) {
         setorderv(full, c(key_cols, order_cols))
@@ -129,9 +126,7 @@ PipeOpFcstRolling = R6Class(
 fcst_rolls = function(x, spec) {
   rolls = list(mean = frollmean, median = frollmedian, sd = frollsd, min = frollmin, max = frollmax, sum = frollsum)
   shifted = shift(x, n = spec$lag)
-  map(seq_along(spec$fun), function(i) {
-    invoke(rolls[[spec$fun[i]]], x = shifted, n = spec$size[i])
-  })
+  map(seq_along(spec$fun), function(i) invoke(rolls[[spec$fun[i]]], x = shifted, n = spec$size[i]))
 }
 
 #' @include zzz.R

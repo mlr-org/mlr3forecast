@@ -93,10 +93,7 @@ RecursiveForecaster = R6::R6Class(
         )
       }
 
-      has_iterative = any(map_lgl(
-        self$graph$pipeops,
-        function(po) "fcst_iterative" %in% po$properties
-      ))
+      has_iterative = any(map_lgl(self$graph$pipeops, function(po) "fcst_iterative" %in% po$properties))
       if (!has_iterative) {
         warning_input(
           "Graph contains no PipeOps with the 'fcst_iterative' property (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting."
@@ -130,7 +127,7 @@ RecursiveForecaster = R6::R6Class(
       assert_ro_binding(rhs)
       lag_po = private$.find_lag_po()
       if (is.null(lag_po)) {
-        return(NULL)
+        return()
       }
       lag_po$param_set$get_values()$lags
     },
@@ -159,12 +156,7 @@ RecursiveForecaster = R6::R6Class(
       self$graph$train(task)
       graph_state = self$graph$state
 
-      cols = unique(c(
-        task$target_names,
-        task$feature_names,
-        task$col_roles$key,
-        task$col_roles$order
-      ))
+      cols = unique(c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order))
       state = list(
         graph_state = graph_state,
         train_data = task$data(cols = cols),
@@ -195,12 +187,7 @@ RecursiveForecaster = R6::R6Class(
       order_cols = self$model$order_cols
       train_data = self$model$train_data
 
-      test_cols = unique(c(
-        target,
-        intersect(self$model$feature_names, task$feature_names),
-        key_cols,
-        order_cols
-      ))
+      test_cols = unique(c(target, intersect(self$model$feature_names, task$feature_names), key_cols, order_cols))
       test_data = task$data(cols = test_cols)
 
       # Drop training rows whose (key, order) overlap with the test set so the combined
@@ -257,12 +244,9 @@ RecursiveForecaster = R6::R6Class(
     },
 
     .find_lag_po = function() {
-      lag_po_id = detect(
-        names(self$graph$pipeops),
-        function(id) inherits(self$graph$pipeops[[id]], "PipeOpFcstLags")
-      )
+      lag_po_id = detect(names(self$graph$pipeops), function(id) inherits(self$graph$pipeops[[id]], "PipeOpFcstLags"))
       if (is.null(lag_po_id)) {
-        return(NULL)
+        return()
       }
       self$graph$pipeops[[lag_po_id]]
     }
