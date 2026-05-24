@@ -158,7 +158,7 @@ DirectForecaster = R6::R6Class(
         return(private$.predict_type)
       }
       if (rhs %nin% self$predict_types) {
-        stopf("Learner '%s' does not support predict type '%s'.", self$id, rhs)
+        error_input("Learner '%s' does not support predict type '%s'.", self$id, rhs)
       }
       private$.learner$predict_type = rhs
       private$.predict_type = rhs
@@ -200,7 +200,7 @@ DirectForecaster = R6::R6Class(
         idx = match(steps, horizons)
         if (anyNA(idx)) {
           bad = steps[is.na(idx)]
-          stopf(
+          error_input(
             "Test set extends to step(s) %s which were not trained (horizons: %s).",
             toString(bad),
             toString(horizons)
