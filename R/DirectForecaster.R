@@ -172,6 +172,9 @@ DirectForecaster = R6::R6Class(
         error_input("Learner '%s' does not support predict type '%s'.", self$id, rhs)
       }
       private$.learner$predict_type = rhs
+      if (!is.null(self$model)) {
+        walk(self$model$models, function(m) m$predict_type = rhs)
+      }
       private$.predict_type = rhs
     }
   ),

@@ -108,6 +108,26 @@ test_that("DirectForecaster aligns row_ids and extras when storage order differs
   expect_equal(pred$state, state_by_row)
 })
 
+test_that("DirectForecaster predict_type propagates to trained models", {
+  task = tsk("airpassengers")
+  split = partition(task, ratio = 0.8)
+
+  flrn = DirectForecaster$new(lrn("regr.featureless"), lags = 1:3, horizons = length(split$test))
+  flrn$train(task, split$train)
+  flrn$predict_type = "se"
+
+  expect_equal(flrn$predict_type, "se")
+  expect_all_equal(map_chr(flrn$model$models, "predict_type"), "se")
+
+  pred = flrn$predict(task, split$test)
+  expect_false(allMissing(pred$se))
+})
+
+test_that("DirectForecaster errors on PipeOpFcstLags inside the graph", {
+  graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
+  expect_snapshot(DirectForecaster$new(graph, lags = 1:3, horizons = 3), error = TRUE)
+})
+
 test_that("DirectForecaster active bindings", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:5, horizons = 3)
   expect_equal(learner$lags, 1:5)

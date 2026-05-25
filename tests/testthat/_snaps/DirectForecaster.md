@@ -18,3 +18,14 @@
       x `horizons` must be NULL when strategy = "recursive".
       > Class: Mlr3ErrorInput
 
+# DirectForecaster errors on PipeOpFcstLags inside the graph
+
+    Code
+      DirectForecaster$new(graph, lags = 1:3, horizons = 3)
+    Condition
+      Error:
+      ! 
+      x PipeOpFcstLags inside a DirectForecaster graph is not supported (found:
+        fcst.lags); lag features are managed internally with horizon-shifted offsets.
+      > Class: Mlr3ErrorInput
+
