@@ -228,16 +228,14 @@ RecursiveForecaster = R6::R6Class(
       }
 
       out = do.call(c, preds)
-      orig_row_ids = task$row_ids
-      orig_idx_for_active = active_cids - n_train
-      out_row_ids = orig_row_ids[orig_idx_for_active]
-      original_truth = task$data(rows = orig_row_ids, cols = target)[[1L]]
+      out_row_ids = task$row_ids[active_cids - n_train]
+      out_data = task$data(rows = out_row_ids, cols = c(target, key_cols, order_cols))
       out$data = insert_named(
         out$data,
         list(
           row_ids = out_row_ids,
-          truth = original_truth[orig_idx_for_active],
-          extra = as.list(task$data(rows = out_row_ids, cols = c(key_cols, order_cols)))
+          truth = out_data[[target]],
+          extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE])
         )
       )
       out
