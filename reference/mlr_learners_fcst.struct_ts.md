@@ -1,8 +1,16 @@
-# Time Series Linear Model Forecast Learner
+# Structural Time Series Forecast Learner
 
-Time series linear model. Calls
-[`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
-from package [forecast](https://CRAN.R-project.org/package=forecast).
+Structural time series model fit by maximum likelihood. Three model
+types are supported: local level, local linear trend, and basic
+structural model (level + trend + seasonal). Calls
+[`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) from
+package stats.
+
+`type = "BSM"` requires a seasonal time series (frequency \> 1).
+Prediction is performed via
+[`forecast::forecast.StructTS()`](https://pkg.robjhyndman.com/forecast/reference/forecast.StructTS.html)
+which yields point forecasts and predictive intervals from the Kalman
+filter.
 
 ## Dictionary
 
@@ -13,35 +21,21 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.tslm")
-    lrn("fcst.tslm")
+    mlr_learners$get("fcst.struct_ts")
+    lrn("fcst.struct_ts")
 
 ## Meta Information
 
-- Task type: “fcst”
-
-- Predict Types: “response”, “quantiles”
-
-- Feature Types: “logical”, “integer”, “numeric”
-
-- Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
-  [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [forecast](https://CRAN.R-project.org/package=forecast)
+`r mlr3misc::rd_info(mlr3::lrn("fcst.struct_ts"))`
 
 ## Parameters
 
-|         |         |         |             |
-|---------|---------|---------|-------------|
-| Id      | Type    | Default | Levels      |
-| formula | untyped | \-      |             |
-| lambda  | untyped | NULL    |             |
-| biasadj | logical | FALSE   | TRUE, FALSE |
+`r mlr3misc::rd_info(mlr3::lrn("fcst.struct_ts")$param_set)`
 
 ## References
 
-Hyndman, R.J., Athanasopoulos, G. (2018). *Forecasting: principles and
-practice*, 2nd edition. OTexts, Melbourne, Australia.
-<https://OTexts.com/fpp2/>.
+Harvey, C. A (1989). *Forecasting, Structural Time Series Models and the
+Kalman Filter*. Cambridge University Press, Cambridge.
 
 ## See also
 
@@ -101,10 +95,10 @@ Other Learner:
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
-[`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.struct_ts.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md),
-[`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tscount.md)
+[`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tscount.md),
+[`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tslm.md)
 
 ## Super classes
 
@@ -114,15 +108,15 @@ Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
 [`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstTslm`
+-\> `LearnerFcstStructTS`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstTslm$new()`](#method-LearnerFcstTslm-initialize)
+- [`LearnerFcstStructTS$new()`](#method-LearnerFcstStructTS-initialize)
 
-- [`LearnerFcstTslm$clone()`](#method-LearnerFcstTslm-clone)
+- [`LearnerFcstStructTS$clone()`](#method-LearnerFcstStructTS-clone)
 
 Inherited methods
 
@@ -141,24 +135,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstTslm$new()`
+### `LearnerFcstStructTS$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstTslm$new()
+    LearnerFcstStructTS$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstTslm$clone()`
+### `LearnerFcstStructTS$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstTslm$clone(deep = FALSE)
+    LearnerFcstStructTS$clone(deep = FALSE)
 
 #### Arguments
 
@@ -170,17 +164,18 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.tslm")
+learner = lrn("fcst.struct_ts")
 print(learner)
 #> 
-#> ── <LearnerFcstTslm> (fcst.tslm): Time Series Linear Model ─────────────────────
+#> ── <LearnerFcstStructTS> (fcst.struct_ts): Structural Time Series ──────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and forecast
 #> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, and numeric
+#> • Feature Types: logical, integer, numeric, character, factor, ordered,
+#> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -196,16 +191,11 @@ learner$train(task, row_ids = ids$train)
 print(learner$model)
 #> 
 #> Call:
-#> forecast::tslm(formula = y ~ trend + season)
+#> stats::StructTS(x = as.ts(task))
 #> 
-#> Coefficients:
-#> (Intercept)        trend      season2      season3      season4      season5  
-#>      82.652        2.348       -2.473       24.054       15.830       13.482  
-#>     season6      season7      season8      season9     season10     season11  
-#>      39.134       63.536       59.437       28.839       -1.634      -28.732  
-#>    season12  
-#>      -5.455  
-#> 
+#> Variances:
+#>   level    slope     seas  epsilon  
+#>    0.00    98.02    18.92     0.00  
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -216,5 +206,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 2710.246 
+#> 279831.3 
 ```

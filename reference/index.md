@@ -62,6 +62,9 @@
 - [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md)
   [`LearnerFcstStlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md)
   : STL + ETS/ARIMA Forecast Learner
+- [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.struct_ts.md)
+  [`LearnerFcstStructTS`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.struct_ts.md)
+  : Structural Time Series Forecast Learner
 - [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
   [`LearnerFcstTbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
   : TBATS Forecast Learner
