@@ -59,6 +59,9 @@
 - [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md)
   [`LearnerFcstSpline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md)
   : Spline Forecast Learner
+- [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md)
+  [`LearnerFcstStlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md)
+  : STL + ETS/ARIMA Forecast Learner
 - [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
   [`LearnerFcstTbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md)
   : TBATS Forecast Learner
