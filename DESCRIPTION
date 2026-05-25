@@ -70,6 +70,7 @@ Collate:
     'LearnerFcstNnetar.R'
     'LearnerFcstProphet.R'
     'LearnerFcstRandomWalk.R'
+    'LearnerFcstSma.R'
     'LearnerFcstSpline.R'
     'LearnerFcstStlm.R'
     'LearnerFcstStructTS.R'

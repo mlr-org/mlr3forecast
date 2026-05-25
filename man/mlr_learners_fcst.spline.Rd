@@ -104,6 +104,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.nnetar}},
 \code{\link{mlr_learners_fcst.prophet}},
 \code{\link{mlr_learners_fcst.random_walk}},
+\code{\link{mlr_learners_fcst.sma}},
 \code{\link{mlr_learners_fcst.stlm}},
 \code{\link{mlr_learners_fcst.struct_ts}},
 \code{\link{mlr_learners_fcst.tbats}},

@@ -24,12 +24,24 @@ lrn("fcst.struct_ts")
 
 \section{Meta Information}{
 
-\verb{r mlr3misc::rd_info(mlr3::lrn("fcst.struct_ts"))}
+\itemize{
+\item Task type: \dQuote{fcst}
+\item Predict Types: \dQuote{response}, \dQuote{quantiles}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, \dQuote{Date}
+\item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}, \CRANpkg{forecast}
+}
 }
 
 \section{Parameters}{
-
-\verb{r mlr3misc::rd_info(mlr3::lrn("fcst.struct_ts")$param_set)}
+\tabular{llll}{
+   Id \tab Type \tab Default \tab Levels \cr
+   type \tab character \tab level \tab level, trend, BSM \cr
+   init \tab untyped \tab NULL \tab  \cr
+   fixed \tab untyped \tab NULL \tab  \cr
+   optim.control \tab untyped \tab NULL \tab  \cr
+   lambda \tab untyped \tab NULL \tab  \cr
+   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
+}
 }
 
 \examples{
@@ -100,6 +112,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.nnetar}},
 \code{\link{mlr_learners_fcst.prophet}},
 \code{\link{mlr_learners_fcst.random_walk}},
+\code{\link{mlr_learners_fcst.sma}},
 \code{\link{mlr_learners_fcst.spline}},
 \code{\link{mlr_learners_fcst.stlm}},
 \code{\link{mlr_learners_fcst.tbats}},

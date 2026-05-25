@@ -114,6 +114,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.mean}},
 \code{\link{mlr_learners_fcst.nnetar}},
 \code{\link{mlr_learners_fcst.random_walk}},
+\code{\link{mlr_learners_fcst.sma}},
 \code{\link{mlr_learners_fcst.spline}},
 \code{\link{mlr_learners_fcst.stlm}},
 \code{\link{mlr_learners_fcst.struct_ts}},
