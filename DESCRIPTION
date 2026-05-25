@@ -72,6 +72,7 @@ Collate:
     'LearnerFcstRandomWalk.R'
     'LearnerFcstSpline.R'
     'LearnerFcstStlm.R'
+    'LearnerFcstStructTS.R'
     'LearnerFcstTbats.R'
     'LearnerFcstTheta.R'
     'LearnerFcstTscount.R'

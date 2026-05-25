@@ -295,6 +295,14 @@ bibentries = c(
     number = "1",
     pages = "3--73",
     year = "1990"
+  ),
+  harvey1989forecasting = bibentry(
+    "book",
+    title = "Forecasting, Structural Time Series Models and the Kalman Filter",
+    author = "Harvey, Andrew C.",
+    year = "1989",
+    publisher = "Cambridge University Press",
+    address = "Cambridge"
   )
 )
 # nolint end
