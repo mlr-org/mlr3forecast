@@ -63,7 +63,6 @@ PipeOpFcstLags = R6Class(
       if (max(lags) >= nrow(dt)) {
         error_input("Not enough data to create the required lags.")
       }
-      self$state = list()
       lag_cols = sprintf("%s_lag_%i", target, lags)
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))
@@ -83,10 +82,7 @@ PipeOpFcstLags = R6Class(
       key_cols = col_roles$key
       order_cols = col_roles$order
 
-      full = task$backend$data(
-        rows = task$backend$rownames,
-        cols = c(target, key_cols, order_cols)
-      )
+      full = task$backend$data(rows = task$backend$rownames, cols = c(target, key_cols, order_cols))
       lag_cols = sprintf("%s_lag_%i", target, lags)
       if (length(key_cols) > 0L) {
         setorderv(full, c(key_cols, order_cols))

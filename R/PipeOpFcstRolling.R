@@ -75,8 +75,6 @@ PipeOpFcstRolling = R6Class(
       order_cols = col_roles$order
 
       dt = task$data(cols = c(target, key_cols, order_cols))
-      self$state = list()
-
       roll_spec = private$.roll_spec(target)
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))
