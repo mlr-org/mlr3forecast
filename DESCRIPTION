@@ -61,6 +61,7 @@ Collate:
     'LearnerFcstAutoAdam.R'
     'LearnerFcstAutoArima.R'
     'LearnerFcstAutoCes.R'
+    'LearnerFcstBaggedModel.R'
     'LearnerFcstBats.R'
     'LearnerFcstCes.R'
     'LearnerFcstCroston.R'

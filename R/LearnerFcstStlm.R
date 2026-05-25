@@ -3,8 +3,8 @@
 #' @name mlr_learners_fcst.stlm
 #'
 #' @description
-#' Forecasts of seasonal time series using STL decomposition. The seasonal component is forecast
-#' naively and the seasonally-adjusted series is forecast with either an `ETS` or `ARIMA` model.
+#' Forecasts of seasonal time series using STL decomposition. The seasonal component is forecast naively and the
+#' seasonally-adjusted series is forecast with either an `ETS` or `ARIMA` model.
 #' Calls [forecast::stlm()] from package \CRANpkg{forecast}.
 #'
 #' The task must provide a seasonal time series (frequency > 1).

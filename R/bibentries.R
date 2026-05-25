@@ -303,6 +303,18 @@ bibentries = c(
     year = "1989",
     publisher = "Cambridge University Press",
     address = "Cambridge"
+  ),
+  bergmeir2016bagging = bibentry(
+    "article",
+    title = "Bagging exponential smoothing methods using STL decomposition and Box-Cox transformation",
+    author = "Bergmeir, Christoph and Hyndman, Rob J and Benítez, José M",
+    journal = "International Journal of Forecasting",
+    volume = "32",
+    number = "2",
+    pages = "303--312",
+    year = "2016",
+    doi = "10.1016/j.ijforecast.2015.07.002",
+    publisher = "Elsevier"
   )
 )
 # nolint end

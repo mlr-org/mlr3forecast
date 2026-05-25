@@ -5,13 +5,12 @@
 \alias{LearnerFcstStructTS}
 \title{Structural Time Series Forecast Learner}
 \description{
-Structural time series model fit by maximum likelihood. Three model types are supported:
-local level, local linear trend, and basic structural model (level + trend + seasonal).
+Structural time series model fit by maximum likelihood. Three model types are supported: local level, local linear
+trend, and basic structural model (level + trend + seasonal).
 Calls \code{\link[stats:StructTS]{stats::StructTS()}} from package \pkg{stats}.
 
-\code{type = "BSM"} requires a seasonal time series (frequency > 1).
-Prediction is performed via \code{\link[forecast:forecast.StructTS]{forecast::forecast.StructTS()}} which yields point forecasts
-and predictive intervals from the Kalman filter.
+\code{type = "BSM"} requires a seasonal time series (frequency > 1). Prediction is performed via
+\code{\link[forecast:forecast.StructTS]{forecast::forecast.StructTS()}} which yields point forecasts and predictive intervals from the Kalman filter.
 }
 \section{Dictionary}{
 
@@ -104,6 +103,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.auto_adam}},
 \code{\link{mlr_learners_fcst.auto_arima}},
 \code{\link{mlr_learners_fcst.auto_ces}},
+\code{\link{mlr_learners_fcst.bagged}},
 \code{\link{mlr_learners_fcst.bats}},
 \code{\link{mlr_learners_fcst.ces}},
 \code{\link{mlr_learners_fcst.croston}},
