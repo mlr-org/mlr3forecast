@@ -24,8 +24,8 @@ LearnerFcstMsarima = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        orders = p_uty(default = list(ar = c(0), i = c(1), ma = c(1)), tags = "train"),
-        lags = p_uty(default = c(1), tags = "train", custom_check = check_numeric),
+        orders = p_uty(default = list(ar = 0, i = 1, ma = 1), tags = "train"),
+        lags = p_uty(default = 1, tags = "train", custom_check = check_numeric),
         constant = p_lgl(default = FALSE, tags = "train"),
         arma = p_uty(default = NULL, tags = "train"),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete"), default = "backcasting", tags = "train"),
