@@ -137,7 +137,7 @@ RecursiveForecaster = R6::R6Class(
     #' [RecursiveForecaster] model wraps the graph state in `$graph_state` alongside auxiliary metadata.
     graph_model = function(rhs) {
       if (!missing(rhs) && !identical(rhs, self$graph)) {
-        stop("graph_model is read-only")
+        error_input("graph_model is read-only")
       }
       if (is.null(self$model)) {
         return(self$graph)

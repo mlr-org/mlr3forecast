@@ -47,14 +47,7 @@ DirectForecaster = R6::R6Class(
     #'   currently supported.
     #' @param predict_type (`character(1)` | `NULL`)\cr
     #'   The predict type, default `NULL`.
-    initialize = function(
-      learner,
-      lags,
-      horizons,
-      id = NULL,
-      param_vals = list(),
-      predict_type = NULL
-    ) {
+    initialize = function(learner, lags, horizons, id = NULL, param_vals = list(), predict_type = NULL) {
       lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
       horizons = assert_integerish(horizons, lower = 1L, any.missing = FALSE, coerce = TRUE)
       if (length(horizons) == 1L) {
@@ -236,9 +229,7 @@ DirectForecaster = R6::R6Class(
 
       combined$data = insert_named(
         combined$data,
-        list(
-          extra = as.list(task$data(rows = combined$data$row_ids, cols = c(key_cols, order_cols)))
-        )
+        list(extra = as.list(task$data(rows = combined$data$row_ids, cols = c(key_cols, order_cols))))
       )
       combined
     },
