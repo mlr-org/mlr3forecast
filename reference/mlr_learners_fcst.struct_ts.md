@@ -26,11 +26,28 @@ or with the associated sugar function
 
 ## Meta Information
 
-`r mlr3misc::rd_info(mlr3::lrn("fcst.struct_ts"))`
+- Task type: “fcst”
+
+- Predict Types: “response”, “quantiles”
+
+- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
+  “ordered”, “POSIXct”, “Date”
+
+- Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
+  [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
+  [forecast](https://CRAN.R-project.org/package=forecast)
 
 ## Parameters
 
-`r mlr3misc::rd_info(mlr3::lrn("fcst.struct_ts")$param_set)`
+|               |           |         |                   |
+|---------------|-----------|---------|-------------------|
+| Id            | Type      | Default | Levels            |
+| type          | character | level   | level, trend, BSM |
+| init          | untyped   | NULL    |                   |
+| fixed         | untyped   | NULL    |                   |
+| optim.control | untyped   | NULL    |                   |
+| lambda        | untyped   | NULL    |                   |
+| biasadj       | logical   | FALSE   | TRUE, FALSE       |
 
 ## References
 
@@ -85,6 +102,7 @@ Other Learner:
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
 [`mlr_learners_fcst.auto_arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.md),
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
+[`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
@@ -93,6 +111,7 @@ Other Learner:
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
+[`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),

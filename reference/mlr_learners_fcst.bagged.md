@@ -1,8 +1,29 @@
-# ADAM Forecast Learner
+# Bagged Model Forecast Learner
 
-Augmented Dynamic Adaptive Model (ADAM) Forecast Learner model. Calls
-[`smooth::adam()`](https://rdrr.io/pkg/smooth/man/adam.html) from
-package [smooth](https://CRAN.R-project.org/package=smooth).
+Bootstrap-aggregated forecasts. The series is resampled via the
+Box-Cox/Loess moving block bootstrap of Bergmeir, Hyndman, and Benítez
+and `fn` is fit on each replicate; the forecast averages across the
+ensemble. Calls
+[`forecast::baggedModel()`](https://pkg.robjhyndman.com/forecast/reference/baggedModel.html)
+from package [forecast](https://CRAN.R-project.org/package=forecast).
+
+`fn` is the model-fitting function applied to each bootstrap replicate
+(defaults to
+[`forecast::ets()`](https://pkg.robjhyndman.com/forecast/reference/ets.html)).
+Any function returning an object compatible with
+[`forecast::forecast()`](https://generics.r-lib.org/reference/forecast.html)
+may be passed, e.g.
+[`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
+or
+[`forecast::Arima()`](https://pkg.robjhyndman.com/forecast/reference/Arima.html)
+with fixed orders via a wrapper. The number of bootstrap replicates is
+controlled by `num`, and `block_size` configures the moving block length
+in
+[`forecast::bld.mbb.bootstrap()`](https://pkg.robjhyndman.com/forecast/reference/bld.mbb.bootstrap.html).
+Prediction intervals from
+[`forecast::forecast.baggedModel()`](https://pkg.robjhyndman.com/forecast/reference/forecast.baggedModel.html)
+are the empirical bootstrap range (not configurable by `level`), so only
+`"response"` is offered as a `predict_type`.
 
 ## Dictionary
 
@@ -13,8 +34,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.adam")
-    lrn("fcst.adam")
+    mlr_learners$get("fcst.bagged")
+    lrn("fcst.bagged")
 
 ## Meta Information
 
@@ -27,41 +48,25 @@ or with the associated sugar function
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [smooth](https://CRAN.R-project.org/package=smooth)
+  [forecast](https://CRAN.R-project.org/package=forecast)
 
 ## Parameters
 
-|  |  |  |  |
-|----|----|----|----|
-| Id | Type | Default | Levels |
-| model | untyped | "ZXZ" |  |
-| lags | untyped | \- |  |
-| orders | untyped | list(ar = 0, i = 0, ma = 0, select = FALSE) |  |
-| constant | logical | FALSE | TRUE, FALSE |
-| regressors | character | use | use, select, adapt |
-| occurrence | character | none | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct |
-| distribution | character | default | default, dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) |
-| outliers | character | ignore | ignore, use, select |
-| holdout | logical | FALSE | TRUE, FALSE |
-| persistence | untyped | NULL |  |
-| phi | untyped | NULL |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
-| arma | untyped | NULL |  |
-| ic | character | AICc | AICc, AIC, BIC, BICc |
-| bounds | character | usual | usual, admissible, none |
-| silent | logical | TRUE | TRUE, FALSE |
-| ets | character | conventional | conventional, adam |
+|            |         |         |                  |
+|------------|---------|---------|------------------|
+| Id         | Type    | Default | Range            |
+| fn         | untyped | \-      | \-               |
+| num        | integer | 100     | \\\[1, \infty)\\ |
+| block_size | integer | NULL    | \\\[1, \infty)\\ |
 
 ## References
 
-Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
-2301.01790, <https://arxiv.org/abs/2301.01790>.
-
-Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
-Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
-[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
-<https://openforecast.org/adam/>.
+Bergmeir, Christoph, Hyndman, J R, Benítez, M J (2016). “Bagging
+exponential smoothing methods using STL decomposition and Box-Cox
+transformation.” *International Journal of Forecasting*, **32**(2),
+303–312.
+[doi:10.1016/j.ijforecast.2015.07.002](https://doi.org/10.1016/j.ijforecast.2015.07.002)
+.
 
 ## See also
 
@@ -105,12 +110,12 @@ Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
 
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md),
+[`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
 [`mlr_learners_fcst.auto_arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.md),
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
-[`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
@@ -134,15 +139,17 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
--\> `LearnerFcstAdam`
+-\>
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
+-\> `LearnerFcstBaggedModel`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstAdam$new()`](#method-LearnerFcstAdam-initialize)
+- [`LearnerFcstBaggedModel$new()`](#method-LearnerFcstBaggedModel-initialize)
 
-- [`LearnerFcstAdam$clone()`](#method-LearnerFcstAdam-clone)
+- [`LearnerFcstBaggedModel$clone()`](#method-LearnerFcstBaggedModel-clone)
 
 Inherited methods
 
@@ -161,24 +168,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstAdam$new()`
+### `LearnerFcstBaggedModel$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstAdam$new()
+    LearnerFcstBaggedModel$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstAdam$clone()`
+### `LearnerFcstBaggedModel$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstAdam$clone(deep = FALSE)
+    LearnerFcstBaggedModel$clone(deep = FALSE)
 
 #### Arguments
 
@@ -190,13 +197,13 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.adam")
+learner = lrn("fcst.bagged")
 print(learner)
 #> 
-#> ── <LearnerFcstAdam> (fcst.adam): ADAM ─────────────────────────────────────────
+#> ── <LearnerFcstBaggedModel> (fcst.bagged): Bagged Model ────────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and smooth
+#> • Packages: mlr3, mlr3forecast, and forecast
 #> • Predict Types: [response]
 #> • Feature Types: logical, integer, numeric, character, factor, ordered,
 #> POSIXct, and Date
@@ -212,33 +219,22 @@ ids = partition(task)
 
 # Train the learner on the training ids
 learner$train(task, row_ids = ids$train)
+#> Error in forecast::bld.mbb.bootstrap(x = y): argument "num" is missing, with no default
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.17 seconds
-#> Model estimated using adam() function: ETS(MAM)
-#> With backcasting initialisation
-#> Distribution assumed in the model: Gamma
-#> Loss function type: likelihood; Loss function value: 328.324
-#> Persistence vector g:
-#>  alpha   beta  gamma 
-#> 0.5507 0.0095 0.1489 
-#> 
-#> Sample size: 96
-#> Number of estimated parameters: 4
-#> Number of degrees of freedom: 92
-#> Information criteria:
-#>      AIC     AICc      BIC     BICc 
-#> 664.6481 665.0877 674.9055 675.9086 
+#> NULL
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
 
 # Make predictions for the test rows
 predictions = learner$predict(task, row_ids = ids$test)
+#> Error: 
+#> ✖ Cannot predict, Learner 'fcst.bagged' has not been trained yet
+#> → Class: Mlr3ErrorInput
 
 # Score the predictions
 predictions$score()
-#> regr.mse 
-#> 839.4905 
+#> Error: object 'predictions' not found
 ```

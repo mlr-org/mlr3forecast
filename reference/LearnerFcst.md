@@ -74,6 +74,7 @@ Other Learner:
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
 [`mlr_learners_fcst.auto_arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.md),
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
+[`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
@@ -82,6 +83,7 @@ Other Learner:
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
+[`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
 [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.struct_ts.md),
@@ -257,11 +259,11 @@ The objects of this class are cloneable with this method.
 lrns = mlr_learners$mget(mlr_learners$keys("^fcst"))
 names(lrns)
 #>  [1] "fcst.adam"        "fcst.arfima"      "fcst.arima"       "fcst.auto_adam"  
-#>  [5] "fcst.auto_arima"  "fcst.auto_ces"    "fcst.bats"        "fcst.ces"        
-#>  [9] "fcst.croston"     "fcst.ets"         "fcst.mean"        "fcst.nnetar"     
-#> [13] "fcst.prophet"     "fcst.random_walk" "fcst.spline"      "fcst.stlm"       
-#> [17] "fcst.struct_ts"   "fcst.tbats"       "fcst.theta"       "fcst.tscount"    
-#> [21] "fcst.tslm"       
+#>  [5] "fcst.auto_arima"  "fcst.auto_ces"    "fcst.bagged"      "fcst.bats"       
+#>  [9] "fcst.ces"         "fcst.croston"     "fcst.ets"         "fcst.mean"       
+#> [13] "fcst.nnetar"      "fcst.prophet"     "fcst.random_walk" "fcst.sma"        
+#> [17] "fcst.spline"      "fcst.stlm"        "fcst.struct_ts"   "fcst.tbats"      
+#> [21] "fcst.theta"       "fcst.tscount"     "fcst.tslm"       
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("fcst.ets")

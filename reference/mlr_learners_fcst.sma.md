@@ -1,8 +1,10 @@
-# ADAM Forecast Learner
+# Simple Moving Average Forecast Learner
 
-Augmented Dynamic Adaptive Model (ADAM) Forecast Learner model. Calls
-[`smooth::adam()`](https://rdrr.io/pkg/smooth/man/adam.html) from
-package [smooth](https://CRAN.R-project.org/package=smooth).
+Simple moving average. The forecast is the mean of the last `order`
+observations. If `order` is `NULL` (the default), the optimal window is
+selected automatically according to the chosen information criterion
+`ic`. Calls [`smooth::sma()`](https://rdrr.io/pkg/smooth/man/sma.html)
+from package [smooth](https://CRAN.R-project.org/package=smooth).
 
 ## Dictionary
 
@@ -13,8 +15,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.adam")
-    lrn("fcst.adam")
+    mlr_learners$get("fcst.sma")
+    lrn("fcst.sma")
 
 ## Meta Information
 
@@ -31,37 +33,19 @@ or with the associated sugar function
 
 ## Parameters
 
-|  |  |  |  |
-|----|----|----|----|
-| Id | Type | Default | Levels |
-| model | untyped | "ZXZ" |  |
-| lags | untyped | \- |  |
-| orders | untyped | list(ar = 0, i = 0, ma = 0, select = FALSE) |  |
-| constant | logical | FALSE | TRUE, FALSE |
-| regressors | character | use | use, select, adapt |
-| occurrence | character | none | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct |
-| distribution | character | default | default, dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) |
-| outliers | character | ignore | ignore, use, select |
-| holdout | logical | FALSE | TRUE, FALSE |
-| persistence | untyped | NULL |  |
-| phi | untyped | NULL |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
-| arma | untyped | NULL |  |
-| ic | character | AICc | AICc, AIC, BIC, BICc |
-| bounds | character | usual | usual, admissible, none |
-| silent | logical | TRUE | TRUE, FALSE |
-| ets | character | conventional | conventional, adam |
+|         |           |         |                      |                  |
+|---------|-----------|---------|----------------------|------------------|
+| Id      | Type      | Default | Levels               | Range            |
+| order   | integer   | NULL    |                      | \\\[1, \infty)\\ |
+| ic      | character | AICc    | AICc, AIC, BIC, BICc | \-               |
+| holdout | logical   | FALSE   | TRUE, FALSE          | \-               |
+| silent  | logical   | TRUE    | TRUE, FALSE          | \-               |
+| fast    | logical   | TRUE    | TRUE, FALSE          | \-               |
 
 ## References
 
 Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
 2301.01790, <https://arxiv.org/abs/2301.01790>.
-
-Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
-Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
-[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
-<https://openforecast.org/adam/>.
 
 ## See also
 
@@ -105,6 +89,7 @@ Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
 
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md),
+[`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
@@ -119,7 +104,6 @@ Other Learner:
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
-[`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
 [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.struct_ts.md),
@@ -134,15 +118,15 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
--\> `LearnerFcstAdam`
+-\> `LearnerFcstSma`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstAdam$new()`](#method-LearnerFcstAdam-initialize)
+- [`LearnerFcstSma$new()`](#method-LearnerFcstSma-initialize)
 
-- [`LearnerFcstAdam$clone()`](#method-LearnerFcstAdam-clone)
+- [`LearnerFcstSma$clone()`](#method-LearnerFcstSma-clone)
 
 Inherited methods
 
@@ -161,24 +145,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstAdam$new()`
+### `LearnerFcstSma$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstAdam$new()
+    LearnerFcstSma$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstAdam$clone()`
+### `LearnerFcstSma$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstAdam$clone(deep = FALSE)
+    LearnerFcstSma$clone(deep = FALSE)
 
 #### Arguments
 
@@ -190,10 +174,10 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.adam")
+learner = lrn("fcst.sma")
 print(learner)
 #> 
-#> ── <LearnerFcstAdam> (fcst.adam): ADAM ─────────────────────────────────────────
+#> ── <LearnerFcstSma> (fcst.sma): Simple Moving Average ──────────────────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and smooth
@@ -215,21 +199,22 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.17 seconds
-#> Model estimated using adam() function: ETS(MAM)
+#> Time elapsed: 0.02 seconds
+#> Model estimated using sma() function: SMA(1)
 #> With backcasting initialisation
-#> Distribution assumed in the model: Gamma
-#> Loss function type: likelihood; Loss function value: 328.324
-#> Persistence vector g:
-#>  alpha   beta  gamma 
-#> 0.5507 0.0095 0.1489 
+#> Distribution assumed in the model: Normal
+#> Loss function type: MSE; Loss function value: 538.7708
+#> ARMA parameters of the model:
+#>       Lag 1
+#> AR(1)     1
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 4
-#> Number of degrees of freedom: 92
+#> Number of estimated parameters: 1
+#> Number of degrees of freedom: 95
+#> Number of provided parameters: 1
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 664.6481 665.0877 674.9055 675.9086 
+#> 878.2081 878.2506 880.7724 880.8695 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -240,5 +225,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 839.4905 
+#>  17585.4 
 ```

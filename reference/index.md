@@ -32,6 +32,9 @@
 - [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md)
   [`LearnerFcstAutoCes`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md)
   : Auto CES Forecast Learner
+- [`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md)
+  [`LearnerFcstBaggedModel`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md)
+  : Bagged Model Forecast Learner
 - [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md)
   [`LearnerFcstBats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md)
   : BATS Forecast Learner
@@ -56,6 +59,9 @@
 - [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md)
   [`LearnerFcstRandomWalk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md)
   : Random Walk Forecast Learner
+- [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md)
+  [`LearnerFcstSma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md)
+  : Simple Moving Average Forecast Learner
 - [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md)
   [`LearnerFcstSpline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md)
   : Spline Forecast Learner
