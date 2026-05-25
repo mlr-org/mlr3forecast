@@ -75,6 +75,17 @@ DirectForecaster = R6::R6Class(
         private$.learner$param_set$values = insert_named(private$.learner$param_set$values, param_vals)
       }
 
+      lag_po_ids = keep(
+        names(private$.learner$graph$pipeops),
+        function(id) inherits(private$.learner$graph$pipeops[[id]], "PipeOpFcstLags")
+      )
+      if (length(lag_po_ids) > 0L) {
+        error_input(
+          "PipeOpFcstLags inside a DirectForecaster graph is not supported (found: %s); lag features are managed internally with horizon-shifted offsets.",
+          toString(lag_po_ids)
+        )
+      }
+
       super$initialize(
         id = id %??% private$.learner$id,
         task_type = "fcst",
