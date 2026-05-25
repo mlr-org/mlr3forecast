@@ -54,11 +54,9 @@ LearnerFcstBaggedModel = R6Class(
       super$.train(task)
       ps = self$param_set
       y = as.ts(task)
-      bootstrapped_series = invoke(
-        forecast::bld.mbb.bootstrap,
-        x = y,
-        .args = ps$get_values(tags = c("train", "mbb"))
-      )
+      pv_mbb = ps$get_values(tags = c("train", "mbb"))
+      pv_mbb$num = pv_mbb$num %??% 100L
+      bootstrapped_series = invoke(forecast::bld.mbb.bootstrap, x = y, .args = pv_mbb)
       invoke(
         forecast::baggedModel,
         y = y,
