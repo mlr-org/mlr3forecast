@@ -1,8 +1,9 @@
-# Theta Forecast Learner
+# Auto Multiple-Seasonal ARIMA Forecast Learner
 
-Theta model. Calls
-[`forecast::theta_model()`](https://pkg.robjhyndman.com/forecast/reference/theta_model.html)
-from package [forecast](https://CRAN.R-project.org/package=forecast).
+Automatic order selection for Multiple-Seasonal ARIMA. Picks `orders`
+minimising the chosen information criterion. Calls
+[`smooth::auto.msarima()`](https://rdrr.io/pkg/smooth/man/msarima.html)
+from package [smooth](https://CRAN.R-project.org/package=smooth).
 
 ## Dictionary
 
@@ -13,37 +14,46 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.theta")
-    lrn("fcst.theta")
+    mlr_learners$get("fcst.auto_msarima")
+    lrn("fcst.auto_msarima")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”, “quantiles”
+- Predict Types: “response”
 
-- Feature Types: “logical”, “integer”, “numeric”
+- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
+  “ordered”, “POSIXct”, “Date”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [forecast](https://CRAN.R-project.org/package=forecast)
+  [smooth](https://CRAN.R-project.org/package=smooth)
 
 ## Parameters
 
-|         |         |         |             |
-|---------|---------|---------|-------------|
-| Id      | Type    | Default | Levels      |
-| lambda  | untyped | NULL    |             |
-| biasadj | logical | FALSE   | TRUE, FALSE |
+|  |  |  |  |
+|----|----|----|----|
+| Id | Type | Default | Levels |
+| orders | untyped | list(ar = c(3, 3), i = c(2, 1), ma = c(3, 3)) |  |
+| lags | untyped | \- |  |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| ic | character | AICc | AICc, AIC, BIC, BICc |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
+| holdout | logical | FALSE | TRUE, FALSE |
+| bounds | character | usual | usual, admissible, none |
+| silent | logical | TRUE | TRUE, FALSE |
+| regressors | character | use | use, select, adapt |
 
 ## References
 
-Assimakopoulos, Vassilis, Nikolopoulos, Konstantinos (2000). “The theta
-model: a decomposition approach to forecasting.” *International Journal
-of Forecasting*, **16**(4), 521–530.
+Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
+2301.01790, <https://arxiv.org/abs/2301.01790>.
 
-Hyndman, J R, Billah, Baki (2003). “Unmasking the Theta method.”
-*International Journal of Forecasting*, **19**(2), 287–290.
+Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
+Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
+[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
+<https://openforecast.org/adam/>.
 
 ## See also
 
@@ -93,7 +103,6 @@ Other Learner:
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
 [`mlr_learners_fcst.auto_arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.md),
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
-[`mlr_learners_fcst.auto_msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_msarima.md),
 [`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
@@ -109,6 +118,7 @@ Other Learner:
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
 [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.struct_ts.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
+[`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md),
 [`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tscount.md),
 [`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tslm.md)
 
@@ -118,17 +128,15 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
--\>
-[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstTheta`
+-\> `LearnerFcstAutoMsarima`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstTheta$new()`](#method-LearnerFcstTheta-initialize)
+- [`LearnerFcstAutoMsarima$new()`](#method-LearnerFcstAutoMsarima-initialize)
 
-- [`LearnerFcstTheta$clone()`](#method-LearnerFcstTheta-clone)
+- [`LearnerFcstAutoMsarima$clone()`](#method-LearnerFcstAutoMsarima-clone)
 
 Inherited methods
 
@@ -147,24 +155,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstTheta$new()`
+### `LearnerFcstAutoMsarima$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstTheta$new()
+    LearnerFcstAutoMsarima$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstTheta$clone()`
+### `LearnerFcstAutoMsarima$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstTheta$clone(deep = FALSE)
+    LearnerFcstAutoMsarima$clone(deep = FALSE)
 
 #### Arguments
 
@@ -176,15 +184,16 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.theta")
+learner = lrn("fcst.auto_msarima")
 print(learner)
 #> 
-#> ── <LearnerFcstTheta> (fcst.theta): Theta ──────────────────────────────────────
+#> ── <LearnerFcstAutoMsarima> (fcst.auto_msarima): Auto Multiple-Seasonal ARIMA ──
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, and numeric
+#> • Packages: mlr3, mlr3forecast, and smooth
+#> • Predict Types: [response]
+#> • Feature Types: logical, integer, numeric, character, factor, ordered,
+#> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
@@ -200,12 +209,21 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Theta model: as.ts(task) 
-#> Call: forecast::theta_model(y = as.ts(task)) 
-#> Deseasonalized
-#>   alpha: 0.906 
-#>   drift: 1.168 
-#>   sigma^2: 55.44 
+#> Time elapsed: 0.44 seconds
+#> Model estimated using auto.adam() function: SARIMA(0,1,1)[1](0,1,1)[12]
+#> With backcasting initialisation
+#> Distribution assumed in the model: Normal
+#> Loss function type: likelihood; Loss function value: 346.9397
+#> ARMA parameters of the model:
+#>         Lag 1  Lag 12
+#> MA(1) -0.2176 -0.1701
+#> 
+#> Sample size: 96
+#> Number of estimated parameters: 3
+#> Number of degrees of freedom: 93
+#> Information criteria:
+#>      AIC     AICc      BIC     BICc 
+#> 699.8793 700.1402 707.5724 708.1677 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -216,5 +234,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 3742.906 
+#> 740.7169 
 ```

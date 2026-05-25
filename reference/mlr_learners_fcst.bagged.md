@@ -116,11 +116,13 @@ Other Learner:
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
 [`mlr_learners_fcst.auto_arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.md),
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
+[`mlr_learners_fcst.auto_msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_msarima.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md),
+[`mlr_learners_fcst.msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
@@ -219,22 +221,21 @@ ids = partition(task)
 
 # Train the learner on the training ids
 learner$train(task, row_ids = ids$train)
-#> Error in forecast::bld.mbb.bootstrap(x = y): argument "num" is missing, with no default
 
 # Print the model
 print(learner$model)
-#> NULL
+#> Series: y 
+#> Model:  baggedModel 
+#> Call:   forecast::baggedModel(y = y, bootstrapped_series = bootstrapped_series)
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
 
 # Make predictions for the test rows
 predictions = learner$predict(task, row_ids = ids$test)
-#> Error: 
-#> ✖ Cannot predict, Learner 'fcst.bagged' has not been trained yet
-#> → Class: Mlr3ErrorInput
 
 # Score the predictions
 predictions$score()
-#> Error: object 'predictions' not found
+#> regr.mse 
+#> 1265.878 
 ```

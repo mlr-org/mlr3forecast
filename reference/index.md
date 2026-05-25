@@ -32,6 +32,9 @@
 - [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md)
   [`LearnerFcstAutoCes`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md)
   : Auto CES Forecast Learner
+- [`mlr_learners_fcst.auto_msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_msarima.md)
+  [`LearnerFcstAutoMsarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_msarima.md)
+  : Auto Multiple-Seasonal ARIMA Forecast Learner
 - [`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md)
   [`LearnerFcstBaggedModel`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md)
   : Bagged Model Forecast Learner
@@ -50,6 +53,9 @@
 - [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md)
   [`LearnerFcstMean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md)
   : Mean Forecast Learner
+- [`mlr_learners_fcst.msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.md)
+  [`LearnerFcstMsarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.md)
+  : Multiple-Seasonal ARIMA Forecast Learner
 - [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md)
   [`LearnerFcstNnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md)
   : Neural Network Forecast Learner
