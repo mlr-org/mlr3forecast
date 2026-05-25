@@ -113,6 +113,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.prophet}},
 \code{\link{mlr_learners_fcst.random_walk}},
 \code{\link{mlr_learners_fcst.spline}},
+\code{\link{mlr_learners_fcst.stlm}},
 \code{\link{mlr_learners_fcst.theta}},
 \code{\link{mlr_learners_fcst.tscount}},
 \code{\link{mlr_learners_fcst.tslm}}

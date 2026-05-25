@@ -285,6 +285,16 @@ bibentries = c(
     year = "2018",
     publisher = "Taylor & Francis",
     doi = "10.1080/00031305.2017.1380080"
+  ),
+  cleveland1990stl = bibentry(
+    "article",
+    title = "STL: A Seasonal-Trend Decomposition Procedure Based on Loess",
+    author = "Cleveland, Robert B. and Cleveland, William S. and McRae, Jean E. and Terpenning, Irma",
+    journal = "Journal of Official Statistics",
+    volume = "6",
+    number = "1",
+    pages = "3--73",
+    year = "1990"
   )
 )
 # nolint end
