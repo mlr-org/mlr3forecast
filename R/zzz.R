@@ -68,6 +68,7 @@ register_mlr3 = function() {
     mlr_reflections$task_print_col_roles$after,
     mlr3forecast_task_print_col_roles
   )
+  mlr_reflections$loaded_packages = union(mlr_reflections$loaded_packages, "mlr3forecast")
 
   # add resamplings
   mlr_resamplings = utils::getFromNamespace("mlr_resamplings", ns = "mlr3")
@@ -116,6 +117,7 @@ register_mlr3pipelines = function() {
   reflections = c("learner_predict_types", "task_col_roles", "task_properties")
   walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
   mlr_reflections$pipeops$valid_tags = setdiff(mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags)
+  mlr_reflections$loaded_packages = setdiff(mlr_reflections$loaded_packages, "mlr3forecast")
 }
 
 leanify_package()
