@@ -106,12 +106,15 @@ for established default tuning spaces.</p></li>
 <code><a href="mlr_learners_fcst.auto_adam.html">mlr_learners_fcst.auto_adam</a></code>,
 <code><a href="mlr_learners_fcst.auto_arima.html">mlr_learners_fcst.auto_arima</a></code>,
 <code><a href="mlr_learners_fcst.auto_ces.html">mlr_learners_fcst.auto_ces</a></code>,
+<code><a href="mlr_learners_fcst.auto_gum.html">mlr_learners_fcst.auto_gum</a></code>,
 <code><a href="mlr_learners_fcst.auto_msarima.html">mlr_learners_fcst.auto_msarima</a></code>,
 <code><a href="mlr_learners_fcst.bagged.html">mlr_learners_fcst.bagged</a></code>,
 <code><a href="mlr_learners_fcst.bats.html">mlr_learners_fcst.bats</a></code>,
 <code><a href="mlr_learners_fcst.ces.html">mlr_learners_fcst.ces</a></code>,
 <code><a href="mlr_learners_fcst.croston.html">mlr_learners_fcst.croston</a></code>,
 <code><a href="mlr_learners_fcst.ets.html">mlr_learners_fcst.ets</a></code>,
+<code><a href="mlr_learners_fcst.gum.html">mlr_learners_fcst.gum</a></code>,
+<code><a href="mlr_learners_fcst.holt_winters.html">mlr_learners_fcst.holt_winters</a></code>,
 <code><a href="mlr_learners_fcst.mean.html">mlr_learners_fcst.mean</a></code>,
 <code><a href="mlr_learners_fcst.msarima.html">mlr_learners_fcst.msarima</a></code>,
 <code><a href="mlr_learners_fcst.nnetar.html">mlr_learners_fcst.nnetar</a></code>,
@@ -247,13 +250,14 @@ The referenced help package can be opened via method <code>$help()</code>.</p></
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">lrns</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "fcst.adam"         "fcst.arfima"       "fcst.arima"       </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [4] "fcst.auto_adam"    "fcst.auto_arima"   "fcst.auto_ces"    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "fcst.auto_msarima" "fcst.bagged"       "fcst.bats"        </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "fcst.ces"          "fcst.croston"      "fcst.ets"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "fcst.mean"         "fcst.msarima"      "fcst.nnetar"      </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "fcst.prophet"      "fcst.random_walk"  "fcst.sma"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "fcst.spline"       "fcst.stlm"         "fcst.struct_ts"   </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "fcst.tbats"        "fcst.theta"        "fcst.tscount"     </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "fcst.tslm"        </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  [7] "fcst.auto_gum"     "fcst.auto_msarima" "fcst.bagged"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [10] "fcst.bats"         "fcst.ces"          "fcst.croston"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [13] "fcst.ets"          "fcst.gum"          "fcst.holt_winters"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [16] "fcst.mean"         "fcst.msarima"      "fcst.nnetar"      </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [19] "fcst.prophet"      "fcst.random_walk"  "fcst.sma"         </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [22] "fcst.spline"       "fcst.stlm"         "fcst.struct_ts"   </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [25] "fcst.tbats"        "fcst.theta"        "fcst.tscount"     </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [28] "fcst.tslm"        </span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># get a specific learner from mlr_learners:</span></span></span>
 <span class="r-in"><span><span class="va">mlr_learners</span><span class="op">$</span><span class="fu">get</span><span class="op">(</span><span class="st">"fcst.ets"</span><span class="op">)</span></span></span>

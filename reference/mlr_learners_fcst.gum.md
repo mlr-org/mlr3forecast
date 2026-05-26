@@ -1,8 +1,11 @@
-# Auto ARIMA Forecast Learner
+# GUM Forecast Learner
 
-Auto ARIMA model. Calls
-[`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
-from package [forecast](https://CRAN.R-project.org/package=forecast).
+Generalised Univariate Model (GUM): a single-source-of-error state-space
+model with a user-defined transition matrix, persistence vector and
+measurement vector. Generalises exponential smoothing beyond the ETS
+structural template. Calls
+[`smooth::gum()`](https://rdrr.io/pkg/smooth/man/gum.html) from package
+[smooth](https://CRAN.R-project.org/package=smooth).
 
 ## Dictionary
 
@@ -13,84 +16,44 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.auto_arima")
-    lrn("fcst.auto_arima")
+    mlr_learners$get("fcst.gum")
+    lrn("fcst.gum")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”, “quantiles”
+- Predict Types: “response”
 
-- Feature Types: “logical”, “integer”, “numeric”
+- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
+  “ordered”, “POSIXct”, “Date”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [forecast](https://CRAN.R-project.org/package=forecast)
+  [smooth](https://CRAN.R-project.org/package=smooth)
 
 ## Parameters
 
-|  |  |  |  |  |
-|----|----|----|----|----|
-| Id | Type | Default | Levels | Range |
-| d | integer | NA |  | \\\[0, \infty)\\ |
-| D | integer | NA |  | \\\[0, \infty)\\ |
-| max.p | integer | 5 |  | \\\[0, \infty)\\ |
-| max.q | integer | 5 |  | \\\[0, \infty)\\ |
-| max.P | integer | 2 |  | \\\[0, \infty)\\ |
-| max.Q | integer | 2 |  | \\\[0, \infty)\\ |
-| max.order | integer | 5 |  | \\\[0, \infty)\\ |
-| max.d | integer | 2 |  | \\\[0, \infty)\\ |
-| max.D | integer | 1 |  | \\\[0, \infty)\\ |
-| start.p | integer | 2 |  | \\\[0, \infty)\\ |
-| start.q | integer | 2 |  | \\\[0, \infty)\\ |
-| start.P | integer | 1 |  | \\\[0, \infty)\\ |
-| start.Q | integer | 1 |  | \\\[0, \infty)\\ |
-| stationary | logical | FALSE | TRUE, FALSE | \- |
-| seasonal | logical | TRUE | TRUE, FALSE | \- |
-| ic | character | aicc | aicc, aic, bic | \- |
-| stepwise | logical | TRUE | TRUE, FALSE | \- |
-| nmodels | integer | 94 |  | \\\[0, \infty)\\ |
-| trace | logical | FALSE | TRUE, FALSE | \- |
-| approximation | untyped | \- |  | \- |
-| method | untyped | NULL |  | \- |
-| truncate | untyped | NULL |  | \- |
-| test | character | kpss | kpss, adf, pp | \- |
-| test.args | untyped | list() |  | \- |
-| seasonal.test | character | seas | seas, ocsb, hegy, ch | \- |
-| seasonal.test.args | untyped | list() |  | \- |
-| allowdrift | logical | TRUE | TRUE, FALSE | \- |
-| allowmean | logical | TRUE | TRUE, FALSE | \- |
-| biasadj | logical | FALSE | TRUE, FALSE | \- |
-| parallel | logical | FALSE | TRUE, FALSE | \- |
-| num.cores | integer | 2 |  | \\\[1, \infty)\\ |
-| include.mean | logical | TRUE | TRUE, FALSE | \- |
-| include.drift | logical | FALSE | TRUE, FALSE | \- |
-| include.constant | logical | FALSE | TRUE, FALSE | \- |
-| lambda | untyped | NULL |  | \- |
-| simulate | logical | FALSE | TRUE, FALSE | \- |
-| bootstrap | logical | FALSE | TRUE, FALSE | \- |
-| npaths | integer | 5000 |  | \\\[1, \infty)\\ |
-| transform.pars | logical | TRUE | TRUE, FALSE | \- |
-| fixed | untyped | NULL |  | \- |
-| init | untyped | NULL |  | \- |
-| SSinit | character | Gardner1980 | Gardner1980, Rossignol2011 | \- |
-| n.cond | integer | \- |  | \\\[1, \infty)\\ |
-| optim.method | character | BFGS | Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent | \- |
-| optim.control | untyped | list() |  | \- |
-| kappa | numeric | 1e+06 |  | \\(-\infty, \infty)\\ |
+|  |  |  |  |
+|----|----|----|----|
+| Id | Type | Default | Levels |
+| orders | untyped | c(1, 1) |  |
+| lags | untyped | \- |  |
+| type | character | additive | additive, multiplicative |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| persistence | untyped | NULL |  |
+| transition | untyped | NULL |  |
+| measurement | untyped | NULL |  |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
+| holdout | logical | FALSE | TRUE, FALSE |
+| bounds | character | usual | usual, admissible, none |
+| silent | logical | TRUE | TRUE, FALSE |
+| regressors | character | use | use, select, adapt, integrate |
 
 ## References
 
-Hyndman, J. R, Khandakar, Yeasmin (2008). “Automatic Time Series
-Forecasting: The forecast Package for R.” *Journal of Statistical
-Software*, **27**(3), 1–22.
-[doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03) .
-<https://www.jstatsoft.org/index.php/jss/article/view/v027i03>.
-
-Wang, Xiaozhe, Smith, Kate, Hyndman, Rob (2006). “Characteristic-based
-clustering for time series data.” *Data Mining and Knowledge Discovery*,
-**13**, 335–364.
+Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
+2301.01790, <https://arxiv.org/abs/2301.01790>.
 
 ## See also
 
@@ -138,6 +101,7 @@ Other Learner:
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
+[`mlr_learners_fcst.auto_arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.md),
 [`mlr_learners_fcst.auto_ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.md),
 [`mlr_learners_fcst.auto_gum`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_gum.md),
 [`mlr_learners_fcst.auto_msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_msarima.md),
@@ -146,7 +110,6 @@ Other Learner:
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
-[`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.holt_winters.md),
 [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md),
 [`mlr_learners_fcst.msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.md),
@@ -168,17 +131,15 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
--\>
-[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstAutoArima`
+-\> `LearnerFcstGum`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstAutoArima$new()`](#method-LearnerFcstAutoArima-initialize)
+- [`LearnerFcstGum$new()`](#method-LearnerFcstGum-initialize)
 
-- [`LearnerFcstAutoArima$clone()`](#method-LearnerFcstAutoArima-clone)
+- [`LearnerFcstGum$clone()`](#method-LearnerFcstGum-clone)
 
 Inherited methods
 
@@ -197,24 +158,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstAutoArima$new()`
+### `LearnerFcstGum$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstAutoArima$new()
+    LearnerFcstGum$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstAutoArima$clone()`
+### `LearnerFcstGum$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstAutoArima$clone(deep = FALSE)
+    LearnerFcstGum$clone(deep = FALSE)
 
 #### Arguments
 
@@ -226,17 +187,18 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.auto_arima")
+learner = lrn("fcst.gum")
 print(learner)
 #> 
-#> ── <LearnerFcstAutoArima> (fcst.auto_arima): Auto ARIMA ────────────────────────
+#> ── <LearnerFcstGum> (fcst.gum): Generalised Univariate Model ───────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, and numeric
+#> • Packages: mlr3, mlr3forecast, and smooth
+#> • Predict Types: [response]
+#> • Feature Types: logical, integer, numeric, character, factor, ordered,
+#> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -250,16 +212,17 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Series: as.ts(task) 
-#> ARIMA(1,1,0)(1,1,0)[12] 
-#> 
-#> Coefficients:
-#>           ar1     sar1
-#>       -0.2250  -0.2274
-#> s.e.   0.1076   0.1081
-#> 
-#> sigma^2 = 92.5:  log likelihood = -304.98
-#> AIC=615.97   AICc=616.27   BIC=623.22
+#> Time elapsed: 0.05 seconds
+#> Model estimated using gum() function: GUM(1[1],1[12])
+#> With backcasting initialisation
+#> Distribution assumed in the model: Normal
+#> Loss function type: likelihood; Loss function value: 368.5502
+#> Sample size: 96
+#> Number of estimated parameters: 7
+#> Number of degrees of freedom: 89
+#> Information criteria:
+#>      AIC     AICc      BIC     BICc 
+#> 751.1004 752.3732 769.0509 771.9555 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -270,5 +233,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 700.7478 
+#> 12441.94 
 ```

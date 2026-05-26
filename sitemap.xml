@@ -22,12 +22,15 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ces.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_gum.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_msarima.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.gum.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.holt_winters.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.html</loc></url>
