@@ -315,6 +315,29 @@ bibentries = c(
     year = "2016",
     doi = "10.1016/j.ijforecast.2015.07.002",
     publisher = "Elsevier"
+  ),
+  holt2004forecasting = bibentry(
+    "article",
+    title = "Forecasting seasonals and trends by exponentially weighted moving averages",
+    author = "Holt, Charles C.",
+    journal = "International Journal of Forecasting",
+    volume = "20",
+    number = "1",
+    pages = "5--10",
+    year = "2004",
+    doi = "10.1016/j.ijforecast.2003.09.015",
+    publisher = "Elsevier"
+  ),
+  winters1960forecasting = bibentry(
+    "article",
+    title = "Forecasting Sales by Exponentially Weighted Moving Averages",
+    author = "Winters, Peter R.",
+    journal = "Management Science",
+    volume = "6",
+    number = "3",
+    pages = "324--342",
+    year = "1960",
+    doi = "10.1287/mnsc.6.3.324"
   )
 )
 # nolint end
