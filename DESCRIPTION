@@ -103,6 +103,7 @@ Collate:
     'TaskFcstLivestock.R'
     'TaskFcstLynx.R'
     'TaskFcstUsaccdeaths.R'
+    'as_learner_fcst.R'
     'as_task_fcst.R'
     'assertions.R'
     'autoplot.R'

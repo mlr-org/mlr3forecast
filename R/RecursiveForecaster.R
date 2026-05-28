@@ -136,9 +136,7 @@ RecursiveForecaster = R6::R6Class(
     #' The trained [mlr3pipelines::Graph]. Overrides [mlr3pipelines::GraphLearner]'s `$graph_model` because the
     #' [RecursiveForecaster] model wraps the graph state in `$graph_state` alongside auxiliary metadata.
     graph_model = function(rhs) {
-      if (!missing(rhs) && !identical(rhs, self$graph)) {
-        error_input("graph_model is read-only")
-      }
+      assert_ro_binding(rhs)
       if (is.null(self$model)) {
         return(self$graph)
       }
@@ -276,50 +274,4 @@ unmarshal_model.recursive_forecaster_model_marshaled = function(model, inplace =
   m$graph_state = unmarshal_model(m$graph_state, inplace = inplace, ...)
   class(m$graph_state) = setdiff(class(m$graph_state), "graph_learner_model")
   structure(m, class = c("recursive_forecaster_model", "list"))
-}
-
-#' @title Convert to a Forecast Learner
-#'
-#' @description
-#' Creates a [RecursiveForecaster] (recursive strategy) or [DirectForecaster] (direct strategy),
-#' selected via `strategy`.
-#'
-#' @param learner ([mlr3::Learner] | [mlr3pipelines::Graph] | [mlr3pipelines::PipeOp])\cr
-#'   A regression learner (when `lags` is provided) or a graph/PipeOp.
-#' @param lags (`integer()` | `NULL`)\cr
-#'   The lag values to use for creating lag features.
-#' @param strategy (`character(1)`)\cr
-#'   Forecasting strategy. One of `"recursive"` (default) or `"direct"`.
-#' @param horizons (`integer()` | `NULL`)\cr
-#'   Required when `strategy = "direct"`; must be `NULL` when `strategy = "recursive"`.
-#'   A single integer `H` is expanded to `1:H`.
-#' @param ... (any)\cr
-#'   Additional arguments passed to [RecursiveForecaster] or [DirectForecaster].
-#' @return [RecursiveForecaster] or [DirectForecaster].
-#' @export
-#' @examples
-#' library(mlr3pipelines)
-#'
-#' # recursive forecasting (default)
-#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
-#'
-#' # recursive with a custom graph
-#' graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
-#' flrn = as_learner_fcst(graph)
-#'
-#' # direct forecasting (one model per horizon)
-#' flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 12)
-as_learner_fcst = function(learner, lags = NULL, strategy = "recursive", horizons = NULL, ...) {
-  assert_choice(strategy, c("recursive", "direct"))
-  if (strategy == "direct") {
-    if (is.null(horizons)) {
-      error_input("`horizons` is required when strategy = \"direct\".")
-    }
-    DirectForecaster$new(learner, lags = lags, horizons = horizons, ...)
-  } else {
-    if (!is.null(horizons)) {
-      error_input("`horizons` must be NULL when strategy = \"recursive\".")
-    }
-    RecursiveForecaster$new(learner, lags = lags, ...)
-  }
 }
