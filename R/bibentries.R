@@ -285,6 +285,59 @@ bibentries = c(
     year = "2018",
     publisher = "Taylor & Francis",
     doi = "10.1080/00031305.2017.1380080"
+  ),
+  cleveland1990stl = bibentry(
+    "article",
+    title = "STL: A Seasonal-Trend Decomposition Procedure Based on Loess",
+    author = "Cleveland, Robert B. and Cleveland, William S. and McRae, Jean E. and Terpenning, Irma",
+    journal = "Journal of Official Statistics",
+    volume = "6",
+    number = "1",
+    pages = "3--73",
+    year = "1990"
+  ),
+  harvey1989forecasting = bibentry(
+    "book",
+    title = "Forecasting, Structural Time Series Models and the Kalman Filter",
+    author = "Harvey, Andrew C.",
+    year = "1989",
+    publisher = "Cambridge University Press",
+    address = "Cambridge"
+  ),
+  bergmeir2016bagging = bibentry(
+    "article",
+    title = "Bagging exponential smoothing methods using STL decomposition and Box-Cox transformation",
+    author = "Bergmeir, Christoph and Hyndman, Rob J and Ben\u00edtez, Jos\u00e9 M",
+    journal = "International Journal of Forecasting",
+    volume = "32",
+    number = "2",
+    pages = "303--312",
+    year = "2016",
+    doi = "10.1016/j.ijforecast.2015.07.002",
+    publisher = "Elsevier"
+  ),
+  holt2004forecasting = bibentry(
+    "article",
+    title = "Forecasting seasonals and trends by exponentially weighted moving averages",
+    author = "Holt, Charles C.",
+    journal = "International Journal of Forecasting",
+    volume = "20",
+    number = "1",
+    pages = "5--10",
+    year = "2004",
+    doi = "10.1016/j.ijforecast.2003.09.015",
+    publisher = "Elsevier"
+  ),
+  winters1960forecasting = bibentry(
+    "article",
+    title = "Forecasting Sales by Exponentially Weighted Moving Averages",
+    author = "Winters, Peter R.",
+    journal = "Management Science",
+    volume = "6",
+    number = "3",
+    pages = "324--342",
+    year = "1960",
+    doi = "10.1287/mnsc.6.3.324"
   )
 )
 # nolint end
