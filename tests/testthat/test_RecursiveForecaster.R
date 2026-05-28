@@ -69,6 +69,23 @@ test_that("RecursiveForecaster errors on target trafo inside the graph", {
   expect_snapshot(RecursiveForecaster$new(graph), error = TRUE)
 })
 
+test_that("RecursiveForecaster works wrapped in a target trafo", {
+  task = tsk("airpassengers")
+  split = partition(task, ratio = 0.85)
+  flrn = as_learner(ppl(
+    "targettrafo",
+    graph = as_learner_fcst(lrn("regr.rpart"), lags = 1:12),
+    trafo_pipeop = po("fcst.targetdiff", lag = 1L)
+  ))
+  flrn$train(task, split$train)
+  prediction = flrn$predict(task, split$test)
+
+  expect_class(prediction, "PredictionRegr")
+  expect_length(prediction$response, length(split$test))
+  # predictions are inverted back to the original scale, not the differenced scale
+  expect_numeric(prediction$response, lower = 100, finite = TRUE, any.missing = FALSE)
+})
+
 test_that("as_learner_fcst helper works", {
   learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
   expect_class(learner, "RecursiveForecaster")

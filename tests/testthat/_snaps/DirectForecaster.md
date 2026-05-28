@@ -18,14 +18,31 @@
       x `horizons` must be NULL when strategy = "recursive".
       > Class: Mlr3ErrorInput
 
-# DirectForecaster errors on PipeOpFcstLags inside the graph
+# DirectForecaster errors on iterative feature PipeOps inside the graph
 
     Code
       DirectForecaster$new(graph, lags = 1:3, horizons = 3)
     Condition
       Error:
       ! 
-      x PipeOpFcstLags inside a DirectForecaster graph is not supported (found:
-        fcst.lags); lag features are managed internally with horizon-shifted offsets.
+      x Iterative feature PipeOps (property 'fcst_iterative') inside a
+        DirectForecaster graph are not supported (found: fcst.lags). DirectForecaster
+        manages lag features internally with horizon-shifted offsets via `lags`;
+        other iterative features (e.g. PipeOpFcstRolling) cannot yet be
+        horizon-offset and would leak future information for horizons > 1.
+      > Class: Mlr3ErrorInput
+
+---
+
+    Code
+      DirectForecaster$new(graph, lags = 1:3, horizons = 3)
+    Condition
+      Error:
+      ! 
+      x Iterative feature PipeOps (property 'fcst_iterative') inside a
+        DirectForecaster graph are not supported (found: fcst.rolling).
+        DirectForecaster manages lag features internally with horizon-shifted offsets
+        via `lags`; other iterative features (e.g. PipeOpFcstRolling) cannot yet be
+        horizon-offset and would leak future information for horizons > 1.
       > Class: Mlr3ErrorInput
 

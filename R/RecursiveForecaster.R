@@ -14,13 +14,24 @@
 #' * **Graph**: `RecursiveForecaster$new(graph)` -- takes an arbitrary
 #'   [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
 #'
-#' @section Limitations:
-#' Target transformations placed *inside* the graph (e.g. [mlr_pipeops_fcst.targetdiff],
-#' [mlr3pipelines::PipeOpTargetMutate]) are not currently supported because the trafo only
-#' transforms the active row at predict time, while iterative features such as lags require
-#' transformed values for all historical rows. Use [DirectForecaster] for target trafos. A
-#' workaround for `RecursiveForecaster` is to transform the task target outside the graph
-#' (preprocess the task once, fit on transformed scale, then invert predictions afterwards).
+#' @section Target transformations:
+#' A target transformation (e.g. [mlr_pipeops_fcst.targetdiff], [mlr3pipelines::PipeOpTargetMutate])
+#' must *wrap* the forecaster, not be placed *inside* its graph. Wrap it with
+#' [mlr3pipelines::ppl]`("targettrafo")` so the whole series is transformed once up front, the
+#' recursion runs entirely on the transformed scale, and predictions are inverted once at the end:
+#'
+#' ```r
+#' flrn = as_learner(ppl("targettrafo",
+#'   graph = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:12),
+#'   trafo_pipeop = po("fcst.targetdiff", lag = 1L)
+#' ))
+#' flrn$train(task, split$train)
+#' flrn$predict(task, split$test)  # predictions are on the original scale
+#' ```
+#'
+#' Placing a [mlr3pipelines::PipeOpTargetTrafo] *inside* the graph is not supported and is rejected
+#' at construction: it would entangle the transformation with the iterative lag/rolling feedback,
+#' which read the original-scale backend, producing a train/predict scale mismatch.
 #'
 #' @export
 #' @examples

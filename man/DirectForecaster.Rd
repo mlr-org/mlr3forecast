@@ -8,7 +8,10 @@ Trains a separate model for each forecast horizon. For horizon \code{h} with bas
 model \code{h} uses lags \code{h:(h+p-1)}, so that at prediction time only observed values are needed.
 Unlike \link{RecursiveForecaster}, predictions do not feed back into subsequent steps (no error accumulation).
 
-Lag features are managed internally -- do not include \link{PipeOpFcstLags} in the learner or graph.
+Lag features are managed internally with horizon-shifted offsets via \code{lags} -- do not include any
+iterative feature PipeOp (property \code{"fcst_iterative"}, e.g. \link{PipeOpFcstLags}, \link{PipeOpFcstRolling})
+in the learner or graph. Such ops cannot yet be horizon-offset and would leak future information
+for horizons > 1, so they are rejected at construction.
 }
 \examples{
 library(mlr3pipelines)

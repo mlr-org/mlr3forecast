@@ -123,8 +123,11 @@ test_that("DirectForecaster predict_type propagates to trained models", {
   expect_false(allMissing(pred$se))
 })
 
-test_that("DirectForecaster errors on PipeOpFcstLags inside the graph", {
+test_that("DirectForecaster errors on iterative feature PipeOps inside the graph", {
   graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
+  expect_snapshot(DirectForecaster$new(graph, lags = 1:3, horizons = 3), error = TRUE)
+
+  graph = po("fcst.rolling", funs = "mean", window_sizes = 6L) %>>% lrn("regr.rpart")
   expect_snapshot(DirectForecaster$new(graph, lags = 1:3, horizons = 3), error = TRUE)
 })
 

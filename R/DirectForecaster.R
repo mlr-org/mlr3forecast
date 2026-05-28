@@ -5,7 +5,10 @@
 #' model `h` uses lags `h:(h+p-1)`, so that at prediction time only observed values are needed.
 #' Unlike [RecursiveForecaster], predictions do not feed back into subsequent steps (no error accumulation).
 #'
-#' Lag features are managed internally -- do not include [PipeOpFcstLags] in the learner or graph.
+#' Lag features are managed internally with horizon-shifted offsets via `lags` -- do not include any
+#' iterative feature PipeOp (property `"fcst_iterative"`, e.g. [PipeOpFcstLags], [PipeOpFcstRolling])
+#' in the learner or graph. Such ops cannot yet be horizon-offset and would leak future information
+#' for horizons > 1, so they are rejected at construction.
 #'
 #' @export
 #' @examples
@@ -68,14 +71,14 @@ DirectForecaster = R6::R6Class(
         private$.learner$param_set$values = insert_named(private$.learner$param_set$values, param_vals)
       }
 
-      lag_po_ids = keep(
+      iterative_ids = keep(
         names(private$.learner$graph$pipeops),
-        function(id) inherits(private$.learner$graph$pipeops[[id]], "PipeOpFcstLags")
+        function(id) "fcst_iterative" %in% private$.learner$graph$pipeops[[id]]$properties
       )
-      if (length(lag_po_ids) > 0L) {
+      if (length(iterative_ids) > 0L) {
         error_input(
-          "PipeOpFcstLags inside a DirectForecaster graph is not supported (found: %s); lag features are managed internally with horizon-shifted offsets.",
-          toString(lag_po_ids)
+          "Iterative feature PipeOps (property 'fcst_iterative') inside a DirectForecaster graph are not supported (found: %s). DirectForecaster manages lag features internally with horizon-shifted offsets via `lags`; other iterative features (e.g. PipeOpFcstRolling) cannot yet be horizon-offset and would leak future information for horizons > 1.",
+          toString(iterative_ids)
         )
       }
 

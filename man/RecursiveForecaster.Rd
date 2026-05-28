@@ -19,14 +19,24 @@ Can be constructed in two ways:
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
 }
 }
-\section{Limitations}{
+\section{Target transformations}{
 
-Target transformations placed \emph{inside} the graph (e.g. \link{mlr_pipeops_fcst.targetdiff},
-\link[mlr3pipelines:PipeOpTargetMutate]{mlr3pipelines::PipeOpTargetMutate}) are not currently supported because the trafo only
-transforms the active row at predict time, while iterative features such as lags require
-transformed values for all historical rows. Use \link{DirectForecaster} for target trafos. A
-workaround for \code{RecursiveForecaster} is to transform the task target outside the graph
-(preprocess the task once, fit on transformed scale, then invert predictions afterwards).
+A target transformation (e.g. \link{mlr_pipeops_fcst.targetdiff}, \link[mlr3pipelines:PipeOpTargetMutate]{mlr3pipelines::PipeOpTargetMutate})
+must \emph{wrap} the forecaster, not be placed \emph{inside} its graph. Wrap it with
+\link[mlr3pipelines:ppl]{mlr3pipelines::ppl}\code{("targettrafo")} so the whole series is transformed once up front, the
+recursion runs entirely on the transformed scale, and predictions are inverted once at the end:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{flrn = as_learner(ppl("targettrafo",
+  graph = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:12),
+  trafo_pipeop = po("fcst.targetdiff", lag = 1L)
+))
+flrn$train(task, split$train)
+flrn$predict(task, split$test)  # predictions are on the original scale
+}\if{html}{\out{</div>}}
+
+Placing a \link[mlr3pipelines:PipeOpTargetTrafo]{mlr3pipelines::PipeOpTargetTrafo} \emph{inside} the graph is not supported and is rejected
+at construction: it would entangle the transformation with the iterative lag/rolling feedback,
+which read the original-scale backend, producing a train/predict scale mismatch.
 }
 
 \examples{
