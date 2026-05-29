@@ -23,7 +23,7 @@ lrn("fcst.msarima")
 \itemize{
 \item Task type: \dQuote{fcst}
 \item Predict Types: \dQuote{response}
-\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, \dQuote{Date}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}, \CRANpkg{smooth}
 }
 }
@@ -136,7 +136,7 @@ Other Learner:
 }
 \concept{Learner}
 \section{Super classes}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerFcst]{LearnerFcst}} -> \code{LearnerFcstMsarima}
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerFcst]{LearnerFcst}} -> \code{\link[mlr3forecast:LearnerFcstSmooth]{LearnerFcstSmooth}} -> \code{LearnerFcstMsarima}
 }
 \section{Methods}{
 \subsection{Public methods}{

@@ -10,7 +10,8 @@ test_that("autotest", {
 })
 
 test_that("tslm handles exogenous features", {
-  dt = withr::with_seed(1, data.table(time = 1:48, y = as.numeric(1:48) + rnorm(48), x = rnorm(48)))
+  withr::local_seed(1)
+  dt = data.table(time = 1:48, y = as.numeric(1:48) + rnorm(48), x = rnorm(48))
   task = as_task_fcst(dt, target = "y", order = "time", freq = 12L)
   learner = lrn("fcst.tslm")
   split = partition(task, ratio = 0.8)
@@ -22,7 +23,8 @@ test_that("tslm handles exogenous features", {
 })
 
 test_that("tslm accepts a user formula referencing the target name", {
-  dt = withr::with_seed(1, data.table(time = 1:48, passengers = as.numeric(1:48) + rnorm(48), x = rnorm(48)))
+  withr::local_seed(1)
+  dt = data.table(time = 1:48, passengers = as.numeric(1:48) + rnorm(48), x = rnorm(48))
   task = as_task_fcst(dt, target = "passengers", order = "time", freq = 12L)
   learner = lrn("fcst.tslm")
   learner$param_set$set_values(formula = passengers ~ trend + season + x)
@@ -31,7 +33,8 @@ test_that("tslm accepts a user formula referencing the target name", {
 })
 
 test_that("tslm does not collide with a feature named the same as the placeholder", {
-  dt = withr::with_seed(1, data.table(time = 1:48, passengers = as.numeric(1:48) + rnorm(48), y = rnorm(48)))
+  withr::local_seed(1)
+  dt = data.table(time = 1:48, passengers = as.numeric(1:48) + rnorm(48), y = rnorm(48))
   task = as_task_fcst(dt, target = "passengers", order = "time", freq = 12L)
   learner = lrn("fcst.tslm")
   learner$train(task)

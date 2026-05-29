@@ -18,7 +18,7 @@
 #' @template example
 LearnerFcstGum = R6Class(
   "LearnerFcstGum",
-  inherit = LearnerFcst,
+  inherit = LearnerFcstSmooth,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -46,8 +46,8 @@ LearnerFcstGum = R6Class(
         id = "fcst.gum",
         param_set = param_set,
         predict_types = "response",
-        feature_types = unname(mlr_reflections$task_feature_types),
-        properties = c("featureless", "missings"),
+        feature_types = c("logical", "integer", "numeric"),
+        properties = c("featureless", "exogenous", "missings"),
         packages = c("mlr3forecast", "smooth"),
         label = "Generalised Univariate Model",
         man = "mlr3forecast::mlr_learners_fcst.gum"
@@ -56,22 +56,7 @@ LearnerFcstGum = R6Class(
   ),
 
   private = list(
-    .train = function(task) {
-      super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
-      invoke(smooth::gum, y = as.ts(task), .args = pv)
-    },
-
-    .predict = function(task) {
-      prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
-      if (!private$.is_newdata(task)) {
-        response = stats::fitted(self$model)[task$row_ids]
-        prediction = insert_named(prediction, list(response = response))
-        return(prediction)
-      }
-      pred = invoke(generics::forecast, self$model, h = task$nrow)
-      insert_named(prediction, list(response = as.numeric(pred$mean)))
-    }
+    .fn = "gum"
   )
 )
 
