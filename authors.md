@@ -5,6 +5,12 @@
 - **Maximilian Mücke**. Author, maintainer.
   [](https://orcid.org/0009-0000-9432-9795)
 
+- **Marc Becker**. Contributor.
+  [](https://orcid.org/0000-0002-8115-0400)
+
+- **Bernd Bischl**. Contributor.
+  [](https://orcid.org/0000-0001-6002-6980)
+
 ## Citation
 
 Source:
