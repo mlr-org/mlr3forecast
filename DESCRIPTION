@@ -1,9 +1,14 @@
 Package: mlr3forecast
 Title: Extending 'mlr3' to Time Series Forecasting
 Version: 0.0.1
-Authors@R:
+Authors@R:c(
     person("Maximilian", "Mücke", , "muecke.maximilian@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0009-0000-9432-9795"))
+           comment = c(ORCID = "0009-0000-9432-9795")),
+    person("Marc", "Becker", , "marcbecker@posteo.de", role = "ctb",
+           comment = c(ORCID = "0000-0002-8115-0400")),
+    person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "ctb",
+           comment = c(ORCID = "0000-0001-6002-6980"))
+  )
 Description: Extends the 'mlr3' ecosystem to time series forecasting.
 License: LGPL-3
 URL: https://mlr3forecast.mlr-org.com,
