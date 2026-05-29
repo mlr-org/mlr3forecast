@@ -1,16 +1,11 @@
-# Structural Time Series Forecast Learner
+# Extreme Learning Machine Forecast Learner
 
-Structural time series model fit by maximum likelihood. Three model
-types are supported: local level, local linear trend, and basic
-structural model (level + trend + seasonal). Calls
-[`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) from
-package stats.
-
-`type = "BSM"` requires a seasonal time series (frequency \> 1).
-Prediction is performed via
-[`forecast::forecast.StructTS()`](https://pkg.robjhyndman.com/forecast/reference/forecast.StructTS.html)
-which yields point forecasts and predictive intervals from the Kalman
-filter.
+Automatic time series forecasting with an extreme learning machine
+neural network, including automatic input lag selection, deterministic
+seasonality handling, and ensemble combination across multiple training
+repetitions. Calls
+[`nnfor::elm()`](https://rdrr.io/pkg/nnfor/man/elm.html) from package
+[nnfor](https://CRAN.R-project.org/package=nnfor).
 
 ## Dictionary
 
@@ -21,38 +16,49 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.struct_ts")
-    lrn("fcst.struct_ts")
+    mlr_learners$get("fcst.elm")
+    lrn("fcst.elm")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”, “quantiles”
+- Predict Types: “response”
 
 - Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
   “ordered”, “POSIXct”, “Date”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
+  [nnfor](https://CRAN.R-project.org/package=nnfor),
   [forecast](https://CRAN.R-project.org/package=forecast)
 
 ## Parameters
 
-|               |           |         |                   |
-|---------------|-----------|---------|-------------------|
-| Id            | Type      | Default | Levels            |
-| type          | character | level   | level, trend, BSM |
-| init          | untyped   | NULL    |                   |
-| fixed         | untyped   | NULL    |                   |
-| optim.control | untyped   | NULL    |                   |
-| lambda        | untyped   | NULL    |                   |
-| biasadj       | logical   | FALSE   | TRUE, FALSE       |
+|                  |           |         |                        |                  |
+|------------------|-----------|---------|------------------------|------------------|
+| Id               | Type      | Default | Levels                 | Range            |
+| m                | integer   | \-      |                        | \\\[1, \infty)\\ |
+| hd               | untyped   | NULL    |                        | \-               |
+| type             | character | lasso   | lasso, ridge, step, lm | \-               |
+| reps             | integer   | 20      |                        | \\\[1, \infty)\\ |
+| comb             | character | median  | median, mean, mode     | \-               |
+| lags             | untyped   | NULL    |                        | \-               |
+| keep             | untyped   | NULL    |                        | \-               |
+| difforder        | untyped   | NULL    |                        | \-               |
+| sel.lag          | logical   | TRUE    | TRUE, FALSE            | \-               |
+| direct           | logical   | FALSE   | TRUE, FALSE            | \-               |
+| allow.det.season | logical   | TRUE    | TRUE, FALSE            | \-               |
+| det.type         | character | auto    | auto, bin, trg         | \-               |
+| retrain          | logical   | FALSE   | TRUE, FALSE            | \-               |
 
 ## References
 
-Harvey, C. A (1989). *Forecasting, Structural Time Series Models and the
-Kalman Filter*. Cambridge University Press, Cambridge.
+Kourentzes, Nikolaos, Barrow, K. D, Crone, F. S (2014). “Neural network
+ensemble operators for time series forecasting.” *Expert Systems with
+Applications*, **41**(9), 4235–4244.
+[doi:10.1016/j.eswa.2013.12.011](https://doi.org/10.1016/j.eswa.2013.12.011)
+.
 
 ## See also
 
@@ -108,7 +114,6 @@ Other Learner:
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
-[`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.holt_winters.md),
@@ -121,6 +126,7 @@ Other Learner:
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
+[`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.struct_ts.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.theta.md),
 [`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.tscount.md),
@@ -134,15 +140,15 @@ Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
 [`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstStructTS`
+-\> `LearnerFcstElm`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstStructTS$new()`](#method-LearnerFcstStructTS-initialize)
+- [`LearnerFcstElm$new()`](#method-LearnerFcstElm-initialize)
 
-- [`LearnerFcstStructTS$clone()`](#method-LearnerFcstStructTS-clone)
+- [`LearnerFcstElm$clone()`](#method-LearnerFcstElm-clone)
 
 Inherited methods
 
@@ -161,24 +167,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstStructTS$new()`
+### `LearnerFcstElm$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstStructTS$new()
+    LearnerFcstElm$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstStructTS$clone()`
+### `LearnerFcstElm$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstStructTS$clone(deep = FALSE)
+    LearnerFcstElm$clone(deep = FALSE)
 
 #### Arguments
 
@@ -190,18 +196,18 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.struct_ts")
+learner = lrn("fcst.elm")
 print(learner)
 #> 
-#> ── <LearnerFcstStructTS> (fcst.struct_ts): Structural Time Series ──────────────
+#> ── <LearnerFcstElm> (fcst.elm): Extreme Learning Machine ───────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response] and quantiles
+#> • Packages: mlr3, mlr3forecast, nnfor, and forecast
+#> • Predict Types: [response]
 #> • Feature Types: logical, integer, numeric, character, factor, ordered,
 #> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: featureless and missings
+#> • Properties: featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -215,19 +221,13 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> 
-#> Call:
-#> fn(x = structure(c(112, 118, 132, 129, 121, 135, 148, 148, 136, 119, 104, 118, 
-#> 115, 126, 141, 135, 125, 149, 170, 170, 158, 133, 114, 140, 145, 150, 178, 163, 
-#> 172, 178, 199, 199, 184, 162, 146, 166, 171, 180, 193, 181, 183, 218, 230, 242, 
-#> 209, 191, 172, 194, 196, 196, 236, 235, 229, 243, 264, 272, 237, 211, 180, 201, 
-#> 204, 188, 235, 227, 234, 264, 302, 293, 259, 229, 203, 229, 242, 233, 267, 269, 
-#> 270, 315, 364, 347, 312, 274, 237, 278, 284, 277, 317, 313, 318, 374, 413, 405, 
-#> 355, 306, 271, 306), tsp = c(1, 8.91666666666667, 12), class = "ts"))
-#> 
-#> Variances:
-#>   level    slope     seas  epsilon  
-#>    0.00    98.02    18.92     0.00  
+#> ELM fit with 81 hidden nodes and 20 repetitions.
+#> Series modelled in differences: D1.
+#> Univariate lags: (3,4,7,8,10,12)
+#> Deterministic seasonal dummies included.
+#> Forecast combined using the median operator.
+#> Output weight estimation using: lasso.
+#> MSE: 76.9837.
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -238,5 +238,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 279831.3 
+#> 1613.816 
 ```

@@ -50,6 +50,9 @@
 - [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md)
   [`LearnerFcstCroston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md)
   : Croston Forecast Learner
+- [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.elm.md)
+  [`LearnerFcstElm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.elm.md)
+  : Extreme Learning Machine Forecast Learner
 - [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md)
   [`LearnerFcstEts`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md)
   : ETS Forecast Learner

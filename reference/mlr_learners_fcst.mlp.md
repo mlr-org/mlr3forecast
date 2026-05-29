@@ -114,6 +114,7 @@ Other Learner:
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
+[`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.holt_winters.md),
@@ -225,7 +226,7 @@ print(learner$model)
 #> Univariate lags: (3,4,7,8,10,12)
 #> Deterministic seasonal dummies included.
 #> Forecast combined using the median operator.
-#> MSE: 1.7652.
+#> MSE: 2.029.
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -236,5 +237,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#>  4666.91 
+#> 1490.709 
 ```

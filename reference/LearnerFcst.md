@@ -80,6 +80,7 @@ Other Learner:
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
+[`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.holt_winters.md),
@@ -268,12 +269,12 @@ names(lrns)
 #>  [4] "fcst.auto_adam"    "fcst.auto_arima"   "fcst.auto_ces"    
 #>  [7] "fcst.auto_gum"     "fcst.auto_msarima" "fcst.bagged"      
 #> [10] "fcst.bats"         "fcst.ces"          "fcst.croston"     
-#> [13] "fcst.ets"          "fcst.gum"          "fcst.holt_winters"
-#> [16] "fcst.mean"         "fcst.mlp"          "fcst.msarima"     
-#> [19] "fcst.nnetar"       "fcst.prophet"      "fcst.random_walk" 
-#> [22] "fcst.sma"          "fcst.spline"       "fcst.stlm"        
-#> [25] "fcst.struct_ts"    "fcst.tbats"        "fcst.theta"       
-#> [28] "fcst.tscount"      "fcst.tslm"        
+#> [13] "fcst.elm"          "fcst.ets"          "fcst.gum"         
+#> [16] "fcst.holt_winters" "fcst.mean"         "fcst.mlp"         
+#> [19] "fcst.msarima"      "fcst.nnetar"       "fcst.prophet"     
+#> [22] "fcst.random_walk"  "fcst.sma"          "fcst.spline"      
+#> [25] "fcst.stlm"         "fcst.struct_ts"    "fcst.tbats"       
+#> [28] "fcst.theta"        "fcst.tscount"      "fcst.tslm"        
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("fcst.ets")
