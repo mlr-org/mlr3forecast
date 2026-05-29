@@ -33,6 +33,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.gum.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.holt_winters.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mlp.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.html</loc></url>

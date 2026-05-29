@@ -467,6 +467,9 @@ prediction$score(msr("regr.rmse"))
 - [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md)
   [`LearnerFcstMean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md)
   : Mean Forecast Learner
+- [`mlr_learners_fcst.mlp`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mlp.md)
+  [`LearnerFcstMlp`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mlp.md)
+  : Multilayer Perceptron Forecast Learner
 - [`mlr_learners_fcst.msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.md)
   [`LearnerFcstMsarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.md)
   : Multiple-Seasonal ARIMA Forecast Learner

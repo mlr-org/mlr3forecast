@@ -1,8 +1,11 @@
-# ARFIMA Forecast Learner
+# Multilayer Perceptron Forecast Learner
 
-ARFIMA model. Calls
-[`forecast::arfima()`](https://pkg.robjhyndman.com/forecast/reference/arfima.html)
-from package [forecast](https://CRAN.R-project.org/package=forecast).
+Automatic time series forecasting with a multilayer perceptron neural
+network, including automatic input lag selection, deterministic
+seasonality handling, and ensemble combination across multiple training
+repetitions. Calls
+[`nnfor::mlp()`](https://rdrr.io/pkg/nnfor/man/mlp.html) from package
+[nnfor](https://CRAN.R-project.org/package=nnfor).
 
 ## Dictionary
 
@@ -13,84 +16,49 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.arfima")
-    lrn("fcst.arfima")
+    mlr_learners$get("fcst.mlp")
+    lrn("fcst.mlp")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”, “quantiles”
+- Predict Types: “response”
 
-- Feature Types: “logical”, “integer”, “numeric”
+- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
+  “ordered”, “POSIXct”, “Date”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
+  [nnfor](https://CRAN.R-project.org/package=nnfor),
   [forecast](https://CRAN.R-project.org/package=forecast)
 
 ## Parameters
 
-|  |  |  |  |  |
-|----|----|----|----|----|
-| Id | Type | Default | Levels | Range |
-| drange | untyped | c(0, 0.5) |  | \- |
-| estim | character | mle | mle, ls | \- |
-| lambda | untyped | NULL |  | \- |
-| biasadj | logical | FALSE | TRUE, FALSE | \- |
-| simulate | logical | FALSE | TRUE, FALSE | \- |
-| bootstrap | logical | FALSE | TRUE, FALSE | \- |
-| npaths | integer | 5000 |  | \\\[1, \infty)\\ |
-| d | integer | NA |  | \\\[0, \infty)\\ |
-| D | integer | NA |  | \\\[0, \infty)\\ |
-| max.p | integer | 5 |  | \\\[0, \infty)\\ |
-| max.q | integer | 5 |  | \\\[0, \infty)\\ |
-| max.order | integer | 5 |  | \\\[0, \infty)\\ |
-| max.d | integer | 2 |  | \\\[0, \infty)\\ |
-| max.D | integer | 1 |  | \\\[0, \infty)\\ |
-| start.p | integer | 2 |  | \\\[0, \infty)\\ |
-| start.q | integer | 2 |  | \\\[0, \infty)\\ |
-| start.P | integer | 1 |  | \\\[0, \infty)\\ |
-| start.Q | integer | 1 |  | \\\[0, \infty)\\ |
-| seasonal | logical | TRUE | TRUE, FALSE | \- |
-| ic | character | aicc | aicc, aic, bic | \- |
-| stepwise | logical | TRUE | TRUE, FALSE | \- |
-| nmodels | integer | 94 |  | \\\[0, \infty)\\ |
-| trace | logical | FALSE | TRUE, FALSE | \- |
-| approximation | untyped | \- |  | \- |
-| method | untyped | NULL |  | \- |
-| truncate | untyped | NULL |  | \- |
-| test | character | kpss | kpss, adf, pp | \- |
-| test.args | untyped | list() |  | \- |
-| seasonal.test | character | seas | seas, ocsb, hegy, ch | \- |
-| seasonal.test.args | untyped | list() |  | \- |
-| allowdrift | logical | TRUE | TRUE, FALSE | \- |
-| allowmean | logical | TRUE | TRUE, FALSE | \- |
-| parallel | logical | FALSE | TRUE, FALSE | \- |
-| num.cores | integer | 2 |  | \\\[1, \infty)\\ |
-| include.mean | logical | TRUE | TRUE, FALSE | \- |
-| include.drift | logical | FALSE | TRUE, FALSE | \- |
-| include.constant | logical | FALSE | TRUE, FALSE | \- |
-| transform.pars | logical | TRUE | TRUE, FALSE | \- |
-| fixed | untyped | NULL |  | \- |
-| init | untyped | NULL |  | \- |
-| SSinit | character | Gardner1980 | Gardner1980, Rossignol2011 | \- |
-| n.cond | integer | \- |  | \\\[1, \infty)\\ |
-| optim.method | character | BFGS | Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent | \- |
-| optim.control | untyped | list() |  | \- |
-| kappa | numeric | 1e+06 |  | \\(-\infty, \infty)\\ |
+|                  |           |         |                     |                  |
+|------------------|-----------|---------|---------------------|------------------|
+| Id               | Type      | Default | Levels              | Range            |
+| m                | integer   | \-      |                     | \\\[1, \infty)\\ |
+| hd               | untyped   | NULL    |                     | \-               |
+| reps             | integer   | 20      |                     | \\\[1, \infty)\\ |
+| comb             | character | median  | median, mean, mode  | \-               |
+| lags             | untyped   | NULL    |                     | \-               |
+| keep             | untyped   | NULL    |                     | \-               |
+| difforder        | untyped   | NULL    |                     | \-               |
+| sel.lag          | logical   | TRUE    | TRUE, FALSE         | \-               |
+| allow.det.season | logical   | TRUE    | TRUE, FALSE         | \-               |
+| det.type         | character | auto    | auto, bin, trg      | \-               |
+| hd.auto.type     | character | set     | set, valid, cv, elm | \-               |
+| hd.max           | integer   | NULL    |                     | \\\[1, \infty)\\ |
+| retrain          | logical   | FALSE   | TRUE, FALSE         | \-               |
 
 ## References
 
-Haslett, John, Raftery, E A (1989). “Space-time Modelling with
-Long-memory Dependence: Assessing Ireland's Wind Power Resource.”
-*Journal of the Royal Statistical Society: Series C (Applied
-Statistics)*, **38**(1), 1–21.
-
-Hyndman, J. R, Khandakar, Yeasmin (2008). “Automatic Time Series
-Forecasting: The forecast Package for R.” *Journal of Statistical
-Software*, **27**(3), 1–22.
-[doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03) .
-<https://www.jstatsoft.org/index.php/jss/article/view/v027i03>.
+Kourentzes, Nikolaos, Barrow, K. D, Crone, F. S (2014). “Neural network
+ensemble operators for time series forecasting.” *Expert Systems with
+Applications*, **41**(9), 4235–4244.
+[doi:10.1016/j.eswa.2013.12.011](https://doi.org/10.1016/j.eswa.2013.12.011)
+.
 
 ## See also
 
@@ -135,6 +103,7 @@ Software*, **27**(3), 1–22.
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md),
 [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
+[`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
 [`mlr_learners_fcst.auto_arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_arima.md),
@@ -149,7 +118,6 @@ Other Learner:
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.holt_winters.md),
 [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md),
-[`mlr_learners_fcst.mlp`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mlp.md),
 [`mlr_learners_fcst.msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
@@ -171,15 +139,15 @@ Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
 [`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstArfima`
+-\> `LearnerFcstMlp`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstArfima$new()`](#method-LearnerFcstArfima-initialize)
+- [`LearnerFcstMlp$new()`](#method-LearnerFcstMlp-initialize)
 
-- [`LearnerFcstArfima$clone()`](#method-LearnerFcstArfima-clone)
+- [`LearnerFcstMlp$clone()`](#method-LearnerFcstMlp-clone)
 
 Inherited methods
 
@@ -198,24 +166,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstArfima$new()`
+### `LearnerFcstMlp$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstArfima$new()
+    LearnerFcstMlp$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstArfima$clone()`
+### `LearnerFcstMlp$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstArfima$clone(deep = FALSE)
+    LearnerFcstMlp$clone(deep = FALSE)
 
 #### Arguments
 
@@ -227,17 +195,18 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.arfima")
+learner = lrn("fcst.mlp")
 print(learner)
 #> 
-#> ── <LearnerFcstArfima> (fcst.arfima): ARFIMA ───────────────────────────────────
+#> ── <LearnerFcstMlp> (fcst.mlp): Multilayer Perceptron ──────────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, and numeric
+#> • Packages: mlr3, mlr3forecast, nnfor, and forecast
+#> • Predict Types: [response]
+#> • Feature Types: logical, integer, numeric, character, factor, ordered,
+#> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -251,25 +220,12 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> 
-#> Call:
-#>   forecast::arfima(y = as.ts(task), xreg = xreg) 
-#> 
-#> *** Warning during (fracdf) fit: C fracdf() optimization failure
-#>  
-#> *** Warning during (fdcov) fit: unable to compute correlation matrix; maybe change 'h'
-#> 
-#> Coefficients:
-#>          d     ar.ar1     ar.ar2     ma.ma1 
-#>  0.3093729  0.1950795  0.4392743 -0.8524371 
-#> sigma[eps] = 18.21006 
-#> a list with components:
-#>  [1] "log.likelihood"  "n"               "msg"             "d"              
-#>  [5] "ar"              "ma"              "covariance.dpq"  "fnormMin"       
-#>  [9] "sigma"           "stderror.dpq"    "correlation.dpq" "h"              
-#> [13] "d.tol"           "M"               "hessian.dpq"     "length.w"       
-#> [17] "residuals"       "fitted"          "call"            "x"              
-#> [21] "series"         
+#> MLP fit with 5 hidden nodes and 20 repetitions.
+#> Series modelled in differences: D1.
+#> Univariate lags: (3,4,7,8,10,12)
+#> Deterministic seasonal dummies included.
+#> Forecast combined using the median operator.
+#> MSE: 1.0549.
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -280,5 +236,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 33706.15 
+#> 1944.638 
 ```
