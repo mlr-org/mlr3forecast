@@ -204,7 +204,7 @@ learner$train(task, row_ids = ids$train)
 print(learner$model)
 #> 
 #> Call:
-#> forecast::tslm(formula = y ~ trend + season, data = data)
+#> forecast::tslm(formula = passengers ~ trend + season, data = data)
 #> 
 #> Coefficients:
 #> (Intercept)        trend      season2      season3      season4      season5  
