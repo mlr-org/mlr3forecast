@@ -10,10 +10,10 @@
 
 - [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
   : Forecast Learner
-- [`ForecastLearner`](https://mlr3forecast.mlr-org.com/reference/ForecastLearner.md)
-  : Encapsulate a Learner as a Forecast Learner
-- [`ForecastLearnerManual`](https://mlr3forecast.mlr-org.com/reference/ForecastLearnerManual.md)
-  : Forecast Learner Manual
+- [`RecursiveForecaster`](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
+  : Recursive Forecast Learner
+- [`DirectForecaster`](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md)
+  : Direct Multi-Step Forecast Learner
 - [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md)
   [`LearnerFcstAdam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md)
   : ADAM Forecast Learner
@@ -168,6 +168,13 @@
   [`PipeOpFcstTsfeats`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md)
   : Time Series Feature Extraction
 
+## Selectors
+
+- [`selector_fcst_lags()`](https://mlr3forecast.mlr-org.com/reference/selector_fcst_lags.md)
+  : Select Forecast Lag Features
+- [`selector_fcst_rolling()`](https://mlr3forecast.mlr-org.com/reference/selector_fcst_rolling.md)
+  : Select Forecast Rolling Features
+
 ## Helper
 
 - [`as_learner_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_learner_fcst.md)
@@ -177,6 +184,8 @@
   : Convert to a Forecast Task
 - [`autoplot(`*`<TaskFcst>`*`)`](https://mlr3forecast.mlr-org.com/reference/autoplot.TaskFcst.md)
   : Plot for Forecast Tasks
+- [`forecast(`*`<Learner>`*`)`](https://mlr3forecast.mlr-org.com/reference/forecast.Learner.md)
+  : Forecast from a Trained Learner
 - [`generate_newdata()`](https://mlr3forecast.mlr-org.com/reference/generate_newdata.md)
   : Generate new data for a forecast task
 - [`partition(`*`<TaskFcst>`*`)`](https://mlr3forecast.mlr-org.com/reference/partition.TaskFcst.md)

@@ -2,6 +2,14 @@
 
 Creates lagged versions of the target variable as new feature columns.
 
+At predict time, lags are computed from the task's full backend (i.e.
+including rows outside `row_roles$use`), then joined onto the active
+rows. Used inside
+[RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md),
+where the forecaster writes each step's prediction into the combined
+task's target column between steps so lag features for the next step
+reflect the freshly predicted value.
+
 ## Parameters
 
 The parameters are the parameters inherited from
@@ -81,12 +89,12 @@ task = tsk("airpassengers")
 po = po("fcst.lags", lags = 1:3)
 new_task = po$train(list(task))[[1L]]
 new_task$head()
-#>    passengers      month passengers_lag_1 passengers_lag_2 passengers_lag_3
-#>         <num>     <Date>            <num>            <num>            <num>
-#> 1:        112 1949-01-01               NA               NA               NA
-#> 2:        118 1949-02-01              112               NA               NA
-#> 3:        132 1949-03-01              118              112               NA
-#> 4:        129 1949-04-01              132              118              112
-#> 5:        121 1949-05-01              129              132              118
-#> 6:        135 1949-06-01              121              129              132
+#>    passengers passengers_lag_1 passengers_lag_2 passengers_lag_3
+#>         <num>            <num>            <num>            <num>
+#> 1:        112               NA               NA               NA
+#> 2:        118              112               NA               NA
+#> 3:        132              118              112               NA
+#> 4:        129              132              118              112
+#> 5:        121              129              132              118
+#> 6:        135              121              129              132
 ```

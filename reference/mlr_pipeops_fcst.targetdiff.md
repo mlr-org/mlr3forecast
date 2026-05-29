@@ -18,6 +18,19 @@ as well as the following:
 - `lag` :: `integer(1)`  
   Lag to difference at. Default `1L`.
 
+## Limitations
+
+Target transformations placed *inside* a
+[RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
+graph are not currently supported, because the trafo only transforms the
+active row at predict time while iterative features (lags, rolling
+windows) need transformed values for all historical rows. Use inside a
+plain
+[mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
+via `ppl("targettrafo", ...)` for batch prediction, or inside
+[DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md)
+where each horizon is predicted in a single batch.
+
 ## Super classes
 
 [`mlr3pipelines::PipeOp`](https://mlr3pipelines.mlr-org.com/reference/PipeOp.html)
@@ -79,3 +92,28 @@ The objects of this class are cloneable with this method.
 - `deep`:
 
   Whether to make a deep clone.
+
+## Examples
+
+``` r
+library(mlr3pipelines)
+task = tsk("airpassengers")
+split = partition(task, ratio = 0.8)
+graph = ppl("targettrafo",
+  graph = lrn("regr.rpart"),
+  trafo_pipeop = po("fcst.targetdiff", lag = 1L)
+)
+flrn = DirectForecaster$new(graph, lags = 1:3, horizons = length(split$test))
+flrn$train(task, split$train)
+flrn$predict(task, split$test)
+#> 
+#> ── <PredictionRegr> for 29 observations: ───────────────────────────────────────
+#>  row_ids truth response      month
+#>      116   505  453.125 1958-08-01
+#>      117   404  453.125 1958-09-01
+#>      118   359  453.125 1958-10-01
+#>      ---   ---      ---        ---
+#>      142   461  511.200 1960-10-01
+#>      143   390  513.500 1960-11-01
+#>      144   432  513.500 1960-12-01
+```

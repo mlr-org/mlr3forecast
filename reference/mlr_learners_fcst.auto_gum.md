@@ -208,7 +208,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 2.28 seconds
+#> Time elapsed: 2.04 seconds
 #> Model estimated using gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
