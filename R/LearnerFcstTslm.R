@@ -43,11 +43,9 @@ LearnerFcstTslm = R6Class(
 
   private = list(
     .newdata_arg = "newdata",
+    .newdata_as_matrix = FALSE,
 
-    .train = function(task) {
-      super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
-
+    .fit = function(task, pv) {
       if (is.null(pv$formula)) {
         pv$formula = task$formula(rhs = c("trend", "season", task$feature_names))
       }

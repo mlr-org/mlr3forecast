@@ -51,7 +51,18 @@ LearnerFcstStlm = R6Class(
 
   private = list(
     .newdata_arg = "newxreg",
-    .fn = "stlm"
+    .fn = "stlm",
+
+    .fit = function(task, pv) {
+      method = pv$method %??% "ets"
+      if (task$n_features > 0L && method != "arima") {
+        error_input(
+          "`fcst.stlm` supports exogenous features only with `method = \"arima\"` (current method: \"%s\").",
+          method
+        )
+      }
+      super$.fit(task, pv)
+    }
   )
 )
 

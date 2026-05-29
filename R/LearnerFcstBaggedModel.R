@@ -50,8 +50,7 @@ LearnerFcstBaggedModel = R6Class(
   ),
 
   private = list(
-    .train = function(task) {
-      super$.train(task)
+    .fit = function(task, pv) {
       ps = self$param_set
       y = as.ts(task)
       pv_mbb = ps$get_values(tags = c("train", "mbb"))
