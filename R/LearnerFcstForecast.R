@@ -16,9 +16,13 @@ LearnerFcstForecast = R6Class(
       private$.fit(task, pv)
     },
 
+    .has_exogenous = function(task) {
+      "exogenous" %in% self$properties && task$n_features > 0L
+    },
+
     .fit = function(task, pv) {
       args = set_names(list(as.ts(task)), private$.y_arg)
-      if ("exogenous" %in% self$properties && task$n_features > 0L) {
+      if (private$.has_exogenous(task)) {
         args$xreg = as.matrix(task$data(cols = task$feature_names))
       }
       fn = getExportedValue(private$.pkg, private$.fn)
@@ -41,7 +45,7 @@ LearnerFcstForecast = R6Class(
       }
 
       args = list(h = task$nrow)
-      if ("exogenous" %in% self$properties && task$n_features > 0L) {
+      if (private$.has_exogenous(task)) {
         newdata = task$data(cols = task$feature_names)
         if (private$.newdata_as_matrix) {
           newdata = as.matrix(newdata)

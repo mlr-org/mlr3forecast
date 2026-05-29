@@ -128,6 +128,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.bats}},
 \code{\link{mlr_learners_fcst.ces}},
 \code{\link{mlr_learners_fcst.croston}},
+\code{\link{mlr_learners_fcst.elm}},
 \code{\link{mlr_learners_fcst.gum}},
 \code{\link{mlr_learners_fcst.holt_winters}},
 \code{\link{mlr_learners_fcst.mean}},
