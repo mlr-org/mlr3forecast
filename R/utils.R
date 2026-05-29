@@ -15,6 +15,7 @@ generate_newdata = function(task, n = 1L) {
   key_cols = col_roles$key
   cols = c(order_col, key_cols)
   dt = task$data(cols = cols)
+  setorderv(dt, c(key_cols, order_col))
 
   last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else dt[.N]
 

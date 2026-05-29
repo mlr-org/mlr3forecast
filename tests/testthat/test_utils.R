@@ -19,6 +19,13 @@ test_that("generate_newdata works with integer order", {
   expect_true(allMissing(newdata$value))
 })
 
+test_that("generate_newdata anchors on the chronologically last row when backend is unsorted", {
+  dt = data.table(time = 1:10, value = rnorm(10))[c(6:10, 1:5)]
+  task = as_task_fcst(dt, target = "value", order = "time")
+  newdata = generate_newdata(task, n = 3L)
+  expect_identical(newdata$time, 11:13)
+})
+
 test_that("generate_newdata works with Date order", {
   task = tsk("airpassengers")
   newdata = generate_newdata(task, n = 3L)
