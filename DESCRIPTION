@@ -17,6 +17,7 @@ Imports:
     checkmate (>= 2.0.0),
     cli,
     data.table (>= 1.18.0),
+    generics (>= 0.1.2),
     ggplot2,
     lgr,
     mlr3misc (>= 0.21.0),
@@ -29,7 +30,7 @@ Suggests:
     distributional,
     fabletools,
     forecast (>= 9.0.2),
-    generics (>= 0.1.2),
+    mlr3tuning,
     prophet (>= 1.1.7),
     rpart,
     smooth (>= 4.4.0),
@@ -51,8 +52,7 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Collate:
-    'ForecastLearner.R'
-    'ForecastLearnerManual.R'
+    'DirectForecaster.R'
     'LearnerFcst.R'
     'zzz.R'
     'LearnerFcstAdam.R'
@@ -94,6 +94,7 @@ Collate:
     'PipeOpFcstRolling.R'
     'PipeOpFcstTsfeats.R'
     'PipeOpTargetTrafo.R'
+    'RecursiveForecaster.R'
     'ResamplingFcstCV.R'
     'ResamplingFcstHoldout.R'
     'TaskFcst.R'
@@ -102,13 +103,14 @@ Collate:
     'TaskFcstLivestock.R'
     'TaskFcstLynx.R'
     'TaskFcstUsaccdeaths.R'
+    'as_learner_fcst.R'
     'as_task_fcst.R'
     'assertions.R'
     'autoplot.R'
     'bibentries.R'
-    'fcst_history.R'
     'helper_data_table.R'
     'partition.R'
     'reexports.R'
+    'selector.R'
     'tsf.R'
     'utils.R'

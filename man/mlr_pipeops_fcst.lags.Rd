@@ -6,6 +6,11 @@
 \title{Create Lags of Target Variable}
 \description{
 Creates lagged versions of the target variable as new feature columns.
+
+At predict time, lags are computed from the task's full backend (i.e. including rows outside
+\code{row_roles$use}), then joined onto the active rows. Used inside \link{RecursiveForecaster}, where the
+forecaster writes each step's prediction into the combined task's target column between steps so
+lag features for the next step reflect the freshly predicted value.
 }
 \section{Parameters}{
 

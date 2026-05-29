@@ -13,7 +13,25 @@
 #' * `lag` :: `integer(1)`\cr
 #'   Lag to difference at. Default `1L`.
 #'
+#' @section Limitations:
+#' Target transformations placed *inside* a [RecursiveForecaster] graph are not currently supported,
+#' because the trafo only transforms the active row at predict time while iterative features
+#' (lags, rolling windows) need transformed values for all historical rows. Use inside a plain
+#' [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)` for batch prediction, or inside
+#' [DirectForecaster] where each horizon is predicted in a single batch.
+#'
 #' @export
+#' @examples
+#' library(mlr3pipelines)
+#' task = tsk("airpassengers")
+#' split = partition(task, ratio = 0.8)
+#' graph = ppl("targettrafo",
+#'   graph = lrn("regr.rpart"),
+#'   trafo_pipeop = po("fcst.targetdiff", lag = 1L)
+#' )
+#' flrn = DirectForecaster$new(graph, lags = 1:3, horizons = length(split$test))
+#' flrn$train(task, split$train)
+#' flrn$predict(task, split$test)
 PipeOpTargetTrafoDifference = R6Class(
   "PipeOpTargetTrafoDifference",
   inherit = PipeOpTargetTrafo,

@@ -48,8 +48,8 @@ reference:
   - title: Learners
     contents:
       - LearnerFcst
-      - ForecastLearner
-      - ForecastLearnerManual
+      - RecursiveForecaster
+      - DirectForecaster
       - starts_with("mlr_learners")
   - title: Tasks
     contents:
@@ -64,11 +64,16 @@ reference:
   - title: Pipeline Operators
     contents:
       - starts_with("mlr_pipeops")
+  - title: Selectors
+    contents:
+      - selector_fcst_lags
+      - selector_fcst_rolling
   - title: Helper
     contents:
       - as_learner_fcst
       - as_task_fcst
       - autoplot.TaskFcst
+      - forecast.Learner
       - generate_newdata
       - partition.TaskFcst
       - read_tsf

@@ -82,11 +82,48 @@ freq_to_int = function(freq) {
   )
 }
 
-predict_forecast = function(learner, task, h = 12L) {
-  learner = assert_learner(as_learner(learner))
+#' @title Forecast from a Trained Learner
+#'
+#' @description
+#' Generates `h` future rows from the task's skeleton (using [generate_newdata()]), optionally
+#' overlays user-supplied `newdata` onto those rows, and predicts with the trained learner via
+#' [mlr3::Learner]`$predict_newdata()`. Works with [RecursiveForecaster], [DirectForecaster],
+#' and classic `LearnerFcst*` forecasters.
+#'
+#' @param object ([mlr3::Learner])\cr
+#'   A trained forecast learner.
+#' @param task ([TaskFcst])\cr
+#'   Provides the metadata needed to construct future rows: the order column (to extend the time
+#'   index), key columns (for keyed tasks), `freq`, and the column-type schema expected by
+#'   `predict_newdata()`. The task's data values are not used. Pass the training task or any other
+#'   schema-compatible [TaskFcst].
+#' @param h (`integer(1)`)\cr
+#'   Forecast horizon — number of future time steps per key.
+#' @param newdata ([data.frame()] | `NULL`)\cr
+#'   Optional exogenous features for future rows. Must contain the order column (and any key
+#'   columns for keyed tasks). Columns other than those are overlaid onto the generated skeleton.
+#' @param ... (any)\cr
+#'   Ignored.
+#' @return [mlr3::Prediction].
+#' @export
+forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
+  assert_learner(object)
+  task = assert_task(as_task_fcst(task), task_type = "fcst")
   h = assert_count(h, positive = TRUE, coerce = TRUE)
-  newdata = generate_newdata(task, h)
-  learner$predict_newdata(newdata, task)
+
+  generated = generate_newdata(task, h)
+  if (!is.null(newdata)) {
+    newdata = as.data.table(newdata)
+    by_cols = intersect(c(task$col_roles$order, task$col_roles$key), names(newdata))
+    if (length(by_cols) == 0L) {
+      error_input("`newdata` must contain the order column and any key columns of `task`.")
+    }
+    overlay_cols = setdiff(names(newdata), by_cols)
+    for (col in overlay_cols) {
+      generated[newdata, on = by_cols, (col) := mget(paste0("i.", col))]
+    }
+  }
+  object$predict_newdata(generated, task)
 }
 
 quantiles_to_level = function(x) {

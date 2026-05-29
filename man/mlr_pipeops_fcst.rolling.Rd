@@ -8,6 +8,12 @@
 Creates rolling-window summary statistics of the target variable as new feature columns.
 The window ends at position \code{t - lag} (exclusive of the current and \code{lag - 1} most recent
 values) and has size \code{window_size}.
+
+At predict time, rolling features are computed from the task's full backend (i.e. including
+rows outside \code{row_roles$use}), then joined onto the active rows. Used inside
+\link{RecursiveForecaster}, where the forecaster writes each step's prediction into the combined
+task's target column between steps so rolling features for the next step reflect the freshly
+predicted value.
 }
 \section{Parameters}{
 
