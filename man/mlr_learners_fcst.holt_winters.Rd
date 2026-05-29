@@ -123,6 +123,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.ces}},
 \code{\link{mlr_learners_fcst.croston}},
 \code{\link{mlr_learners_fcst.elm}},
+\code{\link{mlr_learners_fcst.es}},
 \code{\link{mlr_learners_fcst.ets}},
 \code{\link{mlr_learners_fcst.gum}},
 \code{\link{mlr_learners_fcst.mean}},

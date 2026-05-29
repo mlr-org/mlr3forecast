@@ -75,6 +75,7 @@ Collate:
     'LearnerFcstCes.R'
     'LearnerFcstCroston.R'
     'LearnerFcstElm.R'
+    'LearnerFcstEs.R'
     'LearnerFcstEts.R'
     'LearnerFcstForecast.R'
     'LearnerFcstGum.R'
