@@ -42,7 +42,7 @@ LearnerFcstRlgt = R6Class(
         predict_types = c("response", "quantiles"),
         feature_types = c("logical", "integer", "numeric"),
         properties = c("featureless", "exogenous"),
-        packages = c("mlr3forecast", "Rlgt", "forecast"),
+        packages = c("mlr3forecast", "Rlgt"),
         label = "Local and Global Trend",
         man = "mlr3forecast::mlr_learners_fcst.rlgt"
       )
