@@ -89,7 +89,7 @@ test_that("RecursiveForecaster works wrapped in a target trafo", {
 test_that("as_learner_fcst helper works", {
   learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
   expect_class(learner, "RecursiveForecaster")
-  expect_class(learner, "GraphLearner")
+  expect_class(learner, "Learner")
   expect_equal(learner$lags, 1:3)
 
   graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")

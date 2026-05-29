@@ -1,12 +1,13 @@
 #' @title Recursive Forecast Learner
 #'
 #' @description
-#' A [mlr3pipelines::GraphLearner] subclass for iterative one-step-ahead forecasting. Training is
-#' fully delegated to the graph. At predict time the forecaster builds a combined task (training
-#' history + test rows with `NA` targets) backed by a single mutable [data.table::data.table()],
-#' iterates through the test rows in `(key, order)` order, and writes each prediction back into
-#' the combined task's target column so that lag and rolling features for the next step reflect
-#' the freshly predicted value.
+#' A [mlr3::Learner] for iterative one-step-ahead forecasting. Wraps a [mlr3pipelines::GraphLearner]
+#' (held internally, mirroring [DirectForecaster] and [mlr3tuning::AutoTuner]). Training is fully
+#' delegated to the graph. At predict time the forecaster builds a combined task (training history +
+#' test rows with `NA` targets) backed by a single mutable [data.table::data.table()], iterates
+#' through the test rows in `(key, order)` order, and writes each prediction back into the combined
+#' task's target column so that lag and rolling features for the next step reflect the freshly
+#' predicted value.
 #'
 #' Can be constructed in two ways:
 #' * **Simple**: `RecursiveForecaster$new(learner, lags = 1:3)` -- internally builds
@@ -50,7 +51,7 @@
 #' flrn$predict(task, split$test)
 RecursiveForecaster = R6::R6Class(
   "RecursiveForecaster",
-  inherit = GraphLearner,
+  inherit = Learner,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -81,21 +82,17 @@ RecursiveForecaster = R6::R6Class(
         lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
         graph = po("fcst.lags", lags = lags) %>>% as_learner(learner, clone = TRUE)
       } else {
-        graph = learner
+        graph = as_graph(learner)
       }
 
-      super$initialize(
-        graph = graph,
-        id = id,
-        param_vals = param_vals,
-        task_type = "fcst",
-        predict_type = predict_type,
-        clone_graph = clone_graph
-      )
+      private$.learner = GraphLearner$new(graph, task_type = "regr", clone_graph = clone_graph)
+      if (length(param_vals)) {
+        private$.learner$param_set$values = insert_named(private$.learner$param_set$values, param_vals)
+      }
 
       target_trafo_ids = keep(
-        names(self$graph$pipeops),
-        function(id) inherits(self$graph$pipeops[[id]], "PipeOpTargetTrafo")
+        names(private$.learner$graph$pipeops),
+        function(id) inherits(private$.learner$graph$pipeops[[id]], "PipeOpTargetTrafo")
       )
       if (length(target_trafo_ids) > 0L) {
         error_input(
@@ -104,12 +101,24 @@ RecursiveForecaster = R6::R6Class(
         )
       }
 
-      has_iterative = any(map_lgl(self$graph$pipeops, function(po) "fcst_iterative" %in% po$properties))
+      has_iterative = any(map_lgl(private$.learner$graph$pipeops, function(po) "fcst_iterative" %in% po$properties))
       if (!has_iterative) {
         warning_input(
           "Graph contains no PipeOps with the 'fcst_iterative' property (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting."
         )
       }
+
+      super$initialize(
+        id = id %??% private$.learner$id,
+        task_type = "fcst",
+        predict_types = private$.learner$predict_types,
+        feature_types = private$.learner$feature_types,
+        properties = private$.learner$properties,
+        packages = c("mlr3forecast", private$.learner$packages),
+        man = private$.learner$man
+      )
+      private$.predict_type = private$.learner$predict_type
+      if (!is.null(predict_type)) self$predict_type = predict_type
     },
 
     #' @description
@@ -121,6 +130,22 @@ RecursiveForecaster = R6::R6Class(
       if (!is.null(lags)) {
         cat_cli(cli::cli_li("Lags: {lags}"))
       }
+    },
+
+    #' @description
+    #' Marshal the learner's model.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`mlr3::marshal_model()`].
+    marshal = function(...) {
+      learner_marshal(.learner = self, ...)
+    },
+
+    #' @description
+    #' Unmarshal the learner's model.
+    #' @param ... (any)\cr
+    #'   Additional arguments passed to [`mlr3::unmarshal_model()`].
+    unmarshal = function(...) {
+      learner_unmarshal(.learner = self, ...)
     }
   ),
 
@@ -129,7 +154,7 @@ RecursiveForecaster = R6::R6Class(
     #' The base regression learner.
     learner = function(rhs) {
       assert_ro_binding(rhs)
-      self$base_learner()
+      private$.learner$base_learner()
     },
 
     #' @field lags (`integer()` | `NULL`)\cr
@@ -143,27 +168,46 @@ RecursiveForecaster = R6::R6Class(
       lag_po$param_set$get_values()$lags
     },
 
-    #' @field graph_model ([mlr3pipelines::Graph])\cr
-    #' The trained [mlr3pipelines::Graph]. Overrides [mlr3pipelines::GraphLearner]'s `$graph_model` because the
-    #' [RecursiveForecaster] model wraps the graph state in `$graph_state` alongside auxiliary metadata.
-    graph_model = function(rhs) {
-      assert_ro_binding(rhs)
-      if (is.null(self$model)) {
-        return(self$graph)
+    #' @template field_param_set
+    param_set = function(rhs) {
+      param_set = private$.learner$param_set
+      if (!missing(rhs) && !identical(rhs, param_set)) {
+        error_input("param_set is read-only.")
       }
-      g = self$graph$clone(deep = TRUE)
-      g$state = self$model$graph_state
-      g
+      param_set
+    },
+
+    #' @field marshaled (`logical(1)`)\cr
+    #' Whether the learner's model is currently in marshaled form.
+    marshaled = function() {
+      learner_marshaled(self)
+    },
+
+    #' @field predict_type (`character(1)`)\cr
+    #' Stores the currently active predict type.
+    predict_type = function(rhs) {
+      if (missing(rhs)) {
+        return(private$.predict_type)
+      }
+      if (rhs %nin% self$predict_types) {
+        error_input("Learner '%s' does not support predict type '%s'.", self$id, rhs)
+      }
+      private$.learner$predict_type = rhs
+      private$.predict_type = rhs
     }
   ),
 
   private = list(
+    .learner = NULL,
+    .predict_type = NULL,
+
     .train = function(task) {
+      graph = private$.learner$graph
       on.exit({
-        self$graph$state = NULL
+        graph$state = NULL
       })
-      self$graph$train(task)
-      graph_state = self$graph$state
+      graph$train(task)
+      graph_state = graph$state
 
       cols = unique(c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order))
       state = list(
@@ -180,14 +224,15 @@ RecursiveForecaster = R6::R6Class(
     },
 
     .predict = function(task) {
+      graph = private$.learner$graph
       on.exit({
-        self$graph$state = NULL
+        graph$state = NULL
       })
-      self$graph$state = self$model$graph_state
+      graph$state = self$model$graph_state
 
-      iterative_pos = keep(self$graph$pipeops, function(po) "fcst_iterative" %in% po$properties)
+      iterative_pos = keep(graph$pipeops, function(po) "fcst_iterative" %in% po$properties)
       if (length(iterative_pos) == 0L) {
-        prediction = self$graph$predict(task)
+        prediction = graph$predict(task)
         return(prediction[[1L]])
       }
 
@@ -231,7 +276,7 @@ RecursiveForecaster = R6::R6Class(
       for (i in seq_len(n_test)) {
         cid = active_cids[i]
         step_task$row_roles$use = cid
-        prediction = self$graph$predict(step_task)[[1L]]
+        prediction = graph$predict(step_task)[[1L]]
         preds[[i]] = prediction
         set(combined, i = cid, j = target, value = prediction$response)
       }
@@ -251,11 +296,12 @@ RecursiveForecaster = R6::R6Class(
     },
 
     .find_lag_po = function() {
-      lag_po_id = detect(names(self$graph$pipeops), function(id) inherits(self$graph$pipeops[[id]], "PipeOpFcstLags"))
+      pipeops = private$.learner$graph$pipeops
+      lag_po_id = detect(names(pipeops), function(id) inherits(pipeops[[id]], "PipeOpFcstLags"))
       if (is.null(lag_po_id)) {
         return()
       }
-      self$graph$pipeops[[lag_po_id]]
+      pipeops[[lag_po_id]]
     }
   )
 )
