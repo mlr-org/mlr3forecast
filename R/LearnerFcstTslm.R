@@ -56,7 +56,12 @@ LearnerFcstTslm = R6Class(
         pv$formula = formulate("y", rhs)
       }
       y = as.ts(task)
-      invoke(forecast::tslm, .args = pv)
+      mat = cbind(y = as.numeric(y))
+      if (task$n_features > 0L) {
+        mat = cbind(mat, as.matrix(task$data(cols = task$feature_names)))
+      }
+      data = stats::ts(mat, start = stats::start(y), frequency = stats::frequency(y))
+      invoke(forecast::tslm, data = data, .args = pv)
     }
   )
 )

@@ -8,3 +8,15 @@ test_that("autotest", {
     expect_true(result, info = result$error)
   }
 })
+
+test_that("tslm handles exogenous features", {
+  dt = withr::with_seed(1, data.table(time = 1:48, y = as.numeric(1:48) + rnorm(48), x = rnorm(48)))
+  task = as_task_fcst(dt, target = "y", order = "time", freq = 12L)
+  learner = lrn("fcst.tslm")
+  split = partition(task, ratio = 0.8)
+  learner$train(task, split$train)
+  expect_subset("x", names(stats::coef(learner$model)))
+  p = learner$predict(task, split$test)
+  expect_prediction(p)
+  expect_false(anyMissing(p$response))
+})
