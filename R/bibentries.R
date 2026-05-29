@@ -349,6 +349,17 @@ bibentries = c(
     pages = "324--342",
     year = "1960",
     doi = "10.1287/mnsc.6.3.324"
+  ),
+  smyl2025rlgt = bibentry(
+    "manual",
+    title = "Rlgt: Bayesian Exponential Smoothing Models with Trend Modifications",
+    author = paste(
+      "Slawek Smyl and Christoph Bergmeir and Erwin Wibowo and To Wang Ng and",
+      "Xueying Long and Alexander Dokumentov and Daniel Schmidt"
+    ),
+    year = "2025",
+    note = "R package version 0.2-3",
+    url = "https://github.com/cbergmeir/Rlgt"
   )
 )
 # nolint end

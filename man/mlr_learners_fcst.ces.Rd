@@ -126,6 +126,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.nnetar}},
 \code{\link{mlr_learners_fcst.prophet}},
 \code{\link{mlr_learners_fcst.random_walk}},
+\code{\link{mlr_learners_fcst.rlgt}},
 \code{\link{mlr_learners_fcst.sma}},
 \code{\link{mlr_learners_fcst.spline}},
 \code{\link{mlr_learners_fcst.ssarima}},

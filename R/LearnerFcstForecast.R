@@ -10,6 +10,8 @@ LearnerFcstForecast = R6Class(
     .fn = NULL,
     .y_arg = "y",
 
+    .postprocess = function(pred) pred,
+
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
@@ -56,7 +58,7 @@ LearnerFcstForecast = R6Class(
         args = insert_named(args, list(level = quantiles_to_level(private$.quantiles)))
       }
       args = insert_named(args, pv)
-      pred = invoke(forecast::forecast, self$model, .args = args)
+      pred = private$.postprocess(invoke(forecast::forecast, self$model, .args = args))
 
       if (!is_quantile) {
         prediction = insert_named(prediction, list(response = as.numeric(pred$mean)))
