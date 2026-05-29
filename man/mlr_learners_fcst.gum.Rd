@@ -115,6 +115,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.ets}},
 \code{\link{mlr_learners_fcst.holt_winters}},
 \code{\link{mlr_learners_fcst.mean}},
+\code{\link{mlr_learners_fcst.mlp}},
 \code{\link{mlr_learners_fcst.msarima}},
 \code{\link{mlr_learners_fcst.nnetar}},
 \code{\link{mlr_learners_fcst.prophet}},

@@ -31,6 +31,7 @@ Suggests:
     fabletools,
     forecast (>= 9.0.2),
     mlr3tuning,
+    nnfor (>= 0.9.9),
     prophet (>= 1.1.7),
     rpart,
     smooth (>= 4.4.0),
@@ -72,6 +73,7 @@ Collate:
     'LearnerFcstGum.R'
     'LearnerFcstHoltWinters.R'
     'LearnerFcstMean.R'
+    'LearnerFcstMlp.R'
     'LearnerFcstMsarima.R'
     'LearnerFcstNnetar.R'
     'LearnerFcstProphet.R'

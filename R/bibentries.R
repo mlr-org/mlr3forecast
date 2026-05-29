@@ -128,6 +128,17 @@ bibentries = c(
     year = "1991",
     note = "Series G"
   ),
+  kourentzes2014neural = bibentry(
+    "article",
+    title = "Neural network ensemble operators for time series forecasting",
+    author = "Kourentzes, Nikolaos and Barrow, Devon K. and Crone, Sven F.",
+    journal = "Expert Systems with Applications",
+    volume = "41",
+    number = "9",
+    pages = "4235--4244",
+    year = "2014",
+    doi = "10.1016/j.eswa.2013.12.011"
+  ),
   ripley_1996 = bibentry(
     "book",
     doi = "10.1017/cbo9780511812651",
