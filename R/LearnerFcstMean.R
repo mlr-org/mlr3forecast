@@ -41,11 +41,7 @@ LearnerFcstMean = R6Class(
   ),
 
   private = list(
-    .train = function(task) {
-      super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
-      invoke(forecast::mean_model, y = as.ts(task), .args = pv)
-    }
+    .fn = "mean_model"
   )
 )
 

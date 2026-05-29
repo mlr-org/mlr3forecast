@@ -5,6 +5,20 @@ LearnerFcstForecast = R6Class(
   inherit = LearnerFcst,
   private = list(
     .newdata_arg = "xreg",
+    .pkg = "forecast",
+    .fn = NULL,
+    .y_arg = "y",
+
+    .train = function(task) {
+      super$.train(task)
+      pv = self$param_set$get_values(tags = "train")
+      args = set_names(list(as.ts(task)), private$.y_arg)
+      if ("exogenous" %in% self$properties && task$n_features > 0L) {
+        args$xreg = as.matrix(task$data(cols = task$feature_names))
+      }
+      fn = getExportedValue(private$.pkg, private$.fn)
+      invoke(fn, .args = insert_named(args, pv))
+    },
 
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")

@@ -49,11 +49,9 @@ LearnerFcstStructTS = R6Class(
   ),
 
   private = list(
-    .train = function(task) {
-      super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
-      invoke(stats::StructTS, x = as.ts(task), .args = pv)
-    }
+    .pkg = "stats",
+    .fn = "StructTS",
+    .y_arg = "x"
   )
 )
 

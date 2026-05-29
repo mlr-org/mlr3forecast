@@ -91,16 +91,7 @@ LearnerFcstAutoArima = R6Class(
   ),
 
   private = list(
-    .train = function(task) {
-      super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
-
-      xreg = NULL
-      if (task$n_features > 0L) {
-        xreg = as.matrix(task$data(cols = task$feature_names))
-      }
-      invoke(forecast::auto.arima, y = as.ts(task), xreg = xreg, .args = pv)
-    }
+    .fn = "auto.arima"
   )
 )
 
