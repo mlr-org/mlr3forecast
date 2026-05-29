@@ -49,14 +49,11 @@ LearnerFcstTslm = R6Class(
       pv = self$param_set$get_values(tags = "train")
 
       if (is.null(pv$formula)) {
-        rhs = c("trend", "season")
-        if (task$n_features > 0L) {
-          rhs = c(rhs, task$feature_names)
-        }
-        pv$formula = formulate("y", rhs)
+        pv$formula = task$formula(rhs = c("trend", "season", task$feature_names))
       }
       y = as.ts(task)
-      mat = cbind(y = as.numeric(y))
+      mat = cbind(as.numeric(y))
+      colnames(mat) = task$target_names
       if (task$n_features > 0L) {
         mat = cbind(mat, as.matrix(task$data(cols = task$feature_names)))
       }
