@@ -100,20 +100,12 @@ task = tsk("airpassengers")
 po = po("fcst.rolling", funs = c("mean", "sd"), window_sizes = c(3L, 12L))
 new_task = po$train(list(task))[[1L]]
 new_task$head()
-#>    passengers passengers_roll_mean_3 passengers_roll_mean_12
-#>         <num>                  <num>                   <num>
-#> 1:        112                     NA                      NA
-#> 2:        118                     NA                      NA
-#> 3:        132                     NA                      NA
-#> 4:        129               120.6667                      NA
-#> 5:        121               126.3333                      NA
-#> 6:        135               127.3333                      NA
-#>    passengers_roll_sd_3 passengers_roll_sd_12
-#>                   <num>                 <num>
-#> 1:                   NA                    NA
-#> 2:                   NA                    NA
-#> 3:                   NA                    NA
-#> 4:            10.263203                    NA
-#> 5:             7.371115                    NA
-#> 6:             5.686241                    NA
+#>    passengers passengers_roll_mean_3 passengers_roll_mean_12 passengers_roll_sd_3 passengers_roll_sd_12
+#>         <num>                  <num>                   <num>                <num>                 <num>
+#> 1:        112                     NA                      NA                   NA                    NA
+#> 2:        118                     NA                      NA                   NA                    NA
+#> 3:        132                     NA                      NA                   NA                    NA
+#> 4:        129               120.6667                      NA            10.263203                    NA
+#> 5:        121               126.3333                      NA             7.371115                    NA
+#> 6:        135               127.3333                      NA             5.686241                    NA
 ```

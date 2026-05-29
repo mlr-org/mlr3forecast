@@ -150,22 +150,14 @@ otherwise be set during construction. Default <code><a href="https://rdrr.io/r/b
 <span class="r-in"><span><span class="va">po</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"fcst.rolling"</span>, funs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"mean"</span>, <span class="st">"sd"</span><span class="op">)</span>, window_sizes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">3L</span>, <span class="fl">12L</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">new_task</span> <span class="op">=</span> <span class="va">po</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">new_task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    passengers passengers_roll_mean_3 passengers_roll_mean_12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;                  &lt;num&gt;                   &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        112                     NA                      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        118                     NA                      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        132                     NA                      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        129               120.6667                      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        121               126.3333                      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        135               127.3333                      NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    passengers_roll_sd_3 passengers_roll_sd_12</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>                   &lt;num&gt;                 &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                   NA                    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                   NA                    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                   NA                    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4:            10.263203                    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5:             7.371115                    NA</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6:             5.686241                    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    passengers passengers_roll_mean_3 passengers_roll_mean_12 passengers_roll_sd_3 passengers_roll_sd_12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;                  &lt;num&gt;                   &lt;num&gt;                &lt;num&gt;                 &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        112                     NA                      NA                   NA                    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        118                     NA                      NA                   NA                    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        132                     NA                      NA                   NA                    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        129               120.6667                      NA            10.263203                    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        121               126.3333                      NA             7.371115                    NA</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        135               127.3333                      NA             5.686241                    NA</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

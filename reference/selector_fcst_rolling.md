@@ -33,6 +33,5 @@ task = tsk("airpassengers")
 pop = po("fcst.rolling", funs = c("mean", "sd"), window_sizes = c(3L, 12L))
 new_task = pop$train(list(task))[[1L]]
 selector_fcst_rolling()(new_task)
-#> [1] "passengers_roll_mean_3"  "passengers_roll_mean_12"
-#> [3] "passengers_roll_sd_3"    "passengers_roll_sd_12"  
+#> [1] "passengers_roll_mean_3"  "passengers_roll_mean_12" "passengers_roll_sd_3"    "passengers_roll_sd_12"  
 ```

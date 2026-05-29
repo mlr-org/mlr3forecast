@@ -113,6 +113,7 @@ Other Learner:
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
+[`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ssarima.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
@@ -187,13 +188,12 @@ The objects of this class are cloneable with this method.
 learner = lrn("fcst.sma")
 print(learner)
 #> 
-#> ── <LearnerFcstSma> (fcst.sma): Simple Moving Average ──────────────────────────
+#> ── <LearnerFcstSma> (fcst.sma): Simple Moving Average ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and smooth
 #> • Predict Types: [response]
-#> • Feature Types: logical, integer, numeric, character, factor, ordered,
-#> POSIXct, and Date
+#> • Feature Types: logical, integer, numeric, character, factor, ordered, POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
 #> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'

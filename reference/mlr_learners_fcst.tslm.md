@@ -109,6 +109,7 @@ Other Learner:
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
+[`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ssarima.md),
@@ -185,7 +186,7 @@ The objects of this class are cloneable with this method.
 learner = lrn("fcst.tslm")
 print(learner)
 #> 
-#> ── <LearnerFcstTslm> (fcst.tslm): Time Series Linear Model ─────────────────────
+#> ── <LearnerFcstTslm> (fcst.tslm): Time Series Linear Model ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and forecast
@@ -211,12 +212,8 @@ print(learner$model)
 #> forecast::tslm(formula = passengers ~ trend + season, data = data)
 #> 
 #> Coefficients:
-#> (Intercept)        trend      season2      season3      season4      season5  
-#>      82.652        2.348       -2.473       24.054       15.830       13.482  
-#>     season6      season7      season8      season9     season10     season11  
-#>      39.134       63.536       59.437       28.839       -1.634      -28.732  
-#>    season12  
-#>      -5.455  
+#> (Intercept)        trend      season2      season3      season4      season5      season6      season7      season8      season9     season10     season11     season12  
+#>      82.652        2.348       -2.473       24.054       15.830       13.482       39.134       63.536       59.437       28.839       -1.634      -28.732       -5.455  
 #> 
 
 # Importance method

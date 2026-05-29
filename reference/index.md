@@ -86,6 +86,9 @@
 - [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md)
   [`LearnerFcstRandomWalk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md)
   : Random Walk Forecast Learner
+- [`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md)
+  [`LearnerFcstRlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md)
+  : Local and Global Trend Forecast Learner
 - [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md)
   [`LearnerFcstSma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md)
   : Simple Moving Average Forecast Learner

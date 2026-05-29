@@ -107,7 +107,7 @@ flrn = DirectForecaster$new(graph, lags = 1:3, horizons = length(split$test))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 #> 
-#> ── <PredictionRegr> for 29 observations: ───────────────────────────────────────
+#> ── <PredictionRegr> for 29 observations: ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #>  row_ids truth response      month
 #>      116   505  453.125 1958-08-01
 #>      117   404  453.125 1958-09-01

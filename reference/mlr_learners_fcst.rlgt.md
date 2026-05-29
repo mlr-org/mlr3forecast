@@ -1,8 +1,10 @@
-# CES Forecast Learner
+# Local and Global Trend Forecast Learner
 
-Complex Exponential Smoothing (CES) model. Calls
-[`smooth::ces()`](https://rdrr.io/pkg/smooth/man/ces.html) from package
-[smooth](https://CRAN.R-project.org/package=smooth).
+Bayesian exponential smoothing with a nonlinear global trend (LGT/SGT),
+Student-t errors, and optional heteroscedasticity, fitted via MCMC. The
+seasonal period is taken from the frequency of the series. Calls
+[`Rlgt::rlgt()`](https://rdrr.io/pkg/Rlgt/man/rlgt.html) from package
+[Rlgt](https://CRAN.R-project.org/package=Rlgt).
 
 ## Dictionary
 
@@ -13,46 +15,43 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.ces")
-    lrn("fcst.ces")
+    mlr_learners$get("fcst.rlgt")
+    lrn("fcst.rlgt")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”
+- Predict Types: “response”, “quantiles”
 
 - Feature Types: “logical”, “integer”, “numeric”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [smooth](https://CRAN.R-project.org/package=smooth)
+  [Rlgt](https://CRAN.R-project.org/package=Rlgt)
 
 ## Parameters
 
-|  |  |  |  |
-|----|----|----|----|
-| Id | Type | Default | Levels |
-| seasonality | character | none | none, simple, partial, full |
-| lags | untyped | \- |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
-| a | untyped | NULL |  |
-| b | untyped | NULL |  |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
-| holdout | logical | FALSE | TRUE, FALSE |
-| bounds | character | admissible | admissible, none |
-| silent | logical | TRUE | TRUE, FALSE |
-| regressors | character | use | use, select, adapt |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| seasonality | integer | 1 |  | \\\[1, \infty)\\ |
+| seasonality2 | integer | 1 |  | \\\[1, \infty)\\ |
+| seasonality.type | character | multiplicative | multiplicative, generalized | \- |
+| error.size.method | character | std | std, innov | \- |
+| level.method | character | HW | HW, seasAvg, HW_sAvg | \- |
+| method | character | Gibbs | Gibbs, Stan | \- |
+| homoscedastic | logical | FALSE | TRUE, FALSE | \- |
+| control | untyped | NULL |  | \- |
+| verbose | logical | FALSE | TRUE, FALSE | \- |
+| NUM_OF_TRIALS | integer | 2000 |  | \\\[1, \infty)\\ |
 
 ## References
 
-Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
-2301.01790, <https://arxiv.org/abs/2301.01790>.
-
-Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
-Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
-[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
-<https://openforecast.org/adam/>.
+Smyl S, Bergmeir C, Wibowo E, Ng TW, Long X, Dokumentov A, Schmidt D
+(2025). *Rlgt: Bayesian Exponential Smoothing Models with Trend
+Modifications*. R package version 0.2-3,
+<https://github.com/cbergmeir/Rlgt>.
 
 ## See also
 
@@ -107,6 +106,7 @@ Other Learner:
 [`mlr_learners_fcst.auto_ssarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_ssarima.md),
 [`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bagged.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.bats.md),
+[`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.es.md),
@@ -119,7 +119,6 @@ Other Learner:
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.nnetar.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
-[`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ssarima.md),
@@ -137,16 +136,16 @@ Other Learner:
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
-[`LearnerFcstSmooth`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstSmooth.md)
--\> `LearnerFcstCes`
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
+-\> `LearnerFcstRlgt`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstCes$new()`](#method-LearnerFcstCes-initialize)
+- [`LearnerFcstRlgt$new()`](#method-LearnerFcstRlgt-initialize)
 
-- [`LearnerFcstCes$clone()`](#method-LearnerFcstCes-clone)
+- [`LearnerFcstRlgt$clone()`](#method-LearnerFcstRlgt-clone)
 
 Inherited methods
 
@@ -165,24 +164,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstCes$new()`
+### `LearnerFcstRlgt$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstCes$new()
+    LearnerFcstRlgt$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstCes$clone()`
+### `LearnerFcstRlgt$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstCes$clone(deep = FALSE)
+    LearnerFcstRlgt$clone(deep = FALSE)
 
 #### Arguments
 
@@ -194,17 +193,17 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.ces")
+learner = lrn("fcst.rlgt")
 print(learner)
 #> 
-#> ── <LearnerFcstCes> (fcst.ces): CES ────────────────────────────────────────────
+#> ── <LearnerFcstRlgt> (fcst.rlgt): Local and Global Trend ───────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and smooth
-#> • Predict Types: [response]
+#> • Packages: mlr3, mlr3forecast, and Rlgt
+#> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: exogenous and featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -218,20 +217,99 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.02 seconds
-#> Model estimated using fn() function: CES(none)
-#> With backcasting initialisation
-#> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 437.9841
-#>         a0+ia1 
-#> 1.9839+0.9918i
+#> $n.samples
+#> [1] 5000
 #> 
-#> Sample size: 96
-#> Number of estimated parameters: 3
-#> Number of degrees of freedom: 93
-#> Information criteria:
-#>      AIC     AICc      BIC     BICc 
-#> 881.9682 882.2291 889.6613 890.2566 
+#> $sigma2
+#> [1] 0.5273319
+#> 
+#> $xi2
+#> [1] 1.880876
+#> 
+#> $phi
+#> [1] 0.5862069
+#> 
+#> $chi2
+#> [1] 11.77917
+#> 
+#> $chi2.lambda2
+#> [1] 0
+#> 
+#> $w
+#> [1] 0
+#> 
+#> $alpha
+#> [1] 0.7312943
+#> 
+#> $beta
+#> [1] 0.7
+#> 
+#> $zeta
+#> [1] 0.4483512
+#> 
+#> $rho
+#> [1] 0.06896552
+#> 
+#> $tau
+#> [1] 0.3793103
+#> 
+#> $nu
+#> [1] 8.84
+#> 
+#> $l1
+#> [1] 0
+#> 
+#> $b1
+#> [1] 0
+#> 
+#> $lt
+#> [1] 332.1843
+#> 
+#> $bt
+#> [1] 0
+#> 
+#> $et
+#> [1] -2.87257
+#> 
+#> $log.s
+#> [1] 0.01170858
+#> 
+#> $y.on.l
+#> [1] 0.0220278
+#> 
+#> $L
+#> [1] 0
+#> 
+#> $log.s1
+#> [1] -0.001672166
+#> 
+#> $w.s
+#> [1] 0
+#> 
+#> $l2.log.s
+#> [1] 0.8830086
+#> 
+#> $t2.log.s
+#> [1] 0.01421203
+#> 
+#> $s.ix
+#> [1] 7
+#> 
+#> $m
+#> [1] 12
+#> 
+#> $y
+#> [1] 200
+#> 
+#> $mu.hat
+#> [1] 205.9102
+#> 
+#> $method
+#> [1] "Gibbs"
+#> 
+#> $x
+#> [1] 200
+#> 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -242,5 +320,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 26389.16 
+#> 748.5569 
 ```
