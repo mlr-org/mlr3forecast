@@ -225,21 +225,22 @@ ids = partition(task)
 
 # Train the learner on the training ids
 learner$train(task, row_ids = ids$train)
+#> Error: bad variable name
 
 # Print the model
 print(learner$model)
-#> Series: y 
-#> Model:  baggedModel 
-#> Call:   forecast::baggedModel(y = y, bootstrapped_series = bootstrapped_series)
+#> NULL
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
 
 # Make predictions for the test rows
 predictions = learner$predict(task, row_ids = ids$test)
+#> Error: 
+#> ✖ Cannot predict, Learner 'fcst.bagged' has not been trained yet
+#> → Class: Mlr3ErrorInput
 
 # Score the predictions
 predictions$score()
-#> regr.mse 
-#> 1265.878 
+#> Error: object 'predictions' not found
 ```

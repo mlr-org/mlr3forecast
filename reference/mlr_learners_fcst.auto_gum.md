@@ -23,8 +23,7 @@ or with the associated sugar function
 
 - Predict Types: “response”
 
-- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
-  “ordered”, “POSIXct”, “Date”
+- Feature Types: “logical”, “integer”, “numeric”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
@@ -128,6 +127,8 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
+-\>
+[`LearnerFcstSmooth`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstSmooth.md)
 -\> `LearnerFcstAutoGum`
 
 ## Methods
@@ -192,10 +193,9 @@ print(learner)
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and smooth
 #> • Predict Types: [response]
-#> • Feature Types: logical, integer, numeric, character, factor, ordered,
-#> POSIXct, and Date
+#> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
-#> • Properties: featureless and missings
+#> • Properties: exogenous, featureless, and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -209,7 +209,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 1.8 seconds
+#> Time elapsed: 2.09 seconds
 #> Model estimated using gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

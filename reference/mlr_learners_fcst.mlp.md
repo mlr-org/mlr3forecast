@@ -225,7 +225,7 @@ print(learner$model)
 #> Univariate lags: (3,4,7,8,10,12)
 #> Deterministic seasonal dummies included.
 #> Forecast combined using the median operator.
-#> MSE: 1.0549.
+#> MSE: 1.7652.
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -236,5 +236,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1944.638 
+#>  4666.91 
 ```

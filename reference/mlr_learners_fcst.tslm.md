@@ -199,30 +199,22 @@ ids = partition(task)
 
 # Train the learner on the training ids
 learner$train(task, row_ids = ids$train)
+#> Error: bad variable name
 
 # Print the model
 print(learner$model)
-#> 
-#> Call:
-#> forecast::tslm(formula = passengers ~ trend + season, data = data)
-#> 
-#> Coefficients:
-#> (Intercept)        trend      season2      season3      season4      season5  
-#>      82.652        2.348       -2.473       24.054       15.830       13.482  
-#>     season6      season7      season8      season9     season10     season11  
-#>      39.134       63.536       59.437       28.839       -1.634      -28.732  
-#>    season12  
-#>      -5.455  
-#> 
+#> NULL
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
 
 # Make predictions for the test rows
 predictions = learner$predict(task, row_ids = ids$test)
+#> Error: 
+#> ✖ Cannot predict, Learner 'fcst.tslm' has not been trained yet
+#> → Class: Mlr3ErrorInput
 
 # Score the predictions
 predictions$score()
-#> regr.mse 
-#> 2710.246 
+#> Error: object 'predictions' not found
 ```

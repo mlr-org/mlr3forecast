@@ -71,7 +71,7 @@ Calls <code><a href="https://rdrr.io/pkg/smooth/man/adam.html" class="external-l
 
 <ul><li><p>Task type: “fcst”</p></li>
 <li><p>Predict Types: “response”</p></li>
-<li><p>Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”, “ordered”, “POSIXct”, “Date”</p></li>
+<li><p>Feature Types: “logical”, “integer”, “numeric”</p></li>
 <li><p>Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=mlr3forecast" class="external-link"><span class="pkg">mlr3forecast</span></a>, <a href="https://CRAN.R-project.org/package=smooth" class="external-link"><span class="pkg">smooth</span></a></p></li>
 </ul></div>
     <div class="section level2">
@@ -139,7 +139,7 @@ for established default tuning spaces.</p></li>
     </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
-    <p><code><a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">mlr3::LearnerRegr</a></code> -&gt; <code><a href="LearnerFcst.html">LearnerFcst</a></code> -&gt; <code>LearnerFcstAdam</code></p>
+    <p><code><a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a></code> -&gt; <code><a href="https://mlr3.mlr-org.com/reference/LearnerRegr.html" class="external-link">mlr3::LearnerRegr</a></code> -&gt; <code><a href="LearnerFcst.html">LearnerFcst</a></code> -&gt; <code><a href="LearnerFcstSmooth.html">LearnerFcstSmooth</a></code> -&gt; <code>LearnerFcstAdam</code></p>
     </div>
     <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
@@ -199,10 +199,9 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Parameters: list()</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Packages: <span style="color: #0000BB;">mlr3</span>, <span style="color: #0000BB;">mlr3forecast</span>, and <span style="color: #0000BB;">smooth</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Predict Types: [response]</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Feature Types: logical, integer, numeric, character, factor, ordered,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> POSIXct, and Date</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Feature Types: logical, integer, and numeric</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: featureless and missings</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: exogenous, featureless, and missings</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Other settings: use_weights = 'error', predict_raw = 'FALSE'</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Define a Task</span></span></span>
@@ -216,8 +215,8 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Print the model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 0.14 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model estimated using adam() function: ETS(MAM)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 0.18 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Model estimated using fn() function: ETS(MAM)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> With backcasting initialisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Distribution assumed in the model: Gamma</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Loss function type: likelihood; Loss function value: 328.324</span>
