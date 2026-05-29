@@ -1,14 +1,10 @@
-# Holt-Winters Forecast Learner
+# Exponential Smoothing Forecast Learner
 
-Holt-Winters exponential smoothing with optional trend and additive or
-multiplicative seasonal component. Smoothing parameters are estimated by
-minimizing the squared one-step prediction error. Calls
-[`stats::HoltWinters()`](https://rdrr.io/r/stats/HoltWinters.html) from
-package stats and forecasts via
-[`forecast::forecast()`](https://generics.r-lib.org/reference/forecast.html).
-
-Setting `beta = FALSE` fits a simple exponential smoothing model (no
-trend). Setting `gamma = FALSE` fits a non-seasonal model.
+Exponential smoothing (ETS) model in state-space form. Supports multiple
+seasonal lags natively (e.g. `lags = c(1, 24, 168)` for hourly data with
+daily and weekly cycles). Calls
+[`smooth::es()`](https://rdrr.io/pkg/smooth/man/es.html) from package
+[smooth](https://CRAN.R-project.org/package=smooth).
 
 ## Dictionary
 
@@ -19,51 +15,48 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.holt_winters")
-    lrn("fcst.holt_winters")
+    mlr_learners$get("fcst.es")
+    lrn("fcst.es")
 
 ## Meta Information
 
 - Task type: “fcst”
 
-- Predict Types: “response”, “quantiles”
+- Predict Types: “response”
 
-- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
-  “ordered”, “POSIXct”, “Date”
+- Feature Types: “logical”, “integer”, “numeric”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [forecast](https://CRAN.R-project.org/package=forecast)
+  [smooth](https://CRAN.R-project.org/package=smooth)
 
 ## Parameters
 
-|  |  |  |  |  |
-|----|----|----|----|----|
-| Id | Type | Default | Levels | Range |
-| alpha | numeric | NULL |  | \\\[0, 1\]\\ |
-| beta | numeric | NULL |  | \\\[0, 1\]\\ |
-| gamma | numeric | NULL |  | \\\[0, 1\]\\ |
-| seasonal | character | additive | additive, multiplicative | \- |
-| start.periods | integer | 2 |  | \\\[2, \infty)\\ |
-| l.start | numeric | NULL |  | \\(-\infty, \infty)\\ |
-| b.start | numeric | NULL |  | \\(-\infty, \infty)\\ |
-| s.start | untyped | NULL |  | \- |
-| optim.start | untyped | c(alpha = 0.3, beta = 0.1, gamma = 0.1) |  | \- |
-| optim.control | untyped | list() |  | \- |
-| lambda | untyped | NULL |  | \- |
-| biasadj | logical | FALSE | TRUE, FALSE | \- |
+|  |  |  |  |
+|----|----|----|----|
+| Id | Type | Default | Levels |
+| model | untyped | "ZXZ" |  |
+| lags | untyped | \- |  |
+| persistence | untyped | NULL |  |
+| phi | untyped | NULL |  |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| initialSeason | untyped | NULL |  |
+| ic | character | AICc | AICc, AIC, BIC, BICc |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
+| holdout | logical | FALSE | TRUE, FALSE |
+| bounds | character | usual | usual, admissible, none |
+| silent | logical | TRUE | TRUE, FALSE |
+| regressors | character | use | use, select |
 
 ## References
 
-Holt, C. C (2004). “Forecasting seasonals and trends by exponentially
-weighted moving averages.” *International Journal of Forecasting*,
-**20**(1), 5–10.
-[doi:10.1016/j.ijforecast.2003.09.015](https://doi.org/10.1016/j.ijforecast.2003.09.015)
-.
+Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
+2301.01790, <https://arxiv.org/abs/2301.01790>.
 
-Winters, R. P (1960). “Forecasting Sales by Exponentially Weighted
-Moving Averages.” *Management Science*, **6**(3), 324–342.
-[doi:10.1287/mnsc.6.3.324](https://doi.org/10.1287/mnsc.6.3.324) .
+Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
+Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
+[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
+<https://openforecast.org/adam/>.
 
 ## See also
 
@@ -121,9 +114,9 @@ Other Learner:
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.elm.md),
-[`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.es.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.gum.md),
+[`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.holt_winters.md),
 [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mean.md),
 [`mlr_learners_fcst.mlp`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.mlp.md),
 [`mlr_learners_fcst.msarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.msarima.md),
@@ -147,16 +140,16 @@ Other Learner:
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md)
 -\>
-[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstForecast.md)
--\> `LearnerFcstHoltWinters`
+[`LearnerFcstSmooth`](https://mlr3forecast.mlr-org.com/reference/LearnerFcstSmooth.md)
+-\> `LearnerFcstEs`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstHoltWinters$new()`](#method-LearnerFcstHoltWinters-initialize)
+- [`LearnerFcstEs$new()`](#method-LearnerFcstEs-initialize)
 
-- [`LearnerFcstHoltWinters$clone()`](#method-LearnerFcstHoltWinters-clone)
+- [`LearnerFcstEs$clone()`](#method-LearnerFcstEs-clone)
 
 Inherited methods
 
@@ -175,24 +168,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstHoltWinters$new()`
+### `LearnerFcstEs$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstHoltWinters$new()
+    LearnerFcstEs$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstHoltWinters$clone()`
+### `LearnerFcstEs$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstHoltWinters$clone(deep = FALSE)
+    LearnerFcstEs$clone(deep = FALSE)
 
 #### Arguments
 
@@ -204,18 +197,17 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.holt_winters")
+learner = lrn("fcst.es")
 print(learner)
 #> 
-#> ── <LearnerFcstHoltWinters> (fcst.holt_winters): Holt-Winters ──────────────────
+#> ── <LearnerFcstEs> (fcst.es): Exponential Smoothing ────────────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, numeric, character, factor, ordered,
-#> POSIXct, and Date
+#> • Packages: mlr3, mlr3forecast, and smooth
+#> • Predict Types: [response]
+#> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
-#> • Properties: featureless and missings
+#> • Properties: exogenous, featureless, and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -229,32 +221,21 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Holt-Winters exponential smoothing with trend and additive seasonal component.
+#> Time elapsed: 0.17 seconds
+#> Model estimated using fn() function: ETS(MAM)
+#> With backcasting initialisation
+#> Distribution assumed in the model: Normal
+#> Loss function type: likelihood; Loss function value: 327.5537
+#> Persistence vector g:
+#>  alpha   beta  gamma 
+#> 0.5640 0.0000 0.1468 
 #> 
-#> Call:
-#> fn(x = structure(c(112, 118, 132, 129, 121, 135, 148, 148, 136, 119, 104, 118, 115, 126, 141, 135, 125, 149, 170, 170, 158, 133, 114, 140, 145, 150, 178, 163, 172, 178, 199, 199, 184, 162, 146, 166, 171, 180, 193, 181, 183, 218, 230, 242, 209, 191, 172, 194, 196, 196, 236, 235, 229, 243, 264, 272, 237, 211, 180, 201, 204, 188, 235, 227, 234, 264, 302, 293, 259, 229, 203, 229, 242, 233, 267, 269, 270, 315, 364, 347, 312, 274, 237, 278, 284, 277, 317, 313, 318, 374, 413, 405, 355, 306, 271, 306), tsp = c(1, 8.91666666666667, 12), class = "ts"))
-#> 
-#> Smoothing parameters:
-#>  alpha: 0.2287362
-#>  beta : 0.05161695
-#>  gamma: 1
-#> 
-#> Coefficients:
-#>           [,1]
-#> a   333.398461
-#> b     2.924446
-#> s1  -14.893284
-#> s2  -25.307089
-#> s3   10.725122
-#> s4    4.590948
-#> s5    6.911731
-#> s6   57.136965
-#> s7   91.836674
-#> s8   76.991025
-#> s9   23.706032
-#> s10 -26.033269
-#> s11 -62.070036
-#> s12 -27.398461
+#> Sample size: 96
+#> Number of estimated parameters: 4
+#> Number of degrees of freedom: 92
+#> Information criteria:
+#>      AIC     AICc      BIC     BICc 
+#> 663.1073 663.5469 673.3647 674.3679 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())
@@ -265,5 +246,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 678.3176 
+#> 1220.752 
 ```
