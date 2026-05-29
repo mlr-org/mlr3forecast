@@ -1,13 +1,13 @@
-#' @title Multiple-Seasonal ARIMA Forecast Learner
+#' @title State-Space ARIMA Forecast Learner
 #'
-#' @name mlr_learners_fcst.msarima
+#' @name mlr_learners_fcst.ssarima
 #'
 #' @description
-#' Multiple-Seasonal ARIMA model in state-space form. Supports multiple seasonal lags natively
+#' State-Space ARIMA model. Supports multiple seasonal lags natively
 #' (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
-#' Calls [smooth::msarima()] from package \CRANpkg{smooth}.
+#' Calls [smooth::ssarima()] from package \CRANpkg{smooth}.
 #'
-#' @templateVar id fcst.msarima
+#' @templateVar id fcst.ssarima
 #' @template learner
 #'
 #' @references
@@ -16,8 +16,8 @@
 #' @export
 #' @template seealso_learner
 #' @template example
-LearnerFcstMsarima = R6Class(
-  "LearnerFcstMsarima",
+LearnerFcstSsarima = R6Class(
+  "LearnerFcstSsarima",
   inherit = LearnerFcstSmooth,
   public = list(
     #' @description
@@ -42,22 +42,22 @@ LearnerFcstMsarima = R6Class(
       )
 
       super$initialize(
-        id = "fcst.msarima",
+        id = "fcst.ssarima",
         param_set = param_set,
         predict_types = "response",
         feature_types = c("logical", "integer", "numeric"),
         properties = c("featureless", "exogenous", "missings"),
         packages = c("mlr3forecast", "smooth"),
-        label = "Multiple-Seasonal ARIMA",
-        man = "mlr3forecast::mlr_learners_fcst.msarima"
+        label = "State-Space ARIMA",
+        man = "mlr3forecast::mlr_learners_fcst.ssarima"
       )
     }
   ),
 
   private = list(
-    .fn = "msarima"
+    .fn = "ssarima"
   )
 )
 
 #' @include zzz.R
-register_learner("fcst.msarima", LearnerFcstMsarima)
+register_learner("fcst.ssarima", LearnerFcstSsarima)

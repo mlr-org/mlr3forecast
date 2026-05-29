@@ -39,7 +39,7 @@ lrn("fcst.msarima")
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
    loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   bounds \tab character \tab usual \tab usual, admissible, none \cr
+   bounds \tab character \tab admissible \tab admissible, usual, none \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
    regressors \tab character \tab use \tab use, select, adapt \cr
 }
@@ -113,6 +113,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.auto_ces}},
 \code{\link{mlr_learners_fcst.auto_gum}},
 \code{\link{mlr_learners_fcst.auto_msarima}},
+\code{\link{mlr_learners_fcst.auto_ssarima}},
 \code{\link{mlr_learners_fcst.bagged}},
 \code{\link{mlr_learners_fcst.bats}},
 \code{\link{mlr_learners_fcst.ces}},
@@ -128,6 +129,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.random_walk}},
 \code{\link{mlr_learners_fcst.sma}},
 \code{\link{mlr_learners_fcst.spline}},
+\code{\link{mlr_learners_fcst.ssarima}},
 \code{\link{mlr_learners_fcst.stlm}},
 \code{\link{mlr_learners_fcst.struct_ts}},
 \code{\link{mlr_learners_fcst.tbats}},
