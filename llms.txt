@@ -714,6 +714,9 @@ flrn$predict_newdata(newdata, task)
 
 ## Pipeline Operators
 
+- [`mlr_pipeops_fcst.fourier`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.fourier.md)
+  [`PipeOpFcstFourier`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.fourier.md)
+  : Create Fourier Features for Seasonality
 - [`mlr_pipeops_fcst.lags`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md)
   [`PipeOpFcstLags`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md)
   : Create Lags of Target Variable
