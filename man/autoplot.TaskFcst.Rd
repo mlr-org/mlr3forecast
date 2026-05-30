@@ -4,13 +4,16 @@
 \alias{autoplot.TaskFcst}
 \title{Plot for Forecast Tasks}
 \usage{
-\method{autoplot}{TaskFcst}(object, theme = ggplot2::theme_minimal(), ...)
+\method{autoplot}{TaskFcst}(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...)
 }
 \arguments{
 \item{object}{(\link{TaskFcst}).}
 
 \item{theme}{(\code{\link[ggplot2:theme]{ggplot2::theme()}})\cr
 The \code{\link[ggplot2:theme_minimal]{ggplot2::theme_minimal()}} is applied by default to all plots.}
+
+\item{facets}{(\code{logical(1)})\cr
+For keyed tasks, draw one panel per series instead of one coloured line per series. Default \code{FALSE}.}
 
 \item{...}{(\code{any})\cr
 Additional argument, passed down to the underlying \code{geom} or plot functions.}
