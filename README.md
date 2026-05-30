@@ -36,10 +36,9 @@ tasks, learners, and resamplers. For now the forecasting task and
 learner is restricted to time series regression tasks, but might be
 extended to classification tasks in the future.
 
-We have two goals, one to support traditional forecasting learners and
-the other to support machine learning forecasting, i.e. using regression
-learners and applying them to forecasting tasks. The design of the
-latter is still in flux and may change.
+We support both traditional forecasting learners (e.g., ARIMA, ETS) and
+machine learning forecasting, i.e. using regression learners with lag
+features for recursive one-step-ahead prediction.
 
 ### Example: forecasting with forecast learner
 
@@ -160,39 +159,57 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 437.3629 1961-01-01
-#>        2    NA 441.3288 1961-02-01
-#>        3    NA 456.6467 1961-03-01
+#>        1    NA 437.3489 1961-01-01
+#>        2    NA 441.5030 1961-02-01
+#>        3    NA 458.3999 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 477.3932 1961-10-01
-#>       11    NA 447.7766 1961-11-01
-#>       12    NA 444.5611 1961-12-01
+#>       10    NA 476.1482 1961-10-01
+#>       11    NA 447.0424 1961-11-01
+#>       12    NA 444.3218 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 576.3468 1960-08-01
-#>      141   508 504.1615 1960-09-01
-#>      142   461 453.9902 1960-10-01
-#>      143   390 414.4783 1960-11-01
-#>      144   432 432.5528 1960-12-01
+#>      140   606 572.9929 1960-08-01
+#>      141   508 500.7999 1960-09-01
+#>      142   461 457.0052 1960-10-01
+#>      143   390 417.6554 1960-11-01
+#>      144   432 431.9928 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  17.56518
+#>  19.60656
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>   47.9691
+#>  50.22014
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  27.77535
+#>  26.22352
+```
+
+By default `as_learner_fcst()` builds a recursive forecaster (one model,
+applied iteratively). Pass `strategy = "direct"` together with
+`horizons` to train one model per horizon — predictions then come
+straight from each horizon’s model, with no error accumulation:
+
+``` r
+task = tsk("airpassengers")
+flrn = as_learner_fcst(
+  lrn("regr.ranger"),
+  lags = 1:12,
+  strategy = "direct",
+  horizons = 12
+)$train(task, 1:132)
+flrn$predict(task, 133:144)$score(msr("regr.rmse"))
+#> regr.rmse 
+#>   71.2041
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -200,23 +217,150 @@ Or with some feature engineering using mlr3pipelines:
 ``` r
 library(mlr3pipelines)
 
-graph = po(
-  "datefeatures",
-  param_vals = list(
-    week_of_year = FALSE,
-    day_of_year = FALSE,
-    day_of_month = FALSE,
-    day_of_week = FALSE
-  )
-)
 task = tsk("airpassengers")
 task$set_col_roles("month", add = "feature")
-flrn = as_learner_fcst(lrn("regr.ranger"), lags = 1:12)
-glrn = as_learner(graph %>>% flrn)$train(task)
-prediction = glrn$predict(task, 142:144)
+graph = po("fcst.lags", lags = 1:12) %>>%
+  po(
+    "datefeatures",
+    param_vals = list(
+      week_of_year = FALSE,
+      day_of_year = FALSE,
+      day_of_month = FALSE,
+      day_of_week = FALSE
+    )
+  ) %>>%
+  lrn("regr.ranger")
+flrn = as_learner_fcst(graph)$train(task)
+prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  17.69303
+#>  15.23367
+```
+
+Use `selector_fcst_lags()` to apply transformations only to the lag
+features, e.g. log-transforming lags while leaving date features
+untouched:
+
+``` r
+task = tsk("airpassengers")
+task$set_col_roles("month", add = "feature")
+graph = po("fcst.lags", lags = 1:12) %>>%
+  po("colapply", applicator = log, affect_columns = selector_fcst_lags()) %>>%
+  po(
+    "datefeatures",
+    param_vals = list(
+      week_of_year = FALSE,
+      day_of_year = FALSE,
+      day_of_month = FALSE,
+      day_of_week = FALSE
+    )
+  ) %>>%
+  lrn("regr.ranger")
+flrn = as_learner_fcst(graph)$train(task)
+prediction = flrn$predict(task, 142:144)
+prediction$score(msr("regr.rmse"))
+#> regr.rmse 
+#>  16.79285
+```
+
+Target transformations can be applied by wrapping the forecast learner
+in `ppl("targettrafo")`. The lags are created from the transformed
+target and predictions are automatically inverted back to the original
+scale:
+
+``` r
+task = tsk("airpassengers")
+graph = po("fcst.lags", lags = 1:12) %>>% lrn("regr.ranger")
+pipeline = ppl(
+  "targettrafo",
+  graph = as_learner_fcst(graph),
+  targetmutate.trafo = function(x) log(x),
+  targetmutate.inverter = function(x) list(response = exp(x$response))
+)
+learner = as_learner(pipeline)$train(task)
+prediction = learner$predict(task, 142:144)
+prediction$score(msr("regr.rmse"))
+#> regr.rmse 
+#>  15.95489
+```
+
+### Example: comparing classical and ML forecasters
+
+ML forecasters declare `task_type = "fcst"`, so they can be benchmarked
+side-by-side with classical learners on the same task in a single
+`benchmark()` call:
+
+``` r
+task = tsk("airpassengers")
+resampling = rsmp("fcst.holdout", ratio = 0.9)$instantiate(task)
+n_test = length(resampling$test_set(1L))
+
+learners = list(
+  lrn("fcst.arima"),
+  as_learner_fcst(lrn("regr.ranger"), lags = 1:12),
+  as_learner_fcst(lrn("regr.ranger"), lags = 1:12, strategy = "direct", horizons = n_test)
+)
+design = benchmark_grid(task, learners, resampling)
+bmr = benchmark(design)
+bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
+#>               learner_id regr.rmse
+#> 1:            fcst.arima 216.31005
+#> 2: fcst.lags.regr.ranger  47.02421
+#> 3:           regr.ranger  76.18623
+```
+
+### Example: tuning a forecaster
+
+Forecast learners are regular mlr3 learners, so they plug into the
+standard [mlr3tuning](https://mlr3tuning.mlr-org.com/) machinery. Mark
+hyperparameters with `to_tune()` and wrap the learner in an
+`auto_tuner()`, using a forecasting resampling such as `fcst.holdout` or
+`fcst.cv` to respect the temporal order:
+
+``` r
+library(mlr3tuning)
+
+task = tsk("airpassengers")
+
+# tune an ML forecaster
+flrn = as_learner_fcst(lrn("regr.ranger"), lags = 1:12)
+flrn$param_set$set_values(
+  regr.ranger.mtry.ratio = to_tune(0.1, 1),
+  regr.ranger.num.trees = to_tune(100, 500)
+)
+at = auto_tuner(
+  tuner = tnr("random_search"),
+  learner = flrn,
+  resampling = rsmp("fcst.cv"),
+  measure = msr("regr.rmse"),
+  term_evals = 4
+)
+at$train(task)
+at$tuning_result[, .(regr.ranger.mtry.ratio, regr.ranger.num.trees, regr.rmse)]
+#>    regr.ranger.mtry.ratio regr.ranger.num.trees regr.rmse
+#> 1:              0.7760152                   164  14.41356
+
+# the AutoTuner is itself a learner: predict with the best configuration
+at$predict(task, 142:144)$score(msr("regr.rmse"))
+#> regr.rmse 
+#>   7.20865
+```
+
+Classical forecasters tune the same way:
+
+``` r
+flrn = lrn("fcst.auto_arima")
+flrn$param_set$set_values(stationary = to_tune(p_lgl()), seasonal = to_tune(p_lgl()))
+at = auto_tuner(
+  tuner = tnr("grid_search"),
+  learner = flrn,
+  resampling = rsmp("fcst.holdout", ratio = 0.8),
+  measure = msr("regr.rmse")
+)
+at$train(task)
+at$tuning_result[, .(stationary, seasonal, regr.rmse)]
+#>    stationary seasonal regr.rmse
+#> 1:      FALSE     TRUE  35.08279
 ```
 
 ### Example: forecasting electricity demand
@@ -227,9 +371,10 @@ library(mlr3pipelines)
 
 task = tsk("electricity")
 task$set_col_roles("date", add = "feature")
-graph = po("datefeatures", param_vals = list(year = FALSE))
-flrn = as_learner_fcst(lrn("regr.ranger"), 1:3)
-glrn = as_learner(graph %>>% flrn)$train(task)
+graph = po("fcst.lags", lags = 1:3) %>>%
+  po("datefeatures", param_vals = list(year = FALSE)) %>>%
+  lrn("regr.ranger")
+flrn = as_learner_fcst(graph)$train(task)
 
 max_date = task$data()[.N, date]
 newdata = data.table(
@@ -238,18 +383,18 @@ newdata = data.table(
   temperature = 26,
   holiday = c(TRUE, rep(FALSE, 13L))
 )
-prediction = glrn$predict_newdata(newdata, task)
+prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 187362.0 2015-01-01
-#>        2    NA 195840.6 2015-01-02
-#>        3    NA 189705.5 2015-01-03
+#>        1    NA 187360.9 2015-01-01
+#>        2    NA 196383.3 2015-01-02
+#>        3    NA 190819.4 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 221665.8 2015-01-12
-#>       13    NA 226033.0 2015-01-13
-#>       14    NA 227405.3 2015-01-14
+#>       12    NA 222344.9 2015-01-12
+#>       13    NA 226216.4 2015-01-13
+#>       14    NA 227661.9 2015-01-14
 ```
 
 ### Example: global forecasting
@@ -267,28 +412,29 @@ setorder(dt, state, month)
 task = as_task_fcst(dt, id = "aus_livestock", target = "count", order = "month", key = "state", freq = "month")
 task$set_col_roles("month", add = "feature")
 
-graph = po(
-  "datefeatures",
-  param_vals = list(
-    week_of_year = FALSE,
-    day_of_week = FALSE,
-    day_of_month = FALSE,
-    day_of_year = FALSE
-  )
-)
+graph = po("fcst.lags", lags = 1:12) %>>%
+  po(
+    "datefeatures",
+    param_vals = list(
+      week_of_year = FALSE,
+      day_of_week = FALSE,
+      day_of_month = FALSE,
+      day_of_year = FALSE
+    )
+  ) %>>%
+  lrn("regr.ranger")
 
-flrn = as_learner_fcst(lrn("regr.ranger"), 1:12)
-glrn = as_learner(graph %>>% flrn)$train(task)
-prediction = glrn$predict(task, 4460:4464)
+flrn = as_learner_fcst(graph)$train(task)
+prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>   25455.7
+#>  23000.88
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
-rr = resample(task, glrn, resampling)
+rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  107346.4
+#>  110852.5
 ```
 
 ### Example: global vs local forecasting
@@ -353,18 +499,19 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
 do.call(c, prediction_local)$score(msr("regr.rmse"))
 ```
 
-### Example: Custom PipeOps
+### Example: custom PipeOps
 
 ``` r
 library(mlr3learners)
 library(mlr3pipelines)
 
+# use PipeOpFcstLags standalone to inspect lag features
 task = tsk("airpassengers")
 pop = po("fcst.lags", lags = 1:12)
 new_task = pop$train(list(task))[[1L]]
 new_task$data()
 
-task = tsk("airpassengers")
+# combine lags with date features in a single graph
 graph = po("fcst.lags", lags = 1:12) %>>%
   po(
     "datefeatures",
@@ -374,34 +521,12 @@ graph = po("fcst.lags", lags = 1:12) %>>%
       day_of_month = FALSE,
       day_of_year = FALSE
     )
-  )
-flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
-glrn = as_learner(graph %>>% flrn)$train(task)
-prediction = glrn$predict(task, 1:12)
+  ) %>>%
+  lrn("regr.ranger")
+flrn = as_learner_fcst(graph)$train(task)
+prediction = flrn$predict(task, 1:12)
 prediction$score(msr("regr.rmse"))
 
 newdata = generate_newdata(task, 12L)
-glrn$predict_newdata(newdata, task)
-```
-
-``` r
-graph = po("fcst.lags", lags = 1:12) %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_week = FALSE,
-      day_of_month = FALSE,
-      day_of_year = FALSE
-    )
-  )
-
-task = tsk("airpassengers")
-flrn = ForecastLearnerManual$new(lrn("regr.ranger"))
-glrn = as_learner(graph %>>% flrn)
-trafo = po("fcst.targetdiff", lags = 12L)
-pipeline = ppl("targettrafo", graph = glrn, trafo_pipeop = trafo)
-glrn = as_learner(pipeline)$train(task)
-prediction = glrn$predict(task, 142:144)
-prediction$score(msr("regr.rmse"))
+flrn$predict_newdata(newdata, task)
 ```

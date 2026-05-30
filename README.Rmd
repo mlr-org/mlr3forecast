@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
 )
 
 lgr::get_logger("mlr3")$set_threshold("warn")
+lgr::get_logger("bbotk")$set_threshold("warn")
 options(datatable.print.class = FALSE, datatable.print.keys = FALSE)
 library(data.table)
 library(mlr3misc)
@@ -230,6 +231,53 @@ learners = list(
 design = benchmark_grid(task, learners, resampling)
 bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
+```
+
+### Example: tuning a forecaster
+
+Forecast learners are regular mlr3 learners, so they plug into the standard
+[mlr3tuning](https://mlr3tuning.mlr-org.com/) machinery. Mark hyperparameters
+with `to_tune()` and wrap the learner in an `auto_tuner()`, using a forecasting
+resampling such as `fcst.holdout` or `fcst.cv` to respect the temporal order:
+
+```{r, message = FALSE}
+library(mlr3tuning)
+
+task = tsk("airpassengers")
+
+# tune an ML forecaster
+flrn = as_learner_fcst(lrn("regr.ranger"), lags = 1:12)
+flrn$param_set$set_values(
+  regr.ranger.mtry.ratio = to_tune(0.1, 1),
+  regr.ranger.num.trees = to_tune(100, 500)
+)
+at = auto_tuner(
+  tuner = tnr("random_search"),
+  learner = flrn,
+  resampling = rsmp("fcst.cv"),
+  measure = msr("regr.rmse"),
+  term_evals = 4
+)
+at$train(task)
+at$tuning_result[, .(regr.ranger.mtry.ratio, regr.ranger.num.trees, regr.rmse)]
+
+# the AutoTuner is itself a learner: predict with the best configuration
+at$predict(task, 142:144)$score(msr("regr.rmse"))
+```
+
+Classical forecasters tune the same way:
+
+```{r, message = FALSE}
+flrn = lrn("fcst.auto_arima")
+flrn$param_set$set_values(stationary = to_tune(p_lgl()), seasonal = to_tune(p_lgl()))
+at = auto_tuner(
+  tuner = tnr("grid_search"),
+  learner = flrn,
+  resampling = rsmp("fcst.holdout", ratio = 0.8),
+  measure = msr("regr.rmse")
+)
+at$train(task)
+at$tuning_result[, .(stationary, seasonal, regr.rmse)]
 ```
 
 ### Example: forecasting electricity demand
