@@ -7,7 +7,8 @@
 \description{
 Creates rolling-window summary statistics of the target variable as new feature columns.
 The window ends at position \code{t - lag} (exclusive of the current and \code{lag - 1} most recent
-values) and has size \code{window_size}.
+values) and has size \code{window_size}. Use \code{window_size = Inf} for an expanding window that
+grows to include all history up to \code{t - lag}.
 
 At predict time, rolling features are computed from the task's full backend (i.e. including
 rows outside \code{row_roles$use}), then joined onto the active rows. Used inside
@@ -22,8 +23,9 @@ as well as the following parameters:
 \itemize{
 \item \code{funs} :: \code{character()}\cr
 Aggregation functions. Subset of \code{c("mean", "median", "sd", "min", "max", "sum")}. Default \code{"mean"}.
-\item \code{window_sizes} :: \code{integer()}\cr
-Window sizes. Every combination of \code{funs} and \code{window_sizes} produces one output column. Default \code{3L}.
+\item \code{window_sizes} :: \code{numeric()}\cr
+Window sizes. Every combination of \code{funs} and \code{window_sizes} produces one output column. Finite sizes must be
+whole numbers; \code{Inf} requests an expanding window (all history up to \code{t - lag}). Default \code{3L}.
 \item \code{lag} :: \code{integer(1)}\cr
 Minimum lag before the window starts. Must be \verb{>= 1} to avoid leakage. Default \code{1L}.
 }

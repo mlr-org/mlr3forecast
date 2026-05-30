@@ -4,7 +4,8 @@
 #' @description
 #' Creates rolling-window summary statistics of the target variable as new feature columns.
 #' The window ends at position `t - lag` (exclusive of the current and `lag - 1` most recent
-#' values) and has size `window_size`.
+#' values) and has size `window_size`. Use `window_size = Inf` for an expanding window that
+#' grows to include all history up to `t - lag`.
 #'
 #' At predict time, rolling features are computed from the task's full backend (i.e. including
 #' rows outside `row_roles$use`), then joined onto the active rows. Used inside
@@ -17,8 +18,9 @@
 #' as well as the following parameters:
 #' * `funs` :: `character()`\cr
 #'   Aggregation functions. Subset of `c("mean", "median", "sd", "min", "max", "sum")`. Default `"mean"`.
-#' * `window_sizes` :: `integer()`\cr
-#'   Window sizes. Every combination of `funs` and `window_sizes` produces one output column. Default `3L`.
+#' * `window_sizes` :: `numeric()`\cr
+#'   Window sizes. Every combination of `funs` and `window_sizes` produces one output column. Finite sizes must be
+#'   whole numbers; `Inf` requests an expanding window (all history up to `t - lag`). Default `3L`.
 #' * `lag` :: `integer(1)`\cr
 #'   Minimum lag before the window starts. Must be `>= 1` to avoid leakage. Default `1L`.
 #'
@@ -43,13 +45,23 @@ PipeOpFcstRolling = R6Class(
       param_set = ps(
         funs = p_uty(
           tags = c("train", "predict"),
-          custom_check = function(x) {
+          custom_check = crate(function(x) {
             check_subset(x, choices = c("mean", "median", "sd", "min", "max", "sum"), empty.ok = FALSE)
-          }
+          })
         ),
         window_sizes = p_uty(
           tags = c("train", "predict"),
-          custom_check = function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L)
+          custom_check = crate(function(x) {
+            ok = check_numeric(x, lower = 1, any.missing = FALSE, min.len = 1L)
+            if (!isTRUE(ok)) {
+              return(ok)
+            }
+            finite = x[is.finite(x)]
+            if (length(finite) && !test_integerish(finite)) {
+              return("Finite window sizes must be whole numbers; use `Inf` for an expanding window")
+            }
+            TRUE
+          })
         ),
         lag = p_int(1L, tags = c("train", "predict"))
       )
@@ -111,11 +123,12 @@ PipeOpFcstRolling = R6Class(
     .roll_spec = function(target) {
       pv = self$param_set$get_values(tags = "train")
       grid = CJ(fun = pv$funs, size = pv$window_sizes, sorted = FALSE)
+      size_lbl = fifelse(is.infinite(grid$size), "expanding", as.character(grid$size))
       list(
         fun = grid$fun,
         size = grid$size,
         lag = pv$lag,
-        cols = sprintf("%s_roll_%s_%i", target, grid$fun, grid$size)
+        cols = sprintf("%s_roll_%s_%s", target, grid$fun, size_lbl)
       )
     }
   )
@@ -124,7 +137,15 @@ PipeOpFcstRolling = R6Class(
 fcst_rolls = function(x, spec) {
   rolls = list(mean = frollmean, median = frollmedian, sd = frollsd, min = frollmin, max = frollmax, sum = frollsum)
   shifted = shift(x, n = spec$lag)
-  map(seq_along(spec$fun), function(i) invoke(rolls[[spec$fun[i]]], x = shifted, n = spec$size[i]))
+  map(seq_along(spec$fun), function(i) {
+    f = rolls[[spec$fun[i]]]
+    if (is.infinite(spec$size[i])) {
+      out = f(shifted, n = seq_along(shifted), adaptive = TRUE, na.rm = TRUE)
+      replace(out, is.nan(out), NA_real_)
+    } else {
+      f(shifted, n = spec$size[i])
+    }
+  })
 }
 
 #' @include zzz.R

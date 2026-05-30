@@ -24,3 +24,29 @@ test_that("PipeOpFcstRolling works with keyed task", {
   expect_true(any(grepl("_roll_mean_3$", out$feature_names)))
   expect_equal(out$nrow, task$nrow)
 })
+
+test_that("PipeOpFcstRolling supports expanding windows via Inf", {
+  task = tsk("airpassengers")
+  out = po("fcst.rolling", funs = "mean", window_sizes = Inf, lag = 1L)$train(list(task))[[1L]]
+  expect_subset("passengers_roll_mean_expanding", out$feature_names)
+
+  y = task$truth()
+  expected = vapply(seq_along(y), function(t) if (t == 1L) NA_real_ else mean(y[seq_len(t - 1L)]), numeric(1L))
+  expect_equal(out$data(cols = "passengers_roll_mean_expanding")[[1L]], expected)
+})
+
+test_that("PipeOpFcstRolling mixes finite and expanding windows", {
+  task = tsk("airpassengers")
+  out = po("fcst.rolling", funs = c("mean", "sd"), window_sizes = c(3L, Inf))$train(list(task))[[1L]]
+  expected = c(
+    "passengers_roll_mean_3",
+    "passengers_roll_sd_3",
+    "passengers_roll_mean_expanding",
+    "passengers_roll_sd_expanding"
+  )
+  expect_subset(expected, out$feature_names)
+})
+
+test_that("PipeOpFcstRolling rejects non-integer finite window sizes", {
+  expect_snapshot(po("fcst.rolling", window_sizes = 2.5), error = TRUE)
+})
