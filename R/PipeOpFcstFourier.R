@@ -41,11 +41,13 @@ PipeOpFcstFourier = R6Class(
       param_set = ps(
         period = p_uty(
           tags = c("train", "predict"),
-          custom_check = function(x) check_numeric(x, lower = 0, finite = TRUE, any.missing = FALSE, min.len = 1L)
+          custom_check = crate(function(x) {
+            check_numeric(x, lower = 0, finite = TRUE, any.missing = FALSE, min.len = 1L)
+          })
         ),
         K = p_uty(
           tags = c("train", "predict"),
-          custom_check = function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L)
+          custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
         )
       )
       param_set$set_values(K = 1L)

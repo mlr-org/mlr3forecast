@@ -51,7 +51,7 @@ PipeOpFcstTsfeats = R6Class(
         features = p_uty(
           default = c("frequency", "stl_features", "entropy", "acf_features"),
           tags = "train",
-          custom_check = function(x) check_character(x, any.missing = FALSE, min.len = 1L)
+          custom_check = crate(function(x) check_character(x, any.missing = FALSE, min.len = 1L))
         ),
         scale = p_lgl(default = TRUE, tags = "train"),
         trim = p_lgl(default = FALSE, tags = "train"),
