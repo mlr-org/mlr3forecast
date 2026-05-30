@@ -225,7 +225,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 2.83 seconds
+#> Time elapsed: 3.64 seconds
 #> Model estimated using fn() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

@@ -118,7 +118,11 @@ Creates a new instance of this
 
   ([`integer()`](https://rdrr.io/r/base/integer.html))  
   Either a single integer `H` (expanded to `1:H`) or an integer vector
-  of specific horizons.
+  of specific horizons. One model is trained per horizon. At predict
+  time each test row is routed to the model matching its step-distance
+  from the end of training, so with specific horizons (e.g.
+  `c(2L, 4L, 6L)`) the test set may only contain rows at those exact
+  steps ahead.
 
 - `id`:
 

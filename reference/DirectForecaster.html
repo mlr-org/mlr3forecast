@@ -154,7 +154,10 @@ The base lag values.</p></dd>
 
       <dt><code>horizons</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
-Either a single integer <code>H</code> (expanded to <code>1:H</code>) or an integer vector of specific horizons.</p></dd>
+Either a single integer <code>H</code> (expanded to <code>1:H</code>) or an integer vector of specific horizons.
+One model is trained per horizon. At predict time each test row is routed to the model
+matching its step-distance from the end of training, so with specific horizons (e.g.
+<code>c(2L, 4L, 6L)</code>) the test set may only contain rows at those exact steps ahead.</p></dd>
 
       <dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
