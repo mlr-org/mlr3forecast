@@ -109,7 +109,10 @@ A regression learner or a graph/PipeOp (without \link{PipeOpFcstLags}).}
       \item{\code{lags}}{(\code{integer()})\cr
 The base lag values.}
       \item{\code{horizons}}{(\code{integer()})\cr
-Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector of specific horizons.}
+Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector of specific horizons.
+One model is trained per horizon. At predict time each test row is routed to the model
+matching its step-distance from the end of training, so with specific horizons (e.g.
+\code{c(2L, 4L, 6L)}) the test set may only contain rows at those exact steps ahead.}
       \item{\code{id}}{(\code{character(1)} | \code{NULL})\cr
 Identifier, default \code{NULL} (auto-generated from the learner id).}
       \item{\code{param_vals}}{(named \code{list()})\cr

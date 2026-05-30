@@ -25,11 +25,9 @@
     Condition
       Error:
       ! 
-      x Iterative feature PipeOps (property 'fcst_iterative') inside a
-        DirectForecaster graph are not supported (found: fcst.lags). DirectForecaster
-        manages lag features internally with horizon-shifted offsets via `lags`;
-        other iterative features (e.g. PipeOpFcstRolling) cannot yet be
-        horizon-offset and would leak future information for horizons > 1.
+      x Iterative feature PipeOps (property 'fcst_iterative') are not supported in a
+        DirectForecaster graph (found: fcst.lags). Lags are handled internally via
+        `lags`.
       > Class: Mlr3ErrorInput
 
 ---
@@ -39,10 +37,8 @@
     Condition
       Error:
       ! 
-      x Iterative feature PipeOps (property 'fcst_iterative') inside a
-        DirectForecaster graph are not supported (found: fcst.rolling).
-        DirectForecaster manages lag features internally with horizon-shifted offsets
-        via `lags`; other iterative features (e.g. PipeOpFcstRolling) cannot yet be
-        horizon-offset and would leak future information for horizons > 1.
+      x Iterative feature PipeOps (property 'fcst_iterative') are not supported in a
+        DirectForecaster graph (found: fcst.rolling). Lags are handled internally via
+        `lags`.
       > Class: Mlr3ErrorInput
 

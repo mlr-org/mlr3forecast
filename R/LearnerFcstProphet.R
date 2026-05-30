@@ -56,8 +56,8 @@ LearnerFcstProphet = R6Class(
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
 
-      order_col = task$col_roles$order
-      dt = task$data(cols = c(order_col, task$target_names))
+      order_cols = task$col_roles$order
+      dt = task$data(cols = c(order_cols, task$target_names))
       setnames(dt, c("ds", "y"))
 
       feature_names = task$feature_names
@@ -85,8 +85,8 @@ LearnerFcstProphet = R6Class(
         return(insert_named(prediction, list(response = response)))
       }
 
-      order_col = task$col_roles$order
-      dt = task$data(cols = order_col)
+      order_cols = task$col_roles$order
+      dt = task$data(cols = order_cols)
       setnames(dt, "ds")
 
       feature_names = task$feature_names

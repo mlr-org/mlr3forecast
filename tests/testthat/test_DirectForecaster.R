@@ -51,12 +51,31 @@ test_that("DirectForecaster errors when test extends past trained horizons", {
   split = partition(task, ratio = 0.8)
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 2)
   learner$train(task, split$train)
-  expect_error(learner$predict(task, split$test), "not trained")
+  expect_error(learner$predict(task, split$test), "beyond the trained horizon")
 })
 
 test_that("DirectForecaster scalar horizon expands to 1:H", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 5)
   expect_equal(learner$horizons, 1:5)
+})
+
+test_that("DirectForecaster routes specific (non-contiguous) horizons by step-distance", {
+  task = tsk("airpassengers")
+  n = task$nrow
+  train_ids = seq_len(n - 6L)
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = c(2L, 4L, 6L))
+  learner$train(task, train_ids)
+  expect_length(learner$model$models, 3L)
+
+  test_ids = train_ids[length(train_ids)] + c(2L, 4L, 6L)
+  prediction = learner$predict(task, test_ids)
+  expect_length(prediction$response, 3L)
+  expect_false(anyNA(prediction$response))
+
+  expect_error(
+    learner$predict(task, train_ids[length(train_ids)] + 3L),
+    "step\\(s\\) 3 which were not trained"
+  )
 })
 
 test_that("as_learner_fcst dispatches on strategy", {
@@ -85,12 +104,12 @@ test_that("DirectForecaster aligns row_ids and extras when storage order differs
   dt = rbindlist(list(
     data.table(
       state = factor("B", levels = c("A", "B")),
-      month = as.Date("2020-01-01") + 30 * (0:5),
+      month = seq(as.Date("2020-01-01"), by = "month", length.out = 6L),
       y = 100 + 0:5
     ),
     data.table(
       state = factor("A", levels = c("A", "B")),
-      month = as.Date("2020-01-01") + 30 * (0:5),
+      month = seq(as.Date("2020-01-01"), by = "month", length.out = 6L),
       y = 500 + 0:5
     )
   ))

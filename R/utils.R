@@ -11,20 +11,20 @@ generate_newdata = function(task, n = 1L) {
   n = assert_count(n, positive = TRUE, coerce = TRUE)
 
   col_roles = task$col_roles
-  order_col = col_roles$order
+  order_cols = col_roles$order
   key_cols = col_roles$key
-  cols = c(order_col, key_cols)
+  cols = c(order_cols, key_cols)
   dt = task$data(cols = cols)
-  setorderv(dt, c(key_cols, order_col))
+  setorderv(dt, c(key_cols, order_cols))
 
   last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else dt[.N]
 
-  freq = task$freq %??% infer_freq(dt[[order_col]])
+  freq = task$freq %??% infer_freq(dt[[order_cols]])
   newdata = last_rows[rep(seq_len(.N), each = n)]
   if (length(key_cols) > 0L) {
-    newdata[, (order_col) := seq(get(order_col)[1L], length.out = n + 1L, by = freq)[-1L], by = key_cols]
+    newdata[, (order_cols) := seq(get(order_cols)[1L], length.out = n + 1L, by = freq)[-1L], by = key_cols]
   } else {
-    set(newdata, j = order_col, value = seq(last_rows[[order_col]], length.out = n + 1L, by = freq)[-1L])
+    set(newdata, j = order_cols, value = seq(last_rows[[order_cols]], length.out = n + 1L, by = freq)[-1L])
   }
 
   set(newdata, j = task$target_names, value = NA_real_)

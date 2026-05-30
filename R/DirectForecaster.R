@@ -43,6 +43,9 @@ DirectForecaster = R6::R6Class(
     #'   The base lag values.
     #' @param horizons (`integer()`)\cr
     #'   Either a single integer `H` (expanded to `1:H`) or an integer vector of specific horizons.
+    #'   One model is trained per horizon. At predict time each test row is routed to the model
+    #'   matching its step-distance from the end of training, so with specific horizons (e.g.
+    #'   `c(2L, 4L, 6L)`) the test set may only contain rows at those exact steps ahead.
     #' @param id (`character(1)` | `NULL`)\cr
     #'   Identifier, default `NULL` (auto-generated from the learner id).
     #' @param param_vals (named `list()`)\cr
@@ -77,7 +80,7 @@ DirectForecaster = R6::R6Class(
       )
       if (length(iterative_ids) > 0L) {
         error_input(
-          "Iterative feature PipeOps (property 'fcst_iterative') inside a DirectForecaster graph are not supported (found: %s). DirectForecaster manages lag features internally with horizon-shifted offsets via `lags`; other iterative features (e.g. PipeOpFcstRolling) cannot yet be horizon-offset and would leak future information for horizons > 1.",
+          "Iterative feature PipeOps (property 'fcst_iterative') are not supported in a DirectForecaster graph (found: %s). Lags are handled internally via `lags`.",
           toString(iterative_ids)
         )
       }
@@ -192,43 +195,62 @@ DirectForecaster = R6::R6Class(
         glrn$train(task)
       })
 
-      structure(list(models = models), class = c("direct_forecaster_model", "list"))
+      # Store per-key origin and freq so predict can recover each row's step-distance.
+      order_cols = task$col_roles$order
+      key_cols = task$col_roles$key
+      dt = task$data(cols = c(order_cols, key_cols))
+      freq = task$freq %??% infer_freq(dt[[order_cols]])
+      origin = if (length(key_cols) > 0L) {
+        dt[, list(.origin = max(get(order_cols))), by = key_cols]
+      } else {
+        max(dt[[order_cols]])
+      }
+
+      structure(
+        list(models = models, origin = origin, freq = freq),
+        class = c("direct_forecaster_model", "list")
+      )
     },
 
     .predict = function(task) {
       models = self$model$models
       horizons = private$.horizons
+      max_h = max(horizons)
+      freq = self$model$freq
+      origin = self$model$origin
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
 
       ord = task$data(cols = c(key_cols, order_cols))
       set(ord, j = "..row_id", value = task$row_ids)
-      setorderv(ord, c(key_cols, order_cols))
 
-      assign_horizons = function(row_ids) {
-        steps = seq_along(row_ids)
-        idx = match(steps, horizons)
-        if (anyNA(idx)) {
-          bad = steps[is.na(idx)]
-          error_input(
-            "Test set extends to step(s) %s which were not trained (horizons: %s).",
-            toString(bad),
-            toString(horizons)
-          )
-        }
-        idx
-      }
-
+      # A row's step is its position on the future grid `seq(origin, by = freq, ...)`.
       if (length(key_cols) > 0L) {
-        preds = map(split(ord, by = key_cols, drop = TRUE), function(group) {
-          row_ids = group[["..row_id"]]
-          private$.predict_horizons(task, models, row_ids, assign_horizons(row_ids))
-        })
-        combined = do.call(c, preds)
+        ord = origin[ord, on = key_cols]
+        ord[,
+          ".step" := match(get(order_cols), seq(.origin[1L], by = freq, length.out = max_h + 1L)[-1L]),
+          by = key_cols
+        ]
       } else {
-        row_ids = ord[["..row_id"]]
-        combined = private$.predict_horizons(task, models, row_ids, assign_horizons(row_ids))
+        grid = seq(origin, by = freq, length.out = max_h + 1L)[-1L]
+        set(ord, j = ".step", value = match(ord[[order_cols]], grid))
       }
+
+      steps = ord$.step
+      if (anyNA(steps)) {
+        error_input("%i test row(s) are beyond the trained horizon (max %i steps).", sum(is.na(steps)), max_h)
+      }
+      idx = match(steps, horizons)
+      if (anyNA(idx)) {
+        bad = sort(unique(steps[is.na(idx)]))
+        error_input(
+          "Test set requires step(s) %s which were not trained (horizons: %s).",
+          toString(bad),
+          toString(horizons)
+        )
+      }
+
+      combined = private$.predict_horizons(task, models, ord$..row_id, idx)
 
       combined$data = insert_named(
         combined$data,
@@ -277,8 +299,9 @@ marshal_model.direct_forecaster_model = function(model, inplace = FALSE, ...) {
     m_clone$model = marshal_model(learner_model, inplace = FALSE, ...)
     m_clone
   })
+  model$models = marshaled_models
   structure(
-    list(marshaled = list(models = marshaled_models), packages = c("mlr3pipelines", "mlr3forecast")),
+    list(marshaled = model, packages = c("mlr3pipelines", "mlr3forecast")),
     class = c(paste0(class(model), "_marshaled"), "marshaled")
   )
 }
@@ -307,5 +330,6 @@ unmarshal_model.direct_forecaster_model_marshaled = function(model, inplace = FA
     m_clone$model = unmarshal_model(prev_model, inplace = FALSE, ...)
     m_clone
   })
-  structure(list(models = unmarshaled_models), class = c("direct_forecaster_model", "list"))
+  m_inner$models = unmarshaled_models
+  structure(m_inner, class = c("direct_forecaster_model", "list"))
 }
