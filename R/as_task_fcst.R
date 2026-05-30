@@ -8,8 +8,9 @@
 #' 2. [data.frame()] and [mlr3::DataBackend]: provides an alternative to the constructor of [TaskFcst].
 #' 3. `ts`: from base R time series objects (univariate and multivariate).
 #' 4. `zoo` and `xts`: from zoo/xts time series objects.
-#' 5. `tsf`: from tsf format data.
-#' 6. `tbl_ts`: from tsibble objects.
+#' 5. `timeSeries`: from Rmetrics timeSeries objects.
+#' 6. `tsf`: from tsf format data.
+#' 7. `tbl_ts`: from tsibble objects.
 #'
 #' @inheritParams mlr3::as_task_regr
 #' @template param_order
@@ -187,6 +188,27 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
 #' @rdname as_task_fcst
 #' @export
 as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+  require_namespaces("tsbox")
+  x = tsbox::ts_dt(x)
+  is_multi = "id" %in% names(x)
+  if (is_multi) {
+    set(x, j = "id", value = as.factor(x$id))
+  }
+  as_task_fcst(
+    x = x,
+    target = "value",
+    order = "time",
+    key = if (is_multi) "id" else character(),
+    freq = freq,
+    id = id,
+    label = label,
+    ...
+  )
+}
+
+#' @rdname as_task_fcst
+#' @export
+as_task_fcst.timeSeries = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
   require_namespaces("tsbox")
   x = tsbox::ts_dt(x)
   is_multi = "id" %in% names(x)

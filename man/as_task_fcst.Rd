@@ -11,6 +11,7 @@
 \alias{as_task_fcst.tsf}
 \alias{as_task_fcst.ts}
 \alias{as_task_fcst.zoo}
+\alias{as_task_fcst.timeSeries}
 \alias{as_task_fcst.tbl_ts}
 \title{Convert to a Forecast Task}
 \usage{
@@ -57,6 +58,14 @@ as_tasks_fcst(x, ...)
 )
 
 \method{as_task_fcst}{zoo}(
+  x,
+  freq = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+)
+
+\method{as_task_fcst}{timeSeries}(
   x,
   freq = NULL,
   id = deparse1(substitute(x)),
@@ -115,6 +124,7 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 \item \code{\link[=data.frame]{data.frame()}} and \link[mlr3:DataBackend]{mlr3::DataBackend}: provides an alternative to the constructor of \link{TaskFcst}.
 \item \code{ts}: from base R time series objects (univariate and multivariate).
 \item \code{zoo} and \code{xts}: from zoo/xts time series objects.
+\item \code{timeSeries}: from Rmetrics timeSeries objects.
 \item \code{tsf}: from tsf format data.
 \item \code{tbl_ts}: from tsibble objects.
 }

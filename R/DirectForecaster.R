@@ -228,7 +228,7 @@ DirectForecaster = R6::R6Class(
       if (length(key_cols) > 0L) {
         ord = origin[ord, on = key_cols]
         ord[,
-          ".step" := match(get(order_cols), seq(.origin[1L], by = freq, length.out = max_h + 1L)[-1L]),
+          ".step" := match(get(order_cols), seq(get(".origin")[1L], by = freq, length.out = max_h + 1L)[-1L]),
           by = key_cols
         ]
       } else {

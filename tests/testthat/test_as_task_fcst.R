@@ -34,6 +34,21 @@ test_that("as_task conversion", {
   expect_no_error(as_task_fcst(x))
 })
 
+test_that("as_task conversion timeSeries", {
+  skip_if_not_installed("timeSeries")
+
+  times = seq(as.Date("2020-01-01"), by = "month", length.out = 50L)
+  # univariate
+  x = timeSeries::timeSeries(rnorm(50L), times)
+  expect_no_error(as_task_fcst(x))
+  # multivariate
+  x = timeSeries::timeSeries(
+    matrix(rnorm(150L), ncol = 3L, dimnames = list(NULL, c("x", "y", "z"))),
+    times
+  )
+  expect_no_error(as_task_fcst(x))
+})
+
 test_that("as_task_fcst assertions", {
   # target can't be NA
   value = rnorm(20L)
