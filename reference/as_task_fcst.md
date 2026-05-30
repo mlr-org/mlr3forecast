@@ -17,9 +17,11 @@ objects:
 
 4.  `zoo` and `xts`: from zoo/xts time series objects.
 
-5.  `tsf`: from tsf format data.
+5.  `timeSeries`: from Rmetrics timeSeries objects.
 
-6.  `tbl_ts`: from tsibble objects.
+6.  `tsf`: from tsf format data.
+
+7.  `tbl_ts`: from tsibble objects.
 
 ## Usage
 
@@ -74,6 +76,15 @@ as_task_fcst(
 )
 
 # S3 method for class 'zoo'
+as_task_fcst(
+  x,
+  freq = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+)
+
+# S3 method for class 'timeSeries'
 as_task_fcst(
   x,
   freq = NULL,
