@@ -7,7 +7,7 @@ Generates plots for
 
 ``` r
 # S3 method for class 'TaskFcst'
-autoplot(object, theme = ggplot2::theme_minimal(), ...)
+autoplot(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...)
 ```
 
 ## Arguments
@@ -22,6 +22,12 @@ autoplot(object, theme = ggplot2::theme_minimal(), ...)
   The
   [`ggplot2::theme_minimal()`](https://ggplot2.tidyverse.org/reference/ggtheme.html)
   is applied by default to all plots.
+
+- facets:
+
+  (`logical(1)`)  
+  For keyed tasks, draw one panel per series instead of one coloured
+  line per series. Default `FALSE`.
 
 - ...:
 

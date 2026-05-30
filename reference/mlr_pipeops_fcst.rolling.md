@@ -3,6 +3,8 @@
 Creates rolling-window summary statistics of the target variable as new
 feature columns. The window ends at position `t - lag` (exclusive of the
 current and `lag - 1` most recent values) and has size `window_size`.
+Use `window_size = Inf` for an expanding window that grows to include
+all history up to `t - lag`.
 
 At predict time, rolling features are computed from the task's full
 backend (i.e. including rows outside `row_roles$use`), then joined onto
@@ -22,9 +24,10 @@ as well as the following parameters:
   Aggregation functions. Subset of
   `c("mean", "median", "sd", "min", "max", "sum")`. Default `"mean"`.
 
-- `window_sizes` :: [`integer()`](https://rdrr.io/r/base/integer.html)  
+- `window_sizes` :: [`numeric()`](https://rdrr.io/r/base/numeric.html)  
   Window sizes. Every combination of `funs` and `window_sizes` produces
-  one output column. Default `3L`.
+  one output column. Finite sizes must be whole numbers; `Inf` requests
+  an expanding window (all history up to `t - lag`). Default `3L`.
 
 - `lag` :: `integer(1)`  
   Minimum lag before the window starts. Must be `>= 1` to avoid leakage.
