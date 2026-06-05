@@ -28,6 +28,21 @@ test_that("selector_fcst_rolling matches rolling features", {
   )
 })
 
+test_that("selector_fcst_rolling matches expanding-window features", {
+  task = tsk("airpassengers")
+  new_task = po("fcst.rolling", funs = c("mean", "sd"), window_sizes = c(3L, Inf))$train(list(task))[[1L]]
+  selected = selector_fcst_rolling()(new_task)
+  expect_set_equal(
+    selected,
+    c(
+      "passengers_roll_mean_3",
+      "passengers_roll_mean_expanding",
+      "passengers_roll_sd_3",
+      "passengers_roll_sd_expanding"
+    )
+  )
+})
+
 test_that("selector_fcst_rolling ignores non-rolling features", {
   task = tsk("airpassengers")
   graph = po("fcst.lags", lags = 1:2) %>>% po("fcst.rolling", funs = "mean", window_sizes = 3L)

@@ -41,7 +41,7 @@ selector_fcst_lags = function() {
 selector_fcst_rolling = function() {
   selector = function(task) {
     target = assert_string(task$target_names)
-    pattern = sprintf("^%s_roll_(mean|median|sd|min|max|sum)_[0-9]+$", target)
+    pattern = sprintf("^%s_roll_(mean|median|sd|min|max|sum)_([0-9]+|expanding)$", target)
     grep(pattern, task$feature_names, value = TRUE)
   }
   structure(selector, repr = "selector_fcst_rolling()", class = c("Selector", "function"))
