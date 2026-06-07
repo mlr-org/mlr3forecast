@@ -30,8 +30,8 @@ features for recursive one-step-ahead prediction.
 
 ### Example: forecasting with forecast learner
 
-Currently, we support native forecasting learners from the forecast and
-smooth packages. In the future, we plan to support more learners.
+Native forecasting learners are provided by packages such as forecast,
+smooth, prophet, and tscount.
 
 ``` r
 
