@@ -47,7 +47,7 @@ register_task = register_item(mlr3forecast_tasks, "task")
 register_learner = register_item(mlr3forecast_learners, "learner")
 register_measure = register_item(mlr3forecast_measures, "measure")
 
-register_mlr3 = function() {
+register_mlr3 = function(...) {
   # add reflections
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
@@ -88,7 +88,7 @@ register_mlr3 = function() {
   iwalk(as.list(mlr3forecast_measures), function(measure, id) mlr_measures$add(id, measure))
 }
 
-register_mlr3pipelines = function() {
+register_mlr3pipelines = function(...) {
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   mlr_pipeops = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
   iwalk(as.list(mlr3forecast_pipeops), function(value, name) mlr_pipeops$add(name, value$constructor, value$metainf))
