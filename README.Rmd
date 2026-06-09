@@ -233,6 +233,32 @@ bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 ```
 
+### Example: ensemble forecasting
+
+Forecast learners produce regression predictions under the hood, so the standard
+mlr3pipelines ensemble pattern works directly: branch to several forecasters with
+`gunion()` and average their forecasts with `po("regravg")`. This mirrors the idea
+behind the forecastHybrid package, but with any mix of classical or ML learners.
+
+```{r, message = FALSE}
+task = tsk("airpassengers")
+
+graph = gunion(list(
+  po("learner", lrn("fcst.auto_arima"), id = "arima"),
+  po("learner", lrn("fcst.ets"), id = "ets"),
+  po("learner", lrn("fcst.theta"), id = "theta")
+)) %>>%
+  po("regravg")
+flrn = as_learner(graph)$train(task)
+forecast(flrn, task, 12L)
+flrn$predict(task, 140:144)$score(msr("regr.rmse"))
+
+# weight the members instead of averaging equally
+graph$param_set$set_values(regravg.weights = c(0.5, 0.3, 0.2))
+flrn = as_learner(graph)$train(task)
+flrn$predict(task, 140:144)$score(msr("regr.rmse"))
+```
+
 ### Example: tuning a forecaster
 
 Forecast learners are regular mlr3 learners, so they plug into the standard

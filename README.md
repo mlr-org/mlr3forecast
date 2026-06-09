@@ -159,39 +159,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 437.3489 1961-01-01
-#>        2    NA 441.5030 1961-02-01
-#>        3    NA 458.3999 1961-03-01
+#>        1    NA 437.2326 1961-01-01
+#>        2    NA 437.8091 1961-02-01
+#>        3    NA 460.6196 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 476.1482 1961-10-01
-#>       11    NA 447.0424 1961-11-01
-#>       12    NA 444.3218 1961-12-01
+#>       10    NA 476.9361 1961-10-01
+#>       11    NA 442.6659 1961-11-01
+#>       12    NA 442.2520 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 572.9929 1960-08-01
-#>      141   508 500.7999 1960-09-01
-#>      142   461 457.0052 1960-10-01
-#>      143   390 417.6554 1960-11-01
-#>      144   432 431.9928 1960-12-01
+#>      140   606 573.1977 1960-08-01
+#>      141   508 499.5531 1960-09-01
+#>      142   461 456.3996 1960-10-01
+#>      143   390 414.1254 1960-11-01
+#>      144   432 431.8607 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  19.60656
+#>  18.71129
 
 flrn = as_learner_fcst(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  50.22014
+#>  46.14518
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  26.22352
+#>  27.72754
 ```
 
 By default `as_learner_fcst()` builds a recursive forecaster (one model,
@@ -209,7 +209,7 @@ flrn = as_learner_fcst(
 )$train(task, 1:132)
 flrn$predict(task, 133:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>   71.2041
+#>  70.42278
 ```
 
 Or with some feature engineering using mlr3pipelines:
@@ -234,7 +234,7 @@ flrn = as_learner_fcst(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.23367
+#>  15.65953
 ```
 
 Use `selector_fcst_lags()` to apply transformations only to the lag
@@ -260,7 +260,7 @@ flrn = as_learner_fcst(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.79285
+#>  16.98558
 ```
 
 Target transformations can be applied by wrapping the forecast learner
@@ -281,7 +281,7 @@ learner = as_learner(pipeline)$train(task)
 prediction = learner$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.95489
+#>  16.54296
 ```
 
 ### Example: comparing classical and ML forecasters
@@ -305,8 +305,49 @@ bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 #>               learner_id regr.rmse
 #> 1:            fcst.arima 216.31005
-#> 2: fcst.lags.regr.ranger  47.02421
-#> 3:           regr.ranger  76.18623
+#> 2: fcst.lags.regr.ranger  47.25991
+#> 3:           regr.ranger  77.89388
+```
+
+### Example: ensemble forecasting
+
+Forecast learners produce regression predictions under the hood, so the
+standard mlr3pipelines ensemble pattern works directly: branch to
+several forecasters with `gunion()` and average their forecasts with
+`po("regravg")`. This mirrors the idea behind the forecastHybrid
+package, but with any mix of classical or ML learners.
+
+``` r
+task = tsk("airpassengers")
+
+graph = gunion(list(
+  po("learner", lrn("fcst.auto_arima"), id = "arima"),
+  po("learner", lrn("fcst.ets"), id = "ets"),
+  po("learner", lrn("fcst.theta"), id = "theta")
+)) %>>%
+  po("regravg")
+flrn = as_learner(graph)$train(task)
+forecast(flrn, task, 12L)
+#> 
+#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
+#>  row_ids truth response
+#>        1    NA 442.5050
+#>        2    NA 427.6327
+#>        3    NA 478.5120
+#>      ---   ---      ---
+#>       10    NA 471.2626
+#>       11    NA 408.0117
+#>       12    NA 455.0409
+flrn$predict(task, 140:144)$score(msr("regr.rmse"))
+#> regr.rmse 
+#>  12.23143
+
+# weight the members instead of averaging equally
+graph$param_set$set_values(regravg.weights = c(0.5, 0.3, 0.2))
+flrn = as_learner(graph)$train(task)
+flrn$predict(task, 140:144)$score(msr("regr.rmse"))
+#> regr.rmse 
+#>  12.28049
 ```
 
 ### Example: tuning a forecaster
@@ -338,12 +379,12 @@ at = auto_tuner(
 at$train(task)
 at$tuning_result[, .(regr.ranger.mtry.ratio, regr.ranger.num.trees, regr.rmse)]
 #>    regr.ranger.mtry.ratio regr.ranger.num.trees regr.rmse
-#> 1:              0.7760152                   164  14.41356
+#> 1:              0.6344873                   120  14.76267
 
 # the AutoTuner is itself a learner: predict with the best configuration
 at$predict(task, 142:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>   7.20865
+#>  7.128691
 ```
 
 Classical forecasters tune the same way:
@@ -388,13 +429,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 187360.9 2015-01-01
-#>        2    NA 196383.3 2015-01-02
-#>        3    NA 190819.4 2015-01-03
+#>        1    NA 186518.2 2015-01-01
+#>        2    NA 196740.8 2015-01-02
+#>        3    NA 188631.8 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 222344.9 2015-01-12
-#>       13    NA 226216.4 2015-01-13
-#>       14    NA 227661.9 2015-01-14
+#>       12    NA 223902.2 2015-01-12
+#>       13    NA 228937.2 2015-01-13
+#>       14    NA 228489.0 2015-01-14
 ```
 
 ### Example: global forecasting
@@ -428,13 +469,13 @@ flrn = as_learner_fcst(graph)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  23000.88
+#>  25200.03
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  110852.5
+#>  101829.8
 ```
 
 ### Example: global vs local forecasting
