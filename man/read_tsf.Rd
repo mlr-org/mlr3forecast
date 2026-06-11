@@ -11,8 +11,8 @@ read_tsf(file)
 The path to the TSF file.}
 }
 \value{
-(\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}. If the file contains a frequency, the \code{"frequency"}
-attribute is set.
+(\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}. If the file contains a frequency or horizon, the
+\code{"frequency"} and \code{"horizon"} attributes are set, respectively.
 }
 \description{
 Parses a file located at \code{file} and returns a \code{\link[data.table:data.table]{data.table::data.table()}}.

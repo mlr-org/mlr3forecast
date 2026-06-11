@@ -5,8 +5,8 @@
 #'
 #' @param file (`character(1)`)\cr
 #'   The path to the TSF file.
-#' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency, the `"frequency"`
-#'   attribute is set.
+#' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency or horizon, the
+#'   `"frequency"` and `"horizon"` attributes are set, respectively.
 #'
 #' @references
 #' `r format_bib("godahewa2021monash")`
@@ -19,15 +19,12 @@
 read_tsf = function(file) {
   assert_file(file, extension = "tsf")
 
-  low_frequencies = c("daily", "weekly", "monthly", "quarterly", "yearly")
-  high_frequencies = c("4_seconds", "minutely", "10_minutes", "15_minutes", "half_hourly", "hourly")
-
   con = file(file, "r")
   on.exit(close(con), add = TRUE)
   skip = 1L
   metadata = character()
   freq = character()
-  horizon = integer() # nolint
+  horizon = integer()
 
   repeat {
     line = readLines(con, n = 1L, warn = FALSE)
@@ -36,23 +33,24 @@ read_tsf = function(file) {
     }
     if (startsWith(line, "@data")) {
       break
-    }
-    if (startsWith(line, "@attribute")) {
+    } else if (startsWith(line, "@attribute")) {
       metadata = c(metadata, line)
-    }
-    if (startsWith(line, "@frequency")) {
-      freq = strsplit1(line, " ")[[2L]]
-    }
-    if (startsWith(line, "@horizon")) {
-      horizon = as.integer(strsplit1(line, " ")[[2L]])
+    } else if (startsWith(line, "@frequency")) {
+      freq = strsplit1(line, " ")[2L]
+    } else if (startsWith(line, "@horizon")) {
+      horizon = as.integer(strsplit1(line, " ")[2L])
     }
     skip = skip + 1L
   }
 
   cat_cli({
     cli::cli_text("Reading tsf file:")
-    cli::cli_li("frequency: {freq}")
-    cli::cli_li("horizon: {horizon}")
+    if (length(freq) > 0L) {
+      cli::cli_li("frequency: {freq}")
+    }
+    if (length(horizon) > 0L) {
+      cli::cli_li("horizon: {horizon}")
+    }
   })
 
   metadata = setDT(tstrsplit(metadata, " ", fixed = TRUE, keep = c(2L, 3L)))
@@ -74,11 +72,11 @@ read_tsf = function(file) {
   has_freq = length(freq) > 0L
   has_date = !is.na(date_col)
   if (has_freq) {
-    if (!freq %in% c(high_frequencies, low_frequencies)) {
-      stopf("Invalid frequency.")
+    if (freq %nin% names(tsf_frequencies)) {
+      stopf("Invalid frequency %s, must be one of %s", freq, str_collapse(names(tsf_frequencies), quote = "'"))
     }
     if (has_date) {
-      if (freq %in% high_frequencies) {
+      if (freq %in% names(tsf_high_frequencies)) {
         set(dt, j = date_col, value = as.POSIXct(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S", tz = "UTC"))
       } else {
         set(dt, j = date_col, value = as.Date(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S"))
@@ -87,16 +85,17 @@ read_tsf = function(file) {
   }
 
   value = NULL
-  dt_long = dt[, list(value = strsplit1(value, ",")), by = col_names]
-  dt_long["?", "value" := NA_character_, on = "value"]
-  set(dt_long, j = "value", value = as.numeric(dt_long$value))
-  set(dt, j = "value", value = NULL)
-  dt = dt[dt_long, on = col_names]
+  dt = dt[, list(value = strsplit1(value, ",")), by = col_names]
+  dt["?", "value" := NA_character_, on = "value"]
+  set(dt, j = "value", value = as.numeric(dt$value))
   if (has_freq) {
     if (has_date) {
       dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = tsf_to_seq(freq)), by = col_names]
     }
     setattr(dt, "frequency", freq)
+  }
+  if (length(horizon) > 0L) {
+    setattr(dt, "horizon", horizon)
   }
   setattr(dt, "class", c("tsf", class(dt)))
   dt[]
@@ -111,8 +110,8 @@ read_tsf = function(file) {
 #'   The Zenodo record ID.
 #' @param dataset_name (`character(1)`)\cr
 #'   The name of the dataset to download.
-#' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency, the `"frequency"`
-#'   attribute is set.
+#' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency or horizon, the
+#'   `"frequency"` and `"horizon"` attributes are set, respectively.
 #'
 #' @references
 #' `r format_bib("godahewa2021monash")`
@@ -150,26 +149,33 @@ download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly
   tryCatch(utils::download.file(url, tf, quiet = TRUE, mode = "wb"), error = function(e) {
     stopf("Failed to download TSF file from Zenodo with id: %s and name: %s", record_id, dataset_name)
   })
-  file = utils::unzip(tf, exdir = td)
-  if (tools::file_ext(file) != "tsf") {
-    stopf("Downloaded file is not a TSF file: %s", file)
+  files = utils::unzip(tf, exdir = td)
+  file = files[endsWith(files, ".tsf")]
+  if (length(file) != 1L) {
+    stopf("Expected exactly one TSF file in the downloaded archive, but found %i", length(file))
   }
   read_tsf(file)
 }
 
+tsf_high_frequencies = c(
+  `4_seconds` = "4 secs",
+  minutely = "min",
+  `10_minutes` = "10 mins",
+  `15_minutes` = "15 mins",
+  half_hourly = "30 mins",
+  hourly = "hour"
+)
+
+tsf_low_frequencies = c(
+  daily = "day",
+  weekly = "week",
+  monthly = "month",
+  quarterly = "quarter",
+  yearly = "year"
+)
+
+tsf_frequencies = c(tsf_high_frequencies, tsf_low_frequencies)
+
 tsf_to_seq = function(x) {
-  switch(
-    x,
-    `4_seconds` = "4 secs",
-    minutely = "min",
-    `10_minutes` = "10 mins",
-    `15_minutes` = "15 mins",
-    half_hourly = "30 mins",
-    hourly = "hour",
-    daily = "day",
-    weekly = "week",
-    monthly = "month",
-    quarterly = "quarter",
-    yearly = "year"
-  )
+  tsf_frequencies[[x]]
 }

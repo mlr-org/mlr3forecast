@@ -3,7 +3,7 @@ test_that("fread_tsf works", {
   act = read_tsf(file)
   expect_data_table(act, min.rows = 1, min.cols = 1)
   class(act) = class(act)[-1L]
-  expect_equal(act, suppressWarnings(read_tsf_ref(file)), ignore_attr = "frequency")
+  expect_equal(act, suppressWarnings(read_tsf_ref(file)), ignore_attr = c("frequency", "horizon"))
 })
 
 test_that("read_tsf preserves high-frequency timestamps", {
@@ -39,6 +39,22 @@ test_that("read_tsf handles frequency without date attribute", {
   dt = read_tsf(file)
   expect_data_table(dt, nrows = 4, ncols = 2)
   expect_equal(attr(dt, "frequency"), "yearly")
+})
+
+test_that("read_tsf sets the horizon attribute", {
+  file = withr::local_tempfile(fileext = ".tsf")
+  writeLines(
+    c(
+      "@attribute series_name string",
+      "@frequency yearly",
+      "@horizon 6",
+      "@data",
+      "T1:10,20,30,40"
+    ),
+    file
+  )
+  dt = read_tsf(file)
+  expect_identical(attr(dt, "horizon"), 6L)
 })
 
 test_that("read_tsf works", {
