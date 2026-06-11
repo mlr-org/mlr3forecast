@@ -58,6 +58,11 @@ test_that("infer_freq preserves non-unit spacing", {
   expect_equal(step(3600), 3600)
 })
 
+test_that("quantiles_to_level dedupes floating-point levels", {
+  expect_equal(quantiles_to_level(c(0.05, 0.1, 0.9, 0.95)), c(80, 90))
+  expect_equal(quantiles_to_level(c(0.05, 0.5, 0.95)), 90)
+})
+
 test_that("as.ts works", {
   task = tsk("airpassengers")
   ts = as.ts(task)

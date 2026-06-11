@@ -129,7 +129,7 @@ forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
 
 quantiles_to_level = function(x) {
   x = x[x != 0.5]
-  sort(unique(abs(1 - 2 * x) * 100))
+  sort(unique(round(abs(1 - 2 * x) * 100, 6)))
 }
 
 strsplit1 = function(x, pattern) {

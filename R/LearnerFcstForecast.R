@@ -55,6 +55,12 @@ LearnerFcstForecast = R6Class(
         args[[private$.newdata_arg]] = newdata
       }
       if (is_quantile) {
+        q = round(private$.quantiles[private$.quantiles != 0.5], 6)
+        if (!setequal(q, round(1 - q, 6))) {
+          error_config(
+            "`fcst.*` learners only support quantiles symmetric around 0.5, e.g. `c(0.1, 0.9)` or `c(0.05, 0.1, 0.9, 0.95)`."
+          )
+        }
         args = insert_named(args, list(level = quantiles_to_level(private$.quantiles)))
       }
       args = insert_named(args, pv)
@@ -65,7 +71,7 @@ LearnerFcstForecast = R6Class(
         return(prediction)
       }
 
-      pred$lower = pred$lower[, frev(seq_col(pred$lower))]
+      pred$lower = pred$lower[, frev(seq_col(pred$lower)), drop = FALSE]
       quantiles = cbind(pred$lower, if (0.5 %in% private$.quantiles) pred$mean, pred$upper)
       setattr(quantiles, "probs", private$.quantiles)
       setattr(quantiles, "response", private$.quantile_response)
