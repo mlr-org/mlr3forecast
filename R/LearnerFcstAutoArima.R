@@ -54,10 +54,6 @@ LearnerFcstAutoArima = R6Class(
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         parallel = p_lgl(default = FALSE, tags = "train"),
         num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
-        # additional arguments to forecast::Arima
-        include.mean = p_lgl(default = TRUE, tags = "train"),
-        include.drift = p_lgl(default = FALSE, tags = "train"),
-        include.constant = p_lgl(default = FALSE, tags = "train"),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),

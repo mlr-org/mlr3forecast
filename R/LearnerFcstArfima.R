@@ -30,19 +30,14 @@ LearnerFcstArfima = R6Class(
         simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 5000L, tags = "predict"),
-        # additional arguments to forecast::auto.arima
-        d = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
-        D = p_int(0L, default = NA, special_vals = list(NA), tags = "train"),
+        # additional arguments to forecast::auto.arima; arfima() hardcodes
+        # max.P = 0, max.Q = 0, stationary = TRUE (forcing d = D = 0) and allowmean = FALSE,
+        # so differencing, seasonal, drift, and mean parameters are not available
         max.p = p_int(0L, default = 5L, tags = "train"),
         max.q = p_int(0L, default = 5L, tags = "train"),
         max.order = p_int(0L, default = 5L, tags = "train"),
-        max.d = p_int(0L, default = 2L, tags = "train"),
-        max.D = p_int(0L, default = 1L, tags = "train"),
         start.p = p_int(0L, default = 2L, tags = "train"),
         start.q = p_int(0L, default = 2L, tags = "train"),
-        start.P = p_int(0L, default = 1L, tags = "train"),
-        start.Q = p_int(0L, default = 1L, tags = "train"),
-        seasonal = p_lgl(default = TRUE, tags = "train"),
         ic = p_fct(c("aicc", "aic", "bic"), default = "aicc", tags = "train"),
         stepwise = p_lgl(default = TRUE, tags = "train"),
         nmodels = p_int(0L, default = 94L, tags = "train"),
@@ -50,18 +45,8 @@ LearnerFcstArfima = R6Class(
         approximation = p_uty(tags = "train"),
         method = p_uty(default = NULL, tags = "train"),
         truncate = p_uty(default = NULL, tags = "train"),
-        test = p_fct(c("kpss", "adf", "pp"), default = "kpss", tags = "train"),
-        test.args = p_uty(default = list(), tags = "train", custom_check = check_list),
-        seasonal.test = p_fct(c("seas", "ocsb", "hegy", "ch"), default = "seas", tags = "train"),
-        seasonal.test.args = p_uty(default = list(), tags = "train", custom_check = check_list),
-        allowdrift = p_lgl(default = TRUE, tags = "train"),
-        allowmean = p_lgl(default = TRUE, tags = "train"),
         parallel = p_lgl(default = FALSE, tags = "train"),
         num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
-        # additional arguments to forecast::Arima
-        include.mean = p_lgl(default = TRUE, tags = "train"),
-        include.drift = p_lgl(default = FALSE, tags = "train"),
-        include.constant = p_lgl(default = FALSE, tags = "train"),
         # additional arguments to stats::arima
         transform.pars = p_lgl(default = TRUE, tags = "train"),
         fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
@@ -82,7 +67,9 @@ LearnerFcstArfima = R6Class(
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = c("logical", "integer", "numeric"),
-        properties = c("featureless", "exogenous", "missings"),
+        # not "exogenous": arfima() accepts xreg at train, but forecast.fracdiff() has no
+        # xreg argument, so future regressors would be silently ignored at predict
+        properties = c("featureless", "missings"),
         packages = c("mlr3forecast", "forecast"),
         label = "ARFIMA",
         man = "mlr3forecast::mlr_learners_fcst.arfima"

@@ -61,9 +61,6 @@ lrn("fcst.auto_arima")
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    parallel \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    num.cores \tab integer \tab 2 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
-   include.mean \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
-   include.drift \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   include.constant \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    simulate \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr

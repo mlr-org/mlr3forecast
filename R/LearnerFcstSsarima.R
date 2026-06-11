@@ -29,7 +29,6 @@ LearnerFcstSsarima = R6Class(
         constant = p_lgl(default = FALSE, tags = "train"),
         arma = p_uty(default = NULL, tags = "train"),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete"), default = "backcasting", tags = "train"),
-        ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         loss = p_fct(
           c("likelihood", "MSE", "MAE", "HAM", "MSEh", "TMSE", "GTMSE", "MSCE", "GPL"),
           default = "likelihood",
