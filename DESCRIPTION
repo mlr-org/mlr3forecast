@@ -125,6 +125,7 @@ Collate:
     'assertions.R'
     'autoplot.R'
     'bibentries.R'
+    'forecast.R'
     'helper.R'
     'helper_data_table.R'
     'partition.R'
