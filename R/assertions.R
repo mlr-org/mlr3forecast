@@ -6,16 +6,17 @@ check_freq = function(x) {
     return("Must be a string, a positive number, or NULL")
   }
   valid_units = c("secs", "mins", "hours", "days", "DSTdays", "weeks", "months", "quarters", "years")
+  msg = "Must be a seq()-compatible string (e.g. '1 month', 'day')"
   parts = strsplit1(x, " ")
   n_parts = length(parts)
   if (n_parts < 1L || n_parts > 2L) {
-    return("Must be a seq()-compatible string (e.g. '1 month', 'day')")
+    return(msg)
   }
   if (is.na(pmatch(parts[n_parts], valid_units))) {
-    return("Must be a seq()-compatible string (e.g. '1 month', 'day')")
+    return(msg)
   }
   if (n_parts == 2L && !grepl("^[1-9][0-9]*$", parts[1L])) {
-    return("Must be a seq()-compatible string (e.g. '1 month', 'day')")
+    return(msg)
   }
   TRUE
 }

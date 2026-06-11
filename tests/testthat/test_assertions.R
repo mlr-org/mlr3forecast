@@ -44,4 +44,5 @@ test_that("assert_freq rejects invalid inputs", {
   expect_error(assert_freq("-1 days"))
   expect_error(assert_freq("1 2 months"))
   expect_error(assert_freq(TRUE))
+  expect_error(assert_freq("m"))
 })
