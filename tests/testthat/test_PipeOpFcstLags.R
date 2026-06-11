@@ -2,6 +2,11 @@ test_that("PipeOpFcstLags declares fcst_iterative property", {
   expect_subset("fcst_iterative", po("fcst.lags")$properties)
 })
 
+test_that("PipeOpFcstLags rejects non-positive lags", {
+  expect_snapshot(po("fcst.lags", lags = 0L), error = TRUE)
+  expect_snapshot(po("fcst.lags", lags = c(1L, -1L)), error = TRUE)
+})
+
 test_that("PipeOpFcstLags computes predict features from full backend", {
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)

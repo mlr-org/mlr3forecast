@@ -34,7 +34,10 @@ PipeOpFcstLags = R6Class(
     #'   otherwise be set during construction. Default `list()`.
     initialize = function(id = "fcst.lags", param_vals = list()) {
       param_set = ps(
-        lags = p_uty(tags = c("train", "predict"), custom_check = check_integerish)
+        lags = p_uty(
+          tags = c("train", "predict"),
+          custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
+        )
       )
       param_set$set_values(lags = 1L)
 
