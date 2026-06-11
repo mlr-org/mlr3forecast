@@ -85,6 +85,17 @@ DirectForecaster = R6::R6Class(
         )
       }
 
+      targetdiff_ids = keep(
+        names(private$.learner$graph$pipeops),
+        function(id) inherits(private$.learner$graph$pipeops[[id]], "PipeOpTargetTrafoDifference")
+      )
+      if (length(targetdiff_ids) > 0L) {
+        error_input(
+          "PipeOpTargetTrafoDifference inside a DirectForecaster graph is not supported (found: %s): each horizon is inverted independently against the training tail, which is wrong for horizons >= 2. Wrap the forecaster with ppl(\"targettrafo\") instead.",
+          toString(targetdiff_ids)
+        )
+      }
+
       super$initialize(
         id = id %??% private$.learner$id,
         task_type = "fcst",

@@ -96,7 +96,7 @@ RecursiveForecaster = R6::R6Class(
       )
       if (length(target_trafo_ids) > 0L) {
         error_input(
-          "Target transformations inside a RecursiveForecaster graph are not supported (found: %s). Apply the transformation outside the graph, or use DirectForecaster.",
+          "Target transformations inside a RecursiveForecaster graph are not supported (found: %s). Wrap the forecaster with ppl(\"targettrafo\") instead.",
           toString(target_trafo_ids)
         )
       }

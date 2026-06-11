@@ -18,6 +18,19 @@
       x `horizons` must be NULL when strategy = "recursive".
       > Class: Mlr3ErrorInput
 
+# DirectForecaster errors on fcst.targetdiff inside the graph
+
+    Code
+      DirectForecaster$new(graph, lags = 1:3, horizons = 3)
+    Condition
+      Error:
+      ! 
+      x PipeOpTargetTrafoDifference inside a DirectForecaster graph is not supported
+        (found: fcst.targetdiff): each horizon is inverted independently against the
+        training tail, which is wrong for horizons >= 2. Wrap the forecaster with
+        ppl("targettrafo") instead.
+      > Class: Mlr3ErrorInput
+
 # DirectForecaster errors on iterative feature PipeOps inside the graph
 
     Code

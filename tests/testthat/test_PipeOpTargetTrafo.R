@@ -47,15 +47,14 @@ test_that("targetdiff + fcst.lags + learner trains and predicts inside a graph",
   expect_no_error(glrn$predict(task$clone()$filter(split$test)))
 })
 
-test_that("targetdiff works inside DirectForecaster", {
+test_that("targetdiff works wrapping DirectForecaster", {
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)
-  graph = ppl(
+  flrn = as_learner(ppl(
     "targettrafo",
-    graph = lrn("regr.rpart"),
+    graph = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test)),
     trafo_pipeop = po("fcst.targetdiff", lag = 1L)
-  )
-  flrn = DirectForecaster$new(graph, lags = 1:3, horizons = length(split$test))
+  ))
   flrn$train(task, split$train)
   prediction = flrn$predict(task, split$test)
   expect_class(prediction, "PredictionRegr")

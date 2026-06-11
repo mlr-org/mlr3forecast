@@ -6,7 +6,7 @@
       Error:
       ! 
       x Target transformations inside a RecursiveForecaster graph are not supported
-        (found: fcst.targetdiff). Apply the transformation outside the graph, or use
-        DirectForecaster.
+        (found: fcst.targetdiff). Wrap the forecaster with ppl("targettrafo")
+        instead.
       > Class: Mlr3ErrorInput
 

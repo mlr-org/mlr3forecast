@@ -177,6 +177,23 @@ test_that("DirectForecaster predict_type propagates to trained models", {
   expect_false(allMissing(pred$se))
 })
 
+test_that("DirectForecaster errors on fcst.targetdiff inside the graph", {
+  graph = ppl("targettrafo", graph = lrn("regr.rpart"), trafo_pipeop = po("fcst.targetdiff", lag = 1L))
+  expect_snapshot(DirectForecaster$new(graph, lags = 1:3, horizons = 3), error = TRUE)
+})
+
+test_that("DirectForecaster wrapped in a target trafo inverts cumulatively", {
+  dt = data.table(y = as.numeric(1:60), date = seq(as.Date("2020-01-01"), by = "day", length.out = 60L))
+  task = TaskFcst$new("trend", as_data_backend(dt), target = "y", order = "date", freq = "day")
+  flrn = as_learner(ppl(
+    "targettrafo",
+    graph = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 5L),
+    trafo_pipeop = po("fcst.targetdiff", lag = 1L)
+  ))
+  flrn$train(task, 1:55)
+  expect_equal(flrn$predict(task, 56:60)$response, as.numeric(56:60))
+})
+
 test_that("DirectForecaster errors on iterative feature PipeOps inside the graph", {
   graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
   expect_snapshot(DirectForecaster$new(graph, lags = 1:3, horizons = 3), error = TRUE)
