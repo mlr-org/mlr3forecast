@@ -55,13 +55,10 @@ LearnerFcstForecast = R6Class(
         args[[private$.newdata_arg]] = newdata
       }
       if (is_quantile) {
-        q = round(private$.quantiles[private$.quantiles != 0.5], 6)
-        if (!setequal(q, round(1 - q, 6))) {
-          error_config(
-            "`fcst.*` learners only support quantiles symmetric around 0.5, e.g. `c(0.1, 0.9)` or `c(0.05, 0.1, 0.9, 0.95)`."
-          )
+        level = quantiles_to_level(private$.quantiles)
+        if (length(level) > 0L) {
+          args = insert_named(args, list(level = level))
         }
-        args = insert_named(args, list(level = quantiles_to_level(private$.quantiles)))
       }
       args = insert_named(args, pv)
       pred = private$.postprocess(invoke(generics::forecast, self$model, .args = args))
@@ -71,9 +68,16 @@ LearnerFcstForecast = R6Class(
         return(prediction)
       }
 
-      pred$lower = pred$lower[, frev(seq_col(pred$lower)), drop = FALSE]
-      quantiles = cbind(pred$lower, if (0.5 %in% private$.quantiles) pred$mean, pred$upper)
-      setattr(quantiles, "probs", private$.quantiles)
+      # quantile p is one side of the symmetric interval with level 100 * |1 - 2p|
+      probs = private$.quantiles
+      quantiles = map_bc(probs, function(p) {
+        if (p == 0.5) {
+          return(as.numeric(pred$mean))
+        }
+        bounds = if (p < 0.5) pred$lower else pred$upper
+        as.numeric(bounds[, match(quantiles_to_level(p), level)])
+      })
+      setattr(quantiles, "probs", probs)
       setattr(quantiles, "response", private$.quantile_response)
       insert_named(prediction, list(quantiles = quantiles))
     }
