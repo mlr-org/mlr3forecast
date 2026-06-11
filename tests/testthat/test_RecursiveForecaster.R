@@ -55,6 +55,22 @@ test_that("RecursiveForecaster warns without iterative PipeOps", {
   expect_warning(RecursiveForecaster$new(graph), "recursive")
 })
 
+test_that("RecursiveForecaster does not truncate predictions fed back into integer targets", {
+  y = withr::with_seed(1, as.integer(round(100 + 10 * sin(seq_len(60) / 3) + rnorm(60, sd = 2))))
+  dates = seq(as.Date("2020-01-01"), by = "day", length.out = 60L)
+  make_task = function(y) {
+    TaskFcst$new("t", as_data_backend(data.table(y = y, date = dates)), target = "y", order = "date", freq = "day")
+  }
+  task_int = make_task(y)
+  task_dbl = make_task(as.numeric(y))
+
+  flrn_int = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)$train(task_int, 1:50)
+  flrn_dbl = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)$train(task_dbl, 1:50)
+  expect_no_warning(p_int <- flrn_int$predict(task_int, 51:60))
+  p_dbl = flrn_dbl$predict(task_dbl, 51:60)
+  expect_equal(p_int$response, p_dbl$response)
+})
+
 test_that("RecursiveForecaster handles predict rows overlapping training rows", {
   task = tsk("airpassengers")
   flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)$train(task)
