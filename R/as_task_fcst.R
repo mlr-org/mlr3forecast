@@ -112,9 +112,8 @@ as_task_fcst.data.frame = function(
     error_input("Target column '%s' must not contain missing values", target)
   }
 
-  has_dups = NULL
   if (has_key) {
-    dup = as.data.table(x)[, list(has_dups = anyDuplicated(get(order)) > 0L), by = key][, any(has_dups)]
+    dup = anyDuplicated(as.data.table(x), by = c(key, order)) > 0L
   } else {
     dup = anyDuplicated(x[[order]]) > 0L
   }
@@ -155,7 +154,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
 #' @rdname as_task_fcst
 #' @export
 as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
-  require_namespaces("tsbox")
+  force(id)
   if (is.null(freq)) {
     freq = stats::frequency(x)
     freq = switch(
@@ -168,47 +167,35 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
       freq
     )
   }
-  is_mts = inherits(x, "mts")
-  x = tsbox::ts_dt(x)
-  if (is_mts) {
-    set(x, j = "id", value = as.factor(x$id))
-  }
-  as_task_fcst(
-    x = x,
-    target = "value",
-    order = "time",
-    key = if (is_mts) "id" else character(),
-    freq = freq,
-    id = id,
-    label = label,
-    ...
-  )
+  task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
 }
 
 #' @rdname as_task_fcst
 #' @export
 as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
-  require_namespaces("tsbox")
-  x = tsbox::ts_dt(x)
-  is_multi = "id" %in% names(x)
-  if (is_multi) {
-    set(x, j = "id", value = as.factor(x$id))
-  }
-  as_task_fcst(
-    x = x,
-    target = "value",
-    order = "time",
-    key = if (is_multi) "id" else character(),
-    freq = freq,
-    id = id,
-    label = label,
-    ...
-  )
+  force(id)
+  task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
 }
 
 #' @rdname as_task_fcst
 #' @export
 as_task_fcst.timeSeries = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+  force(id)
+  task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
+}
+
+#' @rdname as_task_fcst
+#' @export
+as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+  force(id)
+  require_namespaces(c("tsbox", "tsibble"))
+  order = tsibble::index_var(x)
+  key = tsibble::key_vars(x)
+  x = tsbox::ts_dt(x)
+  as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
+}
+
+task_fcst_from_tsbox = function(x, freq, id, label, ...) {
   require_namespaces("tsbox")
   x = tsbox::ts_dt(x)
   is_multi = "id" %in% names(x)
@@ -220,25 +207,6 @@ as_task_fcst.timeSeries = function(x, freq = NULL, id = deparse1(substitute(x)),
     target = "value",
     order = "time",
     key = if (is_multi) "id" else character(),
-    freq = freq,
-    id = id,
-    label = label,
-    ...
-  )
-}
-
-#' @rdname as_task_fcst
-#' @export
-as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
-  require_namespaces(c("tsbox", "tsibble"))
-  order = tsibble::index_var(x)
-  key = tsibble::key_vars(x)
-  x = tsbox::ts_dt(x)
-  as_task_fcst(
-    x = x,
-    target = target,
-    order = order,
-    key = key,
     freq = freq,
     id = id,
     label = label,
