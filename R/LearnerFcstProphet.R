@@ -82,12 +82,15 @@ LearnerFcstProphet = R6Class(
       m
     },
 
+    .fitted = function() {
+      stats::predict(self$model)$yhat
+    },
+
     .predict = function(task) {
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
 
       if (!private$.is_newdata(task)) {
-        insample = stats::predict(self$model)
-        response = insample$yhat[task$row_ids]
+        response = private$.fitted()[task$row_ids]
         return(insert_named(prediction, list(response = response)))
       }
 

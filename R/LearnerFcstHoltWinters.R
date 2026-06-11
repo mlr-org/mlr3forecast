@@ -61,7 +61,13 @@ LearnerFcstHoltWinters = R6Class(
   private = list(
     .pkg = "stats",
     .fn = "HoltWinters",
-    .y_arg = "x"
+    .y_arg = "x",
+
+    .fitted = function() {
+      model = self$model
+      pad = length(model$x) - nrow(model$fitted)
+      c(rep(NA_real_, pad), as.numeric(model$fitted[, "xhat"]))
+    }
   )
 )
 

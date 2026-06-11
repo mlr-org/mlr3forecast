@@ -8,3 +8,10 @@ test_that("autotest", {
     expect_true(result, info = result$error)
   }
 })
+
+test_that("in-sample prediction errors informatively", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.struct_ts")
+  learner$train(task)
+  expect_snapshot(learner$predict(task, 100:144), error = TRUE)
+})

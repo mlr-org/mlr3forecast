@@ -81,6 +81,10 @@ LearnerFcst = R6Class(
         return(TRUE)
       }
       !any(private$.max_index %in% dt[[1L]])
+    },
+
+    .fitted = function() {
+      as.numeric(stats::fitted(self$model))
     }
   )
 )

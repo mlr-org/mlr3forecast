@@ -53,6 +53,10 @@ LearnerFcstRlgt = R6Class(
     .pkg = "Rlgt",
     .fn = "rlgt",
 
+    .fitted = function() {
+      error_config("In-sample prediction is not supported for %s.", self$id)
+    },
+
     .postprocess = function(pred) {
       pred$lower = t(pred$lower)
       pred$upper = t(pred$upper)

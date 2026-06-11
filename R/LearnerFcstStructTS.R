@@ -51,7 +51,11 @@ LearnerFcstStructTS = R6Class(
   private = list(
     .pkg = "stats",
     .fn = "StructTS",
-    .y_arg = "x"
+    .y_arg = "x",
+
+    .fitted = function() {
+      error_config("In-sample prediction is not supported for %s.", self$id)
+    }
   )
 )
 

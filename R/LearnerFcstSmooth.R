@@ -17,7 +17,7 @@ LearnerFcstSmooth = R6Class(
     .predict = function(task) {
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
       if (!private$.is_newdata(task)) {
-        response = stats::fitted(self$model)[task$row_ids]
+        response = private$.fitted()[task$row_ids]
         return(insert_named(prediction, list(response = response)))
       }
       args = list(h = task$nrow)

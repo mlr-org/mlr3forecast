@@ -41,7 +41,7 @@ LearnerFcstForecast = R6Class(
         if (is_quantile) {
           error_config("Quantile prediction not supported for in-sample prediction.")
         }
-        response = stats::fitted(self$model)[task$row_ids]
+        response = private$.fitted()[task$row_ids]
         prediction = insert_named(prediction, list(response = response))
         return(prediction)
       }

@@ -55,7 +55,13 @@ LearnerFcstElm = R6Class(
 
   private = list(
     .pkg = "nnfor",
-    .fn = "elm"
+    .fn = "elm",
+
+    .fitted = function() {
+      model = self$model
+      fitted = as.numeric(stats::fitted(model))
+      c(rep(NA_real_, length(model$y) - length(fitted)), fitted)
+    }
   )
 )
 
