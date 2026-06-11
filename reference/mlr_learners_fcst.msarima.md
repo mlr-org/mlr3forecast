@@ -221,7 +221,7 @@ learner$train(task, row_ids = ids$train)
 
 # Print the model
 print(learner$model)
-#> Time elapsed: 0.01 seconds
+#> Time elapsed: 0.02 seconds
 #> Model estimated using fn() function: ARIMA(0,1,1)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
