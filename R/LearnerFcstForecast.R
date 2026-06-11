@@ -72,10 +72,11 @@ LearnerFcstForecast = R6Class(
       probs = private$.quantiles
       quantiles = map_bc(probs, function(p) {
         if (p == 0.5) {
-          return(as.numeric(pred$mean))
+          as.numeric(pred$mean)
+        } else {
+          bounds = if (p < 0.5) pred$lower else pred$upper
+          as.numeric(bounds[, match(quantiles_to_level(p), level)])
         }
-        bounds = if (p < 0.5) pred$lower else pred$upper
-        as.numeric(bounds[, match(quantiles_to_level(p), level)])
       })
       setattr(quantiles, "probs", probs)
       setattr(quantiles, "response", private$.quantile_response)
