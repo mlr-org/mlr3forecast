@@ -72,13 +72,17 @@ read_tsf = function(file) {
 
   date_col = metadata["date", "name", on = "type"][[1L]]
   has_freq = length(freq) > 0L
+  has_date = !is.na(date_col)
   if (has_freq) {
-    if (freq %in% high_frequencies) {
-      set(dt, j = date_col, value = as.POSIXct(dt[[date_col]], tz = "UTC"))
-    } else if (freq %in% low_frequencies) {
-      set(dt, j = date_col, value = as.Date(dt[[date_col]]))
-    } else {
+    if (!freq %in% c(high_frequencies, low_frequencies)) {
       stopf("Invalid frequency.")
+    }
+    if (has_date) {
+      if (freq %in% high_frequencies) {
+        set(dt, j = date_col, value = as.POSIXct(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S", tz = "UTC"))
+      } else {
+        set(dt, j = date_col, value = as.Date(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S"))
+      }
     }
   }
 
@@ -89,7 +93,9 @@ read_tsf = function(file) {
   set(dt, j = "value", value = NULL)
   dt = dt[dt_long, on = col_names]
   if (has_freq) {
-    dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = tsf_to_seq(freq)), by = col_names]
+    if (has_date) {
+      dt[, (date_col) := seq(first(get(date_col)), length.out = .N, by = tsf_to_seq(freq)), by = col_names]
+    }
     setattr(dt, "frequency", freq)
   }
   setattr(dt, "class", c("tsf", class(dt)))

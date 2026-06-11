@@ -6,6 +6,41 @@ test_that("fread_tsf works", {
   expect_equal(act, suppressWarnings(read_tsf_ref(file)), ignore_attr = "frequency")
 })
 
+test_that("read_tsf preserves high-frequency timestamps", {
+  file = withr::local_tempfile(fileext = ".tsf")
+  writeLines(
+    c(
+      "@attribute series_name string",
+      "@attribute start_timestamp date",
+      "@frequency hourly",
+      "@data",
+      "T1:2012-01-01 09-30-00:10,20,30,40"
+    ),
+    file
+  )
+  dt = read_tsf(file)
+  expect_equal(
+    dt$start_timestamp,
+    as.POSIXct("2012-01-01 09:30:00", tz = "UTC") + 3600 * (0:3)
+  )
+})
+
+test_that("read_tsf handles frequency without date attribute", {
+  file = withr::local_tempfile(fileext = ".tsf")
+  writeLines(
+    c(
+      "@attribute series_name string",
+      "@frequency yearly",
+      "@data",
+      "T1:10,20,30,40"
+    ),
+    file
+  )
+  dt = read_tsf(file)
+  expect_data_table(dt, nrows = 4, ncols = 2)
+  expect_equal(attr(dt, "frequency"), "yearly")
+})
+
 test_that("read_tsf works", {
   skip_on_cran()
   skip_on_ci()
