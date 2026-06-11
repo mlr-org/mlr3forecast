@@ -24,11 +24,17 @@ LearnerFcstProphet = R6Class(
     initialize = function() {
       param_set = ps(
         growth = p_fct(c("linear", "logistic", "flat"), default = "linear", tags = "train"),
+        changepoints = p_uty(default = NULL, tags = "train"),
         n.changepoints = p_int(0L, default = 25L, tags = "train"),
         changepoint.range = p_dbl(0, 1, default = 0.8, tags = "train"),
         yearly.seasonality = p_uty(default = "auto", tags = "train"),
         weekly.seasonality = p_uty(default = "auto", tags = "train"),
         daily.seasonality = p_uty(default = "auto", tags = "train"),
+        holidays = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_data_frame(x, null.ok = TRUE))
+        ),
         seasonality.mode = p_fct(c("additive", "multiplicative"), default = "additive", tags = "train"),
         seasonality.prior.scale = p_dbl(0, default = 10, tags = "train"),
         holidays.prior.scale = p_dbl(0, default = 10, tags = "train"),

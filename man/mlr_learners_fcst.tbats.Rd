@@ -41,6 +41,9 @@ lrn("fcst.tbats")
    bc.lower \tab numeric \tab 0 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    bc.upper \tab numeric \tab 1 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   simulate \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   npaths \tab integer \tab 5000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
 }
 }
 

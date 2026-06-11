@@ -43,6 +43,7 @@ lrn("fcst.elm")
    direct \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    allow.det.season \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    det.type \tab character \tab auto \tab auto, bin, trg \tab - \cr
+   barebone \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    retrain \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }

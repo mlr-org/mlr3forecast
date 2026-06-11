@@ -30,6 +30,11 @@ LearnerFcstStlm = R6Class(
         t.window = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
         robust = p_lgl(default = FALSE, tags = "train"),
         method = p_fct(c("ets", "arima"), default = "ets", tags = "train"),
+        modelfunction = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_function(x, null.ok = TRUE))
+        ),
         etsmodel = p_uty(default = "ZZN", tags = "train", custom_check = check_string),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),

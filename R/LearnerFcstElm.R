@@ -36,6 +36,7 @@ LearnerFcstElm = R6Class(
         direct = p_lgl(default = FALSE, tags = "train"),
         allow.det.season = p_lgl(default = TRUE, tags = "train"),
         det.type = p_fct(c("auto", "bin", "trg"), default = "auto", tags = "train"),
+        barebone = p_lgl(default = FALSE, tags = "train"),
         retrain = p_lgl(default = FALSE, tags = "train")
       )
 

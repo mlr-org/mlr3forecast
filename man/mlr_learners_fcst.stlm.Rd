@@ -37,6 +37,7 @@ lrn("fcst.stlm")
    t.window \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    robust \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    method \tab character \tab ets \tab ets, arima \tab - \cr
+   modelfunction \tab untyped \tab NULL \tab  \tab - \cr
    etsmodel \tab untyped \tab "ZZN" \tab  \tab - \cr
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr

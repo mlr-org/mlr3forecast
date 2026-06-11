@@ -23,7 +23,10 @@ LearnerFcstRandomWalk = R6Class(
         lag = p_int(1L, default = 1L, tags = "train"),
         drift = p_lgl(default = FALSE, tags = "train"),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
-        biasadj = p_lgl(default = FALSE, tags = c("train", "predict"))
+        biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
+        simulate = p_lgl(default = FALSE, tags = "predict"),
+        bootstrap = p_lgl(default = FALSE, tags = "predict"),
+        npaths = p_int(1L, default = 5000L, tags = "predict")
       )
 
       super$initialize(

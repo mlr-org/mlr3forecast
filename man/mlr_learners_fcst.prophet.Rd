@@ -31,11 +31,13 @@ lrn("fcst.prophet")
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    growth \tab character \tab linear \tab linear, logistic, flat \tab - \cr
+   changepoints \tab untyped \tab NULL \tab  \tab - \cr
    n.changepoints \tab integer \tab 25 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    changepoint.range \tab numeric \tab 0.8 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    yearly.seasonality \tab untyped \tab "auto" \tab  \tab - \cr
    weekly.seasonality \tab untyped \tab "auto" \tab  \tab - \cr
    daily.seasonality \tab untyped \tab "auto" \tab  \tab - \cr
+   holidays \tab untyped \tab NULL \tab  \tab - \cr
    seasonality.mode \tab character \tab additive \tab additive, multiplicative \tab - \cr
    seasonality.prior.scale \tab numeric \tab 10 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    holidays.prior.scale \tab numeric \tab 10 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
