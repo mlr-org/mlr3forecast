@@ -19,8 +19,8 @@ read_tsf(file)
 ## Value
 
 ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
-with class `"tsf"`. If the file contains a frequency, the `"frequency"`
-attribute is set.
+with class `"tsf"`. If the file contains a frequency or horizon, the
+`"frequency"` and `"horizon"` attributes are set, respectively.
 
 ## References
 

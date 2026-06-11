@@ -20,16 +20,22 @@ as well as the following:
 
 ## Limitations
 
-Target transformations placed *inside* a
+This PipeOp must not be placed *inside* a
 [RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
-graph are not currently supported, because the trafo only transforms the
-active row at predict time while iterative features (lags, rolling
-windows) need transformed values for all historical rows. Use inside a
-plain
-[mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
-via `ppl("targettrafo", ...)` for batch prediction, or inside
+or
 [DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md)
-where each horizon is predicted in a single batch.
+graph and is rejected at construction. Inside
+[RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md),
+the trafo only transforms the active row at predict time while iterative
+features (lags, rolling windows) need transformed values for all
+historical rows. Inside
+[DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md),
+each horizon is inverted independently against the training tail, which
+is wrong for horizons \>= 2. Use inside a plain
+[mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
+via `ppl("targettrafo", ...)` for batch prediction, or wrap the
+forecaster itself with `ppl("targettrafo", ...)` so all horizons are
+inverted together.
 
 ## Super classes
 
@@ -99,21 +105,20 @@ The objects of this class are cloneable with this method.
 library(mlr3pipelines)
 task = tsk("airpassengers")
 split = partition(task, ratio = 0.8)
-graph = ppl("targettrafo",
-  graph = lrn("regr.rpart"),
+flrn = as_learner(ppl("targettrafo",
+  graph = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test)),
   trafo_pipeop = po("fcst.targetdiff", lag = 1L)
-)
-flrn = DirectForecaster$new(graph, lags = 1:3, horizons = length(split$test))
+))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 #> 
 #> ── <PredictionRegr> for 29 observations: ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-#>  row_ids truth response      month
-#>      116   505  453.125 1958-08-01
-#>      117   404  453.125 1958-09-01
-#>      118   359  453.125 1958-10-01
-#>      ---   ---      ---        ---
-#>      142   461  511.200 1960-10-01
-#>      143   390  513.500 1960-11-01
-#>      144   432  513.500 1960-12-01
+#>  row_ids truth response
+#>      116   505 461.5000
+#>      117   404 429.9286
+#>      118   359 398.3571
+#>      ---   ---      ---
+#>      142   461 490.1575
+#>      143   390 496.0987
+#>      144   432 508.4737
 ```
