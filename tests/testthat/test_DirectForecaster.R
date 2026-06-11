@@ -78,6 +78,41 @@ test_that("DirectForecaster routes specific (non-contiguous) horizons by step-di
   )
 })
 
+test_that("DirectForecaster forecast() matches in-backend predict", {
+  task = tsk("airpassengers")
+  flrn = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 12L)
+  flrn$train(task, 1:132)
+
+  p_backend = flrn$predict(task, 133:144)
+  p_newdata = forecast(flrn, task$clone()$filter(1:132), h = 12L)
+  expect_equal(p_newdata$response, p_backend$response)
+})
+
+test_that("DirectForecaster predict_newdata() matches in-backend predict for sparse horizons", {
+  task = tsk("airpassengers")
+  train_ids = seq_len(task$nrow - 6L)
+  flrn = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = c(2L, 4L, 6L))
+  flrn$train(task, train_ids)
+
+  p_backend = flrn$predict(task, max(train_ids) + c(2L, 4L, 6L))
+  train_task = task$clone()$filter(train_ids)
+  newdata = generate_newdata(train_task, 6L)[c(2L, 4L, 6L)]
+  p_newdata = flrn$predict_newdata(newdata, train_task)
+  expect_equal(p_newdata$response, p_backend$response)
+})
+
+test_that("DirectForecaster forecast() matches in-backend predict on keyed task", {
+  task = make_date_major_panel_task(10L)
+  flrn = DirectForecaster$new(lrn("regr.rpart", minsplit = 2L, cp = 0), lags = 1:2, horizons = 2L)
+  flrn$train(task, 1:16)
+
+  p_backend = as.data.table(flrn$predict(task, 17:20))
+  p_newdata = as.data.table(forecast(flrn, task$clone()$filter(1:16), h = 2L))
+  setorderv(p_backend, c("id", "date"))
+  setorderv(p_newdata, c("id", "date"))
+  expect_equal(p_newdata$response, p_backend$response)
+})
+
 test_that("as_learner_fcst dispatches on strategy", {
   learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 3)
   expect_class(learner, "DirectForecaster")

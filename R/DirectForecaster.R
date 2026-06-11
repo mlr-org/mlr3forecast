@@ -206,8 +206,28 @@ DirectForecaster = R6::R6Class(
         max(dt[[order_cols]])
       }
 
+      # Store the last max(lags) training rows per key: model h uses offset lags h:(h+p-1),
+      # so a row at step h only ever looks back into these rows. Predict rebuilds its backend
+      # from this tail, making predict_newdata()/forecast() work without the training backend.
+      cols = unique(c(task$target_names, task$feature_names, key_cols, order_cols))
+      tail_dt = task$data(cols = cols)
+      setorderv(tail_dt, c(key_cols, order_cols))
+      max_lag = max(lags)
+      train_tail = if (length(key_cols) > 0L) {
+        tail_dt[, tail(.SD, max_lag), by = key_cols]
+      } else {
+        tail(tail_dt, max_lag)
+      }
+
       structure(
-        list(models = models, origin = origin, freq = freq),
+        list(
+          models = models,
+          origin = origin,
+          freq = freq,
+          train_tail = train_tail,
+          target = task$target_names,
+          feature_names = task$feature_names
+        ),
         class = c("direct_forecaster_model", "list")
       )
     },
@@ -250,13 +270,46 @@ DirectForecaster = R6::R6Class(
         )
       }
 
-      combined = private$.predict_horizons(task, models, ord$..row_id, idx)
+      target = self$model$target
+      feature_names = self$model$feature_names
+      test_cols = unique(c(target, intersect(feature_names, task$feature_names), key_cols, order_cols))
+      test_data = task$data(cols = test_cols)
 
-      combined$data = insert_named(
-        combined$data,
-        list(extra = as.list(task$data(rows = combined$data$row_ids, cols = c(key_cols, order_cols))))
+      # Rebuild the predict backend as training tail + full future-grid skeleton with the test
+      # rows overlaid, so lag features come from training values even when the task's backend
+      # lacks history (predict_newdata()/forecast()) and positional shifts equal true step
+      # distance even for sparse test rows.
+      if (length(key_cols) > 0L) {
+        skeleton = ord[,
+          set_names(list(seq(get(".origin")[1L], by = freq, length.out = max(get(".step")) + 1L)[-1L]), order_cols),
+          by = key_cols
+        ]
+      } else {
+        skeleton = set_names(data.table(grid[seq_len(max(steps))]), order_cols)
+      }
+      future = test_data[skeleton, on = c(key_cols, order_cols)]
+      combined = rbindlist(list(self$model$train_tail, future), use.names = TRUE, fill = TRUE)
+      set(combined, j = "..rid", value = seq_len(nrow(combined)))
+
+      backend = DataBackendDataTable$new(combined, "..rid")
+      step_task = as_task_fcst(backend, target = target, order = order_cols, key = key_cols, freq = freq)
+      step_task$col_roles$feature = intersect(feature_names, names(combined))
+
+      lookup = combined[, c(key_cols, order_cols, "..rid"), with = FALSE]
+      cids = lookup[task$data(cols = c(key_cols, order_cols)), on = c(key_cols, order_cols)][["..rid"]]
+
+      out = private$.predict_horizons(step_task, models, cids, idx)
+
+      out_data = task$data(cols = c(target, key_cols, order_cols))
+      out$data = insert_named(
+        out$data,
+        list(
+          row_ids = task$row_ids,
+          truth = out_data[[target]],
+          extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE])
+        )
       )
-      combined
+      out
     },
 
     .predict_horizons = function(task, models, row_ids, horizon_idx) {
