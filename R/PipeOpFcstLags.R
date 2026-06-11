@@ -74,7 +74,11 @@ PipeOpFcstLags = R6Class(
         setorderv(dt, order_cols)
         dt[, (lag_cols) := shift(get(target), lags)]
       }
-      task$select(task$feature_names)$cbind(dt[, lag_cols, with = FALSE])
+
+      active = task$data(cols = c(key_cols, order_cols))
+      set(dt, j = target, value = NULL)
+      active_lags = dt[active, on = c(key_cols, order_cols)][, lag_cols, with = FALSE]
+      task$select(task$feature_names)$cbind(active_lags)
     },
 
     .predict_task = function(task) {

@@ -25,6 +25,15 @@ test_that("PipeOpFcstRolling works with keyed task", {
   expect_equal(out$nrow, task$nrow)
 })
 
+test_that("PipeOpFcstRolling aligns train features on date-major keyed task", {
+  task = make_date_major_panel_task()
+  out = po("fcst.rolling", funs = "mean", window_sizes = 2L, lag = 1L)$train(list(task))[[1L]]
+  res = out$data(cols = c("id", "date", "y", "y_roll_mean_2"))
+  setorderv(res, c("id", "date"))
+  res[, expected := frollmean(shift(y), 2L), by = id]
+  expect_equal(res$y_roll_mean_2, res$expected)
+})
+
 test_that("PipeOpFcstRolling supports expanding windows via Inf", {
   task = tsk("airpassengers")
   out = po("fcst.rolling", funs = "mean", window_sizes = Inf, lag = 1L)$train(list(task))[[1L]]

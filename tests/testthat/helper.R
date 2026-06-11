@@ -52,6 +52,14 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
 
 registerS3method("generate_tasks", "LearnerFcst", generate_tasks.LearnerFcst)
 
+# keyed panel task whose backend is stored date-major, i.e. not in (key, order) sort
+make_date_major_panel_task = function(n = 10L) {
+  dates = seq(as.Date("2020-01-01"), by = "day", length.out = n)
+  data = CJ(date = dates, id = factor(c("a", "b")))
+  data[, y := fifelse(id == "a", 0L, 100L) + rowid(id)]
+  TaskFcst$new("panel", as_data_backend(data), target = "y", order = "date", key = "id", freq = "day")
+}
+
 make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
   q = cbind(lower, upper)
   colnames(q) = sprintf("q%s", probs)

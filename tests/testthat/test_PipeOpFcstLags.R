@@ -7,6 +7,15 @@ test_that("PipeOpFcstLags rejects non-positive lags", {
   expect_snapshot(po("fcst.lags", lags = c(1L, -1L)), error = TRUE)
 })
 
+test_that("PipeOpFcstLags aligns train features on date-major keyed task", {
+  task = make_date_major_panel_task()
+  out = po("fcst.lags", lags = 1L)$train(list(task))[[1L]]
+  res = out$data(cols = c("id", "date", "y", "y_lag_1"))
+  setorderv(res, c("id", "date"))
+  res[, expected := shift(y), by = id]
+  expect_equal(res$y_lag_1, res$expected)
+})
+
 test_that("PipeOpFcstLags computes predict features from full backend", {
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)

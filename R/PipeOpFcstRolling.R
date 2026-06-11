@@ -95,7 +95,11 @@ PipeOpFcstRolling = R6Class(
         setorderv(dt, order_cols)
         set(dt, j = roll_spec$cols, value = fcst_rolls(dt[[target]], roll_spec))
       }
-      task$select(task$feature_names)$cbind(dt[, roll_spec$cols, with = FALSE])
+
+      active = task$data(cols = c(key_cols, order_cols))
+      set(dt, j = target, value = NULL)
+      active_rolls = dt[active, on = c(key_cols, order_cols)][, roll_spec$cols, with = FALSE]
+      task$select(task$feature_names)$cbind(active_rolls)
     },
 
     .predict_task = function(task) {
