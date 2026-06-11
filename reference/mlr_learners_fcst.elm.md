@@ -50,6 +50,7 @@ or with the associated sugar function
 | direct           | logical   | FALSE   | TRUE, FALSE            | \-               |
 | allow.det.season | logical   | TRUE    | TRUE, FALSE            | \-               |
 | det.type         | character | auto    | auto, bin, trg         | \-               |
+| barebone         | logical   | FALSE   | TRUE, FALSE            | \-               |
 | retrain          | logical   | FALSE   | TRUE, FALSE            | \-               |
 
 ## References

@@ -83,7 +83,7 @@ Calls <code><a href="https://pkg.robjhyndman.com/forecast/reference/stlm.html" c
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>s.window</td><td>untyped</td><td>7L + 4L * seq_len(6L)</td><td></td><td>-</td></tr><tr><td>t.window</td><td>integer</td><td>NULL</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>robust</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>method</td><td>character</td><td>ets</td><td>ets, arima</td><td>-</td></tr><tr><td>etsmodel</td><td>untyped</td><td>"ZZN"</td><td></td><td>-</td></tr><tr><td>lambda</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>biasadj</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>allow.multiplicative.trend</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>s.window</td><td>untyped</td><td>7L + 4L * seq_len(6L)</td><td></td><td>-</td></tr><tr><td>t.window</td><td>integer</td><td>NULL</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>robust</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>method</td><td>character</td><td>ets</td><td>ets, arima</td><td>-</td></tr><tr><td>modelfunction</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>etsmodel</td><td>untyped</td><td>"ZZN"</td><td></td><td>-</td></tr><tr><td>lambda</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>biasadj</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>allow.multiplicative.trend</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Cleveland, B. R, Cleveland, S. W, McRae, E. J, Terpenning, Irma (1990).
@@ -348,8 +348,8 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         ...)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x55effacc6920&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x55effaccad80&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x562d7f5001b0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x562d7f506530&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>

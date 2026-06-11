@@ -30,12 +30,15 @@ or with the associated sugar function
 
 ## Parameters
 
-|         |           |         |             |
-|---------|-----------|---------|-------------|
-| Id      | Type      | Default | Levels      |
-| method  | character | gcv     | gcv, mle    |
-| lambda  | untyped   | NULL    |             |
-| biasadj | logical   | FALSE   | TRUE, FALSE |
+|           |           |         |             |                  |
+|-----------|-----------|---------|-------------|------------------|
+| Id        | Type      | Default | Levels      | Range            |
+| method    | character | gcv     | gcv, mle    | \-               |
+| lambda    | untyped   | NULL    |             | \-               |
+| biasadj   | logical   | FALSE   | TRUE, FALSE | \-               |
+| simulate  | logical   | FALSE   | TRUE, FALSE | \-               |
+| bootstrap | logical   | FALSE   | TRUE, FALSE | \-               |
+| npaths    | integer   | 5000    |             | \\\[1, \infty)\\ |
 
 ## References
 

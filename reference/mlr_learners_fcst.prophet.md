@@ -34,11 +34,13 @@ or with the associated sugar function
 |----|----|----|----|----|
 | Id | Type | Default | Levels | Range |
 | growth | character | linear | linear, logistic, flat | \- |
+| changepoints | untyped | NULL |  | \- |
 | n.changepoints | integer | 25 |  | \\\[0, \infty)\\ |
 | changepoint.range | numeric | 0.8 |  | \\\[0, 1\]\\ |
 | yearly.seasonality | untyped | "auto" |  | \- |
 | weekly.seasonality | untyped | "auto" |  | \- |
 | daily.seasonality | untyped | "auto" |  | \- |
+| holidays | untyped | NULL |  | \- |
 | seasonality.mode | character | additive | additive, multiplicative | \- |
 | seasonality.prior.scale | numeric | 10 |  | \\\[0, \infty)\\ |
 | holidays.prior.scale | numeric | 10 |  | \\\[0, \infty)\\ |

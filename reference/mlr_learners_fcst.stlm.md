@@ -41,6 +41,7 @@ or with the associated sugar function
 | t.window | integer | NULL |  | \\\[1, \infty)\\ |
 | robust | logical | FALSE | TRUE, FALSE | \- |
 | method | character | ets | ets, arima | \- |
+| modelfunction | untyped | NULL |  | \- |
 | etsmodel | untyped | "ZZN" |  | \- |
 | lambda | untyped | NULL |  | \- |
 | biasadj | logical | FALSE | TRUE, FALSE | \- |
@@ -344,8 +345,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x55effacc6920>
-#> <environment: 0x55effaccad80>
+#> <bytecode: 0x562d7f5001b0>
+#> <environment: 0x562d7f506530>
 #> 
 #> $lambda
 #> NULL

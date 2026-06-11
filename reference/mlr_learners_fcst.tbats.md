@@ -45,6 +45,9 @@ or with the associated sugar function
 | bc.lower         | numeric | 0       |             | \\(-\infty, \infty)\\ |
 | bc.upper         | numeric | 1       |             | \\(-\infty, \infty)\\ |
 | biasadj          | logical | FALSE   | TRUE, FALSE | \-                    |
+| simulate         | logical | FALSE   | TRUE, FALSE | \-                    |
+| bootstrap        | logical | FALSE   | TRUE, FALSE | \-                    |
+| npaths           | integer | 5000    |             | \\\[1, \infty)\\      |
 
 ## References
 
