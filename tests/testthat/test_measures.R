@@ -189,6 +189,28 @@ test_that("MeasureMASE works", {
   expect_equal(unname(pred$score(measure, task = task, train_set = train_ids)), 0)
 })
 
+test_that("keyed scoring handles partially observed key groups", {
+  task = tsk("livestock")
+  key = task$data(cols = task$col_roles$key)[[1L]]
+  ids = task$row_ids[key == levels(key)[1L]]
+  n = length(ids)
+  train_ids = ids[1:(n - 5L)]
+  test_ids = ids[(n - 4L):n]
+  truth = task$data(rows = test_ids, cols = task$target_names)[[1L]]
+  pred = PredictionRegr$new(truth = truth, response = truth + 1, row_ids = test_ids)
+  expect_number(unname(pred$score(msr("fcst.mase"), task = task, train_set = train_ids)), finite = TRUE)
+})
+
+test_that("keyed scoring errors for key groups absent from the training set", {
+  task = tsk("livestock")
+  key = task$data(cols = task$col_roles$key)[[1L]]
+  train_ids = task$row_ids[key == levels(key)[1L]]
+  test_ids = head(task$row_ids[key == levels(key)[2L]], 5L)
+  truth = task$data(rows = test_ids, cols = task$target_names)[[1L]]
+  pred = PredictionRegr$new(truth = truth, response = truth, row_ids = test_ids)
+  expect_snapshot(pred$score(msr("fcst.mase"), task = task, train_set = train_ids), error = TRUE)
+})
+
 test_that("MeasureRMSSE works", {
   measure = msr("fcst.rmsse")
   task = tsk("airpassengers")

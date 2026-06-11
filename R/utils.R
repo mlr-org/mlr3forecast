@@ -157,17 +157,21 @@ strsplit1 = function(x, pattern) {
 score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   key_cols = task$col_roles$key
   key_data = task$data(rows = prediction$row_ids, cols = key_cols)
-  groups = split(prediction$row_ids, key_data)
+  groups = split(prediction$row_ids, key_data, drop = TRUE)
 
+  train_groups = NULL
   if (!is.null(train_set)) {
     train_key_data = task$data(rows = train_set, cols = key_cols)
-    train_groups = split(train_set, train_key_data)
+    train_groups = split(train_set, train_key_data, drop = TRUE)
+    missing = setdiff(names(groups), names(train_groups))
+    if (length(missing) > 0L) {
+      error_input("Key group(s) %s have no observations in the training set.", str_collapse(missing, quote = "'"))
+    }
   }
 
   scores = map_dbl(names(groups), function(nm) {
     pred = prediction$clone()$filter(groups[[nm]])
-    train_set = if (!is.null(train_set)) train_groups[[nm]]
-    score_fn(pred, task, train_set = train_set, ...)
+    score_fn(pred, task, train_set = train_groups[[nm]], ...)
   })
   mean(scores)
 }
