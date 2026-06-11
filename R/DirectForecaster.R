@@ -253,7 +253,6 @@ DirectForecaster = R6::R6Class(
       key_cols = task$col_roles$key
 
       ord = task$data(cols = c(key_cols, order_cols))
-      set(ord, j = "..row_id", value = task$row_ids)
 
       # A row's step is its position on the future grid `seq(origin, by = freq, ...)`.
       if (length(key_cols) > 0L) {
