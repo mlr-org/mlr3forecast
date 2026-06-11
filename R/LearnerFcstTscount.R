@@ -80,13 +80,14 @@ LearnerFcstTscount = R6Class(
         xreg = as.matrix(task$data(cols = task$feature_names))
       }
 
-      invoke(
+      model = invoke(
         tscount::tsglm,
         ts = as.integer(task$data(cols = task$target_names)[[1L]]),
         model = model_args,
         xreg = xreg,
         .args = pv
       )
+      private$.set_context(model, task)
     },
 
     .predict = function(task) {
@@ -97,7 +98,7 @@ LearnerFcstTscount = R6Class(
         if (is_quantile) {
           error_config("Quantile prediction not supported for in-sample prediction.")
         }
-        response = private$.fitted()[task$row_ids]
+        response = private$.fitted_response(task)
         return(insert_named(prediction, list(response = response)))
       }
 

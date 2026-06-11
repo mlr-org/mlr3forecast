@@ -11,13 +11,13 @@ LearnerFcstSmooth = R6Class(
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
       fn = getExportedValue("smooth", private$.fn)
-      invoke(fn, private$.smooth_data(task), .args = pv)
+      private$.set_context(invoke(fn, private$.smooth_data(task), .args = pv), task)
     },
 
     .predict = function(task) {
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
       if (!private$.is_newdata(task)) {
-        response = private$.fitted()[task$row_ids]
+        response = private$.fitted_response(task)
         return(insert_named(prediction, list(response = response)))
       }
       args = list(h = task$nrow)

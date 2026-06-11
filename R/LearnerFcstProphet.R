@@ -79,7 +79,7 @@ LearnerFcstProphet = R6Class(
         m = invoke(prophet::prophet, df = dt, .args = pv)
       }
 
-      m
+      private$.set_context(m, task)
     },
 
     .fitted = function() {
@@ -90,7 +90,7 @@ LearnerFcstProphet = R6Class(
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
 
       if (!private$.is_newdata(task)) {
-        response = private$.fitted()[task$row_ids]
+        response = private$.fitted_response(task)
         return(insert_named(prediction, list(response = response)))
       }
 

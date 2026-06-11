@@ -15,7 +15,7 @@ LearnerFcstForecast = R6Class(
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
-      private$.fit(task, pv)
+      private$.set_context(private$.fit(task, pv), task)
     },
 
     .has_exogenous = function(task) {
@@ -41,7 +41,7 @@ LearnerFcstForecast = R6Class(
         if (is_quantile) {
           error_config("Quantile prediction not supported for in-sample prediction.")
         }
-        response = private$.fitted()[task$row_ids]
+        response = private$.fitted_response(task)
         prediction = insert_named(prediction, list(response = response))
         return(prediction)
       }

@@ -49,13 +49,13 @@ LearnerFcstSma = R6Class(
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
-      invoke(smooth::sma, y = as.ts(task), .args = pv)
+      private$.set_context(invoke(smooth::sma, y = as.ts(task), .args = pv), task)
     },
 
     .predict = function(task) {
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
       if (!private$.is_newdata(task)) {
-        response = private$.fitted()[task$row_ids]
+        response = private$.fitted_response(task)
         prediction = insert_named(prediction, list(response = response))
         return(prediction)
       }

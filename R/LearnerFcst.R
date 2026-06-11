@@ -62,8 +62,6 @@ LearnerFcst = R6Class(
     }
   ),
   private = list(
-    .max_index = NULL,
-
     .train = function(task) {
       properties = task$properties
       if ("ordered" %nin% properties) {
@@ -72,15 +70,41 @@ LearnerFcst = R6Class(
       if ("keys" %in% properties) {
         error_input("%s learner does not support tasks with keys.", self$id)
       }
-      private$.max_index = max(task$data(cols = task$col_roles$order)[[1L]])
+      invisible(NULL)
+    },
+
+    # Attach the training context predict needs to the model itself: only the model survives
+    # encapsulation (callr/future), private fields mutated during .train do not.
+    .set_context = function(model, task) {
+      attr(model, "fcst_row_ids") = task$row_ids
+      attr(model, "fcst_max_index") = max(task$data(cols = task$col_roles$order)[[1L]])
+      model
     },
 
     .is_newdata = function(task) {
-      dt = task$backend$data(rows = task$row_ids, cols = task$col_roles$order)
-      if (nrow(dt) == 0L) {
+      order_vals = task$backend$data(rows = task$row_ids, cols = task$col_roles$order)[[1L]]
+      if (length(order_vals) == 0L) {
         return(TRUE)
       }
-      !any(private$.max_index %in% dt[[1L]])
+      max_index = attr(self$model, "fcst_max_index")
+      if (all(order_vals > max_index)) {
+        TRUE
+      } else if (all(order_vals <= max_index)) {
+        FALSE
+      } else {
+        error_input(
+          "Cannot mix in-sample and future rows in one predict() call (last training index: %s).",
+          format(max_index)
+        )
+      }
+    },
+
+    .fitted_response = function(task) {
+      idx = match(task$row_ids, attr(self$model, "fcst_row_ids"))
+      if (anyNA(idx)) {
+        error_input("In-sample prediction is only supported for rows used during training.")
+      }
+      private$.fitted()[idx]
     },
 
     .fitted = function() {
