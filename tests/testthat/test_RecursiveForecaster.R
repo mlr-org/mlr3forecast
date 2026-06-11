@@ -79,6 +79,21 @@ test_that("RecursiveForecaster handles predict rows overlapping training rows", 
   expect_length(prediction$response, 5L)
 })
 
+test_that("RecursiveForecaster errors when test rows do not continue the training grid", {
+  task = tsk("airpassengers")
+  flrn = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+  flrn$train(task, 1:120)
+  expect_snapshot(flrn$predict(task, 126:130), error = TRUE)
+  expect_snapshot(flrn$predict(task, c(121L, 123L)), error = TRUE)
+})
+
+test_that("RecursiveForecaster errors on gapped keyed test rows", {
+  task = make_date_major_panel_task(10L)
+  flrn = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:2)
+  flrn$train(task, 1:16)
+  expect_snapshot(flrn$predict(task, 19:20), error = TRUE)
+})
+
 test_that("RecursiveForecaster errors on target trafo inside the graph", {
   inner = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
   graph = ppl("targettrafo", graph = inner, trafo_pipeop = po("fcst.targetdiff", lag = 1L))

@@ -249,6 +249,48 @@ RecursiveForecaster = R6::R6Class(
       # per active row and downstream cbind/backend construction fails.
       join_cols = c(key_cols, order_cols)
       train_data = train_data[!test_data, on = join_cols]
+
+      # Each key's test rows must form the gap-free future grid continuing the remaining
+      # training rows, otherwise positional lag/rolling shifts would not equal true step
+      # distance (e.g. a gap after the training end would silently shrink "lag 1").
+      freq = self$model$freq %??% infer_freq(sort(unique(train_data[[order_cols]])))
+      if (length(key_cols) > 0L) {
+        origin = train_data[, list(.origin = max(get(order_cols))), by = key_cols]
+        grid_check = origin[test_data[, c(key_cols, order_cols), with = FALSE], on = key_cols]
+        if (anyNA(grid_check$.origin)) {
+          error_input(
+            "No training rows remain before the test set for %i key group(s).",
+            uniqueN(grid_check[is.na(grid_check$.origin), key_cols, with = FALSE])
+          )
+        }
+        grid_ok = grid_check[,
+          list(
+            .ok = all(sort(get(order_cols)) == seq(get(".origin")[1L], by = freq, length.out = .N + 1L)[-1L])
+          ),
+          by = key_cols
+        ]
+        bad = grid_ok[!grid_ok$.ok]
+        if (nrow(bad) > 0L) {
+          error_input(
+            "Test rows must form the gap-free future grid following the training data; offending key group(s): %s.",
+            toString(do.call(paste, c(bad[, key_cols, with = FALSE], list(sep = ":"))))
+          )
+        }
+      } else {
+        if (nrow(train_data) == 0L) {
+          error_input("No training rows remain before the test set.")
+        }
+        origin = max(train_data[[order_cols]])
+        expected = seq(origin, by = freq, length.out = nrow(test_data) + 1L)[-1L]
+        if (!all(sort(test_data[[order_cols]]) == expected)) {
+          error_input(
+            "Test rows must form the gap-free future grid following the training data (origin %s, freq %s).",
+            format(origin),
+            freq
+          )
+        }
+      }
+
       combined = rbindlist(list(train_data, test_data), use.names = TRUE, fill = TRUE)
       n_train = nrow(train_data)
       n_test = nrow(test_data)
