@@ -52,10 +52,26 @@ test_that("infer_freq preserves non-unit spacing", {
     as.numeric(diff(seq(t[5L], length.out = 2L, by = f)), units = "secs")
   }
   expect_equal(step(4), 4)
+  expect_equal(step(90), 90)
   expect_equal(step(600), 600)
   expect_equal(step(900), 900)
   expect_equal(step(1800), 1800)
   expect_equal(step(3600), 3600)
+  expect_equal(step(5400), 5400)
+  expect_equal(step(172800), 172800)
+  expect_equal(step(1209600), 1209600)
+  expect_equal(step(2592000), 2592000) # fixed 30-day, not calendar month
+})
+
+test_that("infer_freq detects calendar units", {
+  expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "week", length.out = 10L)), "week")
+  expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "month", length.out = 24L)), "1 month")
+  expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "2 month", length.out = 12L)), "2 month")
+  expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "quarter", length.out = 12L)), "quarter")
+  expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "6 month", length.out = 10L)), "6 month")
+  expect_equal(infer_freq(seq(as.Date("2000-01-01"), by = "year", length.out = 10L)), "year")
+  month_end = as.Date(c("2020-01-31", "2020-02-29", "2020-03-31", "2020-04-30", "2020-05-31"))
+  expect_equal(infer_freq(month_end), "month")
 })
 
 test_that("quantiles_to_level dedupes floating-point levels", {

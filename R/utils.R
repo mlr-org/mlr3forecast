@@ -35,23 +35,41 @@ infer_freq = function(order) {
   if (!inherits(order, c("Date", "POSIXct", "POSIXlt")) || length(order) < 2L) {
     return(1L)
   }
-  p = as.numeric(stats::median(diff(as.POSIXct(order))), units = "secs")
-  if (p < 60) {
-    sprintf("%g sec", round(p))
-  } else if (p < 3600) {
-    sprintf("%g min", round(p / 60))
-  } else if (p < 86400) {
-    sprintf("%g hour", round(p / 3600))
-  } else if (p == 86400) {
-    "day"
-  } else if (p <= 604800) {
+  p = max(round(as.numeric(stats::median(diff(as.POSIXct(order))), units = "secs")), 1)
+  if (p == 604800) {
     "week"
-  } else if (p <= 2678400) {
-    "month"
-  } else if (p <= 7948800) {
-    "quarter"
+  } else if (p >= 2419200) {
+    # >= 28 days: calendar-anchored data (constant day-of-month) gets calendar units,
+    # fixed-interval data gets exact day multiples
+    m = round(p / 2629800)
+    if (uniqueN(mday(order)) == 1L) {
+      if (m == 3L) {
+        "quarter"
+      } else if (m == 12L) {
+        "year"
+      } else {
+        sprintf("%g month", m)
+      }
+    } else if (p %% 86400 == 0) {
+      sprintf("%g day", p / 86400)
+    } else {
+      # neither calendar-anchored nor whole days (e.g. month-end data): magnitude guess
+      if (p <= 2678400) {
+        "month"
+      } else if (p <= 7948800) {
+        "quarter"
+      } else {
+        "year"
+      }
+    }
+  } else if (p %% 86400 == 0) {
+    sprintf("%g day", p / 86400)
+  } else if (p %% 3600 == 0) {
+    sprintf("%g hour", p / 3600)
+  } else if (p %% 60 == 0) {
+    sprintf("%g min", p / 60)
   } else {
-    "year"
+    sprintf("%g sec", p)
   }
 }
 
