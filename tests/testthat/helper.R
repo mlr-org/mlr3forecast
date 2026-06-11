@@ -1,4 +1,8 @@
-walk(list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\.[rR]", full.names = TRUE), source)
+walk(
+  list.files(system.file("testthat", package = "mlr3"), pattern = "^helper.*\\.[rR]", full.names = TRUE),
+  source,
+  local = environment()
+)
 
 generate_data = function(learner, N) {
   generate_feature = function(type) {
@@ -46,7 +50,7 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
   tasks
 }
 
-registerS3method("generate_tasks", "LearnerFcst", generate_tasks.LearnerFcst, envir = parent.frame())
+registerS3method("generate_tasks", "LearnerFcst", generate_tasks.LearnerFcst)
 
 make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
   q = cbind(lower, upper)
