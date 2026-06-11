@@ -28,7 +28,7 @@ or with the associated sugar function
 
 - Range: \\\[0, 1\]\\
 
-- Minimize: FALSE
+- Minimize: NA
 
 - Average: macro
 
