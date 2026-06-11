@@ -88,16 +88,13 @@ TaskFcst = R6Class(
       order_cols = c(col_roles$key, col_roles$order)
 
       if (is.null(cols)) {
-        query_cols = cols = c(col_roles$target, col_roles$feature)
+        cols = c(col_roles$target, col_roles$feature)
       } else {
         assert_subset(cols, self$col_info$id)
-        query_cols = cols
       }
-
-      query_cols = union(query_cols, order_cols)
       cols = union(cols, order_cols)
 
-      data = self$data(rows, query_cols)
+      data = self$data(rows, cols)
       if (ncol(data) == 0L) {
         return(data)
       }
@@ -106,7 +103,7 @@ TaskFcst = R6Class(
         setorderv(data, order_cols)
       }
       setcolorder(data, order_cols)
-      remove_named(data, setdiff(query_cols, cols))
+      data[]
     },
 
     #' @description
@@ -114,7 +111,9 @@ TaskFcst = R6Class(
     #' @param ... (ignored).
     print = function(...) {
       super$print()
-      cat_cli(cli::cli_li("Frequency: {self$freq}"))
+      if (!is.null(self$freq)) {
+        cat_cli(cli::cli_li("Frequency: {self$freq}"))
+      }
     }
   ),
 
