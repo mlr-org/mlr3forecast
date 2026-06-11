@@ -168,6 +168,10 @@ test_that("MeasureWinkler works", {
   pred = PredictionRegr$new(truth = 20, response = 0, quantiles = quantiles, row_ids = 1L)
   # width = 10, penalty = (2/0.05) * (20 - 15) = 200
   expect_equal(unname(pred$score(measure)), 210)
+  # missing truth is dropped, not scored as interval width
+  quantiles = make_quantiles(c(5, 5), c(15, 15))
+  pred = PredictionRegr$new(truth = c(NA, 20), response = c(0, 0), quantiles = quantiles, row_ids = 1:2)
+  expect_equal(unname(pred$score(measure)), 210)
 })
 
 test_that("MeasureMASE works", {

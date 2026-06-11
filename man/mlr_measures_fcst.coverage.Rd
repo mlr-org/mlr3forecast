@@ -32,7 +32,7 @@ msr("fcst.coverage")
 \itemize{
 \item Task type: \dQuote{regr}
 \item Range: \eqn{[0, 1]}{[0, 1]}
-\item Minimize: FALSE
+\item Minimize: NA
 \item Average: macro
 \item Required Prediction: \dQuote{quantiles}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}

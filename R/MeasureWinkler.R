@@ -66,12 +66,7 @@ MeasureWinkler = R6Class(
       ut = prediction$data$quantiles[, which(probs == upper_prob)]
 
       width = ut - lt
-      # fmt: skip
-      score = fcase(
-        truth < lt, width + (2 / alpha) * (lt - truth),
-        truth > ut, width + (2 / alpha) * (truth - ut),
-        default = width
-      )
+      score = width + (2 / alpha) * (pmax(lt - truth, 0) + pmax(truth - ut, 0))
       mean(score, na.rm = TRUE)
     }
   )
