@@ -64,9 +64,6 @@ or with the associated sugar function
 | biasadj | logical | FALSE | TRUE, FALSE | \- |
 | parallel | logical | FALSE | TRUE, FALSE | \- |
 | num.cores | integer | 2 |  | \\\[1, \infty)\\ |
-| include.mean | logical | TRUE | TRUE, FALSE | \- |
-| include.drift | logical | FALSE | TRUE, FALSE | \- |
-| include.constant | logical | FALSE | TRUE, FALSE | \- |
 | lambda | untyped | NULL |  | \- |
 | simulate | logical | FALSE | TRUE, FALSE | \- |
 | bootstrap | logical | FALSE | TRUE, FALSE | \- |

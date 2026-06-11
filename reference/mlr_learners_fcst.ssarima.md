@@ -39,7 +39,6 @@ or with the associated sugar function
 | constant | logical | FALSE | TRUE, FALSE |
 | arma | untyped | NULL |  |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete |
-| ic | character | AICc | AICc, AIC, BIC, BICc |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
 | holdout | logical | FALSE | TRUE, FALSE |
 | bounds | character | admissible | admissible, usual, none |

@@ -40,18 +40,11 @@ or with the associated sugar function
 | simulate | logical | FALSE | TRUE, FALSE | \- |
 | bootstrap | logical | FALSE | TRUE, FALSE | \- |
 | npaths | integer | 5000 |  | \\\[1, \infty)\\ |
-| d | integer | NA |  | \\\[0, \infty)\\ |
-| D | integer | NA |  | \\\[0, \infty)\\ |
 | max.p | integer | 5 |  | \\\[0, \infty)\\ |
 | max.q | integer | 5 |  | \\\[0, \infty)\\ |
 | max.order | integer | 5 |  | \\\[0, \infty)\\ |
-| max.d | integer | 2 |  | \\\[0, \infty)\\ |
-| max.D | integer | 1 |  | \\\[0, \infty)\\ |
 | start.p | integer | 2 |  | \\\[0, \infty)\\ |
 | start.q | integer | 2 |  | \\\[0, \infty)\\ |
-| start.P | integer | 1 |  | \\\[0, \infty)\\ |
-| start.Q | integer | 1 |  | \\\[0, \infty)\\ |
-| seasonal | logical | TRUE | TRUE, FALSE | \- |
 | ic | character | aicc | aicc, aic, bic | \- |
 | stepwise | logical | TRUE | TRUE, FALSE | \- |
 | nmodels | integer | 94 |  | \\\[0, \infty)\\ |
@@ -59,17 +52,8 @@ or with the associated sugar function
 | approximation | untyped | \- |  | \- |
 | method | untyped | NULL |  | \- |
 | truncate | untyped | NULL |  | \- |
-| test | character | kpss | kpss, adf, pp | \- |
-| test.args | untyped | list() |  | \- |
-| seasonal.test | character | seas | seas, ocsb, hegy, ch | \- |
-| seasonal.test.args | untyped | list() |  | \- |
-| allowdrift | logical | TRUE | TRUE, FALSE | \- |
-| allowmean | logical | TRUE | TRUE, FALSE | \- |
 | parallel | logical | FALSE | TRUE, FALSE | \- |
 | num.cores | integer | 2 |  | \\\[1, \infty)\\ |
-| include.mean | logical | TRUE | TRUE, FALSE | \- |
-| include.drift | logical | FALSE | TRUE, FALSE | \- |
-| include.constant | logical | FALSE | TRUE, FALSE | \- |
 | transform.pars | logical | TRUE | TRUE, FALSE | \- |
 | fixed | untyped | NULL |  | \- |
 | init | untyped | NULL |  | \- |
@@ -242,7 +226,7 @@ print(learner)
 #> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
