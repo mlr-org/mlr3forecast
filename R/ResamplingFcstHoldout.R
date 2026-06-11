@@ -86,7 +86,7 @@ ResamplingFcstHoldout = R6Class(
       key_cols = col_roles$key
       has_key_cols = length(key_cols) > 0L
       dt = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
-      setnames(dt, "..row_id", "row_id")
+      setnames(dt, task$backend$primary_key, "row_id")
 
       if (!has_key_cols) {
         setorderv(dt, order_cols)
@@ -112,32 +112,6 @@ ResamplingFcstHoldout = R6Class(
         train = unlist(splits$train, use.names = FALSE),
         test = unlist(splits$test, use.names = FALSE)
       )
-    },
-
-    .sample_ids = function(ids, task, ...) {
-      if ("ordered" %nin% task$properties) {
-        error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
-      }
-
-      pv = self$param_set$get_values()
-      ratio = pv$ratio
-      n = pv$n
-      n_obs = length(ids)
-
-      has_ratio = !is.null(ratio)
-      if (!xor(!has_ratio, is.null(n))) {
-        error_config("One of 'ratio' or 'n' must be provided, not both.")
-      }
-      if (has_ratio) {
-        nr = round(n_obs * ratio)
-      } else if (n > 0L) {
-        nr = min(n_obs, n)
-      } else {
-        nr = max(n_obs + n, 0L)
-      }
-
-      ids = sort(ids)
-      list(train = ids[seq_len(nr)], test = if (n_obs > nr) ids[(nr + 1L):n_obs] else integer())
     },
 
     .get_train = function(i) {

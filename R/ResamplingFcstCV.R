@@ -105,7 +105,7 @@ ResamplingFcstCV = R6Class(
         rows = ids,
         cols = c(task$backend$primary_key, order_cols, key_cols)
       )
-      setnames(dt, "..row_id", "row_id")
+      setnames(dt, task$backend$primary_key, "row_id")
 
       if (!has_key) {
         setorderv(dt, order_cols)
@@ -181,30 +181,6 @@ ResamplingFcstCV = R6Class(
         by = fold
       ]
       list(train = merged$train, test = merged$test)
-    },
-
-    .sample_ids = function(ids, task, ...) {
-      if ("ordered" %nin% task$properties) {
-        error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
-      }
-
-      pv = self$param_set$get_values()
-      window_size = pv$window_size
-      horizon = pv$horizon
-
-      ids = sort(ids)
-      train_end = ids[ids <= (max(ids) - horizon) & ids >= window_size]
-      train_end = frev(seq(from = train_end[length(train_end)], by = -pv$step_size, length.out = pv$folds))
-      if (pv$fixed_window) {
-        train_ids = map(train_end, function(x) (x - window_size + 1L):x)
-      } else {
-        train_ids = map(train_end, function(x) ids[1L]:x)
-      }
-      test_ids = map(train_ids, function(x) {
-        n = length(x)
-        (x[n] + 1L):(x[n] + horizon)
-      })
-      list(train = train_ids, test = test_ids)
     },
 
     .get_train = function(i) {
