@@ -45,6 +45,19 @@ test_that("generate_newdata works with keyed task", {
   expect_true(allMissing(newdata[[task$target_names]]))
 })
 
+test_that("infer_freq preserves non-unit spacing", {
+  step = function(secs) {
+    t = as.POSIXct("2020-01-01", tz = "UTC") + seq(0, length.out = 5L, by = secs)
+    f = infer_freq(t)
+    as.numeric(diff(seq(t[5L], length.out = 2L, by = f)), units = "secs")
+  }
+  expect_equal(step(4), 4)
+  expect_equal(step(600), 600)
+  expect_equal(step(900), 900)
+  expect_equal(step(1800), 1800)
+  expect_equal(step(3600), 3600)
+})
+
 test_that("as.ts works", {
   task = tsk("airpassengers")
   ts = as.ts(task)

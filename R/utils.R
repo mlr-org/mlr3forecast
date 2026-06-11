@@ -37,11 +37,11 @@ infer_freq = function(order) {
   }
   p = as.numeric(stats::median(diff(as.POSIXct(order))), units = "secs")
   if (p < 60) {
-    "sec"
+    sprintf("%g sec", round(p))
   } else if (p < 3600) {
-    "min"
+    sprintf("%g min", round(p / 60))
   } else if (p < 86400) {
-    "hour"
+    sprintf("%g hour", round(p / 3600))
   } else if (p == 86400) {
     "day"
   } else if (p <= 604800) {
