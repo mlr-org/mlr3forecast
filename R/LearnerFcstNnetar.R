@@ -23,7 +23,7 @@ LearnerFcstNnetar = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        p = p_uty(tags = "train"),
+        p = p_uty(tags = "train", custom_check = crate(function(x) check_count(x))),
         P = p_int(0L, default = 1L, tags = "train"),
         size = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
         repeats = p_int(default = 20L, tags = "train"),
@@ -33,7 +33,11 @@ LearnerFcstNnetar = R6Class(
         num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 1000L, tags = "predict"),
-        innov = p_uty(default = NULL, tags = "predict")
+        innov = p_uty(
+          default = NULL,
+          tags = "predict",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        )
       )
 
       super$initialize(

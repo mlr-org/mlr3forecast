@@ -31,7 +31,11 @@ LearnerFcstRlgt = R6Class(
         level.method = p_fct(c("HW", "seasAvg", "HW_sAvg"), default = "HW", tags = "train"),
         method = p_fct(c("Gibbs", "Stan"), default = "Gibbs", tags = "train"),
         homoscedastic = p_lgl(default = FALSE, tags = "train"),
-        control = p_uty(default = NULL, tags = "train"),
+        control = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_list(x, null.ok = TRUE))
+        ),
         verbose = p_lgl(default = FALSE, tags = "train"),
         NUM_OF_TRIALS = p_int(1L, default = 2000L, tags = "predict")
       )

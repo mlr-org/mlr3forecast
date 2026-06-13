@@ -28,9 +28,24 @@ LearnerFcstGum = R6Class(
         lags = p_uty(tags = "train", custom_check = check_integerish),
         type = p_fct(c("additive", "multiplicative"), default = "additive", tags = "train"),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete"), default = "backcasting", tags = "train"),
-        persistence = p_uty(default = NULL, special_vals = list(NULL), tags = "train"),
-        transition = p_uty(default = NULL, special_vals = list(NULL), tags = "train"),
-        measurement = p_uty(default = NULL, special_vals = list(NULL), tags = "train"),
+        persistence = p_uty(
+          default = NULL,
+          special_vals = list(NULL),
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
+        transition = p_uty(
+          default = NULL,
+          special_vals = list(NULL),
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
+        measurement = p_uty(
+          default = NULL,
+          special_vals = list(NULL),
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
         loss = p_fct(
           c("likelihood", "MSE", "MAE", "HAM", "MSEh", "TMSE", "GTMSE", "MSCE", "GPL"),
           default = "likelihood",

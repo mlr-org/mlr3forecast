@@ -27,7 +27,11 @@ LearnerFcstMsarima = R6Class(
         orders = p_uty(default = list(ar = 0, i = 1, ma = 1), tags = "train"),
         lags = p_uty(default = 1, tags = "train", custom_check = check_numeric),
         constant = p_lgl(default = FALSE, tags = "train"),
-        arma = p_uty(default = NULL, tags = "train"),
+        arma = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete"), default = "backcasting", tags = "train"),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         loss = p_fct(

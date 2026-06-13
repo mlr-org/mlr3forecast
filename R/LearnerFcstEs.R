@@ -26,10 +26,18 @@ LearnerFcstEs = R6Class(
       param_set = ps(
         model = p_uty(default = "ZXZ", tags = "train"),
         lags = p_uty(tags = "train", custom_check = check_numeric),
-        persistence = p_uty(default = NULL, tags = "train"),
-        phi = p_uty(default = NULL, tags = "train"),
+        persistence = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
+        phi = p_uty(default = NULL, tags = "train", custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete"), default = "backcasting", tags = "train"),
-        initialSeason = p_uty(default = NULL, tags = "train"),
+        initialSeason = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         loss = p_fct(
           c("likelihood", "MSE", "MAE", "HAM", "MSEh", "TMSE", "GTMSE", "MSCE", "GPL"),

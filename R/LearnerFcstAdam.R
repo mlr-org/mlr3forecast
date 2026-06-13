@@ -45,10 +45,18 @@ LearnerFcstAdam = R6Class(
         ),
         outliers = p_fct(c("ignore", "use", "select"), default = "ignore", tags = "train"),
         holdout = p_lgl(default = FALSE, tags = "train"),
-        persistence = p_uty(default = NULL, tags = "train"),
-        phi = p_uty(default = NULL, tags = "train"),
+        persistence = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
+        phi = p_uty(default = NULL, tags = "train", custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete"), default = "backcasting", tags = "train"),
-        arma = p_uty(default = NULL, tags = "train"),
+        arma = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train"),

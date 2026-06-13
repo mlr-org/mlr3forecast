@@ -23,7 +23,11 @@ LearnerFcstArfima = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        drange = p_uty(default = c(0, 0.5), tags = "train"),
+        drange = p_uty(
+          default = c(0, 0.5),
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, len = 2L))
+        ),
         estim = p_fct(default = "mle", levels = c("mle", "ls"), tags = "train"),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
@@ -42,9 +46,13 @@ LearnerFcstArfima = R6Class(
         stepwise = p_lgl(default = TRUE, tags = "train"),
         nmodels = p_int(0L, default = 94L, tags = "train"),
         trace = p_lgl(default = FALSE, tags = "train"),
-        approximation = p_uty(tags = "train"),
-        method = p_uty(default = NULL, tags = "train"),
-        truncate = p_uty(default = NULL, tags = "train"),
+        approximation = p_uty(tags = "train", custom_check = check_flag),
+        method = p_fct(c("CSS-ML", "ML", "CSS"), default = NULL, special_vals = list(NULL), tags = "train"),
+        truncate = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_count(x, null.ok = TRUE))
+        ),
         parallel = p_lgl(default = FALSE, tags = "train"),
         num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
         # additional arguments to stats::arima

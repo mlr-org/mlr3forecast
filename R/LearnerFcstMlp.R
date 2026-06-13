@@ -25,12 +25,28 @@ LearnerFcstMlp = R6Class(
     initialize = function() {
       param_set = ps(
         m = p_int(1L, special_vals = list(NULL), tags = "train"),
-        hd = p_uty(default = NULL, tags = "train"),
+        hd = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_integerish(x, lower = 1L, null.ok = TRUE))
+        ),
         reps = p_int(1L, default = 20L, tags = "train"),
         comb = p_fct(c("median", "mean", "mode"), default = "median", tags = "train"),
-        lags = p_uty(default = NULL, tags = "train"),
-        keep = p_uty(default = NULL, tags = "train"),
-        difforder = p_uty(default = NULL, tags = "train"),
+        lags = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_integerish(x, lower = 1L, null.ok = TRUE))
+        ),
+        keep = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_logical(x, null.ok = TRUE))
+        ),
+        difforder = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_integerish(x, lower = 0L, null.ok = TRUE))
+        ),
         sel.lag = p_lgl(default = TRUE, tags = "train"),
         allow.det.season = p_lgl(default = TRUE, tags = "train"),
         det.type = p_fct(c("auto", "bin", "trg"), default = "auto", tags = "train"),
