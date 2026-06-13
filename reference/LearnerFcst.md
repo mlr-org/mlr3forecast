@@ -109,6 +109,15 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\> `LearnerFcst`
 
+## Active bindings
+
+- `native_model`:
+
+  (any)  
+  The native model object from the upstream forecasting package. The
+  learner's `$model` wraps it in a named list together with the training
+  context needed at predict time.
+
 ## Methods
 
 ### Public methods
