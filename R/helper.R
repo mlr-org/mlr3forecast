@@ -46,6 +46,7 @@ as.ts.TaskFcst = function(x, ..., freq = NULL) {
   stats::ts(x$truth(), freq = freq)
 }
 
+# TODO: multi-count freqs ("30 mins", "2 day") fall through to 1L; parse `n unit` and return base / n.
 freq_to_int = function(freq) {
   if (is.null(freq)) {
     return(1L)
