@@ -22,7 +22,7 @@ lrn("fcst.msarima")
 
 \itemize{
 \item Task type: \dQuote{fcst}
-\item Predict Types: \dQuote{response}
+\item Predict Types: \dQuote{response}, \dQuote{quantiles}
 \item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}, \CRANpkg{smooth}
 }

@@ -68,19 +68,7 @@ LearnerFcstForecast = R6Class(
         return(prediction)
       }
 
-      # quantile p is one side of the symmetric interval with level 100 * |1 - 2p|
-      probs = private$.quantiles
-      quantiles = map_bc(probs, function(p) {
-        if (p == 0.5) {
-          as.numeric(pred$mean)
-        } else {
-          bounds = if (p < 0.5) pred$lower else pred$upper
-          as.numeric(bounds[, match(quantiles_to_level(p), level)])
-        }
-      })
-      setattr(quantiles, "probs", probs)
-      setattr(quantiles, "response", private$.quantile_response)
-      insert_named(prediction, list(quantiles = quantiles))
+      insert_named(prediction, list(quantiles = private$.quantiles_from_intervals(pred)))
     }
   )
 )

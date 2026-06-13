@@ -42,7 +42,7 @@ LearnerFcstAutoGum = R6Class(
       super$initialize(
         id = "fcst.auto_gum",
         param_set = param_set,
-        predict_types = "response",
+        predict_types = c("response", "quantiles"),
         feature_types = c("logical", "integer", "numeric"),
         properties = c("featureless", "exogenous", "missings"),
         packages = c("mlr3forecast", "smooth"),

@@ -15,8 +15,12 @@ LearnerFcstSmooth = R6Class(
     },
 
     .predict = function(task) {
+      is_quantile = self$predict_type == "quantiles"
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
       if (!private$.is_newdata(task)) {
+        if (is_quantile) {
+          error_config("Quantile prediction not supported for in-sample prediction.")
+        }
         response = private$.fitted_response(task)
         return(insert_named(prediction, list(response = response)))
       }
@@ -24,8 +28,16 @@ LearnerFcstSmooth = R6Class(
       if ("exogenous" %in% self$properties && task$n_features > 0L) {
         args$newdata = task$data(cols = task$feature_names)
       }
+      if (is_quantile) {
+        # smooth takes central-interval levels as fractions, ascending
+        level = quantiles_to_level(private$.quantiles) / 100
+        args = insert_named(args, list(interval = "prediction", level = level))
+      }
       pred = invoke(generics::forecast, self$native_model, .args = args)
-      insert_named(prediction, list(response = as.numeric(pred$mean)))
+      if (!is_quantile) {
+        return(insert_named(prediction, list(response = as.numeric(pred$mean))))
+      }
+      insert_named(prediction, list(quantiles = private$.quantiles_from_intervals(pred)))
     },
 
     .smooth_data = function(task) {

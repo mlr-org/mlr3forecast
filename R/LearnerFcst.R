@@ -118,6 +118,23 @@ LearnerFcst = R6Class(
 
     .fitted = function() {
       as.numeric(stats::fitted(self$native_model))
+    },
+
+    # Quantile p as one side of the central interval (level 100 * |1 - 2p|): lower if p < 0.5,
+    # upper if p > 0.5, mean at 0.5. `pred$lower`/`$upper` columns must be in ascending-level order.
+    .quantiles_from_intervals = function(pred) {
+      probs = private$.quantiles
+      levels = sort(unique(quantiles_to_level(probs)))
+      quantiles = map_bc(probs, function(p) {
+        if (p == 0.5) {
+          return(as.numeric(pred$mean))
+        }
+        bounds = as.matrix(if (p < 0.5) pred$lower else pred$upper)
+        as.numeric(bounds[, match(quantiles_to_level(p), levels)])
+      })
+      setattr(quantiles, "probs", probs)
+      setattr(quantiles, "response", private$.quantile_response)
+      quantiles
     }
   )
 )
