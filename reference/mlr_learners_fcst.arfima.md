@@ -49,9 +49,9 @@ or with the associated sugar function
 | stepwise | logical | TRUE | TRUE, FALSE | \- |
 | nmodels | integer | 94 |  | \\\[0, \infty)\\ |
 | trace | logical | FALSE | TRUE, FALSE | \- |
-| approximation | untyped | \- |  | \- |
-| method | untyped | NULL |  | \- |
-| truncate | untyped | NULL |  | \- |
+| approximation | logical | \- | TRUE, FALSE | \- |
+| method | character | NULL | CSS-ML, ML, CSS | \- |
+| truncate | integer | NULL |  | \\\[1, \infty)\\ |
 | parallel | logical | FALSE | TRUE, FALSE | \- |
 | num.cores | integer | 2 |  | \\\[1, \infty)\\ |
 | transform.pars | logical | TRUE | TRUE, FALSE | \- |

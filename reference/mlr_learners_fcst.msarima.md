@@ -43,7 +43,7 @@ or with the associated sugar function
 | ic | character | AICc | AICc, AIC, BIC, BICc |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
 | holdout | logical | FALSE | TRUE, FALSE |
-| bounds | character | admissible | admissible, usual, none |
+| bounds | character | usual | usual, admissible, none |
 | silent | logical | TRUE | TRUE, FALSE |
 | regressors | character | use | use, select, adapt |
 

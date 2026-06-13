@@ -40,7 +40,7 @@ or with the associated sugar function
 | use.damped.trend | logical | NULL    | TRUE, FALSE | \-                    |
 | seasonal.periods | untyped | NULL    |             | \-                    |
 | use.arma.errors  | logical | TRUE    | TRUE, FALSE | \-                    |
-| use.parallel     | untyped | \-      |             | \-                    |
+| use.parallel     | logical | \-      | TRUE, FALSE | \-                    |
 | num.cores        | integer | 2       |             | \\\[1, \infty)\\      |
 | bc.lower         | numeric | 0       |             | \\(-\infty, \infty)\\ |
 | bc.upper         | numeric | 1       |             | \\(-\infty, \infty)\\ |

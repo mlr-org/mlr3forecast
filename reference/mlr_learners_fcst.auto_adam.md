@@ -30,26 +30,26 @@ or with the associated sugar function
 
 ## Parameters
 
-|  |  |  |  |
-|----|----|----|----|
-| Id | Type | Default | Levels |
-| model | untyped | "ZXZ" |  |
-| lags | untyped | \- |  |
-| orders | untyped | \- |  |
-| regressors | character | use | use, select, adapt |
-| occurrence | character | none | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct |
-| distribution | character | dnorm | dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma |
-| outliers | character | ignore | ignore, use, select |
-| holdout | logical | FALSE | TRUE, FALSE |
-| persistence | untyped | NULL |  |
-| phi | untyped | NULL |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
-| arma | untyped | NULL |  |
-| ic | character | AICc | AICc, AIC, BIC, BICc |
-| bounds | character | usual | usual, admissible, none |
-| silent | logical | TRUE | TRUE, FALSE |
-| parallel | logical | FALSE | TRUE, FALSE |
-| ets | character | conventional | conventional, adam |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| model | untyped | "ZXZ" |  | \- |
+| lags | untyped | \- |  | \- |
+| orders | untyped | list(ar = c(3, 3), i = c(2, 1), ma = c(3, 3), select = TRUE) |  | \- |
+| regressors | character | use | use, select, adapt | \- |
+| occurrence | character | none | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct | \- |
+| distribution | character | dnorm | dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma | \- |
+| outliers | character | ignore | ignore, use, select | \- |
+| holdout | logical | FALSE | TRUE, FALSE | \- |
+| persistence | untyped | NULL |  | \- |
+| phi | numeric | NULL |  | \\(-\infty, \infty)\\ |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete | \- |
+| arma | untyped | NULL |  | \- |
+| ic | character | AICc | AICc, AIC, BIC, BICc | \- |
+| bounds | character | usual | usual, admissible, none | \- |
+| silent | logical | TRUE | TRUE, FALSE | \- |
+| parallel | logical | FALSE | TRUE, FALSE | \- |
+| ets | character | conventional | conventional, adam | \- |
 
 ## References
 
@@ -226,7 +226,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 3.75 seconds
+#> Time elapsed: 3.43 seconds
 #> Model estimated using fn() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

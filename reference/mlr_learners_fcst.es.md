@@ -32,21 +32,21 @@ or with the associated sugar function
 
 ## Parameters
 
-|  |  |  |  |
-|----|----|----|----|
-| Id | Type | Default | Levels |
-| model | untyped | "ZXZ" |  |
-| lags | untyped | \- |  |
-| persistence | untyped | NULL |  |
-| phi | untyped | NULL |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
-| initialSeason | untyped | NULL |  |
-| ic | character | AICc | AICc, AIC, BIC, BICc |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
-| holdout | logical | FALSE | TRUE, FALSE |
-| bounds | character | usual | usual, admissible, none |
-| silent | logical | TRUE | TRUE, FALSE |
-| regressors | character | use | use, select |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| model | untyped | "ZXZ" |  | \- |
+| lags | untyped | \- |  | \- |
+| persistence | untyped | NULL |  | \- |
+| phi | numeric | NULL |  | \\(-\infty, \infty)\\ |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete | \- |
+| initialSeason | untyped | NULL |  | \- |
+| ic | character | AICc | AICc, AIC, BIC, BICc | \- |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL | \- |
+| holdout | logical | FALSE | TRUE, FALSE | \- |
+| bounds | character | usual | usual, admissible, none | \- |
+| silent | logical | TRUE | TRUE, FALSE | \- |
+| regressors | character | use | use, select | \- |
 
 ## References
 
@@ -223,7 +223,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.17 seconds
+#> Time elapsed: 0.16 seconds
 #> Model estimated using fn() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

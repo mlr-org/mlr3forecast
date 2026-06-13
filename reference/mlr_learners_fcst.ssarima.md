@@ -35,7 +35,7 @@ or with the associated sugar function
 |----|----|----|----|
 | Id | Type | Default | Levels |
 | orders | untyped | list(ar = 0, i = 1, ma = 1) |  |
-| lags | untyped | 1 |  |
+| lags | untyped | \- |  |
 | constant | logical | FALSE | TRUE, FALSE |
 | arma | untyped | NULL |  |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete |

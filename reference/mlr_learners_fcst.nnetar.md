@@ -33,9 +33,9 @@ or with the associated sugar function
 |              |         |         |             |                       |
 |--------------|---------|---------|-------------|-----------------------|
 | Id           | Type    | Default | Levels      | Range                 |
-| p            | untyped | \-      |             | \-                    |
+| p            | integer | \-      |             | \\\[0, \infty)\\      |
 | P            | integer | 1       |             | \\\[0, \infty)\\      |
-| size         | integer | \-      |             | \\(-\infty, \infty)\\ |
+| size         | integer | NULL    |             | \\\[1, \infty)\\      |
 | repeats      | integer | 20      |             | \\(-\infty, \infty)\\ |
 | lambda       | untyped | NULL    |             | \-                    |
 | scale.inputs | logical | TRUE    | TRUE, FALSE | \-                    |
