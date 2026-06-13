@@ -111,6 +111,7 @@ Collate:
     'PipeOpFcstRolling.R'
     'PipeOpFcstTsfeats.R'
     'PipeOpTargetTrafo.R'
+    'PipeOpTargetTrafoBoxCox.R'
     'RecursiveForecaster.R'
     'ResamplingFcstCV.R'
     'ResamplingFcstHoldout.R'
