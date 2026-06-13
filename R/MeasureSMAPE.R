@@ -16,7 +16,7 @@
 #' }
 #'
 #' @references
-#' `r format_bib("hyndman2006another")`
+#' `r format_bib("makridakis1993accuracy")`
 #'
 #' @templateVar id fcst.smape
 #' @template measure

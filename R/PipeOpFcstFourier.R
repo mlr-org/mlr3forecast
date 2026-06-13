@@ -18,7 +18,7 @@
 #'   Each `K` must satisfy `2 * K <= period`. Default `1L`.
 #'
 #' @references
-#' `r format_bib("livera2011complex", "hyndman2018automatic")`
+#' `r format_bib("livera2011complex", "hyndman2008automatic")`
 #'
 #' @export
 #' @examples

@@ -7,10 +7,9 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskFcst}.
 }
 \source{
-Box, P. GE, Jenkins, M. G, Reinsel, C. G (1976).
-\emph{Time Series Analysis, Forecasting and Control}, 3rd edition.
-Holden-Day.
-Series G.
+Box, P. GE, Jenkins, M. G (1976).
+\emph{Time Series Analysis: Forecasting and Control}, Revised edition.
+Holden-Day, San Francisco.
 }
 \description{
 A forecast task for the popular \link[datasets:AirPassengers]{datasets::AirPassengers} data set.

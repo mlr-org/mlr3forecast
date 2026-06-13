@@ -44,9 +44,9 @@ Empty ParamSet
 }
 
 \references{
-Hyndman, J R, Koehler, B A (2006).
-\dQuote{Another look at measures of forecast accuracy.}
-\emph{International Journal of Forecasting}, \bold{22}(4), 679--688.
+Makridakis S (1993).
+\dQuote{Accuracy measures: theoretical and practical concerns.}
+\emph{International Journal of Forecasting}, \bold{9}(4), 527--529.
 }
 \seealso{
 \itemize{

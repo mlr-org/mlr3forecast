@@ -48,7 +48,7 @@ Empty ParamSet
 }
 
 \references{
-Blaskowitz, Herwartz H (2011).
+Blaskowitz, Oliver, Herwartz, Helmut (2011).
 \dQuote{On economic evaluation of directional forecasts.}
 \emph{International Journal of Forecasting}, \bold{27}(4), 1058--1065.
 }

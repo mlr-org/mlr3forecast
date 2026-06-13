@@ -88,7 +88,7 @@ Hyndman, R.J., Koehler, A.B., Snyder, R.D., Grose, S. (2002).
 
 Hyndman, R.J., Akram, Md., Archibald, B. (2008).
 \dQuote{The admissible parameter space for exponential smoothing models.}
-\emph{Annals of Statistical Mathematics}, \bold{60}(2), 407--426.
+\emph{Annals of the Institute of Statistical Mathematics}, \bold{60}(2), 407--426.
 
 Hyndman, R.J., Koehler, A.B., Ord, J.K., Snyder, R.D. (2008).
 \emph{Forecasting with exponential smoothing: the state space approach}.

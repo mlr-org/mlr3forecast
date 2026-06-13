@@ -11,7 +11,7 @@ bibentries = c(
     year = "2018",
     publisher = "Elsevier"
   ),
-  hyndman2018automatic = bibentry(
+  hyndman2008automatic = bibentry(
     "article",
     title = "Automatic Time Series Forecasting: The forecast Package for R",
     volume = "27",
@@ -57,7 +57,7 @@ bibentries = c(
   hyndman2002state = bibentry(
     "article",
     title = "A state space framework for automatic forecasting using exponential smoothing methods",
-    author = "Hyndman, R.J., Koehler, A.B., Snyder, R.D., and Grose, S.",
+    author = "Hyndman, R.J. and Koehler, A.B. and Snyder, R.D. and Grose, S.",
     journal = "International Journal of Forecasting",
     volume = "18",
     number = "3",
@@ -67,8 +67,8 @@ bibentries = c(
   hyndman2008admissible = bibentry(
     "article",
     title = "The admissible parameter space for exponential smoothing models",
-    author = "Hyndman, R.J., Akram, Md., and Archibald, B.",
-    journal = "Annals of Statistical Mathematics",
+    author = "Hyndman, R.J. and Akram, Md. and Archibald, B.",
+    journal = "Annals of the Institute of Statistical Mathematics",
     volume = "60",
     number = "2",
     pages = "407--426",
@@ -77,7 +77,7 @@ bibentries = c(
   hyndman2008smoothing = bibentry(
     "book",
     title = "Forecasting with exponential smoothing: the state space approach",
-    author = "Hyndman, R.J., Koehler, A.B., Ord, J.K., and Snyder, R.D.",
+    author = "Hyndman, R.J. and Koehler, A.B. and Ord, J.K. and Snyder, R.D.",
     publisher = "Springer-Verlag",
     year = "2008",
     url = "http://www.exponentialsmoothing.net"
@@ -85,7 +85,7 @@ bibentries = c(
   livera2011complex = bibentry(
     "article",
     title = "Forecasting time series with complex seasonal patterns using exponential smoothing",
-    author = "De Livera, A.M., Hyndman, R.J., & Snyder, R. D.",
+    author = "De Livera, A.M. and Hyndman, R.J. and Snyder, R.D.",
     journal = "Journal of the American Statistical Association",
     volume = "106",
     number = "496",
@@ -95,7 +95,7 @@ bibentries = c(
   blaskowitz2011directional = bibentry(
     "article",
     title = "On economic evaluation of directional forecasts",
-    author = "Blaskowitz and H. Herwartz",
+    author = "Blaskowitz, Oliver and Herwartz, Helmut",
     journal = "International Journal of Forecasting",
     volume = "27",
     number = "4",
@@ -104,12 +104,12 @@ bibentries = c(
   ),
   box1976 = bibentry(
     "book",
-    title = "Time Series Analysis, Forecasting and Control",
-    author = "Box, G. E. P. and Jenkins, G. M. and Reinsel, G. C.",
-    edition = "3rd",
+    title = "Time Series Analysis: Forecasting and Control",
+    author = "Box, G. E. P. and Jenkins, G. M.",
+    edition = "Revised",
     publisher = "Holden-Day",
-    year = "1976",
-    note = "Series G"
+    address = "San Francisco",
+    year = "1976"
   ),
   brockwell1991 = bibentry(
     "book",
@@ -156,7 +156,7 @@ bibentries = c(
     eprint = "2301.01790",
     archivePrefix = "arXiv",
     primaryClass = "stat.ME",
-    url = "https://arxiv.org/abs/2301.01790",
+    url = "https://arxiv.org/abs/2301.01790"
   ),
   svetunkov2023adam = bibentry(
     "book",
@@ -261,6 +261,17 @@ bibentries = c(
     number = "4",
     pages = "679--688",
     year = "2006",
+    publisher = "Elsevier"
+  ),
+  makridakis1993accuracy = bibentry(
+    "article",
+    title = "Accuracy measures: theoretical and practical concerns",
+    author = "Spyros Makridakis",
+    journal = "International Journal of Forecasting",
+    volume = "9",
+    number = "4",
+    pages = "527--529",
+    year = "1993",
     publisher = "Elsevier"
   ),
   winkler1972scoring = bibentry(

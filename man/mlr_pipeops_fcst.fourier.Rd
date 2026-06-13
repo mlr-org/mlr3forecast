@@ -32,7 +32,7 @@ new_task = po$train(list(task))[[1L]]
 new_task$head()
 }
 \references{
-De Livera, A.M., Hyndman, R.J., Snyder &, D. R (2011).
+De Livera, A.M., Hyndman, R.J., Snyder, R.D. (2011).
 \dQuote{Forecasting time series with complex seasonal patterns using exponential smoothing.}
 \emph{Journal of the American Statistical Association}, \bold{106}(496), 1513--1527.
 
