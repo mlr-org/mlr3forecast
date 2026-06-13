@@ -42,8 +42,8 @@ Empty ParamSet
 
 ## References
 
-Hyndman, J R, Koehler, B A (2006). “Another look at measures of forecast
-accuracy.” *International Journal of Forecasting*, **22**(4), 679–688.
+Makridakis S (1993). “Accuracy measures: theoretical and practical
+concerns.” *International Journal of Forecasting*, **9**(4), 527–529.
 
 ## See also
 

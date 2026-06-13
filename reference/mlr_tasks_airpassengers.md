@@ -12,8 +12,8 @@ from [TaskFcst](https://mlr3forecast.mlr-org.com/reference/TaskFcst.md).
 
 ## Source
 
-Box, P. GE, Jenkins, M. G, Reinsel, C. G (1976). *Time Series Analysis,
-Forecasting and Control*, 3rd edition. Holden-Day. Series G.
+Box, P. GE, Jenkins, M. G (1976). *Time Series Analysis: Forecasting and
+Control*, Revised edition. Holden-Day, San Francisco.
 
 ## Dictionary
 

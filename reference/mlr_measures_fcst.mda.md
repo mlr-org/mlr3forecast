@@ -48,9 +48,9 @@ or with the associated sugar function
 
 ## References
 
-Blaskowitz, Herwartz H (2011). “On economic evaluation of directional
-forecasts.” *International Journal of Forecasting*, **27**(4),
-1058–1065.
+Blaskowitz, Oliver, Herwartz, Helmut (2011). “On economic evaluation of
+directional forecasts.” *International Journal of Forecasting*,
+**27**(4), 1058–1065.
 
 ## See also
 

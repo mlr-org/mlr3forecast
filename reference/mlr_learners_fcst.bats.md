@@ -48,7 +48,7 @@ or with the associated sugar function
 
 ## References
 
-De Livera, A.M., Hyndman, R.J., Snyder &, D. R (2011). “Forecasting time
+De Livera, A.M., Hyndman, R.J., Snyder, R.D. (2011). “Forecasting time
 series with complex seasonal patterns using exponential smoothing.”
 *Journal of the American Statistical Association*, **106**(496),
 1513–1527.
