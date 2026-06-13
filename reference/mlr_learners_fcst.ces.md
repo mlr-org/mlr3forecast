@@ -20,7 +20,7 @@ or with the associated sugar function
 
 - Task type: “fcst”
 
-- Predict Types: “response”
+- Predict Types: “response”, “quantiles”
 
 - Feature Types: “logical”, “integer”, “numeric”
 
@@ -201,7 +201,7 @@ print(learner)
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and smooth
-#> • Predict Types: [response]
+#> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties: exogenous, featureless, and missings
@@ -219,7 +219,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.02 seconds
+#> Time elapsed: 0.04 seconds
 #> Model estimated using fn() function: CES(none)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
