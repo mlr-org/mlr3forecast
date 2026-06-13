@@ -30,9 +30,9 @@ lrn("fcst.nnetar")
 \section{Parameters}{
 \tabular{lllll}{
    Id \tab Type \tab Default \tab Levels \tab Range \cr
-   p \tab untyped \tab - \tab  \tab - \cr
+   p \tab integer \tab - \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    P \tab integer \tab 1 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   size \tab integer \tab - \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   size \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    repeats \tab integer \tab 20 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    scale.inputs \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr

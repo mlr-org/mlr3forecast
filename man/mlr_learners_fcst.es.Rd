@@ -29,20 +29,20 @@ lrn("fcst.es")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   model \tab untyped \tab "ZXZ" \tab  \cr
-   lags \tab untyped \tab - \tab  \cr
-   persistence \tab untyped \tab NULL \tab  \cr
-   phi \tab untyped \tab NULL \tab  \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr
-   initialSeason \tab untyped \tab NULL \tab  \cr
-   ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
-   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \cr
-   holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   bounds \tab character \tab usual \tab usual, admissible, none \cr
-   silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
-   regressors \tab character \tab use \tab use, select \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   model \tab untyped \tab "ZXZ" \tab  \tab - \cr
+   lags \tab untyped \tab - \tab  \tab - \cr
+   persistence \tab untyped \tab NULL \tab  \tab - \cr
+   phi \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \tab - \cr
+   initialSeason \tab untyped \tab NULL \tab  \tab - \cr
+   ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \tab - \cr
+   holdout \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr
+   silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   regressors \tab character \tab use \tab use, select \tab - \cr
 }
 }
 

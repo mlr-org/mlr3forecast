@@ -32,7 +32,7 @@ lrn("fcst.ssarima")
 \tabular{llll}{
    Id \tab Type \tab Default \tab Levels \cr
    orders \tab untyped \tab list(ar = 0, i = 1, ma = 1) \tab  \cr
-   lags \tab untyped \tab 1 \tab  \cr
+   lags \tab untyped \tab - \tab  \cr
    constant \tab logical \tab FALSE \tab TRUE, FALSE \cr
    arma \tab untyped \tab NULL \tab  \cr
    initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr

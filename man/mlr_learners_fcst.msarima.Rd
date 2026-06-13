@@ -39,7 +39,7 @@ lrn("fcst.msarima")
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
    loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   bounds \tab character \tab admissible \tab admissible, usual, none \cr
+   bounds \tab character \tab usual \tab usual, admissible, none \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
    regressors \tab character \tab use \tab use, select, adapt \cr
 }

@@ -28,25 +28,25 @@ lrn("fcst.auto_adam")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   model \tab untyped \tab "ZXZ" \tab  \cr
-   lags \tab untyped \tab - \tab  \cr
-   orders \tab untyped \tab - \tab  \cr
-   regressors \tab character \tab use \tab use, select, adapt \cr
-   occurrence \tab character \tab none \tab none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct \cr
-   distribution \tab character \tab dnorm \tab dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma \cr
-   outliers \tab character \tab ignore \tab ignore, use, select \cr
-   holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   persistence \tab untyped \tab NULL \tab  \cr
-   phi \tab untyped \tab NULL \tab  \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr
-   arma \tab untyped \tab NULL \tab  \cr
-   ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
-   bounds \tab character \tab usual \tab usual, admissible, none \cr
-   silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
-   parallel \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   ets \tab character \tab conventional \tab conventional, adam \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   model \tab untyped \tab "ZXZ" \tab  \tab - \cr
+   lags \tab untyped \tab - \tab  \tab - \cr
+   orders \tab untyped \tab list(ar = c(3, 3), i = c(2, 1), ma = c(3, 3), select = TRUE) \tab  \tab - \cr
+   regressors \tab character \tab use \tab use, select, adapt \tab - \cr
+   occurrence \tab character \tab none \tab none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct \tab - \cr
+   distribution \tab character \tab dnorm \tab dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma \tab - \cr
+   outliers \tab character \tab ignore \tab ignore, use, select \tab - \cr
+   holdout \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   persistence \tab untyped \tab NULL \tab  \tab - \cr
+   phi \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \tab - \cr
+   arma \tab untyped \tab NULL \tab  \tab - \cr
+   ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
+   bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr
+   silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   parallel \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   ets \tab character \tab conventional \tab conventional, adam \tab - \cr
 }
 }
 

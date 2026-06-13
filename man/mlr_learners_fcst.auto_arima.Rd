@@ -49,9 +49,9 @@ lrn("fcst.auto_arima")
    stepwise \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    nmodels \tab integer \tab 94 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    trace \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   approximation \tab untyped \tab - \tab  \tab - \cr
-   method \tab untyped \tab NULL \tab  \tab - \cr
-   truncate \tab untyped \tab NULL \tab  \tab - \cr
+   approximation \tab logical \tab - \tab TRUE, FALSE \tab - \cr
+   method \tab character \tab NULL \tab CSS-ML, ML, CSS \tab - \cr
+   truncate \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    test \tab character \tab kpss \tab kpss, adf, pp \tab - \cr
    test.args \tab untyped \tab list() \tab  \tab - \cr
    seasonal.test \tab character \tab seas \tab seas, ocsb, hegy, ch \tab - \cr

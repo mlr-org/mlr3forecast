@@ -42,13 +42,9 @@ LearnerFcstAutoArima = R6Class(
         stepwise = p_lgl(default = TRUE, tags = "train"),
         nmodels = p_int(0L, default = 94L, tags = "train"),
         trace = p_lgl(default = FALSE, tags = "train"),
-        approximation = p_uty(tags = "train", custom_check = check_flag),
+        approximation = p_lgl(tags = "train"),
         method = p_fct(c("CSS-ML", "ML", "CSS"), default = NULL, special_vals = list(NULL), tags = "train"),
-        truncate = p_uty(
-          default = NULL,
-          tags = "train",
-          custom_check = crate(function(x) check_count(x, null.ok = TRUE))
-        ),
+        truncate = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
         test = p_fct(c("kpss", "adf", "pp"), default = "kpss", tags = "train"),
         test.args = p_uty(default = list(), tags = "train", custom_check = check_list),
         seasonal.test = p_fct(c("seas", "ocsb", "hegy", "ch"), default = "seas", tags = "train"),

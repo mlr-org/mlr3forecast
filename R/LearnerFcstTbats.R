@@ -33,7 +33,7 @@ LearnerFcstTbats = R6Class(
           custom_check = crate(function(x) check_numeric(x, lower = 1, null.ok = TRUE))
         ),
         use.arma.errors = p_lgl(default = TRUE, tags = "train"),
-        use.parallel = p_uty(tags = "train", custom_check = check_flag),
+        use.parallel = p_lgl(tags = "train"),
         num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
         bc.lower = p_dbl(default = 0, tags = "train"),
         bc.upper = p_dbl(default = 1, tags = "train"),

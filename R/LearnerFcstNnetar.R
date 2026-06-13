@@ -23,7 +23,7 @@ LearnerFcstNnetar = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        p = p_uty(tags = "train", custom_check = crate(function(x) check_count(x))),
+        p = p_int(0L, tags = "train"),
         P = p_int(0L, default = 1L, tags = "train"),
         size = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
         repeats = p_int(default = 20L, tags = "train"),
