@@ -4,6 +4,11 @@ Time series linear model. Calls
 [`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
+If `formula` is not set, the model is fit with the `trend` and `season`
+terms of
+[`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
+plus all features, i.e. `<target> ~ trend + season + <features>`.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)
