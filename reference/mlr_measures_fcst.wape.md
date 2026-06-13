@@ -1,15 +1,14 @@
-# Mean Directional Accuracy
+# Weighted Absolute Percentage Error
 
-Measure of the proportion of correctly predicted directions between
-successive observations in forecast tasks.
+Measure of the total absolute error of forecasts as a percentage of the
+total absolute truth. It weights each error by the magnitude of the
+series, making it robust to individual observations close to zero where
+the ordinary percentage error is undefined.
 
 ## Details
 
-\$\$ \mathrm{MDA} = (a - b)\\\frac{1}{n-1} \sum\_{i=2}^n
-\mathbf{1}\\\mathrm{sign}(y_i - y\_{i-1}) = \mathrm{sign}(\hat y_i -
-y\_{i-1})\\ \\+\\ b \$\$ where `a` is the reward for a correct direction
-(default `1`), `b` is the penalty for an incorrect direction (default
-`0`), and `n` is the number of observations.
+\$\$ \mathrm{WAPE} = 100 \cdot \frac{\sum\_{i=1}^n \lvert y_i - \hat y_i
+\rvert}{\sum\_{i=1}^n \lvert y_i \rvert} \$\$
 
 ## Dictionary
 
@@ -20,16 +19,16 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.mda")
-    msr("fcst.mda")
+    mlr_measures$get("fcst.wape")
+    msr("fcst.wape")
 
 ## Meta Information
 
 - Task type: “regr”
 
-- Range: \\(-\infty, \infty)\\
+- Range: \\\[0, \infty)\\
 
-- Minimize: FALSE
+- Minimize: TRUE
 
 - Average: macro
 
@@ -40,17 +39,7 @@ or with the associated sugar function
 
 ## Parameters
 
-|         |         |         |                       |
-|---------|---------|---------|-----------------------|
-| Id      | Type    | Default | Range                 |
-| reward  | numeric | \-      | \\(-\infty, \infty)\\ |
-| penalty | numeric | \-      | \\(-\infty, \infty)\\ |
-
-## References
-
-Blaskowitz, Herwartz H (2011). “On economic evaluation of directional
-forecasts.” *International Journal of Forecasting*, **27**(4),
-1058–1065.
+Empty ParamSet
 
 ## See also
 
@@ -81,28 +70,28 @@ Other Measure:
 [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md),
 [`mlr_measures_fcst.coverage`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.coverage.md),
 [`mlr_measures_fcst.mase`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mase.md),
+[`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
 [`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
 [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
 [`mlr_measures_fcst.pinball`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.pinball.md),
 [`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md),
 [`mlr_measures_fcst.smape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.smape.md),
-[`mlr_measures_fcst.wape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.wape.md),
 [`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
 
 ## Super classes
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureMDA`
+-\> `MeasureWAPE`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureMDA$new()`](#method-MeasureMDA-initialize)
+- [`MeasureWAPE$new()`](#method-MeasureWAPE-initialize)
 
-- [`MeasureMDA$clone()`](#method-MeasureMDA-clone)
+- [`MeasureWAPE$clone()`](#method-MeasureWAPE-clone)
 
 Inherited methods
 
@@ -115,24 +104,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `MeasureMDA$new()`
+### `MeasureWAPE$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    MeasureMDA$new()
+    MeasureWAPE$new()
 
 ------------------------------------------------------------------------
 
-### `MeasureMDA$clone()`
+### `MeasureWAPE$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureMDA$clone(deep = FALSE)
+    MeasureWAPE$clone(deep = FALSE)
 
 #### Arguments
 

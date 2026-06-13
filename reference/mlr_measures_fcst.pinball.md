@@ -1,15 +1,20 @@
-# Mean Directional Accuracy
+# Pinball Loss
 
-Measure of the proportion of correctly predicted directions between
-successive observations in forecast tasks.
+Measures the quality of quantile (probabilistic) forecasts using the
+pinball loss, also known as the quantile loss. The loss is averaged over
+all observations and all predicted quantile levels. Smaller scores
+indicate better calibrated quantile forecasts.
 
 ## Details
 
-\$\$ \mathrm{MDA} = (a - b)\\\frac{1}{n-1} \sum\_{i=2}^n
-\mathbf{1}\\\mathrm{sign}(y_i - y\_{i-1}) = \mathrm{sign}(\hat y_i -
-y\_{i-1})\\ \\+\\ b \$\$ where `a` is the reward for a correct direction
-(default `1`), `b` is the penalty for an incorrect direction (default
-`0`), and `n` is the number of observations.
+For a single quantile level \\\tau\\ with forecast \\q_i\\ and
+observation \\y_i\\ the pinball loss is \$\$ L\_\tau(y_i, q_i) =
+\begin{cases} \tau\\(y_i - q_i), & \text{if } y_i \ge q_i \\ (1 -
+\tau)\\(q_i - y_i), & \text{if } y_i \< q_i \end{cases} \$\$ The
+reported score is twice the mean of \\L\_\tau\\ over all observations
+and all quantile levels \\\tau\\, matching the convention used by
+[fabletools](https://CRAN.R-project.org/package=fabletools) so that the
+median (\\\tau = 0.5\\) pinball loss equals the mean absolute error.
 
 ## Dictionary
 
@@ -20,37 +25,32 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.mda")
-    msr("fcst.mda")
+    mlr_measures$get("fcst.pinball")
+    msr("fcst.pinball")
 
 ## Meta Information
 
 - Task type: “regr”
 
-- Range: \\(-\infty, \infty)\\
+- Range: \\\[0, \infty)\\
 
-- Minimize: FALSE
+- Minimize: TRUE
 
 - Average: macro
 
-- Required Prediction: “response”
+- Required Prediction: “quantiles”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast)
 
 ## Parameters
 
-|         |         |         |                       |
-|---------|---------|---------|-----------------------|
-| Id      | Type    | Default | Range                 |
-| reward  | numeric | \-      | \\(-\infty, \infty)\\ |
-| penalty | numeric | \-      | \\(-\infty, \infty)\\ |
+Empty ParamSet
 
 ## References
 
-Blaskowitz, Herwartz H (2011). “On economic evaluation of directional
-forecasts.” *International Journal of Forecasting*, **27**(4),
-1058–1065.
+Koenker, Roger, Bassett, Gilbert (1978). “Regression Quantiles.”
+*Econometrica*, **46**(1), 33–50.
 
 ## See also
 
@@ -81,10 +81,10 @@ Other Measure:
 [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md),
 [`mlr_measures_fcst.coverage`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.coverage.md),
 [`mlr_measures_fcst.mase`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mase.md),
+[`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
 [`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
 [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
-[`mlr_measures_fcst.pinball`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.pinball.md),
 [`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md),
 [`mlr_measures_fcst.smape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.smape.md),
 [`mlr_measures_fcst.wape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.wape.md),
@@ -94,15 +94,15 @@ Other Measure:
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureMDA`
+-\> `MeasurePinball`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureMDA$new()`](#method-MeasureMDA-initialize)
+- [`MeasurePinball$new()`](#method-MeasurePinball-initialize)
 
-- [`MeasureMDA$clone()`](#method-MeasureMDA-clone)
+- [`MeasurePinball$clone()`](#method-MeasurePinball-clone)
 
 Inherited methods
 
@@ -115,24 +115,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `MeasureMDA$new()`
+### `MeasurePinball$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    MeasureMDA$new()
+    MeasurePinball$new()
 
 ------------------------------------------------------------------------
 
-### `MeasureMDA$clone()`
+### `MeasurePinball$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureMDA$clone(deep = FALSE)
+    MeasurePinball$clone(deep = FALSE)
 
 #### Arguments
 
