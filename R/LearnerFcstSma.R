@@ -59,7 +59,7 @@ LearnerFcstSma = R6Class(
         prediction = insert_named(prediction, list(response = response))
         return(prediction)
       }
-      pred = invoke(generics::forecast, self$model, h = task$nrow)
+      pred = invoke(generics::forecast, self$native_model, h = task$nrow)
       insert_named(prediction, list(response = as.numeric(pred$mean)))
     }
   )

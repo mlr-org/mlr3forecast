@@ -102,6 +102,7 @@ LearnerFcstTscount = R6Class(
         return(insert_named(prediction, list(response = response)))
       }
 
+      model = self$native_model
       newxreg = NULL
       if (task$n_features > 0L) {
         newxreg = as.matrix(task$data(cols = task$feature_names))
@@ -110,7 +111,7 @@ LearnerFcstTscount = R6Class(
       pv = self$param_set$get_values(tags = "predict")
       n_ahead = task$nrow
 
-      pred = stats::predict(self$model, n.ahead = n_ahead, newxreg = newxreg, level = 0)
+      pred = stats::predict(model, n.ahead = n_ahead, newxreg = newxreg, level = 0)
       mu = as.numeric(pred$pred)
 
       if (!is_quantile) {
@@ -119,16 +120,16 @@ LearnerFcstTscount = R6Class(
 
       probs = private$.quantiles
       if (n_ahead == 1L) {
-        quantiles = if (self$model$distr == "poisson") {
+        quantiles = if (model$distr == "poisson") {
           vapply(probs, function(p) qpois(p, lambda = mu), numeric(1L))
         } else {
-          vapply(probs, function(p) qnbinom(p, size = self$model$distrcoefs, mu = mu), numeric(1L))
+          vapply(probs, function(p) qnbinom(p, size = model$distrcoefs, mu = mu), numeric(1L))
         }
         quantiles = matrix(quantiles, nrow = 1L)
       } else {
         B = pv$B %??% 1000L
         futureobs = replicate(B, {
-          tscount::tsglm.sim(n = n_ahead, fit = self$model, xreg = newxreg, n_start = 0L)$ts
+          tscount::tsglm.sim(n = n_ahead, fit = model, xreg = newxreg, n_start = 0L)$ts
         })
         quantiles = vapply(probs, function(p) apply(futureobs, 1L, quantile, probs = p, type = 1L), numeric(n_ahead))
       }

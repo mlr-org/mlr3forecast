@@ -24,7 +24,7 @@ LearnerFcstSmooth = R6Class(
       if ("exogenous" %in% self$properties && task$n_features > 0L) {
         args$newdata = task$data(cols = task$feature_names)
       }
-      pred = invoke(generics::forecast, self$model, .args = args)
+      pred = invoke(generics::forecast, self$native_model, .args = args)
       insert_named(prediction, list(response = as.numeric(pred$mean)))
     },
 

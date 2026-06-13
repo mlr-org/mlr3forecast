@@ -19,7 +19,7 @@ test_that("smooth learners use exogenous features", {
     learner = lrn(id)
     expect_subset("exogenous", learner$properties, info = id)
     suppressWarnings(learner$train(task, split$train))
-    expect_subset("x", names(stats::coef(learner$model)), info = id)
+    expect_subset("x", names(stats::coef(learner$native_model)), info = id)
     p = suppressWarnings(learner$predict(task, split$test))
     expect_numeric(p$response, any.missing = FALSE, len = length(split$test), info = id)
   }

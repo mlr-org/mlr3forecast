@@ -87,6 +87,15 @@ Other Learner:
 \section{Super classes}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{LearnerFcst}
 }
+\section{Active bindings}{
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{native_model}}{(any)\cr
+The native model object from the upstream forecasting package. The learner's \verb{$model} wraps it
+in a named list together with the training context needed at predict time.}
+  }
+  \if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
   \itemize{

@@ -83,7 +83,7 @@ LearnerFcstProphet = R6Class(
     },
 
     .fitted = function() {
-      stats::predict(self$model)$yhat
+      stats::predict(self$native_model)$yhat
     },
 
     .predict = function(task) {
@@ -104,7 +104,7 @@ LearnerFcstProphet = R6Class(
         dt = cbind(dt, features)
       }
 
-      pred = stats::predict(self$model, dt)
+      pred = stats::predict(self$native_model, dt)
       insert_named(prediction, list(response = pred$yhat))
     }
   )

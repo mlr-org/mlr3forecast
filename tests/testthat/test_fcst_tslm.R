@@ -16,7 +16,7 @@ test_that("tslm handles exogenous features", {
   learner = lrn("fcst.tslm")
   split = partition(task, ratio = 0.8)
   learner$train(task, split$train)
-  expect_subset("x", names(stats::coef(learner$model)))
+  expect_subset("x", names(stats::coef(learner$native_model)))
   p = learner$predict(task, split$test)
   expect_prediction(p)
   expect_false(anyMissing(p$response))
@@ -29,7 +29,7 @@ test_that("tslm accepts a user formula referencing the target name", {
   learner = lrn("fcst.tslm")
   learner$param_set$set_values(formula = passengers ~ trend + season + x)
   learner$train(task)
-  expect_subset("x", names(stats::coef(learner$model)))
+  expect_subset("x", names(stats::coef(learner$native_model)))
 })
 
 test_that("tslm does not collide with a feature named the same as the placeholder", {
@@ -38,5 +38,5 @@ test_that("tslm does not collide with a feature named the same as the placeholde
   task = as_task_fcst(dt, target = "passengers", order = "time", freq = 12L)
   learner = lrn("fcst.tslm")
   learner$train(task)
-  expect_subset("y", names(stats::coef(learner$model)))
+  expect_subset("y", names(stats::coef(learner$native_model)))
 })

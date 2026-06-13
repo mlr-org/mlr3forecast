@@ -61,7 +61,7 @@ LearnerFcstForecast = R6Class(
         }
       }
       args = insert_named(args, pv)
-      pred = private$.postprocess(invoke(generics::forecast, self$model, .args = args))
+      pred = private$.postprocess(invoke(generics::forecast, self$native_model, .args = args))
 
       if (!is_quantile) {
         prediction = insert_named(prediction, list(response = as.numeric(pred$mean)))

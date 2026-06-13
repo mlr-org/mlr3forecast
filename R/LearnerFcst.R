@@ -61,6 +61,15 @@ LearnerFcst = R6Class(
       )
     }
   ),
+  active = list(
+    #' @field native_model (any)\cr
+    #' The native model object from the upstream forecasting package. The learner's `$model` wraps it
+    #' in a named list together with the training context needed at predict time.
+    native_model = function(rhs) {
+      assert_ro_binding(rhs)
+      self$model$model
+    }
+  ),
   private = list(
     .train = function(task) {
       properties = task$properties
@@ -73,12 +82,12 @@ LearnerFcst = R6Class(
       invisible(NULL)
     },
 
-    # Attach the training context predict needs to the model itself: only the model survives
-    # encapsulation (callr/future), private fields mutated during .train do not.
     .set_context = function(model, task) {
-      attr(model, "fcst_row_ids") = task$row_ids
-      attr(model, "fcst_max_index") = max(task$data(cols = task$col_roles$order)[[1L]])
-      model
+      list(
+        model = model,
+        row_ids = task$row_ids,
+        max_index = max(task$data(cols = task$col_roles$order)[[1L]])
+      )
     },
 
     .is_newdata = function(task) {
@@ -86,7 +95,7 @@ LearnerFcst = R6Class(
       if (length(order_vals) == 0L) {
         return(TRUE)
       }
-      max_index = attr(self$model, "fcst_max_index")
+      max_index = self$model$max_index
       if (all(order_vals > max_index)) {
         TRUE
       } else if (all(order_vals <= max_index)) {
@@ -100,7 +109,7 @@ LearnerFcst = R6Class(
     },
 
     .fitted_response = function(task) {
-      idx = match(task$row_ids, attr(self$model, "fcst_row_ids"))
+      idx = match(task$row_ids, self$model$row_ids)
       if (anyNA(idx)) {
         error_input("In-sample prediction is only supported for rows used during training.")
       }
@@ -108,7 +117,7 @@ LearnerFcst = R6Class(
     },
 
     .fitted = function() {
-      as.numeric(stats::fitted(self$model))
+      as.numeric(stats::fitted(self$native_model))
     }
   )
 )
