@@ -161,9 +161,6 @@
 - [`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md)
   [`MeasureRMSSE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md)
   : Root Mean Squared Scaled Error
-- [`mlr_measures_fcst.smape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.smape.md)
-  [`MeasureSMAPE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.smape.md)
-  : Symmetric Mean Absolute Percentage Error
 - [`mlr_measures_fcst.wape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.wape.md)
   [`MeasureWAPE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.wape.md)
   : Weighted Absolute Percentage Error

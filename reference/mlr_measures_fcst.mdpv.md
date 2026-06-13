@@ -81,7 +81,6 @@ Other Measure:
 [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
 [`mlr_measures_fcst.pinball`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.pinball.md),
 [`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md),
-[`mlr_measures_fcst.smape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.smape.md),
 [`mlr_measures_fcst.wape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.wape.md),
 [`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
 
