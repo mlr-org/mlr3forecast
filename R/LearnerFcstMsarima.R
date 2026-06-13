@@ -36,7 +36,7 @@ LearnerFcstMsarima = R6Class(
           tags = "train"
         ),
         holdout = p_lgl(default = FALSE, tags = "train"),
-        bounds = p_fct(c("admissible", "usual", "none"), default = "admissible", tags = "train"),
+        bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train"),
         regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train")
       )
