@@ -210,7 +210,7 @@ DirectForecaster = R6::R6Class(
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
       dt = task$data(cols = c(order_cols, key_cols))
-      freq = task$freq %??% infer_freq(dt[[order_cols]])
+      freq = task$freq %??% infer_freq(sort(unique(dt[[order_cols]])))
       origin = if (length(key_cols) > 0L) {
         dt[, list(.origin = max(get(order_cols))), by = key_cols]
       } else {

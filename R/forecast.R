@@ -19,7 +19,7 @@ generate_newdata = function(task, n = 1L) {
 
   last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else dt[.N]
 
-  freq = task$freq %??% infer_freq(dt[[order_cols]])
+  freq = task$freq %??% infer_freq(sort(unique(dt[[order_cols]])))
   newdata = last_rows[rep(seq_len(.N), each = n)]
   if (length(key_cols) > 0L) {
     newdata[, (order_cols) := seq(get(order_cols)[1L], length.out = n + 1L, by = freq)[-1L], by = key_cols]
