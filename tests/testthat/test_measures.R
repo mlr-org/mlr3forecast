@@ -98,6 +98,26 @@ test_that("MeasureMPE works", {
   expect_true(unname(pred$score(measure)) < 0)
 })
 
+test_that("MeasureSMAPE works", {
+  measure = msr("fcst.smape")
+  # perfect forecast
+  truth = c(10, 20, 30)
+  pred = PredictionRegr$new(truth = truth, response = truth, row_ids = seq_along(truth))
+  expect_identical(pred$score(measure), c(fcst.smape = 0.0))
+  # known value: 2 * 10 / (100 + 110) * 100
+  pred = PredictionRegr$new(truth = 100, response = 110, row_ids = 1L)
+  expect_equal(unname(pred$score(measure)), 2 * 10 / (100 + 110) * 100)
+  # symmetric in truth and response
+  truth = c(10, 20, 30)
+  response = c(12, 18, 33)
+  pred1 = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
+  pred2 = PredictionRegr$new(truth = response, response = truth, row_ids = seq_along(truth))
+  expect_equal(unname(pred1$score(measure)), unname(pred2$score(measure)))
+  # opposite signs stay within range
+  pred = PredictionRegr$new(truth = c(1, 2, 3), response = c(-1, -2, -3), row_ids = 1:3)
+  expect_number(unname(pred$score(measure)), lower = 0, upper = 200)
+})
+
 test_that("MeasureACF1 works", {
   measure = msr("fcst.acf1")
   task = tsk("airpassengers")

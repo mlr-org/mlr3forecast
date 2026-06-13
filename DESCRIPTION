@@ -104,6 +104,7 @@ Collate:
     'MeasureCoverage.R'
     'MeasureDirectional.R'
     'MeasureMPE.R'
+    'MeasureSMAPE.R'
     'MeasureScaled.R'
     'MeasureWinkler.R'
     'PipeOpFcstFourier.R'

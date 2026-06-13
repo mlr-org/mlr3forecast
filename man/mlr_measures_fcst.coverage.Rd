@@ -68,6 +68,7 @@ Other Measure:
 \code{\link{mlr_measures_fcst.mdv}},
 \code{\link{mlr_measures_fcst.mpe}},
 \code{\link{mlr_measures_fcst.rmsse}},
+\code{\link{mlr_measures_fcst.smape}},
 \code{\link{mlr_measures_fcst.winkler}}
 }
 \concept{Measure}
