@@ -1,13 +1,13 @@
-# Mean Percentage Error
+# Symmetric Mean Absolute Percentage Error
 
-Measure of the average signed percentage error of forecasts. Positive
-values indicate systematic under-forecasting, negative values indicate
-over-forecasting.
+Measure of the symmetric mean absolute percentage error of forecasts.
+Unlike the ordinary percentage error, it is bounded between 0 and 200
+and treats over- and under-forecasting more symmetrically.
 
 ## Details
 
-\$\$ \mathrm{MPE} = \frac{100}{n} \sum\_{i=1}^n \frac{y_i - \hat
-y_i}{y_i} \$\$
+\$\$ \mathrm{sMAPE} = \frac{100}{n} \sum\_{i=1}^n \frac{2\\\lvert y_i -
+\hat y_i \rvert}{\lvert y_i \rvert + \lvert \hat y_i \rvert} \$\$
 
 ## Dictionary
 
@@ -18,16 +18,16 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.mpe")
-    msr("fcst.mpe")
+    mlr_measures$get("fcst.smape")
+    msr("fcst.smape")
 
 ## Meta Information
 
 - Task type: “regr”
 
-- Range: \\(-\infty, \infty)\\
+- Range: \\\[0, 200\]\\
 
-- Minimize: NA
+- Minimize: TRUE
 
 - Average: macro
 
@@ -39,6 +39,11 @@ or with the associated sugar function
 ## Parameters
 
 Empty ParamSet
+
+## References
+
+Hyndman, J R, Koehler, B A (2006). “Another look at measures of forecast
+accuracy.” *International Journal of Forecasting*, **22**(4), 679–688.
 
 ## See also
 
@@ -72,23 +77,23 @@ Other Measure:
 [`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
 [`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
+[`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
 [`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md),
-[`mlr_measures_fcst.smape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.smape.md),
 [`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
 
 ## Super classes
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureMPE`
+-\> `MeasureSMAPE`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureMPE$new()`](#method-MeasureMPE-initialize)
+- [`MeasureSMAPE$new()`](#method-MeasureSMAPE-initialize)
 
-- [`MeasureMPE$clone()`](#method-MeasureMPE-clone)
+- [`MeasureSMAPE$clone()`](#method-MeasureSMAPE-clone)
 
 Inherited methods
 
@@ -101,24 +106,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `MeasureMPE$new()`
+### `MeasureSMAPE$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    MeasureMPE$new()
+    MeasureSMAPE$new()
 
 ------------------------------------------------------------------------
 
-### `MeasureMPE$clone()`
+### `MeasureSMAPE$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureMPE$clone(deep = FALSE)
+    MeasureSMAPE$clone(deep = FALSE)
 
 #### Arguments
 

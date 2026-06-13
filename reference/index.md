@@ -158,6 +158,9 @@
 - [`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md)
   [`MeasureRMSSE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md)
   : Root Mean Squared Scaled Error
+- [`mlr_measures_fcst.smape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.smape.md)
+  [`MeasureSMAPE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.smape.md)
+  : Symmetric Mean Absolute Percentage Error
 - [`mlr_measures_fcst.winkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
   [`MeasureWinkler`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.winkler.md)
   : Winkler Score
@@ -182,6 +185,9 @@
 - [`mlr_pipeops_fcst.rolling`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.md)
   [`PipeOpFcstRolling`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.md)
   : Create Rolling Window Features of Target Variable
+- [`mlr_pipeops_fcst.targetboxcox`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetboxcox.md)
+  [`PipeOpTargetTrafoBoxCox`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetboxcox.md)
+  : Box-Cox Transform the Target Variable
 - [`mlr_pipeops_fcst.targetdiff`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetdiff.md)
   [`PipeOpTargetTrafoDifference`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetdiff.md)
   : Difference the Target Variable
