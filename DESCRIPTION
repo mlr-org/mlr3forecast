@@ -104,6 +104,7 @@ Collate:
     'MeasureCoverage.R'
     'MeasureDirectional.R'
     'MeasureMPE.R'
+    'MeasurePinball.R'
     'MeasureSMAPE.R'
     'MeasureScaled.R'
     'MeasureWAPE.R'

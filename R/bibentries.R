@@ -274,6 +274,17 @@ bibentries = c(
     year = "1972",
     publisher = "Taylor & Francis"
   ),
+  koenker1978regression = bibentry(
+    "article",
+    title = "Regression Quantiles",
+    author = "Koenker, Roger and Bassett, Gilbert",
+    journal = "Econometrica",
+    volume = "46",
+    number = "1",
+    pages = "33--50",
+    year = "1978",
+    publisher = "JSTOR"
+  ),
   liboschik2017tscount = bibentry(
     "article",
     title = "tscount: An R Package for Analysis of Count Time Series Following Generalized Linear Models",

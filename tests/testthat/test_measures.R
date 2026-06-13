@@ -209,6 +209,31 @@ test_that("MeasureWinkler works", {
   expect_equal(unname(pred$score(measure)), 210)
 })
 
+test_that("MeasurePinball works", {
+  measure = msr("fcst.pinball")
+  truth = c(10, 20, 30, 40, 50)
+  # perfect forecast at every quantile gives 0
+  quantiles = make_quantiles(truth, truth)
+  pred = PredictionRegr$new(
+    truth = truth,
+    response = rep(0, 5),
+    quantiles = quantiles,
+    row_ids = seq_along(truth)
+  )
+  expect_identical(unname(pred$score(measure)), 0.0)
+  # lower bound below truth -> tau * (y - q); upper bound above truth -> (1 - tau) * (q - y)
+  # with probs c(0.025, 0.975) and a distance of 2 on each side, every loss term is 0.025 * 2 = 0.05,
+  # and the score is twice the mean loss
+  quantiles = make_quantiles(truth - 2, truth + 2)
+  pred = PredictionRegr$new(
+    truth = truth,
+    response = rep(0, 5),
+    quantiles = quantiles,
+    row_ids = seq_along(truth)
+  )
+  expect_equal(unname(pred$score(measure)), 0.1)
+})
+
 test_that("MeasureMASE works", {
   measure = msr("fcst.mase")
   task = tsk("airpassengers")
@@ -310,6 +335,21 @@ test_that("measures match fabletools reference implementation", {
   )
   expected_winkler = fabletools::winkler_score(d, truth, level = 95)
   expect_equal(unname(pred_q$score(msr("fcst.winkler"))), expected_winkler)
+
+  # Pinball
+  probs = c(0.1, 0.5, 0.9)
+  qmat = vapply(probs, function(p) unname(quantile(d, p)), numeric(length(truth)))
+  colnames(qmat) = sprintf("q%s", probs)
+  data.table::setattr(qmat, "probs", probs)
+  data.table::setattr(qmat, "response", 0.5)
+  pred_pinball = PredictionRegr$new(
+    truth = truth,
+    response = response,
+    quantiles = qmat,
+    row_ids = row_ids
+  )
+  expected_pinball = fabletools::quantile_score(d, truth, probs = probs)
+  expect_equal(unname(pred_pinball$score(msr("fcst.pinball"))), expected_pinball)
 
   # MASE
   train_ids = 1:120
