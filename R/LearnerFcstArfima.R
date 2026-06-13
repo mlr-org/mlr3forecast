@@ -50,7 +50,7 @@ LearnerFcstArfima = R6Class(
         method = p_fct(c("CSS-ML", "ML", "CSS"), default = NULL, special_vals = list(NULL), tags = "train"),
         truncate = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
         parallel = p_lgl(default = FALSE, tags = "train"),
-        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
+        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train", depends = parallel == TRUE),
         # additional arguments to stats::arima
         transform.pars = p_lgl(default = TRUE, tags = "train"),
         fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),

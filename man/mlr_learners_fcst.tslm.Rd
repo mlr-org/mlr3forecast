@@ -7,6 +7,9 @@
 \description{
 Time series linear model.
 Calls \code{\link[forecast:tslm]{forecast::tslm()}} from package \CRANpkg{forecast}.
+
+If \code{formula} is not set, the model is fit with the \code{trend} and \code{season} terms of \code{\link[forecast:tslm]{forecast::tslm()}} plus all
+features, i.e. \verb{<target> ~ trend + season + <features>}.
 }
 \section{Dictionary}{
 

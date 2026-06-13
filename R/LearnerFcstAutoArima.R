@@ -53,7 +53,7 @@ LearnerFcstAutoArima = R6Class(
         allowmean = p_lgl(default = TRUE, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         parallel = p_lgl(default = FALSE, tags = "train"),
-        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
+        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train", depends = parallel == TRUE),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),

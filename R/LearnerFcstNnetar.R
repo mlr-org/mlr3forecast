@@ -30,7 +30,7 @@ LearnerFcstNnetar = R6Class(
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         scale.inputs = p_lgl(default = TRUE, tags = "train"),
         parallel = p_lgl(default = FALSE, tags = "train"),
-        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = c("train", "threads")),
+        num.cores = p_int(1L, default = 2L, special_vals = list(NULL), tags = "train", depends = parallel == TRUE),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 1000L, tags = "predict"),
         innov = p_uty(

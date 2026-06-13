@@ -6,6 +6,9 @@
 #' Time series linear model.
 #' Calls [forecast::tslm()] from package \CRANpkg{forecast}.
 #'
+#' If `formula` is not set, the model is fit with the `trend` and `season` terms of [forecast::tslm()] plus all
+#' features, i.e. `<target> ~ trend + season + <features>`.
+#'
 #' @templateVar id fcst.tslm
 #' @template learner
 #'
