@@ -118,6 +118,21 @@ test_that("MeasureSMAPE works", {
   expect_number(unname(pred$score(measure)), lower = 0, upper = 200)
 })
 
+test_that("MeasureWAPE works", {
+  measure = msr("fcst.wape")
+  # perfect forecast
+  truth = c(10, 20, 30)
+  pred = PredictionRegr$new(truth = truth, response = truth, row_ids = seq_along(truth))
+  expect_identical(pred$score(measure), c(fcst.wape = 0.0))
+  # known value: 100 * sum|e| / sum|y|
+  response = c(8, 24, 27)
+  pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
+  expect_equal(unname(pred$score(measure)), 100 * sum(abs(truth - response)) / sum(abs(truth)))
+  # large errors relative to small series can exceed 100
+  pred = PredictionRegr$new(truth = c(1, 1), response = c(5, 5), row_ids = 1:2)
+  expect_equal(unname(pred$score(measure)), 400)
+})
+
 test_that("MeasureACF1 works", {
   measure = msr("fcst.acf1")
   task = tsk("airpassengers")

@@ -106,6 +106,7 @@ Collate:
     'MeasureMPE.R'
     'MeasureSMAPE.R'
     'MeasureScaled.R'
+    'MeasureWAPE.R'
     'MeasureWinkler.R'
     'PipeOpFcstFourier.R'
     'PipeOpFcstLags.R'
