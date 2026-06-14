@@ -767,6 +767,12 @@ flrn$predict_newdata(newdata, task)
 
 ## Pipeline Operators
 
+- [`mlr_pipeops_fcst.catch22`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.catch22.md)
+  [`PipeOpFcstCatch22`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.catch22.md)
+  : Time Series Feature Extraction (catch22)
+- [`mlr_pipeops_fcst.feasts`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.feasts.md)
+  [`PipeOpFcstFeasts`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.feasts.md)
+  : Time Series Feature Extraction (feasts)
 - [`mlr_pipeops_fcst.fourier`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.fourier.md)
   [`PipeOpFcstFourier`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.fourier.md)
   : Create Fourier Features for Seasonality
