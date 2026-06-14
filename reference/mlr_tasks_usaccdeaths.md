@@ -12,8 +12,8 @@ from [TaskFcst](https://mlr3forecast.mlr-org.com/reference/TaskFcst.md).
 
 ## Source
 
-Brockwell, J. P, Davis, A. R (1991). *Time Series: Theory and Methods*.
-Springer, New York.
+Brockwell, J. P, Davis, A. R (1991). *Time Series: Theory and Methods*,
+2nd edition. Springer, New York.
 
 ## Dictionary
 

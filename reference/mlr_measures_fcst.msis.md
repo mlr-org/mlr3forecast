@@ -1,13 +1,25 @@
-# Mean Percentage Error
+# Mean Scaled Interval Score
 
-Measure of the average signed percentage error of forecasts. Positive
-values indicate systematic under-forecasting, negative values indicate
-over-forecasting.
+Measures the quality of central prediction intervals, scaling the
+interval (Winkler) score by the in-sample mean absolute error of the
+naive (or seasonal naive) forecast. The interval score rewards narrow
+intervals and penalizes observations falling outside them, and the
+scaling makes the measure comparable across series of different
+magnitudes. This is the prediction-interval metric used in the M4
+competition. Smaller scores indicate better calibrated and narrower
+intervals.
 
 ## Details
 
-\$\$ \mathrm{MPE} = \frac{100}{n} \sum\_{i=1}^n \frac{y_i - \hat
-y_i}{y_i} \$\$
+For a central interval at level `1 - alpha` with lower and upper bounds
+\\l_i\\ and \\u_i\\ (the `alpha/2` and `1 - alpha/2` quantiles): \$\$
+\mathrm{MSIS} = \frac{\frac{1}{n} \sum\_{i=1}^n (u_i - l_i) +
+\frac{2}{\alpha}(l_i - y_i)\mathbf{1}\\y_i \< l_i\\ +
+\frac{2}{\alpha}(y_i - u_i)\mathbf{1}\\y_i \> u_i\\} {\frac{1}{T-m}
+\sum\_{t=m+1}^T \lvert z_t - z\_{t-m} \rvert} \$\$ where \\z\\ is the
+training series, \\m\\ is the seasonal period, and \\T\\ is the length
+of the training series. For keyed tasks the score is computed per series
+and averaged.
 
 ## Dictionary
 
@@ -18,27 +30,41 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::msr()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_measures$get("fcst.mpe")
-    msr("fcst.mpe")
+    mlr_measures$get("fcst.msis")
+    msr("fcst.msis")
 
 ## Meta Information
 
 - Task type: “regr”
 
-- Range: \\(-\infty, \infty)\\
+- Range: \\\[0, \infty)\\
 
-- Minimize: NA
+- Minimize: TRUE
 
 - Average: macro
 
-- Required Prediction: “response”
+- Required Prediction: “quantiles”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast)
 
 ## Parameters
 
-Empty ParamSet
+|        |         |         |                  |
+|--------|---------|---------|------------------|
+| Id     | Type    | Default | Range            |
+| alpha  | numeric | \-      | \\\[0, 1\]\\     |
+| period | integer | \-      | \\\[1, \infty)\\ |
+
+## References
+
+Gneiting, Tilmann, Raftery, E A (2007). “Strictly Proper Scoring Rules,
+Prediction, and Estimation.” *Journal of the American Statistical
+Association*, **102**(477), 359–378.
+
+Makridakis, Spyros, Spiliotis, Evangelos, Assimakopoulos, Vassilios
+(2020). “The M4 Competition: 100,000 time series and 61 forecasting
+methods.” *International Journal of Forecasting*, **36**(1), 54–74.
 
 ## See also
 
@@ -72,7 +98,7 @@ Other Measure:
 [`mlr_measures_fcst.mda`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mda.md),
 [`mlr_measures_fcst.mdpv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdpv.md),
 [`mlr_measures_fcst.mdv`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mdv.md),
-[`mlr_measures_fcst.msis`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.msis.md),
+[`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md),
 [`mlr_measures_fcst.pinball`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.pinball.md),
 [`mlr_measures_fcst.rmsse`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.rmsse.md),
 [`mlr_measures_fcst.wape`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.wape.md),
@@ -82,15 +108,15 @@ Other Measure:
 
 [`mlr3::Measure`](https://mlr3.mlr-org.com/reference/Measure.html) -\>
 [`mlr3::MeasureRegr`](https://mlr3.mlr-org.com/reference/MeasureRegr.html)
--\> `MeasureMPE`
+-\> `MeasureMSIS`
 
 ## Methods
 
 ### Public methods
 
-- [`MeasureMPE$new()`](#method-MeasureMPE-initialize)
+- [`MeasureMSIS$new()`](#method-MeasureMSIS-initialize)
 
-- [`MeasureMPE$clone()`](#method-MeasureMPE-clone)
+- [`MeasureMSIS$clone()`](#method-MeasureMSIS-clone)
 
 Inherited methods
 
@@ -103,24 +129,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `MeasureMPE$new()`
+### `MeasureMSIS$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    MeasureMPE$new()
+    MeasureMSIS$new()
 
 ------------------------------------------------------------------------
 
-### `MeasureMPE$clone()`
+### `MeasureMSIS$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    MeasureMPE$clone(deep = FALSE)
+    MeasureMSIS$clone(deep = FALSE)
 
 #### Arguments
 

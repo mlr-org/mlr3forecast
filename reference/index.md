@@ -155,6 +155,9 @@
 - [`mlr_measures_fcst.mpe`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md)
   [`MeasureMPE`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.mpe.md)
   : Mean Percentage Error
+- [`mlr_measures_fcst.msis`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.msis.md)
+  [`MeasureMSIS`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.msis.md)
+  : Mean Scaled Interval Score
 - [`mlr_measures_fcst.pinball`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.pinball.md)
   [`MeasurePinball`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.pinball.md)
   : Pinball Loss
