@@ -8,9 +8,8 @@
 }
 \source{
 Brockwell, J. P, Davis, A. R (1991).
-\emph{Time Series and Forecasting Methods}, 2nd edition.
-Springer.
-Series G.
+\emph{Time Series: Theory and Methods}, 2nd edition.
+Springer, New York.
 }
 \description{
 A forecast task for the popular \link[datasets:lynx]{datasets::lynx} data set.
@@ -38,6 +37,16 @@ tsk("lynx")
 }
 }
 
+\references{
+Campbell, J. M, Walker, M. A (1977).
+\dQuote{A Survey of Statistical Work on the Mackenzie River Series of Annual Canadian Lynx Trappings for the Years 1821-1934 and a New Analysis.}
+\emph{Journal of the Royal Statistical Society. Series A (General)}, \bold{140}(4), 411--431.
+\doi{10.2307/2345277}.
+
+Becker, A. R, Chambers, M. J, Wilks, R. A (1988).
+\emph{The New S Language}.
+Chapman and Hall/CRC, London.
+}
 \seealso{
 \itemize{
 \item Chapter in the \href{https://mlr3book.mlr-org.com/}{mlr3book}:

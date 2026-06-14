@@ -8,7 +8,7 @@
 }
 \source{
 Brockwell, J. P, Davis, A. R (1991).
-\emph{Time Series: Theory and Methods}.
+\emph{Time Series: Theory and Methods}, 2nd edition.
 Springer, New York.
 }
 \description{

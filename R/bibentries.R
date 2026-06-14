@@ -115,18 +115,29 @@ bibentries = c(
     "book",
     title = "Time Series: Theory and Methods",
     author = "Brockwell, P. J. and Davis, R. A.",
+    edition = "2nd",
     publisher = "Springer",
     address = "New York",
     year = "1991"
   ),
-  brockwell1991forecasting = bibentry(
+  becker1988news = bibentry(
     "book",
-    title = "Time Series and Forecasting Methods",
-    author = "Brockwell, P. J. and Davis, R. A.",
-    edition = "2nd",
-    publisher = "Springer",
-    year = "1991",
-    note = "Series G"
+    title = "The New S Language",
+    author = "Becker, R. A. and Chambers, J. M. and Wilks, A. R.",
+    publisher = "Chapman and Hall/CRC",
+    address = "London",
+    year = "1988"
+  ),
+  campbell1977lynx = bibentry(
+    "article",
+    title = "A Survey of Statistical Work on the Mackenzie River Series of Annual Canadian Lynx Trappings for the Years 1821-1934 and a New Analysis",
+    author = "Campbell, M. J. and Walker, A. M.",
+    journal = "Journal of the Royal Statistical Society. Series A (General)",
+    volume = "140",
+    number = "4",
+    pages = "411--431",
+    year = "1977",
+    doi = "10.2307/2345277"
   ),
   kourentzes2014neural = bibentry(
     "article",
@@ -263,17 +274,6 @@ bibentries = c(
     year = "2006",
     publisher = "Elsevier"
   ),
-  makridakis1993accuracy = bibentry(
-    "article",
-    title = "Accuracy measures: theoretical and practical concerns",
-    author = "Spyros Makridakis",
-    journal = "International Journal of Forecasting",
-    volume = "9",
-    number = "4",
-    pages = "527--529",
-    year = "1993",
-    publisher = "Elsevier"
-  ),
   winkler1972scoring = bibentry(
     "article",
     title = "A Decision-Theoretic Approach to Interval Estimation",
@@ -295,6 +295,17 @@ bibentries = c(
     pages = "54--74",
     year = "2020",
     publisher = "Elsevier"
+  ),
+  gneiting2007scoring = bibentry(
+    "article",
+    title = "Strictly Proper Scoring Rules, Prediction, and Estimation",
+    author = "Gneiting, Tilmann and Raftery, Adrian E",
+    journal = "Journal of the American Statistical Association",
+    volume = "102",
+    number = "477",
+    pages = "359--378",
+    year = "2007",
+    publisher = "Taylor & Francis"
   ),
   koenker1978regression = bibentry(
     "article",

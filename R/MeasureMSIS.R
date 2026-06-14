@@ -24,7 +24,7 @@
 #' the training series. For keyed tasks the score is computed per series and averaged.
 #'
 #' @references
-#' `r format_bib("makridakis2020m4")`
+#' `r format_bib("gneiting2007scoring", "makridakis2020m4")`
 #'
 #' @templateVar id fcst.msis
 #' @template measure

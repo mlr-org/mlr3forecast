@@ -55,6 +55,10 @@ msr("fcst.msis")
 }
 
 \references{
+Gneiting, Tilmann, Raftery, E A (2007).
+\dQuote{Strictly Proper Scoring Rules, Prediction, and Estimation.}
+\emph{Journal of the American Statistical Association}, \bold{102}(477), 359--378.
+
 Makridakis, Spyros, Spiliotis, Evangelos, Assimakopoulos, Vassilios (2020).
 \dQuote{The M4 Competition: 100,000 time series and 61 forecasting methods.}
 \emph{International Journal of Forecasting}, \bold{36}(1), 54--74.

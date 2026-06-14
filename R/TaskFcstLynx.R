@@ -11,7 +11,10 @@
 #' @template task
 #'
 #' @source
-#' `r format_bib("brockwell1991forecasting")`
+#' `r format_bib("brockwell1991")`
+#'
+#' @references
+#' `r format_bib("campbell1977lynx", "becker1988news")`
 #'
 #' @template seealso_task
 NULL
