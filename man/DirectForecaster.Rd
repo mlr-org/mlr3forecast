@@ -107,7 +107,8 @@ Stores the currently active predict type.}
       \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner} | \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp})\cr
 A regression learner or a graph/PipeOp (without \link{PipeOpFcstLags}).}
       \item{\code{lags}}{(\code{integer()})\cr
-The base lag values.}
+The base lag values. Exposed in \verb{$param_set} as \code{lags}, so it can be tuned via
+\link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}.}
       \item{\code{horizons}}{(\code{integer()})\cr
 Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector of specific horizons.
 One model is trained per horizon. At predict time each test row is routed to the model

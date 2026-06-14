@@ -40,7 +40,8 @@ DirectForecaster = R6::R6Class(
     #' @param learner ([mlr3::Learner] | [mlr3pipelines::Graph] | [mlr3pipelines::PipeOp])\cr
     #'   A regression learner or a graph/PipeOp (without [PipeOpFcstLags]).
     #' @param lags (`integer()`)\cr
-    #'   The base lag values.
+    #'   The base lag values. Exposed in `$param_set` as `lags`, so it can be tuned via
+    #'   [mlr3tuning::AutoTuner].
     #' @param horizons (`integer()`)\cr
     #'   Either a single integer `H` (expanded to `1:H`) or an integer vector of specific horizons.
     #'   One model is trained per horizon. At predict time each test row is routed to the model
@@ -59,8 +60,15 @@ DirectForecaster = R6::R6Class(
       if (length(horizons) == 1L) {
         horizons = seq_len(horizons)
       }
-      private$.lags = lags
       private$.horizons = horizons
+
+      private$.fcst_param_set = ps(
+        lags = p_uty(
+          tags = "train",
+          custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
+        )
+      )
+      private$.fcst_param_set$set_values(lags = lags)
 
       if (inherits(learner, c("Graph", "PipeOp"))) {
         graph = as_graph(learner)
@@ -105,6 +113,10 @@ DirectForecaster = R6::R6Class(
         packages = c("mlr3forecast", private$.learner$packages),
         man = private$.learner$man
       )
+      private$.param_set = ParamSetCollection$new(list(
+        private$.fcst_param_set,
+        private$.learner$param_set
+      ))
       private$.predict_type = private$.learner$predict_type
       if (!is.null(predict_type)) self$predict_type = predict_type
     },
@@ -147,7 +159,7 @@ DirectForecaster = R6::R6Class(
     #' The base lags.
     lags = function(rhs) {
       assert_ro_binding(rhs)
-      private$.lags
+      private$.fcst_param_set$values$lags
     },
 
     #' @field horizons (`integer()`)\cr
@@ -159,11 +171,16 @@ DirectForecaster = R6::R6Class(
 
     #' @template field_param_set
     param_set = function(rhs) {
-      param_set = private$.learner$param_set
-      if (!missing(rhs) && !identical(rhs, param_set)) {
+      if (is.null(private$.param_set)) {
+        private$.param_set = ParamSetCollection$new(list(
+          private$.fcst_param_set,
+          private$.learner$param_set
+        ))
+      }
+      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
         error_input("param_set is read-only.")
       }
-      param_set
+      private$.param_set
     },
 
     #' @field marshaled (`logical(1)`)\cr
@@ -191,11 +208,23 @@ DirectForecaster = R6::R6Class(
 
   private = list(
     .learner = NULL,
-    .lags = NULL,
+    .fcst_param_set = NULL,
     .horizons = NULL,
 
+    # Clone the inner learner and forecaster-owned ParamSet, and drop the cached
+    # ParamSetCollection so the active binding rebuilds it referencing the clones.
+    deep_clone = function(name, value) {
+      switch(
+        name,
+        .learner = value$clone(deep = TRUE),
+        .fcst_param_set = value$clone(deep = TRUE),
+        .param_set = NULL,
+        super$deep_clone(name, value)
+      )
+    },
+
     .train = function(task) {
-      lags = private$.lags
+      lags = private$.fcst_param_set$values$lags
       horizons = private$.horizons
       graph = private$.learner$graph
 

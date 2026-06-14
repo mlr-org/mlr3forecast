@@ -207,3 +207,24 @@ test_that("DirectForecaster active bindings", {
   expect_equal(learner$lags, 1:5)
   expect_equal(learner$horizons, 1:3)
 })
+
+test_that("DirectForecaster exposes tunable lags in param_set", {
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+  expect_subset(c("lags", "regr.rpart.cp"), learner$param_set$ids())
+  expect_equal(learner$param_set$values$lags, 1:3)
+
+  learner$param_set$values$lags = 1:2
+  expect_equal(learner$lags, 1:2)
+
+  learner$train(tsk("airpassengers"), 1:100)
+  offsets = map(learner$model$models, function(m) m$graph$pipeops$fcst.lags$param_set$values$lags)
+  expect_equal(offsets, list(1:2, 2:3, 3:4))
+})
+
+test_that("DirectForecaster clone has independent lags", {
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
+  clone = learner$clone(deep = TRUE)
+  clone$param_set$values$lags = 5:7
+  expect_equal(clone$lags, 5:7)
+  expect_equal(learner$lags, 1:3)
+})
