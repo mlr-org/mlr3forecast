@@ -121,9 +121,9 @@ LearnerFcstTscount = R6Class(
       probs = private$.quantiles
       if (n_ahead == 1L) {
         quantiles = if (model$distr == "poisson") {
-          vapply(probs, function(p) qpois(p, lambda = mu), numeric(1L))
+          map_dbl(probs, function(p) qpois(p, lambda = mu))
         } else {
-          vapply(probs, function(p) qnbinom(p, size = model$distrcoefs, mu = mu), numeric(1L))
+          map_dbl(probs, function(p) qnbinom(p, size = model$distrcoefs, mu = mu))
         }
         quantiles = matrix(quantiles, nrow = 1L)
       } else {

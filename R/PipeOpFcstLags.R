@@ -73,7 +73,7 @@ PipeOpFcstLags = R6Class(
         dt[, (lag_cols) := shift(get(target), lags), by = key_cols]
       } else {
         setorderv(dt, order_cols)
-        dt[, (lag_cols) := shift(get(target), lags)]
+        set(dt, j = lag_cols, value = shift(dt[[target]], lags))
       }
 
       active = task$data(cols = c(key_cols, order_cols))
@@ -98,7 +98,7 @@ PipeOpFcstLags = R6Class(
         full[, (lag_cols) := shift(get(target), lags), by = key_cols]
       } else {
         setorderv(full, order_cols)
-        full[, (lag_cols) := shift(get(target), lags)]
+        set(full, j = lag_cols, value = shift(full[[target]], lags))
       }
 
       active = task$data(cols = c(key_cols, order_cols))
