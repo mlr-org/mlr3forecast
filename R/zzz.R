@@ -10,6 +10,8 @@
 #' @importFrom utils tail
 "_PACKAGE"
 
+utils::globalVariables(c(".idx", ".value"))
+
 mlr3forecast_resamplings = new.env(parent = emptyenv())
 mlr3forecast_tasks = new.env(parent = emptyenv())
 mlr3forecast_learners = new.env(parent = emptyenv())

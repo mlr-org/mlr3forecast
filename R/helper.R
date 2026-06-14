@@ -69,6 +69,25 @@ freq_to_int = function(freq) {
   )
 }
 
+# Map a task's order column to a tsibble index whose interval encodes the seasonal period, so feature
+# extractors (e.g. feasts) infer seasonality correctly. Sub-monthly/yearly orders are used as-is
+# (Date/POSIXct/integer).
+to_tsibble_index = function(order, freq) {
+  if (is.character(freq)) {
+    unit = sub("^[0-9. ]*", "", freq)
+    if (grepl("month", unit, fixed = TRUE)) {
+      return(tsibble::yearmonth(order))
+    }
+    if (grepl("quarter", unit, fixed = TRUE)) {
+      return(tsibble::yearquarter(order))
+    }
+    if (grepl("week", unit, fixed = TRUE)) {
+      return(tsibble::yearweek(order))
+    }
+  }
+  order
+}
+
 quantiles_to_level = function(x) {
   x = x[x != 0.5]
   sort(unique(round(abs(1 - 2 * x) * 100, 6)))
