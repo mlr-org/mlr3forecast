@@ -58,7 +58,7 @@ PipeOpFcstRolling = R6Class(
             }
             finite = x[is.finite(x)]
             if (length(finite) && !test_integerish(finite)) {
-              return("Finite window sizes must be whole numbers; use `Inf` for an expanding window")
+              return("Finite window sizes must be whole numbers. Use `Inf` for an expanding window")
             }
             TRUE
           })
@@ -81,13 +81,30 @@ PipeOpFcstRolling = R6Class(
 
   private = list(
     .train_task = function(task) {
-      target = task$target_names
-      col_roles = task$col_roles
-      key_cols = col_roles$key
-      order_cols = col_roles$order
+      cols = c(task$target_names, task$col_roles$key, task$col_roles$order)
+      private$.rolling(task, task$data(cols = cols))
+    },
 
-      dt = task$data(cols = c(target, key_cols, order_cols))
-      roll_spec = private$.roll_spec(target)
+    .predict_task = function(task) {
+      cols = c(task$target_names, task$col_roles$key, task$col_roles$order)
+      private$.rolling(task, task$backend$data(rows = task$backend$rownames, cols = cols))
+    },
+
+    .rolling = function(task, dt) {
+      target = task$target_names
+      key_cols = task$col_roles$key
+      order_cols = task$col_roles$order
+
+      pv = self$param_set$get_values(tags = "train")
+      grid = CJ(fn = pv$funs, size = pv$window_sizes, sorted = FALSE)
+      size_lbl = fifelse(is.infinite(grid$size), "expanding", as.character(grid$size))
+      roll_spec = list(
+        fn = grid$fn,
+        size = grid$size,
+        lag = pv$lag,
+        cols = sprintf("%s_roll_%s_%s", target, grid$fn, size_lbl)
+      )
+
       if (length(key_cols) > 0L) {
         setorderv(dt, c(key_cols, order_cols))
         dt[, (roll_spec$cols) := fcst_rolls(get(target), roll_spec), by = key_cols]
@@ -100,40 +117,6 @@ PipeOpFcstRolling = R6Class(
       set(dt, j = target, value = NULL)
       active_rolls = dt[active, on = c(key_cols, order_cols)][, roll_spec$cols, with = FALSE]
       task$select(task$feature_names)$cbind(active_rolls)
-    },
-
-    .predict_task = function(task) {
-      target = task$target_names
-      col_roles = task$col_roles
-      key_cols = col_roles$key
-      order_cols = col_roles$order
-
-      full = task$backend$data(rows = task$backend$rownames, cols = c(target, key_cols, order_cols))
-      roll_spec = private$.roll_spec(target)
-      if (length(key_cols) > 0L) {
-        setorderv(full, c(key_cols, order_cols))
-        full[, (roll_spec$cols) := fcst_rolls(get(target), roll_spec), by = key_cols]
-      } else {
-        setorderv(full, order_cols)
-        set(full, j = roll_spec$cols, value = fcst_rolls(full[[target]], roll_spec))
-      }
-
-      active = task$data(cols = c(key_cols, order_cols))
-      set(full, j = target, value = NULL)
-      active_rolls = full[active, on = c(key_cols, order_cols)][, roll_spec$cols, with = FALSE]
-      task$select(task$feature_names)$cbind(active_rolls)
-    },
-
-    .roll_spec = function(target) {
-      pv = self$param_set$get_values(tags = "train")
-      grid = CJ(fun = pv$funs, size = pv$window_sizes, sorted = FALSE)
-      size_lbl = fifelse(is.infinite(grid$size), "expanding", as.character(grid$size))
-      list(
-        fun = grid$fun,
-        size = grid$size,
-        lag = pv$lag,
-        cols = sprintf("%s_roll_%s_%s", target, grid$fun, size_lbl)
-      )
     }
   )
 )
@@ -141,8 +124,8 @@ PipeOpFcstRolling = R6Class(
 fcst_rolls = function(x, spec) {
   rolls = list(mean = frollmean, median = frollmedian, sd = frollsd, min = frollmin, max = frollmax, sum = frollsum)
   shifted = shift(x, n = spec$lag)
-  map(seq_along(spec$fun), function(i) {
-    f = rolls[[spec$fun[i]]]
+  map(seq_along(spec$fn), function(i) {
+    f = rolls[[spec$fn[i]]]
     if (is.infinite(spec$size[i])) {
       out = f(shifted, n = seq_along(shifted), adaptive = TRUE, na.rm = TRUE)
       replace(out, !is.finite(out), NA_real_)
