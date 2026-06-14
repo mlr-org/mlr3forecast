@@ -11,6 +11,26 @@ The \code{task_type} is set to \code{"fcst"}.
 It is recommended to use \code{\link[=as_task_fcst]{as_task_fcst()}} for construction.
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 }
+\section{Series identity and keys}{
+
+A task may have one or more \code{key} columns. Together they identify each series, where identity is
+the combination of the keys. The key role drives all per-series operations. Target lags and
+rolling windows (\link{PipeOpFcstLags}, \link{PipeOpFcstRolling}) are computed within each series, and the
+future forecast grid is built per series.
+
+Key columns are \strong{also} features by default, which is usually what you want. Keys such as
+\code{region} or \code{product} are meaningful categorical covariates, and exposing them lets a global model
+specialize per series. For a high-cardinality key, such as an arbitrary series id with many
+levels, passing the raw factor to the learner can overfit or fail for learners that need encoding.
+Encode it inside the learner graph instead, e.g. with \link[mlr3pipelines:PipeOpEncodeImpact]{mlr3pipelines::PipeOpEncodeImpact}
+(\code{po("encodeimpact")}) or a shrinkage encoder such as \code{po("encodelmer")}. Both compose into the
+\link{RecursiveForecaster} and \link{DirectForecaster} graphs. Drop a key's feature role only when it
+carries no signal beyond identifying the series. The key role, and thus grouping, is kept:
+
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{task$set_col_roles("series_id", remove_from = "feature")
+}\if{html}{\out{</div>}}
+}
+
 \examples{
 \dontshow{if (requireNamespace("tsbox", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(data.table)
