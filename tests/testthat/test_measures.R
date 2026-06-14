@@ -364,3 +364,73 @@ test_that("measures match fabletools reference implementation", {
     expected_rmsse_12
   )
 })
+
+test_that("fcst.msis matches greybox::sMIS reference", {
+  skip_if_not_installed("greybox")
+  withr::local_seed(1)
+
+  task = tsk("airpassengers")
+  train_ids = 1:120
+  test_ids = 121:144
+  train = task$data(rows = train_ids, cols = task$target_names)[[1L]]
+  truth = task$data(rows = test_ids, cols = task$target_names)[[1L]]
+  response = truth + rnorm(length(test_ids), 0, 10)
+  lower = response - 25
+  upper = response + 30
+  qmat = cbind(lower, upper)
+  data.table::setattr(qmat, "probs", c(0.025, 0.975))
+  pred = PredictionRegr$new(truth = truth, response = response, quantiles = qmat, row_ids = test_ids)
+
+  for (m in c(1L, 12L)) {
+    scale = mean(abs(diff(train, lag = m)))
+    expect_equal(
+      unname(pred$score(msr("fcst.msis", period = m), task = task, train_set = train_ids)),
+      greybox::sMIS(truth, lower, upper, scale = scale, level = 0.95)
+    )
+  }
+})
+
+test_that("fcst.msis on a keyed task averages per-series scaled scores", {
+  skip_if_not_installed("greybox")
+  withr::local_seed(2)
+
+  dt = rbindlist(lapply(c("A", "B"), function(k) {
+    data.table(
+      id = factor(k, levels = c("A", "B")),
+      date = seq(as.Date("2010-01-01"), by = "month", length.out = 60L),
+      y = as.numeric(cumsum(rnorm(60L, 2, 5)) + 100 + 50 * (k == "B"))
+    )
+  }))
+  task = as_task_fcst(dt, target = "y", order = "date", key = "id", freq = "month")
+  d = task$data(cols = c("id", "date"))
+  set(d, j = "rid", value = task$row_ids)
+  setorder(d, id, date)
+  train_ids = d[, head(rid, 48L), by = id]$V1
+  test_ids = d[, tail(rid, 12L), by = id]$V1
+
+  truth = task$data(rows = test_ids, cols = "y")[[1L]]
+  response = truth + rnorm(length(test_ids), 0, 8)
+  lower = response - 20
+  upper = response + 22
+  qmat = cbind(lower, upper)
+  data.table::setattr(qmat, "probs", c(0.025, 0.975))
+  pred = PredictionRegr$new(truth = truth, response = response, quantiles = qmat, row_ids = test_ids)
+
+  test_key = task$data(rows = test_ids, cols = "id")[[1L]]
+  train_key = task$data(rows = train_ids, cols = "id")[[1L]]
+  train_y = task$data(rows = train_ids, cols = "y")[[1L]]
+  per_key = vapply(
+    c("A", "B"),
+    function(k) {
+      sel = test_key == k
+      scale = mean(abs(diff(train_y[train_key == k], lag = 12L)))
+      greybox::sMIS(truth[sel], lower[sel], upper[sel], scale = scale, level = 0.95)
+    },
+    numeric(1L)
+  )
+
+  expect_equal(
+    unname(pred$score(msr("fcst.msis", period = 12L), task = task, train_set = train_ids)),
+    mean(per_key)
+  )
+})

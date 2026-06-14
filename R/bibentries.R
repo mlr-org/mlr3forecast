@@ -285,6 +285,17 @@ bibentries = c(
     year = "1972",
     publisher = "Taylor & Francis"
   ),
+  makridakis2020m4 = bibentry(
+    "article",
+    title = "The M4 Competition: 100,000 time series and 61 forecasting methods",
+    author = "Makridakis, Spyros and Spiliotis, Evangelos and Assimakopoulos, Vassilios",
+    journal = "International Journal of Forecasting",
+    volume = "36",
+    number = "1",
+    pages = "54--74",
+    year = "2020",
+    publisher = "Elsevier"
+  ),
   koenker1978regression = bibentry(
     "article",
     title = "Regression Quantiles",
