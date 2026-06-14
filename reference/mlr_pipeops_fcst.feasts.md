@@ -127,7 +127,8 @@ out$head()
 # feature registry is populated)
 library(feasts)
 #> Loading required package: fabletools
-po = po("fcst.feasts", features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation"))
+features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation")
+po = po("fcst.feasts", features = features)
 po$train(list(task))[[1L]]$head()
 #>    passengers passengers_feasts_acf1 passengers_feasts_acf10 passengers_feasts_diff1_acf1 passengers_feasts_diff1_acf10 passengers_feasts_diff2_acf1 passengers_feasts_diff2_acf10
 #>         <num>                  <num>                   <num>                        <num>                         <num>                        <num>                         <num>
