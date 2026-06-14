@@ -110,11 +110,25 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(mlr3pipelines)
 task = tsk("airpassengers")
 po = po("fcst.tsfeats", features = c("entropy", "acf_features"))
 out = po$train(list(task))[[1L]]
 out$head()
-} # }
+#>    passengers passengers_tsf_entropy passengers_tsf_x_acf1 passengers_tsf_x_acf10 passengers_tsf_diff1_acf1 passengers_tsf_diff1_acf10 passengers_tsf_diff2_acf1
+#>         <num>                  <num>                 <num>                  <num>                     <num>                      <num>                     <num>
+#> 1:        112              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059
+#> 2:        118              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059
+#> 3:        132              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059
+#> 4:        129              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059
+#> 5:        121              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059
+#> 6:        135              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059
+#>    passengers_tsf_diff2_acf10 passengers_tsf_seas_acf1
+#>                         <num>                    <num>
+#> 1:                  0.2507803                 0.760395
+#> 2:                  0.2507803                 0.760395
+#> 3:                  0.2507803                 0.760395
+#> 4:                  0.2507803                 0.760395
+#> 5:                  0.2507803                 0.760395
+#> 6:                  0.2507803                 0.760395
 ```

@@ -101,17 +101,48 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
 library(mlr3pipelines)
 task = tsk("airpassengers")
 po = po("fcst.feasts", features = list(feasts::feat_acf))
 out = po$train(list(task))[[1L]]
 out$head()
+#>    passengers passengers_feasts_acf1 passengers_feasts_acf10 passengers_feasts_diff1_acf1 passengers_feasts_diff1_acf10 passengers_feasts_diff2_acf1 passengers_feasts_diff2_acf10
+#>         <num>                  <num>                   <num>                        <num>                         <num>                        <num>                         <num>
+#> 1:        112              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 2:        118              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 3:        132              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 4:        129              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 5:        121              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 6:        135              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#>    passengers_feasts_season_acf1
+#>                            <num>
+#> 1:                      0.760395
+#> 2:                      0.760395
+#> 3:                      0.760395
+#> 4:                      0.760395
+#> 5:                      0.760395
+#> 6:                      0.760395
 
 # select features by tag via fabletools::feature_set() (requires feasts to be attached so its
 # feature registry is populated)
 library(feasts)
+#> Loading required package: fabletools
 po = po("fcst.feasts", features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation"))
 po$train(list(task))[[1L]]$head()
-} # }
+#>    passengers passengers_feasts_acf1 passengers_feasts_acf10 passengers_feasts_diff1_acf1 passengers_feasts_diff1_acf10 passengers_feasts_diff2_acf1 passengers_feasts_diff2_acf10
+#>         <num>                  <num>                   <num>                        <num>                         <num>                        <num>                         <num>
+#> 1:        112              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 2:        118              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 3:        132              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 4:        129              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 5:        121              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#> 6:        135              0.9480473                5.670087                    0.3028553                     0.4088376                   -0.1910059                     0.2507803
+#>    passengers_feasts_season_acf1 passengers_feasts_pacf5 passengers_feasts_diff1_pacf5 passengers_feasts_diff2_pacf5 passengers_feasts_season_pacf
+#>                            <num>                   <num>                         <num>                         <num>                         <num>
+#> 1:                      0.760395               0.9670971                      1.176436                       1.15419                    -0.1354311
+#> 2:                      0.760395               0.9670971                      1.176436                       1.15419                    -0.1354311
+#> 3:                      0.760395               0.9670971                      1.176436                       1.15419                    -0.1354311
+#> 4:                      0.760395               0.9670971                      1.176436                       1.15419                    -0.1354311
+#> 5:                      0.760395               0.9670971                      1.176436                       1.15419                    -0.1354311
+#> 6:                      0.760395               0.9670971                      1.176436                       1.15419                    -0.1354311
 ```

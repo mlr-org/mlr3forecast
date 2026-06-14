@@ -144,13 +144,27 @@ otherwise be set during construction. Default <code><a href="https://rdrr.io/r/b
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"airpassengers"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">po</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"fcst.tsfeats"</span>, features <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"entropy"</span>, <span class="st">"acf_features"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">out</span> <span class="op">=</span> <span class="va">po</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span><span class="va">out</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    passengers passengers_tsf_entropy passengers_tsf_x_acf1 passengers_tsf_x_acf10 passengers_tsf_diff1_acf1 passengers_tsf_diff1_acf10 passengers_tsf_diff2_acf1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;                  &lt;num&gt;                 &lt;num&gt;                  &lt;num&gt;                     &lt;num&gt;                      &lt;num&gt;                     &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:        112              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:        118              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:        132              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:        129              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:        121              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:        135              0.2961049             0.9480473               5.670087                 0.3028553                  0.4088376                -0.1910059</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    passengers_tsf_diff2_acf10 passengers_tsf_seas_acf1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                         &lt;num&gt;                    &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:                  0.2507803                 0.760395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:                  0.2507803                 0.760395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:                  0.2507803                 0.760395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:                  0.2507803                 0.760395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:                  0.2507803                 0.760395</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:                  0.2507803                 0.760395</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
