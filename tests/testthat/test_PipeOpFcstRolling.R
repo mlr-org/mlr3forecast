@@ -40,7 +40,7 @@ test_that("PipeOpFcstRolling supports expanding windows via Inf", {
   expect_subset("passengers_roll_mean_expanding", out$feature_names)
 
   y = task$truth()
-  expected = vapply(seq_along(y), function(t) if (t == 1L) NA_real_ else mean(y[seq_len(t - 1L)]), numeric(1L))
+  expected = map_dbl(seq_along(y), function(t) if (t == 1L) NA_real_ else mean(y[seq_len(t - 1L)]))
   expect_equal(out$data(cols = "passengers_roll_mean_expanding")[[1L]], expected)
 })
 

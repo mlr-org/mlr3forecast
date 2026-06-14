@@ -419,14 +419,13 @@ test_that("fcst.msis on a keyed task averages per-series scaled scores", {
   test_key = task$data(rows = test_ids, cols = "id")[[1L]]
   train_key = task$data(rows = train_ids, cols = "id")[[1L]]
   train_y = task$data(rows = train_ids, cols = "y")[[1L]]
-  per_key = vapply(
+  per_key = map_dbl(
     c("A", "B"),
     function(k) {
       sel = test_key == k
       scale = mean(abs(diff(train_y[train_key == k], lag = 12L)))
       greybox::sMIS(truth[sel], lower[sel], upper[sel], scale = scale, level = 0.95)
-    },
-    numeric(1L)
+    }
   )
 
   expect_equal(
