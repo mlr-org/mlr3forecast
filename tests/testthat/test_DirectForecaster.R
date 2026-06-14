@@ -221,6 +221,20 @@ test_that("DirectForecaster exposes tunable lags in param_set", {
   expect_equal(offsets, list(1:2, 2:3, 3:4))
 })
 
+test_that("DirectForecaster batched predict aligns response and se with row order", {
+  task = tsk("airpassengers")
+  train_ids = 1:132
+  flrn = DirectForecaster$new(lrn("regr.featureless", predict_type = "se"), lags = 1:3, horizons = 12L)
+  flrn$train(task, train_ids)
+
+  test_ids = sample(133:144)
+  pred = flrn$predict(task, test_ids)
+  dt = as.data.table(pred)
+  expect_equal(dt$row_ids, task$row_ids[match(test_ids, task$row_ids)])
+  expect_false(anyNA(pred$response))
+  expect_false(anyNA(pred$se))
+})
+
 test_that("DirectForecaster clone has independent lags", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
   clone = learner$clone(deep = TRUE)
