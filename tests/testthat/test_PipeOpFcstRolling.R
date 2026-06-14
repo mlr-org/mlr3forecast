@@ -44,6 +44,15 @@ test_that("PipeOpFcstRolling supports expanding windows via Inf", {
   expect_equal(out$data(cols = "passengers_roll_mean_expanding")[[1L]], expected)
 })
 
+test_that("PipeOpFcstRolling expanding min/max yield NA, not infinite, for empty windows", {
+  task = tsk("airpassengers")
+  out = po("fcst.rolling", funs = c("min", "max"), window_sizes = Inf, lag = 1L)$train(list(task))[[1L]]
+  cols = c("passengers_roll_min_expanding", "passengers_roll_max_expanding")
+  res = out$data(cols = cols)
+  expect_all_equal(unlist(res[1L]), NA_real_)
+  expect_all_true(is.finite(unlist(res[-1L])))
+})
+
 test_that("PipeOpFcstRolling mixes finite and expanding windows", {
   task = tsk("airpassengers")
   out = po("fcst.rolling", funs = c("mean", "sd"), window_sizes = c(3L, Inf))$train(list(task))[[1L]]

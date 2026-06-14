@@ -145,7 +145,7 @@ fcst_rolls = function(x, spec) {
     f = rolls[[spec$fun[i]]]
     if (is.infinite(spec$size[i])) {
       out = f(shifted, n = seq_along(shifted), adaptive = TRUE, na.rm = TRUE)
-      replace(out, is.nan(out), NA_real_)
+      replace(out, !is.finite(out), NA_real_)
     } else {
       f(shifted, n = spec$size[i])
     }
