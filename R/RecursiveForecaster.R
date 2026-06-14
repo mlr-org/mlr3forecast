@@ -302,7 +302,7 @@ RecursiveForecaster = R6::R6Class(
       test_cids = seq.int(n_train + 1L, n_train + n_test)
       set(combined, j = target, value = as.numeric(combined[[target]]))
       set(combined, i = test_cids, j = target, value = NA_real_)
-      set(combined, j = "..rid", value = seq_len(nrow(combined)))
+      set(combined, j = "..rid", value = seq_row(combined))
 
       backend = DataBackendDataTable$new(combined, "..rid")
       step_task = as_task_fcst(

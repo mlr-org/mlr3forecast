@@ -328,7 +328,7 @@ DirectForecaster = R6::R6Class(
       }
       future = test_data[skeleton, on = c(key_cols, order_cols)]
       combined = rbindlist(list(self$model$train_tail, future), use.names = TRUE, fill = TRUE)
-      set(combined, j = "..rid", value = seq_len(nrow(combined)))
+      set(combined, j = "..rid", value = seq_row(combined))
 
       backend = DataBackendDataTable$new(combined, "..rid")
       step_task = as_task_fcst(backend, target = target, order = order_cols, key = key_cols, freq = freq)
