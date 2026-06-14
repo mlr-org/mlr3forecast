@@ -51,6 +51,13 @@ would entangle the transformation with the iterative lag/rolling
 feedback, which read the original-scale backend, producing a
 train/predict scale mismatch.
 
+## Prediction uncertainty
+
+Only the point forecast is fed back between steps, so `se`/`distr`
+uncertainty does not accumulate across horizons and intervals are too
+narrow for `h > 1`. For calibrated multi-step intervals, prefer
+[DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md).
+
 ## Super class
 
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>

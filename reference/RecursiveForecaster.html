@@ -109,6 +109,14 @@ at construction: it would entangle the transformation with the iterative lag/rol
 which read the original-scale backend, producing a train/predict scale mismatch.</p>
     </div>
     <div class="section level2">
+    <h2 id="prediction-uncertainty">Prediction uncertainty<a class="anchor" aria-label="anchor" href="#prediction-uncertainty"></a></h2>
+
+
+<p>Only the point forecast is fed back between steps, so <code>se</code>/<code>distr</code> uncertainty does not accumulate
+across horizons and intervals are too narrow for <code>h &gt; 1</code>. For calibrated multi-step intervals,
+prefer <a href="DirectForecaster.html">DirectForecaster</a>.</p>
+    </div>
+    <div class="section level2">
     <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
     <p><code><a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a></code> -&gt; <code>RecursiveForecaster</code></p>
     </div>

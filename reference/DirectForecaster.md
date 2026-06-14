@@ -112,7 +112,9 @@ Creates a new instance of this
 - `lags`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html))  
-  The base lag values.
+  The base lag values. Exposed in `$param_set` as `lags`, so it can be
+  tuned via
+  [mlr3tuning::AutoTuner](https://mlr3tuning.mlr-org.com/reference/AutoTuner.html).
 
 - `horizons`:
 

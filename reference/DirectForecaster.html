@@ -150,7 +150,8 @@ A regression learner or a graph/PipeOp (without <a href="mlr_pipeops_fcst.lags.h
 
       <dt><code>lags</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
-The base lag values.</p></dd>
+The base lag values. Exposed in <code>$param_set</code> as <code>lags</code>, so it can be tuned via
+<a href="https://mlr3tuning.mlr-org.com/reference/AutoTuner.html" class="external-link">mlr3tuning::AutoTuner</a>.</p></dd>
 
       <dt><code>horizons</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
