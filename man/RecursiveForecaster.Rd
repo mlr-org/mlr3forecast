@@ -40,6 +40,13 @@ at construction: it would entangle the transformation with the iterative lag/rol
 which read the original-scale backend, producing a train/predict scale mismatch.
 }
 
+\section{Prediction uncertainty}{
+
+Only the point forecast is fed back between steps, so \code{se}/\code{distr} uncertainty does not accumulate
+across horizons and intervals are too narrow for \code{h > 1}. For calibrated multi-step intervals,
+prefer \link{DirectForecaster}.
+}
+
 \examples{
 library(mlr3pipelines)
 

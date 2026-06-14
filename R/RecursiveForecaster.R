@@ -34,6 +34,11 @@
 #' at construction: it would entangle the transformation with the iterative lag/rolling feedback,
 #' which read the original-scale backend, producing a train/predict scale mismatch.
 #'
+#' @section Prediction uncertainty:
+#' Only the point forecast is fed back between steps, so `se`/`distr` uncertainty does not accumulate
+#' across horizons and intervals are too narrow for `h > 1`. For calibrated multi-step intervals,
+#' prefer [DirectForecaster].
+#'
 #' @export
 #' @examples
 #' library(mlr3pipelines)
