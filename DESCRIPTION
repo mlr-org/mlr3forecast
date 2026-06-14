@@ -40,6 +40,7 @@ Suggests:
     mlr3tuning,
     nnfor (>= 0.9.9),
     prophet (>= 1.1.7),
+    Rcatch22,
     Rlgt (>= 0.2.3),
     rpart,
     smooth (>= 4.4.0),
@@ -112,6 +113,7 @@ Collate:
     'MeasureScaled.R'
     'MeasureWAPE.R'
     'MeasureWinkler.R'
+    'PipeOpFcstCatch22.R'
     'PipeOpFcstFeasts.R'
     'PipeOpFcstFourier.R'
     'PipeOpFcstLags.R'

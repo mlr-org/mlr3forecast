@@ -29,6 +29,12 @@
 #' po = po("fcst.feasts", features = list(feasts::feat_acf))
 #' out = po$train(list(task))[[1L]]
 #' out$head()
+#'
+#' # select features by tag via fabletools::feature_set() (requires feasts to be attached so its
+#' # feature registry is populated)
+#' library(feasts)
+#' po = po("fcst.feasts", features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation"))
+#' po$train(list(task))[[1L]]$head()
 #' }
 PipeOpFcstFeasts = R6Class(
   "PipeOpFcstFeasts",
@@ -72,7 +78,7 @@ PipeOpFcstFeasts = R6Class(
         tsibble::build_tsibble(dt[, cols, with = FALSE], index = .idx)
       }
       features = self$param_set$get_values(tags = "train")$features %??% list(feasts::feat_acf, feasts::feat_stl)
-      feats = setDT(fabletools::features(tsbl, .value, features = features))
+      feats = setDT(invoke(fabletools::features, tsbl, .value, features = features))
       feat_cols = setdiff(names(feats), key_cols)
       setnames(feats, feat_cols, paste0(target, "_feasts_", feat_cols))
 

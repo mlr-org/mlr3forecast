@@ -35,6 +35,12 @@ task = tsk("airpassengers")
 po = po("fcst.feasts", features = list(feasts::feat_acf))
 out = po$train(list(task))[[1L]]
 out$head()
+
+# select features by tag via fabletools::feature_set() (requires feasts to be attached so its
+# feature registry is populated)
+library(feasts)
+po = po("fcst.feasts", features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation"))
+po$train(list(task))[[1L]]$head()
 }
 }
 \section{Super classes}{
