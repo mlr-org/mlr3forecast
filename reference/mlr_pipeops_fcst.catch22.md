@@ -1,24 +1,20 @@
 # Time Series Feature Extraction (catch22)
 
-Computes the 22 (or 24) canonical time-series characteristics of the
-target variable via
+This `PipeOp` extracts the 22 (or 24) canonical time series
+characteristics (catch22) from the target variable. For more details,
+see
 [`Rcatch22::catch22_all()`](https://rdrr.io/pkg/Rcatch22/man/catch22_all.html),
-and broadcasts them as constant columns to every row of the
-corresponding series. For an unkeyed task the features are broadcast to
-every row; for a keyed task each key contributes one feature vector.
+which is called internally on the ordered target vector.
 
-The catch22 set is a low-redundancy subset of the hctsa features
-selected for time-series classification performance and is computed in
-C, making it considerably faster than
+The catch22 set is a low-redundancy subset of the hctsa features,
+selected for their performance across a diverse collection of time
+series classification tasks, but applicable as general-purpose features
+for other tasks such as regression.
+
+For other time series feature extractors, see
 [PipeOpFcstTsfeats](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md)
 and
 [PipeOpFcstFeasts](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.feasts.md).
-The features are computed on the ordered target vector and are agnostic
-to the seasonal period, so unlike the other two extractors they contain
-no explicit seasonal/trend features.
-
-Features are cached in the state at train time and reused at predict
-time. Predicting on a key that was not seen during training is an error.
 
 ## Parameters
 
@@ -29,6 +25,13 @@ as well as:
 - `catch24` :: `logical(1)`  
   If `TRUE`, additionally compute the mean and standard deviation (the
   catch24 set). Default `FALSE`.
+
+## Naming
+
+The new columns are named `{target}_catch22_{feature}`. If the target
+was called `"y"` and the feature is `"DN_HistogramMode_5"`, the
+corresponding new column will be called
+`"y_catch22_DN_HistogramMode_5"`.
 
 ## Super classes
 

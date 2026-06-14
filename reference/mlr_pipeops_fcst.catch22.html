@@ -5,25 +5,19 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Time Series Feature Extraction (catch22) — mlr_pipeops_fcst.catch22"><meta name="description" content="Computes the 22 (or 24) canonical time-series characteristics of the target variable via
-Rcatch22::catch22_all(), and broadcasts them as constant columns to every row of the corresponding
-series. For an unkeyed task the features are broadcast to every row; for a keyed task each key
-contributes one feature vector.
-The catch22 set is a low-redundancy subset of the hctsa features selected for time-series
-classification performance and is computed in C, making it considerably faster than PipeOpFcstTsfeats
-and PipeOpFcstFeasts. The features are computed on the ordered target vector and are agnostic to the
-seasonal period, so unlike the other two extractors they contain no explicit seasonal/trend features.
-Features are cached in the state at train time and reused at predict time. Predicting on a key that was
-not seen during training is an error."><meta property="og:description" content="Computes the 22 (or 24) canonical time-series characteristics of the target variable via
-Rcatch22::catch22_all(), and broadcasts them as constant columns to every row of the corresponding
-series. For an unkeyed task the features are broadcast to every row; for a keyed task each key
-contributes one feature vector.
-The catch22 set is a low-redundancy subset of the hctsa features selected for time-series
-classification performance and is computed in C, making it considerably faster than PipeOpFcstTsfeats
-and PipeOpFcstFeasts. The features are computed on the ordered target vector and are agnostic to the
-seasonal period, so unlike the other two extractors they contain no explicit seasonal/trend features.
-Features are cached in the state at train time and reused at predict time. Predicting on a key that was
-not seen during training is an error."></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Time Series Feature Extraction (catch22) — mlr_pipeops_fcst.catch22"><meta name="description" content="This PipeOp extracts the 22 (or 24) canonical time series characteristics (catch22) from the target
+variable. For more details, see Rcatch22::catch22_all(), which is called internally on the ordered
+target vector.
+The catch22 set is a low-redundancy subset of the hctsa features, selected for their performance
+across a diverse collection of time series classification tasks, but applicable as general-purpose
+features for other tasks such as regression.
+For other time series feature extractors, see PipeOpFcstTsfeats and PipeOpFcstFeasts."><meta property="og:description" content="This PipeOp extracts the 22 (or 24) canonical time series characteristics (catch22) from the target
+variable. For more details, see Rcatch22::catch22_all(), which is called internally on the ordered
+target vector.
+The catch22 set is a low-redundancy subset of the hctsa features, selected for their performance
+across a diverse collection of time series classification tasks, but applicable as general-purpose
+features for other tasks such as regression.
+For other time series feature extractors, see PipeOpFcstTsfeats and PipeOpFcstFeasts."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -68,16 +62,13 @@ not seen during training is an error."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>Computes the 22 (or 24) canonical time-series characteristics of the target variable via
-<code><a href="https://rdrr.io/pkg/Rcatch22/man/catch22_all.html" class="external-link">Rcatch22::catch22_all()</a></code>, and broadcasts them as constant columns to every row of the corresponding
-series. For an unkeyed task the features are broadcast to every row; for a keyed task each key
-contributes one feature vector.</p>
-<p>The catch22 set is a low-redundancy subset of the <span class="pkg">hctsa</span> features selected for time-series
-classification performance and is computed in C, making it considerably faster than <a href="mlr_pipeops_fcst.tsfeats.html">PipeOpFcstTsfeats</a>
-and <a href="mlr_pipeops_fcst.feasts.html">PipeOpFcstFeasts</a>. The features are computed on the ordered target vector and are agnostic to the
-seasonal period, so unlike the other two extractors they contain no explicit seasonal/trend features.</p>
-<p>Features are cached in the state at train time and reused at predict time. Predicting on a key that was
-not seen during training is an error.</p>
+    <p>This <code>PipeOp</code> extracts the 22 (or 24) canonical time series characteristics (catch22) from the target
+variable. For more details, see <code><a href="https://rdrr.io/pkg/Rcatch22/man/catch22_all.html" class="external-link">Rcatch22::catch22_all()</a></code>, which is called internally on the ordered
+target vector.</p>
+<p>The catch22 set is a low-redundancy subset of the <span class="pkg">hctsa</span> features, selected for their performance
+across a diverse collection of time series classification tasks, but applicable as general-purpose
+features for other tasks such as regression.</p>
+<p>For other time series feature extractors, see <a href="mlr_pipeops_fcst.tsfeats.html">PipeOpFcstTsfeats</a> and <a href="mlr_pipeops_fcst.feasts.html">PipeOpFcstFeasts</a>.</p>
     </div>
 
 
@@ -88,6 +79,13 @@ not seen during training is an error.</p>
 <p>The parameters are the parameters inherited from <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTaskPreproc.html" class="external-link">mlr3pipelines::PipeOpTaskPreproc</a>, as well as:</p><ul><li><p><code>catch24</code> :: <code>logical(1)</code><br>
 If <code>TRUE</code>, additionally compute the mean and standard deviation (the catch24 set). Default <code>FALSE</code>.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="naming">Naming<a class="anchor" aria-label="anchor" href="#naming"></a></h2>
+
+
+<p>The new columns are named <code>{target}_catch22_{feature}</code>. If the target was called <code>"y"</code> and the feature is
+<code>"DN_HistogramMode_5"</code>, the corresponding new column will be called <code>"y_catch22_DN_HistogramMode_5"</code>.</p>
+    </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
     <p><code><a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">mlr3pipelines::PipeOp</a></code> -&gt; <code><a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTaskPreproc.html" class="external-link">mlr3pipelines::PipeOpTaskPreproc</a></code> -&gt; <code>PipeOpFcstCatch22</code></p>
