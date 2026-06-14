@@ -35,13 +35,13 @@ Missing-value handler. Default \code{\link[stats:na.pass]{stats::na.pass()}}.
 }
 
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("tsfeatures", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 task = tsk("airpassengers")
 po = po("fcst.tsfeats", features = c("entropy", "acf_features"))
 out = po$train(list(task))[[1L]]
 out$head()
-}
+\dontshow{\}) # examplesIf}
 }
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{PipeOpFcstTsfeats}

@@ -28,14 +28,12 @@
 #'   Missing-value handler. Default [stats::na.pass()].
 #'
 #' @export
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("tsfeatures", quietly = TRUE)
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")
 #' po = po("fcst.tsfeats", features = c("entropy", "acf_features"))
 #' out = po$train(list(task))[[1L]]
 #' out$head()
-#' }
 PipeOpFcstTsfeats = R6Class(
   "PipeOpFcstTsfeats",
   inherit = PipeOpTaskPreproc,

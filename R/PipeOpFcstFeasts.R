@@ -22,8 +22,7 @@
 #'   [fabletools::feature_set()]. Default `list(feasts::feat_acf, feasts::feat_stl)`.
 #'
 #' @export
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("feasts", quietly = TRUE) && requireNamespace("fabletools", quietly = TRUE)
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")
 #' po = po("fcst.feasts", features = list(feasts::feat_acf))
@@ -35,7 +34,6 @@
 #' library(feasts)
 #' po = po("fcst.feasts", features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation"))
 #' po$train(list(task))[[1L]]$head()
-#' }
 PipeOpFcstFeasts = R6Class(
   "PipeOpFcstFeasts",
   inherit = PipeOpTaskPreproc,

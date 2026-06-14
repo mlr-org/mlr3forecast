@@ -21,14 +21,12 @@
 #'   If `TRUE`, additionally compute the mean and standard deviation (the catch24 set). Default `FALSE`.
 #'
 #' @export
-#' @examples
-#' \dontrun{
+#' @examplesIf requireNamespace("Rcatch22", quietly = TRUE)
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")
 #' po = po("fcst.catch22")
 #' out = po$train(list(task))[[1L]]
 #' out$head()
-#' }
 PipeOpFcstCatch22 = R6Class(
   "PipeOpFcstCatch22",
   inherit = PipeOpTaskPreproc,

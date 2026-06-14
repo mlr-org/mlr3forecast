@@ -29,7 +29,7 @@ A list of \CRANpkg{feasts} feature functions (e.g. \link[feasts:feat_acf]{feasts
 }
 
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("feasts", quietly = TRUE) && requireNamespace("fabletools", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 task = tsk("airpassengers")
 po = po("fcst.feasts", features = list(feasts::feat_acf))
@@ -41,7 +41,7 @@ out$head()
 library(feasts)
 po = po("fcst.feasts", features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation"))
 po$train(list(task))[[1L]]$head()
-}
+\dontshow{\}) # examplesIf}
 }
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{PipeOpFcstFeasts}

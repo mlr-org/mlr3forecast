@@ -28,13 +28,13 @@ If \code{TRUE}, additionally compute the mean and standard deviation (the catch2
 }
 
 \examples{
-\dontrun{
+\dontshow{if (requireNamespace("Rcatch22", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 task = tsk("airpassengers")
 po = po("fcst.catch22")
 out = po$train(list(task))[[1L]]
 out$head()
-}
+\dontshow{\}) # examplesIf}
 }
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{PipeOpFcstCatch22}
