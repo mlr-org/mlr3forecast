@@ -32,7 +32,8 @@
 #' # select features by tag via fabletools::feature_set() (requires feasts to be attached so its
 #' # feature registry is populated)
 #' library(feasts)
-#' po = po("fcst.feasts", features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation"))
+#' features = fabletools::feature_set(pkgs = "feasts", tags = "autocorrelation")
+#' po = po("fcst.feasts", features = features)
 #' po$train(list(task))[[1L]]$head()
 PipeOpFcstFeasts = R6Class(
   "PipeOpFcstFeasts",
