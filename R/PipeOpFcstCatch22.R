@@ -2,23 +2,24 @@
 #' @name mlr_pipeops_fcst.catch22
 #'
 #' @description
-#' Computes the 22 (or 24) canonical time-series characteristics of the target variable via
-#' [Rcatch22::catch22_all()], and broadcasts them as constant columns to every row of the corresponding
-#' series. For an unkeyed task the features are broadcast to every row; for a keyed task each key
-#' contributes one feature vector.
+#' This `PipeOp` extracts the 22 (or 24) canonical time series characteristics (catch22) from the target
+#' variable. For more details, see [Rcatch22::catch22_all()], which is called internally on the ordered
+#' target vector.
 #'
-#' The catch22 set is a low-redundancy subset of the \pkg{hctsa} features selected for time-series
-#' classification performance and is computed in C, making it considerably faster than [PipeOpFcstTsfeats]
-#' and [PipeOpFcstFeasts]. The features are computed on the ordered target vector and are agnostic to the
-#' seasonal period, so unlike the other two extractors they contain no explicit seasonal/trend features.
+#' The catch22 set is a low-redundancy subset of the \pkg{hctsa} features, selected for their performance
+#' across a diverse collection of time series classification tasks, but applicable as general-purpose
+#' features for other tasks such as regression.
 #'
-#' Features are cached in the state at train time and reused at predict time. Predicting on a key that was
-#' not seen during training is an error.
+#' For other time series feature extractors, see [PipeOpFcstTsfeats] and [PipeOpFcstFeasts].
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreproc], as well as:
 #' * `catch24` :: `logical(1)`\cr
 #'   If `TRUE`, additionally compute the mean and standard deviation (the catch24 set). Default `FALSE`.
+#'
+#' @section Naming:
+#' The new columns are named `{target}_catch22_{feature}`. If the target was called `"y"` and the feature is
+#' `"DN_HistogramMode_5"`, the corresponding new column will be called `"y_catch22_DN_HistogramMode_5"`.
 #'
 #' @export
 #' @examplesIf requireNamespace("Rcatch22", quietly = TRUE)
