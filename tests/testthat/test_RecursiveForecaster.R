@@ -137,3 +137,11 @@ test_that("RecursiveForecaster lags active binding", {
   learner = expect_warning(RecursiveForecaster$new(graph), "recursive")
   expect_null(learner$lags)
 })
+
+test_that("RecursiveForecaster deep clone isolates the inner learner", {
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+  clone = learner$clone(deep = TRUE)
+  clone$param_set$set_values(regr.rpart.cp = 0.5)
+  expect_null(learner$param_set$values$regr.rpart.cp)
+  expect_equal(clone$param_set$values$regr.rpart.cp, 0.5)
+})

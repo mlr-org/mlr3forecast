@@ -211,8 +211,6 @@ DirectForecaster = R6::R6Class(
     .fcst_param_set = NULL,
     .horizons = NULL,
 
-    # Clone the inner learner and forecaster-owned ParamSet, and drop the cached
-    # ParamSetCollection so the active binding rebuilds it referencing the clones.
     deep_clone = function(name, value) {
       switch(
         name,

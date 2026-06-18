@@ -206,6 +206,10 @@ RecursiveForecaster = R6::R6Class(
     .learner = NULL,
     .predict_type = NULL,
 
+    deep_clone = function(name, value) {
+      switch(name, .learner = value$clone(deep = TRUE), super$deep_clone(name, value))
+    },
+
     .train = function(task) {
       graph = private$.learner$graph
       on.exit({
