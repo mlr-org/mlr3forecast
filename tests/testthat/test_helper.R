@@ -27,6 +27,18 @@ test_that("infer_freq detects calendar units", {
   expect_equal(infer_freq(month_end), "month")
 })
 
+test_that("to_tsibble_index maps calendar units and passes through the rest", {
+  d = seq(as.Date("2020-01-01"), by = "month", length.out = 4L)
+  expect_class(to_tsibble_index(d, "week"), "yearweek")
+  expect_class(to_tsibble_index(d, "month"), "yearmonth")
+  expect_class(to_tsibble_index(d, "quarter"), "yearquarter")
+  y = seq(as.Date("2000-01-01"), by = "year", length.out = 4L)
+  expect_equal(to_tsibble_index(y, "year"), c(2000L, 2001L, 2002L, 2003L))
+  expect_identical(to_tsibble_index(d, "day"), d)
+  expect_identical(to_tsibble_index(d, 12), d)
+  expect_identical(to_tsibble_index(2000:2003, "year"), 2000:2003)
+})
+
 test_that("quantiles_to_levels dedupes floating-point levels", {
   expect_equal(quantiles_to_levels(c(0.05, 0.1, 0.9, 0.95)), c(80, 90))
   expect_equal(quantiles_to_levels(c(0.05, 0.5, 0.95)), 90)

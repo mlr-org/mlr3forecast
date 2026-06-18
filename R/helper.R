@@ -76,15 +76,17 @@ freq_to_period = function(freq) {
 
 to_tsibble_index = function(order, freq) {
   if (is.character(freq)) {
-    unit = sub("^[0-9. ]*", "", freq)
-    if (grepl("month", unit, fixed = TRUE)) {
+    if (grepl("week", freq, fixed = TRUE)) {
+      return(tsibble::yearweek(order))
+    }
+    if (grepl("month", freq, fixed = TRUE)) {
       return(tsibble::yearmonth(order))
     }
-    if (grepl("quarter", unit, fixed = TRUE)) {
+    if (grepl("quarter", freq, fixed = TRUE)) {
       return(tsibble::yearquarter(order))
     }
-    if (grepl("week", unit, fixed = TRUE)) {
-      return(tsibble::yearweek(order))
+    if (grepl("year", freq, fixed = TRUE) && inherits(order, c("Date", "POSIXct", "POSIXlt"))) {
+      return(year(order))
     }
   }
   order
