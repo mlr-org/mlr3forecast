@@ -104,7 +104,13 @@
 <strong>Full mlr3 integration</strong>: tuning with mlr3tuning, benchmarking, target transformations, and ensembling with mlr3pipelines.</li>
 </ul>
 <p>For now the forecasting task and learner are restricted to time series regression, but may be extended to classification in the future.</p>
-<p>The examples below cover <a href="#classical-forecasters">classical</a> and <a href="#machine-learning-forecasters">machine learning</a> forecasters; <a href="#benchmarking-ensembling-and-tuning">benchmarking, ensembling, and tuning</a>; <a href="#global-forecasting">global forecasting</a>; and <a href="#custom-pipeops">custom PipeOps</a>.</p>
+<p>Jump to the examples for:</p>
+<ul>
+<li><a href="#classical-forecasters">Classical forecasters</a></li>
+<li><a href="#machine-learning-forecasters">Machine learning forecasters</a></li>
+<li><a href="#benchmarking-ensembling-and-tuning">Benchmarking, ensembling, and tuning</a></li>
+<li><a href="#global-forecasting">Global forecasting</a></li>
+</ul>
 <div class="section level3">
 <h3 id="classical-forecasters">Classical forecasters<a class="anchor" aria-label="anchor" href="#classical-forecasters"></a>
 </h3>
@@ -402,17 +408,23 @@
 <span><span class="va">n_test</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">resampling</span><span class="op">$</span><span class="fu">test_set</span><span class="op">(</span><span class="fl">1L</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">learners</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>  <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"fcst.arima"</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span>,</span>
-<span>  <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, strategy <span class="op">=</span> <span class="st">"direct"</span>, horizons <span class="op">=</span> <span class="va">n_test</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"fcst.arima"</span>, id <span class="op">=</span> <span class="st">"arima"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>, id <span class="op">=</span> <span class="st">"ranger_recursive"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span>,</span>
+<span>    lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span>,</span>
+<span>    strategy <span class="op">=</span> <span class="st">"direct"</span>,</span>
+<span>    horizons <span class="op">=</span> <span class="va">n_test</span>,</span>
+<span>    id <span class="op">=</span> <span class="st">"ranger_direct"</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
 <span><span class="va">design</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/benchmark_grid.html" class="external-link">benchmark_grid</a></span><span class="op">(</span><span class="va">task</span>, <span class="va">learners</span>, <span class="va">resampling</span><span class="op">)</span></span>
 <span><span class="va">bmr</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/benchmark.html" class="external-link">benchmark</a></span><span class="op">(</span><span class="va">design</span><span class="op">)</span></span>
 <span><span class="va">bmr</span><span class="op">$</span><span class="fu">aggregate</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>, <span class="fu">.</span><span class="op">(</span><span class="va">learner_id</span>, <span class="va">regr.rmse</span><span class="op">)</span><span class="op">]</span></span>
-<span><span class="co">#&gt;               learner_id regr.rmse</span></span>
-<span><span class="co">#&gt; 1:            fcst.arima 216.31005</span></span>
-<span><span class="co">#&gt; 2: fcst.lags.regr.ranger  49.23079</span></span>
-<span><span class="co">#&gt; 3:           regr.ranger  77.87676</span></span></code></pre></div>
+<span><span class="co">#&gt;          learner_id regr.rmse</span></span>
+<span><span class="co">#&gt; 1:            arima 216.31005</span></span>
+<span><span class="co">#&gt; 2: ranger_recursive  49.23079</span></span>
+<span><span class="co">#&gt; 3:    ranger_direct  77.87676</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="ensemble-forecasting">Ensemble forecasting<a class="anchor" aria-label="anchor" href="#ensemble-forecasting"></a>
@@ -611,99 +623,6 @@
 <span><span class="co">#&gt; regr.rmse </span></span>
 <span><span class="co">#&gt;   96.0076</span></span></code></pre></div>
 </div>
-</div>
-<div class="section level3">
-<h3 id="custom-pipeops">Custom PipeOps<a class="anchor" aria-label="anchor" href="#custom-pipeops"></a>
-</h3>
-<p><code>PipeOpFcstLags</code> can be used standalone to inspect the lag features it generates, or combined with other PipeOps in a graph:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3learners.mlr-org.com" class="external-link">mlr3learners</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># use PipeOpFcstLags standalone to inspect lag features</span></span>
-<span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tsk</a></span><span class="op">(</span><span class="st">"airpassengers"</span><span class="op">)</span></span>
-<span><span class="va">pop</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"fcst.lags"</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span></span>
-<span><span class="va">new_task</span> <span class="op">=</span> <span class="va">pop</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="va">task</span><span class="op">)</span><span class="op">)</span><span class="op">[[</span><span class="fl">1L</span><span class="op">]</span><span class="op">]</span></span>
-<span><span class="va">new_task</span><span class="op">$</span><span class="fu">data</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      passengers passengers_lag_1 passengers_lag_2 passengers_lag_3</span></span>
-<span><span class="co">#&gt;   1:        112               NA               NA               NA</span></span>
-<span><span class="co">#&gt;   2:        118              112               NA               NA</span></span>
-<span><span class="co">#&gt;   3:        132              118              112               NA</span></span>
-<span><span class="co">#&gt;   4:        129              132              118              112</span></span>
-<span><span class="co">#&gt;   5:        121              129              132              118</span></span>
-<span><span class="co">#&gt;  ---                                                              </span></span>
-<span><span class="co">#&gt; 140:        606              622              535              472</span></span>
-<span><span class="co">#&gt; 141:        508              606              622              535</span></span>
-<span><span class="co">#&gt; 142:        461              508              606              622</span></span>
-<span><span class="co">#&gt; 143:        390              461              508              606</span></span>
-<span><span class="co">#&gt; 144:        432              390              461              508</span></span>
-<span><span class="co">#&gt;      passengers_lag_4 passengers_lag_5 passengers_lag_6 passengers_lag_7</span></span>
-<span><span class="co">#&gt;   1:               NA               NA               NA               NA</span></span>
-<span><span class="co">#&gt;   2:               NA               NA               NA               NA</span></span>
-<span><span class="co">#&gt;   3:               NA               NA               NA               NA</span></span>
-<span><span class="co">#&gt;   4:               NA               NA               NA               NA</span></span>
-<span><span class="co">#&gt;   5:              112               NA               NA               NA</span></span>
-<span><span class="co">#&gt;  ---                                                                    </span></span>
-<span><span class="co">#&gt; 140:              461              419              391              417</span></span>
-<span><span class="co">#&gt; 141:              472              461              419              391</span></span>
-<span><span class="co">#&gt; 142:              535              472              461              419</span></span>
-<span><span class="co">#&gt; 143:              622              535              472              461</span></span>
-<span><span class="co">#&gt; 144:              606              622              535              472</span></span>
-<span><span class="co">#&gt;      passengers_lag_8 passengers_lag_9 passengers_lag_10 passengers_lag_11</span></span>
-<span><span class="co">#&gt;   1:               NA               NA                NA                NA</span></span>
-<span><span class="co">#&gt;   2:               NA               NA                NA                NA</span></span>
-<span><span class="co">#&gt;   3:               NA               NA                NA                NA</span></span>
-<span><span class="co">#&gt;   4:               NA               NA                NA                NA</span></span>
-<span><span class="co">#&gt;   5:               NA               NA                NA                NA</span></span>
-<span><span class="co">#&gt;  ---                                                                      </span></span>
-<span><span class="co">#&gt; 140:              405              362               407               463</span></span>
-<span><span class="co">#&gt; 141:              417              405               362               407</span></span>
-<span><span class="co">#&gt; 142:              391              417               405               362</span></span>
-<span><span class="co">#&gt; 143:              419              391               417               405</span></span>
-<span><span class="co">#&gt; 144:              461              419               391               417</span></span>
-<span><span class="co">#&gt;      passengers_lag_12</span></span>
-<span><span class="co">#&gt;   1:                NA</span></span>
-<span><span class="co">#&gt;   2:                NA</span></span>
-<span><span class="co">#&gt;   3:                NA</span></span>
-<span><span class="co">#&gt;   4:                NA</span></span>
-<span><span class="co">#&gt;   5:                NA</span></span>
-<span><span class="co">#&gt;  ---                  </span></span>
-<span><span class="co">#&gt; 140:               559</span></span>
-<span><span class="co">#&gt; 141:               463</span></span>
-<span><span class="co">#&gt; 142:               407</span></span>
-<span><span class="co">#&gt; 143:               362</span></span>
-<span><span class="co">#&gt; 144:               405</span></span>
-<span></span>
-<span><span class="co"># combine lags with date features in a single graph</span></span>
-<span><span class="va">graph</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"fcst.lags"</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span> <span class="op"><a href="https://mlr3pipelines.mlr-org.com/reference/grapes-greater-than-greater-than-grapes.html" class="external-link">%&gt;&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span></span>
-<span>    <span class="st">"datefeatures"</span>,</span>
-<span>    param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span>      week_of_year <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>      day_of_week <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>      day_of_month <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>      day_of_year <span class="op">=</span> <span class="cn">FALSE</span></span>
-<span>    <span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://mlr3pipelines.mlr-org.com/reference/grapes-greater-than-greater-than-grapes.html" class="external-link">%&gt;&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.ranger"</span><span class="op">)</span></span>
-<span><span class="va">flrn</span> <span class="op">=</span> <span class="fu"><a href="reference/as_learner_fcst.html">as_learner_fcst</a></span><span class="op">(</span><span class="va">graph</span><span class="op">)</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span><span class="op">)</span></span>
-<span><span class="va">prediction</span> <span class="op">=</span> <span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="fl">133</span><span class="op">:</span><span class="fl">144</span><span class="op">)</span></span>
-<span><span class="va">prediction</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">msr</a></span><span class="op">(</span><span class="st">"regr.rmse"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; regr.rmse </span></span>
-<span><span class="co">#&gt;  17.88712</span></span>
-<span></span>
-<span><span class="va">newdata</span> <span class="op">=</span> <span class="fu"><a href="reference/generate_newdata.html">generate_newdata</a></span><span class="op">(</span><span class="va">task</span>, <span class="fl">12L</span><span class="op">)</span></span>
-<span><span class="va">flrn</span><span class="op">$</span><span class="fu">predict_newdata</span><span class="op">(</span><span class="va">newdata</span>, <span class="va">task</span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; ── &lt;PredictionRegr&gt; for 12 observations: ───────────────────────────────────────</span></span>
-<span><span class="co">#&gt;  row_ids truth response      month</span></span>
-<span><span class="co">#&gt;        1    NA 439.3669 1961-01-01</span></span>
-<span><span class="co">#&gt;        2    NA 440.0438 1961-02-01</span></span>
-<span><span class="co">#&gt;        3    NA 457.0727 1961-03-01</span></span>
-<span><span class="co">#&gt;      ---   ---      ---        ---</span></span>
-<span><span class="co">#&gt;       10    NA 479.3021 1961-10-01</span></span>
-<span><span class="co">#&gt;       11    NA 446.6218 1961-11-01</span></span>
-<span><span class="co">#&gt;       12    NA 447.1091 1961-12-01</span></span></code></pre></div>
 </div>
 </div>
 </div>
