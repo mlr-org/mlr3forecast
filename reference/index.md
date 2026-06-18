@@ -12,8 +12,12 @@
   : Forecast Learner
 - [`RecursiveForecaster`](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
   : Recursive Forecast Learner
+- [`recursive_forecaster()`](https://mlr3forecast.mlr-org.com/reference/recursive_forecaster.md)
+  : Create a Recursive Forecast Learner
 - [`DirectForecaster`](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md)
   : Direct Multi-Step Forecast Learner
+- [`direct_forecaster()`](https://mlr3forecast.mlr-org.com/reference/direct_forecaster.md)
+  : Create a Direct Forecast Learner
 - [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md)
   [`LearnerFcstAdam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md)
   : ADAM Forecast Learner
@@ -216,8 +220,6 @@
 
 ## Helper
 
-- [`as_learner_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_learner_fcst.md)
-  : Convert to a Forecast Learner
 - [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_task_fcst.md)
   [`as_tasks_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_task_fcst.md)
   : Convert to a Forecast Task

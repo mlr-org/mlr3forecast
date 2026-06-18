@@ -10,9 +10,9 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/LearnerFcstSmooth.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/TaskFcst.html</loc></url>
-<url><loc>https://mlr3forecast.mlr-org.com/reference/as_learner_fcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/as_task_fcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/autoplot.TaskFcst.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/direct_forecaster.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/download_zenodo_record.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/forecast.Learner.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/generate_newdata.html</loc></url>
@@ -81,6 +81,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_tasks_usaccdeaths.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/partition.TaskFcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/read_tsf.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/recursive_forecaster.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/reexports.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/selector_fcst_lags.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/selector_fcst_rolling.html</loc></url>

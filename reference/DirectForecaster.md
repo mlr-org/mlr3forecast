@@ -233,13 +233,8 @@ flrn$predict(task, split$test)
 #>      143   390 364.9333 1960-11-01
 #>      144   432 362.3571 1960-12-01
 
-# or use as_learner_fcst with strategy = "direct"
-flrn = as_learner_fcst(
-  lrn("regr.rpart"),
-  lags = 1:3,
-  strategy = "direct",
-  horizons = length(split$test)
-)
+# or use the direct_forecaster() helper
+flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 #> 
