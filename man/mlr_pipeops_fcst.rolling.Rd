@@ -10,6 +10,9 @@ The window ends at position \code{t - lag} (exclusive of the current and \code{l
 values) and has size \code{window_size}. Use \code{window_size = Inf} for an expanding window that
 grows to include all history up to \code{t - lag}.
 
+At train time rows whose window has insufficient history are \code{NA} and are dropped, matching
+\link{PipeOpFcstLags}. Predict keeps all rows.
+
 At predict time, rolling features are computed from the task's full backend (i.e. including
 rows outside \code{row_roles$use}), then joined onto the active rows. Used inside
 \link{RecursiveForecaster}, where the forecaster writes each step's prediction into the combined

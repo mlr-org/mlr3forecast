@@ -122,3 +122,31 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   })
   mean(scores)
 }
+
+fcst_drop_incomplete = function(task, before, key_cols) {
+  new_cols = setdiff(task$feature_names, before)
+  if (length(new_cols) == 0L) {
+    return(task)
+  }
+  dt = task$data(cols = c(new_cols, key_cols))
+  set(dt, j = "..rid", value = task$row_ids)
+  kept = na.omit(dt, cols = new_cols)
+  if (nrow(kept) == nrow(dt)) {
+    return(task)
+  }
+  if (nrow(kept) == 0L) {
+    error_input("The series is too short for the requested lags or window sizes.")
+  }
+  if (length(key_cols) > 0L) {
+    dropped = unique(dt[, key_cols, with = FALSE])[!kept, on = key_cols]
+    if (nrow(dropped) > 0L) {
+      labels = do.call(paste, c(dropped, list(sep = ":")))
+      warning_input(
+        "Dropped %i series too short for the requested lags/windows: %s.",
+        nrow(dropped),
+        str_collapse(labels, quote = "'")
+      )
+    }
+  }
+  task$filter(kept[["..rid"]])
+}

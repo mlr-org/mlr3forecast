@@ -7,6 +7,9 @@
 #' values) and has size `window_size`. Use `window_size = Inf` for an expanding window that
 #' grows to include all history up to `t - lag`.
 #'
+#' At train time rows whose window has insufficient history are `NA` and are dropped, matching
+#' [PipeOpFcstLags]. Predict keeps all rows.
+#'
 #' At predict time, rolling features are computed from the task's full backend (i.e. including
 #' rows outside `row_roles$use`), then joined onto the active rows. Used inside
 #' [RecursiveForecaster], where the forecaster writes each step's prediction into the combined
@@ -81,8 +84,10 @@ PipeOpFcstRolling = R6Class(
 
   private = list(
     .train_task = function(task) {
+      before = task$feature_names
       cols = c(task$target_names, task$col_roles$key, task$col_roles$order)
-      private$.rolling(task, task$data(cols = cols))
+      out = private$.rolling(task, task$data(cols = cols))
+      fcst_drop_incomplete(out, before, task$col_roles$key)
     },
 
     .predict_task = function(task) {
