@@ -130,10 +130,10 @@ ResamplingFcstCV = R6Class(
           )
         }
         train_end = frev(seq(from = n - horizon, by = -step_size, length.out = folds))
-        if (fixed_window) {
-          train_ids = map(train_end, function(i) dt[(i - window_size + 1L):i, "row_id"][[1L]])
+        train_ids = if (fixed_window) {
+          map(train_end, function(i) dt[(i - window_size + 1L):i, "row_id"][[1L]])
         } else {
-          train_ids = map(train_end, function(i) dt[1L:i, "row_id"][[1L]])
+          map(train_end, function(i) dt[1L:i, "row_id"][[1L]])
         }
         test_ids = map(train_end, function(i) dt[(i + 1L):(i + horizon), "row_id"][[1L]])
         return(list(train = train_ids, test = test_ids))

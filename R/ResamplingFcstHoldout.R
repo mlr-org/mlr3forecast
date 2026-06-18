@@ -129,12 +129,12 @@ ResamplingFcstHoldout = R6Class(
 )
 
 make_split = function(n_obs, ratio, n) {
-  if (!is.null(ratio)) {
-    nr = round(n_obs * ratio)
+  nr = if (!is.null(ratio)) {
+    round(n_obs * ratio)
   } else if (n > 0L) {
-    nr = min(n_obs, n)
+    min(n_obs, n)
   } else {
-    nr = max(n_obs + n, 0L)
+    max(n_obs + n, 0L)
   }
   list(
     train = seq_len(nr),

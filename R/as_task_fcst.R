@@ -112,10 +112,10 @@ as_task_fcst.data.frame = function(
     error_input("Target column '%s' must not contain missing values", target)
   }
 
-  if (has_key) {
-    dup = anyDuplicated(as.data.table(x), by = c(key, order)) > 0L
+  dup = if (has_key) {
+    anyDuplicated(as.data.table(x), by = c(key, order)) > 0L
   } else {
-    dup = anyDuplicated(x[[order]]) > 0L
+    anyDuplicated(x[[order]]) > 0L
   }
   if (dup) {
     error_input("`order` values must be unique for each time series.")
