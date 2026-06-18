@@ -39,6 +39,10 @@ or with the associated sugar function
 
 ## References
 
+Tashman, J L (2000). “Out-of-sample tests of forecasting accuracy: an
+analysis and review.” *International Journal of Forecasting*, **16**(4),
+437–450.
+
 Bergmeir, Christoph, Hyndman, J R, Koo, Bonsoo (2018). “A note on the
 validity of cross-validation for evaluating autoregressive time series
 prediction.” *Computational Statistics & Data Analysis*, **120**, 70–83.
