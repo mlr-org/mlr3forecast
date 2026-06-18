@@ -44,17 +44,39 @@ pak::pak("mlr-org/mlr3forecast")
 
 ## Usage
 
-The goal of mlr3forecast is to extend mlr3 to time series forecasting. This is
-achieved by introducing new classes and methods for forecasting tasks,
-learners, and resamplers. For now the forecasting task and learner is
-restricted to time series regression tasks, but might be extended to
-classification tasks in the future.
+mlr3forecast extends the [mlr3](https://mlr-org.com/) ecosystem to time series
+forecasting. It introduces a forecasting task, forecasting learners, temporal
+resampling strategies, forecasting measures, and feature-engineering pipe
+operators, so that forecasters behave like any other mlr3 learner — ready for
+tuning, benchmarking, pipelines, and ensembling.
 
-We support both traditional forecasting learners (e.g., ARIMA, ETS) and
-machine learning forecasting, i.e. using regression learners with lag features
-for recursive one-step-ahead prediction.
+At a glance, mlr3forecast provides:
 
-### Example: forecasting with forecast learner
+- **Classical forecasters** wrapping forecast, smooth, prophet, and tscount
+  (e.g. `fcst.arima`, `fcst.auto_arima`, `fcst.ets`, `fcst.theta`, `fcst.tbats`,
+  `fcst.prophet`).
+- **Machine learning forecasting** that turns any `regr` learner into a
+  forecaster via lag features, with both **recursive** (one model applied
+  iteratively) and **direct** (one model per horizon) strategies.
+- **Forecasting tasks and temporal resamplings** (`fcst.holdout`, `fcst.cv`)
+  that respect the order of observations, plus global (longitudinal)
+  forecasting across many series.
+- **Feature-engineering pipe operators** such as `fcst.lags`, `fcst.rolling`,
+  `fcst.fourier`, `fcst.feasts`, and `fcst.tsfeats`.
+- **Forecasting measures** including MASE, RMSSE, Pinball, Winkler, coverage,
+  and MSIS.
+- **Full mlr3 integration**: tuning with mlr3tuning, benchmarking, target
+  transformations, and ensembling with mlr3pipelines.
+
+For now the forecasting task and learner are restricted to time series
+regression, but may be extended to classification in the future.
+
+The examples below cover [classical](#classical-forecasters) and
+[machine learning](#machine-learning-forecasters) forecasters;
+[benchmarking, ensembling, and tuning](#benchmarking-ensembling-and-tuning);
+[global forecasting](#global-forecasting); and [custom PipeOps](#custom-pipeops).
+
+### Classical forecasters
 
 Native forecasting learners are provided by packages such as forecast, smooth,
 prophet, and tscount.
@@ -74,13 +96,30 @@ learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
 prediction
 prediction$score(msr("regr.rmse"))
+```
 
+To forecast beyond the observed data, `generate_newdata()` builds the future
+rows (with missing targets) and `predict_newdata()` fills them in:
+
+```{r, message = FALSE}
 # generate new data to forecast unseen data
 newdata = generate_newdata(task, 12L)
 head(newdata)
 prediction = learner$predict_newdata(newdata, task)
 prediction
+```
 
+The `forecast()` helper combines these two steps, generating the future rows and
+predicting them in a single call:
+
+```{r, message = FALSE}
+forecast(learner, task, 12L)
+```
+
+Target transformations can be applied by wrapping the learner in
+`ppl("targettrafo")`:
+
+```{r, message = FALSE}
 # add a target log transformation
 learner = as_learner(ppl(
   "targettrafo",
@@ -90,7 +129,11 @@ learner = as_learner(ppl(
 ))
 prediction = learner$train(task)$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
+```
 
+Classical forecasters can also return a predictive distribution as quantiles:
+
+```{r, message = FALSE}
 # works with quantile response
 learner = lrn(
   "fcst.auto_arima",
@@ -99,7 +142,11 @@ learner = lrn(
   quantile_response = 0.5
 )$train(task)
 learner$predict_newdata(newdata, task)
+```
 
+Forecasting resamplings respect the temporal order of the observations:
+
+```{r, message = FALSE}
 # resampling
 learner = lrn("fcst.auto_arima")
 resampling = rsmp("fcst.holdout", ratio = 0.7)
@@ -107,7 +154,10 @@ rr = resample(task, learner, resampling)
 rr$aggregate(msr("regr.rmse"))
 ```
 
-### Example: forecasting with regression learner
+### Machine learning forecasters
+
+Any regression learner can be turned into a forecaster with `as_learner_fcst()`,
+which adds lag features and forecasts recursively by default:
 
 ```{r, message = FALSE}
 library(mlr3learners)
@@ -132,6 +182,8 @@ rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 ```
 
+#### Direct forecasting
+
 By default `as_learner_fcst()` builds a recursive forecaster (one model, applied
 iteratively). Pass `strategy = "direct"` together with `horizons` to train one
 model per horizon — predictions then come straight from each horizon's model,
@@ -148,7 +200,9 @@ flrn = as_learner_fcst(
 flrn$predict(task, 133:144)$score(msr("regr.rmse"))
 ```
 
-Or with some feature engineering using mlr3pipelines:
+#### Feature engineering
+
+Lag features can be combined with other transformations using mlr3pipelines:
 
 ```{r}
 library(mlr3pipelines)
@@ -194,6 +248,8 @@ prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 ```
 
+#### Target transformations
+
 Target transformations can be applied by wrapping the forecast learner in
 `ppl("targettrafo")`. The lags are created from the transformed target and
 predictions are automatically inverted back to the original scale:
@@ -212,7 +268,37 @@ prediction = learner$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 ```
 
-### Example: comparing classical and ML forecasters
+#### Exogenous covariates
+
+Forecasting tasks can include exogenous covariates. Here electricity demand is
+forecast from its own lags, calendar features, and external regressors
+(temperature, holiday) supplied for the forecast horizon:
+
+```{r, message = FALSE}
+library(mlr3learners)
+library(mlr3pipelines)
+
+task = tsk("electricity")
+task$set_col_roles("date", add = "feature")
+graph = po("fcst.lags", lags = 1:3) %>>%
+  po("datefeatures", param_vals = list(year = FALSE)) %>>%
+  lrn("regr.ranger")
+flrn = as_learner_fcst(graph)$train(task)
+
+max_date = task$data()[.N, date]
+newdata = data.table(
+  date = max_date + 1:14,
+  demand = rep(NA_real_, 14L),
+  temperature = 26,
+  holiday = c(TRUE, rep(FALSE, 13L))
+)
+prediction = flrn$predict_newdata(newdata, task)
+prediction
+```
+
+### Benchmarking, ensembling, and tuning
+
+#### Comparing classical and ML forecasters
 
 ML forecasters declare `task_type = "fcst"`, so they can be benchmarked
 side-by-side with classical learners on the same task in a single
@@ -233,7 +319,7 @@ bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 ```
 
-### Example: ensemble forecasting
+#### Ensemble forecasting
 
 Forecast learners produce regression predictions under the hood, so the standard
 mlr3pipelines ensemble pattern works directly: branch to several forecasters with
@@ -259,7 +345,7 @@ flrn = as_learner(graph)$train(task)
 flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 ```
 
-### Example: tuning a forecaster
+#### Tuning a forecaster
 
 Forecast learners are regular mlr3 learners, so they plug into the standard
 [mlr3tuning](https://mlr3tuning.mlr-org.com/) machinery. Mark hyperparameters
@@ -306,31 +392,12 @@ at$train(task)
 at$tuning_result[, .(stationary, seasonal, regr.rmse)]
 ```
 
-### Example: forecasting electricity demand
+### Global forecasting
 
-```{r, message = FALSE}
-library(mlr3learners)
-library(mlr3pipelines)
-
-task = tsk("electricity")
-task$set_col_roles("date", add = "feature")
-graph = po("fcst.lags", lags = 1:3) %>>%
-  po("datefeatures", param_vals = list(year = FALSE)) %>>%
-  lrn("regr.ranger")
-flrn = as_learner_fcst(graph)$train(task)
-
-max_date = task$data()[.N, date]
-newdata = data.table(
-  date = max_date + 1:14,
-  demand = rep(NA_real_, 14L),
-  temperature = 26,
-  holiday = c(TRUE, rep(FALSE, 13L))
-)
-prediction = flrn$predict_newdata(newdata, task)
-prediction
-```
-
-### Example: global forecasting
+In machine learning forecasting the difference between forecasting a single time
+series and longitudinal data is often referred to as local and global
+forecasting. A global model is trained jointly across many series, identified by
+a `key`:
 
 ```{r, message = FALSE}
 library(mlr3learners)
@@ -366,17 +433,17 @@ rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 ```
 
-### Example: global vs local forecasting
+#### Global vs. local forecasting
 
-In machine learning forecasting the difference between forecasting a time series
-and longitudinal data is often referred to as local and global forecasting.
+A single global model can be compared against fitting one local model per series:
 
-```{r, eval = FALSE}
+```{r, message = FALSE}
 retail = setDT(tsibbledata::aus_retail)
 setnames(retail, tolower)
 retail[, month := as.Date(month)]
 vic = retail[state == "Victoria"]
 vic[, let(state = NULL, `series id` = NULL)]
+vic[, industry := as.factor(industry)]
 vic_train = vic[month < as.Date("2015-01-01")]
 vic_test = vic[month >= as.Date("2015-01-01")]
 
@@ -398,7 +465,7 @@ task_test = as_task_fcst(
   freq = "month"
 )
 
-learner = lrn("regr.ranger")
+learner = lrn("regr.ranger", verbose = FALSE)
 flrn = as_learner_fcst(learner, lags = 1:12)$train(task_train)
 prediction_global = flrn$predict(task_test)
 prediction_global
@@ -427,9 +494,12 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
 do.call(c, prediction_local)$score(msr("regr.rmse"))
 ```
 
-### Example: custom PipeOps
+### Custom PipeOps
 
-```{r, eval = FALSE}
+`PipeOpFcstLags` can be used standalone to inspect the lag features it generates,
+or combined with other PipeOps in a graph:
+
+```{r, message = FALSE}
 library(mlr3learners)
 library(mlr3pipelines)
 
@@ -452,7 +522,7 @@ graph = po("fcst.lags", lags = 1:12) %>>%
   ) %>>%
   lrn("regr.ranger")
 flrn = as_learner_fcst(graph)$train(task)
-prediction = flrn$predict(task, 1:12)
+prediction = flrn$predict(task, 133:144)
 prediction$score(msr("regr.rmse"))
 
 newdata = generate_newdata(task, 12L)
