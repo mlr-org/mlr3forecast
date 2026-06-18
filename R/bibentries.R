@@ -11,6 +11,17 @@ bibentries = c(
     year = "2018",
     publisher = "Elsevier"
   ),
+  tashman2000 = bibentry(
+    "article",
+    title = "Out-of-sample tests of forecasting accuracy: an analysis and review",
+    author = "Tashman, Leonard J",
+    journal = "International Journal of Forecasting",
+    volume = "16",
+    number = "4",
+    pages = "437--450",
+    year = "2000",
+    publisher = "Elsevier"
+  ),
   hyndman2008automatic = bibentry(
     "article",
     title = "Automatic Time Series Forecasting: The forecast Package for R",

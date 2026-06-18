@@ -23,7 +23,7 @@
 #'   Should a fixed sized window be used? If `FALSE` an expanding window is used.
 #'
 #' @references
-#' `r format_bib("bergmeir_2018")`
+#' `r format_bib("tashman2000", "bergmeir_2018")`
 #'
 #' @template seealso_resampling
 #' @export
