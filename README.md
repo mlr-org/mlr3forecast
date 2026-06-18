@@ -59,12 +59,12 @@ At a glance, mlr3forecast provides:
 For now the forecasting task and learner are restricted to time series
 regression, but may be extended to classification in the future.
 
-The examples below cover [classical](#classical-forecasters) and
-[machine learning](#machine-learning-forecasters) forecasters;
-[benchmarking, ensembling, and
-tuning](#benchmarking-ensembling-and-tuning); [global
-forecasting](#global-forecasting); and [custom
-PipeOps](#custom-pipeops).
+Jump to the examples for:
+
+- [Classical forecasters](#classical-forecasters)
+- [Machine learning forecasters](#machine-learning-forecasters)
+- [Benchmarking, ensembling, and tuning](#benchmarking-ensembling-and-tuning)
+- [Global forecasting](#global-forecasting)
 
 ### Classical forecasters
 
@@ -410,17 +410,23 @@ resampling = rsmp("fcst.holdout", ratio = 0.9)$instantiate(task)
 n_test = length(resampling$test_set(1L))
 
 learners = list(
-  lrn("fcst.arima"),
-  as_learner_fcst(lrn("regr.ranger"), lags = 1:12),
-  as_learner_fcst(lrn("regr.ranger"), lags = 1:12, strategy = "direct", horizons = n_test)
+  lrn("fcst.arima", id = "arima"),
+  as_learner_fcst(lrn("regr.ranger"), lags = 1:12, id = "ranger_recursive"),
+  as_learner_fcst(
+    lrn("regr.ranger"),
+    lags = 1:12,
+    strategy = "direct",
+    horizons = n_test,
+    id = "ranger_direct"
+  )
 )
 design = benchmark_grid(task, learners, resampling)
 bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
-#>               learner_id regr.rmse
-#> 1:            fcst.arima 216.31005
-#> 2: fcst.lags.regr.ranger  49.23079
-#> 3:           regr.ranger  77.87676
+#>          learner_id regr.rmse
+#> 1:            arima 216.31005
+#> 2: ranger_recursive  49.23079
+#> 3:    ranger_direct  77.87676
 ```
 
 #### Ensemble forecasting
@@ -637,99 +643,4 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
 do.call(c, prediction_local)$score(msr("regr.rmse"))
 #> regr.rmse 
 #>   96.0076
-```
-
-### Custom PipeOps
-
-`PipeOpFcstLags` can be used standalone to inspect the lag features it
-generates, or combined with other PipeOps in a graph:
-
-``` r
-library(mlr3learners)
-library(mlr3pipelines)
-
-# use PipeOpFcstLags standalone to inspect lag features
-task = tsk("airpassengers")
-pop = po("fcst.lags", lags = 1:12)
-new_task = pop$train(list(task))[[1L]]
-new_task$data()
-#>      passengers passengers_lag_1 passengers_lag_2 passengers_lag_3
-#>   1:        112               NA               NA               NA
-#>   2:        118              112               NA               NA
-#>   3:        132              118              112               NA
-#>   4:        129              132              118              112
-#>   5:        121              129              132              118
-#>  ---                                                              
-#> 140:        606              622              535              472
-#> 141:        508              606              622              535
-#> 142:        461              508              606              622
-#> 143:        390              461              508              606
-#> 144:        432              390              461              508
-#>      passengers_lag_4 passengers_lag_5 passengers_lag_6 passengers_lag_7
-#>   1:               NA               NA               NA               NA
-#>   2:               NA               NA               NA               NA
-#>   3:               NA               NA               NA               NA
-#>   4:               NA               NA               NA               NA
-#>   5:              112               NA               NA               NA
-#>  ---                                                                    
-#> 140:              461              419              391              417
-#> 141:              472              461              419              391
-#> 142:              535              472              461              419
-#> 143:              622              535              472              461
-#> 144:              606              622              535              472
-#>      passengers_lag_8 passengers_lag_9 passengers_lag_10 passengers_lag_11
-#>   1:               NA               NA                NA                NA
-#>   2:               NA               NA                NA                NA
-#>   3:               NA               NA                NA                NA
-#>   4:               NA               NA                NA                NA
-#>   5:               NA               NA                NA                NA
-#>  ---                                                                      
-#> 140:              405              362               407               463
-#> 141:              417              405               362               407
-#> 142:              391              417               405               362
-#> 143:              419              391               417               405
-#> 144:              461              419               391               417
-#>      passengers_lag_12
-#>   1:                NA
-#>   2:                NA
-#>   3:                NA
-#>   4:                NA
-#>   5:                NA
-#>  ---                  
-#> 140:               559
-#> 141:               463
-#> 142:               407
-#> 143:               362
-#> 144:               405
-
-# combine lags with date features in a single graph
-graph = po("fcst.lags", lags = 1:12) %>>%
-  po(
-    "datefeatures",
-    param_vals = list(
-      week_of_year = FALSE,
-      day_of_week = FALSE,
-      day_of_month = FALSE,
-      day_of_year = FALSE
-    )
-  ) %>>%
-  lrn("regr.ranger")
-flrn = as_learner_fcst(graph)$train(task)
-prediction = flrn$predict(task, 133:144)
-prediction$score(msr("regr.rmse"))
-#> regr.rmse 
-#>  17.88712
-
-newdata = generate_newdata(task, 12L)
-flrn$predict_newdata(newdata, task)
-#> 
-#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
-#>  row_ids truth response      month
-#>        1    NA 439.3669 1961-01-01
-#>        2    NA 440.0438 1961-02-01
-#>        3    NA 457.0727 1961-03-01
-#>      ---   ---      ---        ---
-#>       10    NA 479.3021 1961-10-01
-#>       11    NA 446.6218 1961-11-01
-#>       12    NA 447.1091 1961-12-01
 ```
