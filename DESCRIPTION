@@ -23,7 +23,7 @@ Imports:
     cli,
     data.table (>= 1.18.0),
     generics (>= 0.1.2),
-    ggplot2,
+    ggplot2 (>= 3.4.0),
     lgr,
     mlr3misc (>= 0.22.0),
     mlr3pipelines (>= 0.11.0),
