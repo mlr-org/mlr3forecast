@@ -46,7 +46,6 @@ as.ts.TaskFcst = function(x, ..., freq = NULL) {
   stats::ts(x$truth(), freq = freq)
 }
 
-# TODO: multi-count freqs ("30 mins", "2 day") fall through to 1L; parse `n unit` and return base / n.
 freq_to_int = function(freq) {
   if (is.null(freq)) {
     return(1L)
@@ -54,19 +53,24 @@ freq_to_int = function(freq) {
   if (!is.character(freq)) {
     return(freq)
   }
-  # fmt: skip
-  switch(
-    freq,
-    `1 sec` = , sec = , secs = 60L,
-    `1 min` = , min = , mins = 1440L,
-    `1 hour` = , hour = , hours = 24L,
-    `1 day` = , day = , days = 365.25,
-    `1 week` = , week = , weeks = 52.18,
-    `1 month` = , month = , months = 12L,
-    `3 months` = , `1 quarter` = , quarter = , quarters = 4L,
-    `1 year` = , year = , years = 1L,
-    1L
+  bases = c(
+    secs = 60,
+    mins = 1440,
+    hours = 24,
+    days = 365.25,
+    DSTdays = 365.25,
+    weeks = 52.18,
+    months = 12,
+    quarters = 4,
+    years = 1
   )
+  parts = strsplit1(freq, " ")
+  n = if (length(parts) == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
+  idx = pmatch(parts[length(parts)], names(bases))
+  if (is.na(idx) || is.na(n) || n <= 0) {
+    return(1L)
+  }
+  bases[[idx]] / n
 }
 
 # Map a task's order column to a tsibble index whose interval encodes the seasonal period, so feature

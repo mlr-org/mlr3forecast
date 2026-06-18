@@ -46,3 +46,29 @@ test_that("as.ts works with explicit freq", {
   expect_class(ts, "ts")
   expect_identical(stats::frequency(ts), 4)
 })
+
+test_that("freq_to_int maps single-unit freqs to seasonal periods", {
+  expect_equal(freq_to_int("month"), 12)
+  expect_equal(freq_to_int("1 month"), 12)
+  expect_equal(freq_to_int("quarter"), 4)
+  expect_equal(freq_to_int("week"), 52.18)
+  expect_equal(freq_to_int("day"), 365.25)
+  expect_equal(freq_to_int("hour"), 24)
+  expect_equal(freq_to_int("year"), 1)
+})
+
+test_that("freq_to_int handles multi-count freqs", {
+  expect_equal(freq_to_int("3 months"), 4)
+  expect_equal(freq_to_int("6 months"), 2)
+  expect_equal(freq_to_int("2 month"), 6)
+  expect_equal(freq_to_int("30 min"), 48)
+  expect_equal(freq_to_int("15 mins"), 96)
+  expect_equal(freq_to_int("6 hours"), 4)
+  expect_equal(freq_to_int("2 day"), 365.25 / 2)
+})
+
+test_that("freq_to_int passes through numeric and falls back for unknown", {
+  expect_equal(freq_to_int(12), 12)
+  expect_identical(freq_to_int(NULL), 1L)
+  expect_identical(freq_to_int("nonsense"), 1L)
+})
