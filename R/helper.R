@@ -2,58 +2,58 @@ infer_freq = function(order) {
   if (!inherits(order, c("Date", "POSIXct", "POSIXlt")) || length(order) < 2L) {
     return(1L)
   }
-  p = max(round(as.numeric(stats::median(diff(as.POSIXct(order))), units = "secs")), 1)
-  if (p == 604800) {
+  secs = max(round(as.numeric(stats::median(diff(as.POSIXct(order))), units = "secs")), 1)
+  if (secs == 604800) {
     "week"
-  } else if (p >= 2419200) {
+  } else if (secs >= 2419200) {
     # >= 28 days: calendar-anchored data (constant day-of-month) gets calendar units,
     # fixed-interval data gets exact day multiples
-    m = round(p / 2629800)
+    n_months = round(secs / 2629800)
     if (uniqueN(mday(order)) == 1L) {
-      if (m == 3L) {
+      if (n_months == 3L) {
         "quarter"
-      } else if (m == 12L) {
+      } else if (n_months == 12L) {
         "year"
       } else {
-        sprintf("%g month", m)
+        sprintf("%g month", n_months)
       }
-    } else if (p %% 86400 == 0) {
-      sprintf("%g day", p / 86400)
+    } else if (secs %% 86400 == 0) {
+      sprintf("%g day", secs / 86400)
     } else {
       # neither calendar-anchored nor whole days (e.g. month-end data): magnitude guess
-      if (p <= 2678400) {
+      if (secs <= 2678400) {
         "month"
-      } else if (p <= 7948800) {
+      } else if (secs <= 7948800) {
         "quarter"
       } else {
         "year"
       }
     }
-  } else if (p %% 86400 == 0) {
-    sprintf("%g day", p / 86400)
-  } else if (p %% 3600 == 0) {
-    sprintf("%g hour", p / 3600)
-  } else if (p %% 60 == 0) {
-    sprintf("%g min", p / 60)
+  } else if (secs %% 86400 == 0) {
+    sprintf("%g day", secs / 86400)
+  } else if (secs %% 3600 == 0) {
+    sprintf("%g hour", secs / 3600)
+  } else if (secs %% 60 == 0) {
+    sprintf("%g min", secs / 60)
   } else {
-    sprintf("%g sec", p)
+    sprintf("%g sec", secs)
   }
 }
 
 #' @export
 as.ts.TaskFcst = function(x, ..., freq = NULL) {
-  freq = freq_to_int(freq %??% x$freq)
+  freq = freq_to_period(freq %??% x$freq)
   stats::ts(x$truth(), freq = freq)
 }
 
-freq_to_int = function(freq) {
+freq_to_period = function(freq) {
   if (is.null(freq)) {
     return(1L)
   }
   if (!is.character(freq)) {
     return(freq)
   }
-  bases = c(
+  periods = c(
     secs = 60,
     mins = 1440,
     hours = 24,
@@ -65,17 +65,15 @@ freq_to_int = function(freq) {
     years = 1
   )
   parts = strsplit1(freq, " ")
-  n = if (length(parts) == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
-  idx = pmatch(parts[length(parts)], names(bases))
-  if (is.na(idx) || is.na(n) || n <= 0) {
+  n_parts = length(parts)
+  n = if (n_parts == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
+  ii = pmatch(parts[n_parts], names(periods))
+  if (is.na(ii) || is.na(n) || n <= 0) {
     return(1L)
   }
-  bases[[idx]] / n
+  periods[[ii]] / n
 }
 
-# Map a task's order column to a tsibble index whose interval encodes the seasonal period, so feature
-# extractors (e.g. feasts) infer seasonality correctly. Sub-monthly/yearly orders are used as-is
-# (Date/POSIXct/integer).
 to_tsibble_index = function(order, freq) {
   if (is.character(freq)) {
     unit = sub("^[0-9. ]*", "", freq)
@@ -92,7 +90,7 @@ to_tsibble_index = function(order, freq) {
   order
 }
 
-quantiles_to_level = function(x) {
+quantiles_to_levels = function(x) {
   x = x[x != 0.5]
   sort(unique(round(abs(1 - 2 * x) * 100, 6)))
 }

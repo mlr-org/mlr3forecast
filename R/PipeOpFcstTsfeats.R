@@ -79,7 +79,7 @@ PipeOpFcstTsfeats = R6Class(
     .train_task = function(task) {
       target = task$target_names
       key_cols = task$col_roles$key
-      freq = freq_to_int(task$freq)
+      freq = freq_to_period(task$freq)
 
       if (length(key_cols) > 0L) {
         dt = task$data(cols = c(target, key_cols))

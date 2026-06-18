@@ -109,11 +109,11 @@ LearnerFcst = R6Class(
     },
 
     .fitted_response = function(task) {
-      idx = match(task$row_ids, self$model$row_ids)
-      if (anyNA(idx)) {
+      ii = match(task$row_ids, self$model$row_ids)
+      if (anyNA(ii)) {
         error_input("In-sample prediction is only supported for rows used during training.")
       }
-      private$.fitted()[idx]
+      private$.fitted()[ii]
     },
 
     .fitted = function() {
@@ -124,13 +124,13 @@ LearnerFcst = R6Class(
     # upper if p > 0.5, mean at 0.5. `pred$lower`/`$upper` columns must be in ascending-level order.
     .quantiles_from_intervals = function(pred) {
       probs = private$.quantiles
-      levels = sort(unique(quantiles_to_level(probs)))
+      levels = sort(unique(quantiles_to_levels(probs)))
       quantiles = map_bc(probs, function(p) {
         if (p == 0.5) {
           return(as.numeric(pred$mean))
         }
         bounds = as.matrix(if (p < 0.5) pred$lower else pred$upper)
-        as.numeric(bounds[, match(quantiles_to_level(p), levels)])
+        as.numeric(bounds[, match(quantiles_to_levels(p), levels)])
       })
       setattr(quantiles, "probs", probs)
       setattr(quantiles, "response", private$.quantile_response)

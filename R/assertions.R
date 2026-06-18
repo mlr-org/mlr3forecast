@@ -8,14 +8,14 @@ check_freq = function(x) {
   valid_units = c("secs", "mins", "hours", "days", "DSTdays", "weeks", "months", "quarters", "years")
   msg = "Must be a seq()-compatible string (e.g. '1 month', 'day')"
   parts = strsplit1(x, " ")
-  n_parts = length(parts)
-  if (n_parts < 1L || n_parts > 2L) {
+  n = length(parts)
+  if (n < 1L || n > 2L) {
     return(msg)
   }
-  if (is.na(pmatch(parts[n_parts], valid_units))) {
+  if (is.na(pmatch(parts[n], valid_units))) {
     return(msg)
   }
-  if (n_parts == 2L && !grepl("^[1-9][0-9]*$", parts[1L])) {
+  if (n == 2L && !grepl("^[1-9][0-9]*$", parts[1L])) {
     return(msg)
   }
   TRUE

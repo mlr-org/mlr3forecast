@@ -292,9 +292,9 @@ DirectForecaster = R6::R6Class(
       if (anyNA(steps)) {
         error_input("%i test row(s) are beyond the trained horizon (max %i steps).", sum(is.na(steps)), max_h)
       }
-      idx = match(steps, horizons)
-      if (anyNA(idx)) {
-        bad = sort(unique(steps[is.na(idx)]))
+      ii = match(steps, horizons)
+      if (anyNA(ii)) {
+        bad = sort(unique(steps[is.na(ii)]))
         error_input(
           "Test set requires step(s) %s which were not trained (horizons: %s).",
           toString(bad),
@@ -330,7 +330,7 @@ DirectForecaster = R6::R6Class(
       lookup = combined[, c(key_cols, order_cols, "..rid"), with = FALSE]
       cids = lookup[task$data(cols = c(key_cols, order_cols)), on = c(key_cols, order_cols)][["..rid"]]
 
-      out = private$.predict_horizons(step_task, models, cids, idx)
+      out = private$.predict_horizons(step_task, models, cids, ii)
 
       out_data = task$data(cols = c(target, key_cols, order_cols))
       out$data = insert_named(

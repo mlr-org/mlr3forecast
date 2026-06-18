@@ -27,9 +27,9 @@ test_that("infer_freq detects calendar units", {
   expect_equal(infer_freq(month_end), "month")
 })
 
-test_that("quantiles_to_level dedupes floating-point levels", {
-  expect_equal(quantiles_to_level(c(0.05, 0.1, 0.9, 0.95)), c(80, 90))
-  expect_equal(quantiles_to_level(c(0.05, 0.5, 0.95)), 90)
+test_that("quantiles_to_levels dedupes floating-point levels", {
+  expect_equal(quantiles_to_levels(c(0.05, 0.1, 0.9, 0.95)), c(80, 90))
+  expect_equal(quantiles_to_levels(c(0.05, 0.5, 0.95)), 90)
 })
 
 test_that("as.ts works", {
@@ -47,28 +47,28 @@ test_that("as.ts works with explicit freq", {
   expect_identical(stats::frequency(ts), 4)
 })
 
-test_that("freq_to_int maps single-unit freqs to seasonal periods", {
-  expect_equal(freq_to_int("month"), 12)
-  expect_equal(freq_to_int("1 month"), 12)
-  expect_equal(freq_to_int("quarter"), 4)
-  expect_equal(freq_to_int("week"), 52.18)
-  expect_equal(freq_to_int("day"), 365.25)
-  expect_equal(freq_to_int("hour"), 24)
-  expect_equal(freq_to_int("year"), 1)
+test_that("freq_to_period maps single-unit freqs to seasonal periods", {
+  expect_equal(freq_to_period("month"), 12)
+  expect_equal(freq_to_period("1 month"), 12)
+  expect_equal(freq_to_period("quarter"), 4)
+  expect_equal(freq_to_period("week"), 52.18)
+  expect_equal(freq_to_period("day"), 365.25)
+  expect_equal(freq_to_period("hour"), 24)
+  expect_equal(freq_to_period("year"), 1)
 })
 
-test_that("freq_to_int handles multi-count freqs", {
-  expect_equal(freq_to_int("3 months"), 4)
-  expect_equal(freq_to_int("6 months"), 2)
-  expect_equal(freq_to_int("2 month"), 6)
-  expect_equal(freq_to_int("30 min"), 48)
-  expect_equal(freq_to_int("15 mins"), 96)
-  expect_equal(freq_to_int("6 hours"), 4)
-  expect_equal(freq_to_int("2 day"), 365.25 / 2)
+test_that("freq_to_period handles multi-count freqs", {
+  expect_equal(freq_to_period("3 months"), 4)
+  expect_equal(freq_to_period("6 months"), 2)
+  expect_equal(freq_to_period("2 month"), 6)
+  expect_equal(freq_to_period("30 min"), 48)
+  expect_equal(freq_to_period("15 mins"), 96)
+  expect_equal(freq_to_period("6 hours"), 4)
+  expect_equal(freq_to_period("2 day"), 365.25 / 2)
 })
 
-test_that("freq_to_int passes through numeric and falls back for unknown", {
-  expect_equal(freq_to_int(12), 12)
-  expect_identical(freq_to_int(NULL), 1L)
-  expect_identical(freq_to_int("nonsense"), 1L)
+test_that("freq_to_period passes through numeric and falls back for unknown", {
+  expect_equal(freq_to_period(12), 12)
+  expect_identical(freq_to_period(NULL), 1L)
+  expect_identical(freq_to_period("nonsense"), 1L)
 })

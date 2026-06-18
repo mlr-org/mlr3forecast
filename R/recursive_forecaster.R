@@ -37,7 +37,14 @@
 #' # graph: custom preprocessing pipeline
 #' graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
 #' flrn = recursive_forecaster(graph)
-recursive_forecaster = function(learner, lags = NULL, id = NULL, param_vals = list(), predict_type = NULL, clone_graph = TRUE) {
+recursive_forecaster = function(
+  learner,
+  lags = NULL,
+  id = NULL,
+  param_vals = list(),
+  predict_type = NULL,
+  clone_graph = TRUE
+) {
   RecursiveForecaster$new(
     learner = learner,
     lags = lags,
