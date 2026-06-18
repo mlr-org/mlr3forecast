@@ -158,15 +158,15 @@ rr$aggregate(msr("regr.rmse"))
 
 ### Machine learning forecasters
 
-Any regression learner can be turned into a forecaster with `as_learner_fcst()`,
-which adds lag features and forecasts recursively by default:
+Any regression learner can be turned into a forecaster with `recursive_forecaster()`,
+which adds lag features and forecasts recursively:
 
 ```{r, message = FALSE}
 library(mlr3learners)
 
 task = tsk("airpassengers")
 learner = lrn("regr.ranger")
-flrn = as_learner_fcst(learner, lags = 1:12)$train(task)
+flrn = recursive_forecaster(learner, lags = 1:12)$train(task)
 newdata = generate_newdata(task, 12L)
 prediction = flrn$predict_newdata(newdata, task)
 prediction
@@ -174,7 +174,7 @@ prediction = flrn$predict(task, 140:144)
 prediction
 prediction$score(msr("regr.rmse"))
 
-flrn = as_learner_fcst(learner, lags = 1:12)
+flrn = recursive_forecaster(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
@@ -186,17 +186,16 @@ rr$aggregate(msr("regr.rmse"))
 
 #### Direct forecasting
 
-By default `as_learner_fcst()` builds a recursive forecaster (one model, applied
-iteratively). Pass `strategy = "direct"` together with `horizons` to train one
-model per horizon — predictions then come straight from each horizon's model,
+`recursive_forecaster()` builds a recursive forecaster (one model, applied
+iteratively). Use `direct_forecaster()` with `horizons` to train one model per
+horizon instead — predictions then come straight from each horizon's model,
 with no error accumulation:
 
 ```{r, message = FALSE}
 task = tsk("airpassengers")
-flrn = as_learner_fcst(
+flrn = direct_forecaster(
   lrn("regr.ranger"),
   lags = 1:12,
-  strategy = "direct",
   horizons = 12
 )$train(task, 1:132)
 flrn$predict(task, 133:144)$score(msr("regr.rmse"))
@@ -222,7 +221,7 @@ graph = po("fcst.lags", lags = 1:12) %>>%
     )
   ) %>>%
   lrn("regr.ranger")
-flrn = as_learner_fcst(graph)$train(task)
+flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 ```
@@ -245,7 +244,7 @@ graph = po("fcst.lags", lags = 1:12) %>>%
     )
   ) %>>%
   lrn("regr.ranger")
-flrn = as_learner_fcst(graph)$train(task)
+flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 ```
@@ -261,7 +260,7 @@ task = tsk("airpassengers")
 graph = po("fcst.lags", lags = 1:12) %>>% lrn("regr.ranger")
 pipeline = ppl(
   "targettrafo",
-  graph = as_learner_fcst(graph),
+  graph = recursive_forecaster(graph),
   targetmutate.trafo = function(x) log(x),
   targetmutate.inverter = function(x) list(response = exp(x$response))
 )
@@ -285,7 +284,7 @@ task$set_col_roles("date", add = "feature")
 graph = po("fcst.lags", lags = 1:3) %>>%
   po("datefeatures", param_vals = list(year = FALSE)) %>>%
   lrn("regr.ranger")
-flrn = as_learner_fcst(graph)$train(task)
+flrn = recursive_forecaster(graph)$train(task)
 
 max_date = task$data()[.N, date]
 newdata = data.table(
@@ -313,11 +312,10 @@ n_test = length(resampling$test_set(1L))
 
 learners = list(
   lrn("fcst.arima", id = "arima"),
-  as_learner_fcst(lrn("regr.ranger"), lags = 1:12, id = "ranger_recursive"),
-  as_learner_fcst(
+  recursive_forecaster(lrn("regr.ranger"), lags = 1:12, id = "ranger_recursive"),
+  direct_forecaster(
     lrn("regr.ranger"),
     lags = 1:12,
-    strategy = "direct",
     horizons = n_test,
     id = "ranger_direct"
   )
@@ -366,7 +364,7 @@ library(mlr3tuning)
 task = tsk("airpassengers")
 
 # tune an ML forecaster
-flrn = as_learner_fcst(lrn("regr.ranger"), lags = 1:12)
+flrn = recursive_forecaster(lrn("regr.ranger"), lags = 1:12)
 flrn$param_set$set_values(
   regr.ranger.mtry.ratio = to_tune(0.1, 1),
   regr.ranger.num.trees = to_tune(100, 500)
@@ -432,7 +430,7 @@ graph = po("fcst.lags", lags = 1:12) %>>%
   ) %>>%
   lrn("regr.ranger")
 
-flrn = as_learner_fcst(graph)$train(task)
+flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 
@@ -474,7 +472,7 @@ task_test = as_task_fcst(
 )
 
 learner = lrn("regr.ranger", verbose = FALSE)
-flrn = as_learner_fcst(learner, lags = 1:12)$train(task_train)
+flrn = recursive_forecaster(learner, lags = 1:12)$train(task_train)
 prediction_global = flrn$predict(task_test)
 prediction_global
 prediction_global$score(msr("regr.rmse"))
@@ -495,7 +493,7 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
     order = "month",
     freq = "month"
   )
-  flrn = as_learner_fcst(learner, lags = 1:12)$train(task_train)
+  flrn = recursive_forecaster(learner, lags = 1:12)$train(task_train)
   prediction = flrn$predict(task_test)
   prediction
 })

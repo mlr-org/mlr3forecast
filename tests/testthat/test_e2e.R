@@ -22,7 +22,7 @@ test_that("stats forecaster: resample + aggregate", {
 test_that("RecursiveForecaster: train + predict + score", {
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)$train(task, split$train)
+  flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)$train(task, split$train)
   pred = flrn$predict(task, split$test)
   expect_number(pred$score(msr("regr.rmse")), lower = 0, finite = TRUE)
 })
@@ -30,10 +30,9 @@ test_that("RecursiveForecaster: train + predict + score", {
 test_that("DirectForecaster: train + predict + score", {
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)
-  flrn = as_learner_fcst(
+  flrn = direct_forecaster(
     lrn("regr.rpart"),
     lags = 1:3,
-    strategy = "direct",
     horizons = length(split$test)
   )$train(task, split$train)
   pred = flrn$predict(task, split$test)
@@ -43,8 +42,8 @@ test_that("DirectForecaster: train + predict + score", {
 test_that("ML forecasters: resample + aggregate", {
   task = tsk("airpassengers")
   flrns = list(
-    recursive = as_learner_fcst(lrn("regr.rpart"), lags = 1:3),
-    direct = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 29)
+    recursive = recursive_forecaster(lrn("regr.rpart"), lags = 1:3),
+    direct = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 29)
   )
   for (flrn in flrns) {
     rr = resample(task, flrn, rsmp("fcst.holdout", ratio = 0.8))
@@ -57,8 +56,8 @@ test_that("benchmark across stats and ML forecasters in one design", {
   task = tsk("airpassengers")
   learners = list(
     lrn("fcst.arima"),
-    as_learner_fcst(lrn("regr.rpart"), lags = 1:3),
-    as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 29)
+    recursive_forecaster(lrn("regr.rpart"), lags = 1:3),
+    direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 29)
   )
   design = benchmark_grid(task, learners, rsmp("fcst.holdout", ratio = 0.8))
   bmr = benchmark(design)
@@ -87,7 +86,7 @@ test_that("AutoTuner on stats forecaster (fcst.arima)", {
 test_that("AutoTuner on RecursiveForecaster", {
   skip_if_not_installed("mlr3tuning")
   library(mlr3tuning)
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
+  flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   flrn$param_set$set_values(regr.rpart.cp = to_tune(0.001, 0.1, logscale = TRUE))
   at = AutoTuner$new(
     learner = flrn,
@@ -103,7 +102,7 @@ test_that("AutoTuner on RecursiveForecaster", {
 test_that("AutoTuner on DirectForecaster", {
   skip_if_not_installed("mlr3tuning")
   library(mlr3tuning)
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 29)
+  flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 29)
   flrn$param_set$set_values(regr.rpart.cp = to_tune(0.001, 0.1, logscale = TRUE))
   at = AutoTuner$new(
     learner = flrn,

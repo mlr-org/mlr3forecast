@@ -73,7 +73,7 @@ test_that("RecursiveForecaster does not truncate predictions fed back into integ
 
 test_that("RecursiveForecaster handles predict rows overlapping training rows", {
   task = tsk("airpassengers")
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)$train(task)
+  flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)$train(task)
   prediction = flrn$predict(task, 140:144)
   expect_class(prediction, "PredictionRegr")
   expect_length(prediction$response, 5L)
@@ -105,7 +105,7 @@ test_that("RecursiveForecaster works wrapped in a target trafo", {
   split = partition(task, ratio = 0.85)
   flrn = as_learner(ppl(
     "targettrafo",
-    graph = as_learner_fcst(lrn("regr.rpart"), lags = 1:12),
+    graph = recursive_forecaster(lrn("regr.rpart"), lags = 1:12),
     trafo_pipeop = po("fcst.targetdiff", lag = 1L)
   ))
   flrn$train(task, split$train)
@@ -117,14 +117,14 @@ test_that("RecursiveForecaster works wrapped in a target trafo", {
   expect_numeric(prediction$response, lower = 100, finite = TRUE, any.missing = FALSE)
 })
 
-test_that("as_learner_fcst helper works", {
-  learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
+test_that("recursive_forecaster helper works", {
+  learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   expect_class(learner, "RecursiveForecaster")
   expect_class(learner, "Learner")
   expect_equal(learner$lags, 1:3)
 
   graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
-  learner = as_learner_fcst(graph)
+  learner = recursive_forecaster(graph)
   expect_class(learner, "RecursiveForecaster")
   expect_equal(learner$lags, 1:3)
 })

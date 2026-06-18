@@ -47,7 +47,7 @@ test_that("generate_newdata works with keyed task", {
 
 test_that("forecast() works with RecursiveForecaster", {
   task = tsk("airpassengers")
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
+  flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   flrn$train(task)
 
   pred = forecast(flrn, task, h = 12L)
@@ -57,7 +57,7 @@ test_that("forecast() works with RecursiveForecaster", {
 
 test_that("forecast() works with DirectForecaster", {
   task = tsk("airpassengers")
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 6L)
+  flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 6L)
   flrn$train(task)
 
   pred = forecast(flrn, task, h = 6L)
@@ -77,7 +77,7 @@ test_that("forecast() works with a classic forecast learner", {
 
 test_that("forecast() overlays newdata onto the skeleton", {
   task = tsk("airpassengers")
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
+  flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   flrn$train(task)
 
   last_month = task$data(cols = task$col_roles$order)[.N][[1L]]
@@ -96,7 +96,7 @@ test_that("forecast() overlays multiple exogenous columns on a keyed task", {
     value = rnorm(48L)
   )
   task = as_task_fcst(dt, target = "value", order = "date", key = "id", freq = "month")
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
+  flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   flrn$train(task)
 
   newdata = CJ(date = seq(as.Date("2026-01-01"), by = "month", length.out = 3L), id = factor(c("a", "b")))
@@ -109,7 +109,7 @@ test_that("forecast() overlays multiple exogenous columns on a keyed task", {
 test_that("forecast() works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")
-  flrn = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
+  flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   flrn$train(task)
 
   n_keys = uniqueN(task$data(cols = task$col_roles$key))

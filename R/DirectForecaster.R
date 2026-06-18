@@ -22,13 +22,8 @@
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
 #'
-#' # or use as_learner_fcst with strategy = "direct"
-#' flrn = as_learner_fcst(
-#'   lrn("regr.rpart"),
-#'   lags = 1:3,
-#'   strategy = "direct",
-#'   horizons = length(split$test)
-#' )
+#' # or use the direct_forecaster() helper
+#' flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
 DirectForecaster = R6::R6Class(

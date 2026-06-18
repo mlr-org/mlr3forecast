@@ -113,26 +113,11 @@ test_that("DirectForecaster forecast() matches in-backend predict on keyed task"
   expect_equal(p_newdata$response, p_backend$response)
 })
 
-test_that("as_learner_fcst dispatches on strategy", {
-  learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct", horizons = 3)
+test_that("direct_forecaster helper works", {
+  learner = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 3)
   expect_class(learner, "DirectForecaster")
-
-  learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3)
-  expect_class(learner, "RecursiveForecaster")
-
-  learner = as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "recursive")
-  expect_class(learner, "RecursiveForecaster")
-})
-
-test_that("as_learner_fcst rejects mismatched horizons and strategy", {
-  expect_snapshot(
-    as_learner_fcst(lrn("regr.rpart"), lags = 1:3, strategy = "direct"),
-    error = TRUE
-  )
-  expect_snapshot(
-    as_learner_fcst(lrn("regr.rpart"), lags = 1:3, horizons = 3),
-    error = TRUE
-  )
+  expect_equal(learner$lags, 1:3)
+  expect_equal(learner$horizons, 1:3)
 })
 
 test_that("DirectForecaster aligns row_ids and extras when storage order differs from (key, order)", {
