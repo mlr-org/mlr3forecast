@@ -124,7 +124,7 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
 }
 
 fcst_drop_incomplete = function(dt, feat_cols, key_cols) {
-  kept = na.omit(dt, cols = feat_cols)
+  kept = stats::na.omit(dt, cols = feat_cols)
   if (nrow(kept) == 0L) {
     error_input("The series is too short for the requested lags or window sizes.")
   }
