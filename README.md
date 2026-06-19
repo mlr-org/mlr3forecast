@@ -40,21 +40,33 @@ ensembling.
 At a glance, mlr3forecast provides:
 
 - **Classical forecasters** wrapping forecast, smooth, prophet, and
-  tscount (e.g. `fcst.arima`, `fcst.auto_arima`, `fcst.ets`,
-  `fcst.theta`, `fcst.tbats`, `fcst.prophet`).
+  tscount — over 30 in total, from baselines (`fcst.mean`,
+  `fcst.random_walk`) to ARIMA (`fcst.auto_arima`), ETS, theta, TBATS,
+  prophet, neural nets (`fcst.nnetar`), and count models
+  (`fcst.tscount`). See `mlr_learners$keys("^fcst")` for the full list.
+
 - **Machine learning forecasting** that turns any `regr` learner into a
   forecaster via lag features, with both **recursive** (one model
   applied iteratively) and **direct** (one model per horizon)
   strategies.
+
 - **Forecasting tasks and temporal resamplings** (`fcst.holdout`,
   `fcst.cv`) that respect the order of observations, plus global
   (longitudinal) forecasting across many series.
+
 - **Feature-engineering pipe operators** such as `fcst.lags`,
   `fcst.rolling`, `fcst.fourier`, `fcst.feasts`, and `fcst.tsfeats`.
+
 - **Forecasting measures** including MASE, RMSSE, Pinball, Winkler,
-  coverage, and MSIS.
+  coverage, and MSIS (see `mlr_measures$keys("^fcst")` for the full
+  list).
+
 - **Full mlr3 integration**: tuning with mlr3tuning, benchmarking,
   target transformations, and ensembling with mlr3pipelines.
+
+- **Example tasks** to get started — `airpassengers`, `electricity`,
+  `livestock`, `lynx`, and `usaccdeaths`. List them with
+  `as.data.table(mlr_tasks)[task_type == "fcst"]`.
 
 For now the forecasting task and learner are restricted to time series
 regression, but may be extended to classification in the future.
@@ -173,8 +185,16 @@ prediction$score(msr("regr.rmse"))
 #>  12.29896
 ```
 
-Classical forecasters can also return a predictive distribution as
-quantiles:
+Which predict types a learner supports (e.g. `"quantiles"`, `"se"`) is
+listed in its `predict_types`:
+
+``` r
+lrn("fcst.auto_arima")$predict_types
+#> [1] "response"  "quantiles"
+```
+
+Classical forecasters can then return a predictive distribution as
+quantiles, scored with probabilistic measures such as the Pinball loss:
 
 ``` r
 # works with quantile response
@@ -183,30 +203,33 @@ learner = lrn(
   predict_type = "quantiles",
   quantiles = c(0.1, 0.15, 0.5, 0.85, 0.9),
   quantile_response = 0.5
-)$train(task)
+)$train(task, 1:132)
 learner$predict_newdata(newdata, task)
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth     q0.1    q0.15     q0.5    q0.85     q0.9 response      month
-#>        1    NA 430.8905 433.7106 445.6351 457.5595 460.3796 445.6351 1961-01-01
-#>        2    NA 403.0907 406.4005 420.3953 434.3901 437.6999 420.3953 1961-02-01
-#>        3    NA 429.7726 433.4882 449.1988 464.9093 468.6249 449.1988 1961-03-01
+#>        1    NA 410.6811 413.2496 424.1099 434.9702 437.5387 424.1099 1961-01-01
+#>        2    NA 390.2142 393.4355 407.0557 420.6759 423.8972 407.0557 1961-02-01
+#>        3    NA 450.7334 454.5764 470.8257 487.0751 490.9181 470.8257 1961-03-01
 #>      ---   ---      ---      ---      ---      ---      ---      ---        ---
-#>       10    NA 469.8626 474.5036 494.1275 513.7514 518.3925 494.1275 1961-10-01
-#>       11    NA 398.8383 403.5234 423.3336 443.1438 447.8290 423.3336 1961-11-01
-#>       12    NA 440.8230 445.5445 465.5085 485.4725 490.1940 465.5085 1961-12-01
+#>       10    NA 436.9438 443.6242 471.8707 500.1173 506.7976 471.8707 1961-10-01
+#>       11    NA 390.3115 397.3040 426.8707 456.4374 463.4300 426.8707 1961-11-01
+#>       12    NA 431.7490 439.0404 469.8707 500.7011 507.9925 469.8707 1961-12-01
+learner$predict(task, 133:144)$score(msr("fcst.pinball"))
+#> fcst.pinball 
+#>     11.38111
 ```
 
 Forecasting resamplings respect the temporal order of the observations:
 
 ``` r
-# resampling
+# resampling, scored with a forecasting measure (MASE)
 learner = lrn("fcst.auto_arima")
 resampling = rsmp("fcst.holdout", ratio = 0.7)
 rr = resample(task, learner, resampling)
-rr$aggregate(msr("regr.rmse"))
-#> regr.rmse 
-#>   27.1211
+rr$aggregate(msrs(c("regr.rmse", "fcst.mase")))
+#> regr.rmse fcst.mase 
+#> 27.121096  1.212049
 ```
 
 ### Machine learning forecasters
@@ -227,39 +250,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 438.0802 1961-01-01
-#>        2    NA 437.7360 1961-02-01
-#>        3    NA 457.2168 1961-03-01
+#>        1    NA 446.2509 1961-01-01
+#>        2    NA 448.8850 1961-02-01
+#>        3    NA 468.0311 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 475.5449 1961-10-01
-#>       11    NA 447.5220 1961-11-01
-#>       12    NA 443.6503 1961-12-01
+#>       10    NA 497.0462 1961-10-01
+#>       11    NA 457.9251 1961-11-01
+#>       12    NA 458.8529 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 576.7132 1960-08-01
-#>      141   508 500.4478 1960-09-01
-#>      142   461 453.5321 1960-10-01
-#>      143   390 416.0724 1960-11-01
-#>      144   432 434.4547 1960-12-01
+#>      140   606 564.3768 1960-08-01
+#>      141   508 510.6362 1960-09-01
+#>      142   461 461.5428 1960-10-01
+#>      143   390 418.9087 1960-11-01
+#>      144   432 443.4447 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  18.20065
+#>  23.26557
 
 flrn = recursive_forecaster(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  46.61407
+#>  51.02657
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  25.83355
+#>  33.88559
 ```
 
 #### Direct forecasting
@@ -278,7 +301,7 @@ flrn = direct_forecaster(
 )$train(task, 1:132)
 flrn$predict(task, 133:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  71.44083
+#>  55.71677
 ```
 
 #### Feature engineering
@@ -306,7 +329,7 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.47895
+#>  16.76188
 ```
 
 Use `selector_fcst_lags()` to apply transformations only to the lag
@@ -332,7 +355,7 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.43855
+#>  13.70027
 ```
 
 #### Target transformations
@@ -355,8 +378,11 @@ learner = as_learner(pipeline)$train(task)
 prediction = learner$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  14.86359
+#>  15.04127
 ```
+
+Ready-made `po("fcst.targetboxcox")` and `po("fcst.targetdiff")` pipeops
+are also available for Box-Cox transformation and differencing.
 
 #### Exogenous covariates
 
@@ -387,13 +413,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 187931.0 2015-01-01
-#>        2    NA 196900.1 2015-01-02
-#>        3    NA 189751.5 2015-01-03
+#>        1    NA 187707.3 2015-01-01
+#>        2    NA 196950.8 2015-01-02
+#>        3    NA 190586.9 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 222877.3 2015-01-12
-#>       13    NA 227075.4 2015-01-13
-#>       14    NA 227498.5 2015-01-14
+#>       12    NA 222740.3 2015-01-12
+#>       13    NA 227257.2 2015-01-13
+#>       14    NA 228954.2 2015-01-14
 ```
 
 ### Benchmarking, ensembling, and tuning
@@ -424,8 +450,8 @@ bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 #>          learner_id regr.rmse
 #> 1:            arima 216.31005
-#> 2: ranger_recursive  48.96009
-#> 3:    ranger_direct  77.00350
+#> 2: ranger_recursive  50.70191
+#> 3:    ranger_direct  52.02509
 ```
 
 #### Ensemble forecasting
@@ -498,12 +524,12 @@ at = auto_tuner(
 at$train(task)
 at$tuning_result[, .(regr.ranger.mtry.ratio, regr.ranger.num.trees, regr.rmse)]
 #>    regr.ranger.mtry.ratio regr.ranger.num.trees regr.rmse
-#> 1:              0.8968709                   478   16.2508
+#> 1:              0.6814331                   235  25.22034
 
 # the AutoTuner is itself a learner: predict with the best configuration
 at$predict(task, 142:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  7.398057
+#>   13.6386
 ```
 
 Classical forecasters tune the same way:
@@ -559,13 +585,13 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  28862.78
+#>  18500.26
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>    110259
+#>  107559.2
 ```
 
 #### Global vs. local forecasting
@@ -608,16 +634,16 @@ prediction_global
 #> 
 #> ── <PredictionRegr> for 960 observations: ──────────────────────────────────────
 #>  row_ids truth response                                 industry      month
-#>        1 476.2 470.7224 Cafes, restaurants and catering services 2015-01-01
-#>        2 422.0 459.9404 Cafes, restaurants and catering services 2015-02-01
-#>        3 471.2 486.0754 Cafes, restaurants and catering services 2015-03-01
+#>        1 476.2 470.2078 Cafes, restaurants and catering services 2015-01-01
+#>        2 422.0 455.6845 Cafes, restaurants and catering services 2015-02-01
+#>        3 471.2 484.1151 Cafes, restaurants and catering services 2015-03-01
 #>      ---   ---      ---                                      ---        ---
-#>      958 359.2 414.5910                   Takeaway food services 2018-10-01
-#>      959 354.9 413.3590                   Takeaway food services 2018-11-01
-#>      960 393.2 416.3212                   Takeaway food services 2018-12-01
+#>      958 359.2 399.3639                   Takeaway food services 2018-10-01
+#>      959 354.9 405.4836                   Takeaway food services 2018-11-01
+#>      960 393.2 412.3130                   Takeaway food services 2018-12-01
 prediction_global$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  83.49613
+#>  83.93126
 
 # local forecasting
 prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
@@ -641,5 +667,5 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
 })
 do.call(c, prediction_local)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  94.38919
+#>  95.02372
 ```
