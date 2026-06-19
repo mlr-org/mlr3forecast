@@ -6,7 +6,7 @@ Authors@R: c(
            comment = c(ORCID = "0009-0000-9432-9795")),
     person("Marc", "Becker", , "marcbecker@posteo.de", role = "aut",
            comment = c(ORCID = "0000-0002-8115-0400")),
-    person("Bernd", "Bischl", , "bernd_bischl@gmx.net", role = "aut",
+    person("Bernd", "Bischl", , "bernd.bischl@gmail.c", role = "aut",
            comment = c(ORCID = "0000-0001-6002-6980"))
   )
 Description: Extends the 'mlr3' ecosystem to time series forecasting.
