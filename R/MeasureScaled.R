@@ -115,6 +115,7 @@ MeasureRMSSE = R6Class(
       )
     }
   ),
+
   private = list(
     .score = function(prediction, task, train_set, ...) {
       if ("keys" %in% task$properties) {

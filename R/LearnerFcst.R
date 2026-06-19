@@ -70,6 +70,7 @@ LearnerFcst = R6Class(
       self$model$model
     }
   ),
+
   private = list(
     .train = function(task) {
       properties = task$properties

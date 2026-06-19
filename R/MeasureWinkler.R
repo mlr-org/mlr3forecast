@@ -51,6 +51,7 @@ MeasureWinkler = R6Class(
       )
     }
   ),
+
   private = list(
     .score = function(prediction, ...) {
       alpha = self$param_set$get_values()$alpha

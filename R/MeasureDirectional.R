@@ -51,6 +51,7 @@ MeasureMDA = R6Class(
       )
     }
   ),
+
   private = list(
     .score = function(prediction, task, ...) {
       if ("keys" %in% task$properties) {
@@ -121,6 +122,7 @@ MeasureMDV = R6Class(
       )
     }
   ),
+
   private = list(
     .score = function(prediction, task, ...) {
       if ("keys" %in% task$properties) {
@@ -188,6 +190,7 @@ MeasureMDPV = R6Class(
       )
     }
   ),
+
   private = list(
     .score = function(prediction, task, ...) {
       if ("keys" %in% task$properties) {

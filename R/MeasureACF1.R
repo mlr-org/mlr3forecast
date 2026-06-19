@@ -34,6 +34,7 @@ MeasureACF1 = R6Class(
       )
     }
   ),
+
   private = list(
     .score = function(prediction, task, ...) {
       if ("keys" %in% task$properties) {

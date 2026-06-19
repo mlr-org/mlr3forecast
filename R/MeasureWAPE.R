@@ -37,6 +37,7 @@ MeasureWAPE = R6Class(
       )
     }
   ),
+
   private = list(
     .score = function(prediction, ...) {
       truth = prediction$truth

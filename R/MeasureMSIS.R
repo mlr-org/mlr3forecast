@@ -57,6 +57,7 @@ MeasureMSIS = R6Class(
       )
     }
   ),
+
   private = list(
     .score = function(prediction, task, train_set, ...) {
       probs = attr(prediction$data$quantiles, "probs")
