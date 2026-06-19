@@ -28,7 +28,8 @@ LearnerFcstForecast = R6Class(
         args$xreg = as.matrix(task$data(cols = task$feature_names))
       }
       fn = getExportedValue(private$.pkg, private$.fn)
-      invoke(fn, .args = insert_named(args, pv))
+      model = invoke(fn, .args = insert_named(args, pv))
+      private$.tidy_model(model, task)
     },
 
     .predict = function(task) {

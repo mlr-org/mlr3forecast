@@ -6,12 +6,14 @@ LearnerFcstSmooth = R6Class(
   inherit = LearnerFcst,
   private = list(
     .fn = NULL,
+    .y_arg = "data",
 
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
       fn = getExportedValue("smooth", private$.fn)
-      private$.set_context(invoke(fn, private$.smooth_data(task), .args = pv), task)
+      model = invoke(fn, private$.smooth_data(task), .args = pv)
+      private$.set_context(private$.tidy_model(model, task), task)
     },
 
     .predict = function(task) {

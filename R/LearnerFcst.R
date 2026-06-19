@@ -82,6 +82,20 @@ LearnerFcst = R6Class(
       invisible(NULL)
     },
 
+    # tidy printed output with real series name and fn.
+    .tidy_model = function(model, task) {
+      if (!is.null(model$series)) {
+        model$series = task$target_names
+      }
+      if (!is.null(model$call)) {
+        if (!is.null(model$call[[private$.y_arg]])) {
+          model$call[[private$.y_arg]] = as.name(task$target_names)
+        }
+        model$call[[1L]] = as.name(private$.fn)
+      }
+      model
+    },
+
     .set_context = function(model, task) {
       list(
         model = model,

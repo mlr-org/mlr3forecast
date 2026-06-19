@@ -43,3 +43,21 @@ test_that("quantile prediction with only the median works", {
   pred = learner$predict_newdata(generate_newdata(task, n = 3L))
   expect_matrix(pred$data$quantiles, nrows = 3L, ncols = 1L)
 })
+
+test_that("native model print does not dump the inlined series", {
+  task = tsk("airpassengers")
+  target = task$target_names
+
+  learner = lrn("fcst.arima")$train(task)
+  expect_equal(learner$native_model$series, target)
+
+  learner = lrn("fcst.ets")$train(task)
+  call = learner$native_model$call
+  expect_equal(call[[1L]], as.name("ets"))
+  expect_equal(call$y, as.name(target))
+
+  for (id in c("fcst.arima", "fcst.ets", "fcst.bats", "fcst.nnetar")) {
+    out = capture.output(print(lrn(id)$train(task)$native_model))
+    expect_all_true(nchar(out) < 120L)
+  }
+})
