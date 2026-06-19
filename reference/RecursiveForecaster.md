@@ -70,6 +70,12 @@ narrow for `h > 1`. For calibrated multi-step intervals, prefer
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
   The base regression learner.
 
+- `native_model`:
+
+  (any)  
+  The fitted model of the base learner. Returns `NULL` if the learner
+  has not been trained.
+
 - `lags`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html) \| `NULL`)  

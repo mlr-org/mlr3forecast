@@ -28,6 +28,13 @@ construction.
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
   The base regression learner.
 
+- `native_model`:
+
+  (named [`list()`](https://rdrr.io/r/base/list.html))  
+  The fitted models of the base learner, one per forecast horizon and
+  named `h<horizon>`. Returns `NULL` if the learner has not been
+  trained.
+
 - `lags`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html))  

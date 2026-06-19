@@ -83,6 +83,12 @@ for horizons &gt; 1, so they are rejected at construction.</p>
 The base regression learner.</p></dd>
 
 
+    <dt><code>native_model</code></dt>
+<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code>)<br>
+The fitted models of the base learner, one per forecast horizon and named <code>h&lt;horizon&gt;</code>. Returns <code>NULL</code> if
+the learner has not been trained.</p></dd>
+
+
     <dt><code>lags</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code>)<br>
 The base lags.</p></dd>
