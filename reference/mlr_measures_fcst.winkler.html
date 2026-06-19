@@ -80,6 +80,15 @@ The Winkler score is then the mean of \(W_i\) over all observations.</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">msr</span>(<span class="st">"fcst.winkler"</span>)</span></code></pre><p></p></div>
     </div>
     <div class="section level2">
+    <h2 id="task-type">Task type<a class="anchor" aria-label="anchor" href="#task-type"></a></h2>
+
+
+<p>Forecast measures are registered with <code>task_type = "regr"</code> so they compose with the standard regression
+measures (e.g. <a href="https://mlr3.mlr-org.com/reference/mlr_measures_regr.rmse.html" class="external-link">mlr3::mlr_measures_regr.rmse</a>) on the <a href="https://mlr3.mlr-org.com/reference/PredictionRegr.html" class="external-link">mlr3::PredictionRegr</a> that forecast learners produce.
+List them via the key prefix, not the task type, as the latter returns nothing:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">as.data.table</span>(mlr_measures)[<span class="fu">grepl</span>(<span class="st">"^fcst"</span>, key)]</span></code></pre><p></p></div>
+    </div>
+    <div class="section level2">
     <h2 id="meta-information">Meta Information<a class="anchor" aria-label="anchor" href="#meta-information"></a></h2>
 
 
