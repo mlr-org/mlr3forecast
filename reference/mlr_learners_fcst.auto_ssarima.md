@@ -221,7 +221,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 1.72 seconds
+#> Time elapsed: 2.14 seconds
 #> Model estimated using ssarima() function: SSARIMA(0,1,3)[1](0,1,0)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

@@ -2,6 +2,12 @@
 
 Creates lagged versions of the target variable as new feature columns.
 
+At train time the first rows of each series have no history for the
+requested lags. These incomplete rows are dropped (the
+autoregressive-fit convention), so the base learner never sees `NA`
+lags. A keyed series shorter than the largest lag is dropped entirely,
+with a warning.
+
 At predict time, lags are computed from the task's full backend (i.e.
 including rows outside `row_roles$use`), then joined onto the active
 rows. Used inside
@@ -91,10 +97,10 @@ new_task = po$train(list(task))[[1L]]
 new_task$head()
 #>    passengers passengers_lag_1 passengers_lag_2 passengers_lag_3
 #>         <num>            <num>            <num>            <num>
-#> 1:        112               NA               NA               NA
-#> 2:        118              112               NA               NA
-#> 3:        132              118              112               NA
-#> 4:        129              132              118              112
-#> 5:        121              129              132              118
-#> 6:        135              121              129              132
+#> 1:        129              132              118              112
+#> 2:        121              129              132              118
+#> 3:        135              121              129              132
+#> 4:        148              135              121              129
+#> 5:        148              148              135              121
+#> 6:        136              148              148              135
 ```

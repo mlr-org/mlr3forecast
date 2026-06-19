@@ -6,6 +6,11 @@ current and `lag - 1` most recent values) and has size `window_size`.
 Use `window_size = Inf` for an expanding window that grows to include
 all history up to `t - lag`.
 
+At train time rows whose window has insufficient history are `NA` and
+are dropped, matching
+[PipeOpFcstLags](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md).
+Predict keeps all rows.
+
 At predict time, rolling features are computed from the task's full
 backend (i.e. including rows outside `row_roles$use`), then joined onto
 the active rows. Used inside
@@ -105,10 +110,10 @@ new_task = po$train(list(task))[[1L]]
 new_task$head()
 #>    passengers passengers_roll_mean_3 passengers_roll_mean_12 passengers_roll_sd_3 passengers_roll_sd_12
 #>         <num>                  <num>                   <num>                <num>                 <num>
-#> 1:        112                     NA                      NA                   NA                    NA
-#> 2:        118                     NA                      NA                   NA                    NA
-#> 3:        132                     NA                      NA                   NA                    NA
-#> 4:        129               120.6667                      NA            10.263203                    NA
-#> 5:        121               126.3333                      NA             7.371115                    NA
-#> 6:        135               127.3333                      NA             5.686241                    NA
+#> 1:        115               113.6667                126.6667             8.386497              13.72015
+#> 2:        126               112.3333                126.9167             7.371115              13.45334
+#> 3:        141               119.6667                127.5833             5.686241              13.16647
+#> 4:        135               127.3333                128.3333            13.051181              13.68698
+#> 5:        125               134.0000                128.8333             7.549834              13.82247
+#> 6:        149               133.6667                129.1667             8.082904              13.66371
 ```
