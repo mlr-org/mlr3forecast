@@ -52,9 +52,12 @@ tuning, benchmarking, pipelines, and ensembling.
 
 At a glance, mlr3forecast provides:
 
-- **Classical forecasters** wrapping forecast, smooth, prophet, and tscount
-  (e.g. `fcst.arima`, `fcst.auto_arima`, `fcst.ets`, `fcst.theta`, `fcst.tbats`,
-  `fcst.prophet`).
+- **Classical forecasters** wrapping forecast, smooth, prophet, and tscount —
+  over 30 in total, from baselines (`fcst.mean`, `fcst.random_walk`) to ARIMA
+  (`fcst.auto_arima`), ETS, theta, TBATS, prophet, neural nets (`fcst.nnetar`),
+  and count models (`fcst.tscount`); see `mlr_learners$keys("^fcst")` for the
+  full list.
+
 - **Machine learning forecasting** that turns any `regr` learner into a
   forecaster via lag features, with both **recursive** (one model applied
   iteratively) and **direct** (one model per horizon) strategies.
@@ -64,9 +67,12 @@ At a glance, mlr3forecast provides:
 - **Feature-engineering pipe operators** such as `fcst.lags`, `fcst.rolling`,
   `fcst.fourier`, `fcst.feasts`, and `fcst.tsfeats`.
 - **Forecasting measures** including MASE, RMSSE, Pinball, Winkler, coverage,
-  and MSIS.
+  and MSIS (see `mlr_measures$keys("^fcst")` for the full list).
 - **Full mlr3 integration**: tuning with mlr3tuning, benchmarking, target
   transformations, and ensembling with mlr3pipelines.
+- **Example tasks** to get started — `airpassengers`, `electricity`,
+  `livestock`, `lynx`, and `usaccdeaths`; list them with
+  `as.data.table(mlr_tasks)[task_type == "fcst"]`.
 
 For now the forecasting task and learner are restricted to time series
 regression, but may be extended to classification in the future.
@@ -133,7 +139,15 @@ prediction = learner$train(task)$predict(task, 140:144)
 prediction$score(msr("regr.rmse"))
 ```
 
-Classical forecasters can also return a predictive distribution as quantiles:
+Which predict types a learner supports (e.g. `"quantiles"`, `"se"`) is listed
+in its `predict_types`:
+
+```{r, message = FALSE}
+lrn("fcst.auto_arima")$predict_types
+```
+
+Classical forecasters can then return a predictive distribution as quantiles,
+scored with probabilistic measures such as the Pinball loss:
 
 ```{r, message = FALSE}
 # works with quantile response
@@ -144,16 +158,17 @@ learner = lrn(
   quantile_response = 0.5
 )$train(task)
 learner$predict_newdata(newdata, task)
+learner$predict(task, 140:144)$score(msr("fcst.pinball"))
 ```
 
 Forecasting resamplings respect the temporal order of the observations:
 
 ```{r, message = FALSE}
-# resampling
+# resampling, scored with a forecasting measure (MASE)
 learner = lrn("fcst.auto_arima")
 resampling = rsmp("fcst.holdout", ratio = 0.7)
 rr = resample(task, learner, resampling)
-rr$aggregate(msr("regr.rmse"))
+rr$aggregate(msrs(c("regr.rmse", "fcst.mase")))
 ```
 
 ### Machine learning forecasters
@@ -268,6 +283,9 @@ learner = as_learner(pipeline)$train(task)
 prediction = learner$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 ```
+
+Ready-made `po("fcst.targetboxcox")` and `po("fcst.targetdiff")` pipeops are
+also available for Box-Cox transformation and differencing.
 
 #### Exogenous covariates
 
