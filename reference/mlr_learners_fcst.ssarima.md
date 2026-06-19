@@ -221,7 +221,7 @@ learner$train(task, row_ids = ids$train)
 print(learner$model)
 #> $model
 #> Time elapsed: 0.01 seconds
-#> Model estimated using fn() function: SSARIMA(0,1,1)
+#> Model estimated using ssarima() function: SSARIMA(0,1,1)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
 #> Loss function type: likelihood; Loss function value: 433.0529

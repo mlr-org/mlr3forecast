@@ -218,8 +218,8 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.1 seconds
-#> Model estimated using ces() function: CES(full)
+#> Time elapsed: 0.14 seconds
+#> Model estimated using auto.ces() function: CES(full)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
 #> Loss function type: likelihood; Loss function value: 351.041

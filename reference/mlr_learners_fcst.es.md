@@ -223,8 +223,8 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.15 seconds
-#> Model estimated using fn() function: ETS(MAM)
+#> Time elapsed: 0.2 seconds
+#> Model estimated using es() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
 #> Loss function type: likelihood; Loss function value: 327.5537

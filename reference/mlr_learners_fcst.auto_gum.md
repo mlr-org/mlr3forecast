@@ -215,8 +215,8 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 2.18 seconds
-#> Model estimated using gum() function: GUM(1[1],1[12])
+#> Time elapsed: 2.4 seconds
+#> Model estimated using auto.gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
 #> Loss function type: likelihood; Loss function value: 368.5502
