@@ -206,3 +206,108 @@ zentral! hier muss man doch sofort und gut sehen können was das ist?
 –\> vielleicht meine frage / vorschlag einfach das hier: a) man weiss
 genau (dokumentiert) was hier für eine klasse zurückkommt und was das
 ist b) der klasse einen printer geben
+
+------------------------------------------------------------------------
+
+## 3. Larger / structural concerns
+
+Stepping back from individual API points to the big, important things.
+These are strategic/architectural, not line-level. Grounded in the
+source (deps, tests, the recursive predict loop, the keyed-task guard)
+but not run.
+
+### A. No real probabilistic forecasting for the ML (reduction) side
+
+This is, in my view, the single most important gap. Modern forecasting
+(M5/M6, industry demand planning) is largely *probabilistic*, and the
+package’s own measure set leans that way (Pinball, Winkler, Coverage,
+MSIS). Yet:
+
+- **Recursive** multi-step prediction feeds only the point `$response`
+  back into the feature matrix at each step (`R/RecursiveForecaster.R`,
+  predict loop ~L119-124:
+  `set(combined, ..., value = prediction$response)`). There is no
+  simulation / bootstrap path, so multi-step predictive *distributions*
+  are not propagated — any quantiles you’d get are conditional on point
+  estimates of earlier steps and systematically under-dispersed.
+- **Direct** could in principle emit per-horizon quantiles if the base
+  `regr` learner does, but there is no calibrated-interval machinery
+  around it.
+
+Classical wrappers get intervals “for free” from their upstream
+packages, which hides the asymmetry: the headline ML story is
+effectively point-forecast only. This deserves (a) explicit
+documentation of the limitation and (b) a roadmap item for a
+simulation/bootstrap-based predictive distribution.
+
+### B. The “forecasting = regr + an order column” abstraction is leaky, and the leaks are runtime-enforced
+
+The reuse story is the package’s biggest strength, but the abstraction
+has several sharp, non-obvious exceptions that surface only as runtime
+errors:
+
+- Classical `LearnerFcst*` learners **reject keyed (global) tasks**
+  (`R/LearnerFcst.R:79-81`, “does not support tasks with keys”). So
+  “global forecasting” is an ML-reduction-only capability; with
+  classical models you must hand-roll the split/loop (exactly what the
+  README’s “local forecasting” example does). That asymmetry is not
+  signposted.
+- Target-transform pipeops **must not be placed inside** a
+  Recursive/Direct graph (`man/mlr_pipeops_fcst.targetboxcox.Rd`,
+  Limitations section).
+- In-sample and future rows **cannot be mixed** in one
+  [`predict()`](https://rdrr.io/r/stats/predict.html)
+  (`R/LearnerFcst.R:104-108`).
+
+“Forecasters behave like any other mlr3 learner” is the pitch, but there
+are enough composition rules that a capability/property advertisement
+(or at least a consolidated “what does *not* compose” doc) is warranted.
+Otherwise users discover the boundaries by hitting errors.
+
+### C. Evaluation / backtesting is thin for a forecasting package
+
+Only two resamplings exist (`fcst.holdout`, `fcst.cv`). Missing,
+relative to what serious forecasting work expects:
+
+- First-class **rolling-origin evaluation with a per-horizon error
+  breakdown** (error-by-h is the standard diagnostic; here you only get
+  an aggregate).
+- Any **hierarchical / grouped reconciliation** (fable’s core strength).
+  Global models exist via keys, but coherent aggregation across a
+  hierarchy does not.
+
+This is a fair scope choice for an early package, but it should be
+stated explicitly, because it’s the main axis on which users will
+compare against `fable`/`fpp3`.
+
+### D. Breadth-over-depth bet: 34 learners across ~10 optional backends
+
+The package wraps a very wide roster (`forecast`, `smooth`, `prophet`,
+`tscount`, `nnfor`, `Rlgt`, `Rcatch22`, `feasts`, `tsfeatures`, …; all
+in `Suggests`). Each adapter is thin, but collectively this is a large
+surface to keep green as upstreams drift, and some backends are heavy
+(prophet pulls a Stan toolchain). Worth a deliberate decision: is the
+goal *breadth* (wrap everything, accept the maintenance/testing matrix)
+or a *clean core + a few exemplars*? Right now it’s breadth, which is a
+real long-term commitment — and the per-learner tests (~50
+`test_fcst_*.R` files) confirm the cost is already being paid.
+
+### E. No long-form documentation (no vignettes)
+
+There is no `vignettes/` directory; the README is the only narrative
+doc. For a package whose *correct* use hinges on subtle ideas —
+recursive vs direct, leakage windows, the compose-restrictions in (B),
+global vs local, the probabilistic limits in (A) — the absence of
+vignettes is a significant adoption and correctness-communication gap. A
+pkgdown site is configured, but its long-form content is currently just
+the README.
+
+### F. Early-stage maturity vs. the unresolved seams above
+
+`Version: 0.0.1`, lifecycle experimental, not on CRAN, with heuristic
+`freq` inference and the API seams in section 2. That’s all fine for the
+stage — the point is that the *order* of operations matters: the
+structural questions in A–C are the ones that should be settled before
+the API ossifies, because fixing them later (e.g. adding a probabilistic
+predict path, or a capability system) is much harder once users depend
+on the current shapes.

@@ -132,6 +132,46 @@
 <p>class(flrn$model) [1] “recursive_forecaster_model” “list”</p>
 <p>und dann hat diese klasse nicht mal einen printer. und es kommt ein langer “schmutz” an members von dem objekt. das “model” ist aber zentral! hier muss man doch sofort und gut sehen können was das ist?</p>
 <p>–&gt; vielleicht meine frage / vorschlag einfach das hier: a) man weiss genau (dokumentiert) was hier für eine klasse zurückkommt und was das ist b) der klasse einen printer geben</p>
+<hr></div>
+</div>
+<div class="section level2">
+<h2 id="id_3-larger--structural-concerns">3. Larger / structural concerns<a class="anchor" aria-label="anchor" href="#id_3-larger--structural-concerns"></a></h2>
+<p>Stepping back from individual API points to the big, important things. These are strategic/architectural, not line-level. Grounded in the source (deps, tests, the recursive predict loop, the keyed-task guard) but not run.</p>
+<div class="section level3">
+<h3 id="a-no-real-probabilistic-forecasting-for-the-ml-reduction-side">A. No real probabilistic forecasting for the ML (reduction) side<a class="anchor" aria-label="anchor" href="#a-no-real-probabilistic-forecasting-for-the-ml-reduction-side"></a></h3>
+<p>This is, in my view, the single most important gap. Modern forecasting (M5/M6, industry demand planning) is largely <em>probabilistic</em>, and the package’s own measure set leans that way (Pinball, Winkler, Coverage, MSIS). Yet:</p>
+<ul><li>
+<strong>Recursive</strong> multi-step prediction feeds only the point <code>$response</code> back into the feature matrix at each step (<code>R/RecursiveForecaster.R</code>, predict loop ~L119-124: <code>set(combined, ..., value = prediction$response)</code>). There is no simulation / bootstrap path, so multi-step predictive <em>distributions</em> are not propagated — any quantiles you’d get are conditional on point estimates of earlier steps and systematically under-dispersed.</li>
+<li>
+<strong>Direct</strong> could in principle emit per-horizon quantiles if the base <code>regr</code> learner does, but there is no calibrated-interval machinery around it.</li>
+</ul><p>Classical wrappers get intervals “for free” from their upstream packages, which hides the asymmetry: the headline ML story is effectively point-forecast only. This deserves (a) explicit documentation of the limitation and (b) a roadmap item for a simulation/bootstrap-based predictive distribution.</p>
+</div>
+<div class="section level3">
+<h3 id="b-the-forecasting--regr--an-order-column-abstraction-is-leaky-and-the-leaks-are-runtime-enforced">B. The “forecasting = regr + an order column” abstraction is leaky, and the leaks are runtime-enforced<a class="anchor" aria-label="anchor" href="#b-the-forecasting--regr--an-order-column-abstraction-is-leaky-and-the-leaks-are-runtime-enforced"></a></h3>
+<p>The reuse story is the package’s biggest strength, but the abstraction has several sharp, non-obvious exceptions that surface only as runtime errors:</p>
+<ul><li>Classical <code>LearnerFcst*</code> learners <strong>reject keyed (global) tasks</strong> (<code>R/LearnerFcst.R:79-81</code>, “does not support tasks with keys”). So “global forecasting” is an ML-reduction-only capability; with classical models you must hand-roll the split/loop (exactly what the README’s “local forecasting” example does). That asymmetry is not signposted.</li>
+<li>Target-transform pipeops <strong>must not be placed inside</strong> a Recursive/Direct graph (<code>man/mlr_pipeops_fcst.targetboxcox.Rd</code>, Limitations section).</li>
+<li>In-sample and future rows <strong>cannot be mixed</strong> in one <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> (<code>R/LearnerFcst.R:104-108</code>).</li>
+</ul><p>“Forecasters behave like any other mlr3 learner” is the pitch, but there are enough composition rules that a capability/property advertisement (or at least a consolidated “what does <em>not</em> compose” doc) is warranted. Otherwise users discover the boundaries by hitting errors.</p>
+</div>
+<div class="section level3">
+<h3 id="c-evaluation--backtesting-is-thin-for-a-forecasting-package">C. Evaluation / backtesting is thin for a forecasting package<a class="anchor" aria-label="anchor" href="#c-evaluation--backtesting-is-thin-for-a-forecasting-package"></a></h3>
+<p>Only two resamplings exist (<code>fcst.holdout</code>, <code>fcst.cv</code>). Missing, relative to what serious forecasting work expects:</p>
+<ul><li>First-class <strong>rolling-origin evaluation with a per-horizon error breakdown</strong> (error-by-h is the standard diagnostic; here you only get an aggregate).</li>
+<li>Any <strong>hierarchical / grouped reconciliation</strong> (fable’s core strength). Global models exist via keys, but coherent aggregation across a hierarchy does not.</li>
+</ul><p>This is a fair scope choice for an early package, but it should be stated explicitly, because it’s the main axis on which users will compare against <code>fable</code>/<code>fpp3</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="d-breadth-over-depth-bet-34-learners-across-10-optional-backends">D. Breadth-over-depth bet: 34 learners across ~10 optional backends<a class="anchor" aria-label="anchor" href="#d-breadth-over-depth-bet-34-learners-across-10-optional-backends"></a></h3>
+<p>The package wraps a very wide roster (<code>forecast</code>, <code>smooth</code>, <code>prophet</code>, <code>tscount</code>, <code>nnfor</code>, <code>Rlgt</code>, <code>Rcatch22</code>, <code>feasts</code>, <code>tsfeatures</code>, …; all in <code>Suggests</code>). Each adapter is thin, but collectively this is a large surface to keep green as upstreams drift, and some backends are heavy (prophet pulls a Stan toolchain). Worth a deliberate decision: is the goal <em>breadth</em> (wrap everything, accept the maintenance/testing matrix) or a <em>clean core + a few exemplars</em>? Right now it’s breadth, which is a real long-term commitment — and the per-learner tests (~50 <code>test_fcst_*.R</code> files) confirm the cost is already being paid.</p>
+</div>
+<div class="section level3">
+<h3 id="e-no-long-form-documentation-no-vignettes">E. No long-form documentation (no vignettes)<a class="anchor" aria-label="anchor" href="#e-no-long-form-documentation-no-vignettes"></a></h3>
+<p>There is no <code>vignettes/</code> directory; the README is the only narrative doc. For a package whose <em>correct</em> use hinges on subtle ideas — recursive vs direct, leakage windows, the compose-restrictions in (B), global vs local, the probabilistic limits in (A) — the absence of vignettes is a significant adoption and correctness-communication gap. A pkgdown site is configured, but its long-form content is currently just the README.</p>
+</div>
+<div class="section level3">
+<h3 id="f-early-stage-maturity-vs-the-unresolved-seams-above">F. Early-stage maturity vs. the unresolved seams above<a class="anchor" aria-label="anchor" href="#f-early-stage-maturity-vs-the-unresolved-seams-above"></a></h3>
+<p><code>Version: 0.0.1</code>, lifecycle experimental, not on CRAN, with heuristic <code>freq</code> inference and the API seams in section 2. That’s all fine for the stage — the point is that the <em>order</em> of operations matters: the structural questions in A–C are the ones that should be settled before the API ossifies, because fixing them later (e.g. adding a probabilistic predict path, or a capability system) is much harder once users depend on the current shapes.</p>
 </div>
 </div>
 </div>
