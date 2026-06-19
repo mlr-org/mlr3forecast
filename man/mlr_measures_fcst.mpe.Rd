@@ -24,6 +24,16 @@ msr("fcst.mpe")
 }\if{html}{\out{</div>}}
 }
 
+\section{Task type}{
+
+Forecast measures are registered with \code{task_type = "regr"} so they compose with the standard regression
+measures (e.g. \link[mlr3:mlr_measures_regr.rmse]{mlr3::mlr_measures_regr.rmse}) on the \link[mlr3:PredictionRegr]{mlr3::PredictionRegr} that forecast learners produce.
+List them via the key prefix, not the task type, as the latter returns nothing:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{as.data.table(mlr_measures)[grepl("^fcst", key)]
+}\if{html}{\out{</div>}}
+}
+
 \section{Meta Information}{
 
 \itemize{
