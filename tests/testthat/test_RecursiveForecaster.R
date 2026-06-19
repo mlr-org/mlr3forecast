@@ -145,3 +145,20 @@ test_that("RecursiveForecaster deep clone isolates the inner learner", {
   expect_null(learner$param_set$values$regr.rpart.cp)
   expect_equal(clone$param_set$values$regr.rpart.cp, 0.5)
 })
+
+test_that("RecursiveForecaster native_model returns the base learner model", {
+  task = tsk("airpassengers")
+  learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
+  expect_null(learner$native_model)
+  learner$train(task)
+  expect_class(learner$native_model, "rpart")
+})
+
+test_that("RecursiveForecaster model prints a compact summary", {
+  task = tsk("airpassengers")
+  learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)$train(task)
+  out = capture.output(print(learner$model))
+  expect_lte(length(out), 6L)
+  expect_match(out, "recursive_forecaster_model", all = FALSE)
+  expect_match(out, "Training rows: 144", all = FALSE, fixed = TRUE)
+})

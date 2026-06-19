@@ -71,6 +71,9 @@ flrn$predict(task, split$test)
     \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
 The base regression learner.}
 
+    \item{\code{native_model}}{(any)\cr
+The fitted model of the base learner. Returns \code{NULL} if the learner has not been trained.}
+
     \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
 The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
 

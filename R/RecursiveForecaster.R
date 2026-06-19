@@ -162,6 +162,16 @@ RecursiveForecaster = R6::R6Class(
       private$.learner$base_learner()
     },
 
+    #' @field native_model (any)\cr
+    #' The fitted model of the base learner. Returns `NULL` if the learner has not been trained.
+    native_model = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(self$model)) {
+        return(NULL)
+      }
+      self$model$graph_state[[self$learner$id]]$model
+    },
+
     #' @field lags (`integer()` | `NULL`)\cr
     #' The lags used, or `NULL` if no [PipeOpFcstLags] is in the graph.
     lags = function(rhs) {
@@ -357,6 +367,18 @@ RecursiveForecaster = R6::R6Class(
     }
   )
 )
+
+#' @export
+#' @method print recursive_forecaster_model
+print.recursive_forecaster_model = function(x, ...) {
+  cat_cli({
+    cli::cli_text("<recursive_forecaster_model>")
+    cli::cli_li("Target: {x$target}")
+    cli::cli_li("Frequency: {x$freq}")
+    cli::cli_li("Training rows: {nrow(x$train_data)}")
+  })
+  invisible(x)
+}
 
 #' @export
 #' @method marshal_model recursive_forecaster_model

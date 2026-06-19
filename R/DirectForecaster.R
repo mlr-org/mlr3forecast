@@ -150,6 +150,18 @@ DirectForecaster = R6::R6Class(
       private$.learner$base_learner()
     },
 
+    #' @field native_model (named `list()`)\cr
+    #' The fitted models of the base learner, one per forecast horizon and named `h<horizon>`. Returns `NULL` if
+    #' the learner has not been trained.
+    native_model = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(self$model)) {
+        return(NULL)
+      }
+      models = map(self$model$models, function(glrn) glrn$base_learner()$model)
+      set_names(models, paste0("h", self$horizons))
+    },
+
     #' @field lags (`integer()`)\cr
     #' The base lags.
     lags = function(rhs) {
@@ -373,6 +385,18 @@ DirectForecaster = R6::R6Class(
     }
   )
 )
+
+#' @export
+#' @method print direct_forecaster_model
+print.direct_forecaster_model = function(x, ...) {
+  cat_cli({
+    cli::cli_text("<direct_forecaster_model>")
+    cli::cli_li("Target: {x$target}")
+    cli::cli_li("Frequency: {x$freq}")
+    cli::cli_li("Horizon models: {length(x$models)}")
+  })
+  invisible(x)
+}
 
 #' @export
 #' @method marshal_model direct_forecaster_model

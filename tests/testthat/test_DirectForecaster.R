@@ -227,3 +227,23 @@ test_that("DirectForecaster clone has independent lags", {
   expect_equal(clone$lags, 5:7)
   expect_equal(learner$lags, 1:3)
 })
+
+test_that("DirectForecaster native_model returns one fitted model per horizon", {
+  task = tsk("airpassengers")
+  learner = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = c(1L, 3L, 6L))
+  expect_null(learner$native_model)
+  learner$train(task)
+  nm = learner$native_model
+  expect_names(names(nm), identical.to = c("h1", "h3", "h6"))
+  expect_r6_class(learner$model$models[[1L]], "GraphLearner")
+  expect_class(nm$h1, "rpart")
+})
+
+test_that("DirectForecaster model prints a compact summary", {
+  task = tsk("airpassengers")
+  learner = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 3L)$train(task)
+  out = capture.output(print(learner$model))
+  expect_lte(length(out), 6L)
+  expect_match(out, "direct_forecaster_model", all = FALSE)
+  expect_match(out, "Horizon models: 3", all = FALSE, fixed = TRUE)
+})
