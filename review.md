@@ -131,4 +131,78 @@ Note: `gap #6`
 had no BB mark, so it was left unchanged. `README.Rmd` still needs to be
 re-knitted to regenerate `README.md`.
 
-BB: enumerate the tasks
+------------------------------------------------------------------------
+
+## 2. API critique
+
+What I would criticize, dislike, or see as obviously improvable in the
+public API. These are design observations from reading the source — not
+verified by running code. Ordered by impact.
+
+### Higher impact
+
+4.  **MASE / RMSSE default to a non-seasonal naive (`period = 1`) even
+    on seasonal tasks.** `R/MeasureScaled.R:35-36,60` — the scaling
+    denominator uses `period = 1L` by default and the measure never
+    consults `task$freq`. So `msr("fcst.mase")` on monthly airpassengers
+    silently uses lag-1 scaling, not the seasonal-naive MASE most users
+    expect; they must remember `msr("fcst.mase", period = 12)`. Since
+    the task already carries `freq`, the measure could default `period`
+    from it. A real footgun — and it now appears in README code (step
+    3).
+
+BB: anschauen? mindestens in den docs vor der “footgun” warnen?
+
+### Medium / lower
+
+5.  **Overloaded `lags` argument + recursive/direct asymmetry.**
+    `recursive_forecaster(learner, lags = ...)`: if `lags` is given it
+    wraps the learner in `po("fcst.lags")`; if `NULL`, `learner` must
+    already be a graph (`R/recursive_forecaster.R:13-15`).
+    [`direct_forecaster()`](https://mlr3forecast.mlr-org.com/reference/direct_forecaster.md)
+    instead *requires* `lags` and additionally `horizons`. “One argument
+    silently changes what’s required of another,” plus the asymmetry
+    between the two constructors, is mildly surprising.
+
+BB: einfach dokumentieren.
+
+6.  **[`as_task_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_task_fcst.md)
+    required arguments differ by input type.** `target` + `order` are
+    required for `data.frame` / backend; `target` is inferred for `ts` /
+    `zoo` / `tsf`; `order` / `key` are inferred for `tbl_ts`. Somewhat
+    inherent to the source formats, but the inconsistency is a learning
+    cost and is not summarized anywhere user-facing.
+
+BB: einfach dokumentieren.
+
+7.  **Forecast measures are `task_type = "regr"`, keyed `fcst.*`.** They
+    inherit `MeasureRegr`, so
+    `as.data.table(mlr_measures)[task_type == "fcst"]` returns nothing —
+    discovery only works via the `^fcst` key regex, unlike tasks and
+    learners which are genuinely `task_type == "fcst"`. Minor reflection
+    inconsistency (and a trap if someone mirrors the task-listing idiom
+    for measures).
+
+BB: nochmal ansehen. eigentloch sollten die doch wirklich task_type =
+fsct haben (können)? kann man mit leben falls es nicht geht, anders wäre
+schöner
+
+9.  **`$model` is a wrapper; the real model is `$native_model`.**
+    `LearnerFcst` stores the upstream model inside a list and exposes it
+    via `$native_model` (`R/LearnerFcst.R:64-71`), so `$model` is not
+    the fitted object as in standard mlr3. Documented, but a surprise
+    for code/tooling that expects `$model` to be the model.
+    ————————————-
+
+unabhänging von dem was claude hier sagt: flrn\$model gibt genau was
+zurück? wenn man das printet kommt da
+
+class(flrn\$model) \[1\] “recursive_forecaster_model” “list”
+
+und dann hat diese klasse nicht mal einen printer. und es kommt ein
+langer “schmutz” an members von dem objekt. das “model” ist aber
+zentral! hier muss man doch sofort und gut sehen können was das ist?
+
+–\> vielleicht meine frage / vorschlag einfach das hier: a) man weiss
+genau (dokumentiert) was hier für eine klasse zurückkommt und was das
+ist b) der klasse einen printer geben

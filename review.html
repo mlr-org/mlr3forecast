@@ -104,7 +104,34 @@
 <li>
 <strong>Task enumeration (BB at minor):</strong> Added an at-a-glance bullet listing the built-in tasks (<code>airpassengers</code>, <code>electricity</code>, <code>livestock</code>, <code>lynx</code>, <code>usaccdeaths</code>) with <code>as.data.table(mlr_tasks)[task_type == "fcst"]</code>.</li>
 </ul><p>Note: <code>gap #6</code> (<code><a href="reference/as_task_fcst.html">as_tasks_fcst()</a></code>) had no BB mark, so it was left unchanged. <code>README.Rmd</code> still needs to be re-knitted to regenerate <code>README.md</code>.</p>
-<p>BB: enumerate the tasks</p>
+<hr></div>
+</div>
+<div class="section level2">
+<h2 id="id_2-api-critique">2. API critique<a class="anchor" aria-label="anchor" href="#id_2-api-critique"></a></h2>
+<p>What I would criticize, dislike, or see as obviously improvable in the public API. These are design observations from reading the source — not verified by running code. Ordered by impact.</p>
+<div class="section level3">
+<h3 id="higher-impact">Higher impact<a class="anchor" aria-label="anchor" href="#higher-impact"></a></h3>
+<ol start="4" style="list-style-type: decimal"><li>
+<strong>MASE / RMSSE default to a non-seasonal naive (<code>period = 1</code>) even on seasonal tasks.</strong> <code>R/MeasureScaled.R:35-36,60</code> — the scaling denominator uses <code>period = 1L</code> by default and the measure never consults <code>task$freq</code>. So <code>msr("fcst.mase")</code> on monthly airpassengers silently uses lag-1 scaling, not the seasonal-naive MASE most users expect; they must remember <code>msr("fcst.mase", period = 12)</code>. Since the task already carries <code>freq</code>, the measure could default <code>period</code> from it. A real footgun — and it now appears in README code (step 3).</li>
+</ol><p>BB: anschauen? mindestens in den docs vor der “footgun” warnen?</p>
+</div>
+<div class="section level3">
+<h3 id="medium--lower">Medium / lower<a class="anchor" aria-label="anchor" href="#medium--lower"></a></h3>
+<ol start="5" style="list-style-type: decimal"><li>
+<strong>Overloaded <code>lags</code> argument + recursive/direct asymmetry.</strong> <code>recursive_forecaster(learner, lags = ...)</code>: if <code>lags</code> is given it wraps the learner in <code>po("fcst.lags")</code>; if <code>NULL</code>, <code>learner</code> must already be a graph (<code>R/recursive_forecaster.R:13-15</code>). <code><a href="reference/direct_forecaster.html">direct_forecaster()</a></code> instead <em>requires</em> <code>lags</code> and additionally <code>horizons</code>. “One argument silently changes what’s required of another,” plus the asymmetry between the two constructors, is mildly surprising.</li>
+</ol><p>BB: einfach dokumentieren.</p>
+<ol start="6" style="list-style-type: decimal"><li>
+<strong><code><a href="reference/as_task_fcst.html">as_task_fcst()</a></code> required arguments differ by input type.</strong> <code>target</code> + <code>order</code> are required for <code>data.frame</code> / backend; <code>target</code> is inferred for <code>ts</code> / <code>zoo</code> / <code>tsf</code>; <code>order</code> / <code>key</code> are inferred for <code>tbl_ts</code>. Somewhat inherent to the source formats, but the inconsistency is a learning cost and is not summarized anywhere user-facing.</li>
+</ol><p>BB: einfach dokumentieren.</p>
+<ol start="7" style="list-style-type: decimal"><li>
+<strong>Forecast measures are <code>task_type = "regr"</code>, keyed <code>fcst.*</code>.</strong> They inherit <code>MeasureRegr</code>, so <code>as.data.table(mlr_measures)[task_type == "fcst"]</code> returns nothing — discovery only works via the <code>^fcst</code> key regex, unlike tasks and learners which are genuinely <code>task_type == "fcst"</code>. Minor reflection inconsistency (and a trap if someone mirrors the task-listing idiom for measures).</li>
+</ol><p>BB: nochmal ansehen. eigentloch sollten die doch wirklich task_type = fsct haben (können)? kann man mit leben falls es nicht geht, anders wäre schöner</p>
+<ol start="9" style="list-style-type: decimal"><li>
+<strong><code>$model</code> is a wrapper; the real model is <code>$native_model</code>.</strong> <code>LearnerFcst</code> stores the upstream model inside a list and exposes it via <code>$native_model</code> (<code>R/LearnerFcst.R:64-71</code>), so <code>$model</code> is not the fitted object as in standard mlr3. Documented, but a surprise for code/tooling that expects <code>$model</code> to be the model. ————————————-</li>
+</ol><p>unabhänging von dem was claude hier sagt: flrn$model gibt genau was zurück? wenn man das printet kommt da</p>
+<p>class(flrn$model) [1] “recursive_forecaster_model” “list”</p>
+<p>und dann hat diese klasse nicht mal einen printer. und es kommt ein langer “schmutz” an members von dem objekt. das “model” ist aber zentral! hier muss man doch sofort und gut sehen können was das ist?</p>
+<p>–&gt; vielleicht meine frage / vorschlag einfach das hier: a) man weiss genau (dokumentiert) was hier für eine klasse zurückkommt und was das ist b) der klasse einen printer geben</p>
 </div>
 </div>
 </div>
