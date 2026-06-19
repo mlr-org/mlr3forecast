@@ -84,15 +84,24 @@ PipeOpFcstRolling = R6Class(
 
   private = list(
     .train_task = function(task) {
-      before = task$feature_names
-      cols = c(task$target_names, task$col_roles$key, task$col_roles$order)
-      out = private$.rolling(task, task$data(cols = cols))
-      fcst_drop_incomplete(out, before, task$col_roles$key)
+      pk = task$backend$primary_key
+      dt = task$backend$data(
+        rows = task$row_ids,
+        cols = c(pk, task$target_names, task$col_roles$key, task$col_roles$order)
+      )
+      roll_cols = private$.rolling(task, dt)
+      kept = fcst_drop_incomplete(dt, roll_cols, task$col_roles$key)
+      task$select(task$feature_names)$filter(kept[[pk]])$cbind(kept[, c(pk, roll_cols), with = FALSE])
     },
 
     .predict_task = function(task) {
-      cols = c(task$target_names, task$col_roles$key, task$col_roles$order)
-      private$.rolling(task, task$backend$data(rows = task$backend$rownames, cols = cols))
+      key_cols = task$col_roles$key
+      order_cols = task$col_roles$order
+      full = task$backend$data(rows = task$backend$rownames, cols = c(task$target_names, key_cols, order_cols))
+      roll_cols = private$.rolling(task, full)
+      active = task$data(cols = c(key_cols, order_cols))
+      active_rolls = full[active, on = c(key_cols, order_cols)][, roll_cols, with = FALSE]
+      task$select(task$feature_names)$cbind(active_rolls)
     },
 
     .rolling = function(task, dt) {
@@ -117,11 +126,7 @@ PipeOpFcstRolling = R6Class(
         setorderv(dt, order_cols)
         set(dt, j = roll_spec$cols, value = fcst_rolls(dt[[target]], roll_spec))
       }
-
-      active = task$data(cols = c(key_cols, order_cols))
-      set(dt, j = target, value = NULL)
-      active_rolls = dt[active, on = c(key_cols, order_cols)][, roll_spec$cols, with = FALSE]
-      task$select(task$feature_names)$cbind(active_rolls)
+      roll_spec$cols
     }
   )
 )

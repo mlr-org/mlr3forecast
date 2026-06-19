@@ -123,21 +123,12 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   mean(scores)
 }
 
-fcst_drop_incomplete = function(task, before, key_cols) {
-  new_cols = setdiff(task$feature_names, before)
-  if (length(new_cols) == 0L) {
-    return(task)
-  }
-  dt = task$data(cols = c(new_cols, key_cols))
-  set(dt, j = "..rid", value = task$row_ids)
-  kept = na.omit(dt, cols = new_cols)
-  if (nrow(kept) == nrow(dt)) {
-    return(task)
-  }
+fcst_drop_incomplete = function(dt, feat_cols, key_cols) {
+  kept = na.omit(dt, cols = feat_cols)
   if (nrow(kept) == 0L) {
     error_input("The series is too short for the requested lags or window sizes.")
   }
-  if (length(key_cols) > 0L) {
+  if (length(key_cols) > 0L && nrow(kept) < nrow(dt)) {
     dropped = unique(dt[, key_cols, with = FALSE])[!kept, on = key_cols]
     if (nrow(dropped) > 0L) {
       labels = do.call(paste, c(dropped, list(sep = ":")))
@@ -148,5 +139,5 @@ fcst_drop_incomplete = function(task, before, key_cols) {
       )
     }
   }
-  task$filter(kept[["..rid"]])
+  kept
 }

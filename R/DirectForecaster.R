@@ -321,14 +321,14 @@ DirectForecaster = R6::R6Class(
       }
       future = test_data[skeleton, on = c(key_cols, order_cols)]
       combined = rbindlist(list(self$model$train_tail, future), use.names = TRUE, fill = TRUE)
-      set(combined, j = "..rid", value = seq_row(combined))
+      set(combined, j = "..row_id", value = seq_row(combined))
 
-      backend = DataBackendDataTable$new(combined, "..rid")
+      backend = DataBackendDataTable$new(combined, "..row_id")
       step_task = as_task_fcst(backend, target = target, order = order_cols, key = key_cols, freq = freq)
       step_task$col_roles$feature = intersect(feature_names, names(combined))
 
-      lookup = combined[, c(key_cols, order_cols, "..rid"), with = FALSE]
-      cids = lookup[task$data(cols = c(key_cols, order_cols)), on = c(key_cols, order_cols)][["..rid"]]
+      lookup = combined[, c(key_cols, order_cols, "..row_id"), with = FALSE]
+      cids = lookup[task$data(cols = c(key_cols, order_cols)), on = c(key_cols, order_cols)][["..row_id"]]
 
       out = private$.predict_horizons(step_task, models, cids, ii)
 

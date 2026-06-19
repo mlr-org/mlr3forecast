@@ -66,8 +66,8 @@ PipeOpFcstLags = R6Class(
       key_cols = col_roles$key
       order_cols = col_roles$order
 
-      before = task$feature_names
-      dt = task$data(cols = c(target, key_cols, order_cols))
+      pk = task$backend$primary_key
+      dt = task$backend$data(rows = task$row_ids, cols = c(pk, target, key_cols, order_cols))
       set(dt, j = target, value = as.numeric(dt[[target]]))
       lag_cols = sprintf("%s_lag_%i", target, lags)
       if (length(key_cols) > 0L) {
@@ -78,11 +78,8 @@ PipeOpFcstLags = R6Class(
         set(dt, j = lag_cols, value = shift(dt[[target]], lags))
       }
 
-      active = task$data(cols = c(key_cols, order_cols))
-      set(dt, j = target, value = NULL)
-      active_lags = dt[active, on = c(key_cols, order_cols)][, lag_cols, with = FALSE]
-      out = task$select(task$feature_names)$cbind(active_lags)
-      fcst_drop_incomplete(out, before, key_cols)
+      kept = fcst_drop_incomplete(dt, lag_cols, key_cols)
+      task$select(task$feature_names)$filter(kept[[pk]])$cbind(kept[, c(pk, lag_cols), with = FALSE])
     },
 
     .predict_task = function(task) {
