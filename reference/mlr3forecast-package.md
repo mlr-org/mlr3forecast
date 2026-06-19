@@ -22,10 +22,8 @@ Authors:
 - Maximilian Mücke <muecke.maximilian@gmail.com>
   ([ORCID](https://orcid.org/0009-0000-9432-9795))
 
-Other contributors:
-
 - Marc Becker <marcbecker@posteo.de>
-  ([ORCID](https://orcid.org/0000-0002-8115-0400)) \[contributor\]
+  ([ORCID](https://orcid.org/0000-0002-8115-0400))
 
 - Bernd Bischl <bernd_bischl@gmx.net>
-  ([ORCID](https://orcid.org/0000-0001-6002-6980)) \[contributor\]
+  ([ORCID](https://orcid.org/0000-0001-6002-6980))
