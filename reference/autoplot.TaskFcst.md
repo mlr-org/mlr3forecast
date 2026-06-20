@@ -6,12 +6,8 @@ Generates plots for
 ## Usage
 
 ``` r
-autoplot.TaskFcst(
-  object,
-  theme = ggplot2::theme_minimal(),
-  facets = FALSE,
-  ...
-)
+# S3 method for class 'TaskFcst'
+autoplot(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...)
 ```
 
 ## Arguments
