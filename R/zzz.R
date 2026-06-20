@@ -109,6 +109,7 @@ register_mlr3pipelines = function(...) {
   register_namespace_callback(pkgname, "mlr3pipelines", register_mlr3pipelines)
 
   s3_register("ggplot2::autoplot", "TaskFcst")
+  s3_register("ggplot2::autoplot", "PredictionFcst")
 }
 
 .onUnload = function(libPaths) {

@@ -66,12 +66,11 @@ plot.TaskFcst = function(x, ...) {
 #'   Additional argument, passed down to the underlying `geom` or plot functions.
 #' @return [ggplot2::ggplot()] object.
 #'
-#' @export
-#' @examplesIf requireNamespace("forecast", quietly = TRUE)
+#' @examplesIf requireNamespace("forecast", quietly = TRUE) && requireNamespace("ggplot2", quietly = TRUE)
 #' task = tsk("airpassengers")
 #' learner = lrn("fcst.auto_arima")$train(task)
 #' p = forecast(learner, task, h = 12)
-#' autoplot(p, task = task)
+#' ggplot2::autoplot(p, task = task)
 autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_minimal(), facets = FALSE, ...) {
   assert_flag(facets)
   if (!is.null(task)) {
@@ -152,5 +151,6 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
 
 #' @export
 plot.PredictionFcst = function(x, ...) {
-  print(autoplot(x, ...))
+  require_namespaces("ggplot2")
+  print(ggplot2::autoplot(x, ...))
 }

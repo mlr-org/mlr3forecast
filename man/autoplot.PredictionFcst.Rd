@@ -38,10 +38,10 @@ connected to the last historical observation for visual continuity.
 Prediction intervals from quantile forecasts are not drawn yet; this is planned for a future release.
 }
 \examples{
-\dontshow{if (requireNamespace("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (requireNamespace("forecast", quietly = TRUE) && requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 task = tsk("airpassengers")
 learner = lrn("fcst.auto_arima")$train(task)
 p = forecast(learner, task, h = 12)
-autoplot(p, task = task)
+ggplot2::autoplot(p, task = task)
 \dontshow{\}) # examplesIf}
 }

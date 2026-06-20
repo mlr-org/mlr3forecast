@@ -65,19 +65,20 @@ PredictionFcst = R6Class(
       extra = NULL,
       raw = NULL
     ) {
-      pdata = list(
-        row_ids = row_ids,
-        truth = truth,
-        response = response,
-        se = se,
-        quantiles = quantiles,
-        distr = distr,
-        weights = weights,
-        extra = extra,
-        raw = raw
+      pdata = set_class(
+        compact(list(
+          row_ids = row_ids,
+          truth = truth,
+          response = response,
+          se = se,
+          quantiles = quantiles,
+          distr = distr,
+          weights = weights,
+          extra = extra,
+          raw = raw
+        )),
+        c("PredictionDataFcst", "PredictionData")
       )
-      pdata = discard(pdata, is.null)
-      class(pdata) = c("PredictionDataFcst", "PredictionData")
 
       if (check) {
         pdata = check_prediction_data(pdata)
@@ -149,12 +150,10 @@ as.data.table.PredictionFcst = function(x, ...) {
 }
 
 fcst_extra_roles = function(extra) {
-  if (is.null(extra)) {
-    return(list(order = NULL, key = character()))
-  }
-  is_time = map_lgl(extra, function(x) inherits(x, c("Date", "POSIXct")) || (is.numeric(x) && !is.factor(x)))
+  nms = names(extra)
+  is_key = map_lgl(extra, is.factor)
   list(
-    order = if (any(is_time)) names(extra)[which(is_time)[1L]] else NULL,
-    key = names(extra)[!is_time]
+    order = nms[!is_key][1L],
+    key = nms[is_key]
   )
 }

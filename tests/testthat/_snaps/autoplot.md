@@ -9,7 +9,7 @@
 # autoplot.PredictionFcst rejects non-flag facets
 
     Code
-      autoplot(p, facets = "yes")
+      ggplot2::autoplot(p, facets = "yes")
     Condition
       Error in `autoplot.PredictionFcst()`:
       ! Assertion on 'facets' failed: Must be of type 'logical flag', not 'character'.
@@ -17,7 +17,7 @@
 # autoplot.PredictionFcst errors without a time index and without task
 
     Code
-      autoplot(p)
+      ggplot2::autoplot(p)
     Condition
       Error:
       ! 
