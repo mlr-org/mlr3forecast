@@ -15,13 +15,13 @@ Source:
 [`DESCRIPTION`](https://github.com/mlr-org/mlr3forecast/blob/main/DESCRIPTION)
 
 Mücke M, Becker M, Bischl B (2026). *mlr3forecast: Extending 'mlr3' to
-Time Series Forecasting*. R package version 0.0.1,
+Time Series Forecasting*. R package version 0.1.0,
 <https://mlr3forecast.mlr-org.com>.
 
     @Manual{,
       title = {mlr3forecast: Extending 'mlr3' to Time Series Forecasting},
       author = {Maximilian Mücke and Marc Becker and Bernd Bischl},
       year = {2026},
-      note = {R package version 0.0.1},
+      note = {R package version 0.1.0},
       url = {https://mlr3forecast.mlr-org.com},
     }
