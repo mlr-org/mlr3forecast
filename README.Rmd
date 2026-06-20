@@ -92,6 +92,7 @@ prophet, and tscount.
 ```{r, message = FALSE, dpi = 300}
 library(mlr3forecast)
 library(mlr3pipelines)
+library(ggplot2)
 
 task = tsk("airpassengers")
 task

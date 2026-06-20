@@ -3,7 +3,6 @@
 \docType{import}
 \name{reexports}
 \alias{reexports}
-\alias{autoplot}
 \alias{forecast}
 \title{Objects exported from other packages}
 \keyword{internal}
@@ -13,7 +12,5 @@ below to see their documentation.
 
 \describe{
   \item{generics}{\code{\link[generics:forecast]{forecast()}}}
-
-  \item{ggplot2}{\code{\link[ggplot2:autoplot]{autoplot()}}}
 }}
 

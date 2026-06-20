@@ -87,6 +87,7 @@ smooth, prophet, and tscount.
 ``` r
 library(mlr3forecast)
 library(mlr3pipelines)
+library(ggplot2)
 
 task = tsk("airpassengers")
 task

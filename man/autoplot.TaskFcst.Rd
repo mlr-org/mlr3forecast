@@ -4,7 +4,12 @@
 \alias{autoplot.TaskFcst}
 \title{Plot for Forecast Tasks}
 \usage{
-\method{autoplot}{TaskFcst}(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...)
+autoplot.TaskFcst(
+  object,
+  theme = ggplot2::theme_minimal(),
+  facets = FALSE,
+  ...
+)
 }
 \arguments{
 \item{object}{(\link{TaskFcst}).}
@@ -25,6 +30,8 @@ Additional argument, passed down to the underlying \code{geom} or plot functions
 Generates plots for \link{TaskFcst}.
 }
 \examples{
+\dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 task = tsk("airpassengers")
-autoplot(task)
+ggplot2::autoplot(task)
+\dontshow{\}) # examplesIf}
 }

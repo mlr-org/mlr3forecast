@@ -11,10 +11,9 @@
 #'   Additional argument, passed down to the underlying `geom` or plot functions.
 #' @return [ggplot2::ggplot()] object.
 #'
-#' @export
-#' @examples
+#' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
 #' task = tsk("airpassengers")
-#' autoplot(task)
+#' ggplot2::autoplot(task)
 autoplot.TaskFcst = function(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...) {
   assert_flag(facets)
   .data = NULL
@@ -44,5 +43,6 @@ autoplot.TaskFcst = function(object, theme = ggplot2::theme_minimal(), facets = 
 
 #' @export
 plot.TaskFcst = function(x, ...) {
-  print(autoplot(x, ...))
+  require_namespaces("ggplot2")
+  print(ggplot2::autoplot(x, ...))
 }

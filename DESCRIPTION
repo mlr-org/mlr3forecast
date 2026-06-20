@@ -23,7 +23,6 @@ Imports:
     cli,
     data.table (>= 1.18.0),
     generics (>= 0.1.2),
-    ggplot2 (>= 3.4.0),
     lgr,
     mlr3misc (>= 0.22.0),
     mlr3pipelines (>= 0.11.0),
@@ -36,6 +35,7 @@ Suggests:
     fabletools,
     feasts,
     forecast (>= 9.0.2),
+    ggplot2 (>= 3.4.0),
     greybox,
     mlr3tuning,
     nnfor (>= 0.9.9),
@@ -141,5 +141,6 @@ Collate:
     'partition.R'
     'recursive_forecaster.R'
     'reexports.R'
+    's3_register.R'
     'selector.R'
     'tsf.R'
