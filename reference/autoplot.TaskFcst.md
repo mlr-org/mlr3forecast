@@ -6,8 +6,12 @@ Generates plots for
 ## Usage
 
 ``` r
-# S3 method for class 'TaskFcst'
-autoplot(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...)
+autoplot.TaskFcst(
+  object,
+  theme = ggplot2::theme_minimal(),
+  facets = FALSE,
+  ...
+)
 ```
 
 ## Arguments
@@ -44,5 +48,5 @@ object.
 
 ``` r
 task = tsk("airpassengers")
-autoplot(task)
+ggplot2::autoplot(task)
 ```

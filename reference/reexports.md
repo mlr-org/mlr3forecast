@@ -6,7 +6,3 @@ to see their documentation.
 - generics:
 
   [`forecast()`](https://generics.r-lib.org/reference/forecast.html)
-
-- ggplot2:
-
-  [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
