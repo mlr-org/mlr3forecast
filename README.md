@@ -467,10 +467,10 @@ bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 
 #### Ensemble forecasting
 
-Forecast learners produce regression predictions under the hood, so the
-standard mlr3pipelines ensemble pattern works directly: branch to
-several forecasters with `gunion()` and average their forecasts with
-`po("regravg")`. This mirrors the idea behind the forecastHybrid
+Several forecasters can be ensembled by branching with `gunion()` and
+averaging their forecasts with `po("fcst.regravg")`, which keeps the
+forecast prediction type (so the time index, keys, and `autoplot()`
+survive the averaging). This mirrors the idea behind the forecastHybrid
 package, but with any mix of classical or ML learners.
 
 ``` r
@@ -481,26 +481,26 @@ graph = gunion(list(
   po("learner", lrn("fcst.ets"), id = "ets"),
   po("learner", lrn("fcst.theta"), id = "theta")
 )) %>>%
-  po("regravg")
-flrn = GraphLearner$new(graph, task_type = "fcst")$train(task)
+  po("fcst.regravg")
+flrn = as_learner(graph)$train(task)
 forecast(flrn, task, 12L)
 #> 
-#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
-#>  row_ids truth response
-#>        1    NA 442.5050
-#>        2    NA 427.6327
-#>        3    NA 478.5120
-#>      ---   ---      ---
-#>       10    NA 471.2626
-#>       11    NA 408.0117
-#>       12    NA 455.0409
+#> ── <PredictionFcst> for 12 observations: ───────────────────────────────────────
+#>       month row_ids truth response
+#>  1961-01-01       1    NA 442.5050
+#>  1961-02-01       2    NA 427.6327
+#>  1961-03-01       3    NA 478.5120
+#>         ---     ---   ---      ---
+#>  1961-10-01      10    NA 471.2626
+#>  1961-11-01      11    NA 408.0117
+#>  1961-12-01      12    NA 455.0409
 flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 #> regr.rmse 
 #>  12.23143
 
 # weight the members instead of averaging equally
-graph$param_set$set_values(regravg.weights = c(0.5, 0.3, 0.2))
-flrn = GraphLearner$new(graph, task_type = "fcst")$train(task)
+graph$param_set$set_values(fcst.regravg.weights = c(0.5, 0.3, 0.2))
+flrn = as_learner(graph)$train(task)
 flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 #> regr.rmse 
 #>  12.28049
