@@ -113,6 +113,7 @@ Collate:
     'MeasureScaled.R'
     'MeasureWAPE.R'
     'MeasureWinkler.R'
+    'PipeOpFcstAvg.R'
     'PipeOpFcstCatch22.R'
     'PipeOpFcstFeasts.R'
     'PipeOpFcstFourier.R'
