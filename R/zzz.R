@@ -34,19 +34,11 @@ register_item = function(env, type) {
   }
 }
 
-# metainf must be manually added in the register_mlr3pipelines function
-# Because the value is substituted, we cannot pass it through this function
-register_po = function(name, constructor) {
-  if (name %in% names(mlr3forecast_pipeops)) {
-    stopf("pipeop %s registered twice.", name)
-  }
-  mlr3forecast_pipeops[[name]] = list(constructor = constructor)
-}
-
 register_resampling = register_item(mlr3forecast_resamplings, "resampling")
 register_task = register_item(mlr3forecast_tasks, "task")
 register_learner = register_item(mlr3forecast_learners, "learner")
 register_measure = register_item(mlr3forecast_measures, "measure")
+register_po = register_item(mlr3forecast_pipeops, "pipeop")
 
 register_mlr3 = function(...) {
   # add reflections
@@ -92,7 +84,7 @@ register_mlr3 = function(...) {
 register_mlr3pipelines = function(...) {
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   mlr_pipeops = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
-  iwalk(as.list(mlr3forecast_pipeops), function(value, name) mlr_pipeops$add(name, value$constructor, value$metainf))
+  iwalk(as.list(mlr3forecast_pipeops), function(constructor, name) mlr_pipeops$add(name, constructor))
   mlr_reflections$pipeops$valid_tags = union(mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags)
   mlr_reflections$pipeops$properties = union(mlr_reflections$pipeops$properties, mlr3forecast_pipeop_properties)
 }
