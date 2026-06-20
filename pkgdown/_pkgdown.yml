@@ -57,6 +57,9 @@ reference:
     contents:
       - TaskFcst
       - starts_with("mlr_tasks")
+  - title: Predictions
+    contents:
+      - PredictionFcst
   - title: Measures
     contents:
       - starts_with("mlr_measures")
@@ -73,6 +76,7 @@ reference:
   - title: Helper
     contents:
       - as_task_fcst
+      - autoplot.PredictionFcst
       - autoplot.TaskFcst
       - forecast.Learner
       - generate_newdata

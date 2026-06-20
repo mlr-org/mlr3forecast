@@ -60,6 +60,12 @@ make_date_major_panel_task = function(n = 10L) {
   TaskFcst$new("panel", as_data_backend(data), target = "y", order = "date", key = "id", freq = "day")
 }
 
+fcst_prediction = function(task = tsk("airpassengers"), h = 12L) {
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+  learner$train(task)
+  forecast(learner, task, h = h)
+}
+
 make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
   q = cbind(lower, upper)
   colnames(q) = sprintf("q%s", probs)

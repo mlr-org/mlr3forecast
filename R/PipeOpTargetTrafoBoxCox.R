@@ -92,7 +92,12 @@ PipeOpTargetTrafoBoxCox = R6Class(
 
     .invert = function(prediction, predict_phase_state) {
       inverted = as.numeric(forecast::InvBoxCox(prediction$response, self$state$lambda))
-      PredictionRegr$new(row_ids = prediction$row_ids, truth = predict_phase_state$truth, response = inverted)
+      PredictionFcst$new(
+        row_ids = prediction$row_ids,
+        truth = predict_phase_state$truth,
+        response = inverted,
+        extra = prediction$data$extra
+      )
     }
   )
 )
