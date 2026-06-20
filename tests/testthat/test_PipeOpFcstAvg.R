@@ -51,3 +51,43 @@ test_that("PipeOpFcstAvg preserves keys for multi-series tasks", {
   expect_equal(names(p$key), c("row_id", "key"))
   expect_equal(as.character(p$key$key), c("a", "a", "a", "b", "b", "b"))
 })
+
+test_that("PipeOpFcstAvg averages quantile forecasts per level", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  qs = c(0.1, 0.5, 0.9)
+  mk = function(id) {
+    po(
+      "learner",
+      lrn(paste0("fcst.", id), predict_type = "quantiles", quantiles = qs, quantile_response = 0.5),
+      id = id
+    )
+  }
+  graph = gunion(list(mk("auto_arima"), mk("ets"))) %>>% po("fcst.regravg")
+  p = as_learner(graph)$train(task, 1:132)$predict(task, 133:144)
+
+  expect_r6_class(p, "PredictionFcst")
+  expect_subset("quantiles", p$predict_types)
+  expect_equal(colnames(p$data$quantiles), c("q0.1", "q0.5", "q0.9"))
+
+  # equals the per-level average of the two members
+  l1 = lrn("fcst.auto_arima", predict_type = "quantiles", quantiles = qs, quantile_response = 0.5)$train(task, 1:132)
+  l2 = lrn("fcst.ets", predict_type = "quantiles", quantiles = qs, quantile_response = 0.5)$train(task, 1:132)
+  manual = (l1$predict(task, 133:144)$data$quantiles + l2$predict(task, 133:144)$data$quantiles) / 2
+  expect_equal(unclass(p$data$quantiles), unclass(manual), ignore_attr = TRUE)
+})
+
+test_that("PipeOpFcstAvg errors when only some members predict quantiles", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  graph = gunion(list(
+    po(
+      "learner",
+      lrn("fcst.auto_arima", predict_type = "quantiles", quantiles = c(0.1, 0.5, 0.9), quantile_response = 0.5),
+      id = "a"
+    ),
+    po("learner", lrn("fcst.ets"), id = "e")
+  )) %>>%
+    po("fcst.regravg")
+  expect_snapshot(as_learner(graph)$train(task, 1:132)$predict(task, 133:144), error = TRUE)
+})
