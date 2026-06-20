@@ -82,8 +82,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
     .get_state = function(task) {
       lambda = self$param_set$get_values(tags = "train")$lambda
       if (is.null(lambda)) {
-        x = if (inherits(task, "TaskFcst")) as.ts(task) else task$data(cols = task$target_names)[[1L]]
-        lambda = invoke(forecast::BoxCox.lambda, x, .args = self$param_set$get_values(tags = "estimate"))
+        lambda = invoke(forecast::BoxCox.lambda, as.ts(task), .args = self$param_set$get_values(tags = "estimate"))
       }
       list(lambda = lambda)
     },
