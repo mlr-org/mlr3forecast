@@ -6,3 +6,21 @@
       Error in `autoplot.TaskFcst()`:
       ! Assertion on 'facets' failed: Must be of type 'logical flag', not 'character'.
 
+# autoplot.PredictionFcst rejects non-flag facets
+
+    Code
+      autoplot(p, facets = "yes")
+    Condition
+      Error in `autoplot.PredictionFcst()`:
+      ! Assertion on 'facets' failed: Must be of type 'logical flag', not 'character'.
+
+# autoplot.PredictionFcst errors without a time index and without task
+
+    Code
+      autoplot(p)
+    Condition
+      Error:
+      ! 
+      x Cannot determine the time index of the prediction; supply `task`.
+      > Class: Mlr3ErrorInput
+

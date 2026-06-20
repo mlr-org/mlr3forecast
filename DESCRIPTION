@@ -120,6 +120,8 @@ Collate:
     'PipeOpFcstTsfeats.R'
     'PipeOpTargetTrafo.R'
     'PipeOpTargetTrafoBoxCox.R'
+    'PredictionDataFcst.R'
+    'PredictionFcst.R'
     'RecursiveForecaster.R'
     'ResamplingFcstCV.R'
     'ResamplingFcstHoldout.R'
