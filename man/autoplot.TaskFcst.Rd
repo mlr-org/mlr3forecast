@@ -4,12 +4,7 @@
 \alias{autoplot.TaskFcst}
 \title{Plot for Forecast Tasks}
 \usage{
-autoplot.TaskFcst(
-  object,
-  theme = ggplot2::theme_minimal(),
-  facets = FALSE,
-  ...
-)
+\method{autoplot}{TaskFcst}(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...)
 }
 \arguments{
 \item{object}{(\link{TaskFcst}).}
