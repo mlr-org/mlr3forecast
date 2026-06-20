@@ -41,3 +41,70 @@ test_that("autoplot.TaskFcst rejects non-flag facets", {
   skip_if_not_installed("ggplot2")
   expect_snapshot(ggplot2::autoplot(tsk("airpassengers"), facets = "yes"), error = TRUE)
 })
+
+test_that("autoplot.PredictionFcst draws the forecast region only", {
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("rpart")
+  p = fcst_prediction()
+  g = ggplot2::autoplot(p)
+  expect_s3_class(g, "ggplot")
+  vdiffr::expect_doppelganger("predictionfcst_forecast_only", g)
+})
+
+test_that("autoplot.PredictionFcst overlays history from task", {
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("rpart")
+  task = tsk("airpassengers")
+  p = fcst_prediction(task)
+  g = ggplot2::autoplot(p, task = task)
+  expect_s3_class(g, "ggplot")
+  expect_subset("colour", names(g$mapping))
+  vdiffr::expect_doppelganger("predictionfcst_with_history", g)
+})
+
+test_that("autoplot.PredictionFcst works with custom theme", {
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("rpart")
+  task = tsk("airpassengers")
+  p = fcst_prediction(task)
+  g = ggplot2::autoplot(p, task = task, theme = ggplot2::theme_bw())
+  expect_s3_class(g, "ggplot")
+  vdiffr::expect_doppelganger("predictionfcst_theme_bw", g)
+})
+
+test_that("autoplot.PredictionFcst colours one line per series for keyed tasks", {
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("tsibbledata")
+  skip_if_not_installed("rpart")
+  task = tsk("livestock")
+  p = fcst_prediction(task)
+  g = ggplot2::autoplot(p, task = task)
+  expect_s3_class(g, "ggplot")
+  expect_subset("colour", names(g$mapping))
+  vdiffr::expect_doppelganger("predictionfcst_keyed", g)
+})
+
+test_that("autoplot.PredictionFcst facets one panel per series", {
+  skip_if_not_installed("vdiffr")
+  skip_if_not_installed("tsibbledata")
+  skip_if_not_installed("rpart")
+  task = tsk("livestock")
+  p = fcst_prediction(task)
+  g = ggplot2::autoplot(p, task = task, facets = TRUE)
+  expect_s3_class(g, "ggplot")
+  expect_s3_class(g$facet, "FacetWrap")
+  vdiffr::expect_doppelganger("predictionfcst_facets", g)
+})
+
+test_that("autoplot.PredictionFcst rejects non-flag facets", {
+  skip_if_not_installed("ggplot2")
+  skip_if_not_installed("rpart")
+  p = fcst_prediction()
+  expect_snapshot(ggplot2::autoplot(p, facets = "yes"), error = TRUE)
+})
+
+test_that("autoplot.PredictionFcst errors without a time index and without task", {
+  skip_if_not_installed("ggplot2")
+  p = PredictionFcst$new(row_ids = 1:3, truth = c(1, 2, 3), response = c(1, 2, 3))
+  expect_snapshot(ggplot2::autoplot(p), error = TRUE)
+})

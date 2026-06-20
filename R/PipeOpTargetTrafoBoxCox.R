@@ -67,7 +67,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
         param_set = param_set,
         param_vals = param_vals,
         packages = c("mlr3forecast", "mlr3pipelines", "forecast"),
-        task_type_in = "TaskRegr"
+        task_type_in = "TaskFcst"
       )
     }
   ),
@@ -76,8 +76,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
     .get_state = function(task) {
       lambda = self$param_set$get_values(tags = "train")$lambda
       if (is.null(lambda)) {
-        x = if (inherits(task, "TaskFcst")) as.ts(task) else task$data(cols = task$target_names)[[1L]]
-        lambda = invoke(forecast::BoxCox.lambda, x, .args = self$param_set$get_values(tags = "estimate"))
+        lambda = invoke(forecast::BoxCox.lambda, as.ts(task), .args = self$param_set$get_values(tags = "estimate"))
       }
       list(lambda = lambda)
     },
@@ -92,7 +91,12 @@ PipeOpTargetTrafoBoxCox = R6Class(
 
     .invert = function(prediction, predict_phase_state) {
       inverted = as.numeric(forecast::InvBoxCox(prediction$response, self$state$lambda))
-      PredictionRegr$new(row_ids = prediction$row_ids, truth = predict_phase_state$truth, response = inverted)
+      PredictionFcst$new(
+        row_ids = prediction$row_ids,
+        truth = predict_phase_state$truth,
+        response = inverted,
+        extra = prediction$data$extra
+      )
     }
   )
 )

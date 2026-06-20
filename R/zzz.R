@@ -9,7 +9,7 @@
 #' @importFrom utils tail
 "_PACKAGE"
 
-utils::globalVariables(c(".idx", ".value"))
+utils::globalVariables(c(".idx", ".value", ".type", ".key"))
 
 mlr3forecast_resamplings = new.env(parent = emptyenv())
 mlr3forecast_tasks = new.env(parent = emptyenv())
@@ -55,7 +55,7 @@ register_mlr3 = function(...) {
   # fmt: skip
   mlr_reflections$task_types = setkeyv(rbind(mlr_reflections$task_types, rowwise_table(
     ~type, ~package, ~task, ~learner, ~prediction, ~prediction_data, ~measure,
-    "fcst", "mlr3forecast", "TaskFcst", "LearnerRegr", "PredictionRegr", "PredictionDataRegr", "MeasureRegr"
+    "fcst", "mlr3forecast", "TaskFcst", "LearnerRegr", "PredictionFcst", "PredictionDataFcst", "MeasureRegr"
   ), fill = TRUE), "type")
   mlr_reflections$learner_predict_types$fcst = mlr_reflections$learner_predict_types$regr
   mlr_reflections$learner_properties$fcst = union(
@@ -109,6 +109,7 @@ register_mlr3pipelines = function(...) {
   register_namespace_callback(pkgname, "mlr3pipelines", register_mlr3pipelines)
 
   s3_register("ggplot2::autoplot", "TaskFcst")
+  s3_register("ggplot2::autoplot", "PredictionFcst")
 }
 
 .onUnload = function(libPaths) {

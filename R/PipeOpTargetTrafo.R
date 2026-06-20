@@ -54,7 +54,7 @@ PipeOpTargetTrafoDifference = R6Class(
         param_set = param_set,
         param_vals = param_vals,
         packages = c("mlr3forecast", "mlr3pipelines"),
-        task_type_in = "TaskRegr"
+        task_type_in = "TaskFcst"
       )
     }
   ),
@@ -85,7 +85,12 @@ PipeOpTargetTrafoDifference = R6Class(
       lag = self$param_set$get_values(tags = "train")$lag
       inverted = stats::diffinv(prediction$response, lag = lag, xi = self$state$tail)
       inverted = inverted[-seq_len(lag)]
-      PredictionRegr$new(row_ids = prediction$row_ids, truth = predict_phase_state$truth, response = inverted)
+      PredictionFcst$new(
+        row_ids = prediction$row_ids,
+        truth = predict_phase_state$truth,
+        response = inverted,
+        extra = prediction$data$extra
+      )
     }
   )
 )
