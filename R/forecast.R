@@ -5,6 +5,11 @@
 #' @param n (`integer(1)`)\cr
 #'   Number of new data points to generate. Default `1L`.
 #' @return A [data.table::data.table()] with `n` new data points.
+#' @details
+#' Future dates are extrapolated with [base::seq()], which has no month-end awareness. For
+#' `Date`/`POSIXct` order columns with a calendar `freq` (`month`/`quarter`/`year`), anchor the
+#' dates to a fixed day-of-month (e.g. the first), since month-end series produce incorrect future
+#' dates.
 #' @export
 generate_newdata = function(task, n = 1L) {
   task = assert_task(as_task(task), task_type = "fcst")

@@ -19,3 +19,9 @@ A \code{\link[data.table:data.table]{data.table::data.table()}} with \code{n} ne
 \description{
 Generate new data for a forecast task
 }
+\details{
+Future dates are extrapolated with \code{\link[base:seq]{base::seq()}}, which has no month-end awareness. For
+\code{Date}/\code{POSIXct} order columns with a calendar \code{freq} (\code{month}/\code{quarter}/\code{year}), anchor the
+dates to a fixed day-of-month (e.g. the first), since month-end series produce incorrect future
+dates.
+}
