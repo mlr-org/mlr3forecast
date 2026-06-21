@@ -284,7 +284,7 @@ RecursiveForecaster = R6::R6Class(
         }
         grid_ok = grid_check[,
           list(
-            .ok = all(sort(get(order_cols)) == seq(get(".origin")[1L], by = freq, length.out = .N + 1L)[-1L])
+            .ok = all(sort(get(order_cols)) == seq_order(get(".origin")[1L], freq, .N))
           ),
           by = key_cols
         ]
@@ -300,7 +300,7 @@ RecursiveForecaster = R6::R6Class(
           error_input("No training rows remain before the test set.")
         }
         origin = max(train_data[[order_cols]])
-        expected = seq(origin, by = freq, length.out = nrow(test_data) + 1L)[-1L]
+        expected = seq_order(origin, freq, nrow(test_data))
         if (!all(sort(test_data[[order_cols]]) == expected)) {
           error_input(
             "Test rows must form the gap-free future grid following the training data (origin %s, freq %s).",

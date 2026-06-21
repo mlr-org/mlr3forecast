@@ -35,6 +35,20 @@ test_that("generate_newdata works with Date order", {
   expect_true(all(diff(newdata$month) > 0L))
 })
 
+test_that("generate_newdata extends month-end dates without overflow", {
+  month_end = as.Date(c("2020-01-31", "2020-02-29", "2020-03-31", "2020-04-30"))
+  task = as_task_fcst(data.table(month = month_end, y = 1:4), target = "y", order = "month", freq = "month")
+  newdata = generate_newdata(task, n = 3L)
+  expect_identical(newdata$month, as.Date(c("2020-05-31", "2020-06-30", "2020-07-31")))
+})
+
+test_that("generate_newdata preserves mid-month day-of-month", {
+  mid = seq(as.Date("2020-01-15"), by = "month", length.out = 4L)
+  task = as_task_fcst(data.table(month = mid, y = 1:4), target = "y", order = "month", freq = "month")
+  newdata = generate_newdata(task, n = 3L)
+  expect_identical(newdata$month, as.Date(c("2020-05-15", "2020-06-15", "2020-07-15")))
+})
+
 test_that("generate_newdata works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")

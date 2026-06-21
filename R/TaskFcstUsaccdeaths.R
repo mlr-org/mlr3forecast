@@ -19,7 +19,7 @@ NULL
 load_task_usaccdeaths = function(id = "usaccdeaths") {
   ts = load_dataset("USAccDeaths", "datasets")
   dates = unclass(stats::time(ts))
-  dates = as.Date(paste((dates + 0.001) %/% 1L, stats::cycle(ts), 1L, sep = "-"))
+  dates = as.Date(ISOdate((dates + 0.001) %/% 1L, stats::cycle(ts), 1L))
   dt = data.table(month = dates, deaths = as.numeric(ts))
   b = as_data_backend(dt)
 

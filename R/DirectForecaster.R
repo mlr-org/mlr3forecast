@@ -288,15 +288,15 @@ DirectForecaster = R6::R6Class(
 
       ord = task$data(cols = c(key_cols, order_cols))
 
-      # A row's step is its position on the future grid `seq(origin, by = freq, ...)`.
+      # A row's step is its position on the future grid `seq_order(origin, freq, max_h)`.
       if (length(key_cols) > 0L) {
         ord = origin[ord, on = key_cols]
         ord[,
-          ".step" := match(get(order_cols), seq(get(".origin")[1L], by = freq, length.out = max_h + 1L)[-1L]),
+          ".step" := match(get(order_cols), seq_order(get(".origin")[1L], freq, max_h)),
           by = key_cols
         ]
       } else {
-        grid = seq(origin, by = freq, length.out = max_h + 1L)[-1L]
+        grid = seq_order(origin, freq, max_h)
         set(ord, j = ".step", value = match(ord[[order_cols]], grid))
       }
 
@@ -325,7 +325,7 @@ DirectForecaster = R6::R6Class(
       # distance even for sparse test rows.
       if (length(key_cols) > 0L) {
         skeleton = ord[,
-          set_names(list(seq(get(".origin")[1L], by = freq, length.out = max(get(".step")) + 1L)[-1L]), order_cols),
+          set_names(list(seq_order(get(".origin")[1L], freq, max(get(".step")))), order_cols),
           by = key_cols
         ]
       } else {

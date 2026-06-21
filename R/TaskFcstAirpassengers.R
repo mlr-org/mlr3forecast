@@ -19,7 +19,7 @@ NULL
 load_task_airpassengers = function(id = "airpassengers") {
   ts = load_dataset("AirPassengers", "datasets")
   dates = unclass(stats::time(ts))
-  dates = as.Date(paste((dates + 0.001) %/% 1L, stats::cycle(ts), 1L, sep = "-"))
+  dates = as.Date(ISOdate((dates + 0.001) %/% 1L, stats::cycle(ts), 1L))
   dt = data.table(month = dates, passengers = as.numeric(ts))
   b = as_data_backend(dt)
 
