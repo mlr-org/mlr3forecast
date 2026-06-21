@@ -86,11 +86,10 @@ PipeOpFcstFourier = R6Class(
       }
 
       full = task$backend$data(rows = task$backend$rownames, cols = c(key_cols, order_cols))
+      setorderv(full, c(key_cols, order_cols))
       if (length(key_cols) > 0L) {
-        setorderv(full, c(key_cols, order_cols))
         full[, "..t" := seq_len(.N), by = key_cols]
       } else {
-        setorderv(full, order_cols)
         set(full, j = "..t", value = seq_row(full))
       }
       terms = as.data.table(fourier_terms(full[["..t"]], period, K))

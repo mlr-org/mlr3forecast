@@ -119,11 +119,10 @@ PipeOpFcstRolling = R6Class(
         cols = sprintf("%s_roll_%s_%s", target, grid$fn, size_lbl)
       )
 
+      setorderv(dt, c(key_cols, order_cols))
       if (length(key_cols) > 0L) {
-        setorderv(dt, c(key_cols, order_cols))
         dt[, (roll_spec$cols) := fcst_rolls(get(target), roll_spec), by = key_cols]
       } else {
-        setorderv(dt, order_cols)
         set(dt, j = roll_spec$cols, value = fcst_rolls(dt[[target]], roll_spec))
       }
       roll_spec$cols
