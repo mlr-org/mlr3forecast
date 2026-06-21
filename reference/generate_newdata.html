@@ -76,6 +76,13 @@ Number of new data points to generate. Default <code>1L</code>.</p></dd>
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>A <code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code> with <code>n</code> new data points.</p>
     </div>
+    <div class="section level2">
+    <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
+    <p>Future dates are extrapolated with <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">base::seq()</a></code>, which has no month-end awareness. For
+<code>Date</code>/<code>POSIXct</code> order columns with a calendar <code>freq</code> (<code>month</code>/<code>quarter</code>/<code>year</code>), anchor the
+dates to a fixed day-of-month (e.g. the first), since month-end series produce incorrect future
+dates.</p>
+    </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside></div>
