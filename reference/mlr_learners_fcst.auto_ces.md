@@ -218,22 +218,22 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.12 seconds
+#> Time elapsed: 0.18 seconds
 #> Model estimated using auto.ces() function: CES(full)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 351.041
-#>        a0+ia1 
-#> 1.357+1.0115i
+#> Loss function type: likelihood; Loss function value: 350.1011
+#>         a0+ia1 
+#> 1.5357+1.0131i
 #>         b0+ib1 
-#> 1.5462+1.1582i
+#> 1.6325+1.1564i
 #> 
 #> Sample size: 96
 #> Number of estimated parameters: 5
 #> Number of degrees of freedom: 91
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 712.0820 712.7487 724.9038 726.4252 
+#> 710.2023 710.8690 723.0240 724.5455 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -254,5 +254,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 611.4886 
+#> 568.6471 
 ```

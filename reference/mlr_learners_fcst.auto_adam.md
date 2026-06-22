@@ -226,21 +226,27 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 3.72 seconds
-#> Model estimated using auto.adam() function: ETS(MAM)
+#> Time elapsed: 6.7 seconds
+#> Model estimated using auto.adam() function: ETS(MAM)+SARIMA(3,0,0)[12]
 #> With backcasting initialisation
-#> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 327.5537
+#> Distribution assumed in the model: Log-Normal
+#> Loss function type: likelihood; Loss function value: 312.2551
 #> Persistence vector g:
 #>  alpha   beta  gamma 
-#> 0.5640 0.0000 0.1468 
+#> 0.5527 0.0278 0.0271 
+#> 
+#> ARMA parameters of the model:
+#>        Lag 12
+#> AR(1)  0.0088
+#> AR(2) -0.0448
+#> AR(3) -0.7392
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 4
-#> Number of degrees of freedom: 92
+#> Number of estimated parameters: 7
+#> Number of degrees of freedom: 89
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 663.1073 663.5469 673.3647 674.3679 
+#> 638.5102 639.7830 656.4607 659.3653 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -261,5 +267,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1232.511 
+#> 780.5313 
 ```

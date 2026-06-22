@@ -221,21 +221,27 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="co"># Print the model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 3.72 seconds</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Model estimated using auto.adam() function: ETS(MAM)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 6.7 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Model estimated using auto.adam() function: ETS(MAM)+SARIMA(3,0,0)[12]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> With backcasting initialisation</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Distribution assumed in the model: Normal</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Loss function type: likelihood; Loss function value: 327.5537</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Distribution assumed in the model: Log-Normal</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Loss function type: likelihood; Loss function value: 312.2551</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Persistence vector g:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  alpha   beta  gamma </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5640 0.0000 0.1468 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 0.5527 0.0278 0.0271 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> ARMA parameters of the model:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>        Lag 12</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AR(1)  0.0088</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AR(2) -0.0448</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> AR(3) -0.7392</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sample size: 96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of estimated parameters: 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of degrees of freedom: 92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of estimated parameters: 7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of degrees of freedom: 89</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Information criteria:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      AIC     AICc      BIC     BICc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 663.1073 663.5469 673.3647 674.3679 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 638.5102 639.7830 656.4607 659.3653 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $row_ids</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25</span>
@@ -256,7 +262,7 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="co"># Score the predictions</span></span></span>
 <span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> regr.mse </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1232.511 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 780.5313 </span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

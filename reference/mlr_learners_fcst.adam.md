@@ -227,21 +227,21 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.19 seconds
+#> Time elapsed: 0.31 seconds
 #> Model estimated using adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Gamma
-#> Loss function type: likelihood; Loss function value: 328.324
+#> Loss function type: likelihood; Loss function value: 320.4145
 #> Persistence vector g:
 #>  alpha   beta  gamma 
-#> 0.5507 0.0095 0.1489 
+#> 0.7029 0.0000 0.0000 
 #> 
 #> Sample size: 96
 #> Number of estimated parameters: 4
 #> Number of degrees of freedom: 92
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 664.6481 665.0877 674.9055 675.9086 
+#> 648.8290 649.2686 659.0864 660.0896 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -262,5 +262,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 839.4905 
+#> 995.6365 
 ```
