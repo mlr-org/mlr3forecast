@@ -1,15 +1,18 @@
 #' Generate new data for a forecast task
 #'
+#' @details
+#' Future dates are extrapolated by stepping the order column. For calendar `freq`
+#' (`month`/`quarter`/`year`), the origin's day-of-month is carried forward and clamped to each
+#' target month's last valid day (e.g. Jan-31 steps to Feb-28/29, Mar-31, ...); other freqs use
+#' [base::seq()] directly. Month-end anchoring is not inferred: an Apr-30 or Feb-28 origin stays
+#' on that day rather than snapping to each month's end, so use a first-of-month or period-style
+#' index for genuine month-end series.
+#'
 #' @param task [TaskFcst]\cr
 #'   Task.
 #' @param n (`integer(1)`)\cr
 #'   Number of new data points to generate. Default `1L`.
 #' @return A [data.table::data.table()] with `n` new data points.
-#' @details
-#' Future dates are extrapolated with [base::seq()], which has no month-end awareness. For
-#' `Date`/`POSIXct` order columns with a calendar `freq` (`month`/`quarter`/`year`), anchor the
-#' dates to a fixed day-of-month (e.g. the first), since month-end series produce incorrect future
-#' dates.
 #' @export
 generate_newdata = function(task, n = 1L) {
   task = assert_task(as_task(task), task_type = "fcst")
@@ -27,9 +30,9 @@ generate_newdata = function(task, n = 1L) {
   freq = task$freq %??% infer_freq(sort(unique(dt[[order_cols]])))
   newdata = last_rows[rep(seq_len(.N), each = n)]
   if (length(key_cols) > 0L) {
-    newdata[, (order_cols) := seq(get(order_cols)[1L], length.out = n + 1L, by = freq)[-1L], by = key_cols]
+    newdata[, (order_cols) := seq_order(get(order_cols)[1L], freq, n), by = key_cols]
   } else {
-    set(newdata, j = order_cols, value = seq(last_rows[[order_cols]], length.out = n + 1L, by = freq)[-1L])
+    set(newdata, j = order_cols, value = seq_order(last_rows[[order_cols]], freq, n))
   }
 
   set(newdata, j = task$target_names, value = NA_real_)

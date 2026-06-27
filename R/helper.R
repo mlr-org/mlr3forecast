@@ -40,6 +40,36 @@ infer_freq = function(order) {
   }
 }
 
+calendar_months = function(freq) {
+  if (!is.character(freq)) {
+    return(NA_integer_)
+  }
+  parts = strsplit1(freq, " ")
+  n = if (length(parts) == 2L) suppressWarnings(as.integer(parts[1L])) else 1L
+  unit = sub("s$", "", parts[length(parts)])
+  per = switch(unit, month = 1L, quarter = 3L, year = 12L, NA_integer_)
+  if (is.na(per) || is.na(n)) NA_integer_ else n * per
+}
+
+seq_order = function(origin, freq, n) {
+  m = calendar_months(freq)
+  if (is.na(m)) {
+    return(seq(origin, by = freq, length.out = n + 1L)[-1L])
+  }
+  lt = as.POSIXlt(origin)
+  k = (lt$year + 1900L) * 12L + lt$mon + m * seq_len(n)
+  yr = k %/% 12L
+  mo = k %% 12L + 1L
+  eom = mday(as.Date(ISOdate(yr + mo %/% 12L, mo %% 12L + 1L, 1L)) - 1L)
+  day = pmin(lt$mday, eom)
+  if (inherits(origin, "POSIXct")) {
+    tz = attr(origin, "tzone") %??% ""
+    ISOdatetime(yr, mo, day, lt$hour, lt$min, lt$sec, tz = tz)
+  } else {
+    as.Date(ISOdate(yr, mo, day))
+  }
+}
+
 #' @export
 as.ts.TaskFcst = function(x, ..., freq = NULL) {
   freq = freq_to_period(freq %??% x$freq)

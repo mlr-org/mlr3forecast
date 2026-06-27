@@ -84,3 +84,93 @@ test_that("freq_to_period passes through numeric and falls back for unknown", {
   expect_identical(freq_to_period(NULL), 1L)
   expect_identical(freq_to_period("nonsense"), 1L)
 })
+
+test_that("calendar_months maps overflow-prone freqs and returns NA otherwise", {
+  expect_identical(calendar_months("month"), 1L)
+  expect_identical(calendar_months("2 month"), 2L)
+  expect_identical(calendar_months("quarter"), 3L)
+  expect_identical(calendar_months("year"), 12L)
+  expect_identical(calendar_months("week"), NA_integer_)
+  expect_identical(calendar_months("3 day"), NA_integer_)
+  expect_identical(calendar_months(12), NA_integer_)
+  # plural unit names are valid seq.Date freqs and must map like their singular form
+  expect_identical(calendar_months("months"), 1L)
+  expect_identical(calendar_months("2 months"), 2L)
+  expect_identical(calendar_months("quarters"), 3L)
+  expect_identical(calendar_months("years"), 12L)
+})
+
+test_that("seq_order clamps month-end for plural freqs too", {
+  expect_identical(
+    seq_order(as.Date("2020-07-31"), "2 months", 3L),
+    as.Date(c("2020-09-30", "2020-11-30", "2021-01-31"))
+  )
+})
+
+test_that("seq_order preserves day-of-month like seq.Date for days 1-28", {
+  for (d in c("2020-01-15", "2020-01-20", "2020-01-28")) {
+    expected = seq(as.Date(d), by = "month", length.out = 4L)[-1L]
+    expect_identical(seq_order(as.Date(d), "month", 3L), expected)
+  }
+})
+
+test_that("seq_order carries a sub-31 month-end origin forward on its day-of-month (no eom snap)", {
+  # month-end anchoring is not inferred: Apr-30 is treated as the 30th, clamped where shorter
+  expect_identical(
+    seq_order(as.Date("2020-04-30"), "month", 3L),
+    as.Date(c("2020-05-30", "2020-06-30", "2020-07-30"))
+  )
+  # a 28th-anchored origin (non-leap Feb-28) stays on the 28th, not snapped to month-end
+  expect_identical(
+    seq_order(as.Date("2021-02-28"), "month", 3L),
+    as.Date(c("2021-03-28", "2021-04-28", "2021-05-28"))
+  )
+})
+
+test_that("seq_order clamps days 29-31 instead of overflowing", {
+  # day 31 origin lands on each target month's last day
+  expect_identical(
+    seq_order(as.Date("2020-01-31"), "month", 3L),
+    as.Date(c("2020-02-29", "2020-03-31", "2020-04-30"))
+  )
+  # day 30 origin clamps only where the month is shorter
+  expect_identical(
+    seq_order(as.Date("2020-01-30"), "month", 3L),
+    as.Date(c("2020-02-29", "2020-03-30", "2020-04-30"))
+  )
+  # no result ever overflows into a later month
+  out = seq_order(as.Date("2021-01-31"), "month", 12L)
+  expect_true(all(month(out) == c(2:12, 1L)))
+})
+
+test_that("seq_order handles quarter and year and passes other freqs to seq.Date", {
+  expect_identical(
+    seq_order(as.Date("2020-12-31"), "quarter", 3L),
+    as.Date(c("2021-03-31", "2021-06-30", "2021-09-30"))
+  )
+  expect_identical(
+    seq_order(as.Date("2020-02-29"), "year", 2L),
+    as.Date(c("2021-02-28", "2022-02-28"))
+  )
+  for (f in c("week", "3 day")) {
+    expect_identical(
+      seq_order(as.Date("2020-01-13"), f, 3L),
+      seq(as.Date("2020-01-13"), by = f, length.out = 4L)[-1L]
+    )
+  }
+})
+
+test_that("seq_order keeps POSIXct type, tzone and time-of-day on the calendar path", {
+  origin = as.POSIXct("2020-01-31 09:30:00", tz = "UTC")
+  out = seq_order(origin, "month", 3L)
+  expect_s3_class(out, "POSIXct")
+  expect_identical(
+    out,
+    as.POSIXct(c("2020-02-29 09:30:00", "2020-03-31 09:30:00", "2020-04-30 09:30:00"), tz = "UTC")
+  )
+  # non-calendar freqs still match seq.POSIXt exactly
+  expect_identical(
+    seq_order(origin, "week", 2L),
+    seq(origin, by = "week", length.out = 3L)[-1L]
+  )
+})
