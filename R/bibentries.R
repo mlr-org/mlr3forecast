@@ -167,13 +167,13 @@ bibentries = c(
     year = "1996",
     month = "jan",
     publisher = "Cambridge University Press",
-    author = "Brian D. Ripley",
+    author = "Ripley, Brian D",
     title = "Pattern Recognition and Neural Networks"
   ),
   svetunkov2023smooth = bibentry(
     "misc",
     title = "Smooth forecasting with the smooth package in R",
-    author = "Ivan Svetunkov",
+    author = "Svetunkov, Ivan",
     year = "2023",
     eprint = "2301.01790",
     archivePrefix = "arXiv",
@@ -408,7 +408,7 @@ bibentries = c(
   smyl2025rlgt = bibentry(
     "manual",
     title = "Rlgt: Bayesian Exponential Smoothing Models with Trend Modifications",
-    author = "Slawek Smyl and Christoph Bergmeir and Erwin Wibowo and To Wang Ng and Xueying Long and Alexander Dokumentov and Daniel Schmidt",
+    author = "Smyl, Slawek and Bergmeir, Christoph and Wibowo, Erwin and Ng, To Wang and Long, Xueying and Dokumentov, Alexander and Schmidt, Daniel",
     year = "2025",
     note = "R package version 0.2-3",
     url = "https://github.com/cbergmeir/Rlgt"
