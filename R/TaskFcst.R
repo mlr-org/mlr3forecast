@@ -218,21 +218,14 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     length(order_cols) > 0L &&
       any(fget_keys(task$col_info, order_cols, "type", key = "id") %nin% c("Date", "POSIXct", "integer", "numeric"))
   ) {
-    error_input(
-      "Order column '%s' must be a Date, POSIXct, numeric or integer column",
-      order_cols
-    )
+    error_input("Order column '%s' must be a Date, POSIXct, numeric or integer column", order_cols)
   }
 
   key_cols = new_roles[["key"]]
   if (
-    length(key_cols) > 0L &&
-      any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("factor", "ordered"))
+    length(key_cols) > 0L && any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("factor", "ordered"))
   ) {
-    error_input(
-      "Key column(s) %s must be factor or ordered columns",
-      paste0("'", key_cols, "'", collapse = ", ")
-    )
+    error_input("Key column(s) %s must be factor or ordered columns", paste0("'", key_cols, "'", collapse = ", "))
   }
 
   NextMethod()

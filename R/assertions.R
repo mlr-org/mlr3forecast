@@ -22,3 +22,36 @@ check_freq = function(x) {
 }
 
 assert_freq = makeAssertionFunction(check_freq)
+
+assert_regular_grid = function(dt, order_col, key_cols, freq) {
+  if (length(key_cols) > 0L) {
+    ok = dt[, list(.ok = check_regular_grid(get(order_col), freq)), by = key_cols]
+    bad = ok[!ok$.ok]
+    if (nrow(bad) > 0L) {
+      error_input(
+        "Cannot extend an irregular series into the future; offending key group(s): %s. Use a regular order index (e.g. integer steps) or fill the gaps first.",
+        toString(do.call(paste, c(bad[, key_cols, with = FALSE], list(sep = ":"))))
+      )
+    }
+  } else if (!check_regular_grid(dt[[order_col]], freq)) {
+    error_input(
+      "Cannot extend an irregular series into the future. Use a regular order index (e.g. integer steps) or fill the gaps first."
+    )
+  }
+  invisible(dt)
+}
+
+check_regular_grid = function(order, freq = NULL) {
+  o = sort(order)
+  n = length(o)
+  if (n < 2L) {
+    return(TRUE)
+  }
+  if (inherits(o, c("Date", "POSIXct", "POSIXlt"))) {
+    step = if (is.character(freq)) freq else infer_freq(o)
+    expected = c(o[1L], seq_order(o[1L], step, n - 1L))
+    return(!anyNA(expected) && all(o == expected))
+  }
+  d = diff(o)
+  d[1L] != 0 && all(d == d[1L])
+}
