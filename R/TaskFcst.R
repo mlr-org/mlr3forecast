@@ -70,13 +70,11 @@ TaskFcst = R6Class(
       self$task_type = "fcst"
       private$.freq = assert_freq(freq)
 
+      assert_string(order)
+      assert_character(key, any.missing = FALSE)
       col_roles = self$col_roles
-      col_roles$order = assert_choice(order, col_roles$feature)
-      if (length(key) > 0L) {
-        col_roles$key = assert_subset(key, col_roles$feature)
-      } else {
-        col_roles$key = character()
-      }
+      col_roles$order = order
+      col_roles$key = key
       col_roles$feature = setdiff(col_roles$feature, order)
       self$col_roles = col_roles
       self$extra_args = insert_named(self$extra_args, list(order = order, key = key, freq = freq))
@@ -212,6 +210,14 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
   order_cols = new_roles[["order"]]
   if (length(order_cols) > 1L) {
     error_input("There may only be up to one column with role 'order'")
+  }
+
+  if (length(order_cols) > 0L && order_cols %in% new_roles[["target"]]) {
+    error_input("Order column '%s' may not also be the target column", order_cols)
+  }
+
+  if (length(order_cols) > 0L && order_cols %in% new_roles[["feature"]]) {
+    error_input("Order column '%s' may not also be a feature column", order_cols)
   }
 
   if (
