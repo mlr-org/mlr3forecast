@@ -37,8 +37,8 @@ Whether to clone the graph, default \code{TRUE}.}
 \link{RecursiveForecaster}.
 }
 \description{
-Function to create a \link{RecursiveForecaster} object. This is the recommended way to construct a recursive forecaster;
-it is a thin wrapper around \code{RecursiveForecaster$new()}.
+Function to create a \link{RecursiveForecaster} object. This is the recommended way to construct a recursive forecaster.
+It is a thin wrapper around \code{RecursiveForecaster$new()}.
 
 A recursive forecaster trains a single regression model and forecasts iteratively one step ahead, feeding each
 prediction back as a lag/rolling feature for the next step. For the direct strategy (one model per horizon) see

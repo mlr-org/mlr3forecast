@@ -4,7 +4,7 @@
 #'
 #' @description
 #' Bootstrap-aggregated forecasts. The series is resampled via the Box-Cox/Loess moving block bootstrap of Bergmeir,
-#' Hyndman, and Benítez and `fn` is fit on each replicate; the forecast averages across the ensemble.
+#' Hyndman, and Benítez and `fn` is fit on each replicate. The forecast averages across the ensemble.
 #' Calls [forecast::baggedModel()] from package \CRANpkg{forecast}.
 #'
 #' `fn` is the model-fitting function applied to each bootstrap replicate (defaults to [forecast::ets()]). Any function

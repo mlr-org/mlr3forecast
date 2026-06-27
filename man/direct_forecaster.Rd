@@ -37,7 +37,7 @@ The predict type, default \code{NULL}.}
 \link{DirectForecaster}.
 }
 \description{
-Function to create a \link{DirectForecaster} object. This is the recommended way to construct a direct forecaster; it is a
+Function to create a \link{DirectForecaster} object. This is the recommended way to construct a direct forecaster. It is a
 thin wrapper around \code{DirectForecaster$new()}.
 
 A direct forecaster trains a separate regression model per forecast horizon, so predictions never feed back into one

@@ -4,7 +4,7 @@
 #' @description
 #' Computes per-series summary features from the target variable via [fabletools::features()] with feature
 #' functions from the \CRANpkg{feasts} package, and broadcasts them as constant columns to every row of the
-#' corresponding series. For an unkeyed task the features are broadcast to every row; for a keyed task each key
+#' corresponding series. For an unkeyed task the features are broadcast to every row. For a keyed task each key
 #' contributes one feature vector.
 #'
 #' This is the \CRANpkg{feasts} (tidyverts) counterpart of [PipeOpFcstTsfeats], which uses the

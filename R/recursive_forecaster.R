@@ -1,8 +1,8 @@
 #' @title Create a Recursive Forecast Learner
 #'
 #' @description
-#' Function to create a [RecursiveForecaster] object. This is the recommended way to construct a recursive forecaster;
-#' it is a thin wrapper around `RecursiveForecaster$new()`.
+#' Function to create a [RecursiveForecaster] object. This is the recommended way to construct a recursive forecaster.
+#' It is a thin wrapper around `RecursiveForecaster$new()`.
 #'
 #' A recursive forecaster trains a single regression model and forecasts iteratively one step ahead, feeding each
 #' prediction back as a lag/rolling feature for the next step. For the direct strategy (one model per horizon) see

@@ -292,7 +292,7 @@ RecursiveForecaster = R6::R6Class(
         bad = grid_ok[!grid_ok$.ok]
         if (nrow(bad) > 0L) {
           error_input(
-            "Test rows must form the gap-free future grid following the training data; offending key group(s): %s.",
+            "Test rows must form the gap-free future grid following the training data. Offending key group(s): %s.",
             toString(do.call(paste, c(bad[, key_cols, with = FALSE], list(sep = ":"))))
           )
         }

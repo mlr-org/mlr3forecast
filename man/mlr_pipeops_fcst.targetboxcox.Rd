@@ -13,7 +13,7 @@ inverted via \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}}.
 via \code{\link[forecast:BoxCox.lambda]{forecast::BoxCox.lambda()}}, using the task frequency for the \code{"guerrero"} method so seasonality is accounted
 for. The estimated (or supplied) \code{lambda} is stored and reused at predict time and for inversion.
 
-Box-Cox and log transformations require strictly positive target values; non-positive values produce \code{NaN} or an
+Box-Cox and log transformations require strictly positive target values. Non-positive values produce \code{NaN} or an
 error from \code{\link[forecast:BoxCox]{forecast::BoxCox()}}.
 }
 \section{Parameters}{

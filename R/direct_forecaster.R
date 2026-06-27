@@ -1,7 +1,7 @@
 #' @title Create a Direct Forecast Learner
 #'
 #' @description
-#' Function to create a [DirectForecaster] object. This is the recommended way to construct a direct forecaster; it is a
+#' Function to create a [DirectForecaster] object. This is the recommended way to construct a direct forecaster. It is a
 #' thin wrapper around `DirectForecaster$new()`.
 #'
 #' A direct forecaster trains a separate regression model per forecast horizon, so predictions never feed back into one

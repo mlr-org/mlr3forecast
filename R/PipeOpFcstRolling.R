@@ -23,7 +23,7 @@
 #'   Aggregation functions. Subset of `c("mean", "median", "sd", "min", "max", "sum")`. Default `"mean"`.
 #' * `window_sizes` :: `numeric()`\cr
 #'   Window sizes. Every combination of `funs` and `window_sizes` produces one output column. Finite sizes must be
-#'   whole numbers; `Inf` requests an expanding window (all history up to `t - lag`). Default `3L`.
+#'   whole numbers. `Inf` requests an expanding window (all history up to `t - lag`). Default `3L`.
 #' * `lag` :: `integer(1)`\cr
 #'   Minimum lag before the window starts. Must be `>= 1` to avoid leakage. Default `1L`.
 #'

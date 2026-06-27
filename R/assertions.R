@@ -29,7 +29,7 @@ assert_regular_grid = function(dt, order_col, key_cols, freq) {
     bad = ok[!ok$.ok]
     if (nrow(bad) > 0L) {
       error_input(
-        "Cannot extend an irregular series into the future; offending key group(s): %s. Use a regular order index (e.g. integer steps) or fill the gaps first.",
+        "Cannot extend an irregular series into the future. Offending key group(s): %s. Use a regular order index (e.g. integer steps) or fill the gaps first.",
         toString(do.call(paste, c(bad[, key_cols, with = FALSE], list(sep = ":"))))
       )
     }

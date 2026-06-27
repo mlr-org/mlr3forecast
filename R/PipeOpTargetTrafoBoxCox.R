@@ -10,7 +10,7 @@
 #' via [forecast::BoxCox.lambda()], using the task frequency for the `"guerrero"` method so seasonality is accounted
 #' for. The estimated (or supplied) `lambda` is stored and reused at predict time and for inversion.
 #'
-#' Box-Cox and log transformations require strictly positive target values; non-positive values produce `NaN` or an
+#' Box-Cox and log transformations require strictly positive target values. Non-positive values produce `NaN` or an
 #' error from [forecast::BoxCox()].
 #'
 #' @section Parameters:

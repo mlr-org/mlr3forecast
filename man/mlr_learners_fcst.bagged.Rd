@@ -6,7 +6,7 @@
 \title{Bagged Model Forecast Learner}
 \description{
 Bootstrap-aggregated forecasts. The series is resampled via the Box-Cox/Loess moving block bootstrap of Bergmeir,
-Hyndman, and Benítez and \code{fn} is fit on each replicate; the forecast averages across the ensemble.
+Hyndman, and Benítez and \code{fn} is fit on each replicate. The forecast averages across the ensemble.
 Calls \code{\link[forecast:baggedModel]{forecast::baggedModel()}} from package \CRANpkg{forecast}.
 
 \code{fn} is the model-fitting function applied to each bootstrap replicate (defaults to \code{\link[forecast:ets]{forecast::ets()}}). Any function

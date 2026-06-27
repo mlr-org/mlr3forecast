@@ -28,7 +28,7 @@ as well as the following parameters:
 Aggregation functions. Subset of \code{c("mean", "median", "sd", "min", "max", "sum")}. Default \code{"mean"}.
 \item \code{window_sizes} :: \code{numeric()}\cr
 Window sizes. Every combination of \code{funs} and \code{window_sizes} produces one output column. Finite sizes must be
-whole numbers; \code{Inf} requests an expanding window (all history up to \code{t - lag}). Default \code{3L}.
+whole numbers. \code{Inf} requests an expanding window (all history up to \code{t - lag}). Default \code{3L}.
 \item \code{lag} :: \code{integer(1)}\cr
 Minimum lag before the window starts. Must be \verb{>= 1} to avoid leakage. Default \code{1L}.
 }
