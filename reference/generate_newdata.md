@@ -28,8 +28,11 @@ with `n` new data points.
 
 ## Details
 
-Future dates are extrapolated with
-[`base::seq()`](https://rdrr.io/r/base/seq.html), which has no month-end
-awareness. For `Date`/`POSIXct` order columns with a calendar `freq`
-(`month`/`quarter`/`year`), anchor the dates to a fixed day-of-month
-(e.g. the first), since month-end series produce incorrect future dates.
+Future dates are extrapolated by stepping the order column. For calendar
+`freq` (`month`/`quarter`/`year`), the origin's day-of-month is carried
+forward and clamped to each target month's last valid day (e.g. Jan-31
+steps to Feb-28/29, Mar-31, ...); other freqs use
+[`base::seq()`](https://rdrr.io/r/base/seq.html) directly. Month-end
+anchoring is not inferred: an Apr-30 or Feb-28 origin stays on that day
+rather than snapping to each month's end, so use a first-of-month or
+period-style index for genuine month-end series.
