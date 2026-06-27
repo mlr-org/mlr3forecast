@@ -149,17 +149,16 @@ TaskFcst = R6Class(
     #'
     #' * `"strata"`: The task is resampled using one or more stratification variables (role `"stratum"`).
     #' * `"groups"`: The task comes with grouping/blocking information (role `"group"`).
-    #' * `"weights"`: The task comes with observation weights (role `"weight"`).
+    #' * `"weights_learner"`: The task comes with observation weights for the learner (role `"weights_learner"`).
+    #' * `"weights_measure"`: The task comes with observation weights for the measure (role `"weights_measure"`).
+    #' * `"offset"`: The task comes with offset information (role `"offset"`).
     #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #' * `"keys"`: The task has columns which define the time series `"key"`.
     #'
     #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
     properties = function(rhs) {
-      if (missing(rhs)) {
-        c(super$properties, if (length(self$col_roles$key) > 0L) "keys" else NULL)
-      } else {
-        super$properties = rhs
-      }
+      assert_ro_binding(rhs)
+      c(super$properties, if (length(self$col_roles$key) > 0L) "keys")
     },
 
     #' @field order ([data.table::data.table()])\cr
