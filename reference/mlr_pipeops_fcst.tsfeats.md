@@ -4,7 +4,7 @@ Computes per-series summary features from the target variable via
 [`tsfeatures::tsfeatures()`](http://pkg.robjhyndman.com/tsfeatures/reference/tsfeatures.md)
 and broadcasts them as constant columns to every row of the
 corresponding series. For an unkeyed task the features are broadcast to
-every row; for a keyed task each key contributes one feature vector.
+every row. For a keyed task each key contributes one feature vector.
 
 Features are cached in the state at train time and reused at predict
 time. Predicting on a key that was not seen during training is an error.

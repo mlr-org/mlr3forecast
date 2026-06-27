@@ -93,7 +93,7 @@ as well as the following parameters:</p><ul><li><p><code>funs</code> :: <code><a
 Aggregation functions. Subset of <code>c("mean", "median", "sd", "min", "max", "sum")</code>. Default <code>"mean"</code>.</p></li>
 <li><p><code>window_sizes</code> :: <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code><br>
 Window sizes. Every combination of <code>funs</code> and <code>window_sizes</code> produces one output column. Finite sizes must be
-whole numbers; <code>Inf</code> requests an expanding window (all history up to <code>t - lag</code>). Default <code>3L</code>.</p></li>
+whole numbers. <code>Inf</code> requests an expanding window (all history up to <code>t - lag</code>). Default <code>3L</code>.</p></li>
 <li><p><code>lag</code> :: <code>integer(1)</code><br>
 Minimum lag before the window starts. Must be <code>&gt;= 1</code> to avoid leakage. Default <code>1L</code>.</p></li>
 </ul></div>

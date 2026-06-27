@@ -46,8 +46,8 @@ or with the associated sugar function
 
 ## References
 
-Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
-2301.01790, <https://arxiv.org/abs/2301.01790>.
+Svetunkov, Ivan (2023). “Smooth forecasting with the smooth package in
+R.” 2301.01790, <https://arxiv.org/abs/2301.01790>.
 
 Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
 Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
@@ -219,7 +219,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.38 seconds
+#> Time elapsed: 0.34 seconds
 #> Model estimated using auto.msarima() function: SARIMA(0,1,1)[1](0,1,1)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

@@ -2,8 +2,8 @@
 
 Function to create a
 [RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
-object. This is the recommended way to construct a recursive forecaster;
-it is a thin wrapper around `RecursiveForecaster$new()`.
+object. This is the recommended way to construct a recursive forecaster.
+It is a thin wrapper around `RecursiveForecaster$new()`.
 
 A recursive forecaster trains a single regression model and forecasts
 iteratively one step ahead, feeding each prediction back as a

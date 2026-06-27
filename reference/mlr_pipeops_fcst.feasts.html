@@ -7,7 +7,7 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Time Series Feature Extraction (feasts) — mlr_pipeops_fcst.feasts"><meta name="description" content="Computes per-series summary features from the target variable via fabletools::features() with feature
 functions from the feasts package, and broadcasts them as constant columns to every row of the
-corresponding series. For an unkeyed task the features are broadcast to every row; for a keyed task each key
+corresponding series. For an unkeyed task the features are broadcast to every row. For a keyed task each key
 contributes one feature vector.
 This is the feasts (tidyverts) counterpart of PipeOpFcstTsfeats, which uses the
 tsfeatures package. The order column is mapped to an appropriate tsibble index
@@ -16,7 +16,7 @@ seasonal period is inferred correctly.
 Features are cached in the state at train time and reused at predict time. Predicting on a key that was not
 seen during training is an error."><meta property="og:description" content="Computes per-series summary features from the target variable via fabletools::features() with feature
 functions from the feasts package, and broadcasts them as constant columns to every row of the
-corresponding series. For an unkeyed task the features are broadcast to every row; for a keyed task each key
+corresponding series. For an unkeyed task the features are broadcast to every row. For a keyed task each key
 contributes one feature vector.
 This is the feasts (tidyverts) counterpart of PipeOpFcstTsfeats, which uses the
 tsfeatures package. The order column is mapped to an appropriate tsibble index
@@ -70,7 +70,7 @@ seen during training is an error."></head><body>
     <div class="ref-description section level2">
     <p>Computes per-series summary features from the target variable via <code><a href="https://fabletools.tidyverts.org/reference/features.html" class="external-link">fabletools::features()</a></code> with feature
 functions from the <a href="https://CRAN.R-project.org/package=feasts" class="external-link"><span class="pkg">feasts</span></a> package, and broadcasts them as constant columns to every row of the
-corresponding series. For an unkeyed task the features are broadcast to every row; for a keyed task each key
+corresponding series. For an unkeyed task the features are broadcast to every row. For a keyed task each key
 contributes one feature vector.</p>
 <p>This is the <a href="https://CRAN.R-project.org/package=feasts" class="external-link"><span class="pkg">feasts</span></a> (tidyverts) counterpart of <a href="mlr_pipeops_fcst.tsfeats.html">PipeOpFcstTsfeats</a>, which uses the
 <a href="https://CRAN.R-project.org/package=tsfeatures" class="external-link"><span class="pkg">tsfeatures</span></a> package. The order column is mapped to an appropriate <a href="https://CRAN.R-project.org/package=tsibble" class="external-link"><span class="pkg">tsibble</span></a> index

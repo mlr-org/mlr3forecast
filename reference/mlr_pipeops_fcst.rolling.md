@@ -31,7 +31,7 @@ as well as the following parameters:
 
 - `window_sizes` :: [`numeric()`](https://rdrr.io/r/base/numeric.html)  
   Window sizes. Every combination of `funs` and `window_sizes` produces
-  one output column. Finite sizes must be whole numbers; `Inf` requests
+  one output column. Finite sizes must be whole numbers. `Inf` requests
   an expanding window (all history up to `t - lag`). Default `3L`.
 
 - `lag` :: `integer(1)`  

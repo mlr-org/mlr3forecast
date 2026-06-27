@@ -5,7 +5,7 @@ Computes per-series summary features from the target variable via
 with feature functions from the
 [feasts](https://CRAN.R-project.org/package=feasts) package, and
 broadcasts them as constant columns to every row of the corresponding
-series. For an unkeyed task the features are broadcast to every row; for
+series. For an unkeyed task the features are broadcast to every row. For
 a keyed task each key contributes one feature vector.
 
 This is the [feasts](https://CRAN.R-project.org/package=feasts)

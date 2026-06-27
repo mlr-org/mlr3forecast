@@ -110,8 +110,14 @@ Other Task:
   - `"groups"`: The task comes with grouping/blocking information (role
     `"group"`).
 
-  - `"weights"`: The task comes with observation weights (role
-    `"weight"`).
+  - `"weights_learner"`: The task comes with observation weights for the
+    learner (role `"weights_learner"`).
+
+  - `"weights_measure"`: The task comes with observation weights for the
+    measure (role `"weights_measure"`).
+
+  - `"offset"`: The task comes with offset information (role
+    `"offset"`).
 
   - `"ordered"`: The task has columns which define the row order (role
     `"order"`).

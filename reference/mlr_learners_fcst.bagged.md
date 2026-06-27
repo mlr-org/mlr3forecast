@@ -2,7 +2,7 @@
 
 Bootstrap-aggregated forecasts. The series is resampled via the
 Box-Cox/Loess moving block bootstrap of Bergmeir, Hyndman, and Benítez
-and `fn` is fit on each replicate; the forecast averages across the
+and `fn` is fit on each replicate. The forecast averages across the
 ensemble. Calls
 [`forecast::baggedModel()`](https://pkg.robjhyndman.com/forecast/reference/baggedModel.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).

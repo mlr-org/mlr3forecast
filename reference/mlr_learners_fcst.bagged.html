@@ -6,7 +6,7 @@
     }
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Bagged Model Forecast Learner — mlr_learners_fcst.bagged"><meta name="description" content='Bootstrap-aggregated forecasts. The series is resampled via the Box-Cox/Loess moving block bootstrap of Bergmeir,
-Hyndman, and Benítez and fn is fit on each replicate; the forecast averages across the ensemble.
+Hyndman, and Benítez and fn is fit on each replicate. The forecast averages across the ensemble.
 Calls forecast::baggedModel() from package forecast.
 fn is the model-fitting function applied to each bootstrap replicate (defaults to forecast::ets()). Any function
 returning an object compatible with forecast::forecast() may be passed, e.g. forecast::auto.arima() or
@@ -14,7 +14,7 @@ forecast::Arima() with fixed orders via a wrapper. The number of bootstrap repli
 block_size configures the moving block length in forecast::bld.mbb.bootstrap(). Prediction intervals from
 forecast::forecast.baggedModel() are the empirical bootstrap range (not configurable by level), so only
 "response" is offered as a predict_type.'><meta property="og:description" content='Bootstrap-aggregated forecasts. The series is resampled via the Box-Cox/Loess moving block bootstrap of Bergmeir,
-Hyndman, and Benítez and fn is fit on each replicate; the forecast averages across the ensemble.
+Hyndman, and Benítez and fn is fit on each replicate. The forecast averages across the ensemble.
 Calls forecast::baggedModel() from package forecast.
 fn is the model-fitting function applied to each bootstrap replicate (defaults to forecast::ets()). Any function
 returning an object compatible with forecast::forecast() may be passed, e.g. forecast::auto.arima() or
@@ -67,7 +67,7 @@ forecast::forecast.baggedModel() are the empirical bootstrap range (not configur
 
     <div class="ref-description section level2">
     <p>Bootstrap-aggregated forecasts. The series is resampled via the Box-Cox/Loess moving block bootstrap of Bergmeir,
-Hyndman, and Benítez and <code>fn</code> is fit on each replicate; the forecast averages across the ensemble.
+Hyndman, and Benítez and <code>fn</code> is fit on each replicate. The forecast averages across the ensemble.
 Calls <code><a href="https://pkg.robjhyndman.com/forecast/reference/baggedModel.html" class="external-link">forecast::baggedModel()</a></code> from package <a href="https://CRAN.R-project.org/package=forecast" class="external-link"><span class="pkg">forecast</span></a>.</p>
 <p><code>fn</code> is the model-fitting function applied to each bootstrap replicate (defaults to <code><a href="https://pkg.robjhyndman.com/forecast/reference/ets.html" class="external-link">forecast::ets()</a></code>). Any function
 returning an object compatible with <code><a href="https://generics.r-lib.org/reference/forecast.html" class="external-link">forecast::forecast()</a></code> may be passed, e.g. <code><a href="https://pkg.robjhyndman.com/forecast/reference/auto.arima.html" class="external-link">forecast::auto.arima()</a></code> or

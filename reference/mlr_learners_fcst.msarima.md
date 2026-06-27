@@ -49,8 +49,8 @@ or with the associated sugar function
 
 ## References
 
-Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
-2301.01790, <https://arxiv.org/abs/2301.01790>.
+Svetunkov, Ivan (2023). “Smooth forecasting with the smooth package in
+R.” 2301.01790, <https://arxiv.org/abs/2301.01790>.
 
 Svetunkov, Ivan (2023). *Forecasting and Analytics with the Augmented
 Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.

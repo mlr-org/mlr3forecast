@@ -44,8 +44,8 @@ or with the associated sugar function
 
 ## References
 
-Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
-2301.01790, <https://arxiv.org/abs/2301.01790>.
+Svetunkov, Ivan (2023). “Smooth forecasting with the smooth package in
+R.” 2301.01790, <https://arxiv.org/abs/2301.01790>.
 
 ## See also
 
@@ -210,7 +210,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.01 seconds
+#> Time elapsed: 0.04 seconds
 #> Model estimated using sma() function: SMA(1)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

@@ -31,7 +31,7 @@ with `n` new data points.
 Future dates are extrapolated by stepping the order column. For calendar
 `freq` (`month`/`quarter`/`year`), the origin's day-of-month is carried
 forward and clamped to each target month's last valid day (e.g. Jan-31
-steps to Feb-28/29, Mar-31, ...); other freqs use
+steps to Feb-28/29, Mar-31, ...). Other freqs use
 [`base::seq()`](https://rdrr.io/r/base/seq.html) directly. Month-end
 anchoring is not inferred: an Apr-30 or Feb-28 origin stays on that day
 rather than snapping to each month's end, so use a first-of-month or

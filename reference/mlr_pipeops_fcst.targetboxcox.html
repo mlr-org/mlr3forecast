@@ -11,14 +11,14 @@ inverted via forecast::InvBoxCox().
 lambda = 0 is the log transformation. When lambda is NULL (default) it is estimated from the training data
 via forecast::BoxCox.lambda(), using the task frequency for the "guerrero" method so seasonality is accounted
 for. The estimated (or supplied) lambda is stored and reused at predict time and for inversion.
-Box-Cox and log transformations require strictly positive target values; non-positive values produce NaN or an
+Box-Cox and log transformations require strictly positive target values. Non-positive values produce NaN or an
 error from forecast::BoxCox().'><meta property="og:description" content='Applies a Box-Cox transformation to the target variable to stabilize the variance, producing the new target
 BoxCox(y, lambda). The transformation is pointwise and monotonic, so no rows are dropped and predictions are
 inverted via forecast::InvBoxCox().
 lambda = 0 is the log transformation. When lambda is NULL (default) it is estimated from the training data
 via forecast::BoxCox.lambda(), using the task frequency for the "guerrero" method so seasonality is accounted
 for. The estimated (or supplied) lambda is stored and reused at predict time and for inversion.
-Box-Cox and log transformations require strictly positive target values; non-positive values produce NaN or an
+Box-Cox and log transformations require strictly positive target values. Non-positive values produce NaN or an
 error from forecast::BoxCox().'></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -70,7 +70,7 @@ inverted via <code><a href="https://pkg.robjhyndman.com/forecast/reference/BoxCo
 <p><code>lambda = 0</code> is the log transformation. When <code>lambda</code> is <code>NULL</code> (default) it is estimated from the training data
 via <code><a href="https://pkg.robjhyndman.com/forecast/reference/BoxCox.lambda.html" class="external-link">forecast::BoxCox.lambda()</a></code>, using the task frequency for the <code>"guerrero"</code> method so seasonality is accounted
 for. The estimated (or supplied) <code>lambda</code> is stored and reused at predict time and for inversion.</p>
-<p>Box-Cox and log transformations require strictly positive target values; non-positive values produce <code>NaN</code> or an
+<p>Box-Cox and log transformations require strictly positive target values. Non-positive values produce <code>NaN</code> or an
 error from <code><a href="https://pkg.robjhyndman.com/forecast/reference/BoxCox.html" class="external-link">forecast::BoxCox()</a></code>.</p>
     </div>
 
