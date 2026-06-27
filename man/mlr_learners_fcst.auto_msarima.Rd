@@ -72,7 +72,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Svetunkov I (2023).
+Svetunkov, Ivan (2023).
 \dQuote{Smooth forecasting with the smooth package in R.}
 2301.01790, \url{https://arxiv.org/abs/2301.01790}.
 

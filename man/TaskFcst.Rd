@@ -83,7 +83,9 @@ The following properties are currently standardized and understood by tasks in \
 \itemize{
 \item \code{"strata"}: The task is resampled using one or more stratification variables (role \code{"stratum"}).
 \item \code{"groups"}: The task comes with grouping/blocking information (role \code{"group"}).
-\item \code{"weights"}: The task comes with observation weights (role \code{"weight"}).
+\item \code{"weights_learner"}: The task comes with observation weights for the learner (role \code{"weights_learner"}).
+\item \code{"weights_measure"}: The task comes with observation weights for the measure (role \code{"weights_measure"}).
+\item \code{"offset"}: The task comes with offset information (role \code{"offset"}).
 \item \code{"ordered"}: The task has columns which define the row order (role \code{"order"}).
 \item \code{"keys"}: The task has columns which define the time series \code{"key"}.
 }

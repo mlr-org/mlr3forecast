@@ -14,6 +14,10 @@ This Learner specializes \link[mlr3:LearnerRegr]{mlr3::LearnerRegr} for forecast
 \item \code{"se"}: Predicts the standard error for each value of response for each observation in the test set.
 \item \code{"distr"}: Probability distribution as \code{VectorDistribution} object (requires package \code{distr6}, available via
 repository \url{https://raphaels1.r-universe.dev}).
+\item \code{"quantiles"}: Predicts quantile estimates for each observation in the test set.
+Set \verb{$quantiles} to specify the quantiles to predict and \verb{$quantile_response} to specify the response quantile.
+See the \href{https://mlr3book.mlr-org.com/chapters/chapter13/beyond_regression_and_classification.html}{mlr3book}
+on quantile regression for more details.
 }
 }
 

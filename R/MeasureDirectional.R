@@ -36,7 +36,10 @@ MeasureMDA = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(reward = p_dbl(), penalty = p_dbl())
+      param_set = ps(
+        reward = p_dbl(tags = "required"),
+        penalty = p_dbl(tags = "required")
+      )
       param_set$set_values(reward = 1, penalty = 0)
 
       super$initialize(
@@ -59,6 +62,7 @@ MeasureMDA = R6Class(
       }
       private$.score_ungrouped(prediction, task, ...)
     },
+
     .score_ungrouped = function(prediction, ...) {
       pv = self$param_set$get_values()
       penalty = pv$penalty
@@ -130,6 +134,7 @@ MeasureMDV = R6Class(
       }
       private$.score_ungrouped(prediction, task, ...)
     },
+
     .score_ungrouped = function(prediction, ...) {
       truth = prediction$truth
       response = prediction$response
@@ -198,6 +203,7 @@ MeasureMDPV = R6Class(
       }
       private$.score_ungrouped(prediction, task, ...)
     },
+
     .score_ungrouped = function(prediction, ...) {
       truth = prediction$truth
       response = prediction$response

@@ -73,7 +73,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Smyl S, Bergmeir C, Wibowo E, Ng TW, Long X, Dokumentov A, Schmidt D (2025).
+Smyl, Slawek, Bergmeir, Christoph, Wibowo, Erwin, Ng, Wang T, Long, Xueying, Dokumentov, Alexander, Schmidt, Daniel (2025).
 \emph{Rlgt: Bayesian Exponential Smoothing Models with Trend Modifications}.
 R package version 0.2-3, \url{https://github.com/cbergmeir/Rlgt}.
 }
