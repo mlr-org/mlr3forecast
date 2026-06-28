@@ -58,7 +58,6 @@ PipeOpFcstFourier = R6Class(
         param_vals = param_vals,
         packages = c("mlr3forecast", "mlr3pipelines"),
         can_subset_cols = FALSE,
-        feature_types = c("numeric", "integer", "Date", "factor"),
         tags = "fcst"
       )
     }
