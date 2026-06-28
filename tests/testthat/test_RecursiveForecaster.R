@@ -22,6 +22,19 @@ test_that("RecursiveForecaster iterative prediction updates lags", {
   expect_false(length(unique(prediction$response)) == 1L)
 })
 
+test_that("RecursiveForecaster handles a non-unit integer index without explicit freq", {
+  dt = data.table(time = seq(0L, by = 2L, length.out = 60L), value = as.numeric(1:60))
+  task = as_task_fcst(dt, target = "value", order = "time")
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+
+  split = partition(task, ratio = 0.8)
+  learner$train(task, split$train)
+  prediction = learner$predict(task, split$test)
+
+  expect_class(prediction, "PredictionRegr")
+  expect_length(prediction$response, length(split$test))
+})
+
 test_that("RecursiveForecaster works with keyed task", {
   task = make_date_major_panel_task(30L)
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)

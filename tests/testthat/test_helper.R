@@ -16,6 +16,17 @@ test_that("infer_freq preserves non-unit spacing", {
   expect_equal(step(2592000), 2592000) # fixed 30-day, not calendar month
 })
 
+test_that("infer_freq honors non-unit spacing for numeric and integer order", {
+  expect_equal(infer_freq(seq(0L, by = 2L, length.out = 10L)), 2)
+  expect_equal(infer_freq(seq(0, by = 0.5, length.out = 10L)), 0.5)
+  # unsorted input is still handled
+  expect_equal(infer_freq(c(6L, 0L, 2L, 4L)), 2)
+  # step-1 index keeps the historical default
+  expect_equal(infer_freq(1:10), 1)
+  # too short to infer
+  expect_equal(infer_freq(5L), 1L)
+})
+
 test_that("infer_freq detects calendar units", {
   expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "week", length.out = 10L)), "week")
   expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "month", length.out = 24L)), "1 month")

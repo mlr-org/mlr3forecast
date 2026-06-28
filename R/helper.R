@@ -1,6 +1,9 @@
 infer_freq = function(order) {
-  if (!inherits(order, c("Date", "POSIXct", "POSIXlt")) || length(order) < 2L) {
+  if (length(order) < 2L) {
     return(1L)
+  }
+  if (!inherits(order, c("Date", "POSIXct", "POSIXlt"))) {
+    return(stats::median(diff(sort(order))))
   }
   secs = max(round(as.numeric(stats::median(diff(as.POSIXct(order))), units = "secs")), 1)
   if (secs == 604800) {
@@ -154,7 +157,7 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
     pred = prediction$clone()$filter(groups[[nm]])
     score_fn(pred, task, train_set = train_groups[[nm]], ...)
   })
-  mean(scores)
+  mean(scores, na.rm = TRUE)
 }
 
 fcst_drop_incomplete = function(dt, feat_cols, key_cols) {
