@@ -18,7 +18,7 @@ mlr3forecast_measures = new.env(parent = emptyenv())
 mlr3forecast_col_roles = "key"
 mlr3forecast_learner_properties = "exogenous"
 mlr3forecast_task_print_col_roles = c("Key by" = "key")
-mlr3forecast_task_properties = c("univariate", "multivariate", "ordered", "keys")
+mlr3forecast_task_properties = c("ordered", "keys")
 mlr3forecast_pipeops = new.env(parent = emptyenv())
 mlr3forecast_pipeop_tags = "fcst"
 mlr3forecast_pipeop_properties = "fcst_iterative"
@@ -56,7 +56,7 @@ register_mlr3 = function(...) {
   )
   # remove regr roles that should have no effect or expect setting
   mlr_reflections$task_col_roles$fcst = union(mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles)
-  mlr_reflections$task_properties$fcst = mlr3forecast_task_properties
+  mlr_reflections$task_properties$fcst = union(mlr_reflections$task_properties$regr, mlr3forecast_task_properties)
   mlr_reflections$measure_properties$fcst = mlr_reflections$measure_properties$regr
   mlr_reflections$task_print_col_roles$after = named_union(
     mlr_reflections$task_print_col_roles$after,
@@ -109,8 +109,18 @@ register_mlr3pipelines = function(...) {
   walk(names(mlr3forecast_pipeops), function(nm) mlr_pipeops$remove(nm))
 
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
-  reflections = c("learner_predict_types", "task_col_roles", "task_properties")
+  reflections = c(
+    "learner_predict_types",
+    "learner_properties",
+    "task_col_roles",
+    "task_properties",
+    "measure_properties"
+  )
   walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
+  mlr_reflections$task_print_col_roles$after = remove_named(
+    mlr_reflections$task_print_col_roles$after,
+    names(mlr3forecast_task_print_col_roles)
+  )
   mlr_reflections$pipeops$valid_tags = setdiff(mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags)
   mlr_reflections$pipeops$properties = setdiff(mlr_reflections$pipeops$properties, mlr3forecast_pipeop_properties)
   mlr_reflections$loaded_packages = setdiff(mlr_reflections$loaded_packages, "mlr3forecast")
