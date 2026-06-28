@@ -5,9 +5,8 @@
 \alias{MeasureACF1}
 \title{Autocorrelation at Lag 1}
 \description{
-Measures the autocorrelation of the forecast residuals at lag 1.
-Values close to zero indicate that residuals are uncorrelated, while values far from zero suggest
-the model is not capturing all available information.
+Measures the autocorrelation of the forecast residuals at lag 1. Values close to zero indicate that residuals are
+uncorrelated, while values far from zero suggest the model is not capturing all available information.
 }
 \details{
 Computed as the sample autocorrelation of the residuals at lag 1 using \code{\link[stats:acf]{stats::acf()}}.

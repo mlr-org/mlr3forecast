@@ -14,12 +14,11 @@
 #'   Lag to difference at. Default `1L`.
 #'
 #' @section Limitations:
-#' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph and is
-#' rejected at construction. Inside [RecursiveForecaster], the trafo only transforms the active row at
-#' predict time while iterative features (lags, rolling windows) need transformed values for all
-#' historical rows. Inside [DirectForecaster], each horizon is inverted independently against the
-#' training tail, which is wrong for horizons >= 2. Use inside a plain [mlr3pipelines::GraphLearner]
-#' via `ppl("targettrafo", ...)` for batch prediction, or wrap the forecaster itself with
+#' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph and is rejected at
+#' construction. Inside [RecursiveForecaster], the trafo only transforms the active row at predict time while iterative
+#' features (lags, rolling windows) need transformed values for all historical rows. Inside [DirectForecaster], each
+#' horizon is inverted independently against the training tail, which is wrong for horizons >= 2. Use inside a plain
+#' [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)` for batch prediction, or wrap the forecaster itself with
 #' `ppl("targettrafo", ...)` so all horizons are inverted together.
 #'
 #' @export

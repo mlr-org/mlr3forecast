@@ -22,12 +22,11 @@ Lag to difference at. Default \code{1L}.
 
 \section{Limitations}{
 
-This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} or \link{DirectForecaster} graph and is
-rejected at construction. Inside \link{RecursiveForecaster}, the trafo only transforms the active row at
-predict time while iterative features (lags, rolling windows) need transformed values for all
-historical rows. Inside \link{DirectForecaster}, each horizon is inverted independently against the
-training tail, which is wrong for horizons >= 2. Use inside a plain \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
-via \code{ppl("targettrafo", ...)} for batch prediction, or wrap the forecaster itself with
+This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} or \link{DirectForecaster} graph and is rejected at
+construction. Inside \link{RecursiveForecaster}, the trafo only transforms the active row at predict time while iterative
+features (lags, rolling windows) need transformed values for all historical rows. Inside \link{DirectForecaster}, each
+horizon is inverted independently against the training tail, which is wrong for horizons >= 2. Use inside a plain
+\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)} for batch prediction, or wrap the forecaster itself with
 \code{ppl("targettrafo", ...)} so all horizons are inverted together.
 }
 

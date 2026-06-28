@@ -11,10 +11,9 @@
 A trained forecast learner.}
 
 \item{task}{(\link{TaskFcst})\cr
-Provides the metadata needed to construct future rows: the order column (to extend the time
-index), key columns (for keyed tasks), \code{freq}, and the column-type schema expected by
-\code{predict_newdata()}. The task's data values are not used. Pass the training task or any other
-schema-compatible \link{TaskFcst}.}
+Provides the metadata needed to construct future rows: the order column (to extend the time index), key columns
+(for keyed tasks), \code{freq}, and the column-type schema expected by \code{predict_newdata()}. The task's data values are
+not used. Pass the training task or any other schema-compatible \link{TaskFcst}.}
 
 \item{h}{(\code{integer(1)})\cr
 Forecast horizon — number of future time steps per key.}
@@ -30,8 +29,7 @@ Ignored.}
 \link[mlr3:Prediction]{mlr3::Prediction}.
 }
 \description{
-Generates \code{h} future rows from the task's skeleton (using \code{\link[=generate_newdata]{generate_newdata()}}), optionally
-overlays user-supplied \code{newdata} onto those rows, and predicts with the trained learner via
-\link[mlr3:Learner]{mlr3::Learner}\verb{$predict_newdata()}. Works with \link{RecursiveForecaster}, \link{DirectForecaster},
-and classic \verb{LearnerFcst*} forecasters.
+Generates \code{h} future rows from the task's skeleton (using \code{\link[=generate_newdata]{generate_newdata()}}), optionally overlays user-supplied
+\code{newdata} onto those rows, and predicts with the trained learner via \link[mlr3:Learner]{mlr3::Learner}\verb{$predict_newdata()}. Works with
+\link{RecursiveForecaster}, \link{DirectForecaster}, and classic \verb{LearnerFcst*} forecasters.
 }

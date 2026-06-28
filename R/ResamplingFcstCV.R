@@ -16,9 +16,8 @@
 #' * `step_size` (`integer(1)`)\cr
 #'   Step size between windows.
 #' * `window_size` (`integer(1)`)\cr
-#'   Size of the rolling window. For `fixed_window = TRUE`, this is the exact
-#'   training window size. For `fixed_window = FALSE` (expanding window), this
-#'   is the minimum number of training observations in the first fold.
+#'   Size of the rolling window. For `fixed_window = TRUE`, this is the exact training window size. For `fixed_window =
+#'   FALSE` (expanding window), this is the minimum number of training observations in the first fold.
 #' * `fixed_window` (`logical(1)`)\cr
 #'   Should a fixed sized window be used? If `FALSE` an expanding window is used.
 #'

@@ -1,12 +1,11 @@
 #' @title Recursive Forecast Learner
 #'
 #' @description
-#' A [mlr3::Learner] for iterative one-step-ahead forecasting. Wraps a [mlr3pipelines::GraphLearner]
-#' (held internally, mirroring [DirectForecaster] and [mlr3tuning::AutoTuner]). Training is fully
-#' delegated to the graph. At predict time the forecaster builds a combined task (training history +
-#' test rows with `NA` targets) backed by a single mutable [data.table::data.table()], iterates
-#' through the test rows in `(key, order)` order, and writes each prediction back into the combined
-#' task's target column so that lag and rolling features for the next step reflect the freshly
+#' A [mlr3::Learner] for iterative one-step-ahead forecasting. Wraps a [mlr3pipelines::GraphLearner] (held internally,
+#' mirroring [DirectForecaster] and [mlr3tuning::AutoTuner]). Training is fully delegated to the graph. At predict time
+#' the forecaster builds a combined task (training history + test rows with `NA` targets) backed by a single mutable
+#' [data.table::data.table()], iterates through the test rows in `(key, order)` order, and writes each prediction back
+#' into the combined task's target column so that lag and rolling features for the next step reflect the freshly
 #' predicted value.
 #'
 #' Can be constructed in two ways:
@@ -35,9 +34,8 @@
 #' which read the original-scale backend, producing a train/predict scale mismatch.
 #'
 #' @section Prediction uncertainty:
-#' Only the point forecast is fed back between steps, so `se`/`distr` uncertainty does not accumulate
-#' across horizons and intervals are too narrow for `h > 1`. For calibrated multi-step intervals,
-#' prefer [DirectForecaster].
+#' Only the point forecast is fed back between steps, so `se`/`distr` uncertainty does not accumulate across horizons
+#' and intervals are too narrow for `h > 1`. For calibrated multi-step intervals, prefer [DirectForecaster].
 #'
 #' @export
 #' @examples

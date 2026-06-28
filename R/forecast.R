@@ -1,11 +1,10 @@
 #' Generate new data for a forecast task
 #'
 #' @details
-#' Future dates are extrapolated by stepping the order column. For calendar `freq`
-#' (`month`/`quarter`/`year`), the origin's day-of-month is carried forward and clamped to each
-#' target month's last valid day (e.g. Jan-31 steps to Feb-28/29, Mar-31, ...). Other freqs use
-#' [base::seq()] directly. Month-end anchoring is not inferred: an Apr-30 or Feb-28 origin stays
-#' on that day rather than snapping to each month's end, so use a first-of-month or period-style
+#' Future dates are extrapolated by stepping the order column. For calendar `freq` (`month`/`quarter`/`year`), the
+#' origin's day-of-month is carried forward and clamped to each target month's last valid day (e.g. Jan-31 steps to
+#' Feb-28/29, Mar-31, ...). Other freqs use [base::seq()] directly. Month-end anchoring is not inferred: an Apr-30 or
+#' Feb-28 origin stays on that day rather than snapping to each month's end, so use a first-of-month or period-style
 #' index for genuine month-end series.
 #'
 #' @param task [TaskFcst]\cr
@@ -43,18 +42,16 @@ generate_newdata = function(task, n = 1L) {
 #' @title Forecast from a Trained Learner
 #'
 #' @description
-#' Generates `h` future rows from the task's skeleton (using [generate_newdata()]), optionally
-#' overlays user-supplied `newdata` onto those rows, and predicts with the trained learner via
-#' [mlr3::Learner]`$predict_newdata()`. Works with [RecursiveForecaster], [DirectForecaster],
-#' and classic `LearnerFcst*` forecasters.
+#' Generates `h` future rows from the task's skeleton (using [generate_newdata()]), optionally overlays user-supplied
+#' `newdata` onto those rows, and predicts with the trained learner via [mlr3::Learner]`$predict_newdata()`. Works with
+#' [RecursiveForecaster], [DirectForecaster], and classic `LearnerFcst*` forecasters.
 #'
 #' @param object ([mlr3::Learner])\cr
 #'   A trained forecast learner.
 #' @param task ([TaskFcst])\cr
-#'   Provides the metadata needed to construct future rows: the order column (to extend the time
-#'   index), key columns (for keyed tasks), `freq`, and the column-type schema expected by
-#'   `predict_newdata()`. The task's data values are not used. Pass the training task or any other
-#'   schema-compatible [TaskFcst].
+#'   Provides the metadata needed to construct future rows: the order column (to extend the time index), key columns
+#'   (for keyed tasks), `freq`, and the column-type schema expected by `predict_newdata()`. The task's data values are
+#'   not used. Pass the training task or any other schema-compatible [TaskFcst].
 #' @param h (`integer(1)`)\cr
 #'   Forecast horizon — number of future time steps per key.
 #' @param newdata ([data.frame()] | `NULL`)\cr

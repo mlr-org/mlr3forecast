@@ -2,19 +2,17 @@
 #' @name mlr_pipeops_fcst.rolling
 #'
 #' @description
-#' Creates rolling-window summary statistics of the target variable as new feature columns.
-#' The window ends at position `t - lag` (exclusive of the current and `lag - 1` most recent
-#' values) and has size `window_size`. Use `window_size = Inf` for an expanding window that
-#' grows to include all history up to `t - lag`.
+#' Creates rolling-window summary statistics of the target variable as new feature columns. The window ends at position
+#' `t - lag` (exclusive of the current and `lag - 1` most recent values) and has size `window_size`. Use `window_size =
+#' Inf` for an expanding window that grows to include all history up to `t - lag`.
 #'
 #' At train time rows whose window has insufficient history are `NA` and are dropped, matching
 #' [PipeOpFcstLags]. Predict keeps all rows.
 #'
-#' At predict time, rolling features are computed from the task's full backend (i.e. including
-#' rows outside `row_roles$use`), then joined onto the active rows. Used inside
-#' [RecursiveForecaster], where the forecaster writes each step's prediction into the combined
-#' task's target column between steps so rolling features for the next step reflect the freshly
-#' predicted value.
+#' At predict time, rolling features are computed from the task's full backend (i.e. including rows outside
+#' `row_roles$use`), then joined onto the active rows. Used inside [RecursiveForecaster], where the forecaster writes
+#' each step's prediction into the combined task's target column between steps so rolling features for the next step
+#' reflect the freshly predicted value.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreproc],

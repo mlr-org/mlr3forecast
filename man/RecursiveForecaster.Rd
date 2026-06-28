@@ -4,12 +4,11 @@
 \alias{RecursiveForecaster}
 \title{Recursive Forecast Learner}
 \description{
-A \link[mlr3:Learner]{mlr3::Learner} for iterative one-step-ahead forecasting. Wraps a \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}
-(held internally, mirroring \link{DirectForecaster} and \link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}). Training is fully
-delegated to the graph. At predict time the forecaster builds a combined task (training history +
-test rows with \code{NA} targets) backed by a single mutable \code{\link[data.table:data.table]{data.table::data.table()}}, iterates
-through the test rows in \verb{(key, order)} order, and writes each prediction back into the combined
-task's target column so that lag and rolling features for the next step reflect the freshly
+A \link[mlr3:Learner]{mlr3::Learner} for iterative one-step-ahead forecasting. Wraps a \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} (held internally,
+mirroring \link{DirectForecaster} and \link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}). Training is fully delegated to the graph. At predict time
+the forecaster builds a combined task (training history + test rows with \code{NA} targets) backed by a single mutable
+\code{\link[data.table:data.table]{data.table::data.table()}}, iterates through the test rows in \verb{(key, order)} order, and writes each prediction back
+into the combined task's target column so that lag and rolling features for the next step reflect the freshly
 predicted value.
 
 Can be constructed in two ways:
@@ -42,9 +41,8 @@ which read the original-scale backend, producing a train/predict scale mismatch.
 
 \section{Prediction uncertainty}{
 
-Only the point forecast is fed back between steps, so \code{se}/\code{distr} uncertainty does not accumulate
-across horizons and intervals are too narrow for \code{h > 1}. For calibrated multi-step intervals,
-prefer \link{DirectForecaster}.
+Only the point forecast is fed back between steps, so \code{se}/\code{distr} uncertainty does not accumulate across horizons
+and intervals are too narrow for \code{h > 1}. For calibrated multi-step intervals, prefer \link{DirectForecaster}.
 }
 
 \examples{
