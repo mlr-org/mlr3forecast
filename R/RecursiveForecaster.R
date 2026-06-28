@@ -167,7 +167,7 @@ RecursiveForecaster = R6::R6Class(
     native_model = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(self$model)) {
-        return(NULL)
+        return()
       }
       self$model$graph_state[[self$learner$id]]$model
     },

@@ -156,7 +156,7 @@ DirectForecaster = R6::R6Class(
     native_model = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(self$model)) {
-        return(NULL)
+        return()
       }
       models = map(self$model$models, function(glrn) glrn$base_learner()$model)
       set_names(models, paste0("h", self$horizons))

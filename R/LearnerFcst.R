@@ -84,7 +84,7 @@ LearnerFcst = R6Class(
       if ("keys" %in% properties) {
         error_input("%s learner does not support tasks with keys.", self$id)
       }
-      invisible(NULL)
+      invisible()
     },
 
     # tidy printed output with real series name and fn.
