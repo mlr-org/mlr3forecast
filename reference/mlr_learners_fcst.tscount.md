@@ -212,8 +212,8 @@ print(learner$model)
 #> $model
 #> 
 #> Call:
-#> tscount::tsglm(ts = as.integer(task$data(cols = task$target_names)[[1L]]), 
-#>     model = model_args, xreg = xreg)
+#> tscount::tsglm(ts = as.integer(task$data(cols = task$target_names, 
+#>     ordered = TRUE)[[1L]]), model = model_args, xreg = xreg)
 #> 
 #> Coefficients:
 #> (Intercept)  
