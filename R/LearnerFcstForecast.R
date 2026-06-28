@@ -25,7 +25,7 @@ LearnerFcstForecast = R6Class(
     .fit = function(task, pv) {
       args = set_names(list(as.ts(task)), private$.y_arg)
       if (private$.has_exogenous(task)) {
-        args$xreg = as.matrix(task$data(cols = task$feature_names))
+        args$xreg = as.matrix(task$data(cols = task$feature_names, ordered = TRUE))
       }
       fn = getExportedValue(private$.pkg, private$.fn)
       model = invoke(fn, .args = insert_named(args, pv))

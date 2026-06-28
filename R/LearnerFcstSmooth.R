@@ -51,7 +51,7 @@ LearnerFcstSmooth = R6Class(
       }
       mat = cbind(as.numeric(y))
       colnames(mat) = task$target_names
-      mat = cbind(mat, as.matrix(task$data(cols = task$feature_names)))
+      mat = cbind(mat, as.matrix(task$data(cols = task$feature_names, ordered = TRUE)))
       stats::ts(mat, start = stats::start(y), frequency = stats::frequency(y))
     }
   )

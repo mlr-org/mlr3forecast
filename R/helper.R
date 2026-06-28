@@ -73,7 +73,8 @@ seq_order = function(origin, freq, n) {
 #' @export
 as.ts.TaskFcst = function(x, ..., freq = NULL) {
   freq = freq_to_period(freq %??% x$freq)
-  stats::ts(x$truth(), freq = freq)
+  y = x$data(cols = x$target_names, ordered = TRUE)[[1L]]
+  stats::ts(y, freq = freq)
 }
 
 freq_to_period = function(freq) {

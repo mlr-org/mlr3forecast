@@ -44,3 +44,36 @@ test_that("in-sample routing survives callr encapsulation", {
   pred = learner$predict(task, 60:70)
   expect_equal(pred$response, as.numeric(task$truth(59:69)))
 })
+
+test_that("training is invariant to backend row order", {
+  withr::local_seed(1)
+  n = 30L
+  dat = data.table(t = 1:n, y = as.numeric(1:n))
+  sorted = as_task_fcst(dat, target = "y", order = "t")
+  shuffled = as_task_fcst(dat[sample(n)], target = "y", order = "t")
+
+  # as.ts reads the target chronologically regardless of backend row order
+  expect_identical(as.numeric(as.ts(shuffled)), as.numeric(as.ts(sorted)))
+
+  # full learner: the naive forecast is the last chronological value
+  f_sorted = lrn("fcst.random_walk")$train(sorted)$predict_newdata(generate_newdata(sorted, 1L), sorted)
+  f_shuffled = lrn("fcst.random_walk")$train(shuffled)$predict_newdata(generate_newdata(shuffled, 1L), shuffled)
+  expect_equal(f_shuffled$response, f_sorted$response)
+  expect_equal(f_shuffled$response, dat$y[n])
+})
+
+test_that("exogenous features stay aligned with the target under backend reordering", {
+  withr::local_seed(42)
+  n = 40L
+  x = rnorm(n)
+  dat = data.table(t = 1:n, x = x, y = 3 + 2 * x + rnorm(n, 0, 0.01))
+  sorted = as_task_fcst(dat, target = "y", order = "t")
+  shuffled = as_task_fcst(dat[sample(n)], target = "y", order = "t")
+
+  # x is uncorrelated with time, so a misaligned xreg would collapse its coefficient
+  learner = lrn("fcst.tslm", formula = y ~ x)
+  c_sorted = coef(learner$clone()$train(sorted)$native_model)
+  c_shuffled = coef(learner$clone()$train(shuffled)$native_model)
+  expect_equal(c_shuffled, c_sorted)
+  expect_equal(unname(c_shuffled[["x"]]), 2, tolerance = 0.05)
+})
