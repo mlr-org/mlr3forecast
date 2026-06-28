@@ -67,7 +67,8 @@ PipeOpTargetTrafoBoxCox = R6Class(
         param_set = param_set,
         param_vals = param_vals,
         packages = c("mlr3forecast", "mlr3pipelines", "forecast"),
-        task_type_in = "TaskRegr"
+        task_type_in = "TaskRegr",
+        tags = "fcst"
       )
     }
   ),
