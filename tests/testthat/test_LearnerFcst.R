@@ -79,6 +79,18 @@ test_that("in-sample prediction is invariant to backend row order", {
   expect_equal(insample(shuffled)$response, insample(sorted)$response)
 })
 
+test_that("predict rejects future rows that are not in chronological order", {
+  withr::local_seed(1)
+  n = 36L
+  dat = data.table(t = 1:n, y = as.numeric(1:n))
+  task = as_task_fcst(dat, target = "y", order = "t")
+  learner = lrn("fcst.ets")$train(task)
+  newdata = generate_newdata(task, 6L)
+
+  expect_silent(learner$predict_newdata(newdata, task))
+  expect_error(learner$predict_newdata(newdata[c(4, 1, 6, 2, 5, 3)], task), "chronological order")
+})
+
 test_that("exogenous features stay aligned with the target under backend reordering", {
   withr::local_seed(42)
   n = 40L

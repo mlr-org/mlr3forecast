@@ -117,6 +117,9 @@ LearnerFcst = R6Class(
       }
       max_index = self$model$max_index
       if (all(order_vals > max_index)) {
+        if (is.unsorted(order_vals, strictly = TRUE)) {
+          error_input("Future rows must be passed in chronological order.")
+        }
         TRUE
       } else if (all(order_vals <= max_index)) {
         FALSE
