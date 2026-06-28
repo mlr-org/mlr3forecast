@@ -215,10 +215,6 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     error_input("Order column '%s' may not also be the target column", order_cols)
   }
 
-  if (length(order_cols) > 0L && order_cols %in% new_roles[["feature"]]) {
-    error_input("Order column '%s' may not also be a feature column", order_cols)
-  }
-
   if (
     length(order_cols) > 0L &&
       any(fget_keys(task$col_info, order_cols, "type", key = "id") %nin% c("Date", "POSIXct", "integer", "numeric"))
