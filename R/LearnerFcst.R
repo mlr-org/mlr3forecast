@@ -102,10 +102,11 @@ LearnerFcst = R6Class(
     },
 
     .set_context = function(model, task) {
+      order_vals = task$data(cols = task$col_roles$order)[[1L]]
       list(
         model = model,
-        row_ids = task$row_ids,
-        max_index = max(task$data(cols = task$col_roles$order)[[1L]])
+        row_ids = task$row_ids[order(order_vals)],
+        max_index = max(order_vals)
       )
     },
 

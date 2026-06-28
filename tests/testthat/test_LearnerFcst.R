@@ -62,6 +62,23 @@ test_that("training is invariant to backend row order", {
   expect_equal(f_shuffled$response, dat$y[n])
 })
 
+test_that("in-sample prediction is invariant to backend row order", {
+  withr::local_seed(1)
+  n = 48L
+  y = 10 + 0.3 * (1:n) + 5 * sin(2 * pi * (1:n) / 12) + rnorm(n, 0, 0.2)
+  dat = data.table(t = 1:n, y = y)
+  sorted = as_task_fcst(dat, target = "y", order = "t", freq = 12)
+  shuffled = as_task_fcst(dat[sample(n)], target = "y", order = "t", freq = 12)
+
+  # in-sample fitted values must follow each row's timestamp, not the backend layout
+  insample = function(task) {
+    pred = lrn("fcst.ets")$train(task)$predict(task)
+    t = as.numeric(task$data(rows = pred$row_ids, cols = "t")[[1L]])
+    data.table(t = t, response = pred$response)[order(t)]
+  }
+  expect_equal(insample(shuffled)$response, insample(sorted)$response)
+})
+
 test_that("exogenous features stay aligned with the target under backend reordering", {
   withr::local_seed(42)
   n = 40L

@@ -77,12 +77,12 @@ LearnerFcstTscount = R6Class(
 
       xreg = NULL
       if (task$n_features > 0L) {
-        xreg = as.matrix(task$data(cols = task$feature_names))
+        xreg = as.matrix(task$data(cols = task$feature_names, ordered = TRUE))
       }
 
       model = invoke(
         tscount::tsglm,
-        ts = as.integer(task$data(cols = task$target_names)[[1L]]),
+        ts = as.integer(task$data(cols = task$target_names, ordered = TRUE)[[1L]]),
         model = model_args,
         xreg = xreg,
         .args = pv
