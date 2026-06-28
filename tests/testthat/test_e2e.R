@@ -67,6 +67,7 @@ test_that("benchmark across stats and ML forecasters in one design", {
 })
 
 test_that("AutoTuner on stats forecaster (fcst.arima)", {
+  skip_on_cran()
   skip_if_not_installed("forecast")
   skip_if_not_installed("mlr3tuning")
   library(mlr3tuning)
@@ -84,6 +85,7 @@ test_that("AutoTuner on stats forecaster (fcst.arima)", {
 })
 
 test_that("AutoTuner on RecursiveForecaster", {
+  skip_on_cran()
   skip_if_not_installed("mlr3tuning")
   library(mlr3tuning)
   flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
@@ -100,6 +102,7 @@ test_that("AutoTuner on RecursiveForecaster", {
 })
 
 test_that("AutoTuner on DirectForecaster", {
+  skip_on_cran()
   skip_if_not_installed("mlr3tuning")
   library(mlr3tuning)
   flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 29)

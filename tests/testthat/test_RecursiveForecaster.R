@@ -23,8 +23,7 @@ test_that("RecursiveForecaster iterative prediction updates lags", {
 })
 
 test_that("RecursiveForecaster works with keyed task", {
-  skip_if_not_installed("tsibbledata")
-  task = tsk("livestock")
+  task = make_date_major_panel_task(30L)
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
 
   split = partition(task, ratio = 0.8)
