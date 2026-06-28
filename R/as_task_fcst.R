@@ -112,6 +112,10 @@ as_task_fcst.data.frame = function(
     error_input("Target column '%s' must not contain missing values", target)
   }
 
+  if (anyMissing(x[[order]])) {
+    error_input("Order column '%s' must not contain missing values", order)
+  }
+
   dup = if (has_key) {
     anyDuplicated(as.data.table(x), by = c(key, order)) > 0L
   } else {
