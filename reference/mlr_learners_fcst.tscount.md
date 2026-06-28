@@ -42,10 +42,9 @@ or with the associated sugar function
 
 ## References
 
-Liboschik, Tobias, Fokianos, Konstantinos, Fried, Roland (2017).
-“tscount: An R Package for Analysis of Count Time Series Following
-Generalized Linear Models.” *Journal of Statistical Software*,
-**82**(5), 1–51.
+Liboschik T, Fokianos K, Fried R (2017). “tscount: An R Package for
+Analysis of Count Time Series Following Generalized Linear Models.”
+*Journal of Statistical Software*, **82**(5), 1–51.
 [doi:10.18637/jss.v082.i05](https://doi.org/10.18637/jss.v082.i05) .
 
 ## See also

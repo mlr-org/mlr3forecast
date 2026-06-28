@@ -42,9 +42,9 @@ or with the associated sugar function
 
 ## References
 
-Hyndman, J R, King, L M, Pitrun, Ivet, Billah, Baki (2005). “Local
-linear forecasts using cubic smoothing splines.” *Australian & New
-Zealand Journal of Statistics*, **47**(1), 87–99.
+Hyndman RJ, King ML, Pitrun I, Billah B (2005). “Local linear forecasts
+using cubic smoothing splines.” *Australian & New Zealand Journal of
+Statistics*, **47**(1), 87–99.
 
 ## See also
 

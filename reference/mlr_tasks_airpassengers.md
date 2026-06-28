@@ -12,7 +12,7 @@ from [TaskFcst](https://mlr3forecast.mlr-org.com/reference/TaskFcst.md).
 
 ## Source
 
-Box, P. GE, Jenkins, M. G (1976). *Time Series Analysis: Forecasting and
+Box GEP, Jenkins GM (1976). *Time Series Analysis: Forecasting and
 Control*, Revised edition. Holden-Day, San Francisco.
 
 ## Dictionary

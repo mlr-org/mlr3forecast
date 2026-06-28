@@ -38,19 +38,19 @@ or with the associated sugar function
 
 ## References
 
-Croston, D J (1972). “Forecasting and stock control for intermittent
+Croston JD (1972). “Forecasting and stock control for intermittent
 demands.” *Journal of the Operational Research Society*, **23**(3),
 289–303.
 
-Shale, A E, Boylan, E J, Johnston, FR (2006). “Forecasting for
-intermittent demand: the estimation of an unbiased average.” *Journal of
-the Operational Research Society*, **57**(5), 588–592.
+Shale EA, Boylan JE, Johnston F (2006). “Forecasting for intermittent
+demand: the estimation of an unbiased average.” *Journal of the
+Operational Research Society*, **57**(5), 588–592.
 
-Shenstone, Lydia, Hyndman, J R (2005). “Stochastic models underlying
-Croston's method for intermittent demand forecasting.” *Journal of
-Forecasting*, **24**(6), 389–402.
+Shenstone L, Hyndman RJ (2005). “Stochastic models underlying Croston's
+method for intermittent demand forecasting.” *Journal of Forecasting*,
+**24**(6), 389–402.
 
-Syntetos, A A, Boylan, E J (2001). “On the bias of intermittent demand
+Syntetos AA, Boylan JE (2001). “On the bias of intermittent demand
 estimates.” *International Journal of Production Economics*,
 **71**(1-3), 457–466.
 

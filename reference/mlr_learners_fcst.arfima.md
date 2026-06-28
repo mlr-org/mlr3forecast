@@ -65,16 +65,15 @@ or with the associated sugar function
 
 ## References
 
-Haslett, John, Raftery, E A (1989). “Space-time Modelling with
-Long-memory Dependence: Assessing Ireland's Wind Power Resource.”
-*Journal of the Royal Statistical Society: Series C (Applied
-Statistics)*, **38**(1), 1–21.
+Haslett J, Raftery AE (1989). “Space-time Modelling with Long-memory
+Dependence: Assessing Ireland's Wind Power Resource.” *Journal of the
+Royal Statistical Society: Series C (Applied Statistics)*, **38**(1),
+1–21.
 
-Hyndman, J. R, Khandakar, Yeasmin (2008). “Automatic Time Series
-Forecasting: The forecast Package for R.” *Journal of Statistical
-Software*, **27**(3), 1–22.
-[doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03) .
-<https://www.jstatsoft.org/index.php/jss/article/view/v027i03>.
+Hyndman RJ, Khandakar Y (2008). “Automatic Time Series Forecasting: The
+forecast Package for R.” *Journal of Statistical Software*, **27**(3),
+1–22. [doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03)
+. <https://www.jstatsoft.org/index.php/jss/article/view/v027i03>.
 
 ## See also
 

@@ -55,8 +55,8 @@ or with the associated sugar function
 
 ## References
 
-Kourentzes, Nikolaos, Barrow, K. D, Crone, F. S (2014). “Neural network
-ensemble operators for time series forecasting.” *Expert Systems with
+Kourentzes N, Barrow DK, Crone SF (2014). “Neural network ensemble
+operators for time series forecasting.” *Expert Systems with
 Applications*, **41**(9), 4235–4244.
 [doi:10.1016/j.eswa.2013.12.011](https://doi.org/10.1016/j.eswa.2013.12.011)
 .

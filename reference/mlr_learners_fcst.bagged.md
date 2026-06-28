@@ -61,10 +61,9 @@ or with the associated sugar function
 
 ## References
 
-Bergmeir, Christoph, Hyndman, J R, Benítez, M J (2016). “Bagging
-exponential smoothing methods using STL decomposition and Box-Cox
-transformation.” *International Journal of Forecasting*, **32**(2),
-303–312.
+Bergmeir C, Hyndman RJ, Benítez JM (2016). “Bagging exponential
+smoothing methods using STL decomposition and Box-Cox transformation.”
+*International Journal of Forecasting*, **32**(2), 303–312.
 [doi:10.1016/j.ijforecast.2015.07.002](https://doi.org/10.1016/j.ijforecast.2015.07.002)
 .
 

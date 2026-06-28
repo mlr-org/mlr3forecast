@@ -51,8 +51,8 @@ or with the associated sugar function
 
 ## References
 
-Taylor, J. S, Letham, Benjamin (2018). “Forecasting at Scale.” *The
-American Statistician*, **72**(1), 37–45.
+Taylor SJ, Letham B (2018). “Forecasting at Scale.” *The American
+Statistician*, **72**(1), 37–45.
 [doi:10.1080/00031305.2017.1380080](https://doi.org/10.1080/00031305.2017.1380080)
 .
 

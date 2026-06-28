@@ -55,14 +55,14 @@ or with the associated sugar function
 
 ## References
 
-Holt, C. C (2004). “Forecasting seasonals and trends by exponentially
+Holt CC (2004). “Forecasting seasonals and trends by exponentially
 weighted moving averages.” *International Journal of Forecasting*,
 **20**(1), 5–10.
 [doi:10.1016/j.ijforecast.2003.09.015](https://doi.org/10.1016/j.ijforecast.2003.09.015)
 .
 
-Winters, R. P (1960). “Forecasting Sales by Exponentially Weighted
-Moving Averages.” *Management Science*, **6**(3), 324–342.
+Winters PR (1960). “Forecasting Sales by Exponentially Weighted Moving
+Averages.” *Management Science*, **6**(3), 324–342.
 [doi:10.1287/mnsc.6.3.324](https://doi.org/10.1287/mnsc.6.3.324) .
 
 ## See also

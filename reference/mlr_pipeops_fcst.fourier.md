@@ -27,16 +27,14 @@ as well as the following parameters:
 
 ## References
 
-De Livera, A.M., Hyndman, R.J., Snyder, R.D. (2011). “Forecasting time
-series with complex seasonal patterns using exponential smoothing.”
-*Journal of the American Statistical Association*, **106**(496),
-1513–1527.
+De Livera AM, Hyndman RJ, Snyder RD (2011). “Forecasting time series
+with complex seasonal patterns using exponential smoothing.” *Journal of
+the American Statistical Association*, **106**(496), 1513–1527.
 
-Hyndman, J. R, Khandakar, Yeasmin (2008). “Automatic Time Series
-Forecasting: The forecast Package for R.” *Journal of Statistical
-Software*, **27**(3), 1–22.
-[doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03) .
-<https://www.jstatsoft.org/index.php/jss/article/view/v027i03>.
+Hyndman RJ, Khandakar Y (2008). “Automatic Time Series Forecasting: The
+forecast Package for R.” *Journal of Statistical Software*, **27**(3),
+1–22. [doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03)
+. <https://www.jstatsoft.org/index.php/jss/article/view/v027i03>.
 
 ## Super classes
 

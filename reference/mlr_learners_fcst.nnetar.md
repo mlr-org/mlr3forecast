@@ -47,7 +47,7 @@ or with the associated sugar function
 
 ## References
 
-Ripley, D B (1996). *Pattern Recognition and Neural Networks*. Cambridge
+Ripley BD (1996). *Pattern Recognition and Neural Networks*. Cambridge
 University Press.
 [doi:10.1017/cbo9780511812651](https://doi.org/10.1017/cbo9780511812651)
 .

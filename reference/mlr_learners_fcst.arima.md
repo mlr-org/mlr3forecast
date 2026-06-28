@@ -55,7 +55,7 @@ or with the associated sugar function
 
 ## References
 
-Hyndman, R.J., Athanasopoulos, G. (2018). *Forecasting: principles and
+Hyndman RJ, Athanasopoulos G (2018). *Forecasting: principles and
 practice*, 2nd edition. OTexts, Melbourne, Australia.
 <https://OTexts.com/fpp2/>.
 

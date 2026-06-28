@@ -38,11 +38,11 @@ or with the associated sugar function
 
 ## References
 
-Assimakopoulos, Vassilis, Nikolopoulos, Konstantinos (2000). “The theta
-model: a decomposition approach to forecasting.” *International Journal
-of Forecasting*, **16**(4), 521–530.
+Assimakopoulos V, Nikolopoulos K (2000). “The theta model: a
+decomposition approach to forecasting.” *International Journal of
+Forecasting*, **16**(4), 521–530.
 
-Hyndman, J R, Billah, Baki (2003). “Unmasking the Theta method.”
+Hyndman RJ, Billah B (2003). “Unmasking the Theta method.”
 *International Journal of Forecasting*, **19**(2), 287–290.
 
 ## See also

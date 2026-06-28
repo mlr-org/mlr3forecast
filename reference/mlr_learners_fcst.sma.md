@@ -44,8 +44,8 @@ or with the associated sugar function
 
 ## References
 
-Svetunkov, Ivan (2023). “Smooth forecasting with the smooth package in
-R.” 2301.01790, <https://arxiv.org/abs/2301.01790>.
+Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
+2301.01790, <https://arxiv.org/abs/2301.01790>.
 
 ## See also
 

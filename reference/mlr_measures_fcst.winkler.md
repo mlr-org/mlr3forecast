@@ -62,7 +62,7 @@ task type, as the latter returns nothing:
 
 ## References
 
-Winkler, L R (1972). “A Decision-Theoretic Approach to Interval
+Winkler RL (1972). “A Decision-Theoretic Approach to Interval
 Estimation.” *Journal of the American Statistical Association*,
 **67**(337), 187–191.
 

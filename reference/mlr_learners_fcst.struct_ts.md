@@ -51,7 +51,7 @@ or with the associated sugar function
 
 ## References
 
-Harvey, C. A (1989). *Forecasting, Structural Time Series Models and the
+Harvey AC (1989). *Forecasting, Structural Time Series Models and the
 Kalman Filter*. Cambridge University Press, Cambridge.
 
 ## See also

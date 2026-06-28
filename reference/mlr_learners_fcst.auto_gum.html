@@ -80,7 +80,7 @@ Calls <code><a href="https://rdrr.io/pkg/smooth/man/gum.html" class="external-li
 <table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>orders</td><td>integer</td><td>3</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>lags</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>type</td><td>character</td><td>additive</td><td>additive, multiplicative, select</td><td>-</td></tr><tr><td>initial</td><td>character</td><td>backcasting</td><td>backcasting, optimal, two-stage, complete</td><td>-</td></tr><tr><td>ic</td><td>character</td><td>AICc</td><td>AICc, AIC, BIC, BICc</td><td>-</td></tr><tr><td>loss</td><td>character</td><td>likelihood</td><td>likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL</td><td>-</td></tr><tr><td>holdout</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>bounds</td><td>character</td><td>usual</td><td>usual, admissible, none</td><td>-</td></tr><tr><td>silent</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>regressors</td><td>character</td><td>use</td><td>use, select, adapt, integrate</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
-    <p>Svetunkov, Ivan (2023).
+    <p>Svetunkov I (2023).
 “Smooth forecasting with the smooth package in R.”
 2301.01790, <a href="https://arxiv.org/abs/2301.01790" class="external-link">https://arxiv.org/abs/2301.01790</a>.</p>
     </div>
@@ -215,7 +215,7 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="co"># Print the model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 2.41 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 2.34 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model estimated using auto.gum() function: GUM(1[1],1[12])</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> With backcasting initialisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Distribution assumed in the model: Normal</span>

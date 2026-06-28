@@ -60,7 +60,7 @@ task type, as the latter returns nothing:
 
 ## References
 
-Hyndman, J R, Koehler, B A (2006). “Another look at measures of forecast
+Hyndman RJ, Koehler AB (2006). “Another look at measures of forecast
 accuracy.” *International Journal of Forecasting*, **22**(4), 679–688.
 
 ## See also

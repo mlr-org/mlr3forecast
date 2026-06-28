@@ -70,13 +70,13 @@ task type, as the latter returns nothing:
 
 ## References
 
-Gneiting, Tilmann, Raftery, E A (2007). “Strictly Proper Scoring Rules,
+Gneiting T, Raftery AE (2007). “Strictly Proper Scoring Rules,
 Prediction, and Estimation.” *Journal of the American Statistical
 Association*, **102**(477), 359–378.
 
-Makridakis, Spyros, Spiliotis, Evangelos, Assimakopoulos, Vassilios
-(2020). “The M4 Competition: 100,000 time series and 61 forecasting
-methods.” *International Journal of Forecasting*, **36**(1), 54–74.
+Makridakis S, Spiliotis E, Assimakopoulos V (2020). “The M4 Competition:
+100,000 time series and 61 forecasting methods.” *International Journal
+of Forecasting*, **36**(1), 54–74.
 
 ## See also
 

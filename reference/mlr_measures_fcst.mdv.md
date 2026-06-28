@@ -56,9 +56,9 @@ Empty ParamSet
 
 ## References
 
-Blaskowitz, Oliver, Herwartz, Helmut (2011). “On economic evaluation of
-directional forecasts.” *International Journal of Forecasting*,
-**27**(4), 1058–1065.
+Blaskowitz O, Herwartz H (2011). “On economic evaluation of directional
+forecasts.” *International Journal of Forecasting*, **27**(4),
+1058–1065.
 
 ## See also
 

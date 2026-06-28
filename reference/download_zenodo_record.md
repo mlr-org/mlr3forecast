@@ -29,9 +29,9 @@ with class `"tsf"`. If the file contains a frequency or horizon, the
 
 ## References
 
-Godahewa, Rakshitha, Bergmeir, Christoph, Webb, I G, Hyndman, J R,
-Montero-Manso, Pablo (2021). “Monash time series forecasting archive.”
-*arXiv preprint arXiv:2105.06643*.
+Godahewa R, Bergmeir C, Webb GI, Hyndman RJ, Montero-Manso P (2021).
+“Monash time series forecasting archive.” *arXiv preprint
+arXiv:2105.06643*.
 
 ## Examples
 

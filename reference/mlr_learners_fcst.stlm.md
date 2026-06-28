@@ -49,11 +49,11 @@ or with the associated sugar function
 
 ## References
 
-Cleveland, B. R, Cleveland, S. W, McRae, E. J, Terpenning, Irma (1990).
-“STL: A Seasonal-Trend Decomposition Procedure Based on Loess.” *Journal
-of Official Statistics*, **6**(1), 3–73.
+Cleveland RB, Cleveland WS, McRae JE, Terpenning I (1990). “STL: A
+Seasonal-Trend Decomposition Procedure Based on Loess.” *Journal of
+Official Statistics*, **6**(1), 3–73.
 
-Hyndman, R.J., Athanasopoulos, G. (2018). *Forecasting: principles and
+Hyndman RJ, Athanasopoulos G (2018). *Forecasting: principles and
 practice*, 2nd edition. OTexts, Melbourne, Australia.
 <https://OTexts.com/fpp2/>.
 
@@ -346,8 +346,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x55de51e02190>
-#> <environment: 0x55de51a99090>
+#> <bytecode: 0x559402bccac8>
+#> <environment: 0x559402bcc700>
 #> 
 #> $lambda
 #> NULL
