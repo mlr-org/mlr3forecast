@@ -42,6 +42,7 @@ MeasureACF1 = R6Class(
       }
       private$.score_ungrouped(prediction, task, ...)
     },
+
     .score_ungrouped = function(prediction, ...) {
       resid = prediction$truth - prediction$response
       if (length(resid) <= 1L) {

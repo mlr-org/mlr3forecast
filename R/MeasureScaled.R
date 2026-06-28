@@ -55,6 +55,7 @@ MeasureMASE = R6Class(
       }
       private$.score_ungrouped(prediction, task, train_set, ...)
     },
+
     .score_ungrouped = function(prediction, task, train_set, ...) {
       train = task$data(rows = train_set, cols = task$target_names)[[1L]]
       period = self$param_set$get_values()$period
@@ -123,6 +124,7 @@ MeasureRMSSE = R6Class(
       }
       private$.score_ungrouped(prediction, task, train_set, ...)
     },
+
     .score_ungrouped = function(prediction, task, train_set, ...) {
       train = task$data(rows = train_set, cols = task$target_names)[[1L]]
       period = self$param_set$get_values()$period
