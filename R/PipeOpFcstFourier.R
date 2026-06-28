@@ -101,7 +101,7 @@ PipeOpFcstFourier = R6Class(
   )
 )
 
-# Port of forecast:::fourier(), evaluating Fourier terms at the given integer time positions.
+# port of forecast:::fourier(), evaluating Fourier terms at the given integer time positions.
 fourier_terms = function(times, period, K) {
   p = numeric()
   labels = character()
@@ -114,11 +114,11 @@ fourier_terms = function(times, period, K) {
       )
     }
   }
-  # Remove equivalent harmonics arising from overlapping seasonal periods.
+  # remove equivalent harmonics arising from overlapping seasonal periods
   dup = duplicated(p)
   p = p[!dup]
   labels = labels[!rep(dup, rep(2L, length(dup)))]
-  # Sine terms that are identically zero (2 * p integer) are dropped below.
+  # sine terms that are identically zero (2 * p integer) are dropped below
   keep_sin = abs(2 * p - round(2 * p)) > .Machine$double.eps
   X = matrix(NA_real_, nrow = length(times), ncol = 2L * length(p))
   for (j in seq_along(p)) {

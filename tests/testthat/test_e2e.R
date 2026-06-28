@@ -1,5 +1,5 @@
-# End-to-end smoke tests covering scoring, resampling, benchmarking, and tuning
-# for both classical (stats) and ML forecasting learners.
+# end-to-end smoke tests covering scoring, resampling, benchmarking, and tuning
+# for both classical (stats) and ML forecasting learners
 
 lgr::get_logger("mlr3")$set_threshold("warn")
 lgr::get_logger("bbotk")$set_threshold("warn")

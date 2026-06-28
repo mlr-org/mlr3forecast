@@ -9,7 +9,7 @@ infer_freq = function(order) {
   if (secs == 604800) {
     "week"
   } else if (secs >= 2419200) {
-    # >= 28 days: calendar-anchored data (constant day-of-month) gets calendar units,
+    # >= 28 days, calendar-anchored data (constant day-of-month) gets calendar units,
     # fixed-interval data gets exact day multiples
     n_months = round(secs / 2629800)
     if (uniqueN(mday(order)) == 1L) {
@@ -23,7 +23,7 @@ infer_freq = function(order) {
     } else if (secs %% 86400 == 0) {
       sprintf("%g day", secs / 86400)
     } else {
-      # neither calendar-anchored nor whole days (e.g. month-end data): magnitude guess
+      # neither calendar-anchored nor whole days (e.g. month-end data), magnitude guess
       if (secs <= 2678400) {
         "month"
       } else if (secs <= 7948800) {

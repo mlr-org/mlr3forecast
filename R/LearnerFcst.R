@@ -143,7 +143,7 @@ LearnerFcst = R6Class(
       as.numeric(stats::fitted(self$native_model))
     },
 
-    # Quantile p as one side of the central interval (level 100 * |1 - 2p|): lower if p < 0.5,
+    # quantile p as one side of the central interval (level 100 * |1 - 2p|), lower if p < 0.5,
     # upper if p > 0.5, mean at 0.5. `pred$lower`/`$upper` columns must be in ascending-level order.
     .quantiles_from_intervals = function(pred) {
       probs = private$.quantiles
