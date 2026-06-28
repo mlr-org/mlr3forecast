@@ -27,8 +27,8 @@
     Condition
       Error:
       ! 
-      x Test rows must form the gap-free future grid following the training data;
-        offending key group(s): a, b.
+      x Test rows must form the gap-free future grid following the training data.
+        Offending key group(s): a, b.
       > Class: Mlr3ErrorInput
 
 # RecursiveForecaster errors on target trafo inside the graph
