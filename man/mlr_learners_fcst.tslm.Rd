@@ -68,7 +68,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Hyndman, R.J., Athanasopoulos, G. (2018).
+Hyndman RJ, Athanasopoulos G (2018).
 \emph{Forecasting: principles and practice}, 2nd edition.
 OTexts, Melbourne, Australia.
 \url{https://OTexts.com/fpp2/}.

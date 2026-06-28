@@ -74,11 +74,11 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Cleveland, B. R, Cleveland, S. W, McRae, E. J, Terpenning, Irma (1990).
+Cleveland RB, Cleveland WS, McRae JE, Terpenning I (1990).
 \dQuote{STL: A Seasonal-Trend Decomposition Procedure Based on Loess.}
 \emph{Journal of Official Statistics}, \bold{6}(1), 3--73.
 
-Hyndman, R.J., Athanasopoulos, G. (2018).
+Hyndman RJ, Athanasopoulos G (2018).
 \emph{Forecasting: principles and practice}, 2nd edition.
 OTexts, Melbourne, Australia.
 \url{https://OTexts.com/fpp2/}.

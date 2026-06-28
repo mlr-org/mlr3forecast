@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskFcst}.
 }
 \source{
-Box, P. GE, Jenkins, M. G (1976).
+Box GEP, Jenkins GM (1976).
 \emph{Time Series Analysis: Forecasting and Control}, Revised edition.
 Holden-Day, San Francisco.
 }

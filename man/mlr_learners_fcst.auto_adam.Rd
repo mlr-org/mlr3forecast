@@ -79,11 +79,11 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Svetunkov, Ivan (2023).
+Svetunkov I (2023).
 \dQuote{Smooth forecasting with the smooth package in R.}
 2301.01790, \url{https://arxiv.org/abs/2301.01790}.
 
-Svetunkov, Ivan (2023).
+Svetunkov I (2023).
 \emph{Forecasting and Analytics with the Augmented Dynamic Adaptive Model (ADAM)}, 1st edition.
 Chapman and Hall/CRC.
 \doi{10.1201/9781003452652}.

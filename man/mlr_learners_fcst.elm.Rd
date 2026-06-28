@@ -77,7 +77,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Kourentzes, Nikolaos, Barrow, K. D, Crone, F. S (2014).
+Kourentzes N, Barrow DK, Crone SF (2014).
 \dQuote{Neural network ensemble operators for time series forecasting.}
 \emph{Expert Systems with Applications}, \bold{41}(9), 4235--4244.
 \doi{10.1016/j.eswa.2013.12.011}.

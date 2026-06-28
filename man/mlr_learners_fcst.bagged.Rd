@@ -73,7 +73,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Bergmeir, Christoph, Hyndman, J R, Benítez, M J (2016).
+Bergmeir C, Hyndman RJ, Benítez JM (2016).
 \dQuote{Bagging exponential smoothing methods using STL decomposition and Box-Cox transformation.}
 \emph{International Journal of Forecasting}, \bold{32}(2), 303--312.
 \doi{10.1016/j.ijforecast.2015.07.002}.

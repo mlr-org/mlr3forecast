@@ -68,7 +68,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Liboschik, Tobias, Fokianos, Konstantinos, Fried, Roland (2017).
+Liboschik T, Fokianos K, Fried R (2017).
 \dQuote{tscount: An R Package for Analysis of Count Time Series Following Generalized Linear Models.}
 \emph{Journal of Statistical Software}, \bold{82}(5), 1--51.
 \doi{10.18637/jss.v082.i05}.

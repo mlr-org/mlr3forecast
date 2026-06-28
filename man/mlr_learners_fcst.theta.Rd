@@ -64,11 +64,11 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Assimakopoulos, Vassilis, Nikolopoulos, Konstantinos (2000).
+Assimakopoulos V, Nikolopoulos K (2000).
 \dQuote{The theta model: a decomposition approach to forecasting.}
 \emph{International Journal of Forecasting}, \bold{16}(4), 521--530.
 
-Hyndman, J R, Billah, Baki (2003).
+Hyndman RJ, Billah B (2003).
 \dQuote{Unmasking the Theta method.}
 \emph{International Journal of Forecasting}, \bold{19}(2), 287--290.
 }

@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskFcst}.
 }
 \source{
-Brockwell, J. P, Davis, A. R (1991).
+Brockwell PJ, Davis RA (1991).
 \emph{Time Series: Theory and Methods}, 2nd edition.
 Springer, New York.
 }
@@ -38,12 +38,12 @@ tsk("lynx")
 }
 
 \references{
-Campbell, J. M, Walker, M. A (1977).
+Campbell MJ, Walker AM (1977).
 \dQuote{A Survey of Statistical Work on the Mackenzie River Series of Annual Canadian Lynx Trappings for the Years 1821-1934 and a New Analysis.}
 \emph{Journal of the Royal Statistical Society. Series A (General)}, \bold{140}(4), 411--431.
 \doi{10.2307/2345277}.
 
-Becker, A. R, Chambers, M. J, Wilks, R. A (1988).
+Becker RA, Chambers JM, Wilks AR (1988).
 \emph{The New S Language}.
 Chapman and Hall/CRC, London.
 }

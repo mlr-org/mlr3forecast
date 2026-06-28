@@ -58,7 +58,7 @@ List them via the key prefix, not the task type, as the latter returns nothing:
 }
 
 \references{
-Hyndman, J R, Koehler, B A (2006).
+Hyndman RJ, Koehler AB (2006).
 \dQuote{Another look at measures of forecast accuracy.}
 \emph{International Journal of Forecasting}, \bold{22}(4), 679--688.
 }

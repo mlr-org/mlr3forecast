@@ -23,7 +23,7 @@ dt = read_tsf("path/to/file.tsf")
 }
 }
 \references{
-Godahewa, Rakshitha, Bergmeir, Christoph, Webb, I G, Hyndman, J R, Montero-Manso, Pablo (2021).
+Godahewa R, Bergmeir C, Webb GI, Hyndman RJ, Montero-Manso P (2021).
 \dQuote{Monash time series forecasting archive.}
 \emph{arXiv preprint arXiv:2105.06643}.
 }

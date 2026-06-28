@@ -78,12 +78,12 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Holt, C. C (2004).
+Holt CC (2004).
 \dQuote{Forecasting seasonals and trends by exponentially weighted moving averages.}
 \emph{International Journal of Forecasting}, \bold{20}(1), 5--10.
 \doi{10.1016/j.ijforecast.2003.09.015}.
 
-Winters, R. P (1960).
+Winters PR (1960).
 \dQuote{Forecasting Sales by Exponentially Weighted Moving Averages.}
 \emph{Management Science}, \bold{6}(3), 324--342.
 \doi{10.1287/mnsc.6.3.324}.

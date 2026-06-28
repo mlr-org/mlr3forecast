@@ -64,19 +64,19 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Croston, D J (1972).
+Croston JD (1972).
 \dQuote{Forecasting and stock control for intermittent demands.}
 \emph{Journal of the Operational Research Society}, \bold{23}(3), 289--303.
 
-Shale, A E, Boylan, E J, Johnston, FR (2006).
+Shale EA, Boylan JE, Johnston F (2006).
 \dQuote{Forecasting for intermittent demand: the estimation of an unbiased average.}
 \emph{Journal of the Operational Research Society}, \bold{57}(5), 588--592.
 
-Shenstone, Lydia, Hyndman, J R (2005).
+Shenstone L, Hyndman RJ (2005).
 \dQuote{Stochastic models underlying Croston's method for intermittent demand forecasting.}
 \emph{Journal of Forecasting}, \bold{24}(6), 389--402.
 
-Syntetos, A A, Boylan, E J (2001).
+Syntetos AA, Boylan JE (2001).
 \dQuote{On the bias of intermittent demand estimates.}
 \emph{International Journal of Production Economics}, \bold{71}(1-3), 457--466.
 }

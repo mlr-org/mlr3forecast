@@ -62,7 +62,7 @@ List them via the key prefix, not the task type, as the latter returns nothing:
 }
 
 \references{
-Winkler, L R (1972).
+Winkler RL (1972).
 \dQuote{A Decision-Theoretic Approach to Interval Estimation.}
 \emph{Journal of the American Statistical Association}, \bold{67}(337), 187--191.
 }

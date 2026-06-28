@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskFcst}.
 }
 \source{
-Brockwell, J. P, Davis, A. R (1991).
+Brockwell PJ, Davis RA (1991).
 \emph{Time Series: Theory and Methods}, 2nd edition.
 Springer, New York.
 }

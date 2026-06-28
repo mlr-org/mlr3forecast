@@ -73,7 +73,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Ripley, D B (1996).
+Ripley BD (1996).
 \emph{Pattern Recognition and Neural Networks}.
 Cambridge University Press.
 \doi{10.1017/cbo9780511812651}.

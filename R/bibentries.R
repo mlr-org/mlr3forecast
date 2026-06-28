@@ -4,7 +4,7 @@ bibentries = c(
   bergmeir_2018 = bibentry(
     "article",
     title = "A note on the validity of cross-validation for evaluating autoregressive time series prediction",
-    author = "Bergmeir, Christoph and Hyndman, Rob J and Koo, Bonsoo",
+    author = "Christoph Bergmeir and Rob J Hyndman and Bonsoo Koo",
     journal = "Computational Statistics & Data Analysis",
     volume = "120",
     pages = "70--83",
@@ -14,7 +14,7 @@ bibentries = c(
   tashman2000 = bibentry(
     "article",
     title = "Out-of-sample tests of forecasting accuracy: an analysis and review",
-    author = "Tashman, Leonard J",
+    author = "Leonard J Tashman",
     journal = "International Journal of Forecasting",
     volume = "16",
     number = "4",
@@ -30,14 +30,14 @@ bibentries = c(
     doi = "10.18637/jss.v027.i03",
     number = "3",
     journal = "Journal of Statistical Software",
-    author = "Hyndman, Rob J. and Khandakar, Yeasmin",
+    author = "Rob J Hyndman and Yeasmin Khandakar",
     year = "2008",
     pages = "1--22"
   ),
   haslett1989space = bibentry(
     "article",
     title = "Space-time Modelling with Long-memory Dependence: Assessing Ireland's Wind Power Resource",
-    author = "Haslett, John and Raftery, Adrian E",
+    author = "John Haslett and Adrian E Raftery",
     journal = "Journal of the Royal Statistical Society: Series C (Applied Statistics)",
     volume = "38",
     number = "1",
@@ -48,7 +48,7 @@ bibentries = c(
   wang2006characteristic = bibentry(
     "article",
     title = "Characteristic-based clustering for time series data",
-    author = "Wang, Xiaozhe and Smith, Kate and Hyndman, Rob",
+    author = "Xiaozhe Wang and Kate Smith and Rob Hyndman",
     journal = "Data Mining and Knowledge Discovery",
     volume = "13",
     pages = "335--364",
@@ -58,7 +58,7 @@ bibentries = c(
   hyndman2018fpp = bibentry(
     "book",
     title = "Forecasting: principles and practice",
-    author = "Hyndman, R.J. and Athanasopoulos, G.",
+    author = "Rob J Hyndman and George Athanasopoulos",
     edition = "2nd",
     publisher = "OTexts",
     address = "Melbourne, Australia",
@@ -68,7 +68,7 @@ bibentries = c(
   hyndman2002state = bibentry(
     "article",
     title = "A state space framework for automatic forecasting using exponential smoothing methods",
-    author = "Hyndman, R.J. and Koehler, A.B. and Snyder, R.D. and Grose, S.",
+    author = "Rob J Hyndman and Anne B Koehler and Ralph D Snyder and Simone Grose",
     journal = "International Journal of Forecasting",
     volume = "18",
     number = "3",
@@ -78,7 +78,7 @@ bibentries = c(
   hyndman2008admissible = bibentry(
     "article",
     title = "The admissible parameter space for exponential smoothing models",
-    author = "Hyndman, R.J. and Akram, Md. and Archibald, B.",
+    author = "Rob J Hyndman and Muhammad Akram and Blyth Archibald",
     journal = "Annals of the Institute of Statistical Mathematics",
     volume = "60",
     number = "2",
@@ -88,7 +88,7 @@ bibentries = c(
   hyndman2008smoothing = bibentry(
     "book",
     title = "Forecasting with exponential smoothing: the state space approach",
-    author = "Hyndman, R.J. and Koehler, A.B. and Ord, J.K. and Snyder, R.D.",
+    author = "Rob J Hyndman and Anne B Koehler and J Keith Ord and Ralph D Snyder",
     publisher = "Springer-Verlag",
     year = "2008",
     url = "http://www.exponentialsmoothing.net"
@@ -96,7 +96,7 @@ bibentries = c(
   livera2011complex = bibentry(
     "article",
     title = "Forecasting time series with complex seasonal patterns using exponential smoothing",
-    author = "De Livera, A.M. and Hyndman, R.J. and Snyder, R.D.",
+    author = "Alysha M De Livera and Rob J Hyndman and Ralph D Snyder",
     journal = "Journal of the American Statistical Association",
     volume = "106",
     number = "496",
@@ -106,7 +106,7 @@ bibentries = c(
   blaskowitz2011directional = bibentry(
     "article",
     title = "On economic evaluation of directional forecasts",
-    author = "Blaskowitz, Oliver and Herwartz, Helmut",
+    author = "Oliver Blaskowitz and Helmut Herwartz",
     journal = "International Journal of Forecasting",
     volume = "27",
     number = "4",
@@ -116,7 +116,7 @@ bibentries = c(
   box1976 = bibentry(
     "book",
     title = "Time Series Analysis: Forecasting and Control",
-    author = "Box, G. E. P. and Jenkins, G. M.",
+    author = "George E P Box and Gwilym M Jenkins",
     edition = "Revised",
     publisher = "Holden-Day",
     address = "San Francisco",
@@ -125,7 +125,7 @@ bibentries = c(
   brockwell1991 = bibentry(
     "book",
     title = "Time Series: Theory and Methods",
-    author = "Brockwell, P. J. and Davis, R. A.",
+    author = "Peter J Brockwell and Richard A Davis",
     edition = "2nd",
     publisher = "Springer",
     address = "New York",
@@ -134,7 +134,7 @@ bibentries = c(
   becker1988news = bibentry(
     "book",
     title = "The New S Language",
-    author = "Becker, R. A. and Chambers, J. M. and Wilks, A. R.",
+    author = "Richard A Becker and John M Chambers and Allan R Wilks",
     publisher = "Chapman and Hall/CRC",
     address = "London",
     year = "1988"
@@ -142,7 +142,7 @@ bibentries = c(
   campbell1977lynx = bibentry(
     "article",
     title = "A Survey of Statistical Work on the Mackenzie River Series of Annual Canadian Lynx Trappings for the Years 1821-1934 and a New Analysis",
-    author = "Campbell, M. J. and Walker, A. M.",
+    author = "M J Campbell and A M Walker",
     journal = "Journal of the Royal Statistical Society. Series A (General)",
     volume = "140",
     number = "4",
@@ -153,7 +153,7 @@ bibentries = c(
   kourentzes2014neural = bibentry(
     "article",
     title = "Neural network ensemble operators for time series forecasting",
-    author = "Kourentzes, Nikolaos and Barrow, Devon K. and Crone, Sven F.",
+    author = "Nikolaos Kourentzes and Devon K. Barrow and Sven F. Crone",
     journal = "Expert Systems with Applications",
     volume = "41",
     number = "9",
@@ -167,13 +167,13 @@ bibentries = c(
     year = "1996",
     month = "jan",
     publisher = "Cambridge University Press",
-    author = "Ripley, Brian D",
+    author = "Brian D Ripley",
     title = "Pattern Recognition and Neural Networks"
   ),
   svetunkov2023smooth = bibentry(
     "misc",
     title = "Smooth forecasting with the smooth package in R",
-    author = "Svetunkov, Ivan",
+    author = "Ivan Svetunkov",
     year = "2023",
     eprint = "2301.01790",
     archivePrefix = "arXiv",
@@ -183,7 +183,7 @@ bibentries = c(
   svetunkov2023adam = bibentry(
     "book",
     title = "Forecasting and Analytics with the Augmented Dynamic Adaptive Model (ADAM)",
-    author = "Svetunkov, Ivan",
+    author = "Ivan Svetunkov",
     edition = "1st",
     publisher = "Chapman and Hall/CRC",
     year = "2023",
@@ -193,14 +193,14 @@ bibentries = c(
   godahewa2021monash = bibentry(
     "article",
     title = "Monash time series forecasting archive",
-    author = "Godahewa, Rakshitha and Bergmeir, Christoph and Webb, Geoffrey I and Hyndman, Rob J and Montero-Manso, Pablo",
+    author = "Rakshitha Godahewa and Christoph Bergmeir and Geoffrey I Webb and Rob J Hyndman and Pablo Montero-Manso",
     journal = "arXiv preprint arXiv:2105.06643",
     year = "2021"
   ),
   croston1972forecasting = bibentry(
     "article",
     title = "Forecasting and stock control for intermittent demands",
-    author = "Croston, John D",
+    author = "John D Croston",
     journal = "Journal of the Operational Research Society",
     volume = "23",
     number = "3",
@@ -211,7 +211,7 @@ bibentries = c(
   shale2006forecasting = bibentry(
     "article",
     title = "Forecasting for intermittent demand: the estimation of an unbiased average",
-    author = "Shale, Estelle A and Boylan, John E and Johnston, FR",
+    author = "Estelle A Shale and John E Boylan and FR Johnston",
     journal = "Journal of the Operational Research Society",
     volume = "57",
     number = "5",
@@ -222,7 +222,7 @@ bibentries = c(
   shenstone2005stochastic = bibentry(
     "article",
     title = "Stochastic models underlying Croston's method for intermittent demand forecasting",
-    author = "Shenstone, Lydia and Hyndman, Rob J",
+    author = "Lydia Shenstone and Rob J Hyndman",
     journal = "Journal of Forecasting",
     volume = "24",
     number = "6",
@@ -233,7 +233,7 @@ bibentries = c(
   syntetos2001bias = bibentry(
     "article",
     title = "On the bias of intermittent demand estimates",
-    author = "Syntetos, Aris A and Boylan, John E",
+    author = "Aris A Syntetos and John E Boylan",
     journal = "International Journal of Production Economics",
     volume = "71",
     number = "1-3",
@@ -244,7 +244,7 @@ bibentries = c(
   assimakopoulos2000theta = bibentry(
     "article",
     title = "The theta model: a decomposition approach to forecasting",
-    author = "Assimakopoulos, Vassilis and Nikolopoulos, Konstantinos",
+    author = "Vassilis Assimakopoulos and Konstantinos Nikolopoulos",
     journal = "International Journal of Forecasting",
     volume = "16",
     number = "4",
@@ -255,7 +255,7 @@ bibentries = c(
   hyndman2003unmasking = bibentry(
     "article",
     title = "Unmasking the Theta method",
-    author = "Hyndman, Rob J and Billah, Baki",
+    author = "Rob J Hyndman and Baki Billah",
     journal = "International Journal of Forecasting",
     volume = "19",
     number = "2",
@@ -266,7 +266,7 @@ bibentries = c(
   hyndman2005local = bibentry(
     "article",
     title = "Local linear forecasts using cubic smoothing splines",
-    author = "Hyndman, Rob J and King, Maxwell L and Pitrun, Ivet and Billah, Baki",
+    author = "Rob J Hyndman and Maxwell L King and Ivet Pitrun and Baki Billah",
     journal = "Australian & New Zealand Journal of Statistics",
     volume = "47",
     number = "1",
@@ -277,7 +277,7 @@ bibentries = c(
   hyndman2006another = bibentry(
     "article",
     title = "Another look at measures of forecast accuracy",
-    author = "Hyndman, Rob J and Koehler, Anne B",
+    author = "Rob J Hyndman and Anne B Koehler",
     journal = "International Journal of Forecasting",
     volume = "22",
     number = "4",
@@ -288,7 +288,7 @@ bibentries = c(
   winkler1972scoring = bibentry(
     "article",
     title = "A Decision-Theoretic Approach to Interval Estimation",
-    author = "Winkler, Robert L",
+    author = "Robert L Winkler",
     journal = "Journal of the American Statistical Association",
     volume = "67",
     number = "337",
@@ -299,7 +299,7 @@ bibentries = c(
   makridakis2020m4 = bibentry(
     "article",
     title = "The M4 Competition: 100,000 time series and 61 forecasting methods",
-    author = "Makridakis, Spyros and Spiliotis, Evangelos and Assimakopoulos, Vassilios",
+    author = "Spyros Makridakis and Evangelos Spiliotis and Vassilios Assimakopoulos",
     journal = "International Journal of Forecasting",
     volume = "36",
     number = "1",
@@ -310,7 +310,7 @@ bibentries = c(
   gneiting2007scoring = bibentry(
     "article",
     title = "Strictly Proper Scoring Rules, Prediction, and Estimation",
-    author = "Gneiting, Tilmann and Raftery, Adrian E",
+    author = "Tilmann Gneiting and Adrian E Raftery",
     journal = "Journal of the American Statistical Association",
     volume = "102",
     number = "477",
@@ -321,7 +321,7 @@ bibentries = c(
   koenker1978regression = bibentry(
     "article",
     title = "Regression Quantiles",
-    author = "Koenker, Roger and Bassett, Gilbert",
+    author = "Roger Koenker and Gilbert Bassett",
     journal = "Econometrica",
     volume = "46",
     number = "1",
@@ -332,7 +332,7 @@ bibentries = c(
   liboschik2017tscount = bibentry(
     "article",
     title = "tscount: An R Package for Analysis of Count Time Series Following Generalized Linear Models",
-    author = "Liboschik, Tobias and Fokianos, Konstantinos and Fried, Roland",
+    author = "Tobias Liboschik and Konstantinos Fokianos and Roland Fried",
     journal = "Journal of Statistical Software",
     volume = "82",
     number = "5",
@@ -343,7 +343,7 @@ bibentries = c(
   taylor2018forecasting = bibentry(
     "article",
     title = "Forecasting at Scale",
-    author = "Taylor, Sean J. and Letham, Benjamin",
+    author = "Sean J. Taylor and Benjamin Letham",
     journal = "The American Statistician",
     volume = "72",
     number = "1",
@@ -355,7 +355,7 @@ bibentries = c(
   cleveland1990stl = bibentry(
     "article",
     title = "STL: A Seasonal-Trend Decomposition Procedure Based on Loess",
-    author = "Cleveland, Robert B. and Cleveland, William S. and McRae, Jean E. and Terpenning, Irma",
+    author = "Robert B. Cleveland and William S. Cleveland and Jean E. McRae and Irma Terpenning",
     journal = "Journal of Official Statistics",
     volume = "6",
     number = "1",
@@ -365,7 +365,7 @@ bibentries = c(
   harvey1989forecasting = bibentry(
     "book",
     title = "Forecasting, Structural Time Series Models and the Kalman Filter",
-    author = "Harvey, Andrew C.",
+    author = "Andrew C. Harvey",
     year = "1989",
     publisher = "Cambridge University Press",
     address = "Cambridge"
@@ -373,7 +373,7 @@ bibentries = c(
   bergmeir2016bagging = bibentry(
     "article",
     title = "Bagging exponential smoothing methods using STL decomposition and Box-Cox transformation",
-    author = "Bergmeir, Christoph and Hyndman, Rob J and Ben\u00edtez, Jos\u00e9 M",
+    author = "Christoph Bergmeir and Rob J Hyndman and Jos\u00e9 M Ben\u00edtez",
     journal = "International Journal of Forecasting",
     volume = "32",
     number = "2",
@@ -385,7 +385,7 @@ bibentries = c(
   holt2004forecasting = bibentry(
     "article",
     title = "Forecasting seasonals and trends by exponentially weighted moving averages",
-    author = "Holt, Charles C.",
+    author = "Charles C. Holt",
     journal = "International Journal of Forecasting",
     volume = "20",
     number = "1",
@@ -397,7 +397,7 @@ bibentries = c(
   winters1960forecasting = bibentry(
     "article",
     title = "Forecasting Sales by Exponentially Weighted Moving Averages",
-    author = "Winters, Peter R.",
+    author = "Peter R. Winters",
     journal = "Management Science",
     volume = "6",
     number = "3",
@@ -408,7 +408,7 @@ bibentries = c(
   smyl2025rlgt = bibentry(
     "manual",
     title = "Rlgt: Bayesian Exponential Smoothing Models with Trend Modifications",
-    author = "Smyl, Slawek and Bergmeir, Christoph and Wibowo, Erwin and Ng, To Wang and Long, Xueying and Dokumentov, Alexander and Schmidt, Daniel",
+    author = "Slawek Smyl and Christoph Bergmeir and Erwin Wibowo and To Wang Ng and Xueying Long and Alexander Dokumentov and Daniel Schmidt",
     year = "2025",
     note = "R package version 0.2-3",
     url = "https://github.com/cbergmeir/Rlgt"

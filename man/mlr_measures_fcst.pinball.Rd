@@ -61,7 +61,7 @@ Empty ParamSet
 }
 
 \references{
-Koenker, Roger, Bassett, Gilbert (1978).
+Koenker R, Bassett G (1978).
 \dQuote{Regression Quantiles.}
 \emph{Econometrica}, \bold{46}(1), 33--50.
 }

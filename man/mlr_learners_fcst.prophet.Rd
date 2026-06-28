@@ -77,7 +77,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Taylor, J. S, Letham, Benjamin (2018).
+Taylor SJ, Letham B (2018).
 \dQuote{Forecasting at Scale.}
 \emph{The American Statistician}, \bold{72}(1), 37--45.
 \doi{10.1080/00031305.2017.1380080}.

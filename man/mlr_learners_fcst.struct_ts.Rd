@@ -72,7 +72,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Harvey, C. A (1989).
+Harvey AC (1989).
 \emph{Forecasting, Structural Time Series Models and the Kalman Filter}.
 Cambridge University Press, Cambridge.
 }

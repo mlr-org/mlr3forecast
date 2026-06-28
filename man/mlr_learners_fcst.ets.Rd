@@ -82,15 +82,15 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Hyndman, R.J., Koehler, A.B., Snyder, R.D., Grose, S. (2002).
+Hyndman RJ, Koehler AB, Snyder RD, Grose S (2002).
 \dQuote{A state space framework for automatic forecasting using exponential smoothing methods.}
 \emph{International Journal of Forecasting}, \bold{18}(3), 439--454.
 
-Hyndman, R.J., Akram, Md., Archibald, B. (2008).
+Hyndman RJ, Akram M, Archibald B (2008).
 \dQuote{The admissible parameter space for exponential smoothing models.}
 \emph{Annals of the Institute of Statistical Mathematics}, \bold{60}(2), 407--426.
 
-Hyndman, R.J., Koehler, A.B., Ord, J.K., Snyder, R.D. (2008).
+Hyndman RJ, Koehler AB, Ord JK, Snyder RD (2008).
 \emph{Forecasting with exponential smoothing: the state space approach}.
 Springer-Verlag.
 \url{http://www.exponentialsmoothing.net}.

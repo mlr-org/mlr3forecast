@@ -68,7 +68,7 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
-Hyndman, J R, King, L M, Pitrun, Ivet, Billah, Baki (2005).
+Hyndman RJ, King ML, Pitrun I, Billah B (2005).
 \dQuote{Local linear forecasts using cubic smoothing splines.}
 \emph{Australian & New Zealand Journal of Statistics}, \bold{47}(1), 87--99.
 }

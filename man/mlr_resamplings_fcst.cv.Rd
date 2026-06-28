@@ -52,11 +52,11 @@ intersect(cv$train_set(1), cv$test_set(1))
 cv$instance #  list
 }
 \references{
-Tashman, J L (2000).
+Tashman LJ (2000).
 \dQuote{Out-of-sample tests of forecasting accuracy: an analysis and review.}
 \emph{International Journal of Forecasting}, \bold{16}(4), 437--450.
 
-Bergmeir, Christoph, Hyndman, J R, Koo, Bonsoo (2018).
+Bergmeir C, Hyndman RJ, Koo B (2018).
 \dQuote{A note on the validity of cross-validation for evaluating autoregressive time series prediction.}
 \emph{Computational Statistics & Data Analysis}, \bold{120}, 70--83.
 }
