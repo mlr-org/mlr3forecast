@@ -5,7 +5,7 @@ infer_freq = function(order) {
   if (!inherits(order, c("Date", "POSIXct", "POSIXlt"))) {
     return(stats::median(diff(sort(order))))
   }
-  secs = max(round(as.numeric(stats::median(diff(as.POSIXct(order))), units = "secs")), 1)
+  secs = max(round(as.numeric(stats::median(diff(order)), units = "secs")), 1)
   if (secs == 604800) {
     "week"
   } else if (secs >= 2419200) {
