@@ -411,8 +411,7 @@ marshal_model.direct_forecaster_model = function(model, inplace = FALSE, ...) {
       class = c(paste0(class(model), "_marshaled"), "marshaled")
     ))
   }
-  # inplace = FALSE: clone each learner without its model so the deep clone is cheap,
-  # then attach the marshaled model to the clone. Restore the original on exit.
+  # we clone the learner without its model
   marshaled_models = map(model$models, function(m) {
     learner_model = m$model
     on.exit(
