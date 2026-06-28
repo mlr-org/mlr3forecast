@@ -71,6 +71,11 @@ read_tsf = function(file) {
   date_col = metadata["date", "name", on = "type"][[1L]]
   has_freq = length(freq) > 0L
   has_date = !is.na(date_col)
+
+  if (has_date && !has_freq) {
+    stopf("Frequency is missing: a 'date' attribute requires a @frequency.")
+  }
+
   if (has_freq) {
     if (freq %nin% names(tsf_frequencies)) {
       stopf("Invalid frequency %s, must be one of %s", freq, str_collapse(names(tsf_frequencies), quote = "'"))
