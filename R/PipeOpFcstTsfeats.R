@@ -117,7 +117,7 @@ PipeOpFcstTsfeats = R6Class(
         keys = task$data(cols = key_cols)
         unseen = unique(keys)[!feats, on = key_cols]
         if (nrow(unseen) > 0L) {
-          labels = do.call(paste, c(unseen, list(sep = ":")))
+          labels = key_labels(unseen)
           error_input("Key group(s) %s were not seen during training.", str_collapse(labels, quote = "'"))
         }
         joined = feats[keys, on = key_cols]

@@ -160,6 +160,10 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   mean(scores, na.rm = TRUE)
 }
 
+key_labels = function(dt, cols = names(dt)) {
+  do.call(paste, c(dt[, cols, with = FALSE], sep = ":"))
+}
+
 fcst_drop_incomplete = function(dt, feat_cols, key_cols) {
   kept = stats::na.omit(dt, cols = feat_cols)
   if (nrow(kept) == 0L) {
@@ -168,7 +172,7 @@ fcst_drop_incomplete = function(dt, feat_cols, key_cols) {
   if (length(key_cols) > 0L && nrow(kept) < nrow(dt)) {
     dropped = unique(dt[, key_cols, with = FALSE])[!kept, on = key_cols]
     if (nrow(dropped) > 0L) {
-      labels = do.call(paste, c(dropped, list(sep = ":")))
+      labels = key_labels(dropped)
       warning_input(
         "Dropped %i series too short for the requested lags/windows: %s.",
         nrow(dropped),
