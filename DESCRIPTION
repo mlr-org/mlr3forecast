@@ -6,7 +6,7 @@ Authors@R: c(
            comment = c(ORCID = "0009-0000-9432-9795")),
     person("Marc", "Becker", , "marcbecker@posteo.de", role = "aut",
            comment = c(ORCID = "0000-0002-8115-0400")),
-    person("Bernd", "Bischl", , "bernd.bischl@gmail.c", role = "aut",
+    person("Bernd", "Bischl", , "bernd.bischl@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-6002-6980"))
   )
 Description: Extends the 'mlr3' ecosystem to time series forecasting.
@@ -63,7 +63,6 @@ Config/roxygen2/version: 8.0.0
 Config/testthat/edition: 3
 Config/testthat/parallel: true
 Encoding: UTF-8
-LazyData: true
 Collate:
     'DirectForecaster.R'
     'LearnerFcst.R'
