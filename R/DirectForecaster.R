@@ -240,7 +240,7 @@ DirectForecaster = R6::R6Class(
         glrn$train(task)
       })
 
-      # Store per-key origin and freq so predict can recover each row's step-distance.
+      # per-key origin and freq let predict recover each row's step-distance
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
       dt = task$data(cols = c(order_cols, key_cols))
@@ -251,9 +251,7 @@ DirectForecaster = R6::R6Class(
         max(dt[[order_cols]])
       }
 
-      # Store the last max(lags) training rows per key: model h uses offset lags h:(h+p-1),
-      # so a row at step h only ever looks back into these rows. Predict rebuilds its backend
-      # from this tail, making predict_newdata()/forecast() work without the training backend.
+      # last max(lags) rows per key hold all the history predict's lag features can reach
       cols = unique(c(task$target_names, task$feature_names, key_cols, order_cols))
       tail_dt = task$data(cols = cols)
       setorderv(tail_dt, c(key_cols, order_cols))
@@ -288,7 +286,7 @@ DirectForecaster = R6::R6Class(
 
       ord = task$data(cols = c(key_cols, order_cols))
 
-      # A row's step is its position on the future grid `seq_order(origin, freq, max_h)`.
+      # a row's step is its position on the future grid seq_order(origin, freq, max_h)
       if (length(key_cols) > 0L) {
         ord = origin[ord, on = key_cols]
         ord[,
@@ -319,10 +317,8 @@ DirectForecaster = R6::R6Class(
       test_cols = unique(c(target, intersect(feature_names, task$feature_names), key_cols, order_cols))
       test_data = task$data(cols = test_cols)
 
-      # Rebuild the predict backend as training tail + full future-grid skeleton with the test
-      # rows overlaid, so lag features come from training values even when the task's backend
-      # lacks history (predict_newdata()/forecast()) and positional shifts equal true step
-      # distance even for sparse test rows.
+      # rebuild the backend as training tail + future-grid skeleton with test rows overlaid, so
+      # lags resolve from training history and positional shifts equal true step distance
       if (length(key_cols) > 0L) {
         skeleton = ord[,
           set_names(list(seq_order(get(".origin")[1L], freq, max(get(".step")))), order_cols),
@@ -358,16 +354,14 @@ DirectForecaster = R6::R6Class(
 
     .predict_horizons = function(task, models, row_ids, horizon_idx) {
       task = task$clone()
-      # One predict() per horizon model: all rows routed to the same model are predicted in a
-      # single batch instead of row-by-row.
+      # one batched predict() per horizon model instead of row-by-row
       preds = map(unique(horizon_idx), function(h) {
         task$row_roles$use = row_ids[horizon_idx == h]
         models[[h]]$predict(task)
       })
       combined = do.call(c, preds)
-      # The batches above are concatenated in model order, so restore the input `row_ids` order
-      # to keep the prediction aligned with the caller's row layout. Mutate in place to preserve
-      # the PredictionData class on `$data`.
+      # batches come back in model order; restore the caller's row_ids order, mutating in place
+      # to keep the PredictionData class on $data
       data = combined$data
       ord = match(row_ids, data$row_ids)
       for (nm in names(data)) {

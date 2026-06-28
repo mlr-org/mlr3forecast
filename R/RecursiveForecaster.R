@@ -263,15 +263,12 @@ RecursiveForecaster = R6::R6Class(
       test_cols = unique(c(target, intersect(self$model$feature_names, task$feature_names), key_cols, order_cols))
       test_data = task$data(cols = test_cols)
 
-      # Drop training rows whose (key, order) overlap with the test set so the combined
-      # backend has unique (key, order) — otherwise the lag/rolling joins return >1 row
-      # per active row and downstream cbind/backend construction fails.
+      # drop training rows overlapping the test set so the combined backend has unique (key, order),
+      # else lag/rolling joins return >1 row per active row
       join_cols = c(key_cols, order_cols)
       train_data = train_data[!test_data, on = join_cols]
 
-      # Each key's test rows must form the gap-free future grid continuing the remaining
-      # training rows, otherwise positional lag/rolling shifts would not equal true step
-      # distance (e.g. a gap after the training end would silently shrink "lag 1").
+      # test rows must form the gap-free future grid so positional shifts equal true step distance
       freq = self$model$freq %??% infer_freq(sort(unique(train_data[[order_cols]])))
       if (length(key_cols) > 0L) {
         origin = train_data[, list(.origin = max(get(order_cols))), by = key_cols]
@@ -327,8 +324,7 @@ RecursiveForecaster = R6::R6Class(
         key = key_cols,
         freq = self$model$freq
       )
-      # Preserve the feature col_roles from training so PipeOpTaskPreproc's layout
-      # check passes (e.g., when the order column was also marked as a feature).
+      # preserve training feature col_roles so PipeOpTaskPreproc's layout check passes
       step_task$col_roles$feature = intersect(self$model$feature_names, names(combined))
 
       ord = combined[test_cids, c(key_cols, order_cols, "..row_id"), with = FALSE]
