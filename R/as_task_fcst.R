@@ -116,8 +116,10 @@ as_task_fcst.data.frame = function(
     error_input("Order column '%s' must not contain missing values", order)
   }
 
+  x = setorderv(as.data.table(x), c(key, order))
+
   dup = if (has_key) {
-    anyDuplicated(as.data.table(x), by = c(key, order)) > 0L
+    anyDuplicated(x, by = c(key, order)) > 0L
   } else {
     anyDuplicated(x[[order]]) > 0L
   }
