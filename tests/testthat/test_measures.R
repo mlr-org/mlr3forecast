@@ -320,8 +320,8 @@ test_that("measures match fabletools reference implementation", {
   probs = c(0.1, 0.5, 0.9)
   qmat = vapply(probs, function(p) unname(quantile(d, p)), numeric(length(truth)))
   colnames(qmat) = sprintf("q%s", probs)
-  data.table::setattr(qmat, "probs", probs)
-  data.table::setattr(qmat, "response", 0.5)
+  setattr(qmat, "probs", probs)
+  setattr(qmat, "response", 0.5)
   pred_pinball = PredictionRegr$new(
     truth = truth,
     response = response,
@@ -378,7 +378,7 @@ test_that("fcst.msis matches greybox::sMIS reference", {
   lower = response - 25
   upper = response + 30
   qmat = cbind(lower, upper)
-  data.table::setattr(qmat, "probs", c(0.025, 0.975))
+  setattr(qmat, "probs", c(0.025, 0.975))
   pred = PredictionRegr$new(truth = truth, response = response, quantiles = qmat, row_ids = test_ids)
 
   for (m in c(1L, 12L)) {
@@ -413,7 +413,7 @@ test_that("fcst.msis on a keyed task averages per-series scaled scores", {
   lower = response - 20
   upper = response + 22
   qmat = cbind(lower, upper)
-  data.table::setattr(qmat, "probs", c(0.025, 0.975))
+  setattr(qmat, "probs", c(0.025, 0.975))
   pred = PredictionRegr$new(truth = truth, response = response, quantiles = qmat, row_ids = test_ids)
 
   test_key = task$data(rows = test_ids, cols = "id")[[1L]]
