@@ -5,13 +5,11 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Forecast from a Trained Learner — forecast.Learner"><meta name="description" content="Generates h future rows from the task's skeleton (using generate_newdata()), optionally
-overlays user-supplied newdata onto those rows, and predicts with the trained learner via
-mlr3::Learner$predict_newdata(). Works with RecursiveForecaster, DirectForecaster,
-and classic LearnerFcst* forecasters."><meta property="og:description" content="Generates h future rows from the task's skeleton (using generate_newdata()), optionally
-overlays user-supplied newdata onto those rows, and predicts with the trained learner via
-mlr3::Learner$predict_newdata(). Works with RecursiveForecaster, DirectForecaster,
-and classic LearnerFcst* forecasters."></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Forecast from a Trained Learner — forecast.Learner"><meta name="description" content="Generates h future rows from the task's skeleton (using generate_newdata()), optionally overlays user-supplied
+newdata onto those rows, and predicts with the trained learner via mlr3::Learner$predict_newdata(). Works with
+RecursiveForecaster, DirectForecaster, and classic LearnerFcst* forecasters."><meta property="og:description" content="Generates h future rows from the task's skeleton (using generate_newdata()), optionally overlays user-supplied
+newdata onto those rows, and predicts with the trained learner via mlr3::Learner$predict_newdata(). Works with
+RecursiveForecaster, DirectForecaster, and classic LearnerFcst* forecasters."></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -56,10 +54,9 @@ and classic LearnerFcst* forecasters."></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>Generates <code>h</code> future rows from the task's skeleton (using <code><a href="generate_newdata.html">generate_newdata()</a></code>), optionally
-overlays user-supplied <code>newdata</code> onto those rows, and predicts with the trained learner via
-<a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a><code>$predict_newdata()</code>. Works with <a href="RecursiveForecaster.html">RecursiveForecaster</a>, <a href="DirectForecaster.html">DirectForecaster</a>,
-and classic <code>LearnerFcst*</code> forecasters.</p>
+    <p>Generates <code>h</code> future rows from the task's skeleton (using <code><a href="generate_newdata.html">generate_newdata()</a></code>), optionally overlays user-supplied
+<code>newdata</code> onto those rows, and predicts with the trained learner via <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a><code>$predict_newdata()</code>. Works with
+<a href="RecursiveForecaster.html">RecursiveForecaster</a>, <a href="DirectForecaster.html">DirectForecaster</a>, and classic <code>LearnerFcst*</code> forecasters.</p>
     </div>
 
     <div class="section level2">
@@ -79,10 +76,9 @@ A trained forecast learner.</p></dd>
 
 <dt id="arg-task">task<a class="anchor" aria-label="anchor" href="#arg-task"></a></dt>
 <dd><p>(<a href="TaskFcst.html">TaskFcst</a>)<br>
-Provides the metadata needed to construct future rows: the order column (to extend the time
-index), key columns (for keyed tasks), <code>freq</code>, and the column-type schema expected by
-<code>predict_newdata()</code>. The task's data values are not used. Pass the training task or any other
-schema-compatible <a href="TaskFcst.html">TaskFcst</a>.</p></dd>
+Provides the metadata needed to construct future rows: the order column (to extend the time index), key columns
+(for keyed tasks), <code>freq</code>, and the column-type schema expected by <code>predict_newdata()</code>. The task's data values are
+not used. Pass the training task or any other schema-compatible <a href="TaskFcst.html">TaskFcst</a>.</p></dd>
 
 
 <dt id="arg-h">h<a class="anchor" aria-label="anchor" href="#arg-h"></a></dt>

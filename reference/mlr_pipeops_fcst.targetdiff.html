@@ -74,12 +74,11 @@ Lag to difference at. Default <code>1L</code>.</p></li>
     <h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a></h2>
 
 
-<p>This PipeOp must not be placed <em>inside</em> a <a href="RecursiveForecaster.html">RecursiveForecaster</a> or <a href="DirectForecaster.html">DirectForecaster</a> graph and is
-rejected at construction. Inside <a href="RecursiveForecaster.html">RecursiveForecaster</a>, the trafo only transforms the active row at
-predict time while iterative features (lags, rolling windows) need transformed values for all
-historical rows. Inside <a href="DirectForecaster.html">DirectForecaster</a>, each horizon is inverted independently against the
-training tail, which is wrong for horizons &gt;= 2. Use inside a plain <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a>
-via <code>ppl("targettrafo", ...)</code> for batch prediction, or wrap the forecaster itself with
+<p>This PipeOp must not be placed <em>inside</em> a <a href="RecursiveForecaster.html">RecursiveForecaster</a> or <a href="DirectForecaster.html">DirectForecaster</a> graph and is rejected at
+construction. Inside <a href="RecursiveForecaster.html">RecursiveForecaster</a>, the trafo only transforms the active row at predict time while iterative
+features (lags, rolling windows) need transformed values for all historical rows. Inside <a href="DirectForecaster.html">DirectForecaster</a>, each
+horizon is inverted independently against the training tail, which is wrong for horizons &gt;= 2. Use inside a plain
+<a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a> via <code>ppl("targettrafo", ...)</code> for batch prediction, or wrap the forecaster itself with
 <code>ppl("targettrafo", ...)</code> so all horizons are inverted together.</p>
     </div>
     <div class="section level2">

@@ -5,13 +5,11 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Forecast Task — TaskFcst"><meta name="description" content='This task specializes mlr3::Task, mlr3::TaskSupervised and mlr3::TaskRegr for forecasting problems.
-The target column is assumed to be numeric.
-The task_type is set to "fcst".
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Forecast Task — TaskFcst"><meta name="description" content='This task specializes mlr3::Task, mlr3::TaskSupervised and mlr3::TaskRegr for forecasting problems. The target
+column is assumed to be numeric. The task_type is set to "fcst".
 It is recommended to use as_task_fcst() for construction.
-Predefined tasks are stored in the dictionary mlr3::mlr_tasks.'><meta property="og:description" content='This task specializes mlr3::Task, mlr3::TaskSupervised and mlr3::TaskRegr for forecasting problems.
-The target column is assumed to be numeric.
-The task_type is set to "fcst".
+Predefined tasks are stored in the dictionary mlr3::mlr_tasks.'><meta property="og:description" content='This task specializes mlr3::Task, mlr3::TaskSupervised and mlr3::TaskRegr for forecasting problems. The target
+column is assumed to be numeric. The task_type is set to "fcst".
 It is recommended to use as_task_fcst() for construction.
 Predefined tasks are stored in the dictionary mlr3::mlr_tasks.'></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -58,9 +56,8 @@ Predefined tasks are stored in the dictionary mlr3::mlr_tasks.'></head><body>
     </div>
 
     <div class="ref-description section level2">
-    <p>This task specializes <a href="https://mlr3.mlr-org.com/reference/Task.html" class="external-link">mlr3::Task</a>, <a href="https://mlr3.mlr-org.com/reference/TaskSupervised.html" class="external-link">mlr3::TaskSupervised</a> and <a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">mlr3::TaskRegr</a> for forecasting problems.
-The target column is assumed to be numeric.
-The <code>task_type</code> is set to <code>"fcst"</code>.</p>
+    <p>This task specializes <a href="https://mlr3.mlr-org.com/reference/Task.html" class="external-link">mlr3::Task</a>, <a href="https://mlr3.mlr-org.com/reference/TaskSupervised.html" class="external-link">mlr3::TaskSupervised</a> and <a href="https://mlr3.mlr-org.com/reference/TaskRegr.html" class="external-link">mlr3::TaskRegr</a> for forecasting problems. The target
+column is assumed to be numeric. The <code>task_type</code> is set to <code>"fcst"</code>.</p>
 <p>It is recommended to use <code><a href="as_task_fcst.html">as_task_fcst()</a></code> for construction.
 Predefined tasks are stored in the <a href="https://mlr3misc.mlr-org.com/reference/Dictionary.html" class="external-link">dictionary</a> <a href="https://mlr3.mlr-org.com/reference/mlr_tasks.html" class="external-link">mlr3::mlr_tasks</a>.</p>
     </div>
@@ -70,18 +67,16 @@ Predefined tasks are stored in the <a href="https://mlr3misc.mlr-org.com/referen
     <h2 id="series-identity-and-keys">Series identity and keys<a class="anchor" aria-label="anchor" href="#series-identity-and-keys"></a></h2>
 
 
-<p>A task may have one or more <code>key</code> columns. Together they identify each series, where identity is
-the combination of the keys. The key role drives all per-series operations. Target lags and
-rolling windows (<a href="mlr_pipeops_fcst.lags.html">PipeOpFcstLags</a>, <a href="mlr_pipeops_fcst.rolling.html">PipeOpFcstRolling</a>) are computed within each series, and the
-future forecast grid is built per series.</p>
-<p>Key columns are <strong>also</strong> features by default, which is usually what you want. Keys such as
-<code>region</code> or <code>product</code> are meaningful categorical covariates, and exposing them lets a global model
-specialize per series. For a high-cardinality key, such as an arbitrary series id with many
-levels, passing the raw factor to the learner can overfit or fail for learners that need encoding.
-Encode it inside the learner graph instead, e.g. with <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_encodeimpact.html" class="external-link">mlr3pipelines::PipeOpEncodeImpact</a>
-(<code>po("encodeimpact")</code>) or a shrinkage encoder such as <code>po("encodelmer")</code>. Both compose into the
-<a href="RecursiveForecaster.html">RecursiveForecaster</a> and <a href="DirectForecaster.html">DirectForecaster</a> graphs. Drop a key's feature role only when it
-carries no signal beyond identifying the series. The key role, and thus grouping, is kept:</p>
+<p>A task may have one or more <code>key</code> columns. Together they identify each series, where identity is the combination of
+the keys. The key role drives all per-series operations. Target lags and rolling windows (<a href="mlr_pipeops_fcst.lags.html">PipeOpFcstLags</a>,
+<a href="mlr_pipeops_fcst.rolling.html">PipeOpFcstRolling</a>) are computed within each series, and the future forecast grid is built per series.</p>
+<p>Key columns are <strong>also</strong> features by default, which is usually what you want. Keys such as <code>region</code> or <code>product</code> are
+meaningful categorical covariates, and exposing them lets a global model specialize per series. For a
+high-cardinality key, such as an arbitrary series id with many levels, passing the raw factor to the learner can
+overfit or fail for learners that need encoding. Encode it inside the learner graph instead, e.g. with
+<a href="https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_encodeimpact.html" class="external-link">mlr3pipelines::PipeOpEncodeImpact</a> (<code>po("encodeimpact")</code>) or a shrinkage encoder such as <code>po("encodelmer")</code>. Both
+compose into the <a href="RecursiveForecaster.html">RecursiveForecaster</a> and <a href="DirectForecaster.html">DirectForecaster</a> graphs. Drop a key's feature role only when it carries
+no signal beyond identifying the series. The key role, and thus grouping, is kept:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">task</span><span class="op">$</span><span class="fu">set_col_roles</span><span class="op">(</span><span class="st">"series_id"</span>, remove_from <span class="op">=</span> <span class="st">"feature"</span><span class="op">)</span></span></code></pre><p></p></div>
     </div>
     <div class="section level2">
