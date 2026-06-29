@@ -68,7 +68,8 @@ test_that("RecursiveForecaster warns without iterative PipeOps", {
 })
 
 test_that("RecursiveForecaster does not truncate predictions fed back into integer targets", {
-  y = withr::with_seed(1, as.integer(round(100 + 10 * sin(seq_len(60) / 3) + rnorm(60, sd = 2))))
+  withr::local_seed(1)
+  y = as.integer(round(100 + 10 * sin(seq_len(60) / 3) + rnorm(60, sd = 2)))
   dates = seq(as.Date("2020-01-01"), by = "day", length.out = 60L)
   make_task = function(y) {
     TaskFcst$new("t", as_data_backend(data.table(y = y, date = dates)), target = "y", order = "date", freq = "day")

@@ -34,16 +34,15 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
   tasks[[1L]] = task
 
   # generate sanity task
-  data = withr::with_seed(100, {
-    dt = seq(from = as.Date("2020-01-01"), by = "day", length.out = 100L)
-    y = seq(from = -10L, to = 10L, length.out = 100L)
-    data.table(
-      dt = dt,
-      y = y,
-      x = y + rnorm(length(y), mean = 1),
-      unimportant = runif(length(y), min = 0, max = 1)
-    )
-  })
+  withr::local_seed(100)
+  dt = seq(from = as.Date("2020-01-01"), by = "day", length.out = 100L)
+  y = seq(from = -10L, to = 10L, length.out = 100L)
+  data = data.table(
+    dt = dt,
+    y = y,
+    x = y + rnorm(length(y), mean = 1),
+    unimportant = runif(length(y), min = 0, max = 1)
+  )
   tasks$sanity = TaskFcst$new("sanity", as_data_backend(data), target = "y", order = "dt")
   tasks$sanity_reordered = TaskFcst$new("sanity_reordered", as_data_backend(data), target = "y", order = "dt")
 
