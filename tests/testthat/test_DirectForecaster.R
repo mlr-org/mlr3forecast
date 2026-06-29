@@ -220,6 +220,21 @@ test_that("DirectForecaster batched predict aligns response and se with row orde
   expect_false(anyNA(pred$se))
 })
 
+test_that("DirectForecaster preserves quantiles probs attribute across horizons", {
+  task = tsk("airpassengers")
+  split = partition(task, ratio = 0.8)
+  base = lrn("regr.featureless", predict_type = "quantiles")
+  base$quantiles = c(0.1, 0.5, 0.9)
+  base$quantile_response = 0.5
+
+  flrn = DirectForecaster$new(base, lags = 1:3, horizons = length(split$test))
+  flrn$train(task, split$train)
+  pred = flrn$predict(task, split$test)
+
+  expect_equal(attr(pred$data$quantiles, "probs"), c(0.1, 0.5, 0.9))
+  expect_number(pred$score(msr("fcst.pinball")), finite = TRUE)
+})
+
 test_that("DirectForecaster clone has independent lags", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
   clone = learner$clone(deep = TRUE)

@@ -367,7 +367,8 @@ DirectForecaster = R6::R6Class(
       for (nm in names(data)) {
         x = data[[nm]]
         data[[nm]] = if (is.matrix(x)) {
-          x[ord, , drop = FALSE]
+          x[] = x[ord, , drop = FALSE]
+          x
         } else if (length(x) == length(ord)) {
           x[ord]
         } else {
