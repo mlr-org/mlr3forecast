@@ -81,7 +81,7 @@ MeasureMSIS = R6Class(
       ut = quantiles[, which(probs == upper_prob)]
       interval_score = (ut - lt) + (2 / alpha) * (pmax(lt - truth, 0) + pmax(truth - ut, 0))
 
-      train = task$data(rows = train_set, cols = task$target_names)[[1L]]
+      train = task$data(rows = train_set, cols = task$target_names, ordered = TRUE)[[1L]]
       scale = mean(abs(diff(train, lag = pv$period)), na.rm = TRUE)
       mean(interval_score, na.rm = TRUE) / scale
     }
