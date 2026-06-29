@@ -63,12 +63,13 @@ MeasureMDA = R6Class(
       private$.score_ungrouped(prediction, task, ...)
     },
 
-    .score_ungrouped = function(prediction, ...) {
+    .score_ungrouped = function(prediction, task, ...) {
       pv = self$param_set$get_values()
       penalty = pv$penalty
       reward = pv$reward
-      truth = prediction$truth
-      response = prediction$response
+      o = chrono_order(prediction, task)
+      truth = prediction$truth[o]
+      response = prediction$response[o]
 
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
@@ -135,9 +136,10 @@ MeasureMDV = R6Class(
       private$.score_ungrouped(prediction, task, ...)
     },
 
-    .score_ungrouped = function(prediction, ...) {
-      truth = prediction$truth
-      response = prediction$response
+    .score_ungrouped = function(prediction, task, ...) {
+      o = chrono_order(prediction, task)
+      truth = prediction$truth[o]
+      response = prediction$response[o]
 
       actual_change = diff(truth)
       actual_direction = sign(actual_change)
@@ -204,9 +206,10 @@ MeasureMDPV = R6Class(
       private$.score_ungrouped(prediction, task, ...)
     },
 
-    .score_ungrouped = function(prediction, ...) {
-      truth = prediction$truth
-      response = prediction$response
+    .score_ungrouped = function(prediction, task, ...) {
+      o = chrono_order(prediction, task)
+      truth = prediction$truth[o]
+      response = prediction$response[o]
 
       actual_change = diff(truth)
       actual_direction = sign(actual_change)

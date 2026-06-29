@@ -42,8 +42,9 @@ MeasureACF1 = R6Class(
       private$.score_ungrouped(prediction, task, ...)
     },
 
-    .score_ungrouped = function(prediction, ...) {
-      resid = prediction$truth - prediction$response
+    .score_ungrouped = function(prediction, task, ...) {
+      o = chrono_order(prediction, task)
+      resid = prediction$truth[o] - prediction$response[o]
       if (length(resid) <= 1L) {
         return(NA_real_)
       }

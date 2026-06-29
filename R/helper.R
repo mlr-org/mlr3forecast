@@ -138,6 +138,15 @@ strsplit1 = function(x, pattern) {
   strsplit(x, pattern, fixed = TRUE)[[1L]]
 }
 
+chrono_order = function(prediction, task) {
+  order_col = task$col_roles$order
+  if (length(order_col) == 0L) {
+    return(seq_along(prediction$row_ids))
+  }
+  order_vals = task$data(rows = prediction$row_ids, cols = order_col)[[1L]]
+  order(order_vals)
+}
+
 score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   key_cols = task$col_roles$key
   key_data = task$data(rows = prediction$row_ids, cols = key_cols)
