@@ -130,15 +130,16 @@ PipeOpFcstRolling = R6Class(
 
 fcst_rolls = function(x, spec) {
   rolls = list(mean = frollmean, median = frollmedian, sd = frollsd, min = frollmin, max = frollmax, sum = frollsum)
-  shifted = shift(x, n = spec$lag)
+  hist = head(x, max(length(x) - spec$lag, 0L))
+  pad = rep(NA_real_, length(x) - length(hist))
   map(seq_along(spec$fn), function(i) {
     f = rolls[[spec$fn[i]]]
-    if (is.infinite(spec$size[i])) {
-      out = f(shifted, n = seq_along(shifted), adaptive = TRUE, na.rm = TRUE)
-      replace(out, !is.finite(out), NA_real_)
+    out = if (is.infinite(spec$size[i])) {
+      f(hist, n = seq_along(hist), adaptive = TRUE)
     } else {
-      f(shifted, n = spec$size[i])
+      f(hist, n = spec$size[i])
     }
+    c(pad, out)
   })
 }
 
