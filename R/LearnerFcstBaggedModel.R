@@ -22,7 +22,7 @@
 #'
 #' @export
 #' @template seealso_learner
-#' @template example
+#' @template example_slow
 LearnerFcstBaggedModel = R6Class(
   "LearnerFcstBaggedModel",
   inherit = LearnerFcstForecast,

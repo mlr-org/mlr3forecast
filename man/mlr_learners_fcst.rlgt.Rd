@@ -46,6 +46,7 @@ lrn("fcst.rlgt")
 
 \examples{
 \dontshow{if (mlr3misc::require_namespaces(lrn("fcst.rlgt")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\donttest{
 # Define the Learner and set parameter values
 learner = lrn("fcst.rlgt")
 print(learner)
@@ -70,6 +71,7 @@ predictions = learner$predict(task, row_ids = ids$test)
 
 # Score the predictions
 predictions$score()
+}
 \dontshow{\}) # examplesIf}
 }
 \references{
