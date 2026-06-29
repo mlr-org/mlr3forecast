@@ -109,7 +109,7 @@ PipeOpFcstRolling = R6Class(
 
       pv = self$param_set$get_values(tags = "train")
       grid = CJ(fn = pv$funs, size = pv$window_sizes, sorted = FALSE)
-      size_lbl = fifelse(is.infinite(grid$size), "expanding", as.character(grid$size))
+      size_lbl = fifelse(is.infinite(grid$size), "expanding", sprintf("%.0f", grid$size))
       roll_spec = list(
         fn = grid$fn,
         size = grid$size,
