@@ -131,7 +131,10 @@ LearnerFcstTscount = R6Class(
         futureobs = replicate(B, {
           tscount::tsglm.sim(n = n_ahead, fit = model, xreg = newxreg, n_start = 0L)$ts
         })
-        quantiles = vapply(probs, function(p) apply(futureobs, 1L, quantile, probs = p, type = 1L), numeric(n_ahead))
+        quantiles = matrix(
+          apply(futureobs, 1L, quantile, probs = probs, type = 1L),
+          nrow = n_ahead, ncol = length(probs), byrow = TRUE
+        )
       }
       setattr(quantiles, "probs", probs)
       setattr(quantiles, "response", private$.quantile_response)
