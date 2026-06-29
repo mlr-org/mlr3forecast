@@ -16,8 +16,10 @@
 selector_fcst_lags = function() {
   selector = function(task) {
     target = assert_string(task$target_names)
-    pattern = sprintf("^%s_lag_[0-9]+$", target)
-    grep(pattern, task$feature_names, value = TRUE)
+    prefix = paste0(target, "_lag_")
+    feats = task$feature_names
+    suffix = substring(feats, nchar(prefix) + 1L)
+    feats[startsWith(feats, prefix) & grepl("^[0-9]+$", suffix)]
   }
   structure(selector, repr = "selector_fcst_lags()", class = c("Selector", "function"))
 }
@@ -41,8 +43,10 @@ selector_fcst_lags = function() {
 selector_fcst_rolling = function() {
   selector = function(task) {
     target = assert_string(task$target_names)
-    pattern = sprintf("^%s_roll_(mean|median|sd|min|max|sum)_([0-9]+|expanding)$", target)
-    grep(pattern, task$feature_names, value = TRUE)
+    prefix = paste0(target, "_roll_")
+    feats = task$feature_names
+    suffix = substring(feats, nchar(prefix) + 1L)
+    feats[startsWith(feats, prefix) & grepl("^(mean|median|sd|min|max|sum)_([0-9]+|expanding)$", suffix)]
   }
   structure(selector, repr = "selector_fcst_rolling()", class = c("Selector", "function"))
 }
