@@ -1,3 +1,17 @@
+test_that("calendar-string freq requires a Date or POSIXct order column", {
+  dt = data.table(idx = 1:6, y = as.numeric(1:6))
+  expect_error(
+    as_task_fcst(dt, target = "y", order = "idx", freq = "month"),
+    "calendar `freq`"
+  )
+  # a numeric freq (seasonal period) or NULL is allowed on an integer index
+  expect_class(as_task_fcst(dt, target = "y", order = "idx", freq = 1), "TaskFcst")
+  expect_class(as_task_fcst(dt, target = "y", order = "idx"), "TaskFcst")
+  # a Date order column still accepts a calendar-string freq
+  dd = data.table(d = seq(as.Date("2020-01-01"), by = "month", length.out = 6L), y = as.numeric(1:6))
+  expect_class(as_task_fcst(dd, target = "y", order = "d", freq = "month"), "TaskFcst")
+})
+
 test_that("view includes key and order columns", {
   task = tsk("livestock")
   v = task$view(cols = "count")

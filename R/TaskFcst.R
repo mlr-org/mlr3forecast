@@ -219,6 +219,21 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     error_input("Order column '%s' must be a Date, POSIXct, numeric or integer column", order_cols)
   }
 
+  if (
+    length(order_cols) > 0L &&
+      test_string(task$freq) &&
+      any(fget_keys(task$col_info, order_cols, "type", key = "id") %nin% c("Date", "POSIXct"))
+  ) {
+    error_input(
+      paste0(
+        "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
+        "Use a numeric `freq` (the seasonal period) or `NULL` for an integer index."
+      ),
+      task$freq,
+      order_cols
+    )
+  }
+
   key_cols = new_roles[["key"]]
   if (
     length(key_cols) > 0L && any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("factor", "ordered"))

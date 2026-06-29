@@ -26,6 +26,17 @@ test_that("generate_newdata anchors on the chronologically last row when backend
   expect_identical(newdata$time, 11:13)
 })
 
+test_that("a tsf with frequency but no timestamp uses an integer step", {
+  file = withr::local_tempfile(fileext = ".tsf")
+  writeLines(c("@attribute series_name string", "@frequency yearly", "@data", "T1:10,20,30,40"), file)
+  task = as_task_fcst(read_tsf(file))
+  # without a real timestamp the calendar frequency must not be carried over, else seq_order would
+  # do date arithmetic on the bare integer index (giving e.g. 365, 730, 1096 instead of 5, 6, 7)
+  expect_null(task$freq)
+  newdata = generate_newdata(task, n = 3L)
+  expect_equal(as.numeric(newdata[[task$col_roles$order]]), c(5, 6, 7))
+})
+
 test_that("generate_newdata works with Date order", {
   task = tsk("airpassengers")
   newdata = generate_newdata(task, n = 3L)

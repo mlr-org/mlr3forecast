@@ -139,9 +139,10 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   target = cn[length(cn)]
   cn = cn[-length(cn)]
   order = names(keep(x, inherits, c("POSIXct", "Date")))
+  has_timestamp = length(order) == 1L
   x = copy(x)
   setattr(x, "class", setdiff(class(x), "tsf"))
-  if (length(order) != 1L) {
+  if (!has_timestamp) {
     order = "index"
     x[, (order) := seq_len(.N), by = cn]
   }
@@ -151,7 +152,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   }
 
   freq = attr(x, "frequency")
-  freq = if (!is.null(freq)) tsf_to_seq(freq) else NULL
+  freq = if (has_timestamp && !is.null(freq)) tsf_to_seq(freq) else NULL
 
   as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
