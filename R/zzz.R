@@ -6,7 +6,7 @@
 #' @import paradox
 #' @importFrom R6 R6Class
 #' @importFrom stats as.ts
-#' @importFrom utils tail
+#' @importFrom utils head tail
 "_PACKAGE"
 
 utils::globalVariables(c(".idx", ".value"))

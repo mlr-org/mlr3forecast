@@ -128,19 +128,34 @@ PipeOpFcstRolling = R6Class(
   )
 )
 
+roll_feature = function(x, fn, size) {
+  if (is.finite(size)) {
+    switch(
+      fn,
+      mean = frollmean(x, n = size),
+      median = frollmedian(x, n = size),
+      sd = frollsd(x, n = size),
+      min = frollmin(x, n = size),
+      max = frollmax(x, n = size),
+      sum = frollsum(x, n = size)
+    )
+  } else {
+    switch(
+      fn,
+      mean = cumsum(as.double(x)) / seq_along(x),
+      median = frollmedian(x, n = seq_along(x), adaptive = TRUE),
+      sd = frollsd(x, n = seq_along(x), adaptive = TRUE),
+      min = cummin(x),
+      max = cummax(x),
+      sum = cumsum(as.double(x))
+    )
+  }
+}
+
 fcst_rolls = function(x, spec) {
-  rolls = list(mean = frollmean, median = frollmedian, sd = frollsd, min = frollmin, max = frollmax, sum = frollsum)
   hist = head(x, max(length(x) - spec$lag, 0L))
   pad = rep(NA_real_, length(x) - length(hist))
-  map(seq_along(spec$fn), function(i) {
-    f = rolls[[spec$fn[i]]]
-    out = if (is.infinite(spec$size[i])) {
-      f(hist, n = seq_along(hist), adaptive = TRUE)
-    } else {
-      f(hist, n = spec$size[i])
-    }
-    c(pad, out)
-  })
+  map(seq_along(spec$fn), function(i) c(pad, roll_feature(hist, spec$fn[i], spec$size[i])))
 }
 
 #' @include zzz.R
