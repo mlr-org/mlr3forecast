@@ -21,7 +21,7 @@ NULL
 
 load_task_lynx = function(id = "lynx") {
   ts = load_dataset("lynx", "datasets")
-  dt = data.table(year = as.integer(stats::time(ts)), count = as.numeric(ts))
+  dt = data.table(year = as.Date(ISOdate(as.integer(stats::time(ts)), 1L, 1L)), count = as.numeric(ts))
   b = as_data_backend(dt)
 
   task = TaskFcst$new(
