@@ -70,8 +70,8 @@ PipeOpTargetTrafoDifference = R6Class(
       if (length(task$col_roles$key) > 0L) {
         error_input("%s does not support multi-series (keyed) tasks.", self$id)
       }
-      order_col = task$col_roles$order
-      if (length(order_col) > 0L && is.unsorted(task$data(cols = order_col)[[1L]])) {
+      order_cols = task$col_roles$order
+      if (length(order_cols) > 0L && is.unsorted(task$data(cols = order_cols)[[1L]])) {
         error_input("%s requires the task to be ordered by its order column.", self$id)
       }
       lag = self$param_set$get_values(tags = "train")$lag

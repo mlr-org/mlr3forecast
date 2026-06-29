@@ -14,9 +14,9 @@ check_freq = function(x) {
 
 assert_freq = makeAssertionFunction(check_freq)
 
-assert_regular_grid = function(dt, order_col, key_cols, freq) {
+assert_regular_grid = function(dt, order_cols, key_cols, freq) {
   if (length(key_cols) > 0L) {
-    ok = dt[, list(.ok = check_regular_grid(get(order_col), freq)), by = key_cols]
+    ok = dt[, list(.ok = check_regular_grid(get(order_cols), freq)), by = key_cols]
     bad = ok[!ok$.ok]
     if (nrow(bad) > 0L) {
       error_input(
@@ -24,7 +24,7 @@ assert_regular_grid = function(dt, order_col, key_cols, freq) {
         toString(key_labels(bad, key_cols))
       )
     }
-  } else if (!check_regular_grid(dt[[order_col]], freq)) {
+  } else if (!check_regular_grid(dt[[order_cols]], freq)) {
     error_input(
       "Cannot extend an irregular series into the future. Use a regular order index (e.g. integer steps) or fill the gaps first."
     )
