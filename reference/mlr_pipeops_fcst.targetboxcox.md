@@ -17,6 +17,12 @@ Box-Cox and log transformations require strictly positive target values.
 Non-positive values produce `NaN` or an error from
 [`forecast::BoxCox()`](https://pkg.robjhyndman.com/forecast/reference/BoxCox.html).
 
+A negative `lambda` (possible when estimated, as `lower` defaults to
+`-1`) makes
+[`forecast::InvBoxCox()`](https://pkg.robjhyndman.com/forecast/reference/BoxCox.html)
+return `NA` for back-transformed values above `-1 / lambda`, typically
+upper quantiles. Set `lower = 0` to avoid this.
+
 ## Parameters
 
 The parameters are the parameters inherited from
