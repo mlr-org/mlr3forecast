@@ -56,7 +56,7 @@ LearnerFcstForecast = R6Class(
         args[[private$.newdata_arg]] = newdata
       }
       if (is_quantile) {
-        level = quantiles_to_levels(private$.quantiles) / 100
+        level = quantiles_to_levels(private$.quantiles)
         if (length(level) > 0L) {
           args = insert_named(args, list(level = level))
         }

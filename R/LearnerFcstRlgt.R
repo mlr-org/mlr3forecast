@@ -62,8 +62,11 @@ LearnerFcstRlgt = R6Class(
     },
 
     .postprocess = function(pred) {
-      pred$lower = t(pred$lower)
-      pred$upper = t(pred$upper)
+      h = length(pred$mean)
+      if (!is.null(pred$lower) && nrow(pred$lower) != h) {
+        pred$lower = t(pred$lower)
+        pred$upper = t(pred$upper)
+      }
       pred
     }
   )
