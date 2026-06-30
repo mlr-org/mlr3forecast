@@ -14,13 +14,7 @@
 #' new_task = pop$train(list(task))[[1L]]
 #' selector_fcst_lags()(new_task)
 selector_fcst_lags = function() {
-  selector = function(task) {
-    target = assert_string(task$target_names)
-    prefix = paste0(target, "_lag_")
-    feats = task$feature_names
-    suffix = substring(feats, nchar(prefix) + 1L)
-    feats[startsWith(feats, prefix) & grepl("^[0-9]+$", suffix)]
-  }
+  selector = function(task) select_fcst_prefixed(task, "_lag_", "^[0-9]+$")
   structure(selector, repr = "selector_fcst_lags()", class = c("Selector", "function"))
 }
 
@@ -42,11 +36,15 @@ selector_fcst_lags = function() {
 #' selector_fcst_rolling()(new_task)
 selector_fcst_rolling = function() {
   selector = function(task) {
-    target = assert_string(task$target_names)
-    prefix = paste0(target, "_roll_")
-    feats = task$feature_names
-    suffix = substring(feats, nchar(prefix) + 1L)
-    feats[startsWith(feats, prefix) & grepl("^(mean|median|sd|min|max|sum)_([0-9]+|expanding)$", suffix)]
+    select_fcst_prefixed(task, "_roll_", "^(mean|median|sd|min|max|sum)_([0-9]+|expanding)$")
   }
   structure(selector, repr = "selector_fcst_rolling()", class = c("Selector", "function"))
+}
+
+select_fcst_prefixed = function(task, infix, pattern) {
+  target = task$target_names
+  prefix = paste0(target, infix)
+  feats = task$feature_names
+  suffix = substring(feats, nchar(prefix) + 1L)
+  feats[startsWith(feats, prefix) & grepl(pattern, suffix)]
 }
