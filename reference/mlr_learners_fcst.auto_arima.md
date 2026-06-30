@@ -82,7 +82,7 @@ or with the associated sugar function
 Hyndman RJ, Khandakar Y (2008). “Automatic Time Series Forecasting: The
 forecast Package for R.” *Journal of Statistical Software*, **27**(3),
 1–22. [doi:10.18637/jss.v027.i03](https://doi.org/10.18637/jss.v027.i03)
-. <https://www.jstatsoft.org/index.php/jss/article/view/v027i03>.
+.
 
 Wang X, Smith K, Hyndman R (2006). “Characteristic-based clustering for
 time series data.” *Data Mining and Knowledge Discovery*, **13**,

@@ -67,7 +67,7 @@ Statistical Mathematics*, **60**(2), 407–426.
 
 Hyndman RJ, Koehler AB, Ord JK, Snyder RD (2008). *Forecasting with
 exponential smoothing: the state space approach*. Springer-Verlag.
-<http://www.exponentialsmoothing.net>.
+<https://robjhyndman.com/expsmooth>.
 
 ## See also
 
