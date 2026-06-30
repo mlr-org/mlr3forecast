@@ -45,6 +45,7 @@ lrn("fcst.prophet")
    mcmc.samples \tab integer \tab 0 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    interval.width \tab numeric \tab 0.8 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    uncertainty.samples \tab integer \tab 1000 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   backend \tab character \tab NULL \tab rstan, cmdstanr \tab - \cr
 }
 }
 

@@ -41,7 +41,8 @@ LearnerFcstProphet = R6Class(
         changepoint.prior.scale = p_dbl(0, default = 0.05, tags = "train"),
         mcmc.samples = p_int(0L, default = 0L, tags = "train"),
         interval.width = p_dbl(0, 1, default = 0.8, tags = "train"),
-        uncertainty.samples = p_int(0L, default = 1000L, tags = "train")
+        uncertainty.samples = p_int(0L, default = 1000L, tags = "train"),
+        backend = p_fct(c("rstan", "cmdstanr"), default = NULL, special_vals = list(NULL), tags = "train")
       )
 
       super$initialize(
