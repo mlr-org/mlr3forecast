@@ -99,7 +99,6 @@ Hyndman RJ, Khandakar Y (2008).
 \dQuote{Automatic Time Series Forecasting: The forecast Package for R.}
 \emph{Journal of Statistical Software}, \bold{27}(3), 1--22.
 \doi{10.18637/jss.v027.i03}.
-\url{https://www.jstatsoft.org/index.php/jss/article/view/v027i03}.
 }
 \seealso{
 \itemize{

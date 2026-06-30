@@ -26,7 +26,6 @@ bibentries = c(
     "article",
     title = "Automatic Time Series Forecasting: The forecast Package for R",
     volume = "27",
-    url = "https://www.jstatsoft.org/index.php/jss/article/view/v027i03",
     doi = "10.18637/jss.v027.i03",
     number = "3",
     journal = "Journal of Statistical Software",
@@ -91,7 +90,7 @@ bibentries = c(
     author = "Rob J Hyndman and Anne B Koehler and J Keith Ord and Ralph D Snyder",
     publisher = "Springer-Verlag",
     year = "2008",
-    url = "http://www.exponentialsmoothing.net"
+    url = "https://robjhyndman.com/expsmooth"
   ),
   livera2011complex = bibentry(
     "article",

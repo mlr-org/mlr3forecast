@@ -9,8 +9,6 @@ Extending mlr3 to time series forecasting.
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![RCMD
 Check](https://github.com/mlr-org/mlr3forecast/actions/workflows/rcmdcheck.yaml/badge.svg)](https://github.com/mlr-org/mlr3forecast/actions/workflows/rcmdcheck.yaml)
-[![CRAN
-status](https://img.shields.io/badge/CRAN-not%20published-orange)](https://CRAN.R-project.org/package=mlr3forecast)
 [![StackOverflow](https://img.shields.io/badge/stackoverflow-mlr3-orange.svg)](https://stackoverflow.com/questions/tagged/mlr3)
 [![Mattermost](https://img.shields.io/badge/chat-mattermost-orange.svg)](https://lmmisld-lmu-stats-slds.srv.mwn.de/mlr_invite/)
 <!-- badges: end -->
@@ -251,39 +249,39 @@ prediction
 #> 
 #> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
 #>  row_ids truth response      month
-#>        1    NA 446.2509 1961-01-01
-#>        2    NA 448.8850 1961-02-01
-#>        3    NA 468.0311 1961-03-01
+#>        1    NA 443.3377 1961-01-01
+#>        2    NA 447.6441 1961-02-01
+#>        3    NA 466.9256 1961-03-01
 #>      ---   ---      ---        ---
-#>       10    NA 497.0462 1961-10-01
-#>       11    NA 457.9251 1961-11-01
-#>       12    NA 458.8529 1961-12-01
+#>       10    NA 491.5364 1961-10-01
+#>       11    NA 454.0612 1961-11-01
+#>       12    NA 457.0454 1961-12-01
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
 #>  row_ids truth response      month
-#>      140   606 564.3768 1960-08-01
-#>      141   508 510.6362 1960-09-01
-#>      142   461 461.5428 1960-10-01
-#>      143   390 418.9087 1960-11-01
-#>      144   432 443.4447 1960-12-01
+#>      140   606 567.9797 1960-08-01
+#>      141   508 507.3734 1960-09-01
+#>      142   461 459.6002 1960-10-01
+#>      143   390 416.4148 1960-11-01
+#>      144   432 435.7832 1960-12-01
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  23.26557
+#>  20.78437
 
 flrn = recursive_forecaster(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  51.02657
+#>  51.66117
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  33.88559
+#>  35.03787
 ```
 
 #### Direct forecasting
@@ -302,7 +300,7 @@ flrn = direct_forecaster(
 )$train(task, 1:132)
 flrn$predict(task, 133:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  55.71677
+#>  55.87313
 ```
 
 #### Feature engineering
@@ -330,7 +328,7 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.76188
+#>  16.32646
 ```
 
 Use `selector_fcst_lags()` to apply transformations only to the lag
@@ -356,7 +354,7 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  13.70027
+#>  16.01885
 ```
 
 #### Target transformations
@@ -379,7 +377,7 @@ learner = as_learner(pipeline)$train(task)
 prediction = learner$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.04127
+#>  15.56967
 ```
 
 Ready-made `po("fcst.targetboxcox")` and `po("fcst.targetdiff")` pipeops
@@ -414,13 +412,13 @@ prediction
 #> 
 #> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
 #>  row_ids truth response       date
-#>        1    NA 187707.3 2015-01-01
-#>        2    NA 196950.8 2015-01-02
-#>        3    NA 190586.9 2015-01-03
+#>        1    NA 187332.9 2015-01-01
+#>        2    NA 196823.5 2015-01-02
+#>        3    NA 189753.7 2015-01-03
 #>      ---   ---      ---        ---
-#>       12    NA 222740.3 2015-01-12
-#>       13    NA 227257.2 2015-01-13
-#>       14    NA 228954.2 2015-01-14
+#>       12    NA 222587.1 2015-01-12
+#>       13    NA 226844.7 2015-01-13
+#>       14    NA 227594.0 2015-01-14
 ```
 
 ### Benchmarking, ensembling, and tuning
@@ -451,8 +449,8 @@ bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 #>          learner_id regr.rmse
 #> 1:            arima 216.31005
-#> 2: ranger_recursive  50.70191
-#> 3:    ranger_direct  52.02509
+#> 2: ranger_recursive  51.50302
+#> 3:    ranger_direct  51.16170
 ```
 
 #### Ensemble forecasting
@@ -525,12 +523,12 @@ at = auto_tuner(
 at$train(task)
 at$tuning_result[, .(regr.ranger.mtry.ratio, regr.ranger.num.trees, regr.rmse)]
 #>    regr.ranger.mtry.ratio regr.ranger.num.trees regr.rmse
-#> 1:              0.6814331                   235  25.22034
+#> 1:              0.9415212                   111  22.98574
 
 # the AutoTuner is itself a learner: predict with the best configuration
 at$predict(task, 142:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>   13.6386
+#>  10.86486
 ```
 
 Classical forecasters tune the same way:
@@ -586,13 +584,13 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  18500.26
+#>  19026.46
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  107559.2
+#>  100945.9
 ```
 
 #### Global vs. local forecasting
@@ -635,16 +633,16 @@ prediction_global
 #> 
 #> ── <PredictionRegr> for 960 observations: ──────────────────────────────────────
 #>  row_ids truth response                                 industry      month
-#>        1 476.2 470.2078 Cafes, restaurants and catering services 2015-01-01
-#>        2 422.0 455.6845 Cafes, restaurants and catering services 2015-02-01
-#>        3 471.2 484.1151 Cafes, restaurants and catering services 2015-03-01
+#>        1 476.2 469.4931 Cafes, restaurants and catering services 2015-01-01
+#>        2 422.0 455.8130 Cafes, restaurants and catering services 2015-02-01
+#>        3 471.2 484.8799 Cafes, restaurants and catering services 2015-03-01
 #>      ---   ---      ---                                      ---        ---
-#>      958 359.2 399.3639                   Takeaway food services 2018-10-01
-#>      959 354.9 405.4836                   Takeaway food services 2018-11-01
-#>      960 393.2 412.3130                   Takeaway food services 2018-12-01
+#>      958 359.2 401.7559                   Takeaway food services 2018-10-01
+#>      959 354.9 408.0077                   Takeaway food services 2018-11-01
+#>      960 393.2 414.1088                   Takeaway food services 2018-12-01
 prediction_global$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  83.93126
+#>  83.64389
 
 # local forecasting
 prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
@@ -668,5 +666,5 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
 })
 do.call(c, prediction_local)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  95.02372
+#>    96.103
 ```

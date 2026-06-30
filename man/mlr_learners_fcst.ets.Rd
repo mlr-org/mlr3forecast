@@ -93,7 +93,7 @@ Hyndman RJ, Akram M, Archibald B (2008).
 Hyndman RJ, Koehler AB, Ord JK, Snyder RD (2008).
 \emph{Forecasting with exponential smoothing: the state space approach}.
 Springer-Verlag.
-\url{http://www.exponentialsmoothing.net}.
+\url{https://robjhyndman.com/expsmooth}.
 }
 \seealso{
 \itemize{
