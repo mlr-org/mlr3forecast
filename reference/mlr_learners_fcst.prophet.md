@@ -48,6 +48,7 @@ or with the associated sugar function
 | mcmc.samples | integer | 0 |  | \\\[0, \infty)\\ |
 | interval.width | numeric | 0.8 |  | \\\[0, 1\]\\ |
 | uncertainty.samples | integer | 1000 |  | \\\[0, \infty)\\ |
+| backend | character | NULL | rstan, cmdstanr | \- |
 
 ## References
 
