@@ -13,6 +13,9 @@
 #' Box-Cox and log transformations require strictly positive target values. Non-positive values produce `NaN` or an
 #' error from [forecast::BoxCox()].
 #'
+#' A negative `lambda` (possible when estimated, as `lower` defaults to `-1`) makes [forecast::InvBoxCox()] return `NA`
+#' for back-transformed values above `-1 / lambda`, typically upper quantiles. Set `lower = 0` to avoid this.
+#'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTargetTrafo], as well as the following:
 #' * `lambda` :: `numeric(1)` | `NULL`\cr
@@ -92,7 +95,27 @@ PipeOpTargetTrafoBoxCox = R6Class(
     },
 
     .invert = function(prediction, predict_phase_state) {
-      inverted = as.numeric(forecast::InvBoxCox(prediction$response, self$state$lambda))
+      lambda = self$state$lambda
+      # Box-Cox is monotonic, so quantiles invert pointwise without crossing
+      quantiles = prediction$data$quantiles
+      if (!is.null(quantiles)) {
+        inverted = matrix(
+          invoke(forecast::InvBoxCox, quantiles, lambda = lambda),
+          nrow = nrow(quantiles),
+          ncol = ncol(quantiles),
+          dimnames = dimnames(quantiles)
+        )
+        resp_col = attr(quantiles, "response")
+        setattr(inverted, "probs", attr(quantiles, "probs"))
+        setattr(inverted, "response", as.numeric(sub("^q", "", resp_col)))
+        return(PredictionRegr$new(
+          row_ids = prediction$row_ids,
+          truth = predict_phase_state$truth,
+          response = inverted[, resp_col],
+          quantiles = inverted
+        ))
+      }
+      inverted = invoke(forecast::InvBoxCox, prediction$response, lambda = lambda)
       PredictionRegr$new(row_ids = prediction$row_ids, truth = predict_phase_state$truth, response = inverted)
     }
   )

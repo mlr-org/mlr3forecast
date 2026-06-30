@@ -15,6 +15,9 @@ for. The estimated (or supplied) \code{lambda} is stored and reused at predict t
 
 Box-Cox and log transformations require strictly positive target values. Non-positive values produce \code{NaN} or an
 error from \code{\link[forecast:BoxCox]{forecast::BoxCox()}}.
+
+A negative \code{lambda} (possible when estimated, as \code{lower} defaults to \code{-1}) makes \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}} return \code{NA}
+for back-transformed values above \code{-1 / lambda}, typically upper quantiles. Set \code{lower = 0} to avoid this.
 }
 \section{Parameters}{
 
