@@ -174,7 +174,7 @@ RecursiveForecaster = R6::R6Class(
     #' The lags used, or `NULL` if no [PipeOpFcstLags] is in the graph.
     lags = function(rhs) {
       assert_ro_binding(rhs)
-      lag_po = private$.find_lag_po()
+      lag_po = detect(private$.learner$graph$pipeops, function(p) inherits(p, "PipeOpFcstLags"))
       if (is.null(lag_po)) {
         return()
       }
@@ -350,15 +350,6 @@ RecursiveForecaster = R6::R6Class(
         )
       )
       out
-    },
-
-    .find_lag_po = function() {
-      pipeops = private$.learner$graph$pipeops
-      lag_po_id = detect(names(pipeops), function(id) inherits(pipeops[[id]], "PipeOpFcstLags"))
-      if (is.null(lag_po_id)) {
-        return()
-      }
-      pipeops[[lag_po_id]]
     }
   )
 )
