@@ -96,6 +96,10 @@ PipeOpTargetTrafoBoxCox = R6Class(
 
     .invert = function(prediction, predict_phase_state) {
       lambda = self$state$lambda
+      response = prediction$data$response
+      if (!is.null(response)) {
+        response = invoke(forecast::InvBoxCox, response, lambda = lambda)
+      }
       # Box-Cox is monotonic, so quantiles invert pointwise without crossing
       quantiles = prediction$data$quantiles
       if (!is.null(quantiles)) {
@@ -107,16 +111,17 @@ PipeOpTargetTrafoBoxCox = R6Class(
         )
         resp_col = attr(quantiles, "response")
         setattr(inverted, "probs", attr(quantiles, "probs"))
-        setattr(inverted, "response", as.numeric(sub("^q", "", resp_col)))
+        if (length(resp_col) > 0L) {
+          setattr(inverted, "response", as.numeric(sub("^q", "", resp_col)))
+        }
         return(PredictionRegr$new(
           row_ids = prediction$row_ids,
           truth = predict_phase_state$truth,
-          response = inverted[, resp_col],
+          response = response %??% inverted[, resp_col],
           quantiles = inverted
         ))
       }
-      inverted = invoke(forecast::InvBoxCox, prediction$response, lambda = lambda)
-      PredictionRegr$new(row_ids = prediction$row_ids, truth = predict_phase_state$truth, response = inverted)
+      PredictionRegr$new(row_ids = prediction$row_ids, truth = predict_phase_state$truth, response = response)
     }
   )
 )

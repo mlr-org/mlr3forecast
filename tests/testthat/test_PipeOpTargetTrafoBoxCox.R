@@ -79,6 +79,53 @@ test_that("targetboxcox inverts quantile predictions pointwise without crossing"
   expect_true(all(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L]))
 })
 
+test_that("targetboxcox inverts an explicit response instead of the response quantile", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  po = po("fcst.targetboxcox", lambda = 0.5)
+  po$train(list(task))
+
+  transformed = as.numeric(forecast::BoxCox(as.numeric(task$truth()), 0.5))
+  qmat = cbind(transformed - 0.01, transformed, transformed + 0.01)
+  setattr(qmat, "probs", c(0.25, 0.5, 0.75))
+  setattr(qmat, "response", 0.5)
+  # response differs from every quantile column
+  prediction = PredictionRegr$new(
+    row_ids = task$row_ids,
+    truth = task$truth(),
+    response = transformed + 5,
+    quantiles = qmat
+  )
+
+  inverted = po$predict(list(task))$fun(list(prediction))[[1L]]
+  expect_equal(inverted$response, as.numeric(forecast::InvBoxCox(transformed + 5, lambda = 0.5)))
+  expect_equal(attr(inverted$data$quantiles, "probs"), c(0.25, 0.5, 0.75))
+})
+
+test_that("targetboxcox inverts quantile predictions without a response attribute", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  po = po("fcst.targetboxcox", lambda = 0.5)
+  po$train(list(task))
+
+  transformed = as.numeric(forecast::BoxCox(as.numeric(task$truth()), 0.5))
+  qmat = cbind(transformed - 0.01, transformed + 0.01)
+  setattr(qmat, "probs", c(0.25, 0.75))
+  # no response attribute: mlr3 allows this when the response is stored separately
+  prediction = PredictionRegr$new(
+    row_ids = task$row_ids,
+    truth = task$truth(),
+    response = transformed,
+    quantiles = qmat
+  )
+
+  inverted = po$predict(list(task))$fun(list(prediction))[[1L]]
+  expect_equal(inverted$response, as.numeric(task$truth()))
+  q = inverted$data$quantiles
+  expect_equal(attr(q, "probs"), c(0.25, 0.75))
+  expect_true(all(q[, 1L] <= q[, 2L]))
+})
+
 test_that("targetboxcox + fcst.lags + learner trains and predicts inside a graph", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")
