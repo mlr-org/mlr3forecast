@@ -86,6 +86,26 @@ test_that("fcst.cv keyed task contains all groups per fold", {
   })
 })
 
+test_that("fcst.cv with strata keeps all strata in every fold", {
+  dt = data.table(
+    date = seq(as.Date("2024-01-01"), by = "day", length.out = 20L),
+    g = factor(rep(c("s1", "s2"), each = 10L)),
+    y = as.numeric(1:20)
+  )
+  task = TaskFcst$new(id = "strat", backend = as_data_backend(dt), target = "y", order = "date")
+  task$set_col_roles("g", "stratum")
+
+  resampling = rsmp("fcst.cv", folds = 2L, horizon = 2L, window_size = 3L, fixed_window = FALSE)
+  resampling$instantiate(task)
+  expect_identical(resampling$iters, 2L)
+
+  # per stratum: fold 1 trains on the first 7 rows and tests on rows 8:9, fold 2 shifts by one
+  expect_identical(resampling$train_set(1L), c(1:7, 11:17))
+  expect_identical(resampling$test_set(1L), c(8:9, 18:19))
+  expect_identical(resampling$train_set(2L), c(1:8, 11:18))
+  expect_identical(resampling$test_set(2L), c(9:10, 19:20))
+})
+
 test_that("fcst.cv parameter validation", {
   task = tsk("airpassengers")
   task$filter(1:10)

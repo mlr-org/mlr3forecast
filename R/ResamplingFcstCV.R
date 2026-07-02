@@ -191,7 +191,10 @@ ResamplingFcstCV = R6Class(
     },
 
     .combine = function(instances) {
-      rbindlist(instances, use.names = TRUE)
+      list(
+        train = pmap(map(instances, "train"), c),
+        test = pmap(map(instances, "test"), c)
+      )
     },
 
     deep_clone = function(name, value) {
