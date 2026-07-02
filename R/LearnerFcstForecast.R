@@ -57,6 +57,10 @@ LearnerFcstForecast = R6Class(
       }
       if (is_quantile) {
         level = quantiles_to_levels(private$.quantiles)
+        # pad a lone level 50 since Rlgt special-cases it and crashes; the extra column is ignored downstream
+        if (length(level) == 1L && level == 50) {
+          level = c(50, 80)
+        }
         if (length(level) > 0L) {
           args = insert_named(args, list(level = level))
         }

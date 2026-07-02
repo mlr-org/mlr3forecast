@@ -25,6 +25,24 @@ test_that("quantile prediction returns monotonic bounds", {
   expect_all_true(qs[, 3L] - qs[, 1L] > 1)
 })
 
+test_that("quantile probs mapping to the single interval level 50 work", {
+  withr::local_seed(1)
+  task = tsk("airpassengers")
+  split = partition(task, ratio = 0.95)
+  learner = lrn("fcst.rlgt", method = "Gibbs", control = Rlgt::rlgt.control(NUM_OF_ITER = 1000))
+  learner$predict_type = "quantiles"
+  # quartiles map to the single level 50, which Rlgt special-cases
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  learner$quantile_response = 0.5
+  learner$train(task, split$train)
+  qs = learner$predict(task, split$test)$quantiles
+  expect_equal(ncol(qs), 3L)
+  expect_equal(nrow(qs), length(split$test))
+  expect_all_true(qs[, 1L] <= qs[, 2L])
+  expect_all_true(qs[, 2L] <= qs[, 3L])
+  expect_all_true(qs[, 3L] - qs[, 1L] > 1)
+})
+
 test_that("quantile prediction widens with multiple levels", {
   withr::local_seed(1)
   task = tsk("airpassengers")
