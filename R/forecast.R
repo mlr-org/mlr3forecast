@@ -56,7 +56,9 @@ generate_newdata = function(task, n = 1L) {
 #'   Forecast horizon — number of future time steps per key.
 #' @param newdata ([data.frame()] | `NULL`)\cr
 #'   Optional exogenous features for future rows. Must contain the order column (and any key
-#'   columns for keyed tasks). Columns other than those are overlaid onto the generated skeleton.
+#'   columns for keyed tasks), and every row must match a row of the generated future grid.
+#'   Columns other than those are overlaid onto the generated skeleton, while skeleton rows
+#'   without a match keep `NA`.
 #' @param ... (any)\cr
 #'   Ignored.
 #' @return [mlr3::Prediction].
@@ -69,9 +71,20 @@ forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
   generated = generate_newdata(task, h)
   if (!is.null(newdata)) {
     newdata = as.data.table(newdata)
-    by_cols = intersect(c(task$col_roles$order, task$col_roles$key), names(newdata))
-    if (length(by_cols) == 0L) {
-      error_input("`newdata` must contain the order column and any key columns of `task`.")
+    by_cols = c(task$col_roles$order, task$col_roles$key)
+    miss = setdiff(by_cols, names(newdata))
+    if (length(miss) > 0L) {
+      error_input(
+        "`newdata` must contain the order column and any key columns of `task`, but is missing %s.",
+        str_collapse(miss, quote = "'")
+      )
+    }
+    if (anyDuplicated(newdata, by = by_cols) > 0L) {
+      error_input("`newdata` contains duplicated %s combinations.", str_collapse(by_cols, quote = "'"))
+    }
+    n_unmatched = nrow(newdata[!generated, on = by_cols])
+    if (n_unmatched > 0L) {
+      error_input("%i row(s) of `newdata` do not match the generated future grid.", n_unmatched)
     }
     overlay_cols = setdiff(names(newdata), by_cols)
     if (length(overlay_cols) > 0L) {

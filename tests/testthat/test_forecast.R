@@ -132,6 +132,37 @@ test_that("forecast() overlays multiple exogenous columns on a keyed task", {
   expect_length(pred$response, 6L)
 })
 
+test_that("forecast() validates newdata alignment", {
+  withr::local_seed(42L)
+  dt = data.table(
+    date = rep(seq(as.Date("2024-01-01"), by = "month", length.out = 24L), 2L),
+    id = factor(rep(c("a", "b"), each = 24L)),
+    temp = rnorm(48L, 20),
+    value = rnorm(48L)
+  )
+  task = as_task_fcst(dt, target = "value", order = "date", key = "id", freq = "month")
+  flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
+  flrn$train(task)
+
+  # key columns alone must not silently broadcast across all future rows
+  newdata = data.table(id = factor(c("a", "b")), temp = c(100, 200))
+  expect_error(forecast(flrn, task, h = 3L, newdata = newdata), "missing 'date'")
+
+  # duplicated (order, key) combinations would make the overlay nondeterministic
+  newdata = data.table(date = as.Date("2026-01-01"), id = factor(c("a", "a")), temp = c(100, 200))
+  expect_error(forecast(flrn, task, h = 3L, newdata = newdata), "duplicated")
+
+  # rows off the generated future grid must not be silently ignored
+  newdata = CJ(date = as.Date(c("2026-01-15", "2026-06-01")), id = factor(c("a", "b")))
+  set(newdata, j = "temp", value = 100)
+  expect_error(forecast(flrn, task, h = 3L, newdata = newdata), "do not match the generated future grid")
+
+  # a partial overlay covering only some future rows is still allowed
+  newdata = data.table(date = as.Date("2026-01-01"), id = factor(c("a", "b")), temp = c(100, 200))
+  pred = forecast(flrn, task, h = 3L, newdata = newdata)
+  expect_length(pred$response, 6L)
+})
+
 test_that("forecast() works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")

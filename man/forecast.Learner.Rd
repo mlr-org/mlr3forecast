@@ -20,7 +20,9 @@ Forecast horizon — number of future time steps per key.}
 
 \item{newdata}{(\code{\link[=data.frame]{data.frame()}} | \code{NULL})\cr
 Optional exogenous features for future rows. Must contain the order column (and any key
-columns for keyed tasks). Columns other than those are overlaid onto the generated skeleton.}
+columns for keyed tasks), and every row must match a row of the generated future grid.
+Columns other than those are overlaid onto the generated skeleton, while skeleton rows
+without a match keep \code{NA}.}
 
 \item{...}{(any)\cr
 Ignored.}
