@@ -354,11 +354,11 @@ DirectForecaster = R6::R6Class(
       out
     },
 
-    .predict_horizons = function(task, models, row_ids, horizon_idx) {
+    .predict_horizons = function(task, models, row_ids, ii) {
       task = task$clone()
       # one batched predict() per horizon model instead of row-by-row
-      preds = map(unique(horizon_idx), function(h) {
-        task$row_roles$use = row_ids[horizon_idx == h]
+      preds = map(unique(ii), function(h) {
+        task$row_roles$use = row_ids[ii == h]
         models[[h]]$predict(task)
       })
       combined = do.call(c, preds)
