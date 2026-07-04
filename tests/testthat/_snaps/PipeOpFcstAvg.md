@@ -5,5 +5,5 @@
     Condition
       Error:
       ! Cannot average predictions: some predict quantiles, others do not.
-      This happened in PipeOp fcst.regravg's $predict()
+      This happened in PipeOp fcstavg's $predict()
 

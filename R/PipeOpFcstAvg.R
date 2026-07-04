@@ -1,5 +1,5 @@
 #' @title Weighted Prediction Averaging for Forecasts
-#' @name mlr_pipeops_fcst.regravg
+#' @name mlr_pipeops_fcstavg
 #'
 #' @description
 #' Performs (weighted) averaging of forecast [PredictionFcst]s, mirroring [mlr3pipelines::PipeOpRegrAvg] but
@@ -24,7 +24,7 @@
 #'   po("learner", lrn("fcst.auto_arima"), id = "arima"),
 #'   po("learner", lrn("fcst.ets"), id = "ets")
 #' )) %>>%
-#'   po("fcst.regravg")
+#'   po("fcstavg")
 #' flrn = as_learner(graph)$train(task)
 #' forecast(flrn, task, 12L)
 PipeOpFcstAvg = R6Class(
@@ -38,11 +38,11 @@ PipeOpFcstAvg = R6Class(
     #'   If `TRUE`, the single input is a [Multiplicity][mlr3pipelines::Multiplicity] collecting channel. Requires
     #'   `innum = 0`. Default `FALSE`.
     #' @param id (`character(1)`)\cr
-    #'   Identifier of resulting object, default `"fcst.regravg"`.
+    #'   Identifier of resulting object, default `"fcstavg"`.
     #' @param param_vals (named `list()`)\cr
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during
     #'   construction. Default `list()`.
-    initialize = function(innum = 0L, collect_multiplicity = FALSE, id = "fcst.regravg", param_vals = list()) {
+    initialize = function(innum = 0L, collect_multiplicity = FALSE, id = "fcstavg", param_vals = list()) {
       super$initialize(innum, collect_multiplicity, id = id, param_vals = param_vals)
       # retype channels to PredictionFcst so the output stays a forecast and task_type infers as "fcst"
       ptype = if (collect_multiplicity) "[PredictionFcst]" else "PredictionFcst"
@@ -89,4 +89,4 @@ PipeOpFcstAvg = R6Class(
 )
 
 #' @include zzz.R
-register_po("fcst.regravg", PipeOpFcstAvg)
+register_po("fcstavg", PipeOpFcstAvg)

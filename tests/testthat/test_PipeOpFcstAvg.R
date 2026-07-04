@@ -5,7 +5,7 @@ test_that("PipeOpFcstAvg keeps PredictionFcst and infers fcst task_type", {
     po("learner", lrn("fcst.ets"), id = "ets"),
     po("learner", lrn("fcst.theta"), id = "theta")
   )) %>>%
-    po("fcst.regravg")
+    po("fcstavg")
   glrn = as_learner(graph)
   expect_equal(glrn$task_type, "fcst")
 
@@ -24,7 +24,7 @@ test_that("PipeOpFcstAvg response is the row-wise weighted average", {
     po("learner", l1$clone(), id = "ets"),
     po("learner", l2$clone(), id = "theta")
   )) %>>%
-    po("fcst.regravg")
+    po("fcstavg")
 
   p = forecast(as_learner(graph)$train(task), task, 6L)
   p1 = forecast(l1$clone()$train(task), task, 6L)
@@ -44,7 +44,7 @@ test_that("PipeOpFcstAvg preserves keys for multi-series tasks", {
     po("learner", recursive_forecaster(fg), id = "f1"),
     po("learner", recursive_forecaster(fg, lags = 1:2), id = "f2")
   )) %>>%
-    po("fcst.regravg")
+    po("fcstavg")
 
   p = as_learner(graph)$train(task)$predict(task, task$row_ids[c(22:24, 46:48)])
   expect_r6_class(p, "PredictionFcst")
@@ -63,7 +63,7 @@ test_that("PipeOpFcstAvg averages quantile forecasts per level", {
       id = id
     )
   }
-  graph = gunion(list(mk("auto_arima"), mk("ets"))) %>>% po("fcst.regravg")
+  graph = gunion(list(mk("auto_arima"), mk("ets"))) %>>% po("fcstavg")
   p = as_learner(graph)$train(task, 1:132)$predict(task, 133:144)
 
   expect_r6_class(p, "PredictionFcst")
@@ -88,6 +88,6 @@ test_that("PipeOpFcstAvg errors when only some members predict quantiles", {
     ),
     po("learner", lrn("fcst.ets"), id = "e")
   )) %>>%
-    po("fcst.regravg")
+    po("fcstavg")
   expect_snapshot(as_learner(graph)$train(task, 1:132)$predict(task, 133:144), error = TRUE)
 })
