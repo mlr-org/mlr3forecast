@@ -90,7 +90,7 @@ bibentries = c(
     author = "Rob J Hyndman and Anne B Koehler and J Keith Ord and Ralph D Snyder",
     publisher = "Springer-Verlag",
     year = "2008",
-    url = "https://robjhyndman.com/expsmooth"
+    url = "https://robjhyndman.com/expsmooth/"
   ),
   livera2011complex = bibentry(
     "article",
