@@ -56,8 +56,8 @@ plot.TaskFcst = function(x, ...) {
 #' connected to the last historical observation for visual continuity.
 #'
 #' For quantile forecasts, symmetric quantile pairs (e.g. the 10% and 90% quantiles) are drawn as shaded
-#' central prediction interval ribbons over the forecast region, with nested intervals darkening where they
-#' overlap. Quantiles without a symmetric partner are not drawn.
+#' central prediction interval ribbons over the forecast region, shaded darker for narrower intervals and
+#' labelled by their level (e.g. 80, 95) in a legend. Quantiles without a symmetric partner are not drawn.
 #'
 #' @param object ([PredictionFcst]).
 #' @param task ([TaskFcst] | `NULL`)\cr
@@ -107,24 +107,34 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
   ribbon = fcst_quantile_ribbon(object, fc, order, key)
   ribbon_layer = NULL
   if (!is.null(ribbon)) {
+    # draw wider intervals first so narrower ones shade on top
+    setorderv(ribbon, ".level", order = -1L)
     if (length(key) > 0L) {
       ribbon[, ".key" := interaction(.SD, sep = "/", drop = TRUE), .SDcols = key]
-      ribbon[, ".group" := interaction(.SD, drop = TRUE), .SDcols = c(".level", ".key")]
+      group = paste(ribbon$.level, ribbon$.key)
     } else {
-      set(ribbon, j = ".group", value = ribbon$.level)
+      group = ribbon$.level
     }
-    ribbon_layer = ggplot2::geom_ribbon(
-      data = ribbon,
-      ggplot2::aes(
-        x = .data[[order]],
-        ymin = .data[[".lower"]],
-        ymax = .data[[".upper"]],
-        group = .data[[".group"]]
+    set(ribbon, j = ".group", value = factor(group, levels = unique(group)))
+    ribbon_layer = list(
+      ggplot2::geom_ribbon(
+        data = ribbon,
+        ggplot2::aes(
+          x = .data[[order]],
+          ymin = .data[[".lower"]],
+          ymax = .data[[".upper"]],
+          group = .data[[".group"]],
+          fill = .data[[".level"]]
+        ),
+        alpha = 0.4,
+        inherit.aes = FALSE
       ),
-      fill = "grey60",
-      alpha = 0.25,
-      inherit.aes = FALSE,
-      show.legend = FALSE
+      ggplot2::scale_fill_gradientn(
+        colours = c("grey55", "grey80"),
+        breaks = sort(unique(ribbon$.level)),
+        guide = "legend",
+        name = "level"
+      )
     )
   }
 
