@@ -103,6 +103,34 @@ test_that("autoplot.PredictionFcst rejects non-flag facets", {
   expect_snapshot(ggplot2::autoplot(p, facets = "yes"), error = TRUE)
 })
 
+test_that("autoplot.PredictionFcst draws interval ribbons for quantile forecasts", {
+  skip_if_not_installed("vdiffr")
+  p = make_quantile_prediction()
+  g = ggplot2::autoplot(p)
+  expect_s3_class(g, "ggplot")
+  expect_s3_class(g$layers[[1L]]$geom, "GeomRibbon")
+  expect_setequal(g$layers[[1L]]$data$.level, c(80, 90))
+  vdiffr::expect_doppelganger("predictionfcst_quantiles", g)
+})
+
+test_that("autoplot.PredictionFcst draws interval ribbons over the history overlay", {
+  skip_if_not_installed("vdiffr")
+  task = tsk("airpassengers")
+  p = make_quantile_prediction()
+  g = ggplot2::autoplot(p, task = task)
+  expect_s3_class(g, "ggplot")
+  expect_s3_class(g$layers[[1L]]$geom, "GeomRibbon")
+  vdiffr::expect_doppelganger("predictionfcst_quantiles_history", g)
+})
+
+test_that("autoplot.PredictionFcst skips quantiles without a symmetric partner", {
+  skip_if_not_installed("ggplot2")
+  p = make_quantile_prediction(probs = c(0.1, 0.5))
+  g = ggplot2::autoplot(p)
+  expect_length(g$layers, 1L)
+  expect_s3_class(g$layers[[1L]]$geom, "GeomLine")
+})
+
 test_that("autoplot.PredictionFcst errors without a time index and without task", {
   skip_if_not_installed("ggplot2")
   p = PredictionFcst$new(row_ids = 1:3, truth = c(1, 2, 3), response = c(1, 2, 3))

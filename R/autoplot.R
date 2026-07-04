@@ -55,7 +55,9 @@ plot.TaskFcst = function(x, ...) {
 #' `task` is supplied, the historical series is overlaid and the forecast region is drawn in a distinct colour,
 #' connected to the last historical observation for visual continuity.
 #'
-#' Prediction intervals from quantile forecasts are not drawn yet; this is planned for a future release.
+#' For quantile forecasts, symmetric quantile pairs (e.g. the 10% and 90% quantiles) are drawn as shaded
+#' central prediction interval ribbons over the forecast region, with nested intervals darkening where they
+#' overlap. Quantiles without a symmetric partner are not drawn.
 #'
 #' @param object ([PredictionFcst]).
 #' @param task ([TaskFcst] | `NULL`)\cr
@@ -101,6 +103,30 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
   data = fc[, c(order, key, "response"), with = FALSE]
   setnames(data, "response", ".value")
   set(data, j = ".type", value = factor("forecast", levels = c("history", "forecast")))
+
+  ribbon = fcst_quantile_ribbon(object, fc, order, key)
+  ribbon_layer = NULL
+  if (!is.null(ribbon)) {
+    if (length(key) > 0L) {
+      ribbon[, ".key" := interaction(.SD, sep = "/", drop = TRUE), .SDcols = key]
+      ribbon[, ".group" := interaction(.SD, drop = TRUE), .SDcols = c(".level", ".key")]
+    } else {
+      set(ribbon, j = ".group", value = ribbon$.level)
+    }
+    ribbon_layer = ggplot2::geom_ribbon(
+      data = ribbon,
+      ggplot2::aes(
+        x = .data[[order]],
+        ymin = .data[[".lower"]],
+        ymax = .data[[".upper"]],
+        group = .data[[".group"]]
+      ),
+      fill = "grey60",
+      alpha = 0.25,
+      inherit.aes = FALSE,
+      show.legend = FALSE
+    )
+  }
 
   if (!is.null(task)) {
     target = task$col_roles$target
@@ -148,7 +174,32 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
         ggplot2::labs(colour = paste(key, collapse = "/"), linetype = NULL)
     }
   }
-  p + ggplot2::geom_line(...) + ggplot2::ylab(ylab) + theme
+  p + ribbon_layer + ggplot2::geom_line(...) + ggplot2::ylab(ylab) + theme
+}
+
+# pair symmetric quantile columns (p, 1 - p) into central prediction intervals, long over levels
+fcst_quantile_ribbon = function(object, fc, order, key) {
+  quantiles = object$data$quantiles
+  if (is.null(quantiles)) {
+    return()
+  }
+  probs = as.numeric(sub("^q", "", colnames(quantiles)))
+  lo_idx = which(probs < 0.5)
+  hi_idx = map_int(probs[lo_idx], function(p) {
+    j = which(abs(probs - (1 - p)) < sqrt(.Machine$double.eps))
+    if (length(j) == 1L) j else NA_integer_
+  })
+  keep = !is.na(hi_idx)
+  if (!any(keep)) {
+    return()
+  }
+  map_dtr(which(keep), function(i) {
+    out = fc[, c(order, key), with = FALSE]
+    set(out, j = ".lower", value = quantiles[, lo_idx[i]])
+    set(out, j = ".upper", value = quantiles[, hi_idx[i]])
+    set(out, j = ".level", value = round(100 * (probs[hi_idx[i]] - probs[lo_idx[i]])))
+    out
+  })
 }
 
 #' @export

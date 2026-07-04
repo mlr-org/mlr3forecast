@@ -65,6 +65,22 @@ fcst_prediction = function(task = tsk("airpassengers"), h = 12L) {
   forecast(learner, task, h = h)
 }
 
+# deterministic quantile forecast with widening central intervals
+make_quantile_prediction = function(h = 12L, probs = c(0.05, 0.1, 0.5, 0.9, 0.95), start = as.Date("1961-01-01")) {
+  response = 450 + 10 * sin(seq_len(h))
+  quantiles = response + outer(seq_len(h) / 2, stats::qnorm(probs))
+  colnames(quantiles) = sprintf("q%g", probs)
+  setattr(quantiles, "probs", probs)
+  setattr(quantiles, "response", 0.5)
+  PredictionFcst$new(
+    row_ids = seq_len(h),
+    truth = rep(NA_real_, h),
+    response = response,
+    quantiles = quantiles,
+    extra = list(month = seq(start, by = "month", length.out = h))
+  )
+}
+
 make_quantiles = function(lower, upper, probs = c(0.025, 0.975)) {
   q = cbind(lower, upper)
   colnames(q) = sprintf("q%s", probs)

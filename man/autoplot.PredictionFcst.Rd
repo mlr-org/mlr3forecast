@@ -35,7 +35,9 @@ Generates a forecast plot for \link{PredictionFcst}. The point forecast is drawn
 \code{task} is supplied, the historical series is overlaid and the forecast region is drawn in a distinct colour,
 connected to the last historical observation for visual continuity.
 
-Prediction intervals from quantile forecasts are not drawn yet; this is planned for a future release.
+For quantile forecasts, symmetric quantile pairs (e.g. the 10\% and 90\% quantiles) are drawn as shaded
+central prediction interval ribbons over the forecast region, with nested intervals darkening where they
+overlap. Quantiles without a symmetric partner are not drawn.
 }
 \examples{
 \dontshow{if (requireNamespace("forecast", quietly = TRUE) && requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
