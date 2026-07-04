@@ -152,5 +152,9 @@ as.data.table.PredictionFcst = function(x, ...) {
 fcst_extra_roles = function(extra) {
   nms = names(extra)
   is_key = map_lgl(extra, is.factor)
-  list(order = nms[!is_key][1L], key = nms[is_key])
+  order = nms[!is_key]
+  if (length(order) > 1L) {
+    stopf("Malformed forecast prediction: expected one order column in `$data$extra`, found %i.", length(order))
+  }
+  list(order = if (length(order) == 1L) order else NULL, key = nms[is_key])
 }
