@@ -12,6 +12,7 @@
 #'
 #' @export
 #' @examples
+#' \donttest{
 #' library(mlr3pipelines)
 #'
 #' task = tsk("airpassengers")
@@ -26,6 +27,7 @@
 #' flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
+#' }
 DirectForecaster = R6::R6Class(
   "DirectForecaster",
   inherit = Learner,

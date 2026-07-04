@@ -14,6 +14,7 @@ in the learner or graph. Such ops cannot yet be horizon-offset and would leak fu
 for horizons > 1, so they are rejected at construction.
 }
 \examples{
+\donttest{
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
@@ -28,6 +29,7 @@ flrn$predict(task, split$test)
 flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
+}
 }
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{DirectForecaster}

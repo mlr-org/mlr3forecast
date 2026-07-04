@@ -52,6 +52,7 @@ lrn("fcst.auto_adam")
 
 \examples{
 \dontshow{if (mlr3misc::require_namespaces(lrn("fcst.auto_adam")$packages, quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\donttest{
 # Define the Learner and set parameter values
 learner = lrn("fcst.auto_adam")
 print(learner)
@@ -76,6 +77,7 @@ predictions = learner$predict(task, row_ids = ids$test)
 
 # Score the predictions
 predictions$score()
+}
 \dontshow{\}) # examplesIf}
 }
 \references{

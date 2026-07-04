@@ -38,6 +38,7 @@
 #'
 #' @export
 #' @examples
+#' \donttest{
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")
 #' split = partition(task, ratio = 0.8)
@@ -47,6 +48,7 @@
 #' ))
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
+#' }
 PipeOpTargetTrafoBoxCox = R6Class(
   "PipeOpTargetTrafoBoxCox",
   inherit = PipeOpTargetTrafo,

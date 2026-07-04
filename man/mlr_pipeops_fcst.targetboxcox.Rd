@@ -46,6 +46,7 @@ original-scale backend, producing a train/predict scale mismatch (rejected at co
 }
 
 \examples{
+\donttest{
 library(mlr3pipelines)
 task = tsk("airpassengers")
 split = partition(task, ratio = 0.8)
@@ -55,6 +56,7 @@ flrn = as_learner(ppl("targettrafo",
 ))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
+}
 }
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTargetTrafo]{mlr3pipelines::PipeOpTargetTrafo}} -> \code{PipeOpTargetTrafoBoxCox}
