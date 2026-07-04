@@ -18,6 +18,9 @@ LearnerFcstSmooth = R6Class(
 
     .predict = function(task) {
       is_quantile = self$predict_type == "quantiles"
+      if (is_quantile) {
+        assert_quantiles(self, quantile_response = TRUE)
+      }
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
       if (!private$.is_newdata(task)) {
         if (is_quantile) {
