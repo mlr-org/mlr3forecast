@@ -102,7 +102,7 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
   # forecast region
   data = fc[, c(order, key, "response"), with = FALSE]
   setnames(data, "response", ".value")
-  set(data, j = ".type", value = factor("forecast", levels = c("history", "forecast")))
+  set(data, j = ".type", value = fctr("forecast", levels = c("history", "forecast")))
 
   ribbon = fcst_quantile_ribbon(object, fc, order, key)
   ribbon_layer = NULL
@@ -115,7 +115,7 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
     } else {
       group = ribbon$.level
     }
-    set(ribbon, j = ".group", value = factor(group, levels = unique(group)))
+    set(ribbon, j = ".group", value = fctr(group))
     ribbon_layer = list(
       ggplot2::geom_ribbon(
         data = ribbon,
@@ -142,7 +142,7 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
     target = task$col_roles$target
     hist = task$data(cols = c(target, order, key))
     setnames(hist, target, ".value")
-    set(hist, j = ".type", value = factor("history", levels = c("history", "forecast")))
+    set(hist, j = ".type", value = fctr("history", levels = c("history", "forecast")))
     # bridge the last historical observation per series into the forecast group for line continuity
     if (length(key) > 0L) {
       setorderv(hist, c(key, order))
@@ -152,7 +152,7 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
       bridge = hist[.N]
     }
     bridge = copy(bridge)
-    set(bridge, j = ".type", value = factor("forecast", levels = c("history", "forecast")))
+    set(bridge, j = ".type", value = fctr("forecast", levels = c("history", "forecast")))
     data = rbindlist(list(hist, bridge, data), use.names = TRUE, fill = TRUE)
   }
 
