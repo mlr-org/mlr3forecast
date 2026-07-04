@@ -61,6 +61,12 @@ LearnerFcstRlgt = R6Class(
       error_config("In-sample prediction is not supported for %s.", self$id)
     },
 
+    .adjust_level = function(level) {
+      # Rlgt special-cases a lone level 50 and crashes; pad it so a 2-column
+      # interval matrix comes back. the extra column is ignored downstream
+      if (length(level) == 1L && level == 50) c(50, 80) else level
+    },
+
     .postprocess = function(pred) {
       h = length(pred$mean)
       if (!is.null(pred$lower) && nrow(pred$lower) != h) {

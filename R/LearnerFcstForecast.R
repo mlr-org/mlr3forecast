@@ -11,6 +11,7 @@ LearnerFcstForecast = R6Class(
     .y_arg = "y",
 
     .postprocess = function(pred) pred,
+    .adjust_level = function(level) level,
 
     .train = function(task) {
       super$.train(task)
@@ -56,11 +57,7 @@ LearnerFcstForecast = R6Class(
         args[[private$.newdata_arg]] = newdata
       }
       if (is_quantile) {
-        level = quantiles_to_levels(private$.quantiles)
-        # pad a lone level 50 since Rlgt special-cases it and crashes; the extra column is ignored downstream
-        if (length(level) == 1L && level == 50) {
-          level = c(50, 80)
-        }
+        level = private$.adjust_level(quantiles_to_levels(private$.quantiles))
         if (length(level) > 0L) {
           args = insert_named(args, list(level = level))
         }
