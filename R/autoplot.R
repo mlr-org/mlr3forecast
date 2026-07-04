@@ -11,10 +11,10 @@
 #'   Additional argument, passed down to the underlying `geom` or plot functions.
 #' @return [ggplot2::ggplot()] object.
 #'
+#' @exportS3Method ggplot2::autoplot
 #' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
 #' task = tsk("airpassengers")
 #' ggplot2::autoplot(task)
-#' @exportS3Method ggplot2::autoplot
 autoplot.TaskFcst = function(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...) {
   assert_flag(facets)
   .data = NULL
