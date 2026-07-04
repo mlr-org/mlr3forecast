@@ -152,8 +152,5 @@ as.data.table.PredictionFcst = function(x, ...) {
 fcst_extra_roles = function(extra) {
   nms = names(extra)
   is_key = map_lgl(extra, is.factor)
-  list(
-    order = nms[!is_key][1L],
-    key = nms[is_key]
-  )
+  list(order = nms[!is_key][1L], key = nms[is_key])
 }
