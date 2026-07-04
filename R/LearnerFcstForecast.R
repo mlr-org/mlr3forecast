@@ -36,6 +36,9 @@ LearnerFcstForecast = R6Class(
     .predict = function(task) {
       pv = self$param_set$get_values(tags = "predict")
       is_quantile = self$predict_type == "quantiles"
+      if (is_quantile) {
+        assert_quantiles(self, quantile_response = TRUE)
+      }
 
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
 

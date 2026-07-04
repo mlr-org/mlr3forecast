@@ -8,6 +8,17 @@ quantile_learner = function(quantiles) {
   learner
 }
 
+test_that("quantile prediction errors when quantiles are not set", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.arima")
+  learner$predict_type = "quantiles"
+  learner$train(task, 1:132)
+  expect_error(
+    learner$predict_newdata(generate_newdata(task, n = 1L)),
+    "Quantiles must be set"
+  )
+})
+
 test_that("symmetric quantile prediction works for h = 1 and h > 1", {
   task = tsk("airpassengers")
   learner = quantile_learner(c(0.05, 0.1, 0.9, 0.95))
