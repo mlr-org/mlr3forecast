@@ -67,6 +67,7 @@ plot.TaskFcst = function(x, ...) {
 #'   Additional argument, passed down to the underlying `geom` or plot functions.
 #' @return [ggplot2::ggplot()] object.
 #'
+#' @exportS3Method ggplot2::autoplot
 #' @examplesIf requireNamespace("forecast", quietly = TRUE) && requireNamespace("ggplot2", quietly = TRUE)
 #' task = tsk("airpassengers")
 #' learner = lrn("fcst.auto_arima")$train(task)

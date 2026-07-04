@@ -4,7 +4,7 @@
 \alias{autoplot.PredictionFcst}
 \title{Plot for Forecast Predictions}
 \usage{
-autoplot.PredictionFcst(
+\method{autoplot}{PredictionFcst}(
   object,
   task = NULL,
   theme = ggplot2::theme_minimal(),
