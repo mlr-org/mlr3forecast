@@ -220,6 +220,7 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
+# \donttest{
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
@@ -254,4 +255,5 @@ flrn$predict(task, split$test)
 #>      142   461 368.6875 1960-10-01
 #>      143   390 364.9333 1960-11-01
 #>      144   432 362.3571 1960-12-01
+# }
 ```

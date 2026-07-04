@@ -200,6 +200,7 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
+# \donttest{
 # Define the Learner and set parameter values
 learner = lrn("fcst.auto_adam")
 print(learner)
@@ -226,7 +227,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 5.98 seconds
+#> Time elapsed: 6.79 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)+SARIMA(3,0,0)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Log-Normal
@@ -268,4 +269,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 predictions$score()
 #> regr.mse 
 #> 780.5313 
+# }
 ```

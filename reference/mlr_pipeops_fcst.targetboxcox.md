@@ -127,6 +127,7 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
+# \donttest{
 library(mlr3pipelines)
 task = tsk("airpassengers")
 split = partition(task, ratio = 0.8)
@@ -146,4 +147,5 @@ flrn$predict(task, split$test)
 #>      142   461 360.4986
 #>      143   390 340.1683
 #>      144   432 356.7078
+# }
 ```
