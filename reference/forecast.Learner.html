@@ -89,7 +89,9 @@ Forecast horizon — number of future time steps per key.</p></dd>
 <dt id="arg-newdata">newdata<a class="anchor" aria-label="anchor" href="#arg-newdata"></a></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> | <code>NULL</code>)<br>
 Optional exogenous features for future rows. Must contain the order column (and any key
-columns for keyed tasks). Columns other than those are overlaid onto the generated skeleton.</p></dd>
+columns for keyed tasks), and every row must match a row of the generated future grid.
+Columns other than those are overlaid onto the generated skeleton, while skeleton rows
+without a match keep <code>NA</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

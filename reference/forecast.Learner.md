@@ -43,8 +43,10 @@ forecast(object, task, h = 12L, newdata = NULL, ...)
 
   ([`data.frame()`](https://rdrr.io/r/base/data.frame.html) \| `NULL`)  
   Optional exogenous features for future rows. Must contain the order
-  column (and any key columns for keyed tasks). Columns other than those
-  are overlaid onto the generated skeleton.
+  column (and any key columns for keyed tasks), and every row must match
+  a row of the generated future grid. Columns other than those are
+  overlaid onto the generated skeleton, while skeleton rows without a
+  match keep `NA`.
 
 - ...:
 
