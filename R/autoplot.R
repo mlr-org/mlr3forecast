@@ -194,20 +194,20 @@ fcst_quantile_ribbon = function(object, fc, order, key) {
     return()
   }
   probs = as.numeric(sub("^q", "", colnames(quantiles)))
-  lo_idx = which(probs < 0.5)
-  hi_idx = map_int(probs[lo_idx], function(p) {
+  ii = which(probs < 0.5)
+  jj = map_int(probs[ii], function(p) {
     j = which(abs(probs - (1 - p)) < sqrt(.Machine$double.eps))
     if (length(j) == 1L) j else NA_integer_
   })
-  keep = !is.na(hi_idx)
+  keep = !is.na(jj)
   if (!any(keep)) {
     return()
   }
   map_dtr(which(keep), function(i) {
     out = fc[, c(order, key), with = FALSE]
-    set(out, j = ".lower", value = quantiles[, lo_idx[i]])
-    set(out, j = ".upper", value = quantiles[, hi_idx[i]])
-    set(out, j = ".level", value = round(100 * (probs[hi_idx[i]] - probs[lo_idx[i]])))
+    set(out, j = ".lower", value = quantiles[, ii[i]])
+    set(out, j = ".upper", value = quantiles[, jj[i]])
+    set(out, j = ".level", value = round(100 * (probs[jj[i]] - probs[ii[i]])))
     out
   })
 }
