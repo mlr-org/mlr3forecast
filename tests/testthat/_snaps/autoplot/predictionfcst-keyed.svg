@@ -164,119 +164,119 @@
 <text x='74.02' y='556.10' text-anchor='middle' style='font-size: 8.80px; fill: #4D4D4D; font-family: sans;' textLength='19.58px' lengthAdjust='spacingAndGlyphs'>2020</text>
 <text x='66.03' y='568.24' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='30.58px' lengthAdjust='spacingAndGlyphs'>month</text>
 <text transform='translate(13.05,283.95) rotate(-90)' text-anchor='middle' style='font-size: 11.00px; font-family: sans;' textLength='26.91px' lengthAdjust='spacingAndGlyphs'>count</text>
-<line x1='92.95' y1='101.16' x2='106.77' y2='101.16' style='stroke-width: 1.07; stroke-linecap: butt;' />
-<line x1='92.95' y1='118.44' x2='106.77' y2='118.44' style='stroke-width: 1.07; stroke-dasharray: 2.85,2.85; stroke-linecap: butt;' />
-<text x='113.98' y='104.19' style='font-size: 8.80px; font-family: sans;' textLength='25.92px' lengthAdjust='spacingAndGlyphs'>history</text>
-<text x='113.98' y='121.47' style='font-size: 8.80px; font-family: sans;' textLength='31.31px' lengthAdjust='spacingAndGlyphs'>forecast</text>
-<text x='91.22' y='157.71' style='font-size: 11.00px; font-family: sans;' textLength='59.31px' lengthAdjust='spacingAndGlyphs'>animal/state</text>
-<line x1='92.95' y1='172.97' x2='106.77' y2='172.97' style='stroke-width: 1.07; stroke: #F8766D; stroke-linecap: butt;' />
-<line x1='92.95' y1='190.25' x2='106.77' y2='190.25' style='stroke-width: 1.07; stroke: #F37B5A; stroke-linecap: butt;' />
-<line x1='92.95' y1='207.53' x2='106.77' y2='207.53' style='stroke-width: 1.07; stroke: #EE8045; stroke-linecap: butt;' />
-<line x1='92.95' y1='224.81' x2='106.77' y2='224.81' style='stroke-width: 1.07; stroke: #E88526; stroke-linecap: butt;' />
-<line x1='92.95' y1='242.09' x2='106.77' y2='242.09' style='stroke-width: 1.07; stroke: #E28900; stroke-linecap: butt;' />
-<line x1='92.95' y1='259.37' x2='106.77' y2='259.37' style='stroke-width: 1.07; stroke: #DB8E00; stroke-linecap: butt;' />
-<line x1='92.95' y1='276.65' x2='106.77' y2='276.65' style='stroke-width: 1.07; stroke: #D39200; stroke-linecap: butt;' />
-<line x1='92.95' y1='293.93' x2='106.77' y2='293.93' style='stroke-width: 1.07; stroke: #CA9700; stroke-linecap: butt;' />
-<line x1='92.95' y1='311.21' x2='106.77' y2='311.21' style='stroke-width: 1.07; stroke: #C19B00; stroke-linecap: butt;' />
-<line x1='92.95' y1='328.49' x2='106.77' y2='328.49' style='stroke-width: 1.07; stroke: #B79F00; stroke-linecap: butt;' />
-<line x1='92.95' y1='345.77' x2='106.77' y2='345.77' style='stroke-width: 1.07; stroke: #ACA300; stroke-linecap: butt;' />
-<line x1='92.95' y1='363.05' x2='106.77' y2='363.05' style='stroke-width: 1.07; stroke: #A0A600; stroke-linecap: butt;' />
-<line x1='92.95' y1='380.33' x2='106.77' y2='380.33' style='stroke-width: 1.07; stroke: #93AA00; stroke-linecap: butt;' />
-<line x1='92.95' y1='397.61' x2='106.77' y2='397.61' style='stroke-width: 1.07; stroke: #84AD00; stroke-linecap: butt;' />
-<line x1='92.95' y1='414.89' x2='106.77' y2='414.89' style='stroke-width: 1.07; stroke: #73B000; stroke-linecap: butt;' />
-<line x1='92.95' y1='432.17' x2='106.77' y2='432.17' style='stroke-width: 1.07; stroke: #5EB300; stroke-linecap: butt;' />
-<line x1='92.95' y1='449.45' x2='106.77' y2='449.45' style='stroke-width: 1.07; stroke: #41B500; stroke-linecap: butt;' />
-<line x1='92.95' y1='466.73' x2='106.77' y2='466.73' style='stroke-width: 1.07; stroke: #00B80F; stroke-linecap: butt;' />
-<line x1='327.12' y1='172.97' x2='340.94' y2='172.97' style='stroke-width: 1.07; stroke: #00BA38; stroke-linecap: butt;' />
-<line x1='327.12' y1='190.25' x2='340.94' y2='190.25' style='stroke-width: 1.07; stroke: #00BC50; stroke-linecap: butt;' />
-<line x1='327.12' y1='207.53' x2='340.94' y2='207.53' style='stroke-width: 1.07; stroke: #00BD63; stroke-linecap: butt;' />
-<line x1='327.12' y1='224.81' x2='340.94' y2='224.81' style='stroke-width: 1.07; stroke: #00BF74; stroke-linecap: butt;' />
-<line x1='327.12' y1='242.09' x2='340.94' y2='242.09' style='stroke-width: 1.07; stroke: #00C083; stroke-linecap: butt;' />
-<line x1='327.12' y1='259.37' x2='340.94' y2='259.37' style='stroke-width: 1.07; stroke: #00C092; stroke-linecap: butt;' />
-<line x1='327.12' y1='276.65' x2='340.94' y2='276.65' style='stroke-width: 1.07; stroke: #00C19F; stroke-linecap: butt;' />
-<line x1='327.12' y1='293.93' x2='340.94' y2='293.93' style='stroke-width: 1.07; stroke: #00C1AC; stroke-linecap: butt;' />
-<line x1='327.12' y1='311.21' x2='340.94' y2='311.21' style='stroke-width: 1.07; stroke: #00C0B9; stroke-linecap: butt;' />
-<line x1='327.12' y1='328.49' x2='340.94' y2='328.49' style='stroke-width: 1.07; stroke: #00BFC4; stroke-linecap: butt;' />
-<line x1='327.12' y1='345.77' x2='340.94' y2='345.77' style='stroke-width: 1.07; stroke: #00BECF; stroke-linecap: butt;' />
-<line x1='327.12' y1='363.05' x2='340.94' y2='363.05' style='stroke-width: 1.07; stroke: #00BBDA; stroke-linecap: butt;' />
-<line x1='327.12' y1='380.33' x2='340.94' y2='380.33' style='stroke-width: 1.07; stroke: #00B9E3; stroke-linecap: butt;' />
-<line x1='327.12' y1='397.61' x2='340.94' y2='397.61' style='stroke-width: 1.07; stroke: #00B6EC; stroke-linecap: butt;' />
-<line x1='327.12' y1='414.89' x2='340.94' y2='414.89' style='stroke-width: 1.07; stroke: #00B2F4; stroke-linecap: butt;' />
-<line x1='327.12' y1='432.17' x2='340.94' y2='432.17' style='stroke-width: 1.07; stroke: #00ADFA; stroke-linecap: butt;' />
-<line x1='327.12' y1='449.45' x2='340.94' y2='449.45' style='stroke-width: 1.07; stroke: #00A8FF; stroke-linecap: butt;' />
-<line x1='327.12' y1='466.73' x2='340.94' y2='466.73' style='stroke-width: 1.07; stroke: #2EA2FF; stroke-linecap: butt;' />
-<line x1='516.80' y1='172.97' x2='530.62' y2='172.97' style='stroke-width: 1.07; stroke: #619CFF; stroke-linecap: butt;' />
-<line x1='516.80' y1='190.25' x2='530.62' y2='190.25' style='stroke-width: 1.07; stroke: #8195FF; stroke-linecap: butt;' />
-<line x1='516.80' y1='207.53' x2='530.62' y2='207.53' style='stroke-width: 1.07; stroke: #998EFF; stroke-linecap: butt;' />
-<line x1='516.80' y1='224.81' x2='530.62' y2='224.81' style='stroke-width: 1.07; stroke: #AE87FF; stroke-linecap: butt;' />
-<line x1='516.80' y1='242.09' x2='530.62' y2='242.09' style='stroke-width: 1.07; stroke: #BF80FF; stroke-linecap: butt;' />
-<line x1='516.80' y1='259.37' x2='530.62' y2='259.37' style='stroke-width: 1.07; stroke: #CE79FF; stroke-linecap: butt;' />
-<line x1='516.80' y1='276.65' x2='530.62' y2='276.65' style='stroke-width: 1.07; stroke: #DB72FB; stroke-linecap: butt;' />
-<line x1='516.80' y1='293.93' x2='530.62' y2='293.93' style='stroke-width: 1.07; stroke: #E56CF4; stroke-linecap: butt;' />
-<line x1='516.80' y1='311.21' x2='530.62' y2='311.21' style='stroke-width: 1.07; stroke: #EE67EC; stroke-linecap: butt;' />
-<line x1='516.80' y1='328.49' x2='530.62' y2='328.49' style='stroke-width: 1.07; stroke: #F564E3; stroke-linecap: butt;' />
-<line x1='516.80' y1='345.77' x2='530.62' y2='345.77' style='stroke-width: 1.07; stroke: #FA62DA; stroke-linecap: butt;' />
-<line x1='516.80' y1='363.05' x2='530.62' y2='363.05' style='stroke-width: 1.07; stroke: #FE61CF; stroke-linecap: butt;' />
-<line x1='516.80' y1='380.33' x2='530.62' y2='380.33' style='stroke-width: 1.07; stroke: #FF61C3; stroke-linecap: butt;' />
-<line x1='516.80' y1='397.61' x2='530.62' y2='397.61' style='stroke-width: 1.07; stroke: #FF63B7; stroke-linecap: butt;' />
-<line x1='516.80' y1='414.89' x2='530.62' y2='414.89' style='stroke-width: 1.07; stroke: #FF66AA; stroke-linecap: butt;' />
-<line x1='516.80' y1='432.17' x2='530.62' y2='432.17' style='stroke-width: 1.07; stroke: #FF699C; stroke-linecap: butt;' />
-<line x1='516.80' y1='449.45' x2='530.62' y2='449.45' style='stroke-width: 1.07; stroke: #FE6D8D; stroke-linecap: butt;' />
-<line x1='516.80' y1='466.73' x2='530.62' y2='466.73' style='stroke-width: 1.07; stroke: #FC727E; stroke-linecap: butt;' />
-<text x='113.98' y='176.00' style='font-size: 8.80px; font-family: sans;' textLength='205.93px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Australian Capital Territory</text>
-<text x='113.98' y='193.28' style='font-size: 8.80px; font-family: sans;' textLength='133.53px' lengthAdjust='spacingAndGlyphs'>Calves/Australian Capital Territory</text>
-<text x='113.98' y='210.56' style='font-size: 8.80px; font-family: sans;' textLength='183.41px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Australian Capital Territory</text>
-<text x='113.98' y='227.84' style='font-size: 8.80px; font-family: sans;' textLength='133.04px' lengthAdjust='spacingAndGlyphs'>Lambs/Australian Capital Territory</text>
-<text x='113.98' y='245.12' style='font-size: 8.80px; font-family: sans;' textLength='123.74px' lengthAdjust='spacingAndGlyphs'>Pigs/Australian Capital Territory</text>
-<text x='113.98' y='262.40' style='font-size: 8.80px; font-family: sans;' textLength='132.07px' lengthAdjust='spacingAndGlyphs'>Sheep/Australian Capital Territory</text>
-<text x='113.98' y='279.68' style='font-size: 8.80px; font-family: sans;' textLength='171.71px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/New South Wales</text>
-<text x='113.98' y='296.96' style='font-size: 8.80px; font-family: sans;' textLength='99.30px' lengthAdjust='spacingAndGlyphs'>Calves/New South Wales</text>
-<text x='113.98' y='314.24' style='font-size: 8.80px; font-family: sans;' textLength='149.19px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/New South Wales</text>
-<text x='113.98' y='331.52' style='font-size: 8.80px; font-family: sans;' textLength='140.40px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/New South Wales</text>
-<text x='113.98' y='348.80' style='font-size: 8.80px; font-family: sans;' textLength='98.82px' lengthAdjust='spacingAndGlyphs'>Lambs/New South Wales</text>
-<text x='113.98' y='366.08' style='font-size: 8.80px; font-family: sans;' textLength='89.52px' lengthAdjust='spacingAndGlyphs'>Pigs/New South Wales</text>
-<text x='113.98' y='383.36' style='font-size: 8.80px; font-family: sans;' textLength='97.84px' lengthAdjust='spacingAndGlyphs'>Sheep/New South Wales</text>
-<text x='113.98' y='400.64' style='font-size: 8.80px; font-family: sans;' textLength='171.20px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Northern Territory</text>
-<text x='113.98' y='417.92' style='font-size: 8.80px; font-family: sans;' textLength='98.79px' lengthAdjust='spacingAndGlyphs'>Calves/Northern Territory</text>
-<text x='113.98' y='435.20' style='font-size: 8.80px; font-family: sans;' textLength='148.68px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Northern Territory</text>
-<text x='113.98' y='452.48' style='font-size: 8.80px; font-family: sans;' textLength='139.89px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Northern Territory</text>
-<text x='113.98' y='469.76' style='font-size: 8.80px; font-family: sans;' textLength='89.01px' lengthAdjust='spacingAndGlyphs'>Pigs/Northern Territory</text>
-<text x='348.15' y='176.00' style='font-size: 8.80px; font-family: sans;' textLength='97.34px' lengthAdjust='spacingAndGlyphs'>Sheep/Northern Territory</text>
-<text x='348.15' y='193.28' style='font-size: 8.80px; font-family: sans;' textLength='149.22px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Queensland</text>
-<text x='348.15' y='210.56' style='font-size: 8.80px; font-family: sans;' textLength='76.82px' lengthAdjust='spacingAndGlyphs'>Calves/Queensland</text>
-<text x='348.15' y='227.84' style='font-size: 8.80px; font-family: sans;' textLength='126.70px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Queensland</text>
-<text x='348.15' y='245.12' style='font-size: 8.80px; font-family: sans;' textLength='117.91px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Queensland</text>
-<text x='348.15' y='262.40' style='font-size: 8.80px; font-family: sans;' textLength='76.33px' lengthAdjust='spacingAndGlyphs'>Lambs/Queensland</text>
-<text x='348.15' y='279.68' style='font-size: 8.80px; font-family: sans;' textLength='67.03px' lengthAdjust='spacingAndGlyphs'>Pigs/Queensland</text>
-<text x='348.15' y='296.96' style='font-size: 8.80px; font-family: sans;' textLength='75.36px' lengthAdjust='spacingAndGlyphs'>Sheep/Queensland</text>
-<text x='348.15' y='314.24' style='font-size: 8.80px; font-family: sans;' textLength='161.44px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/South Australia</text>
-<text x='348.15' y='331.52' style='font-size: 8.80px; font-family: sans;' textLength='89.04px' lengthAdjust='spacingAndGlyphs'>Calves/South Australia</text>
-<text x='348.15' y='348.80' style='font-size: 8.80px; font-family: sans;' textLength='138.92px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/South Australia</text>
-<text x='348.15' y='366.08' style='font-size: 8.80px; font-family: sans;' textLength='130.13px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/South Australia</text>
-<text x='348.15' y='383.36' style='font-size: 8.80px; font-family: sans;' textLength='88.55px' lengthAdjust='spacingAndGlyphs'>Lambs/South Australia</text>
-<text x='348.15' y='400.64' style='font-size: 8.80px; font-family: sans;' textLength='79.25px' lengthAdjust='spacingAndGlyphs'>Pigs/South Australia</text>
-<text x='348.15' y='417.92' style='font-size: 8.80px; font-family: sans;' textLength='87.58px' lengthAdjust='spacingAndGlyphs'>Sheep/South Australia</text>
-<text x='348.15' y='435.20' style='font-size: 8.80px; font-family: sans;' textLength='140.40px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Tasmania</text>
-<text x='348.15' y='452.48' style='font-size: 8.80px; font-family: sans;' textLength='68.00px' lengthAdjust='spacingAndGlyphs'>Calves/Tasmania</text>
-<text x='348.15' y='469.76' style='font-size: 8.80px; font-family: sans;' textLength='117.88px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Tasmania</text>
-<text x='537.83' y='176.00' style='font-size: 8.80px; font-family: sans;' textLength='109.09px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Tasmania</text>
-<text x='537.83' y='193.28' style='font-size: 8.80px; font-family: sans;' textLength='67.51px' lengthAdjust='spacingAndGlyphs'>Lambs/Tasmania</text>
-<text x='537.83' y='210.56' style='font-size: 8.80px; font-family: sans;' textLength='58.21px' lengthAdjust='spacingAndGlyphs'>Pigs/Tasmania</text>
-<text x='537.83' y='227.84' style='font-size: 8.80px; font-family: sans;' textLength='66.54px' lengthAdjust='spacingAndGlyphs'>Sheep/Tasmania</text>
-<text x='537.83' y='245.12' style='font-size: 8.80px; font-family: sans;' textLength='131.10px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Victoria</text>
-<text x='537.83' y='262.40' style='font-size: 8.80px; font-family: sans;' textLength='58.70px' lengthAdjust='spacingAndGlyphs'>Calves/Victoria</text>
-<text x='537.83' y='279.68' style='font-size: 8.80px; font-family: sans;' textLength='108.58px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Victoria</text>
-<text x='537.83' y='296.96' style='font-size: 8.80px; font-family: sans;' textLength='99.79px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Victoria</text>
-<text x='537.83' y='314.24' style='font-size: 8.80px; font-family: sans;' textLength='58.21px' lengthAdjust='spacingAndGlyphs'>Lambs/Victoria</text>
-<text x='537.83' y='331.52' style='font-size: 8.80px; font-family: sans;' textLength='48.91px' lengthAdjust='spacingAndGlyphs'>Pigs/Victoria</text>
-<text x='537.83' y='348.80' style='font-size: 8.80px; font-family: sans;' textLength='57.24px' lengthAdjust='spacingAndGlyphs'>Sheep/Victoria</text>
-<text x='537.83' y='366.08' style='font-size: 8.80px; font-family: sans;' textLength='171.21px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Western Australia</text>
-<text x='537.83' y='383.36' style='font-size: 8.80px; font-family: sans;' textLength='98.80px' lengthAdjust='spacingAndGlyphs'>Calves/Western Australia</text>
-<text x='537.83' y='400.64' style='font-size: 8.80px; font-family: sans;' textLength='148.69px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Western Australia</text>
-<text x='537.83' y='417.92' style='font-size: 8.80px; font-family: sans;' textLength='139.90px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Western Australia</text>
-<text x='537.83' y='435.20' style='font-size: 8.80px; font-family: sans;' textLength='98.32px' lengthAdjust='spacingAndGlyphs'>Lambs/Western Australia</text>
-<text x='537.83' y='452.48' style='font-size: 8.80px; font-family: sans;' textLength='89.02px' lengthAdjust='spacingAndGlyphs'>Pigs/Western Australia</text>
-<text x='537.83' y='469.76' style='font-size: 8.80px; font-family: sans;' textLength='97.35px' lengthAdjust='spacingAndGlyphs'>Sheep/Western Australia</text>
+<text x='91.22' y='101.23' style='font-size: 11.00px; font-family: sans;' textLength='59.31px' lengthAdjust='spacingAndGlyphs'>animal/state</text>
+<line x1='92.95' y1='116.50' x2='106.77' y2='116.50' style='stroke-width: 1.07; stroke: #F8766D; stroke-linecap: butt;' />
+<line x1='92.95' y1='133.78' x2='106.77' y2='133.78' style='stroke-width: 1.07; stroke: #F37B5A; stroke-linecap: butt;' />
+<line x1='92.95' y1='151.06' x2='106.77' y2='151.06' style='stroke-width: 1.07; stroke: #EE8045; stroke-linecap: butt;' />
+<line x1='92.95' y1='168.34' x2='106.77' y2='168.34' style='stroke-width: 1.07; stroke: #E88526; stroke-linecap: butt;' />
+<line x1='92.95' y1='185.62' x2='106.77' y2='185.62' style='stroke-width: 1.07; stroke: #E28900; stroke-linecap: butt;' />
+<line x1='92.95' y1='202.90' x2='106.77' y2='202.90' style='stroke-width: 1.07; stroke: #DB8E00; stroke-linecap: butt;' />
+<line x1='92.95' y1='220.18' x2='106.77' y2='220.18' style='stroke-width: 1.07; stroke: #D39200; stroke-linecap: butt;' />
+<line x1='92.95' y1='237.46' x2='106.77' y2='237.46' style='stroke-width: 1.07; stroke: #CA9700; stroke-linecap: butt;' />
+<line x1='92.95' y1='254.74' x2='106.77' y2='254.74' style='stroke-width: 1.07; stroke: #C19B00; stroke-linecap: butt;' />
+<line x1='92.95' y1='272.02' x2='106.77' y2='272.02' style='stroke-width: 1.07; stroke: #B79F00; stroke-linecap: butt;' />
+<line x1='92.95' y1='289.30' x2='106.77' y2='289.30' style='stroke-width: 1.07; stroke: #ACA300; stroke-linecap: butt;' />
+<line x1='92.95' y1='306.58' x2='106.77' y2='306.58' style='stroke-width: 1.07; stroke: #A0A600; stroke-linecap: butt;' />
+<line x1='92.95' y1='323.86' x2='106.77' y2='323.86' style='stroke-width: 1.07; stroke: #93AA00; stroke-linecap: butt;' />
+<line x1='92.95' y1='341.14' x2='106.77' y2='341.14' style='stroke-width: 1.07; stroke: #84AD00; stroke-linecap: butt;' />
+<line x1='92.95' y1='358.42' x2='106.77' y2='358.42' style='stroke-width: 1.07; stroke: #73B000; stroke-linecap: butt;' />
+<line x1='92.95' y1='375.70' x2='106.77' y2='375.70' style='stroke-width: 1.07; stroke: #5EB300; stroke-linecap: butt;' />
+<line x1='92.95' y1='392.98' x2='106.77' y2='392.98' style='stroke-width: 1.07; stroke: #41B500; stroke-linecap: butt;' />
+<line x1='92.95' y1='410.26' x2='106.77' y2='410.26' style='stroke-width: 1.07; stroke: #00B80F; stroke-linecap: butt;' />
+<line x1='327.12' y1='116.50' x2='340.94' y2='116.50' style='stroke-width: 1.07; stroke: #00BA38; stroke-linecap: butt;' />
+<line x1='327.12' y1='133.78' x2='340.94' y2='133.78' style='stroke-width: 1.07; stroke: #00BC50; stroke-linecap: butt;' />
+<line x1='327.12' y1='151.06' x2='340.94' y2='151.06' style='stroke-width: 1.07; stroke: #00BD63; stroke-linecap: butt;' />
+<line x1='327.12' y1='168.34' x2='340.94' y2='168.34' style='stroke-width: 1.07; stroke: #00BF74; stroke-linecap: butt;' />
+<line x1='327.12' y1='185.62' x2='340.94' y2='185.62' style='stroke-width: 1.07; stroke: #00C083; stroke-linecap: butt;' />
+<line x1='327.12' y1='202.90' x2='340.94' y2='202.90' style='stroke-width: 1.07; stroke: #00C092; stroke-linecap: butt;' />
+<line x1='327.12' y1='220.18' x2='340.94' y2='220.18' style='stroke-width: 1.07; stroke: #00C19F; stroke-linecap: butt;' />
+<line x1='327.12' y1='237.46' x2='340.94' y2='237.46' style='stroke-width: 1.07; stroke: #00C1AC; stroke-linecap: butt;' />
+<line x1='327.12' y1='254.74' x2='340.94' y2='254.74' style='stroke-width: 1.07; stroke: #00C0B9; stroke-linecap: butt;' />
+<line x1='327.12' y1='272.02' x2='340.94' y2='272.02' style='stroke-width: 1.07; stroke: #00BFC4; stroke-linecap: butt;' />
+<line x1='327.12' y1='289.30' x2='340.94' y2='289.30' style='stroke-width: 1.07; stroke: #00BECF; stroke-linecap: butt;' />
+<line x1='327.12' y1='306.58' x2='340.94' y2='306.58' style='stroke-width: 1.07; stroke: #00BBDA; stroke-linecap: butt;' />
+<line x1='327.12' y1='323.86' x2='340.94' y2='323.86' style='stroke-width: 1.07; stroke: #00B9E3; stroke-linecap: butt;' />
+<line x1='327.12' y1='341.14' x2='340.94' y2='341.14' style='stroke-width: 1.07; stroke: #00B6EC; stroke-linecap: butt;' />
+<line x1='327.12' y1='358.42' x2='340.94' y2='358.42' style='stroke-width: 1.07; stroke: #00B2F4; stroke-linecap: butt;' />
+<line x1='327.12' y1='375.70' x2='340.94' y2='375.70' style='stroke-width: 1.07; stroke: #00ADFA; stroke-linecap: butt;' />
+<line x1='327.12' y1='392.98' x2='340.94' y2='392.98' style='stroke-width: 1.07; stroke: #00A8FF; stroke-linecap: butt;' />
+<line x1='327.12' y1='410.26' x2='340.94' y2='410.26' style='stroke-width: 1.07; stroke: #2EA2FF; stroke-linecap: butt;' />
+<line x1='516.80' y1='116.50' x2='530.62' y2='116.50' style='stroke-width: 1.07; stroke: #619CFF; stroke-linecap: butt;' />
+<line x1='516.80' y1='133.78' x2='530.62' y2='133.78' style='stroke-width: 1.07; stroke: #8195FF; stroke-linecap: butt;' />
+<line x1='516.80' y1='151.06' x2='530.62' y2='151.06' style='stroke-width: 1.07; stroke: #998EFF; stroke-linecap: butt;' />
+<line x1='516.80' y1='168.34' x2='530.62' y2='168.34' style='stroke-width: 1.07; stroke: #AE87FF; stroke-linecap: butt;' />
+<line x1='516.80' y1='185.62' x2='530.62' y2='185.62' style='stroke-width: 1.07; stroke: #BF80FF; stroke-linecap: butt;' />
+<line x1='516.80' y1='202.90' x2='530.62' y2='202.90' style='stroke-width: 1.07; stroke: #CE79FF; stroke-linecap: butt;' />
+<line x1='516.80' y1='220.18' x2='530.62' y2='220.18' style='stroke-width: 1.07; stroke: #DB72FB; stroke-linecap: butt;' />
+<line x1='516.80' y1='237.46' x2='530.62' y2='237.46' style='stroke-width: 1.07; stroke: #E56CF4; stroke-linecap: butt;' />
+<line x1='516.80' y1='254.74' x2='530.62' y2='254.74' style='stroke-width: 1.07; stroke: #EE67EC; stroke-linecap: butt;' />
+<line x1='516.80' y1='272.02' x2='530.62' y2='272.02' style='stroke-width: 1.07; stroke: #F564E3; stroke-linecap: butt;' />
+<line x1='516.80' y1='289.30' x2='530.62' y2='289.30' style='stroke-width: 1.07; stroke: #FA62DA; stroke-linecap: butt;' />
+<line x1='516.80' y1='306.58' x2='530.62' y2='306.58' style='stroke-width: 1.07; stroke: #FE61CF; stroke-linecap: butt;' />
+<line x1='516.80' y1='323.86' x2='530.62' y2='323.86' style='stroke-width: 1.07; stroke: #FF61C3; stroke-linecap: butt;' />
+<line x1='516.80' y1='341.14' x2='530.62' y2='341.14' style='stroke-width: 1.07; stroke: #FF63B7; stroke-linecap: butt;' />
+<line x1='516.80' y1='358.42' x2='530.62' y2='358.42' style='stroke-width: 1.07; stroke: #FF66AA; stroke-linecap: butt;' />
+<line x1='516.80' y1='375.70' x2='530.62' y2='375.70' style='stroke-width: 1.07; stroke: #FF699C; stroke-linecap: butt;' />
+<line x1='516.80' y1='392.98' x2='530.62' y2='392.98' style='stroke-width: 1.07; stroke: #FE6D8D; stroke-linecap: butt;' />
+<line x1='516.80' y1='410.26' x2='530.62' y2='410.26' style='stroke-width: 1.07; stroke: #FC727E; stroke-linecap: butt;' />
+<text x='113.98' y='119.52' style='font-size: 8.80px; font-family: sans;' textLength='205.93px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Australian Capital Territory</text>
+<text x='113.98' y='136.80' style='font-size: 8.80px; font-family: sans;' textLength='133.53px' lengthAdjust='spacingAndGlyphs'>Calves/Australian Capital Territory</text>
+<text x='113.98' y='154.08' style='font-size: 8.80px; font-family: sans;' textLength='183.41px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Australian Capital Territory</text>
+<text x='113.98' y='171.36' style='font-size: 8.80px; font-family: sans;' textLength='133.04px' lengthAdjust='spacingAndGlyphs'>Lambs/Australian Capital Territory</text>
+<text x='113.98' y='188.64' style='font-size: 8.80px; font-family: sans;' textLength='123.74px' lengthAdjust='spacingAndGlyphs'>Pigs/Australian Capital Territory</text>
+<text x='113.98' y='205.92' style='font-size: 8.80px; font-family: sans;' textLength='132.07px' lengthAdjust='spacingAndGlyphs'>Sheep/Australian Capital Territory</text>
+<text x='113.98' y='223.20' style='font-size: 8.80px; font-family: sans;' textLength='171.71px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/New South Wales</text>
+<text x='113.98' y='240.48' style='font-size: 8.80px; font-family: sans;' textLength='99.30px' lengthAdjust='spacingAndGlyphs'>Calves/New South Wales</text>
+<text x='113.98' y='257.76' style='font-size: 8.80px; font-family: sans;' textLength='149.19px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/New South Wales</text>
+<text x='113.98' y='275.04' style='font-size: 8.80px; font-family: sans;' textLength='140.40px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/New South Wales</text>
+<text x='113.98' y='292.32' style='font-size: 8.80px; font-family: sans;' textLength='98.82px' lengthAdjust='spacingAndGlyphs'>Lambs/New South Wales</text>
+<text x='113.98' y='309.60' style='font-size: 8.80px; font-family: sans;' textLength='89.52px' lengthAdjust='spacingAndGlyphs'>Pigs/New South Wales</text>
+<text x='113.98' y='326.88' style='font-size: 8.80px; font-family: sans;' textLength='97.84px' lengthAdjust='spacingAndGlyphs'>Sheep/New South Wales</text>
+<text x='113.98' y='344.16' style='font-size: 8.80px; font-family: sans;' textLength='171.20px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Northern Territory</text>
+<text x='113.98' y='361.44' style='font-size: 8.80px; font-family: sans;' textLength='98.79px' lengthAdjust='spacingAndGlyphs'>Calves/Northern Territory</text>
+<text x='113.98' y='378.72' style='font-size: 8.80px; font-family: sans;' textLength='148.68px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Northern Territory</text>
+<text x='113.98' y='396.00' style='font-size: 8.80px; font-family: sans;' textLength='139.89px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Northern Territory</text>
+<text x='113.98' y='413.28' style='font-size: 8.80px; font-family: sans;' textLength='89.01px' lengthAdjust='spacingAndGlyphs'>Pigs/Northern Territory</text>
+<text x='348.15' y='119.52' style='font-size: 8.80px; font-family: sans;' textLength='97.34px' lengthAdjust='spacingAndGlyphs'>Sheep/Northern Territory</text>
+<text x='348.15' y='136.80' style='font-size: 8.80px; font-family: sans;' textLength='149.22px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Queensland</text>
+<text x='348.15' y='154.08' style='font-size: 8.80px; font-family: sans;' textLength='76.82px' lengthAdjust='spacingAndGlyphs'>Calves/Queensland</text>
+<text x='348.15' y='171.36' style='font-size: 8.80px; font-family: sans;' textLength='126.70px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Queensland</text>
+<text x='348.15' y='188.64' style='font-size: 8.80px; font-family: sans;' textLength='117.91px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Queensland</text>
+<text x='348.15' y='205.92' style='font-size: 8.80px; font-family: sans;' textLength='76.33px' lengthAdjust='spacingAndGlyphs'>Lambs/Queensland</text>
+<text x='348.15' y='223.20' style='font-size: 8.80px; font-family: sans;' textLength='67.03px' lengthAdjust='spacingAndGlyphs'>Pigs/Queensland</text>
+<text x='348.15' y='240.48' style='font-size: 8.80px; font-family: sans;' textLength='75.36px' lengthAdjust='spacingAndGlyphs'>Sheep/Queensland</text>
+<text x='348.15' y='257.76' style='font-size: 8.80px; font-family: sans;' textLength='161.44px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/South Australia</text>
+<text x='348.15' y='275.04' style='font-size: 8.80px; font-family: sans;' textLength='89.04px' lengthAdjust='spacingAndGlyphs'>Calves/South Australia</text>
+<text x='348.15' y='292.32' style='font-size: 8.80px; font-family: sans;' textLength='138.92px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/South Australia</text>
+<text x='348.15' y='309.60' style='font-size: 8.80px; font-family: sans;' textLength='130.13px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/South Australia</text>
+<text x='348.15' y='326.88' style='font-size: 8.80px; font-family: sans;' textLength='88.55px' lengthAdjust='spacingAndGlyphs'>Lambs/South Australia</text>
+<text x='348.15' y='344.16' style='font-size: 8.80px; font-family: sans;' textLength='79.25px' lengthAdjust='spacingAndGlyphs'>Pigs/South Australia</text>
+<text x='348.15' y='361.44' style='font-size: 8.80px; font-family: sans;' textLength='87.58px' lengthAdjust='spacingAndGlyphs'>Sheep/South Australia</text>
+<text x='348.15' y='378.72' style='font-size: 8.80px; font-family: sans;' textLength='140.40px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Tasmania</text>
+<text x='348.15' y='396.00' style='font-size: 8.80px; font-family: sans;' textLength='68.00px' lengthAdjust='spacingAndGlyphs'>Calves/Tasmania</text>
+<text x='348.15' y='413.28' style='font-size: 8.80px; font-family: sans;' textLength='117.88px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Tasmania</text>
+<text x='537.83' y='119.52' style='font-size: 8.80px; font-family: sans;' textLength='109.09px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Tasmania</text>
+<text x='537.83' y='136.80' style='font-size: 8.80px; font-family: sans;' textLength='67.51px' lengthAdjust='spacingAndGlyphs'>Lambs/Tasmania</text>
+<text x='537.83' y='154.08' style='font-size: 8.80px; font-family: sans;' textLength='58.21px' lengthAdjust='spacingAndGlyphs'>Pigs/Tasmania</text>
+<text x='537.83' y='171.36' style='font-size: 8.80px; font-family: sans;' textLength='66.54px' lengthAdjust='spacingAndGlyphs'>Sheep/Tasmania</text>
+<text x='537.83' y='188.64' style='font-size: 8.80px; font-family: sans;' textLength='131.10px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Victoria</text>
+<text x='537.83' y='205.92' style='font-size: 8.80px; font-family: sans;' textLength='58.70px' lengthAdjust='spacingAndGlyphs'>Calves/Victoria</text>
+<text x='537.83' y='223.20' style='font-size: 8.80px; font-family: sans;' textLength='108.58px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Victoria</text>
+<text x='537.83' y='240.48' style='font-size: 8.80px; font-family: sans;' textLength='99.79px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Victoria</text>
+<text x='537.83' y='257.76' style='font-size: 8.80px; font-family: sans;' textLength='58.21px' lengthAdjust='spacingAndGlyphs'>Lambs/Victoria</text>
+<text x='537.83' y='275.04' style='font-size: 8.80px; font-family: sans;' textLength='48.91px' lengthAdjust='spacingAndGlyphs'>Pigs/Victoria</text>
+<text x='537.83' y='292.32' style='font-size: 8.80px; font-family: sans;' textLength='57.24px' lengthAdjust='spacingAndGlyphs'>Sheep/Victoria</text>
+<text x='537.83' y='309.60' style='font-size: 8.80px; font-family: sans;' textLength='171.21px' lengthAdjust='spacingAndGlyphs'>Bulls, bullocks and steers/Western Australia</text>
+<text x='537.83' y='326.88' style='font-size: 8.80px; font-family: sans;' textLength='98.80px' lengthAdjust='spacingAndGlyphs'>Calves/Western Australia</text>
+<text x='537.83' y='344.16' style='font-size: 8.80px; font-family: sans;' textLength='148.69px' lengthAdjust='spacingAndGlyphs'>Cattle (excl. calves)/Western Australia</text>
+<text x='537.83' y='361.44' style='font-size: 8.80px; font-family: sans;' textLength='139.90px' lengthAdjust='spacingAndGlyphs'>Cows and heifers/Western Australia</text>
+<text x='537.83' y='378.72' style='font-size: 8.80px; font-family: sans;' textLength='98.32px' lengthAdjust='spacingAndGlyphs'>Lambs/Western Australia</text>
+<text x='537.83' y='396.00' style='font-size: 8.80px; font-family: sans;' textLength='89.02px' lengthAdjust='spacingAndGlyphs'>Pigs/Western Australia</text>
+<text x='537.83' y='413.28' style='font-size: 8.80px; font-family: sans;' textLength='97.35px' lengthAdjust='spacingAndGlyphs'>Sheep/Western Australia</text>
+<line x1='92.95' y1='449.45' x2='106.77' y2='449.45' style='stroke-width: 1.07; stroke-linecap: butt;' />
+<line x1='92.95' y1='466.73' x2='106.77' y2='466.73' style='stroke-width: 1.07; stroke-dasharray: 2.85,2.85; stroke-linecap: butt;' />
+<text x='113.98' y='452.48' style='font-size: 8.80px; font-family: sans;' textLength='25.92px' lengthAdjust='spacingAndGlyphs'>history</text>
+<text x='113.98' y='469.76' style='font-size: 8.80px; font-family: sans;' textLength='31.31px' lengthAdjust='spacingAndGlyphs'>forecast</text>
 <text x='57.27' y='14.56' style='font-size: 13.20px; font-family: sans;' textLength='120.36px' lengthAdjust='spacingAndGlyphs'>predictionfcst_keyed</text>
 </g>
 </svg>

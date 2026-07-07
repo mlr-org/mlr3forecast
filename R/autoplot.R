@@ -132,7 +132,8 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
       ggplot2::scale_fill_gradientn(
         colours = c("grey55", "grey80"),
         breaks = sort(unique(ribbon$.level)),
-        guide = "legend",
+        # untitled guides sort by hash, which varies between sessions, so pin the order everywhere
+        guide = ggplot2::guide_legend(order = 3L),
         name = "level"
       )
     )
@@ -161,7 +162,8 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
       data,
       ggplot2::aes(x = .data[[order]], y = .data[[".value"]], colour = .data[[".type"]])
     ) +
-      ggplot2::labs(colour = NULL)
+      ggplot2::labs(colour = NULL) +
+      ggplot2::guides(colour = ggplot2::guide_legend(order = 1L))
   } else {
     data[, ".key" := interaction(.SD, sep = "/", drop = TRUE), .SDcols = key]
     if (facets) {
@@ -170,7 +172,8 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
         ggplot2::aes(x = .data[[order]], y = .data[[".value"]], colour = .data[[".type"]])
       ) +
         ggplot2::facet_wrap(ggplot2::vars(.data[[".key"]]), scales = "free_y") +
-        ggplot2::labs(colour = NULL)
+        ggplot2::labs(colour = NULL) +
+        ggplot2::guides(colour = ggplot2::guide_legend(order = 1L))
     } else {
       p = ggplot2::ggplot(
         data,
@@ -181,7 +184,11 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
           linetype = .data[[".type"]]
         )
       ) +
-        ggplot2::labs(colour = paste(key, collapse = "/"), linetype = NULL)
+        ggplot2::labs(colour = paste(key, collapse = "/"), linetype = NULL) +
+        ggplot2::guides(
+          colour = ggplot2::guide_legend(order = 1L),
+          linetype = ggplot2::guide_legend(order = 2L)
+        )
     }
   }
   p + ribbon_layer + ggplot2::geom_line(...) + ggplot2::ylab(ylab) + theme
