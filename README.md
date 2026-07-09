@@ -109,13 +109,13 @@ learner = lrn("fcst.auto_arima")$train(task)
 prediction = learner$predict(task, 140:144)
 prediction
 #> 
-#> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
-#>  row_ids truth response      month
-#>      140   606 623.9219 1960-08-01
-#>      141   508 513.8585 1960-09-01
-#>      142   461 450.7762 1960-10-01
-#>      143   390 410.8961 1960-11-01
-#>      144   432 439.9462 1960-12-01
+#> ── <PredictionFcst> for 5 observations: ────────────────────────────────────────
+#>       month row_ids truth response
+#>  1960-08-01     140   606 623.9219
+#>  1960-09-01     141   508 513.8585
+#>  1960-10-01     142   461 450.7762
+#>  1960-11-01     143   390 410.8961
+#>  1960-12-01     144   432 439.9462
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
 #>  13.85518
@@ -139,33 +139,45 @@ head(newdata)
 prediction = learner$predict_newdata(newdata, task)
 prediction
 #> 
-#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
-#>  row_ids truth response      month
-#>        1    NA 445.6351 1961-01-01
-#>        2    NA 420.3953 1961-02-01
-#>        3    NA 449.1988 1961-03-01
-#>      ---   ---      ---        ---
-#>       10    NA 494.1275 1961-10-01
-#>       11    NA 423.3336 1961-11-01
-#>       12    NA 465.5085 1961-12-01
+#> ── <PredictionFcst> for 12 observations: ───────────────────────────────────────
+#>       month row_ids truth response
+#>  1961-01-01       1    NA 445.6351
+#>  1961-02-01       2    NA 420.3953
+#>  1961-03-01       3    NA 449.1988
+#>         ---     ---   ---      ---
+#>  1961-10-01      10    NA 494.1275
+#>  1961-11-01      11    NA 423.3336
+#>  1961-12-01      12    NA 465.5085
 ```
 
 The `forecast()` helper combines these two steps, generating the future
 rows and predicting them in a single call:
 
 ``` r
-forecast(learner, task, 12L)
+prediction = forecast(learner, task, 12L)
+prediction
 #> 
-#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
-#>  row_ids truth response      month
-#>        1    NA 445.6351 1961-01-01
-#>        2    NA 420.3953 1961-02-01
-#>        3    NA 449.1988 1961-03-01
-#>      ---   ---      ---        ---
-#>       10    NA 494.1275 1961-10-01
-#>       11    NA 423.3336 1961-11-01
-#>       12    NA 465.5085 1961-12-01
+#> ── <PredictionFcst> for 12 observations: ───────────────────────────────────────
+#>       month row_ids truth response
+#>  1961-01-01       1    NA 445.6351
+#>  1961-02-01       2    NA 420.3953
+#>  1961-03-01       3    NA 449.1988
+#>         ---     ---   ---      ---
+#>  1961-10-01      10    NA 494.1275
+#>  1961-11-01      11    NA 423.3336
+#>  1961-12-01      12    NA 465.5085
 ```
+
+The resulting
+[`PredictionFcst`](https://mlr-org.github.io/mlr3forecast/reference/PredictionFcst.html)
+can be plotted with `autoplot()`, overlaying the forecast on the
+historical series:
+
+``` r
+autoplot(prediction, task)
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" alt="" width="100%" />
 
 Target transformations can be applied by wrapping the learner in
 `ppl("targettrafo")`:
@@ -205,15 +217,15 @@ learner = lrn(
 )$train(task, 1:132)
 learner$predict_newdata(newdata, task)
 #> 
-#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
-#>  row_ids truth     q0.1    q0.15     q0.5    q0.85     q0.9 response      month
-#>        1    NA 410.6811 413.2496 424.1099 434.9702 437.5387 424.1099 1961-01-01
-#>        2    NA 390.2142 393.4355 407.0557 420.6759 423.8972 407.0557 1961-02-01
-#>        3    NA 450.7334 454.5764 470.8257 487.0751 490.9181 470.8257 1961-03-01
-#>      ---   ---      ---      ---      ---      ---      ---      ---        ---
-#>       10    NA 436.9438 443.6242 471.8707 500.1173 506.7976 471.8707 1961-10-01
-#>       11    NA 390.3115 397.3040 426.8707 456.4374 463.4300 426.8707 1961-11-01
-#>       12    NA 431.7490 439.0404 469.8707 500.7011 507.9925 469.8707 1961-12-01
+#> ── <PredictionFcst> for 12 observations: ───────────────────────────────────────
+#>       month row_ids truth     q0.1    q0.15     q0.5    q0.85     q0.9 response
+#>  1961-01-01       1    NA 410.6811 413.2496 424.1099 434.9702 437.5387 424.1099
+#>  1961-02-01       2    NA 390.2142 393.4355 407.0557 420.6759 423.8972 407.0557
+#>  1961-03-01       3    NA 450.7334 454.5764 470.8257 487.0751 490.9181 470.8257
+#>         ---     ---   ---      ---      ---      ---      ---      ---      ---
+#>  1961-10-01      10    NA 436.9438 443.6242 471.8707 500.1173 506.7976 471.8707
+#>  1961-11-01      11    NA 390.3115 397.3040 426.8707 456.4374 463.4300 426.8707
+#>  1961-12-01      12    NA 431.7490 439.0404 469.8707 500.7011 507.9925 469.8707
 learner$predict(task, 133:144)$score(msr("fcst.pinball"))
 #> fcst.pinball 
 #>     11.38111
@@ -247,41 +259,41 @@ newdata = generate_newdata(task, 12L)
 prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> 
-#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
-#>  row_ids truth response      month
-#>        1    NA 443.3377 1961-01-01
-#>        2    NA 447.6441 1961-02-01
-#>        3    NA 466.9256 1961-03-01
-#>      ---   ---      ---        ---
-#>       10    NA 491.5364 1961-10-01
-#>       11    NA 454.0612 1961-11-01
-#>       12    NA 457.0454 1961-12-01
+#> ── <PredictionFcst> for 12 observations: ───────────────────────────────────────
+#>       month row_ids truth response
+#>  1961-01-01       1    NA 446.3565
+#>  1961-02-01       2    NA 446.2672
+#>  1961-03-01       3    NA 471.1606
+#>         ---     ---   ---      ---
+#>  1961-10-01      10    NA 487.9438
+#>  1961-11-01      11    NA 456.7660
+#>  1961-12-01      12    NA 460.6885
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
-#> ── <PredictionRegr> for 5 observations: ────────────────────────────────────────
-#>  row_ids truth response      month
-#>      140   606 567.9797 1960-08-01
-#>      141   508 507.3734 1960-09-01
-#>      142   461 459.6002 1960-10-01
-#>      143   390 416.4148 1960-11-01
-#>      144   432 435.7832 1960-12-01
+#> ── <PredictionFcst> for 5 observations: ────────────────────────────────────────
+#>       month row_ids truth response
+#>  1960-08-01     140   606 567.9326
+#>  1960-09-01     141   508 505.4660
+#>  1960-10-01     142   461 460.7658
+#>  1960-11-01     143   390 419.8692
+#>  1960-12-01     144   432 442.4954
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  20.78437
+#>  22.17173
 
 flrn = recursive_forecaster(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  51.66117
+#>  52.32259
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  35.03787
+#>  32.61653
 ```
 
 #### Direct forecasting
@@ -300,7 +312,7 @@ flrn = direct_forecaster(
 )$train(task, 1:132)
 flrn$predict(task, 133:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  55.87313
+#>  56.53107
 ```
 
 #### Feature engineering
@@ -328,7 +340,7 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.32646
+#>  16.57205
 ```
 
 Use `selector_fcst_lags()` to apply transformations only to the lag
@@ -354,7 +366,7 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.01885
+#>  15.37598
 ```
 
 #### Target transformations
@@ -377,7 +389,7 @@ learner = as_learner(pipeline)$train(task)
 prediction = learner$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.56967
+#>  15.34664
 ```
 
 Ready-made `po("fcst.targetboxcox")` and `po("fcst.targetdiff")` pipeops
@@ -410,15 +422,15 @@ newdata = data.table(
 prediction = flrn$predict_newdata(newdata, task)
 prediction
 #> 
-#> ── <PredictionRegr> for 14 observations: ───────────────────────────────────────
-#>  row_ids truth response       date
-#>        1    NA 187332.9 2015-01-01
-#>        2    NA 196823.5 2015-01-02
-#>        3    NA 189753.7 2015-01-03
-#>      ---   ---      ---        ---
-#>       12    NA 222587.1 2015-01-12
-#>       13    NA 226844.7 2015-01-13
-#>       14    NA 227594.0 2015-01-14
+#> ── <PredictionFcst> for 14 observations: ───────────────────────────────────────
+#>        date row_ids truth response
+#>  2015-01-01       1    NA 187724.0
+#>  2015-01-02       2    NA 195677.6
+#>  2015-01-03       3    NA 191700.8
+#>         ---     ---   ---      ---
+#>  2015-01-12      12    NA 222172.3
+#>  2015-01-13      13    NA 226312.1
+#>  2015-01-14      14    NA 226344.7
 ```
 
 ### Benchmarking, ensembling, and tuning
@@ -449,17 +461,17 @@ bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 #>          learner_id regr.rmse
 #> 1:            arima 216.31005
-#> 2: ranger_recursive  51.50302
-#> 3:    ranger_direct  51.16170
+#> 2: ranger_recursive  50.40475
+#> 3:    ranger_direct  53.72554
 ```
 
 #### Ensemble forecasting
 
-Forecast learners produce regression predictions under the hood, so the
-standard mlr3pipelines ensemble pattern works directly: branch to
-several forecasters with `gunion()` and average their forecasts with
-`po("regravg")`. This mirrors the idea behind the forecastHybrid
-package, but with any mix of classical or ML learners.
+Several forecasters can be ensembled by branching with `gunion()` and
+averaging their forecasts with `po("fcstavg")`, which keeps the forecast
+prediction type (so the time index, keys, and `autoplot()` survive the
+averaging). This mirrors the idea behind the forecastHybrid package, but
+with any mix of classical or ML learners.
 
 ``` r
 task = tsk("airpassengers")
@@ -469,25 +481,25 @@ graph = gunion(list(
   po("learner", lrn("fcst.ets"), id = "ets"),
   po("learner", lrn("fcst.theta"), id = "theta")
 )) %>>%
-  po("regravg")
+  po("fcstavg")
 flrn = as_learner(graph)$train(task)
 forecast(flrn, task, 12L)
 #> 
-#> ── <PredictionRegr> for 12 observations: ───────────────────────────────────────
-#>  row_ids truth response
-#>        1    NA 442.5050
-#>        2    NA 427.6327
-#>        3    NA 478.5120
-#>      ---   ---      ---
-#>       10    NA 471.2626
-#>       11    NA 408.0117
-#>       12    NA 455.0409
+#> ── <PredictionFcst> for 12 observations: ───────────────────────────────────────
+#>       month row_ids truth response
+#>  1961-01-01       1    NA 442.5050
+#>  1961-02-01       2    NA 427.6327
+#>  1961-03-01       3    NA 478.5120
+#>         ---     ---   ---      ---
+#>  1961-10-01      10    NA 471.2626
+#>  1961-11-01      11    NA 408.0117
+#>  1961-12-01      12    NA 455.0409
 flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 #> regr.rmse 
 #>  12.23143
 
 # weight the members instead of averaging equally
-graph$param_set$set_values(regravg.weights = c(0.5, 0.3, 0.2))
+graph$param_set$set_values(fcstavg.weights = c(0.5, 0.3, 0.2))
 flrn = as_learner(graph)$train(task)
 flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 #> regr.rmse 
@@ -523,12 +535,12 @@ at = auto_tuner(
 at$train(task)
 at$tuning_result[, .(regr.ranger.mtry.ratio, regr.ranger.num.trees, regr.rmse)]
 #>    regr.ranger.mtry.ratio regr.ranger.num.trees regr.rmse
-#> 1:              0.9415212                   111  22.98574
+#> 1:              0.9010396                   478  23.69923
 
 # the AutoTuner is itself a learner: predict with the best configuration
 at$predict(task, 142:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  10.86486
+#>  11.72336
 ```
 
 Classical forecasters tune the same way:
@@ -584,13 +596,13 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  19026.46
+#>  17979.61
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  100945.9
+#>  107773.1
 ```
 
 #### Global vs. local forecasting
@@ -631,18 +643,18 @@ flrn = recursive_forecaster(learner, lags = 1:12)$train(task_train)
 prediction_global = flrn$predict(task_test)
 prediction_global
 #> 
-#> ── <PredictionRegr> for 960 observations: ──────────────────────────────────────
-#>  row_ids truth response                                 industry      month
-#>        1 476.2 469.4931 Cafes, restaurants and catering services 2015-01-01
-#>        2 422.0 455.8130 Cafes, restaurants and catering services 2015-02-01
-#>        3 471.2 484.8799 Cafes, restaurants and catering services 2015-03-01
-#>      ---   ---      ---                                      ---        ---
-#>      958 359.2 401.7559                   Takeaway food services 2018-10-01
-#>      959 354.9 408.0077                   Takeaway food services 2018-11-01
-#>      960 393.2 414.1088                   Takeaway food services 2018-12-01
+#> ── <PredictionFcst> for 960 observations: ──────────────────────────────────────
+#>                                  industry      month row_ids truth response
+#>  Cafes, restaurants and catering services 2015-01-01       1 476.2 471.1376
+#>  Cafes, restaurants and catering services 2015-02-01       2 422.0 456.6169
+#>  Cafes, restaurants and catering services 2015-03-01       3 471.2 485.8845
+#>                                       ---        ---     ---   ---      ---
+#>                    Takeaway food services 2018-10-01     958 359.2 407.4032
+#>                    Takeaway food services 2018-11-01     959 354.9 413.4927
+#>                    Takeaway food services 2018-12-01     960 393.2 415.9604
 prediction_global$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  83.64389
+#>  84.46294
 
 # local forecasting
 prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
@@ -666,5 +678,5 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
 })
 do.call(c, prediction_local)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>    96.103
+#>  95.18251
 ```

@@ -7,7 +7,7 @@
 This Learner specializes \link[mlr3:LearnerRegr]{mlr3::LearnerRegr} for forecast problems:
 \itemize{
 \item \code{task_type} is set to \code{"fcst"}.
-\item Creates \link[mlr3:Prediction]{mlr3::Prediction}s of class \link[mlr3:PredictionRegr]{mlr3::PredictionRegr}.
+\item Creates \link[mlr3:Prediction]{mlr3::Prediction}s of class \link{PredictionFcst}.
 \item Possible values for \code{predict_types} are:
 \itemize{
 \item \code{"response"}: Predicts a numeric response for each observation in the test set.
