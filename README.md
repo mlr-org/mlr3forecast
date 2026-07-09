@@ -261,39 +261,39 @@ prediction
 #> 
 #> ── <PredictionFcst> for 12 observations: ───────────────────────────────────────
 #>       month row_ids truth response
-#>  1961-01-01       1    NA 446.3565
-#>  1961-02-01       2    NA 446.2672
-#>  1961-03-01       3    NA 471.1606
+#>  1961-01-01       1    NA 445.1430
+#>  1961-02-01       2    NA 443.9464
+#>  1961-03-01       3    NA 464.2716
 #>         ---     ---   ---      ---
-#>  1961-10-01      10    NA 487.9438
-#>  1961-11-01      11    NA 456.7660
-#>  1961-12-01      12    NA 460.6885
+#>  1961-10-01      10    NA 491.6975
+#>  1961-11-01      11    NA 452.8606
+#>  1961-12-01      12    NA 458.1029
 prediction = flrn$predict(task, 140:144)
 prediction
 #> 
 #> ── <PredictionFcst> for 5 observations: ────────────────────────────────────────
 #>       month row_ids truth response
-#>  1960-08-01     140   606 567.9326
-#>  1960-09-01     141   508 505.4660
-#>  1960-10-01     142   461 460.7658
-#>  1960-11-01     143   390 419.8692
-#>  1960-12-01     144   432 442.4954
+#>  1960-08-01     140   606 568.2524
+#>  1960-09-01     141   508 509.3538
+#>  1960-10-01     142   461 458.9162
+#>  1960-11-01     143   390 416.0948
+#>  1960-12-01     144   432 435.9561
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  22.17173
+#>  20.62838
 
 flrn = recursive_forecaster(learner, lags = 1:12)
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  52.32259
+#>  49.87153
 
 resampling = rsmp("fcst.cv")
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  32.61653
+#>  33.89219
 ```
 
 #### Direct forecasting
@@ -312,7 +312,7 @@ flrn = direct_forecaster(
 )$train(task, 1:132)
 flrn$predict(task, 133:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  56.53107
+#>  55.46851
 ```
 
 #### Feature engineering
@@ -340,7 +340,7 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  16.57205
+#>  13.99371
 ```
 
 Use `selector_fcst_lags()` to apply transformations only to the lag
@@ -366,7 +366,7 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.37598
+#>  15.76947
 ```
 
 #### Target transformations
@@ -389,7 +389,7 @@ learner = as_learner(pipeline)$train(task)
 prediction = learner$predict(task, 142:144)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  15.34664
+#>  15.51757
 ```
 
 Ready-made `po("fcst.targetboxcox")` and `po("fcst.targetdiff")` pipeops
@@ -424,13 +424,13 @@ prediction
 #> 
 #> ── <PredictionFcst> for 14 observations: ───────────────────────────────────────
 #>        date row_ids truth response
-#>  2015-01-01       1    NA 187724.0
-#>  2015-01-02       2    NA 195677.6
-#>  2015-01-03       3    NA 191700.8
+#>  2015-01-01       1    NA 186778.7
+#>  2015-01-02       2    NA 195575.2
+#>  2015-01-03       3    NA 191270.1
 #>         ---     ---   ---      ---
-#>  2015-01-12      12    NA 222172.3
-#>  2015-01-13      13    NA 226312.1
-#>  2015-01-14      14    NA 226344.7
+#>  2015-01-12      12    NA 221921.8
+#>  2015-01-13      13    NA 227001.9
+#>  2015-01-14      14    NA 228635.1
 ```
 
 ### Benchmarking, ensembling, and tuning
@@ -461,8 +461,8 @@ bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 #>          learner_id regr.rmse
 #> 1:            arima 216.31005
-#> 2: ranger_recursive  50.40475
-#> 3:    ranger_direct  53.72554
+#> 2: ranger_recursive  51.88598
+#> 3:    ranger_direct  51.25762
 ```
 
 #### Ensemble forecasting
@@ -535,12 +535,12 @@ at = auto_tuner(
 at$train(task)
 at$tuning_result[, .(regr.ranger.mtry.ratio, regr.ranger.num.trees, regr.rmse)]
 #>    regr.ranger.mtry.ratio regr.ranger.num.trees regr.rmse
-#> 1:              0.9010396                   478  23.69923
+#> 1:              0.8949439                   279  24.27888
 
 # the AutoTuner is itself a learner: predict with the best configuration
 at$predict(task, 142:144)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  11.72336
+#>  11.28236
 ```
 
 Classical forecasters tune the same way:
@@ -596,13 +596,13 @@ flrn = recursive_forecaster(graph)$train(task)
 prediction = flrn$predict(task, 4460:4464)
 prediction$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  17979.61
+#>  19382.26
 
 resampling = rsmp("fcst.holdout", ratio = 0.9)
 rr = resample(task, flrn, resampling)
 rr$aggregate(msr("regr.rmse"))
 #> regr.rmse 
-#>  107773.1
+#>  106830.4
 ```
 
 #### Global vs. local forecasting
@@ -645,16 +645,16 @@ prediction_global
 #> 
 #> ── <PredictionFcst> for 960 observations: ──────────────────────────────────────
 #>                                  industry      month row_ids truth response
-#>  Cafes, restaurants and catering services 2015-01-01       1 476.2 471.1376
-#>  Cafes, restaurants and catering services 2015-02-01       2 422.0 456.6169
-#>  Cafes, restaurants and catering services 2015-03-01       3 471.2 485.8845
+#>  Cafes, restaurants and catering services 2015-01-01       1 476.2 467.9388
+#>  Cafes, restaurants and catering services 2015-02-01       2 422.0 458.6577
+#>  Cafes, restaurants and catering services 2015-03-01       3 471.2 488.1497
 #>                                       ---        ---     ---   ---      ---
-#>                    Takeaway food services 2018-10-01     958 359.2 407.4032
-#>                    Takeaway food services 2018-11-01     959 354.9 413.4927
-#>                    Takeaway food services 2018-12-01     960 393.2 415.9604
+#>                    Takeaway food services 2018-10-01     958 359.2 396.2078
+#>                    Takeaway food services 2018-11-01     959 354.9 401.2843
+#>                    Takeaway food services 2018-12-01     960 393.2 408.7449
 prediction_global$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  84.46294
+#>  80.96167
 
 # local forecasting
 prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
@@ -678,5 +678,5 @@ prediction_local = map(split(vic, by = "industry", drop = TRUE), function(dt) {
 })
 do.call(c, prediction_local)$score(msr("regr.rmse"))
 #> regr.rmse 
-#>  95.18251
+#>  95.55215
 ```
