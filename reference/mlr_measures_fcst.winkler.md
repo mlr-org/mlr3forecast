@@ -32,7 +32,7 @@ Forecast measures are registered with `task_type = "regr"` so they
 compose with the standard regression measures (e.g.
 [mlr3::mlr_measures_regr.rmse](https://mlr3.mlr-org.com/reference/mlr_measures_regr.rmse.html))
 on the
-[mlr3::PredictionRegr](https://mlr3.mlr-org.com/reference/PredictionRegr.html)
+[PredictionFcst](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.md)
 that forecast learners produce. List them via the key prefix, not the
 task type, as the latter returns nothing:
 

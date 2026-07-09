@@ -136,6 +136,11 @@
 - [`mlr_tasks_usaccdeaths`](https://mlr3forecast.mlr-org.com/reference/mlr_tasks_usaccdeaths.md)
   : Accidental Deaths in the US Forecast Task
 
+## Predictions
+
+- [`PredictionFcst`](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.md)
+  : Prediction Object for Forecasting
+
 ## Measures
 
 - [`mlr_measures_fcst.acf1`](https://mlr3forecast.mlr-org.com/reference/mlr_measures_fcst.acf1.md)
@@ -210,6 +215,9 @@
 - [`mlr_pipeops_fcst.tsfeats`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md)
   [`PipeOpFcstTsfeats`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md)
   : Time Series Feature Extraction
+- [`mlr_pipeops_fcstavg`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcstavg.md)
+  [`PipeOpFcstAvg`](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcstavg.md)
+  : Weighted Prediction Averaging for Forecasts
 
 ## Selectors
 
@@ -223,6 +231,8 @@
 - [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_task_fcst.md)
   [`as_tasks_fcst()`](https://mlr3forecast.mlr-org.com/reference/as_task_fcst.md)
   : Convert to a Forecast Task
+- [`autoplot(`*`<PredictionFcst>`*`)`](https://mlr3forecast.mlr-org.com/reference/autoplot.PredictionFcst.md)
+  : Plot for Forecast Predictions
 - [`autoplot(`*`<TaskFcst>`*`)`](https://mlr3forecast.mlr-org.com/reference/autoplot.TaskFcst.md)
   : Plot for Forecast Tasks
 - [`forecast(`*`<Learner>`*`)`](https://mlr3forecast.mlr-org.com/reference/forecast.Learner.md)

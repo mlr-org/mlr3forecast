@@ -267,30 +267,30 @@ Additional arguments passed to <code><a href="https://mlr3.mlr-org.com/reference
 <span class="r-in"><span><span class="va">flrn</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, <span class="va">split</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionRegr&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">29</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids truth response      month</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      116   505 391.9375 1958-08-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      117   404 324.7500 1958-09-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      118   359 306.0000 1958-10-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---   ---      ---        ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      142   461 368.6875 1960-10-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      143   390 364.9333 1960-11-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      144   432 362.3571 1960-12-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionFcst&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">29</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       month row_ids truth response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1958-08-01     116   505 391.9375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1958-09-01     117   404 324.7500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1958-10-01     118   359 306.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         ---     ---   ---      ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1960-10-01     142   461 368.6875</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1960-11-01     143   390 364.9333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1960-12-01     144   432 362.3571</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># or use the direct_forecaster() helper</span></span></span>
 <span class="r-in"><span><span class="va">flrn</span> <span class="op">=</span> <span class="fu"><a href="direct_forecaster.html">direct_forecaster</a></span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.rpart"</span><span class="op">)</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, horizons <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">flrn</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, <span class="va">split</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionRegr&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">29</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  row_ids truth response      month</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      116   505 391.9375 1958-08-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      117   404 324.7500 1958-09-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      118   359 306.0000 1958-10-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      ---   ---      ---        ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      142   461 368.6875 1960-10-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      143   390 364.9333 1960-11-01</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>      144   432 362.3571 1960-12-01</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionFcst&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">29</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       month row_ids truth response</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1958-08-01     116   505 391.9375</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1958-09-01     117   404 324.7500</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1958-10-01     118   359 306.0000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         ---     ---   ---      ---</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1960-10-01     142   461 368.6875</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1960-11-01     143   390 364.9333</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1960-12-01     144   432 362.3571</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
@@ -303,7 +303,7 @@ Additional arguments passed to <code><a href="https://mlr3.mlr-org.com/reference
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

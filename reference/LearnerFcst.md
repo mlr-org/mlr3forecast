@@ -9,7 +9,7 @@ for forecast problems:
 - Creates
   [mlr3::Prediction](https://mlr3.mlr-org.com/reference/Prediction.html)s
   of class
-  [mlr3::PredictionRegr](https://mlr3.mlr-org.com/reference/PredictionRegr.html).
+  [PredictionFcst](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.md).
 
 - Possible values for `predict_types` are:
 
