@@ -84,18 +84,15 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
 
   fc = as.data.table(object)
 
-  # recover the order (time index) and key column names
-  if (!is.null(task)) {
-    order = task$col_roles$order
-    key = task$col_roles$key
-  } else {
-    roles = fcst_extra_roles(object$data$extra)
-    if (is.null(roles$order)) {
-      error_input("Cannot determine the time index of the prediction; supply `task`.")
-    }
-    order = roles$order
-    key = roles$key
+  # recover the order (time index) and key column names from the prediction's extra slot; the
+  # task's column names are not authoritative here since a prediction united from local
+  # per-series models carries a reconstructed generic key column instead of the task keys
+  roles = fcst_extra_roles(object$data$extra)
+  if (is.null(roles$order)) {
+    error_input("Cannot determine the time index of the prediction.")
   }
+  order = roles$order
+  key = roles$key
 
   ylab = if (!is.null(task)) task$col_roles$target else "response"
 
@@ -141,8 +138,14 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
 
   if (!is.null(task)) {
     target = task$col_roles$target
-    hist = task$data(cols = c(target, order, key))
+    key_cols = task$col_roles$key
+    hist = task$data(cols = c(target, order, key_cols))
     setnames(hist, target, ".value")
+    if (length(key_cols) > 0L && length(key) == 1L && !identical(key_cols, key)) {
+      # rebuild the united prediction's key labels from the task's key columns
+      set(hist, j = key, value = factor(key_labels(hist, key_cols), levels = levels(fc[[key]])))
+      set(hist, j = setdiff(key_cols, key), value = NULL)
+    }
     set(hist, j = ".type", value = fctr("history", levels = c("history", "forecast")))
     # bridge the last historical observation per series into the forecast group for line continuity
     if (length(key) > 0L) {

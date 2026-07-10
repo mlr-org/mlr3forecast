@@ -136,3 +136,17 @@ test_that("autoplot.PredictionFcst errors without a time index and without task"
   p = PredictionFcst$new(row_ids = 1:3, truth = c(1, 2, 3), response = c(1, 2, 3))
   expect_snapshot(ggplot2::autoplot(p), error = TRUE)
 })
+
+test_that("autoplot.PredictionFcst overlays history for united local-model predictions", {
+  skip_if_not_installed("ggplot2")
+  task = make_date_major_panel_task()
+  fg = po("fcst.lags", lags = 1L) %>>% lrn("regr.featureless")
+  glrn = as_learner(po("fcst.splitkey") %>>% po("learner", recursive_forecaster(fg)) %>>% po("fcst.unitekey"))
+  p = forecast(glrn$train(task), task, 3L)
+
+  # the united prediction carries the generic key column, the history labels are derived from the task keys
+  g = ggplot2::autoplot(p, task = task)
+  expect_s3_class(g, "ggplot")
+  expect_equal(levels(g$data$.key), c("a", "b"))
+  expect_equal(nrow(g$data), task$nrow + 2L + 6L)
+})
