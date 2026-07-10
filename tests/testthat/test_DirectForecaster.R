@@ -262,3 +262,16 @@ test_that("DirectForecaster model prints a compact summary", {
   expect_match(out, "direct_forecaster_model", all = FALSE)
   expect_match(out, "Horizon models: 3", all = FALSE, fixed = TRUE)
 })
+
+test_that("DirectForecaster attaches measure weights to the prediction", {
+  dt = tsk("airpassengers")$data(cols = c("month", "passengers"))
+  set(dt, j = "w", value = as.numeric(seq_row(dt)))
+  task = as_task_fcst(dt, target = "passengers", order = "month", freq = "month")
+  task$set_col_roles("w", roles = "weights_measure")
+  split = partition(task, ratio = 0.8)
+
+  learner = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))$train(task, split$train)
+  prediction = learner$predict(task, split$test)
+  expected = task$weights_measure[list(row_id = prediction$row_ids), on = "row_id", "weight"][[1L]]
+  expect_equal(prediction$weights, expected)
+})

@@ -54,6 +54,7 @@ PipeOpFcstAvg = R6Class(
   private = list(
     weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
       extra = inputs[[1L]]$data$extra
+      obs_weights = inputs[[1L]]$data$weights
       quantiles = map(inputs, function(x) x$data$quantiles)
       if (every(quantiles, is.null)) {
         # reuse PipeOpRegrAvg's response/se aggregation, re-wrapped with the shared time index and keys
@@ -63,6 +64,7 @@ PipeOpFcstAvg = R6Class(
           truth = truth,
           response = prediction$response,
           se = prediction$data$se,
+          weights = obs_weights,
           extra = extra
         ))
       }
@@ -82,6 +84,7 @@ PipeOpFcstAvg = R6Class(
         row_ids = row_ids,
         truth = truth,
         quantiles = averaged,
+        weights = obs_weights,
         extra = extra
       )
     }

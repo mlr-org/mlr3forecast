@@ -343,14 +343,16 @@ DirectForecaster = R6::R6Class(
       out = private$.predict_horizons(step_task, models, cids, ii)
 
       out_data = task$data(cols = c(target, key_cols, order_cols))
-      out$data = insert_named(
-        out$data,
-        list(
-          row_ids = task$row_ids,
-          truth = out_data[[target]],
-          extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE])
-        )
+      new_data = list(
+        row_ids = task$row_ids,
+        truth = out_data[[target]],
+        extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE])
       )
+      # returning a Prediction bypasses the weights injection of as_prediction_data.list
+      if ("weights_measure" %chin% task$properties) {
+        new_data$weights = task$weights_measure[list(row_id = task$row_ids), on = "row_id", "weight"][[1L]]
+      }
+      out$data = insert_named(out$data, new_data)
       out
     },
 

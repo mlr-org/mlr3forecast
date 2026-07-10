@@ -341,14 +341,16 @@ RecursiveForecaster = R6::R6Class(
       out = do.call(c, preds)
       out_row_ids = task$row_ids[active_cids - n_train]
       out_data = task$data(rows = out_row_ids, cols = c(target, key_cols, order_cols))
-      out$data = insert_named(
-        out$data,
-        list(
-          row_ids = out_row_ids,
-          truth = out_data[[target]],
-          extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE])
-        )
+      new_data = list(
+        row_ids = out_row_ids,
+        truth = out_data[[target]],
+        extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE])
       )
+      # returning a Prediction bypasses the weights injection of as_prediction_data.list
+      if ("weights_measure" %chin% task$properties) {
+        new_data$weights = task$weights_measure[list(row_id = out_row_ids), on = "row_id", "weight"][[1L]]
+      }
+      out$data = insert_named(out$data, new_data)
       out
     }
   )

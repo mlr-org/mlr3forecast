@@ -91,3 +91,30 @@ test_that("PipeOpFcstAvg errors when only some members predict quantiles", {
     po("fcstavg")
   expect_snapshot(as_learner(graph)$train(task, 1:132)$predict(task, 133:144), error = TRUE)
 })
+
+test_that("PipeOpFcstAvg carries the observation measure weights", {
+  skip_if_not_installed("forecast")
+  dt = tsk("airpassengers")$data(cols = c("month", "passengers"))
+  set(dt, j = "w", value = as.numeric(seq_row(dt)))
+  task = as_task_fcst(dt, target = "passengers", order = "month", freq = "month")
+  task$set_col_roles("w", roles = "weights_measure")
+  split = partition(task, ratio = 0.8)
+  qs = c(0.1, 0.5, 0.9)
+
+  mk = function(id, ...) po("learner", lrn(paste0("fcst.", id), ...), id = id)
+  expected = function(p) task$weights_measure[list(row_id = p$row_ids), on = "row_id", "weight"][[1L]]
+
+  # response branch
+  graph = gunion(list(mk("ets"), mk("theta"))) %>>% po("fcstavg")
+  p = as_learner(graph)$train(task, split$train)$predict(task, split$test)
+  expect_equal(p$weights, expected(p))
+
+  # quantile branch
+  graph = gunion(list(
+    mk("auto_arima", predict_type = "quantiles", quantiles = qs, quantile_response = 0.5),
+    mk("ets", predict_type = "quantiles", quantiles = qs, quantile_response = 0.5)
+  )) %>>%
+    po("fcstavg")
+  p = as_learner(graph)$train(task, split$train)$predict(task, split$test)
+  expect_equal(p$weights, expected(p))
+})
