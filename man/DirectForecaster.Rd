@@ -41,8 +41,7 @@ flrn$predict(task, split$test)
 The base regression learner.}
 
     \item{\code{native_model}}{(named \code{list()})\cr
-The fitted models of the base learner, one per forecast horizon and named \verb{h<horizon>}. Returns \code{NULL} if
-the learner has not been trained.}
+The fitted models.}
 
     \item{\code{lags}}{(\code{integer()})\cr
 The base lags.}

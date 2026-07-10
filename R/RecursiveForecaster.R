@@ -161,7 +161,7 @@ RecursiveForecaster = R6::R6Class(
     },
 
     #' @field native_model (any)\cr
-    #' The fitted model of the base learner. Returns `NULL` if the learner has not been trained.
+    #' The fitted model.
     native_model = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(self$model)) {

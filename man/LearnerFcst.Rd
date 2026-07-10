@@ -95,8 +95,7 @@ Other Learner:
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
     \item{\code{native_model}}{(any)\cr
-The native model object from the upstream forecasting package. The learner's \verb{$model} wraps it
-in a named list together with the training context needed at predict time.}
+The fitted model.}
   }
   \if{html}{\out{</div>}}
 }

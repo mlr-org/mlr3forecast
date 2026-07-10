@@ -67,8 +67,7 @@ LearnerFcst = R6Class(
   ),
   active = list(
     #' @field native_model (any)\cr
-    #' The native model object from the upstream forecasting package. The learner's `$model` wraps it
-    #' in a named list together with the training context needed at predict time.
+    #' The fitted model.
     native_model = function(rhs) {
       assert_ro_binding(rhs)
       self$model$model
@@ -106,7 +105,8 @@ LearnerFcst = R6Class(
       list(
         model = model,
         row_ids = task$row_ids[order(order_vals)],
-        max_index = max(order_vals)
+        max_index = max(order_vals),
+        step = if (is.character(task$freq)) task$freq else infer_freq(sort(order_vals))
       )
     },
 
@@ -119,6 +119,14 @@ LearnerFcst = R6Class(
       if (all(order_vals > max_index)) {
         if (is.unsorted(order_vals, strictly = TRUE)) {
           error_input("Future rows must be passed in chronological order.")
+        }
+        # forecasts pair with the rows positionally, so the rows must be exactly the next h steps
+        expected = seq_order(max_index, self$model$step, length(order_vals))
+        if (anyNA(expected) || !all(order_vals == expected)) {
+          error_input(
+            "Future rows must form the gap-free future grid following the training data (last training index: %s).",
+            format(max_index)
+          )
         }
         TRUE
       } else if (all(order_vals <= max_index)) {

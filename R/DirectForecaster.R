@@ -153,8 +153,7 @@ DirectForecaster = R6::R6Class(
     },
 
     #' @field native_model (named `list()`)\cr
-    #' The fitted models of the base learner, one per forecast horizon and named `h<horizon>`. Returns `NULL` if
-    #' the learner has not been trained.
+    #' The fitted models.
     native_model = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(self$model)) {

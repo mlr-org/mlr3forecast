@@ -26,9 +26,9 @@ generate_newdata = function(task, n = 1L) {
   assert_regular_grid(dt, order_cols, key_cols, task$freq)
 
   last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else dt[.N]
-
-  freq = task$freq %??% infer_freq(sort(unique(dt[[order_cols]])))
+  freq = if (is.character(task$freq)) task$freq else infer_freq(sort(unique(dt[[order_cols]])))
   newdata = last_rows[rep(seq_len(.N), each = n)]
+
   if (length(key_cols) > 0L) {
     newdata[, (order_cols) := seq_order(get(order_cols)[1L], freq, n), by = key_cols]
   } else {

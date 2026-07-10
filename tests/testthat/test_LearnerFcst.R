@@ -106,3 +106,17 @@ test_that("exogenous features stay aligned with the target under backend reorder
   expect_equal(c_shuffled, c_sorted)
   expect_equal(unname(c_shuffled[["x"]]), 2, tolerance = 0.05)
 })
+
+test_that("future predict rejects windows that are not the next h steps", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  split = partition(task, ratio = 0.9)
+  learner = lrn("fcst.ets")$train(task, split$train)
+
+  # forecasts pair with the requested rows positionally, so any offset or gap mislabels them
+  expect_error(learner$predict(task, split$test[-1]), "gap-free future grid")
+  expect_error(learner$predict(task, split$test[c(1L, 3L, 5L)]), "gap-free future grid")
+
+  prediction = learner$predict(task, split$test)
+  expect_length(prediction$response, length(split$test))
+})
