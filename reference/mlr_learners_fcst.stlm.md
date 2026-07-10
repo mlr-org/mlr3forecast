@@ -346,8 +346,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x5638d0f10718>
-#> <environment: 0x5638d0f0c980>
+#> <bytecode: 0x563ed3defba0>
+#> <environment: 0x563ed3debc80>
 #> 
 #> $lambda
 #> NULL
@@ -400,6 +400,9 @@ print(learner$model)
 #> 
 #> $max_index
 #> [1] "1956-12-01"
+#> 
+#> $step
+#> [1] "month"
 #> 
 
 # Importance method

@@ -120,9 +120,7 @@ Other Learner:
 - `native_model`:
 
   (any)  
-  The native model object from the upstream forecasting package. The
-  learner's `$model` wraps it in a named list together with the training
-  context needed at predict time.
+  The fitted model.
 
 ## Methods
 

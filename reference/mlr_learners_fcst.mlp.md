@@ -242,6 +242,9 @@ print(learner$model)
 #> $max_index
 #> [1] "1956-12-01"
 #> 
+#> $step
+#> [1] "month"
+#> 
 
 # Importance method
 if ("importance" %in% learner$properties) print(learner$importance())

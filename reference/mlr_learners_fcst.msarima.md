@@ -222,7 +222,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.03 seconds
+#> Time elapsed: 0.01 seconds
 #> Model estimated using msarima() function: ARIMA(0,1,1)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
@@ -246,6 +246,9 @@ print(learner$model)
 #> 
 #> $max_index
 #> [1] "1956-12-01"
+#> 
+#> $step
+#> [1] "month"
 #> 
 
 # Importance method

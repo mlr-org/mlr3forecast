@@ -73,8 +73,7 @@ narrow for `h > 1`. For calibrated multi-step intervals, prefer
 - `native_model`:
 
   (any)  
-  The fitted model of the base learner. Returns `NULL` if the learner
-  has not been trained.
+  The fitted model.
 
 - `lags`:
 

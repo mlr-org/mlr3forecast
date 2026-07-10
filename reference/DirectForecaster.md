@@ -31,9 +31,7 @@ construction.
 - `native_model`:
 
   (named [`list()`](https://rdrr.io/r/base/list.html))  
-  The fitted models of the base learner, one per forecast horizon and
-  named `h<horizon>`. Returns `NULL` if the learner has not been
-  trained.
+  The fitted models.
 
 - `lags`:
 
