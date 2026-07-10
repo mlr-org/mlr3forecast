@@ -86,7 +86,10 @@ The objects of this class are cloneable with this method.
 ``` r
 library(mlr3pipelines)
 library(data.table)
-dt = CJ(month = seq(as.Date("2024-01-01"), by = "month", length.out = 36L), id = factor(c("a", "b")))
+dt = CJ(
+  month = seq(as.Date("2024-01-01"), by = "month", length.out = 36L),
+  id = factor(c("a", "b"))
+)
 dt[, value := rnorm(.N, mean = fifelse(id == "a", 10, 20))]
 #> Key: <month, id>
 #>          month     id     value
