@@ -188,3 +188,14 @@ test_that("RecursiveForecaster attaches measure weights to the prediction", {
   expected = task$weights_measure[list(row_id = prediction$row_ids), on = "row_id", "weight"][[1L]]
   expect_equal(prediction$weights, expected)
 })
+
+test_that("non-iterative graphs still attach the time index to the prediction", {
+  task = tsk("airpassengers")
+  split = partition(task, ratio = 0.9)
+  learner = suppressWarnings(recursive_forecaster(po("fcst.fourier", K = 2L) %>>% lrn("regr.rpart")))
+  learner$train(task, split$train)
+  prediction = learner$predict(task, split$test)
+
+  expect_r6_class(prediction, "PredictionFcst")
+  expect_equal(prediction$order$order, task$data(rows = split$test, cols = "month")[[1L]])
+})
