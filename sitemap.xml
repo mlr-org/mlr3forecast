@@ -21,6 +21,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/generate_newdata.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/index.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr3forecast-package.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_graphs_fcst.local.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.html</loc></url>
@@ -72,9 +73,11 @@
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.fourier.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.splitkey.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetboxcox.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.targetdiff.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.unitekey.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcstavg.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_fcst.cv.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/reference/mlr_resamplings_fcst.holdout.html</loc></url>
