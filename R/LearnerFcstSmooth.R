@@ -31,7 +31,7 @@ LearnerFcstSmooth = R6Class(
       }
       args = list(h = task$nrow)
       if ("exogenous" %in% self$properties && task$n_features > 0L) {
-        args$newdata = task$data(cols = task$feature_names)
+        args$newdata = ordered_features(task, self)
       }
       if (is_quantile) {
         # smooth takes central-interval levels as fractions, ascending

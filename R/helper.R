@@ -191,3 +191,8 @@ fcst_drop_incomplete = function(dt, feat_cols, key_cols) {
   }
   kept
 }
+
+ordered_features = function(task, learner) {
+  cols = names(learner$state$data_prototype) %??% learner$state$feature_names
+  task$data(cols = intersect(cols, task$feature_names))
+}

@@ -108,7 +108,7 @@ LearnerFcstTscount = R6Class(
       model = self$native_model
       newxreg = NULL
       if (task$n_features > 0L) {
-        newxreg = as.matrix(task$data(cols = task$feature_names))
+        newxreg = as.matrix(ordered_features(task, self))
       }
 
       pv = self$param_set$get_values(tags = "predict")

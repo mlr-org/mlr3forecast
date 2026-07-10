@@ -53,7 +53,7 @@ LearnerFcstForecast = R6Class(
 
       args = list(h = task$nrow)
       if (private$.has_exogenous(task)) {
-        newdata = task$data(cols = task$feature_names)
+        newdata = ordered_features(task, self)
         if (private$.newdata_as_matrix) {
           newdata = as.matrix(newdata)
         }

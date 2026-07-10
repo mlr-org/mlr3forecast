@@ -72,3 +72,26 @@ test_that("native model print does not dump the inlined series", {
     expect_all_true(nchar(out) < 120L)
   }
 })
+
+test_that("exogenous predict is robust to reordered predict-task features", {
+  skip_if_not_installed("forecast")
+  withr::local_seed(42)
+  n = 60L
+  dt = data.table(
+    month = seq(as.Date("2020-01-01"), by = "month", length.out = n),
+    y = as.numeric(cumsum(rnorm(n))) + 50,
+    temp = rnorm(n, 20, 5),
+    promo = as.numeric(rbinom(n, 1L, 0.3)) * 100
+  )
+  set(dt, j = "y", value = dt$y + 2 * dt$temp + 0.5 * dt$promo)
+  task = as_task_fcst(dt, target = "y", order = "month", freq = "month")
+  split = partition(task, ratio = 0.8)
+  learner = lrn("fcst.arima")$train(task, split$train)
+
+  reordered = task$clone()
+  reordered$col_roles$feature = rev(task$feature_names)
+  expect_equal(
+    learner$predict(reordered, split$test)$response,
+    learner$predict(task, split$test)$response
+  )
+})
