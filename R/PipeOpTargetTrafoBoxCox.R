@@ -115,14 +115,20 @@ PipeOpTargetTrafoBoxCox = R6Class(
         if (length(resp_col) > 0L) {
           setattr(inverted, "response", as.numeric(sub("^q", "", resp_col)))
         }
-        return(PredictionRegr$new(
+        return(PredictionFcst$new(
           row_ids = prediction$row_ids,
           truth = predict_phase_state$truth,
           response = response %??% inverted[, resp_col],
-          quantiles = inverted
+          quantiles = inverted,
+          extra = prediction$data$extra
         ))
       }
-      PredictionRegr$new(row_ids = prediction$row_ids, truth = predict_phase_state$truth, response = response)
+      PredictionFcst$new(
+        row_ids = prediction$row_ids,
+        truth = predict_phase_state$truth,
+        response = response,
+        extra = prediction$data$extra
+      )
     }
   )
 )

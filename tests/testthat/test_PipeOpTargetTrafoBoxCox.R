@@ -149,7 +149,9 @@ test_that("targetboxcox works wrapping DirectForecaster", {
   ))
   flrn$train(task, split$train)
   prediction = flrn$predict(task, split$test)
-  expect_class(prediction, "PredictionRegr")
+  expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
+  # inversion keeps the forecast time index so $order/autoplot/fcstavg work downstream
+  expect_equal(nrow(prediction$order), length(split$test))
 })
