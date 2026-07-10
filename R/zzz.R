@@ -20,6 +20,7 @@ mlr3forecast_learner_properties = "exogenous"
 mlr3forecast_task_print_col_roles = c("Key by" = "key")
 mlr3forecast_task_properties = c("ordered", "keys")
 mlr3forecast_pipeops = new.env(parent = emptyenv())
+mlr3forecast_graphs = new.env(parent = emptyenv())
 mlr3forecast_pipeop_tags = "fcst"
 mlr3forecast_pipeop_properties = "fcst_iterative"
 
@@ -39,6 +40,7 @@ register_task = register_item(mlr3forecast_tasks, "task")
 register_learner = register_item(mlr3forecast_learners, "learner")
 register_measure = register_item(mlr3forecast_measures, "measure")
 register_po = register_item(mlr3forecast_pipeops, "pipeop")
+register_graph = register_item(mlr3forecast_graphs, "graph")
 
 register_mlr3 = function(...) {
   # add reflections
@@ -85,6 +87,8 @@ register_mlr3pipelines = function(...) {
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   mlr_pipeops = utils::getFromNamespace("mlr_pipeops", ns = "mlr3pipelines")
   iwalk(as.list(mlr3forecast_pipeops), function(constructor, name) mlr_pipeops$add(name, constructor))
+  mlr_graphs = utils::getFromNamespace("mlr_graphs", ns = "mlr3pipelines")
+  iwalk(as.list(mlr3forecast_graphs), function(constructor, name) mlr_graphs$add(name, constructor))
   mlr_reflections$pipeops$valid_tags = union(mlr_reflections$pipeops$valid_tags, mlr3forecast_pipeop_tags)
   mlr_reflections$pipeops$properties = union(mlr_reflections$pipeops$properties, mlr3forecast_pipeop_properties)
 }
@@ -107,6 +111,7 @@ register_mlr3pipelines = function(...) {
   walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
   walk(names(mlr3forecast_measures), function(nm) mlr_measures$remove(nm))
   walk(names(mlr3forecast_pipeops), function(nm) mlr_pipeops$remove(nm))
+  walk(names(mlr3forecast_graphs), function(nm) mlr_graphs$remove(nm))
 
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   reflections = c(

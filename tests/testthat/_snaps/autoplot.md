@@ -21,6 +21,6 @@
     Condition
       Error:
       ! 
-      x Cannot determine the time index of the prediction; supply `task`.
+      x Cannot determine the time index of the prediction.
       > Class: Mlr3ErrorInput
 
