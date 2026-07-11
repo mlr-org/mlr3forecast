@@ -234,6 +234,10 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     )
   }
 
+  if (length(order_cols) > 0L && any(task$missings(cols = order_cols) > 0L)) {
+    error_input("Order column '%s' contains missing values", order_cols)
+  }
+
   key_cols = new_roles[["key"]]
   if (
     length(key_cols) > 0L && any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("factor", "ordered"))

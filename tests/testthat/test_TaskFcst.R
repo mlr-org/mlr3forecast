@@ -46,6 +46,20 @@ test_that("key binding returns row_id and key columns", {
   expect_names(names(task$key), identical.to = c("row_id", "key"))
 })
 
+test_that("order column may not contain missing values", {
+  dt = data.table(date = seq(as.Date("2025-01-01"), length.out = 10L), y = rnorm(10L))
+  dt[5L, date := NA]
+  expect_error(
+    as_task_fcst(dt, target = "y", order = "date"),
+    "Order column 'date' must not contain missing values"
+  )
+  # the role layer guards direct construction too
+  expect_error(
+    TaskFcst$new(id = "t", backend = dt, target = "y", order = "date"),
+    "Order column 'date' contains missing values"
+  )
+})
+
 test_that("key columns may not contain missing values", {
   dt = data.table(
     date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2L),
