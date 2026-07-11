@@ -41,6 +41,16 @@ test_that("PipeOpFcstUniteKey preserves quantile predictions", {
   expect_equal(out$key$key, factor(rep(c("a", "b"), each = 3L)))
 })
 
+test_that("PipeOpFcstUniteKey rejects per-series predictions with different quantile levels", {
+  q1 = make_quantiles(c(0, 1, 2), c(2, 3, 4), probs = c(0.1, 0.9))
+  q2 = make_quantiles(c(9, 19, 29), c(11, 21, 31), probs = c(0.25, 0.75))
+  p1 = make_series_prediction(1:3, c(1, 2, 3), quantiles = q1)
+  p2 = make_series_prediction(4:6, c(10, 20, 30), quantiles = q2)
+  po_unite = trained_unitekey()
+
+  expect_error(po_unite$predict(list(Multiplicity(a = p1, b = p2))), "Different quantile levels")
+})
+
 test_that("PipeOpFcstUniteKey attaches the key for a single series", {
   p1 = make_series_prediction(1:3, c(1, 2, 3))
   po_unite = trained_unitekey("a")

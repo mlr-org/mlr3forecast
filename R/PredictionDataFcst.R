@@ -25,6 +25,13 @@ is_missing_prediction_data.PredictionDataFcst = function(pdata, ...) {
 #' @export
 c.PredictionDataFcst = function(..., keep_duplicates = TRUE) {
   dots = lapply(list(...), as_pdata_regr)
+  quantiles = compact(map(dots, "quantiles"))
+  if (length(quantiles) > 1L) {
+    attrs = map(quantiles, function(q) list(attr(q, "probs"), attr(q, "response")))
+    if (!every(attrs[-1L], identical, attrs[[1L]])) {
+      error_input("Cannot combine predictions: Different quantile levels")
+    }
+  }
   result = invoke(c, .args = c(dots, list(keep_duplicates = keep_duplicates)))
   as_pdata_fcst(result)
 }
