@@ -46,6 +46,54 @@ test_that("key binding returns row_id and key columns", {
   expect_names(names(task$key), identical.to = c("row_id", "key"))
 })
 
+test_that("key columns may not contain missing values", {
+  dt = data.table(
+    date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2L),
+    value = rnorm(20L),
+    id = factor(rep(c("a", "b"), each = 10L))
+  )
+  dt[16:20, id := NA]
+  expect_error(
+    as_task_fcst(dt, target = "value", order = "date", key = "id"),
+    "Key column\\(s\\) 'id' must not contain missing values"
+  )
+
+  # a single NA in one column of a multi-column key
+  dt = data.table(
+    date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2L),
+    value = rnorm(20L),
+    id = factor(rep(c("a", "b"), each = 10L)),
+    region = factor(rep(c("x", "y"), each = 10L))
+  )
+  dt[20L, region := NA]
+  expect_error(
+    as_task_fcst(dt, target = "value", order = "date", key = c("id", "region")),
+    "must not contain missing values"
+  )
+
+  # the role layer reports the offending column
+  expect_error(
+    TaskFcst$new(id = "t", backend = dt, target = "value", order = "date", key = c("id", "region")),
+    "Key column\\(s\\) 'region' contain missing values"
+  )
+
+  # assigning the key role later is checked too
+  task = as_task_fcst(dt, target = "value", order = "date", key = "id")
+  expect_error(
+    task$set_col_roles("region", add_to = "key"),
+    "missing values"
+  )
+
+  # an explicit "unknown" level is allowed
+  dt = data.table(
+    date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2L),
+    value = rnorm(20L),
+    id = factor(rep(c("a", "unknown"), each = 10L))
+  )
+  task = as_task_fcst(dt, target = "value", order = "date", key = "id")
+  expect_class(task, "TaskFcst")
+})
+
 test_that("print omits frequency when NULL", {
   task = as_task_fcst(data.table(idx = 1:5, y = rnorm(5)), target = "y", order = "idx")
   out = capture.output(print(task))

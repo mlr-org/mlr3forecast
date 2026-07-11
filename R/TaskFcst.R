@@ -241,5 +241,11 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     error_input("Key column(s) %s must be factor or ordered columns", paste0("'", key_cols, "'", collapse = ", "))
   }
 
+  if (length(key_cols) > 0L && any(task$missings(cols = key_cols) > 0L)) {
+    missings = task$missings(cols = key_cols)
+    missings = names(missings[missings > 0L])
+    error_input("Key column(s) %s contain missing values", paste0("'", missings, "'", collapse = ", "))
+  }
+
   NextMethod()
 }

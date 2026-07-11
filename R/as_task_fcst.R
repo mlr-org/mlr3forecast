@@ -116,6 +116,10 @@ as_task_fcst.data.frame = function(
     error_input("Order column '%s' must not contain missing values", order)
   }
 
+  if (has_key && some(key, function(col) anyMissing(x[[col]]))) {
+    error_input("Key column(s) %s must not contain missing values", paste0("'", key, "'", collapse = ", "))
+  }
+
   x = setorderv(as.data.table(x), c(key, order))
 
   dup = if (has_key) {
