@@ -1,16 +1,14 @@
 # mlr3forecast: Extending 'mlr3' to Time Series Forecasting
 
-Extends the 'mlr3' package and ecosystem (Lang et al., 2019) to time
-series forecasting. Machine learning regression learners are turned into
-forecasters through recursive and direct multi-step strategies (Bontempi
-et al., 2013) that use lagged values of the target and exogenous
-features as predictors. Classical forecasting models such as ARIMA and
-exponential smoothing are made available by wrapping the 'forecast' and
-'smooth' packages. The package further provides time-series-aware
-resampling, forecasting-specific performance measures, and
-'mlr3pipelines' operators for feature engineering such as lags, rolling
-window statistics, and Fourier terms. See Hyndman and Athanasopoulos
-(2021, <https://otexts.com/fpp3/>) for an introduction to the methods.
+Extends the 'mlr3' package and ecosystem to time series forecasting.
+Machine learning regression learners are turned into forecasters through
+recursive and direct multi-step strategies that use lagged values of the
+target and exogenous features as predictors. Classical forecasting
+models such as ARIMA and exponential smoothing are made available by
+wrapping the 'forecast' and 'smooth' packages. Additional tools include
+time-series-aware resampling, forecasting-specific performance measures,
+and 'mlr3pipelines' operators for feature engineering such as lags,
+rolling window statistics, and Fourier terms.
 
 ## See also
 
