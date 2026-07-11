@@ -93,83 +93,86 @@ training and a <a href="PredictionFcst.html">PredictionFcst</a> during predictio
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://mlr3pipelines.mlr-org.com" class="external-link">mlr3pipelines</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-datatable.com" class="external-link">data.table</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">dt</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/J.html" class="external-link">CJ</a></span><span class="op">(</span>month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2024-01-01"</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"month"</span>, length.out <span class="op">=</span> <span class="fl">36L</span><span class="op">)</span>, id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/J.html" class="external-link">CJ</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  month <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2024-01-01"</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"month"</span>, length.out <span class="op">=</span> <span class="fl">36L</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  id <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html" class="external-link">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">dt</span><span class="op">[</span>, <span class="va">value</span> <span class="op">:=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html" class="external-link">rnorm</a></span><span class="op">(</span><span class="va">.N</span>, mean <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/data.table/man/fifelse.html" class="external-link">fifelse</a></span><span class="op">(</span><span class="va">id</span> <span class="op">==</span> <span class="st">"a"</span>, <span class="fl">10</span>, <span class="fl">20</span><span class="op">)</span><span class="op">)</span><span class="op">]</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Key: &lt;month, id&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          month     id     value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;Date&gt; &lt;fctr&gt;     &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1: 2024-01-01      a  8.599956</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  2: 2024-01-01      b 20.255317</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  3: 2024-02-01      a  7.562736</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  4: 2024-02-01      b 19.994429</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  5: 2024-03-01      a 10.621553</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  6: 2024-03-01      b 21.148412</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7: 2024-04-01      a  8.178182</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  8: 2024-04-01      b 19.752675</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9: 2024-05-01      a  9.755800</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10: 2024-05-01      b 19.717295</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11: 2024-06-01      a  9.446301</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12: 2024-06-01      b 20.628982</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13: 2024-07-01      a 12.065025</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14: 2024-07-01      b 18.369011</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15: 2024-08-01      a 10.512427</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16: 2024-08-01      b 18.136989</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17: 2024-09-01      a  9.477987</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18: 2024-09-01      b 19.947398</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19: 2024-10-01      a 10.542996</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20: 2024-10-01      b 19.085925</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21: 2024-11-01      a 10.468154</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22: 2024-11-01      b 20.362951</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23: 2024-12-01      a  8.695456</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24: 2024-12-01      b 20.737776</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25: 2025-01-01      a 11.888505</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 26: 2025-01-01      b 19.902555</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 27: 2025-02-01      a  9.064153</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 28: 2025-02-01      b 19.984050</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 29: 2025-03-01      a  9.173211</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 30: 2025-03-01      b 18.487600</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 31: 2025-04-01      a 10.935363</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 32: 2025-04-01      b 20.176489</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 33: 2025-05-01      a 10.243685</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 34: 2025-05-01      b 21.623549</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 35: 2025-06-01      a 10.112038</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 36: 2025-06-01      b 19.866003</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 37: 2025-07-01      a  8.089913</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 38: 2025-07-01      b 19.720763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 39: 2025-08-01      a  9.686554</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 40: 2025-08-01      b 21.067308</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 41: 2025-09-01      a 10.070035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 42: 2025-09-01      b 19.360877</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 43: 2025-10-01      a  9.950035</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 44: 2025-10-01      b 19.748517</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 45: 2025-11-01      a 10.444797</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 46: 2025-11-01      b 22.755418</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 47: 2025-12-01      a 10.046531</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 48: 2025-12-01      b 20.577709</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 49: 2026-01-01      a 10.118195</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 50: 2026-01-01      b 18.088280</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 51: 2026-02-01      a 10.862086</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 52: 2026-02-01      b 19.756763</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 53: 2026-03-01      a  9.793913</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 54: 2026-03-01      b 20.019178</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 55: 2026-04-01      a 10.029561</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 56: 2026-04-01      b 20.549828</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 57: 2026-05-01      a  7.725885</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 58: 2026-05-01      b 22.682557</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 59: 2026-06-01      a  9.638779</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 60: 2026-06-01      b 20.213356</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 61: 2026-07-01      a 11.074346</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 62: 2026-07-01      b 19.334912</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 63: 2026-08-01      a 11.113952</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 64: 2026-08-01      b 19.754104</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 65: 2026-09-01      a  8.822437</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 66: 2026-09-01      b 19.024149</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 67: 2026-10-01      a 11.065057</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 68: 2026-10-01      b 20.131671</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 69: 2026-11-01      a 10.488629</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 70: 2026-11-01      b 18.300549</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 71: 2026-12-01      a  8.529264</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 72: 2026-12-01      b 20.284150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1: 2024-01-01      a 10.255317</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  2: 2024-01-01      b 17.562736</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  3: 2024-02-01      a  9.994429</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  4: 2024-02-01      b 20.621553</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  5: 2024-03-01      a 11.148412</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  6: 2024-03-01      b 18.178182</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  7: 2024-04-01      a  9.752675</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  8: 2024-04-01      b 19.755800</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9: 2024-05-01      a  9.717295</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10: 2024-05-01      b 19.446301</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11: 2024-06-01      a 10.628982</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12: 2024-06-01      b 22.065025</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13: 2024-07-01      a  8.369011</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14: 2024-07-01      b 20.512427</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15: 2024-08-01      a  8.136989</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16: 2024-08-01      b 19.477987</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17: 2024-09-01      a  9.947398</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18: 2024-09-01      b 20.542996</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19: 2024-10-01      a  9.085925</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20: 2024-10-01      b 20.468154</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21: 2024-11-01      a 10.362951</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22: 2024-11-01      b 18.695456</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23: 2024-12-01      a 10.737776</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24: 2024-12-01      b 21.888505</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25: 2025-01-01      a  9.902555</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 26: 2025-01-01      b 19.064153</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 27: 2025-02-01      a  9.984050</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 28: 2025-02-01      b 19.173211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 29: 2025-03-01      a  8.487600</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 30: 2025-03-01      b 20.935363</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 31: 2025-04-01      a 10.176489</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 32: 2025-04-01      b 20.243685</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 33: 2025-05-01      a 11.623549</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 34: 2025-05-01      b 20.112038</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 35: 2025-06-01      a  9.866003</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 36: 2025-06-01      b 18.089913</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 37: 2025-07-01      a  9.720763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 38: 2025-07-01      b 19.686554</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 39: 2025-08-01      a 11.067308</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 40: 2025-08-01      b 20.070035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 41: 2025-09-01      a  9.360877</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 42: 2025-09-01      b 19.950035</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 43: 2025-10-01      a  9.748517</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 44: 2025-10-01      b 20.444797</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 45: 2025-11-01      a 12.755418</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 46: 2025-11-01      b 20.046531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 47: 2025-12-01      a 10.577709</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 48: 2025-12-01      b 20.118195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 49: 2026-01-01      a  8.088280</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 50: 2026-01-01      b 20.862086</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 51: 2026-02-01      a  9.756763</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 52: 2026-02-01      b 19.793913</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 53: 2026-03-01      a 10.019178</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 54: 2026-03-01      b 20.029561</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 55: 2026-04-01      a 10.549828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 56: 2026-04-01      b 17.725885</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 57: 2026-05-01      a 12.682557</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 58: 2026-05-01      b 19.638779</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 59: 2026-06-01      a 10.213356</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 60: 2026-06-01      b 21.074346</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 61: 2026-07-01      a  9.334912</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 62: 2026-07-01      b 21.113952</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 63: 2026-08-01      a  9.754104</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 64: 2026-08-01      b 18.822437</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 65: 2026-09-01      a  9.024149</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 66: 2026-09-01      b 21.065057</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 67: 2026-10-01      a 10.131671</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 68: 2026-10-01      b 20.488629</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 69: 2026-11-01      a  8.300549</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 70: 2026-11-01      b 18.529264</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 71: 2026-12-01      a 10.284150</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 72: 2026-12-01      b 21.337320</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          month     id     value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;Date&gt; &lt;fctr&gt;     &lt;num&gt;</span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="fu"><a href="as_task_fcst.html">as_task_fcst</a></span><span class="op">(</span><span class="va">dt</span>, target <span class="op">=</span> <span class="st">"value"</span>, order <span class="op">=</span> <span class="st">"month"</span>, key <span class="op">=</span> <span class="st">"id"</span>, freq <span class="op">=</span> <span class="st">"month"</span><span class="op">)</span></span></span>
@@ -178,13 +181,13 @@ training and a <a href="PredictionFcst.html">PredictionFcst</a> during predictio
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;PredictionFcst&gt;</span><span style="font-weight: bold;"> for </span><span style="color: #0000BB; font-weight: bold;">24</span><span style="font-weight: bold;"> observations:</span> <span style="color: #00BBBB;">───────────────────────────────────────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  key      month row_ids truth  response</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    a 2027-01-01       1    NA  9.856516</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    a 2027-02-01       2    NA  9.856516</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    a 2027-03-01       3    NA  9.856516</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    a 2027-01-01       1    NA  9.987157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    a 2027-02-01       2    NA  9.987157</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    a 2027-03-01       3    NA  9.987157</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  ---        ---     ---   ---       ---</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    b 2027-10-01      22    NA 19.987351</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    b 2027-11-01      23    NA 19.987351</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    b 2027-12-01      24    NA 19.987351</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    b 2027-10-01      22    NA 19.934274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    b 2027-11-01      23    NA 19.934274</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    b 2027-12-01      24    NA 19.934274</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

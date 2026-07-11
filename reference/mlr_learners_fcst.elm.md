@@ -233,7 +233,7 @@ print(learner$model)
 #> Deterministic seasonal dummies included.
 #> Forecast combined using the median operator.
 #> Output weight estimation using: lasso.
-#> MSE: 74.8733.
+#> MSE: 72.4411.
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -257,5 +257,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1446.717 
+#> 1571.488 
 ```

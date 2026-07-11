@@ -36,8 +36,11 @@ arXiv:2105.06643*.
 ## Examples
 
 ``` r
-if (FALSE) { # \dontrun{
+# \donttest{
 dt = download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+#> Reading tsf file:
+#> • frequency: yearly
+#> • horizon: 6
 
 # optional renaming
 setnames(dt, c("id", "date", "value"))
@@ -54,5 +57,10 @@ resampling = rsmp("fcst.holdout", ratio = 0.8)
 design = benchmark_grid(tasks, learners, resampling)
 bmr = benchmark(design)
 bmr$aggregate(msr("regr.rmse"))[, .(rmse = mean(regr.rmse)), by = learner_id]
-} # }
+#>          learner_id     rmse
+#>              <char>    <num>
+#> 1:  fcst.auto_arima 1116.081
+#> 2:         fcst.ets 1118.258
+#> 3: fcst.random_walk 1212.148
+# }
 ```
