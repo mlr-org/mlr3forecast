@@ -130,7 +130,7 @@ read_tsf = function(file) {
 #'
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' dt = download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 #'
 #' # optional renaming
