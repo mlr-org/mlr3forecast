@@ -25,6 +25,21 @@ test_that("read_tsf preserves high-frequency timestamps", {
   )
 })
 
+test_that("read_tsf rejects timestamps without a time component", {
+  file = withr::local_tempfile(fileext = ".tsf")
+  writeLines(
+    c(
+      "@attribute series_name string",
+      "@attribute start_timestamp date",
+      "@frequency yearly",
+      "@data",
+      "T1:1975-01-01:10,20,30,40"
+    ),
+    file
+  )
+  expect_error(read_tsf(file), "Incorrect timestamp format")
+})
+
 test_that("read_tsf handles frequency without date attribute", {
   file = withr::local_tempfile(fileext = ".tsf")
   writeLines(

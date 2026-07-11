@@ -86,6 +86,9 @@ read_tsf = function(file) {
       } else {
         set(dt, j = date_col, value = as.Date(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S"))
       }
+      if (anyNA(dt[[date_col]])) {
+        stopf("Incorrect timestamp format. Specify your timestamps as YYYY-mm-dd HH-MM-SS")
+      }
     }
   }
 
