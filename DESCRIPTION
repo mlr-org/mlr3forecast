@@ -9,7 +9,15 @@ Authors@R: c(
     person("Bernd", "Bischl", , "bernd.bischl@gmail.com", role = "aut",
            comment = c(ORCID = "0000-0001-6002-6980"))
   )
-Description: Extends the 'mlr3' ecosystem to time series forecasting.
+Description: Extends the 'mlr3' package and ecosystem to time series
+    forecasting. Machine learning regression learners are turned into
+    forecasters through recursive and direct multi-step strategies that use
+    lagged values of the target and exogenous features as predictors. Classical
+    forecasting models such as ARIMA and exponential smoothing are made
+    available by wrapping the 'forecast' and 'smooth' packages. Additional tools
+    include time-series-aware resampling, forecasting-specific performance
+    measures, and 'mlr3pipelines' operators for feature engineering such as
+    lags, rolling window statistics, and Fourier terms.
 License: LGPL-3
 URL: https://mlr3forecast.mlr-org.com,
     https://github.com/mlr-org/mlr3forecast
