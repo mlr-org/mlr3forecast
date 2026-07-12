@@ -11,7 +11,11 @@ predictions are inverted via
 [`forecast::BoxCox.lambda()`](https://pkg.robjhyndman.com/forecast/reference/BoxCox.lambda.html),
 using the task frequency for the `"guerrero"` method so seasonality is
 accounted for. The estimated (or supplied) `lambda` is stored and reused
-at predict time and for inversion.
+at predict time and for inversion. On keyed (multi-series) tasks a
+separate `lambda` is estimated per series and each row is transformed
+and inverted with its series' `lambda`; predicting series not seen
+during training is then an error. A supplied `lambda` applies to all
+series.
 
 Box-Cox and log transformations require strictly positive target values.
 Non-positive values produce `NaN` or an error from

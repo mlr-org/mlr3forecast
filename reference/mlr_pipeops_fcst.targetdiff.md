@@ -4,7 +4,10 @@ Differences the target variable with lag `lag`, producing the new target
 `y'_t = y_t - y_{t - lag}`. The first `lag` rows are dropped during
 training. Predictions are inverted via stride-`lag` cumulative sums
 anchored at the last `lag` training values, yielding original-scale
-predictions.
+predictions. On keyed (multi-series) tasks all of this happens within
+each series: per-series tails anchor the inversion, series too short for
+the requested lag are dropped with a warning, and predicting series not
+seen during training is an error.
 
 Use `lag = 1` to remove a trend and `lag = 12` (or the seasonal period)
 to remove seasonality.
@@ -36,6 +39,11 @@ is wrong for horizons \>= 2. Use inside a plain
 via `ppl("targettrafo", ...)` for batch prediction, or wrap the
 forecaster itself with `ppl("targettrafo", ...)` so all horizons are
 inverted together.
+
+Quantile predictions cannot be inverted and are rejected. Differencing
+is not a pointwise transform, so marginal quantiles of the differenced
+target do not map back to the original scale (they would only be exact
+one step ahead).
 
 ## Super classes
 
