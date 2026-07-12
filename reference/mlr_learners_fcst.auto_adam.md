@@ -227,7 +227,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 5.98 seconds
+#> Time elapsed: 6.08 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)+SARIMA(3,0,0)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Log-Normal
