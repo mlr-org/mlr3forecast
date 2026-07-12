@@ -5,13 +5,18 @@
 \alias{pipeline_fcst_local}
 \title{Create a Graph to Fit Local Per-Series Forecast Models}
 \usage{
-pipeline_fcst_local(graph)
+pipeline_fcst_local(graph, key = "key")
 }
 \arguments{
 \item{graph}{(\link[mlr3pipelines:Graph]{Graph})\cr
 Graph being wrapped between \code{\link[=mlr_pipeops_fcst.splitkey]{po("fcst.splitkey")}} and
 \code{\link[=mlr_pipeops_fcst.unitekey]{po("fcst.unitekey")}}. The graph should return \code{NULL} during
 training and a \link{PredictionFcst} during prediction.}
+
+\item{key}{(\code{character(1)})\cr
+Name of the rebuilt series-identity column in the united prediction's \code{extra} slot, default
+\code{"key"}. Set it to the task's key column name to get predictions column-compatible with
+global forecasters such as \link{RecursiveForecaster}.}
 }
 \value{
 \link[mlr3pipelines:Graph]{Graph}

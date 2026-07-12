@@ -6,12 +6,15 @@
 #' created downstream of [`po("fcst.splitkey")`][mlr_pipeops_fcst.splitkey], into a single
 #' [PredictionFcst].
 #'
-#' The series identity is rebuilt from the multiplicity names as a factor column named `key` in the
+#' The series identity is rebuilt from the multiplicity names as a factor column in the
 #' prediction's `extra` slot, so `$key`, `as.data.table()`, and [autoplot.PredictionFcst()] keep
 #' working. Multi-column keys are collapsed into one label per series (values pasted with `":"`).
+#' Set `key` to the task's key column name to get predictions column-compatible with global
+#' forecasters such as [RecursiveForecaster], which attach the original key column.
 #'
 #' @section Parameters:
-#' This PipeOp has no parameters.
+#' * `key` :: `character(1)`\cr
+#'   Name of the rebuilt series-identity column in the prediction's `extra` slot. Default `"key"`.
 #'
 #' @export
 #' @examplesIf requireNamespace("forecast", quietly = TRUE)
@@ -37,8 +40,17 @@ PipeOpFcstUniteKey = R6Class(
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would
     #'   otherwise be set during construction. Default `list()`.
     initialize = function(id = "fcst.unitekey", param_vals = list()) {
+      param_set = ps(
+        key = p_uty(
+          tags = "predict",
+          custom_check = crate(function(x) check_string(x, min.chars = 1L))
+        )
+      )
+      param_set$set_values(key = "key")
+
       super$initialize(
         id = id,
+        param_set = param_set,
         param_vals = param_vals,
         packages = c("mlr3forecast", "mlr3pipelines"),
         input = data.table(name = "input", train = "[NULL]", predict = "[PredictionFcst]"),
@@ -67,9 +79,17 @@ PipeOpFcstUniteKey = R6Class(
       pdata = if (length(pdatas) == 1L) pdatas[[1L]] else invoke(c, .args = unname(pdatas))
       extra = as.list(pdata$extra)
       if (!any(map_lgl(extra, is.factor))) {
+        key = self$param_set$get_values(tags = "predict")$key
+        if (key %in% names(extra)) {
+          error_input(
+            "%s cannot rebuild the series identity as '%s': the prediction already carries an extra column with that name.",
+            self$id,
+            key
+          )
+        }
         # rebuild the series identity dropped by fcst.splitkey from the multiplicity names
         counts = map_int(pdatas, function(x) length(x$row_ids))
-        extra$key = factor(rep(labels, counts), levels = labels)
+        extra[[key]] = factor(rep(labels, counts), levels = labels)
         pdata$extra = extra
       }
       list(as_prediction(pdata, check = FALSE))

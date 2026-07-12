@@ -14,6 +14,10 @@
 #'   Graph being wrapped between [`po("fcst.splitkey")`][mlr_pipeops_fcst.splitkey] and
 #'   [`po("fcst.unitekey")`][mlr_pipeops_fcst.unitekey]. The graph should return `NULL` during
 #'   training and a [PredictionFcst] during prediction.
+#' @param key (`character(1)`)\cr
+#'   Name of the rebuilt series-identity column in the united prediction's `extra` slot, default
+#'   `"key"`. Set it to the task's key column name to get predictions column-compatible with
+#'   global forecasters such as [RecursiveForecaster].
 #' @return [Graph][mlr3pipelines::Graph]
 #' @export
 #' @examplesIf requireNamespace("forecast", quietly = TRUE)
@@ -27,8 +31,8 @@
 #' task = as_task_fcst(dt, target = "value", order = "month", key = "id", freq = "month")
 #' flrn = as_learner(ppl("fcst.local", lrn("fcst.ets")))$train(task)
 #' forecast(flrn, task, 12L)
-pipeline_fcst_local = function(graph) {
-  PipeOpFcstSplitKey$new() %>>!% graph %>>!% PipeOpFcstUniteKey$new()
+pipeline_fcst_local = function(graph, key = "key") {
+  PipeOpFcstSplitKey$new() %>>!% graph %>>!% PipeOpFcstUniteKey$new(param_vals = list(key = key))
 }
 
 #' @include zzz.R

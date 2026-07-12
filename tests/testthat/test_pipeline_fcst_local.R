@@ -23,3 +23,12 @@ test_that("ppl(\"fcst.local\") composes with classical learners", {
   manual = as_learner(po("fcst.splitkey") %>>% lrn("fcst.ets") %>>% po("fcst.unitekey"))$train(task)
   expect_equal(forecast(glrn, task, 3L)$response, forecast(manual, task, 3L)$response)
 })
+
+test_that("ppl(\"fcst.local\") passes key through to the united prediction", {
+  task = make_date_major_panel_task()
+  fg = po("fcst.lags", lags = 1L) %>>% lrn("regr.featureless")
+  glrn = as_learner(ppl("fcst.local", recursive_forecaster(fg), key = "id"))
+  p = forecast(glrn$train(task), task, 3L)
+  expect_equal(as.character(p$key$key), rep(c("a", "b"), each = 3L))
+  expect_true("id" %in% names(as.data.table(p)))
+})

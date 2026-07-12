@@ -67,3 +67,24 @@ test_that("PipeOpFcstUniteKey errors on unnamed multiplicities", {
   po_unite$train(list(Multiplicity(NULL, NULL)))
   expect_snapshot(po_unite$predict(list(Multiplicity(p1, p2))), error = TRUE)
 })
+
+test_that("PipeOpFcstUniteKey names the rebuilt key column via the key parameter", {
+  p1 = make_series_prediction(1:3, c(1, 2, 3))
+  p2 = make_series_prediction(4:6, c(10, 20, 30))
+  po_unite = po("fcst.unitekey", key = "id")
+  po_unite$train(list(Multiplicity(a = NULL, b = NULL)))
+
+  out = po_unite$predict(list(Multiplicity(a = p1, b = p2)))[[1L]]
+  expect_equal(names(out$data$extra), c("date", "id"))
+  expect_equal(out$key$key, factor(rep(c("a", "b"), each = 3L)))
+  expect_named(as.data.table(out), c("id", "date", "row_ids", "truth", "response"))
+})
+
+test_that("PipeOpFcstUniteKey rejects a key name colliding with an existing extra column", {
+  p1 = make_series_prediction(1:3, c(1, 2, 3))
+  p2 = make_series_prediction(4:6, c(10, 20, 30))
+  po_unite = po("fcst.unitekey", key = "date")
+  po_unite$train(list(Multiplicity(a = NULL, b = NULL)))
+
+  expect_error(po_unite$predict(list(Multiplicity(a = p1, b = p2))), "already carries an extra column")
+})
