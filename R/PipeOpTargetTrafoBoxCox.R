@@ -117,7 +117,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
         pk = task$backend$primary_key
         dt = task$backend$data(rows = task$row_ids, cols = c(pk, target, key_cols))
         if (phase == "predict") {
-          fcst_assert_seen_keys(unique(key_labels(lambdas, key_cols)), dt, key_cols)
+          fcst_assert_seen_keys(lambdas, dt, key_cols)
         }
         dt = lambdas[dt, on = key_cols]
         # BoxCox only supports a scalar lambda, so transform each series with its own value
@@ -153,12 +153,11 @@ PipeOpTargetTrafoBoxCox = R6Class(
           on = "..row_id"
         ]
         dt = lambdas[dt, on = key_cols]
-        groups = split(dt$..pos, key_labels(dt, key_cols))
-        group_lambdas = map_dbl(split(dt$lambda, key_labels(dt, key_cols)), 1L)
+        groups = dt[, list(.pos = list(..pos), lambda = lambda[1L]), by = key_cols]
         inverted_values = quantiles
-        for (label in names(groups)) {
-          jj = groups[[label]]
-          lambda = group_lambdas[[label]]
+        for (i in seq_row(groups)) {
+          jj = groups$.pos[[i]]
+          lambda = groups$lambda[[i]]
           if (!is.null(response)) {
             response[jj] = as.numeric(forecast::InvBoxCox(response[jj], lambda = lambda))
           }

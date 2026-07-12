@@ -118,7 +118,7 @@ PipeOpTargetTrafoDifference = R6Class(
         task$filter(kept[[pk]])$cbind(kept[, c(pk, diff_col), with = FALSE])
       } else {
         tails = self$state$tails
-        fcst_assert_seen_keys(unique(key_labels(tails, key_cols)), dt, key_cols)
+        fcst_assert_seen_keys(tails, dt, key_cols)
         # tail pseudo-rows carry NA pk and precede each series' predict rows after the sort above
         aug = rbind(tails, dt, fill = TRUE)
         aug[, (diff_col) := get(target) - shift(get(target), lag), by = key_cols]
@@ -152,12 +152,13 @@ PipeOpTargetTrafoDifference = R6Class(
         ]
         order_cols = setdiff(names(predict_phase_state$layout), c(key_cols, "..row_id"))
         setorderv(dt, c(key_cols, order_cols))
-        xis = split(tails[[target]], tails[, key_cols, with = FALSE], drop = TRUE, sep = ":")
-        groups = split(dt$..pos, key_labels(dt, key_cols))
+        xis = tails[, list(.xi = list(get(target))), by = key_cols]
+        groups = dt[, list(.pos = list(..pos)), by = key_cols]
+        groups = xis[groups, on = key_cols]
         inverted = numeric(length(prediction$response))
-        for (label in names(groups)) {
-          jj = groups[[label]]
-          inverted[jj] = tail(stats::diffinv(prediction$response[jj], lag = lag, xi = xis[[label]]), -lag)
+        for (i in seq_row(groups)) {
+          jj = groups$.pos[[i]]
+          inverted[jj] = tail(stats::diffinv(prediction$response[jj], lag = lag, xi = groups$.xi[[i]]), -lag)
         }
       }
       PredictionFcst$new(

@@ -66,6 +66,22 @@ test_that("targetdiff round-trips on a keyed task", {
   }
 })
 
+test_that("targetdiff handles multi-column key labels containing the separator", {
+  task = make_colon_key_panel_task()
+  op = po("fcst.targetdiff", lag = 2L)
+  op$train(list(task))
+  out_predict = op$predict(list(task))
+  diff_col = out_predict$output$target_names[1L]
+  prediction = PredictionRegr$new(
+    row_ids = task$row_ids,
+    truth = task$truth(),
+    response = out_predict$output$data()[[diff_col]]
+  )
+
+  inverted = out_predict$fun(list(prediction))[[1L]]
+  expect_equal(inverted$response, as.numeric(task$truth()))
+})
+
 test_that("targetdiff differences within each series", {
   task = make_date_major_panel_task()
   op = po("fcst.targetdiff", lag = 1L)

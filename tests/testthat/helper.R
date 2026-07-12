@@ -70,6 +70,25 @@ make_monthly_panel_task = function(n = 36L) {
   TaskFcst$new("panel", as_data_backend(data), target = "y", order = "month", key = "id", freq = "month")
 }
 
+make_colon_key_panel_task = function(n = 12L) {
+  dates = seq(as.Date("2020-01-01"), by = "day", length.out = n)
+  data = rbind(
+    data.table(
+      date = dates,
+      key1 = factor("x:y", levels = c("x:y", "x")),
+      key2 = factor("z", levels = c("z", "y:z")),
+      y = seq_len(n)
+    ),
+    data.table(
+      date = dates,
+      key1 = factor("x", levels = c("x:y", "x")),
+      key2 = factor("y:z", levels = c("z", "y:z")),
+      y = 100 + seq_len(n)^2
+    )
+  )
+  TaskFcst$new("panel", as_data_backend(data), target = "y", order = "date", key = c("key1", "key2"), freq = "day")
+}
+
 fcst_prediction = function(task = tsk("airpassengers"), h = 12L) {
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
   learner$train(task)

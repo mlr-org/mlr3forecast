@@ -1,27 +1,51 @@
 score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   key_cols = task$col_roles$key
   key_data = task$data(rows = prediction$row_ids, cols = key_cols)
-  groups = split(prediction$row_ids, key_data, drop = TRUE)
+  set(key_data, j = "..row_id", value = prediction$row_ids)
+  groups = key_data[, list(.rows = list(..row_id)), by = key_cols]
 
   train_groups = NULL
   if (!is.null(train_set)) {
     train_key_data = task$data(rows = train_set, cols = key_cols)
-    train_groups = split(train_set, train_key_data, drop = TRUE)
-    missing = setdiff(names(groups), names(train_groups))
-    if (length(missing) > 0L) {
-      error_input("Key group(s) %s have no observations in the training set.", str_collapse(missing, quote = "'"))
+    set(train_key_data, j = "..row_id", value = train_set)
+    train_groups = train_key_data[, list(.train_rows = list(..row_id)), by = key_cols]
+    missing = groups[!train_groups, on = key_cols]
+    if (nrow(missing) > 0L) {
+      error_input(
+        "Key group(s) %s have no observations in the training set.",
+        str_collapse(key_labels(missing, key_cols), quote = "'")
+      )
     }
+    groups = train_groups[groups, on = key_cols]
   }
 
-  scores = map_dbl(names(groups), function(nm) {
-    pred = prediction$clone()$filter(groups[[nm]])
-    score_fn(pred, task, train_set = train_groups[[nm]], ...)
+  scores = map_dbl(seq_row(groups), function(i) {
+    pred = prediction$clone()$filter(groups$.rows[[i]])
+    train_rows = if (is.null(train_set)) NULL else groups$.train_rows[[i]]
+    score_fn(pred, task, train_set = train_rows, ...)
   })
   mean(scores, na.rm = TRUE)
 }
 
 key_labels = function(dt, cols = names(dt)) {
   do.call(paste, c(dt[, cols, with = FALSE], sep = ":"))
+}
+
+key_ids = function(dt, cols = names(dt)) {
+  labels = key_labels(dt, cols)
+  dup = duplicated(labels) | duplicated(labels, fromLast = TRUE)
+  if (any(dup)) {
+    keys = dt[, cols, with = FALSE]
+    hashes = map_chr(seq_row(keys), function(i) calculate_hash(map(keys[i], as.character)))
+    labels[dup] = sprintf("%s#%s", labels[dup], hashes[dup])
+  }
+  labels
+}
+
+key_table = function(dt, cols) {
+  keys = unique(dt[, cols, with = FALSE])
+  set(keys, j = ".label", value = key_ids(keys, cols))
+  keys
 }
 
 fcst_invert_state = function(task) {
@@ -36,9 +60,12 @@ fcst_invert_state = function(task) {
 }
 
 fcst_assert_seen_keys = function(seen, dt, key_cols) {
-  unseen = setdiff(unique(key_labels(dt, key_cols)), seen)
-  if (length(unseen) > 0L) {
-    error_input("Task has key group(s) not seen during training: %s.", str_collapse(unseen, quote = "'"))
+  unseen = unique(dt[, key_cols, with = FALSE])[!seen, on = key_cols]
+  if (nrow(unseen) > 0L) {
+    error_input(
+      "Task has key group(s) not seen during training: %s.",
+      str_collapse(key_labels(unseen, key_cols), quote = "'")
+    )
   }
 }
 

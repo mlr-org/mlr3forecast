@@ -40,6 +40,17 @@ test_that("PipeOpFcstSplitKey supports multi-column keys", {
   expect_length(intersect(c("a", "b"), sub$feature_names), 0L)
 })
 
+test_that("PipeOpFcstSplitKey disambiguates multi-column key labels containing the separator", {
+  task = make_colon_key_panel_task()
+  out = po("fcst.splitkey")$train(list(task))[[1L]]
+
+  expect_length(out, 2L)
+  expect_equal(anyDuplicated(names(out)), 0L)
+  expect_true(all(grepl("^x:y:z#", names(out))))
+  expect_equal(out[[1L]]$data(cols = "y")[[1L]], seq_len(12L))
+  expect_equal(out[[2L]]$data(cols = "y")[[1L]], 100 + seq_len(12L)^2)
+})
+
 test_that("PipeOpFcstSplitKey errors on tasks without keys", {
   expect_snapshot(po("fcst.splitkey")$train(list(tsk("airpassengers"))), error = TRUE)
 })

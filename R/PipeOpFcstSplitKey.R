@@ -52,25 +52,33 @@ PipeOpFcstSplitKey = R6Class(
   private = list(
     .train = function(inputs) {
       task = inputs[[1L]]
-      groups = private$.split_rows(task)
-      self$state = list(labels = names(groups))
-      list(as.Multiplicity(imap(groups, function(rows, label) private$.subtask(task, rows, label))))
+      split = private$.split_rows(task)
+      self$state = list(keys = split$keys, labels = names(split$groups))
+      list(as.Multiplicity(imap(split$groups, function(rows, label) private$.subtask(task, rows, label))))
     },
 
     .predict = function(inputs) {
       task = inputs[[1L]]
-      groups = private$.split_rows(task)
-      labels = self$state$labels
-      unseen = setdiff(names(groups), labels)
-      if (length(unseen) > 0L) {
-        error_input("Task has key group(s) not seen during training: %s.", str_collapse(unseen, quote = "'"))
+      split = private$.split_rows(task)
+      keys = split$keys
+      train_keys = self$state$keys
+      key_cols = task$col_roles$key
+      unseen = keys[!train_keys, on = key_cols]
+      if (nrow(unseen) > 0L) {
+        error_input(
+          "Task has key group(s) not seen during training: %s.",
+          str_collapse(key_labels(unseen, key_cols), quote = "'")
+        )
       }
-      missing = setdiff(labels, names(groups))
-      if (length(missing) > 0L) {
-        error_input("Task is missing key group(s) seen during training: %s.", str_collapse(missing, quote = "'"))
+      missing = train_keys[!keys, on = key_cols]
+      if (nrow(missing) > 0L) {
+        error_input(
+          "Task is missing key group(s) seen during training: %s.",
+          str_collapse(key_labels(missing, key_cols), quote = "'")
+        )
       }
       # per-series states downstream are matched by name, so keep the training order
-      groups = groups[labels]
+      groups = split$groups[self$state$labels]
       list(as.Multiplicity(imap(groups, function(rows, label) private$.subtask(task, rows, label))))
     },
 
@@ -83,8 +91,10 @@ PipeOpFcstSplitKey = R6Class(
       dt = task$data(cols = c(key_cols, col_roles$order))
       set(dt, j = "..row_id", value = task$row_ids)
       setorderv(dt, c(key_cols, col_roles$order))
-      # names use the same ":" separator as key_labels()
-      split(dt$..row_id, dt[, key_cols, with = FALSE], drop = TRUE, sep = ":")
+      keys = key_table(dt, key_cols)
+      groups = dt[, list(.rows = list(..row_id)), by = key_cols]
+      groups = keys[groups, on = key_cols]
+      list(groups = set_names(groups$.rows, groups$.label), keys = keys)
     },
 
     .subtask = function(task, rows, label) {

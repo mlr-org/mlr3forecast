@@ -170,6 +170,23 @@ test_that("targetboxcox round-trips on a keyed task", {
   }
 })
 
+test_that("targetboxcox handles multi-column key labels containing the separator", {
+  skip_if_not_installed("forecast")
+  task = make_colon_key_panel_task()
+  op = po("fcst.targetboxcox")
+  op$train(list(task))
+  out_predict = op$predict(list(task))
+  bc_col = out_predict$output$target_names[1L]
+  prediction = PredictionRegr$new(
+    row_ids = task$row_ids,
+    truth = task$truth(),
+    response = out_predict$output$data()[[bc_col]]
+  )
+
+  inverted = out_predict$fun(list(prediction))[[1L]]
+  expect_equal(inverted$response, as.numeric(task$truth()))
+})
+
 test_that("targetboxcox inverts keyed quantile predictions with each series' lambda", {
   skip_if_not_installed("forecast")
   task = make_monthly_panel_task()
