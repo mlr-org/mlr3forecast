@@ -81,9 +81,20 @@ The path to the TSF file.</p></dd>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
-<span class="r-in"><span><span class="va">dt</span> <span class="op">=</span> <span class="fu">read_tsf</span><span class="op">(</span><span class="st">"path/to/file.tsf"</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">file</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"m3_yearly_dataset.tsf"</span>, package <span class="op">=</span> <span class="st">"mlr3forecast"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">dt</span> <span class="op">=</span> <span class="fu">read_tsf</span><span class="op">(</span><span class="va">file</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Reading tsf file:</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • frequency: yearly</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • horizon: 6</span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">dt</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    series_name start_timestamp   value</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;char&gt;          &lt;Date&gt;   &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1:          T1      1975-01-01  940.66</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2:          T1      1976-01-01 1084.86</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3:          T1      1977-01-01 1244.98</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4:          T1      1978-01-01 1445.02</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5:          T1      1979-01-01 1683.17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6:          T1      1980-01-01 2038.15</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
