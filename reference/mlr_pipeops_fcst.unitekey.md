@@ -10,16 +10,21 @@ into a single
 [PredictionFcst](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.md).
 
 The series identity is rebuilt from the multiplicity names as a factor
-column named `key` in the prediction's `extra` slot, so `$key`,
+column in the prediction's `extra` slot, so `$key`,
 [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html),
 and
 [`autoplot.PredictionFcst()`](https://mlr3forecast.mlr-org.com/reference/autoplot.PredictionFcst.md)
 keep working. Multi-column keys are collapsed into one label per series
-(values pasted with `":"`).
+(values pasted with `":"`). Set `key` to the task's key column name to
+get predictions column-compatible with global forecasters such as
+[RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md),
+which attach the original key column.
 
 ## Parameters
 
-This PipeOp has no parameters.
+- `key` :: `character(1)`  
+  Name of the rebuilt series-identity column in the prediction's `extra`
+  slot. Default `"key"`.
 
 ## Super class
 

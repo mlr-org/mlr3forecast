@@ -70,7 +70,7 @@ keyed <a href="TaskFcst.html">TaskFcst</a> instead of one global model pooled ac
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pipeline_fcst_local</span><span class="op">(</span><span class="va">graph</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">pipeline_fcst_local</span><span class="op">(</span><span class="va">graph</span>, key <span class="op">=</span> <span class="st">"key"</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -82,6 +82,13 @@ keyed <a href="TaskFcst.html">TaskFcst</a> instead of one global model pooled ac
 Graph being wrapped between <code><a href="mlr_pipeops_fcst.splitkey.html">po("fcst.splitkey")</a></code> and
 <code><a href="mlr_pipeops_fcst.unitekey.html">po("fcst.unitekey")</a></code>. The graph should return <code>NULL</code> during
 training and a <a href="PredictionFcst.html">PredictionFcst</a> during prediction.</p></dd>
+
+
+<dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
+<dd><p>(<code>character(1)</code>)<br>
+Name of the rebuilt series-identity column in the united prediction's <code>extra</code> slot, default
+<code>"key"</code>. Set it to the task's key column name to get predictions column-compatible with
+global forecasters such as <a href="RecursiveForecaster.html">RecursiveForecaster</a>.</p></dd>
 
 </dl></div>
     <div class="section level2">

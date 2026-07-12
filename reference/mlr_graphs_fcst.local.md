@@ -17,7 +17,7 @@ returned
 ## Usage
 
 ``` r
-pipeline_fcst_local(graph)
+pipeline_fcst_local(graph, key = "key")
 ```
 
 ## Arguments
@@ -32,6 +32,14 @@ pipeline_fcst_local(graph)
   The graph should return `NULL` during training and a
   [PredictionFcst](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.md)
   during prediction.
+
+- key:
+
+  (`character(1)`)  
+  Name of the rebuilt series-identity column in the united prediction's
+  `extra` slot, default `"key"`. Set it to the task's key column name to
+  get predictions column-compatible with global forecasters such as
+  [RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md).
 
 ## Value
 
