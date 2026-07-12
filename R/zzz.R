@@ -9,7 +9,7 @@
 #' @importFrom utils head tail
 "_PACKAGE"
 
-utils::globalVariables(c(".idx", ".value", ".type", ".key"))
+utils::globalVariables(c(".idx", ".value", ".type", ".key", "..row_id"))
 
 mlr3forecast_resamplings = new.env(parent = emptyenv())
 mlr3forecast_tasks = new.env(parent = emptyenv())
