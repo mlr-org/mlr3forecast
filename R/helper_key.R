@@ -31,20 +31,11 @@ key_labels = function(dt, cols = names(dt)) {
   do.call(paste, c(dt[, cols, with = FALSE], sep = ":"))
 }
 
-key_ids = function(dt, cols = names(dt)) {
-  labels = key_labels(dt, cols)
-  dup = duplicated(labels) | duplicated(labels, fromLast = TRUE)
-  if (any(dup)) {
-    keys = dt[, cols, with = FALSE]
-    hashes = map_chr(seq_row(keys), function(i) calculate_hash(map(keys[i], as.character)))
-    labels[dup] = sprintf("%s#%s", labels[dup], hashes[dup])
-  }
-  labels
-}
-
 key_table = function(dt, cols) {
   keys = unique(dt[, cols, with = FALSE])
-  set(keys, j = ".label", value = key_ids(keys, cols))
+  # sort so the deduplicated labels depend only on the key set
+  setorderv(keys, cols)
+  set(keys, j = ".label", value = make.unique(key_labels(keys, cols)))
   keys
 }
 

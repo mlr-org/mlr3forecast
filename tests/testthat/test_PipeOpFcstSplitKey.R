@@ -4,7 +4,7 @@ test_that("PipeOpFcstSplitKey splits a keyed task into per-series tasks", {
   out = po_split$train(list(task))[[1L]]
   expect_class(out, "Multiplicity")
   expect_names(names(out), identical.to = c("a", "b"))
-  expect_equal(po_split$state$labels, c("a", "b"))
+  expect_equal(po_split$state$keys$.label, c("a", "b"))
 
   for (sub in out) {
     expect_r6_class(sub, "TaskFcst")
@@ -42,13 +42,17 @@ test_that("PipeOpFcstSplitKey supports multi-column keys", {
 
 test_that("PipeOpFcstSplitKey disambiguates multi-column key labels containing the separator", {
   task = make_colon_key_panel_task()
-  out = po("fcst.splitkey")$train(list(task))[[1L]]
+  po_split = po("fcst.splitkey")
+  out = po_split$train(list(task))[[1L]]
 
   expect_length(out, 2L)
-  expect_equal(anyDuplicated(names(out)), 0L)
-  expect_true(all(grepl("^x:y:z#", names(out))))
+  expect_equal(names(out), c("x:y:z", "x:y:z.1"))
   expect_equal(out[[1L]]$data(cols = "y")[[1L]], seq_len(12L))
   expect_equal(out[[2L]]$data(cols = "y")[[1L]], 100 + seq_len(12L)^2)
+
+  pred = po_split$predict(list(task))[[1L]]
+  expect_equal(names(pred), names(out))
+  expect_equal(pred[[1L]]$data(cols = "y")[[1L]], seq_len(12L))
 })
 
 test_that("PipeOpFcstSplitKey errors on tasks without keys", {

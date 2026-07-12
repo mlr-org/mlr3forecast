@@ -8,7 +8,8 @@
 #'
 #' The series identity is rebuilt from the multiplicity names as a factor column in the
 #' prediction's `extra` slot, so `$key`, `as.data.table()`, and [autoplot.PredictionFcst()] keep
-#' working. Multi-column keys are collapsed into one label per series (values pasted with `":"`).
+#' working. Multi-column keys are collapsed into one label per series (values pasted with `":"`,
+#' deduplicated with [make.unique()] when key values contain the separator).
 #' Set `key` to the task's key column name to get predictions column-compatible with global
 #' forecasters such as [RecursiveForecaster], which attach the original key column.
 #'

@@ -150,3 +150,17 @@ test_that("autoplot.PredictionFcst overlays history for united local-model predi
   expect_equal(levels(g$data$.key), c("a", "b"))
   expect_equal(nrow(g$data), task$nrow + 2L + 6L)
 })
+
+test_that("autoplot.PredictionFcst matches history to deduplicated key labels", {
+  skip_if_not_installed("ggplot2")
+  task = make_colon_key_panel_task()
+  fg = po("fcst.lags", lags = 1L) %>>% lrn("regr.featureless")
+  glrn = as_learner(po("fcst.splitkey") %>>% po("learner", recursive_forecaster(fg)) %>>% po("fcst.unitekey"))
+  p = forecast(glrn$train(task), task, 3L)
+
+  g = ggplot2::autoplot(p, task = task)
+  expect_s3_class(g, "ggplot")
+  expect_equal(levels(g$data$.key), c("x:y:z", "x:y:z.1"))
+  expect_false(anyNA(g$data$.key))
+  expect_equal(nrow(g$data), task$nrow + 2L + 6L)
+})
