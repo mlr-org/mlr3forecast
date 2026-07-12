@@ -326,7 +326,7 @@ RecursiveForecaster = R6::R6Class(
 
       ord = combined[test_cids, c(key_cols, order_cols, "..row_id"), with = FALSE]
       setorderv(ord, c(key_cols, order_cols))
-      active_cids = ord$..row_id
+      active_cids = ord[["..row_id"]]
 
       preds = vector("list", n_test)
       for (i in seq_len(n_test)) {

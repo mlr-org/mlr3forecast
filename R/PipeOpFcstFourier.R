@@ -91,11 +91,9 @@ PipeOpFcstFourier = R6Class(
       } else {
         set(full, j = "..t", value = seq_row(full))
       }
-      terms = as.data.table(fourier_terms(full[["..t"]], period, K))
-      full = cbind(full, terms)
-
       active = task$data(cols = c(key_cols, order_cols))
-      feat = full[active, on = c(key_cols, order_cols)][, names(terms), with = FALSE]
+      ii = full[active, on = c(key_cols, order_cols), which = TRUE]
+      feat = as.data.table(fourier_terms(full[["..t"]][ii], period, K))
       task$select(task$feature_names)$cbind(feat)
     }
   )
@@ -103,32 +101,29 @@ PipeOpFcstFourier = R6Class(
 
 # port of forecast:::fourier(), evaluating Fourier terms at the given integer time positions.
 fourier_terms = function(times, period, K) {
-  p = numeric()
-  labels = character()
-  for (j in seq_along(period)) {
-    if (K[j] > 0L) {
-      p = c(p, seq_len(K[j]) / period[j])
-      labels = c(
-        labels,
-        paste(paste0(c("S", "C"), rep(seq_len(K[j]), rep(2L, K[j]))), round(period[j]), sep = "_")
-      )
-    }
-  }
+  k = sequence(K)
+  per = rep(period, K)
+  p = k / per
+  labels = paste(paste0(c("S", "C"), rep(k, each = 2L)), rep(round(per), each = 2L), sep = "_")
   # remove equivalent harmonics arising from overlapping seasonal periods
   dup = duplicated(p)
   p = p[!dup]
-  labels = labels[!rep(dup, rep(2L, length(dup)))]
-  # sine terms that are identically zero (2 * p integer) are dropped below
+  labels = labels[!rep(dup, each = 2L)]
+  # sine terms that are identically zero (2 * p integer) are dropped
   keep_sin = abs(2 * p - round(2 * p)) > .Machine$double.eps
-  X = matrix(NA_real_, nrow = length(times), ncol = 2L * length(p))
+  keep = rep(TRUE, 2L * length(p))
+  keep[2L * seq_along(p) - 1L] = keep_sin
+  X = matrix(NA_real_, nrow = length(times), ncol = sum(keep), dimnames = list(NULL, labels[keep]))
+  jj = 0L
   for (j in seq_along(p)) {
     if (keep_sin[j]) {
-      X[, 2L * j - 1L] = sinpi(2 * p[j] * times)
+      jj = jj + 1L
+      X[, jj] = sinpi(2 * p[j] * times)
     }
-    X[, 2L * j] = cospi(2 * p[j] * times)
+    jj = jj + 1L
+    X[, jj] = cospi(2 * p[j] * times)
   }
-  colnames(X) = labels
-  X[, !is.na(colSums(X)), drop = FALSE]
+  X
 }
 
 #' @include zzz.R
