@@ -11,7 +11,10 @@ inverted via \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}}.
 
 \code{lambda = 0} is the log transformation. When \code{lambda} is \code{NULL} (default) it is estimated from the training data
 via \code{\link[forecast:BoxCox.lambda]{forecast::BoxCox.lambda()}}, using the task frequency for the \code{"guerrero"} method so seasonality is accounted
-for. The estimated (or supplied) \code{lambda} is stored and reused at predict time and for inversion.
+for. The estimated (or supplied) \code{lambda} is stored and reused at predict time and for inversion. On keyed
+(multi-series) tasks a separate \code{lambda} is estimated per series and each row is transformed and inverted with its
+series' \code{lambda}; predicting series not seen during training is then an error. A supplied \code{lambda} applies to all
+series.
 
 Box-Cox and log transformations require strictly positive target values. Non-positive values produce \code{NaN} or an
 error from \code{\link[forecast:BoxCox]{forecast::BoxCox()}}.

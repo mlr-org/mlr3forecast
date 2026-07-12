@@ -7,7 +7,9 @@
 \description{
 Differences the target variable with lag \code{lag}, producing the new target \verb{y'_t = y_t - y_\{t - lag\}}. The first \code{lag}
 rows are dropped during training. Predictions are inverted via stride-\code{lag} cumulative sums anchored at the last
-\code{lag} training values, yielding original-scale predictions.
+\code{lag} training values, yielding original-scale predictions. On keyed (multi-series) tasks all of this happens within
+each series: per-series tails anchor the inversion, series too short for the requested lag are dropped with a
+warning, and predicting series not seen during training is an error.
 
 Use \code{lag = 1} to remove a trend and \code{lag = 12} (or the seasonal period) to remove seasonality.
 }

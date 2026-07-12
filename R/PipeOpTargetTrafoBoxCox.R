@@ -8,7 +8,10 @@
 #'
 #' `lambda = 0` is the log transformation. When `lambda` is `NULL` (default) it is estimated from the training data
 #' via [forecast::BoxCox.lambda()], using the task frequency for the `"guerrero"` method so seasonality is accounted
-#' for. The estimated (or supplied) `lambda` is stored and reused at predict time and for inversion.
+#' for. The estimated (or supplied) `lambda` is stored and reused at predict time and for inversion. On keyed
+#' (multi-series) tasks a separate `lambda` is estimated per series and each row is transformed and inverted with its
+#' series' `lambda`; predicting series not seen during training is then an error. A supplied `lambda` applies to all
+#' series.
 #'
 #' Box-Cox and log transformations require strictly positive target values. Non-positive values produce `NaN` or an
 #' error from [forecast::BoxCox()].
@@ -81,31 +84,91 @@ PipeOpTargetTrafoBoxCox = R6Class(
   private = list(
     .get_state = function(task) {
       lambda = self$param_set$get_values(tags = "train")$lambda
-      if (is.null(lambda)) {
-        lambda = invoke(forecast::BoxCox.lambda, as.ts(task), .args = self$param_set$get_values(tags = "estimate"))
+      key_cols = task$col_roles$key
+      if (!is.null(lambda) || length(key_cols) == 0L) {
+        if (is.null(lambda)) {
+          lambda = invoke(forecast::BoxCox.lambda, as.ts(task), .args = self$param_set$get_values(tags = "estimate"))
+        }
+        return(list(lambda = lambda))
       }
-      list(lambda = lambda)
+      target = task$target_names
+      period = freq_to_period(task$freq)
+      args = self$param_set$get_values(tags = "estimate")
+      estimate_lambda = function(y) {
+        invoke(forecast::BoxCox.lambda, stats::ts(as.numeric(y), frequency = period), .args = args)
+      }
+      dt = task$data(cols = c(key_cols, task$col_roles$order, target))
+      setorderv(dt, c(key_cols, task$col_roles$order))
+      lambdas = dt[, list(lambda = estimate_lambda(get(target))), by = key_cols]
+      list(key_cols = key_cols, lambdas = lambdas)
     },
 
     .transform = function(task, phase) {
-      x = task$data(cols = task$target_names)[[1L]]
-      new_target = as.data.table(as.numeric(forecast::BoxCox(x, self$state$lambda)))
-      setnames(new_target, paste0(task$target_names, ".bc"))
-      task$cbind(new_target)
-      convert_task(task, target = names(new_target), drop_original_target = TRUE)
+      target = task$target_names
+      bc_col = paste0(target, ".bc")
+      lambdas = self$state$lambdas
+      if (is.null(lambdas)) {
+        x = task$data(cols = target)[[1L]]
+        new_target = as.data.table(as.numeric(forecast::BoxCox(x, self$state$lambda)))
+        setnames(new_target, bc_col)
+        task$cbind(new_target)
+      } else {
+        key_cols = self$state$key_cols
+        pk = task$backend$primary_key
+        dt = task$backend$data(rows = task$row_ids, cols = c(pk, target, key_cols))
+        if (phase == "predict") {
+          fcst_assert_seen_keys(unique(key_labels(lambdas, key_cols)), dt, key_cols)
+        }
+        dt = lambdas[dt, on = key_cols]
+        # BoxCox only supports a scalar lambda, so transform each series with its own value
+        dt[, (bc_col) := as.numeric(forecast::BoxCox(get(target), lambda[1L])), by = key_cols]
+        task$cbind(dt[, c(pk, bc_col), with = FALSE])
+      }
+      convert_task(task, target = bc_col, drop_original_target = TRUE)
+    },
+
+    .train_invert = function(task) {
+      fcst_invert_state(task)
     },
 
     .invert = function(prediction, predict_phase_state) {
-      lambda = self$state$lambda
       response = prediction$data$response
-      if (!is.null(response)) {
-        response = invoke(forecast::InvBoxCox, response, lambda = lambda)
-      }
-      # Box-Cox is monotonic, so quantiles invert pointwise without crossing
       quantiles = prediction$data$quantiles
+      lambdas = self$state$lambdas
+      if (is.null(lambdas)) {
+        lambda = self$state$lambda
+        if (!is.null(response)) {
+          response = invoke(forecast::InvBoxCox, response, lambda = lambda)
+        }
+        # Box-Cox is monotonic, so quantiles invert pointwise without crossing
+        if (!is.null(quantiles)) {
+          inverted_values = invoke(forecast::InvBoxCox, quantiles, lambda = lambda)
+        }
+      } else {
+        key_cols = self$state$key_cols
+        # recover each prediction row's series and invert it with that series' lambda
+        dt = predict_phase_state$layout[
+          data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids)),
+          on = "..row_id"
+        ]
+        dt = lambdas[dt, on = key_cols]
+        groups = split(dt$..pos, key_labels(dt, key_cols))
+        group_lambdas = map_dbl(split(dt$lambda, key_labels(dt, key_cols)), 1L)
+        inverted_values = quantiles
+        for (label in names(groups)) {
+          jj = groups[[label]]
+          lambda = group_lambdas[[label]]
+          if (!is.null(response)) {
+            response[jj] = as.numeric(forecast::InvBoxCox(response[jj], lambda = lambda))
+          }
+          if (!is.null(quantiles)) {
+            inverted_values[jj, ] = forecast::InvBoxCox(quantiles[jj, , drop = FALSE], lambda = lambda)
+          }
+        }
+      }
       if (!is.null(quantiles)) {
         inverted = matrix(
-          invoke(forecast::InvBoxCox, quantiles, lambda = lambda),
+          inverted_values,
           nrow = nrow(quantiles),
           ncol = ncol(quantiles),
           dimnames = dimnames(quantiles)

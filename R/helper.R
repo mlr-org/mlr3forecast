@@ -173,6 +173,24 @@ key_labels = function(dt, cols = names(dt)) {
   do.call(paste, c(dt[, cols, with = FALSE], sep = ":"))
 }
 
+fcst_invert_state = function(task) {
+  state = list(truth = task$truth())
+  key_cols = task$col_roles$key
+  if (length(key_cols) > 0L) {
+    layout = task$data(cols = c(key_cols, task$col_roles$order))
+    set(layout, j = "..row_id", value = task$row_ids)
+    state$layout = layout
+  }
+  state
+}
+
+fcst_assert_seen_keys = function(seen, dt, key_cols) {
+  unseen = setdiff(unique(key_labels(dt, key_cols)), seen)
+  if (length(unseen) > 0L) {
+    error_input("Task has key group(s) not seen during training: %s.", str_collapse(unseen, quote = "'"))
+  }
+}
+
 fcst_drop_incomplete = function(dt, feat_cols, key_cols) {
   kept = stats::na.omit(dt, cols = feat_cols)
   if (nrow(kept) == 0L) {

@@ -138,6 +138,88 @@ test_that("targetboxcox + fcst.lags + learner trains and predicts inside a graph
   expect_no_error(glrn$predict(task$clone()$filter(split$test)))
 })
 
+test_that("targetboxcox estimates a separate lambda per series", {
+  skip_if_not_installed("forecast")
+  task = make_monthly_panel_task()
+  op = po("fcst.targetboxcox")
+  op$train(list(task))
+  lambdas = op$state$lambdas
+  expect_data_table(lambdas, nrows = 2L)
+  dt = task$data(cols = c("id", "y"))
+  expected = sapply(split(dt$y, dt$id), function(y) forecast::BoxCox.lambda(stats::ts(y, frequency = 12)))
+  expect_equal(lambdas[list("a"), "lambda", on = "id"][[1L]], expected[["a"]])
+  expect_equal(lambdas[list("b"), "lambda", on = "id"][[1L]], expected[["b"]])
+  expect_false(isTRUE(all.equal(expected[["a"]], expected[["b"]])))
+})
+
+test_that("targetboxcox round-trips on a keyed task", {
+  skip_if_not_installed("forecast")
+  task = make_monthly_panel_task()
+  for (lambda in list(0.5, NULL)) {
+    op = if (is.null(lambda)) po("fcst.targetboxcox") else po("fcst.targetboxcox", lambda = lambda)
+    op$train(list(task))
+    out_predict = op$predict(list(task))
+    bc_col = out_predict$output$target_names[1L]
+    prediction = PredictionRegr$new(
+      row_ids = task$row_ids,
+      truth = task$truth(),
+      response = out_predict$output$data()[[bc_col]]
+    )
+    inverted = out_predict$fun(list(prediction))[[1L]]
+    expect_equal(inverted$response, as.numeric(task$truth()))
+  }
+})
+
+test_that("targetboxcox inverts keyed quantile predictions with each series' lambda", {
+  skip_if_not_installed("forecast")
+  task = make_monthly_panel_task()
+  op = po("fcst.targetboxcox")
+  op$train(list(task))
+  out_predict = op$predict(list(task))
+  bc_col = out_predict$output$target_names[1L]
+  transformed = out_predict$output$data()[[bc_col]]
+  qmat = cbind(transformed - 0.01, transformed, transformed + 0.01)
+  setattr(qmat, "probs", c(0.25, 0.5, 0.75))
+  setattr(qmat, "response", 0.5)
+  prediction = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), quantiles = qmat)
+
+  inverted = out_predict$fun(list(prediction))[[1L]]
+  q = inverted$data$quantiles
+  expect_equal(attr(q, "probs"), c(0.25, 0.5, 0.75))
+  # only inverting each row with its own series' lambda recovers the original scale exactly
+  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_true(all(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L]))
+})
+
+test_that("targetboxcox errors on key groups not seen during training", {
+  skip_if_not_installed("forecast")
+  task = make_monthly_panel_task()
+  train_task = task$clone()$filter(task$row_ids[task$data(cols = "id")$id == "a"])
+  op = po("fcst.targetboxcox")
+  op$train(list(train_task))
+  expect_error(op$predict(list(task)), "not seen during training")
+})
+
+test_that("targetboxcox works wrapping DirectForecaster on a keyed task", {
+  skip_if_not_installed("forecast")
+  task = make_monthly_panel_task()
+  split = partition(task, ratio = 0.9)
+  key = task$col_roles$key
+  test_dt = task$data(rows = split$test, cols = c(key, task$col_roles$order))
+  test_dt[, "..step" := seq_len(.N), by = key]
+  flrn = as_learner(ppl(
+    "targettrafo",
+    graph = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = max(test_dt$..step)),
+    trafo_pipeop = po("fcst.targetboxcox")
+  ))
+  flrn$train(task, split$train)
+  prediction = flrn$predict(task, split$test)
+  expect_r6_class(prediction, "PredictionFcst")
+  expect_length(prediction$response, length(split$test))
+  expect_false(anyNA(prediction$response))
+  expect_equal(nrow(prediction$order), length(split$test))
+})
+
 test_that("targetboxcox works wrapping DirectForecaster", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")

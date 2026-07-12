@@ -4,7 +4,9 @@
 #' @description
 #' Differences the target variable with lag `lag`, producing the new target `y'_t = y_t - y_{t - lag}`. The first `lag`
 #' rows are dropped during training. Predictions are inverted via stride-`lag` cumulative sums anchored at the last
-#' `lag` training values, yielding original-scale predictions.
+#' `lag` training values, yielding original-scale predictions. On keyed (multi-series) tasks all of this happens within
+#' each series: per-series tails anchor the inversion, series too short for the requested lag are dropped with a
+#' warning, and predicting series not seen during training is an error.
 #'
 #' Use `lag = 1` to remove a trend and `lag = 12` (or the seasonal period) to remove seasonality.
 #'
@@ -64,36 +66,93 @@ PipeOpTargetTrafoDifference = R6Class(
   private = list(
     .get_state = function(task) {
       lag = self$param_set$get_values(tags = "train")$lag
-      target = task$data(cols = task$target_names)[[1L]]
-      list(tail = tail(target, lag))
+      key_cols = task$col_roles$key
+      if (length(key_cols) == 0L) {
+        target = task$data(cols = task$target_names)[[1L]]
+        return(list(tail = tail(target, lag)))
+      }
+      dt = task$data(cols = c(key_cols, task$col_roles$order, task$target_names))
+      setorderv(dt, c(key_cols, task$col_roles$order))
+      tails = dt[, tail(.SD, lag), by = key_cols, .SDcols = task$target_names]
+      # series shorter than lag cannot anchor the inversion and are treated as unseen at predict
+      tails = tails[, if (.N == lag) .SD, by = key_cols]
+      list(key_cols = key_cols, tails = tails)
     },
 
     .transform = function(task, phase) {
-      if (length(task$col_roles$key) > 0L) {
-        error_input("%s does not support multi-series (keyed) tasks.", self$id)
-      }
-      order_cols = task$col_roles$order
-      if (length(order_cols) > 0L && is.unsorted(task$data(cols = order_cols)[[1L]])) {
-        error_input("%s requires the task to be ordered by its order column.", self$id)
-      }
       lag = self$param_set$get_values(tags = "train")$lag
-      x = task$data(cols = task$target_names)[[1L]]
-      if (phase == "predict") {
-        x = c(self$state$tail, x)
+      target = task$target_names
+      key_cols = task$col_roles$key
+      order_cols = task$col_roles$order
+
+      if (length(key_cols) == 0L) {
+        if (length(order_cols) > 0L && is.unsorted(task$data(cols = order_cols)[[1L]])) {
+          error_input("%s requires the task to be ordered by its order column.", self$id)
+        }
+        x = task$data(cols = target)[[1L]]
+        if (phase == "predict") {
+          x = c(self$state$tail, x)
+        }
+        new_target = as.data.table(diff(x, lag = lag))
+        setnames(new_target, paste0(target, ".diff"))
+        if (phase == "train") {
+          task$filter(tail(task$row_ids, -lag))
+        }
+        task$cbind(new_target)
+        return(convert_task(task, target = names(new_target), drop_original_target = TRUE))
       }
-      new_target = as.data.table(diff(x, lag = lag))
-      setnames(new_target, paste0(task$target_names, ".diff"))
+
+      pk = task$backend$primary_key
+      dt = task$backend$data(rows = task$row_ids, cols = c(pk, target, key_cols, order_cols))
+      if (length(order_cols) > 0L && any(dt[, is.unsorted(get(order_cols)), by = key_cols]$V1)) {
+        error_input("%s requires each series to be ordered by the order column.", self$id)
+      }
+      diff_col = paste0(target, ".diff")
+      setorderv(dt, c(key_cols, order_cols))
       if (phase == "train") {
-        task$filter(tail(task$row_ids, -lag))
+        dt[, (diff_col) := get(target) - shift(get(target), lag), by = key_cols]
+        kept = fcst_drop_incomplete(dt, diff_col, key_cols)
+        task$filter(kept[[pk]])$cbind(kept[, c(pk, diff_col), with = FALSE])
+      } else {
+        tails = self$state$tails
+        fcst_assert_seen_keys(unique(key_labels(tails, key_cols)), dt, key_cols)
+        # tail pseudo-rows carry NA pk and precede each series' predict rows after the sort above
+        aug = rbind(tails, dt, fill = TRUE)
+        aug[, (diff_col) := get(target) - shift(get(target), lag), by = key_cols]
+        out = aug[!is.na(get(pk))]
+        task$cbind(out[, c(pk, diff_col), with = FALSE])
       }
-      task$cbind(new_target)
-      convert_task(task, target = names(new_target), drop_original_target = TRUE)
+      convert_task(task, target = diff_col, drop_original_target = TRUE)
+    },
+
+    .train_invert = function(task) {
+      fcst_invert_state(task)
     },
 
     .invert = function(prediction, predict_phase_state) {
       lag = self$param_set$get_values(tags = "train")$lag
-      inverted = stats::diffinv(prediction$response, lag = lag, xi = self$state$tail)
-      inverted = inverted[-seq_len(lag)]
+      tails = self$state$tails
+      if (is.null(tails)) {
+        inverted = stats::diffinv(prediction$response, lag = lag, xi = self$state$tail)
+        inverted = inverted[-seq_len(lag)]
+      } else {
+        key_cols = self$state$key_cols
+        target = setdiff(names(tails), key_cols)
+        # regroup prediction rows by series and invert each against its own tail
+        dt = predict_phase_state$layout[
+          data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids)),
+          on = "..row_id"
+        ]
+        order_cols = setdiff(names(predict_phase_state$layout), c(key_cols, "..row_id"))
+        setorderv(dt, c(key_cols, order_cols))
+        xis = split(tails[[target]], tails[, key_cols, with = FALSE], drop = TRUE, sep = ":")
+        groups = split(dt$..pos, key_labels(dt, key_cols))
+        inverted = numeric(length(prediction$response))
+        for (label in names(groups)) {
+          jj = groups[[label]]
+          inverted[jj] = tail(stats::diffinv(prediction$response[jj], lag = lag, xi = xis[[label]]), -lag)
+        }
+      }
       PredictionFcst$new(
         row_ids = prediction$row_ids,
         truth = predict_phase_state$truth,

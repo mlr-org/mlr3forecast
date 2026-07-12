@@ -59,6 +59,17 @@ make_date_major_panel_task = function(n = 10L) {
   TaskFcst$new("panel", as_data_backend(data), target = "y", order = "date", key = "id", freq = "day")
 }
 
+# keyed monthly task with one multiplicative- and one additive-seasonal series (distinct Box-Cox lambdas)
+make_monthly_panel_task = function(n = 36L) {
+  months = seq(as.Date("2020-01-01"), by = "month", length.out = n)
+  season = rep_len(sin(2 * pi * seq_len(12L) / 12), n)
+  data = rbind(
+    data.table(month = months, id = factor("a", levels = c("a", "b")), y = exp(seq(1, 3, length.out = n) + 0.5 * season)),
+    data.table(month = months, id = factor("b", levels = c("a", "b")), y = 100 + seq_len(n) + 5 * season)
+  )
+  TaskFcst$new("panel", as_data_backend(data), target = "y", order = "month", key = "id", freq = "month")
+}
+
 fcst_prediction = function(task = tsk("airpassengers"), h = 12L) {
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
   learner$train(task)
