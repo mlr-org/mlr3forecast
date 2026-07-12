@@ -100,8 +100,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
       lambdas = self$state$lambdas
       if (is.null(lambdas)) {
         x = task$data(cols = target)[[1L]]
-        new_target = as.data.table(as.numeric(forecast::BoxCox(x, self$state$lambda)))
-        setnames(new_target, bc_col)
+        new_target = setDT(set_names(list(as.numeric(forecast::BoxCox(x, self$state$lambda))), bc_col))
         task$cbind(new_target)
       } else {
         key_cols = self$state$key_cols

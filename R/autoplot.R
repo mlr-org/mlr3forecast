@@ -144,14 +144,14 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
     if (length(key_cols) > 0L && length(key) == 1L && !identical(key_cols, key)) {
       # rebuild the united prediction's key labels with the same labelling as fcst.splitkey
       keys = key_table(hist, key_cols)
-      set(hist, j = key, value = factor(keys[hist, on = key_cols]$.label, levels = levels(fc[[key]])))
+      set(hist, j = key, value = factor(keys[hist, on = key_cols, ".label"][[1L]], levels = levels(fc[[key]])))
       set(hist, j = setdiff(key_cols, key), value = NULL)
     }
     set(hist, j = ".type", value = fctr("history", levels = c("history", "forecast")))
     # bridge the last historical observation per series into the forecast group for line continuity
     if (length(key) > 0L) {
       setorderv(hist, c(key, order))
-      bridge = hist[, .SD[.N], by = key]
+      bridge = hist[hist[, .I[.N], by = key]$V1]
     } else {
       setorderv(hist, order)
       bridge = hist[.N]

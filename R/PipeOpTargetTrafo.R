@@ -91,8 +91,7 @@ PipeOpTargetTrafoDifference = R6Class(
         if (phase == "predict") {
           x = c(self$state$tail, x)
         }
-        new_target = as.data.table(diff(x, lag = lag))
-        setnames(new_target, paste0(target, ".diff"))
+        new_target = setDT(set_names(list(diff(x, lag = lag)), paste0(target, ".diff")))
         if (phase == "train") {
           task$filter(tail(task$row_ids, -lag))
         }
