@@ -1,5 +1,5 @@
 test_that("fread_tsf works", {
-  file = test_path("fixtures", "m3_yearly_dataset.tsf")
+  file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
   act = read_tsf(file)
   expect_data_table(act, min.rows = 1, min.cols = 1)
   class(act) = class(act)[-1L]

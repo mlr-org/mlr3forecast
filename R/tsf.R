@@ -13,9 +13,9 @@
 #'
 #' @export
 #' @examples
-#' \dontrun{
-#' dt = read_tsf("path/to/file.tsf")
-#' }
+#' file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
+#' dt = read_tsf(file)
+#' head(dt)
 read_tsf = function(file) {
   assert_file(file, extension = "tsf")
 

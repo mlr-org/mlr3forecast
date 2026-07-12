@@ -18,9 +18,9 @@ The path to the TSF file.}
 Parses a file located at \code{file} and returns a \code{\link[data.table:data.table]{data.table::data.table()}}.
 }
 \examples{
-\dontrun{
-dt = read_tsf("path/to/file.tsf")
-}
+file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
+dt = read_tsf(file)
+head(dt)
 }
 \references{
 Godahewa R, Bergmeir C, Webb GI, Hyndman RJ, Montero-Manso P (2021).
