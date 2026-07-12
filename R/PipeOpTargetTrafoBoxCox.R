@@ -185,6 +185,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
           truth = predict_phase_state$truth,
           response = response %??% inverted[, resp_col],
           quantiles = inverted,
+          weights = prediction$weights,
           extra = prediction$data$extra
         ))
       }
@@ -192,6 +193,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
         row_ids = prediction$row_ids,
         truth = predict_phase_state$truth,
         response = response,
+        weights = prediction$weights,
         extra = prediction$data$extra
       )
     }

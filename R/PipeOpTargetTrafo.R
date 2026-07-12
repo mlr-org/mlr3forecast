@@ -164,6 +164,7 @@ PipeOpTargetTrafoDifference = R6Class(
         row_ids = prediction$row_ids,
         truth = predict_phase_state$truth,
         response = inverted,
+        weights = prediction$weights,
         extra = prediction$data$extra
       )
     }
