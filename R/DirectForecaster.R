@@ -5,7 +5,7 @@
 #' model `h` uses lags `h:(h+p-1)`, so that at prediction time only observed values are needed.
 #' Unlike [RecursiveForecaster], predictions do not feed back into subsequent steps (no error accumulation).
 #'
-#' Lag features are managed internally via `lags`; do not add iterative feature PipeOps (property
+#' Lag features are managed internally via `lags`. Do not add iterative feature PipeOps (property
 #' `"fcst_iterative"`, e.g. [PipeOpFcstLags], [PipeOpFcstRolling]), which are rejected at construction.
 #'
 #' @export

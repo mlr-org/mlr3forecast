@@ -7,12 +7,12 @@
 \description{
 Applies a Box-Cox transformation to the target variable to stabilize the variance, producing the new target
 \code{BoxCox(y, lambda)}. The transformation is pointwise and monotonic, so no rows are dropped and predictions are
-inverted via \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}}. \code{lambda = 0} is the log transformation; when \code{lambda} is \code{NULL} (default) it
+inverted via \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}}. \code{lambda = 0} is the log transformation. When \code{lambda} is \code{NULL} (default) it
 is estimated from the training data, per series on keyed tasks. Predicting a series not seen during training is an
 error.
 
-Box-Cox and log transformations require strictly positive target values; non-positive values produce \code{NaN} or an
-error. A negative estimated \code{lambda} can make \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}} return \code{NA} for upper quantiles; set
+Box-Cox and log transformations require strictly positive target values. Non-positive values produce \code{NaN} or an
+error. A negative estimated \code{lambda} can make \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}} return \code{NA} for upper quantiles. Set
 \code{lower = 0} to avoid this.
 }
 \section{Parameters}{

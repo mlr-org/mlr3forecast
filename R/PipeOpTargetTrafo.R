@@ -4,7 +4,7 @@
 #' @description
 #' Differences the target variable with lag `lag`, producing the new target `y'_t = y_t - y_{t - lag}`. The first `lag`
 #' rows are dropped during training and predictions are inverted back to the original scale. On keyed (multi-series)
-#' tasks this happens within each series; series too short for the requested lag are dropped with a warning, and
+#' tasks this happens within each series. Series too short for the requested lag are dropped with a warning, and
 #' predicting a series not seen during training is an error.
 #'
 #' Use `lag = 1` to remove a trend and `lag = 12` (or the seasonal period) to remove seasonality.

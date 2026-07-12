@@ -4,12 +4,12 @@
 #' @description
 #' Applies a Box-Cox transformation to the target variable to stabilize the variance, producing the new target
 #' `BoxCox(y, lambda)`. The transformation is pointwise and monotonic, so no rows are dropped and predictions are
-#' inverted via [forecast::InvBoxCox()]. `lambda = 0` is the log transformation; when `lambda` is `NULL` (default) it
+#' inverted via [forecast::InvBoxCox()]. `lambda = 0` is the log transformation. When `lambda` is `NULL` (default) it
 #' is estimated from the training data, per series on keyed tasks. Predicting a series not seen during training is an
 #' error.
 #'
-#' Box-Cox and log transformations require strictly positive target values; non-positive values produce `NaN` or an
-#' error. A negative estimated `lambda` can make [forecast::InvBoxCox()] return `NA` for upper quantiles; set
+#' Box-Cox and log transformations require strictly positive target values. Non-positive values produce `NaN` or an
+#' error. A negative estimated `lambda` can make [forecast::InvBoxCox()] return `NA` for upper quantiles. Set
 #' `lower = 0` to avoid this.
 #'
 #' @section Parameters:
