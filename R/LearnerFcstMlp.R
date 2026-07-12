@@ -75,7 +75,7 @@ LearnerFcstMlp = R6Class(
     .fitted = function() {
       model = self$native_model
       fitted = as.numeric(stats::fitted(model))
-      c(rep(NA_real_, length(model$y) - length(fitted)), fitted)
+      c(rep.int(NA_real_, length(model$y) - length(fitted)), fitted)
     }
   )
 )

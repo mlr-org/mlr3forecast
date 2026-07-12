@@ -103,7 +103,7 @@ PipeOpFcstTsfeats = R6Class(
       if (length(key_cols) > 0L) {
         task$select(task$feature_names)$cbind(feats[task$data(cols = key_cols), on = key_cols, feat_cols, with = FALSE])
       } else {
-        task$select(task$feature_names)$cbind(feats[rep(1L, task$nrow)])
+        task$select(task$feature_names)$cbind(feats[rep.int(1L, task$nrow)])
       }
     },
 
@@ -120,7 +120,7 @@ PipeOpFcstTsfeats = R6Class(
         }
         task$select(task$feature_names)$cbind(feats[keys, on = key_cols, feat_cols, with = FALSE])
       } else {
-        task$select(task$feature_names)$cbind(feats[rep(1L, task$nrow)])
+        task$select(task$feature_names)$cbind(feats[rep.int(1L, task$nrow)])
       }
     }
   )

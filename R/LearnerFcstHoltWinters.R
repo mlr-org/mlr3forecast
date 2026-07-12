@@ -66,7 +66,7 @@ LearnerFcstHoltWinters = R6Class(
     .fitted = function() {
       model = self$native_model
       pad = length(model$x) - nrow(model$fitted)
-      c(rep(NA_real_, pad), as.numeric(model$fitted[, "xhat"]))
+      c(rep.int(NA_real_, pad), as.numeric(model$fitted[, "xhat"]))
     }
   )
 )

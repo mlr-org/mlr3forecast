@@ -324,7 +324,7 @@ DirectForecaster = R6::R6Class(
           by = key_cols
         ]
       } else {
-        skeleton = set_names(data.table(grid[seq_len(max(steps))]), order_cols)
+        skeleton = setnames(data.table(grid[seq_len(max(steps))]), order_cols)
       }
       future = test_data[skeleton, on = c(key_cols, order_cols)]
       combined = rbindlist(list(self$model$train_tail, future), use.names = TRUE, fill = TRUE)

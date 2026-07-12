@@ -151,7 +151,7 @@ roll_feature = function(x, fn, size) {
 
 fcst_rolls = function(x, spec) {
   hist = head(x, max(length(x) - spec$lag, 0L))
-  pad = rep(NA_real_, length(x) - length(hist))
+  pad = rep.int(NA_real_, length(x) - length(hist))
   map(seq_along(spec$fn), function(i) c(pad, roll_feature(hist, spec$fn[i], spec$size[i])))
 }
 

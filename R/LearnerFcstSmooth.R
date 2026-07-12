@@ -52,9 +52,8 @@ LearnerFcstSmooth = R6Class(
       if ("exogenous" %nin% self$properties || task$n_features == 0L) {
         return(y)
       }
-      mat = cbind(as.numeric(y))
-      colnames(mat) = task$target_names
-      mat = cbind(mat, as.matrix(task$data(cols = task$feature_names, ordered = TRUE)))
+      mat = cbind(as.numeric(y), as.matrix(task$data(cols = task$feature_names, ordered = TRUE)))
+      colnames(mat)[1L] = task$target_names
       stats::ts(mat, start = stats::start(y), frequency = stats::frequency(y))
     }
   )
