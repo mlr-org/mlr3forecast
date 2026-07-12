@@ -117,7 +117,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
         pk = task$backend$primary_key
         dt = task$backend$data(rows = task$row_ids, cols = c(pk, target, key_cols))
         if (phase == "predict") {
-          fcst_assert_seen_keys(lambdas, dt, key_cols)
+          assert_seen_keys(lambdas, dt, key_cols)
         }
         dt = lambdas[dt, on = key_cols]
         # BoxCox only supports a scalar lambda, so transform each series with its own value

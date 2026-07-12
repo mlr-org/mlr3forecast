@@ -118,7 +118,7 @@ PipeOpTargetTrafoDifference = R6Class(
         task$filter(kept[[pk]])$cbind(kept[, c(pk, diff_col), with = FALSE])
       } else {
         tails = self$state$tails
-        fcst_assert_seen_keys(tails, dt, key_cols)
+        assert_seen_keys(tails, dt, key_cols)
         # tail pseudo-rows carry NA pk and precede each series' predict rows after the sort above
         aug = rbind(tails, dt, fill = TRUE)
         aug[, (diff_col) := get(target) - shift(get(target), lag), by = key_cols]

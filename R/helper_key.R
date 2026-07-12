@@ -50,7 +50,7 @@ fcst_invert_state = function(task) {
   state
 }
 
-fcst_assert_seen_keys = function(seen, dt, key_cols) {
+assert_seen_keys = function(seen, dt, key_cols) {
   unseen = unique(dt[, key_cols, with = FALSE])[!seen, on = key_cols]
   if (nrow(unseen) > 0L) {
     error_input(
