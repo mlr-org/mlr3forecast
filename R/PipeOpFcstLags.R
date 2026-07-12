@@ -98,7 +98,7 @@ PipeOpFcstLags = R6Class(
 
       active = task$data(cols = c(key_cols, order_cols))
       set(full, j = target, value = NULL)
-      active_lags = full[active, on = c(key_cols, order_cols)][, lag_cols, with = FALSE]
+      active_lags = full[active, on = c(key_cols, order_cols), lag_cols, with = FALSE]
       task$select(task$feature_names)$cbind(active_lags)
     }
   )

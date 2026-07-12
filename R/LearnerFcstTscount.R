@@ -136,7 +136,9 @@ LearnerFcstTscount = R6Class(
         })
         quantiles = matrix(
           apply(futureobs, 1L, quantile, probs = probs, type = 1L),
-          nrow = n_ahead, ncol = length(probs), byrow = TRUE
+          nrow = n_ahead,
+          ncol = length(probs),
+          byrow = TRUE
         )
       }
       setattr(quantiles, "probs", probs)

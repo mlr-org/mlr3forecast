@@ -67,8 +67,7 @@ PipeOpFcstCatch22 = R6Class(
       self$state = list(features = feats, key_cols = key_cols)
       feat_cols = setdiff(names(feats), key_cols)
       if (length(key_cols) > 0L) {
-        joined = feats[task$data(cols = key_cols), on = key_cols]
-        task$select(task$feature_names)$cbind(joined[, feat_cols, with = FALSE])
+        task$select(task$feature_names)$cbind(feats[task$data(cols = key_cols), on = key_cols, feat_cols, with = FALSE])
       } else {
         task$select(task$feature_names)$cbind(feats[rep(1L, task$nrow)])
       }
@@ -85,8 +84,7 @@ PipeOpFcstCatch22 = R6Class(
           labels = key_labels(unseen)
           error_input("Key group(s) %s were not seen during training.", str_collapse(labels, quote = "'"))
         }
-        joined = feats[keys, on = key_cols]
-        task$select(task$feature_names)$cbind(joined[, feat_cols, with = FALSE])
+        task$select(task$feature_names)$cbind(feats[keys, on = key_cols, feat_cols, with = FALSE])
       } else {
         task$select(task$feature_names)$cbind(feats[rep(1L, task$nrow)])
       }

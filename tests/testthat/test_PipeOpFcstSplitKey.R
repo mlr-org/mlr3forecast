@@ -27,7 +27,11 @@ test_that("PipeOpFcstSplitKey splits a keyed task into per-series tasks", {
 })
 
 test_that("PipeOpFcstSplitKey supports multi-column keys", {
-  data = CJ(date = seq(as.Date("2020-01-01"), by = "day", length.out = 5L), a = factor(c("x", "y")), b = factor(c("l", "r")))
+  data = CJ(
+    date = seq(as.Date("2020-01-01"), by = "day", length.out = 5L),
+    a = factor(c("x", "y")),
+    b = factor(c("l", "r"))
+  )
   set(data, j = "y", value = as.numeric(seq_row(data)))
   task = as_task_fcst(data, target = "y", order = "date", key = c("a", "b"), freq = "day")
 

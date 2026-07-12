@@ -335,7 +335,7 @@ DirectForecaster = R6::R6Class(
       step_task$col_roles$feature = intersect(feature_names, names(combined))
 
       lookup = combined[, c(key_cols, order_cols, "..row_id"), with = FALSE]
-      cids = lookup[task$data(cols = c(key_cols, order_cols)), on = c(key_cols, order_cols)][["..row_id"]]
+      cids = lookup[task$data(cols = c(key_cols, order_cols)), on = c(key_cols, order_cols), "..row_id"][[1L]]
 
       out = private$.predict_horizons(step_task, models, cids, ii)
 

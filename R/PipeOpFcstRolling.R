@@ -95,7 +95,7 @@ PipeOpFcstRolling = R6Class(
       full = task$backend$data(rows = task$backend$rownames, cols = c(task$target_names, key_cols, order_cols))
       roll_cols = private$.rolling(task, full)
       active = task$data(cols = c(key_cols, order_cols))
-      active_rolls = full[active, on = c(key_cols, order_cols)][, roll_cols, with = FALSE]
+      active_rolls = full[active, on = c(key_cols, order_cols), roll_cols, with = FALSE]
       task$select(task$feature_names)$cbind(active_rolls)
     },
 
