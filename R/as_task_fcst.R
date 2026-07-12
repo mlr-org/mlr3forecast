@@ -105,19 +105,19 @@ as_task_fcst.data.frame = function(
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
-    warning_input("Detected columns with unsupported Inf values in data: %s", str_collapse(names(ii)))
+    warning_input("Detected columns with unsupported Inf values in data: %s.", str_collapse(names(ii)))
   }
 
   if (anyMissing(x[[target]])) {
-    error_input("Target column '%s' must not contain missing values", target)
+    error_input("Target column '%s' must not contain missing values.", target)
   }
 
   if (anyMissing(x[[order]])) {
-    error_input("Order column '%s' must not contain missing values", order)
+    error_input("Order column '%s' must not contain missing values.", order)
   }
 
   if (has_key && some(key, function(col) anyMissing(x[[col]]))) {
-    error_input("Key column(s) %s must not contain missing values", paste0("'", key, "'", collapse = ", "))
+    error_input("Key column(s) %s must not contain missing values.", str_collapse(key, quote = "'"))
   }
 
   x = setorderv(as.data.table(x), c(key, order))

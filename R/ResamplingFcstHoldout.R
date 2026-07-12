@@ -78,7 +78,7 @@ ResamplingFcstHoldout = R6Class(
       n = pv$n
 
       if (!xor(is.null(ratio), is.null(n))) {
-        error_config("One of 'ratio' or 'n' must be provided, not both.")
+        error_config("One of `ratio` or `n` must be provided, not both.")
       }
 
       col_roles = task$col_roles

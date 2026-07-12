@@ -31,7 +31,7 @@ test_that("c.PredictionDataFcst rejects different quantile levels", {
   }
   p1 = make_pred(1:3, probs = c(0.1, 0.9))
   p2 = make_pred(4:6, probs = c(0.25, 0.75))
-  expect_error(c(p1$data, p2$data), "Different quantile levels")
+  expect_error(c(p1$data, p2$data), "different quantile levels")
   expect_silent(c(p1$data, make_pred(4:6, probs = c(0.1, 0.9))$data))
 })
 

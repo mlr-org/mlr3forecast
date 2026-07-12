@@ -29,7 +29,7 @@ c.PredictionDataFcst = function(..., keep_duplicates = TRUE) {
   if (length(quantiles) > 1L) {
     attrs = map(quantiles, function(q) list(attr(q, "probs"), attr(q, "response")))
     if (!every(attrs[-1L], identical, attrs[[1L]])) {
-      error_input("Cannot combine predictions: Different quantile levels")
+      error_input("Cannot combine predictions: different quantile levels.")
     }
   }
   result = invoke(c, .args = c(dots, list(keep_duplicates = keep_duplicates)))

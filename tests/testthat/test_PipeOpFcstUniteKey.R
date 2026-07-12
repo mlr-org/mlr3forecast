@@ -48,7 +48,7 @@ test_that("PipeOpFcstUniteKey rejects per-series predictions with different quan
   p2 = make_series_prediction(4:6, c(10, 20, 30), quantiles = q2)
   po_unite = trained_unitekey()
 
-  expect_error(po_unite$predict(list(Multiplicity(a = p1, b = p2))), "Different quantile levels")
+  expect_error(po_unite$predict(list(Multiplicity(a = p1, b = p2))), "different quantile levels")
 })
 
 test_that("PipeOpFcstUniteKey attaches the key for a single series", {

@@ -29,7 +29,7 @@ read_tsf = function(file) {
   repeat {
     line = readLines(con, n = 1L, warn = FALSE)
     if (length(line) == 0L) {
-      stopf("No @data section found")
+      stopf("No @data section found.")
     }
     if (startsWith(line, "@data")) {
       break
@@ -78,7 +78,7 @@ read_tsf = function(file) {
 
   if (has_freq) {
     if (freq %nin% names(tsf_frequencies)) {
-      stopf("Invalid frequency %s, must be one of %s", freq, str_collapse(names(tsf_frequencies), quote = "'"))
+      stopf("Invalid frequency %s, must be one of %s.", freq, str_collapse(names(tsf_frequencies), quote = "'"))
     }
     if (has_date) {
       if (freq %in% names(tsf_high_frequencies)) {
@@ -87,7 +87,7 @@ read_tsf = function(file) {
         set(dt, j = date_col, value = as.Date(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S"))
       }
       if (anyNA(dt[[date_col]])) {
-        stopf("Incorrect timestamp format. Specify your timestamps as YYYY-mm-dd HH-MM-SS")
+        stopf("Incorrect timestamp format. Specify your timestamps as YYYY-mm-dd HH-MM-SS.")
       }
     }
   }
@@ -163,12 +163,12 @@ download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly
   on.exit(unlink(td, recursive = TRUE), add = TRUE)
   tf = file.path(td, "tempfile.zip")
   tryCatch(utils::download.file(url, tf, quiet = TRUE, mode = "wb"), error = function(e) {
-    stopf("Failed to download TSF file from Zenodo with id: %s and name: %s", record_id, dataset_name)
+    stopf("Failed to download TSF file from Zenodo with id: %s and name: %s.", record_id, dataset_name)
   })
   files = utils::unzip(tf, exdir = td)
   file = files[endsWith(files, ".tsf")]
   if (length(file) != 1L) {
-    stopf("Expected exactly one TSF file in the downloaded archive, but found %i", length(file))
+    stopf("Expected exactly one TSF file in the downloaded archive, but found %i.", length(file))
   }
   read_tsf(file)
 }
