@@ -23,6 +23,9 @@
 #' [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)` for batch prediction, or wrap the forecaster itself with
 #' `ppl("targettrafo", ...)` so all horizons are inverted together.
 #'
+#' Quantile predictions cannot be inverted and are rejected. Differencing is not a pointwise transform, so marginal
+#' quantiles of the differenced target do not map back to the original scale (they would only be exact one step ahead).
+#'
 #' @export
 #' @examples
 #' \donttest{
@@ -130,6 +133,10 @@ PipeOpTargetTrafoDifference = R6Class(
     },
 
     .invert = function(prediction, predict_phase_state) {
+      if (!is.null(prediction$data$quantiles)) {
+        error_input("%s does not support inverting quantile predictions.", self$id)
+      }
+
       lag = self$param_set$get_values(tags = "train")$lag
       tails = self$state$tails
       if (is.null(tails)) {

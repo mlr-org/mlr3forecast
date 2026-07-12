@@ -30,6 +30,9 @@ features (lags, rolling windows) need transformed values for all historical rows
 horizon is inverted independently against the training tail, which is wrong for horizons >= 2. Use inside a plain
 \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)} for batch prediction, or wrap the forecaster itself with
 \code{ppl("targettrafo", ...)} so all horizons are inverted together.
+
+Quantile predictions cannot be inverted and are rejected. Differencing is not a pointwise transform, so marginal
+quantiles of the differenced target do not map back to the original scale (they would only be exact one step ahead).
 }
 
 \examples{
