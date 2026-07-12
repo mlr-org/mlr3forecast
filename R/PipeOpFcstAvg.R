@@ -3,15 +3,12 @@
 #'
 #' @description
 #' Performs (weighted) averaging of forecast [PredictionFcst]s, mirroring [mlr3pipelines::PipeOpRegrAvg] but
-#' preserving the forecast prediction type. The output is a [PredictionFcst] that keeps the time index and key
-#' columns (carried in the `extra` slot), so `$order`, `$key`, [autoplot.PredictionFcst()], and forecast `task_type`
-#' inference keep working through the ensemble. With the plain `regravg` the averaged output is a
-#' [mlr3::PredictionRegr] and that forecast information is lost.
+#' preserving the forecast prediction type, which plain `regravg` would drop. The output is a [PredictionFcst] that
+#' keeps the time index and key columns (carried in the `extra` slot), so `$order`, `$key`,
+#' [autoplot.PredictionFcst()], and forecast `task_type` inference keep working through the ensemble.
 #'
 #' Connect it to several [PipeOpLearner][mlr3pipelines::PipeOpLearner] outputs (classical forecast learners or
-#' [RecursiveForecaster] / [DirectForecaster]) to average their forecasts. The averaging is row-wise: for each
-#' predicted row (a single time index within one series) the response is the weighted mean of the incoming
-#' responses, so multi-series (keyed) tasks are handled correctly without mixing series.
+#' [RecursiveForecaster] / [DirectForecaster]) to average their forecasts.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpRegrAvg].

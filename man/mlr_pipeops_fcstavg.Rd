@@ -6,15 +6,12 @@
 \title{Weighted Prediction Averaging for Forecasts}
 \description{
 Performs (weighted) averaging of forecast \link{PredictionFcst}s, mirroring \link[mlr3pipelines:PipeOpRegrAvg]{mlr3pipelines::PipeOpRegrAvg} but
-preserving the forecast prediction type. The output is a \link{PredictionFcst} that keeps the time index and key
-columns (carried in the \code{extra} slot), so \verb{$order}, \verb{$key}, \code{\link[=autoplot.PredictionFcst]{autoplot.PredictionFcst()}}, and forecast \code{task_type}
-inference keep working through the ensemble. With the plain \code{regravg} the averaged output is a
-\link[mlr3:PredictionRegr]{mlr3::PredictionRegr} and that forecast information is lost.
+preserving the forecast prediction type, which plain \code{regravg} would drop. The output is a \link{PredictionFcst} that
+keeps the time index and key columns (carried in the \code{extra} slot), so \verb{$order}, \verb{$key},
+\code{\link[=autoplot.PredictionFcst]{autoplot.PredictionFcst()}}, and forecast \code{task_type} inference keep working through the ensemble.
 
 Connect it to several \link[mlr3pipelines:PipeOpLearner]{PipeOpLearner} outputs (classical forecast learners or
-\link{RecursiveForecaster} / \link{DirectForecaster}) to average their forecasts. The averaging is row-wise: for each
-predicted row (a single time index within one series) the response is the weighted mean of the incoming
-responses, so multi-series (keyed) tasks are handled correctly without mixing series.
+\link{RecursiveForecaster} / \link{DirectForecaster}) to average their forecasts.
 }
 \section{Parameters}{
 

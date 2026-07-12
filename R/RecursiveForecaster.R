@@ -1,12 +1,8 @@
 #' @title Recursive Forecast Learner
 #'
 #' @description
-#' A [mlr3::Learner] for iterative one-step-ahead forecasting. Wraps a [mlr3pipelines::GraphLearner] (held internally,
-#' mirroring [DirectForecaster] and [mlr3tuning::AutoTuner]). Training is fully delegated to the graph. At predict time
-#' the forecaster builds a combined task (training history + test rows with `NA` targets) backed by a single mutable
-#' [data.table::data.table()], iterates through the test rows in `(key, order)` order, and writes each prediction back
-#' into the combined task's target column so that lag and rolling features for the next step reflect the freshly
-#' predicted value.
+#' A [mlr3::Learner] for iterative one-step-ahead forecasting: a single model is fit, then applied recursively,
+#' feeding each prediction back as a lag/rolling feature for the next step.
 #'
 #' Can be constructed in two ways:
 #' * **Simple**: `RecursiveForecaster$new(learner, lags = 1:3)` -- internally builds
@@ -30,8 +26,7 @@
 #' ```
 #'
 #' Placing a [mlr3pipelines::PipeOpTargetTrafo] *inside* the graph is not supported and is rejected
-#' at construction: it would entangle the transformation with the iterative lag/rolling feedback,
-#' which read the original-scale backend, producing a train/predict scale mismatch.
+#' at construction.
 #'
 #' @section Prediction uncertainty:
 #' Only the point forecast is fed back between steps, so `se`/`distr` uncertainty does not accumulate across horizons

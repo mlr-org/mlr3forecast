@@ -6,10 +6,9 @@
 \title{Difference the Target Variable}
 \description{
 Differences the target variable with lag \code{lag}, producing the new target \verb{y'_t = y_t - y_\{t - lag\}}. The first \code{lag}
-rows are dropped during training. Predictions are inverted via stride-\code{lag} cumulative sums anchored at the last
-\code{lag} training values, yielding original-scale predictions. On keyed (multi-series) tasks all of this happens within
-each series: per-series tails anchor the inversion, series too short for the requested lag are dropped with a
-warning, and predicting series not seen during training is an error.
+rows are dropped during training and predictions are inverted back to the original scale. On keyed (multi-series)
+tasks this happens within each series; series too short for the requested lag are dropped with a warning, and
+predicting a series not seen during training is an error.
 
 Use \code{lag = 1} to remove a trend and \code{lag = 12} (or the seasonal period) to remove seasonality.
 }
@@ -25,14 +24,10 @@ Lag to difference at. Default \code{1L}.
 \section{Limitations}{
 
 This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} or \link{DirectForecaster} graph and is rejected at
-construction. Inside \link{RecursiveForecaster}, the trafo only transforms the active row at predict time while iterative
-features (lags, rolling windows) need transformed values for all historical rows. Inside \link{DirectForecaster}, each
-horizon is inverted independently against the training tail, which is wrong for horizons >= 2. Use inside a plain
-\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)} for batch prediction, or wrap the forecaster itself with
-\code{ppl("targettrafo", ...)} so all horizons are inverted together.
+construction. Use it inside a plain \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)}, or wrap the
+forecaster itself with \code{ppl("targettrafo", ...)} so all horizons are inverted together.
 
-Quantile predictions cannot be inverted and are rejected. Differencing is not a pointwise transform, so marginal
-quantiles of the differenced target do not map back to the original scale (they would only be exact one step ahead).
+Quantile predictions cannot be inverted and are rejected.
 }
 
 \examples{

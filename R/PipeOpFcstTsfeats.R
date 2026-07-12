@@ -6,8 +6,7 @@
 #' as constant columns to every row of the corresponding series. For an unkeyed task the features are broadcast to
 #' every row. For a keyed task each key contributes one feature vector.
 #'
-#' Features are cached in the state at train time and reused at predict time. Predicting on a key that was not seen
-#' during training is an error.
+#' Predicting on a key that was not seen during training is an error.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreproc], as well as:

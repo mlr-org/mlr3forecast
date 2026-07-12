@@ -11,9 +11,7 @@ created downstream of \code{\link[=mlr_pipeops_fcst.splitkey]{po("fcst.splitkey"
 
 The series identity is rebuilt from the multiplicity names as a factor column in the
 prediction's \code{extra} slot, so \verb{$key}, \code{as.data.table()}, and \code{\link[=autoplot.PredictionFcst]{autoplot.PredictionFcst()}} keep
-working. Multi-column keys are collapsed into one label per series (values pasted with \code{":"},
-deduplicated with \code{\link[=make.unique]{make.unique()}} when key values contain the separator).
-Set \code{key} to the task's key column name to get predictions column-compatible with global
+working. Set \code{key} to the task's key column name to get predictions column-compatible with global
 forecasters such as \link{RecursiveForecaster}, which attach the original key column.
 }
 \section{Parameters}{

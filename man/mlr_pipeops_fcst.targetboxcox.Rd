@@ -7,20 +7,13 @@
 \description{
 Applies a Box-Cox transformation to the target variable to stabilize the variance, producing the new target
 \code{BoxCox(y, lambda)}. The transformation is pointwise and monotonic, so no rows are dropped and predictions are
-inverted via \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}}.
+inverted via \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}}. \code{lambda = 0} is the log transformation; when \code{lambda} is \code{NULL} (default) it
+is estimated from the training data, per series on keyed tasks. Predicting a series not seen during training is an
+error.
 
-\code{lambda = 0} is the log transformation. When \code{lambda} is \code{NULL} (default) it is estimated from the training data
-via \code{\link[forecast:BoxCox.lambda]{forecast::BoxCox.lambda()}}, using the task frequency for the \code{"guerrero"} method so seasonality is accounted
-for. The estimated (or supplied) \code{lambda} is stored and reused at predict time and for inversion. On keyed
-(multi-series) tasks a separate \code{lambda} is estimated per series and each row is transformed and inverted with its
-series' \code{lambda}; predicting series not seen during training is then an error. A supplied \code{lambda} applies to all
-series.
-
-Box-Cox and log transformations require strictly positive target values. Non-positive values produce \code{NaN} or an
-error from \code{\link[forecast:BoxCox]{forecast::BoxCox()}}.
-
-A negative \code{lambda} (possible when estimated, as \code{lower} defaults to \code{-1}) makes \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}} return \code{NA}
-for back-transformed values above \code{-1 / lambda}, typically upper quantiles. Set \code{lower = 0} to avoid this.
+Box-Cox and log transformations require strictly positive target values; non-positive values produce \code{NaN} or an
+error. A negative estimated \code{lambda} can make \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}} return \code{NA} for upper quantiles; set
+\code{lower = 0} to avoid this.
 }
 \section{Parameters}{
 
@@ -41,11 +34,9 @@ Upper bound for the estimated \code{lambda}. Default \code{2}.
 
 \section{Limitations}{
 
-This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} or \link{DirectForecaster} graph. Inside
-\link{RecursiveForecaster} the transformation would entangle with the iterative lag/rolling feedback, which reads the
-original-scale backend, producing a train/predict scale mismatch (rejected at construction). Use inside a plain
-\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)} for batch prediction, or wrap the forecaster itself with
-\code{ppl("targettrafo", ...)} so all horizons are inverted together.
+This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} or \link{DirectForecaster} graph and is rejected at
+construction. Use it inside a plain \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)}, or wrap the
+forecaster itself with \code{ppl("targettrafo", ...)} so all horizons are inverted together.
 }
 
 \examples{

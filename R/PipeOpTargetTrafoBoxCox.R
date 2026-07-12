@@ -4,20 +4,13 @@
 #' @description
 #' Applies a Box-Cox transformation to the target variable to stabilize the variance, producing the new target
 #' `BoxCox(y, lambda)`. The transformation is pointwise and monotonic, so no rows are dropped and predictions are
-#' inverted via [forecast::InvBoxCox()].
+#' inverted via [forecast::InvBoxCox()]. `lambda = 0` is the log transformation; when `lambda` is `NULL` (default) it
+#' is estimated from the training data, per series on keyed tasks. Predicting a series not seen during training is an
+#' error.
 #'
-#' `lambda = 0` is the log transformation. When `lambda` is `NULL` (default) it is estimated from the training data
-#' via [forecast::BoxCox.lambda()], using the task frequency for the `"guerrero"` method so seasonality is accounted
-#' for. The estimated (or supplied) `lambda` is stored and reused at predict time and for inversion. On keyed
-#' (multi-series) tasks a separate `lambda` is estimated per series and each row is transformed and inverted with its
-#' series' `lambda`; predicting series not seen during training is then an error. A supplied `lambda` applies to all
-#' series.
-#'
-#' Box-Cox and log transformations require strictly positive target values. Non-positive values produce `NaN` or an
-#' error from [forecast::BoxCox()].
-#'
-#' A negative `lambda` (possible when estimated, as `lower` defaults to `-1`) makes [forecast::InvBoxCox()] return `NA`
-#' for back-transformed values above `-1 / lambda`, typically upper quantiles. Set `lower = 0` to avoid this.
+#' Box-Cox and log transformations require strictly positive target values; non-positive values produce `NaN` or an
+#' error. A negative estimated `lambda` can make [forecast::InvBoxCox()] return `NA` for upper quantiles; set
+#' `lower = 0` to avoid this.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTargetTrafo], as well as the following:
@@ -33,11 +26,9 @@
 #'   Upper bound for the estimated `lambda`. Default `2`.
 #'
 #' @section Limitations:
-#' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph. Inside
-#' [RecursiveForecaster] the transformation would entangle with the iterative lag/rolling feedback, which reads the
-#' original-scale backend, producing a train/predict scale mismatch (rejected at construction). Use inside a plain
-#' [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)` for batch prediction, or wrap the forecaster itself with
-#' `ppl("targettrafo", ...)` so all horizons are inverted together.
+#' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph and is rejected at
+#' construction. Use it inside a plain [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)`, or wrap the
+#' forecaster itself with `ppl("targettrafo", ...)` so all horizons are inverted together.
 #'
 #' @export
 #' @examples

@@ -5,10 +5,6 @@
 #' This `PipeOp` extracts the 22 (or 24) canonical time series characteristics (catch22) from the target variable.
 #' For more details, see [Rcatch22::catch22_all()], which is called internally on the ordered target vector.
 #'
-#' The catch22 set is a low-redundancy subset of the \pkg{hctsa} features, selected for their performance
-#' across a diverse collection of time series classification tasks, but applicable as general-purpose
-#' features for other tasks such as regression.
-#'
 #' For other time series feature extractors, see [PipeOpFcstTsfeats] and [PipeOpFcstFeasts].
 #'
 #' @section Parameters:

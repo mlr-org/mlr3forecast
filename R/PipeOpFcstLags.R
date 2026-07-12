@@ -8,10 +8,7 @@
 #' incomplete rows are dropped (the autoregressive-fit convention), so the base learner never sees
 #' `NA` lags. A keyed series shorter than the largest lag is dropped entirely, with a warning.
 #'
-#' At predict time, lags are computed from the task's full backend (i.e. including rows outside
-#' `row_roles$use`), then joined onto the active rows. Used inside [RecursiveForecaster], where the
-#' forecaster writes each step's prediction into the combined task's target column between steps so
-#' lag features for the next step reflect the freshly predicted value.
+#' At predict time lags are computed from the full series history.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreproc],

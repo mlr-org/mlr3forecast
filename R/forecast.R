@@ -2,10 +2,8 @@
 #'
 #' @details
 #' Future dates are extrapolated by stepping the order column. For calendar `freq` (`month`/`quarter`/`year`), the
-#' origin's day-of-month is carried forward and clamped to each target month's last valid day (e.g. Jan-31 steps to
-#' Feb-28/29, Mar-31, ...). Other freqs use [base::seq()] directly. Month-end anchoring is not inferred: an Apr-30 or
-#' Feb-28 origin stays on that day rather than snapping to each month's end, so use a first-of-month or period-style
-#' index for genuine month-end series.
+#' origin's day-of-month is carried forward and clamped to each target month's last valid day; other freqs use
+#' [base::seq()]. Month-end is not inferred, so use a first-of-month or period-style index for genuine month-end series.
 #'
 #' @param task [TaskFcst]\cr
 #'   Task.

@@ -7,12 +7,7 @@
 #' corresponding series. For an unkeyed task the features are broadcast to every row. For a keyed task each key
 #' contributes one feature vector.
 #'
-#' This is the \CRANpkg{feasts} (tidyverts) counterpart of [PipeOpFcstTsfeats], which uses the
-#' \CRANpkg{tsfeatures} package. The order column is mapped to an appropriate \CRANpkg{tsibble} index
-#' (`yearmonth`/`yearquarter`/`yearweek` for the respective frequencies, otherwise used as-is) so that the
-#' seasonal period is inferred correctly.
-#'
-#' Features are cached in the state at train time and reused at predict time. Predicting on a key that was not
+#' This is the \CRANpkg{feasts} (tidyverts) counterpart of [PipeOpFcstTsfeats]. Predicting on a key that was not
 #' seen during training is an error.
 #'
 #' @section Parameters:
