@@ -309,7 +309,9 @@ RecursiveForecaster = R6::R6Class(
       n_train = nrow(train_data)
       n_test = nrow(test_data)
       test_cids = seq.int(n_train + 1L, n_train + n_test)
-      set(combined, j = target, value = as.numeric(combined[[target]]))
+      if (!is.double(combined[[target]])) {
+        set(combined, j = target, value = as.numeric(combined[[target]]))
+      }
       set(combined, i = test_cids, j = target, value = NA_real_)
       set(combined, j = "..row_id", value = seq_row(combined))
 
