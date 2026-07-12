@@ -135,6 +135,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
       response = prediction$data$response
       quantiles = prediction$data$quantiles
       lambdas = self$state$lambdas
+
       if (is.null(lambdas)) {
         lambda = self$state$lambda
         if (!is.null(response)) {
@@ -166,6 +167,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
           }
         }
       }
+
       if (!is.null(quantiles)) {
         inverted = matrix(
           inverted_values,
