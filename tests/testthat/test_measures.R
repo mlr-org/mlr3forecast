@@ -394,7 +394,7 @@ test_that("fcst.msis on a keyed task averages per-series scaled scores", {
   skip_if_not_installed("greybox")
   withr::local_seed(2)
 
-  dt = rbindlist(lapply(c("A", "B"), function(k) {
+  dt = rbindlist(map(c("A", "B"), function(k) {
     data.table(
       id = factor(k, levels = c("A", "B")),
       date = seq(as.Date("2010-01-01"), by = "month", length.out = 60L),

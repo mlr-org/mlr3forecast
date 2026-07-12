@@ -69,12 +69,12 @@ PipeOpFcstAvg = R6Class(
         ))
       }
       if (some(quantiles, is.null)) {
-        stopf("Cannot average predictions: some predict quantiles, others do not.")
+        error_input("Cannot average predictions: some predict quantiles, others do not.")
       }
       # weighted per-level average (Vincentization) keeps the combined quantiles monotone
       probs = attr(quantiles[[1L]], "probs")
       if (!every(quantiles[-1L], function(q) identical(attr(q, "probs"), probs))) {
-        stopf("Cannot average quantile predictions: incoming predictions use different quantile probabilities.")
+        error_input("Cannot average quantile predictions: incoming predictions use different quantile probabilities.")
       }
       averaged = Reduce(`+`, pmap(list(quantiles, weights), function(q, w) q * w))
       response = attr(quantiles[[1L]], "response")

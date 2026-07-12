@@ -24,7 +24,7 @@ is_missing_prediction_data.PredictionDataFcst = function(pdata, ...) {
 
 #' @export
 c.PredictionDataFcst = function(..., keep_duplicates = TRUE) {
-  dots = lapply(list(...), as_pdata_regr)
+  dots = map(list(...), as_pdata_regr)
   quantiles = compact(map(dots, "quantiles"))
   if (length(quantiles) > 1L) {
     attrs = map(quantiles, function(q) list(attr(q, "probs"), attr(q, "response")))
