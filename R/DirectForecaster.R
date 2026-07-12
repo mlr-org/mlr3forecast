@@ -26,7 +26,7 @@
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
 #' }
-DirectForecaster = R6::R6Class(
+DirectForecaster = R6Class(
   "DirectForecaster",
   inherit = Learner,
   public = list(

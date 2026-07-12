@@ -47,7 +47,7 @@
 #' flrn = RecursiveForecaster$new(graph)
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
-RecursiveForecaster = R6::R6Class(
+RecursiveForecaster = R6Class(
   "RecursiveForecaster",
   inherit = Learner,
   public = list(
