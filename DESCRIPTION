@@ -150,6 +150,8 @@ Collate:
     'forecast.R'
     'helper.R'
     'helper_data_table.R'
+    'helper_freq.R'
+    'helper_key.R'
     'partition.R'
     'pipeline_fcst_local.R'
     'recursive_forecaster.R'
