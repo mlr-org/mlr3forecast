@@ -10,16 +10,8 @@ a keyed task each key contributes one feature vector.
 
 This is the [feasts](https://CRAN.R-project.org/package=feasts)
 (tidyverts) counterpart of
-[PipeOpFcstTsfeats](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md),
-which uses the
-[tsfeatures](https://CRAN.R-project.org/package=tsfeatures) package. The
-order column is mapped to an appropriate
-[tsibble](https://CRAN.R-project.org/package=tsibble) index
-(`yearmonth`/`yearquarter`/`yearweek` for the respective frequencies,
-otherwise used as-is) so that the seasonal period is inferred correctly.
-
-Features are cached in the state at train time and reused at predict
-time. Predicting on a key that was not seen during training is an error.
+[PipeOpFcstTsfeats](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md).
+Predicting on a key that was not seen during training is an error.
 
 ## Parameters
 

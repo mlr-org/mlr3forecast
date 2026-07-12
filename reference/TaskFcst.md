@@ -15,31 +15,23 @@ for construction. Predefined tasks are stored in the
 
 ## Series identity and keys
 
-A task may have one or more `key` columns. Together they identify each
-series, where identity is the combination of the keys. The key role
-drives all per-series operations. Target lags and rolling windows
+A task may have one or more `key` columns whose combination identifies
+each series. The key role drives all per-series operations: target lags
+and rolling windows
 ([PipeOpFcstLags](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md),
 [PipeOpFcstRolling](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.md))
 are computed within each series, and the future forecast grid is built
 per series.
 
-Key columns are **also** features by default, which is usually what you
-want. Keys such as `region` or `product` are meaningful categorical
-covariates, and exposing them lets a global model specialize per series.
-For a high-cardinality key, such as an arbitrary series id with many
-levels, passing the raw factor to the learner can overfit or fail for
-learners that need encoding. Encode it inside the learner graph instead,
-e.g. with
-[mlr3pipelines::PipeOpEncodeImpact](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_encodeimpact.html)
-(`po("encodeimpact")`) or a shrinkage encoder such as
-`po("encodelmer")`. Both compose into the
-[RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
-and
-[DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md)
-graphs. Drop a key's feature role only when it carries no signal beyond
-identifying the series. The key role, and thus grouping, is kept:
+Key columns are **also** features by default, which lets a global model
+specialize per series. Drop a key's feature role while keeping the
+grouping when it carries no signal beyond identifying the series:
 
     task$set_col_roles("series_id", remove_from = "feature")
+
+For a high-cardinality key, encode it inside the learner graph (e.g.
+`po("encodeimpact")` or `po("encodelmer")`) rather than passing the raw
+factor to the model.
 
 ## See also
 

@@ -4,15 +4,13 @@ Performs (weighted) averaging of forecast
 [PredictionFcst](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.md)s,
 mirroring
 [mlr3pipelines::PipeOpRegrAvg](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_regravg.html)
-but preserving the forecast prediction type. The output is a
+but preserving the forecast prediction type, which plain `regravg` would
+drop. The output is a
 [PredictionFcst](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.md)
 that keeps the time index and key columns (carried in the `extra` slot),
 so `$order`, `$key`,
 [`autoplot.PredictionFcst()`](https://mlr3forecast.mlr-org.com/reference/autoplot.PredictionFcst.md),
 and forecast `task_type` inference keep working through the ensemble.
-With the plain `regravg` the averaged output is a
-[mlr3::PredictionRegr](https://mlr3.mlr-org.com/reference/PredictionRegr.html)
-and that forecast information is lost.
 
 Connect it to several
 [PipeOpLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_learner.html)
@@ -20,10 +18,7 @@ outputs (classical forecast learners or
 [RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
 /
 [DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md))
-to average their forecasts. The averaging is row-wise: for each
-predicted row (a single time index within one series) the response is
-the weighted mean of the incoming responses, so multi-series (keyed)
-tasks are handled correctly without mixing series.
+to average their forecasts.
 
 ## Parameters
 

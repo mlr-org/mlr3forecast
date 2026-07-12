@@ -2,12 +2,10 @@
 
 Differences the target variable with lag `lag`, producing the new target
 `y'_t = y_t - y_{t - lag}`. The first `lag` rows are dropped during
-training. Predictions are inverted via stride-`lag` cumulative sums
-anchored at the last `lag` training values, yielding original-scale
-predictions. On keyed (multi-series) tasks all of this happens within
-each series: per-series tails anchor the inversion, series too short for
-the requested lag are dropped with a warning, and predicting series not
-seen during training is an error.
+training and predictions are inverted back to the original scale. On
+keyed (multi-series) tasks this happens within each series. Series too
+short for the requested lag are dropped with a warning, and predicting a
+series not seen during training is an error.
 
 Use `lag = 1` to remove a trend and `lag = 12` (or the seasonal period)
 to remove seasonality.
@@ -27,23 +25,12 @@ This PipeOp must not be placed *inside* a
 [RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
 or
 [DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md)
-graph and is rejected at construction. Inside
-[RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md),
-the trafo only transforms the active row at predict time while iterative
-features (lags, rolling windows) need transformed values for all
-historical rows. Inside
-[DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md),
-each horizon is inverted independently against the training tail, which
-is wrong for horizons \>= 2. Use inside a plain
+graph and is rejected at construction. Use it inside a plain
 [mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
-via `ppl("targettrafo", ...)` for batch prediction, or wrap the
-forecaster itself with `ppl("targettrafo", ...)` so all horizons are
-inverted together.
+via `ppl("targettrafo", ...)`, or wrap the forecaster itself with
+`ppl("targettrafo", ...)` so all horizons are inverted together.
 
-Quantile predictions cannot be inverted and are rejected. Differencing
-is not a pointwise transform, so marginal quantiles of the differenced
-target do not map back to the original scale (they would only be exact
-one step ahead).
+Quantile predictions cannot be inverted and are rejected.
 
 ## Super classes
 

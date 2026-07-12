@@ -6,11 +6,6 @@ see
 [`Rcatch22::catch22_all()`](https://rdrr.io/pkg/Rcatch22/man/catch22_all.html),
 which is called internally on the ordered target vector.
 
-The catch22 set is a low-redundancy subset of the hctsa features,
-selected for their performance across a diverse collection of time
-series classification tasks, but applicable as general-purpose features
-for other tasks such as regression.
-
 For other time series feature extractors, see
 [PipeOpFcstTsfeats](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.tsfeats.md)
 and

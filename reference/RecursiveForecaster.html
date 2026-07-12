@@ -5,31 +5,23 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Recursive Forecast Learner — RecursiveForecaster"><meta name="description" content="A mlr3::Learner for iterative one-step-ahead forecasting. Wraps a mlr3pipelines::GraphLearner (held internally,
-mirroring DirectForecaster and mlr3tuning::AutoTuner). Training is fully delegated to the graph. At predict time
-the forecaster builds a combined task (training history + test rows with NA targets) backed by a single mutable
-data.table::data.table(), iterates through the test rows in (key, order) order, and writes each prediction back
-into the combined task's target column so that lag and rolling features for the next step reflect the freshly
-predicted value.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Recursive Forecast Learner — RecursiveForecaster"><meta name="description" content='A mlr3::Learner for iterative one-step-ahead forecasting: a single model is fit, then applied recursively,
+feeding each prediction back as a lag/rolling feature for the next step.
 Can be constructed in two ways:
 Simple: RecursiveForecaster$new(learner, lags = 1:3) – internally builds
-po(&quot;fcst.lags&quot;, lags = lags) %&amp;gt;&amp;gt;% learner.
+po("fcst.lags", lags = lags) %&amp;gt;&amp;gt;% learner.
 Graph: RecursiveForecaster$new(graph) – takes an arbitrary
 mlr3pipelines::Graph or mlr3pipelines::PipeOp.
 
-"><meta property="og:description" content="A mlr3::Learner for iterative one-step-ahead forecasting. Wraps a mlr3pipelines::GraphLearner (held internally,
-mirroring DirectForecaster and mlr3tuning::AutoTuner). Training is fully delegated to the graph. At predict time
-the forecaster builds a combined task (training history + test rows with NA targets) backed by a single mutable
-data.table::data.table(), iterates through the test rows in (key, order) order, and writes each prediction back
-into the combined task's target column so that lag and rolling features for the next step reflect the freshly
-predicted value.
+'><meta property="og:description" content='A mlr3::Learner for iterative one-step-ahead forecasting: a single model is fit, then applied recursively,
+feeding each prediction back as a lag/rolling feature for the next step.
 Can be constructed in two ways:
 Simple: RecursiveForecaster$new(learner, lags = 1:3) – internally builds
-po(&quot;fcst.lags&quot;, lags = lags) %&amp;gt;&amp;gt;% learner.
+po("fcst.lags", lags = lags) %&amp;gt;&amp;gt;% learner.
 Graph: RecursiveForecaster$new(graph) – takes an arbitrary
 mlr3pipelines::Graph or mlr3pipelines::PipeOp.
 
-"></head><body>
+'></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -74,12 +66,8 @@ mlr3pipelines::Graph or mlr3pipelines::PipeOp.
     </div>
 
     <div class="ref-description section level2">
-    <p>A <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a> for iterative one-step-ahead forecasting. Wraps a <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a> (held internally,
-mirroring <a href="DirectForecaster.html">DirectForecaster</a> and <a href="https://mlr3tuning.mlr-org.com/reference/AutoTuner.html" class="external-link">mlr3tuning::AutoTuner</a>). Training is fully delegated to the graph. At predict time
-the forecaster builds a combined task (training history + test rows with <code>NA</code> targets) backed by a single mutable
-<code><a href="https://rdrr.io/pkg/data.table/man/data.table.html" class="external-link">data.table::data.table()</a></code>, iterates through the test rows in <code>(key, order)</code> order, and writes each prediction back
-into the combined task's target column so that lag and rolling features for the next step reflect the freshly
-predicted value.</p>
+    <p>A <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a> for iterative one-step-ahead forecasting: a single model is fit, then applied recursively,
+feeding each prediction back as a lag/rolling feature for the next step.</p>
 <p>Can be constructed in two ways:</p><ul><li><p><strong>Simple</strong>: <code>RecursiveForecaster$new(learner, lags = 1:3)</code> – internally builds
 <code>po("fcst.lags", lags = lags) %&gt;&gt;% learner</code>.</p></li>
 <li><p><strong>Graph</strong>: <code>RecursiveForecaster$new(graph)</code> – takes an arbitrary
@@ -102,8 +90,7 @@ recursion runs entirely on the transformed scale, and predictions are inverted o
 <span><span class="va">flrn</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, <span class="va">split</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span>
 <span><span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span>  <span class="co"># predictions are on the original scale</span></span></code></pre><p></p></div>
 <p>Placing a <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTargetTrafo.html" class="external-link">mlr3pipelines::PipeOpTargetTrafo</a> <em>inside</em> the graph is not supported and is rejected
-at construction: it would entangle the transformation with the iterative lag/rolling feedback,
-which read the original-scale backend, producing a train/predict scale mismatch.</p>
+at construction.</p>
     </div>
     <div class="section level2">
     <h2 id="prediction-uncertainty">Prediction uncertainty<a class="anchor" aria-label="anchor" href="#prediction-uncertainty"></a></h2>

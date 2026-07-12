@@ -1,19 +1,9 @@
 # Recursive Forecast Learner
 
 A [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html) for
-iterative one-step-ahead forecasting. Wraps a
-[mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
-(held internally, mirroring
-[DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md)
-and
-[mlr3tuning::AutoTuner](https://mlr3tuning.mlr-org.com/reference/AutoTuner.html)).
-Training is fully delegated to the graph. At predict time the forecaster
-builds a combined task (training history + test rows with `NA` targets)
-backed by a single mutable
-[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html),
-iterates through the test rows in `(key, order)` order, and writes each
-prediction back into the combined task's target column so that lag and
-rolling features for the next step reflect the freshly predicted value.
+iterative one-step-ahead forecasting: a single model is fit, then
+applied recursively, feeding each prediction back as a lag/rolling
+feature for the next step.
 
 Can be constructed in two ways:
 
@@ -46,10 +36,7 @@ the end:
 
 Placing a
 [mlr3pipelines::PipeOpTargetTrafo](https://mlr3pipelines.mlr-org.com/reference/PipeOpTargetTrafo.html)
-*inside* the graph is not supported and is rejected at construction: it
-would entangle the transformation with the iterative lag/rolling
-feedback, which read the original-scale backend, producing a
-train/predict scale mismatch.
+*inside* the graph is not supported and is rejected at construction.
 
 ## Prediction uncertainty
 

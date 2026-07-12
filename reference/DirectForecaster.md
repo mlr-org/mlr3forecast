@@ -7,14 +7,11 @@ time only observed values are needed. Unlike
 predictions do not feed back into subsequent steps (no error
 accumulation).
 
-Lag features are managed internally with horizon-shifted offsets via
-`lags` – do not include any iterative feature PipeOp (property
-`"fcst_iterative"`, e.g.
+Lag features are managed internally via `lags`. Do not add iterative
+feature PipeOps (property `"fcst_iterative"`, e.g.
 [PipeOpFcstLags](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md),
-[PipeOpFcstRolling](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.md))
-in the learner or graph. Such ops cannot yet be horizon-offset and would
-leak future information for horizons \> 1, so they are rejected at
-construction.
+[PipeOpFcstRolling](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.rolling.md)),
+which are rejected at construction.
 
 ## Super class
 

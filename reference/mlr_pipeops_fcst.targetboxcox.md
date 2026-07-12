@@ -5,27 +5,15 @@ variance, producing the new target `BoxCox(y, lambda)`. The
 transformation is pointwise and monotonic, so no rows are dropped and
 predictions are inverted via
 [`forecast::InvBoxCox()`](https://pkg.robjhyndman.com/forecast/reference/BoxCox.html).
-
 `lambda = 0` is the log transformation. When `lambda` is `NULL`
-(default) it is estimated from the training data via
-[`forecast::BoxCox.lambda()`](https://pkg.robjhyndman.com/forecast/reference/BoxCox.lambda.html),
-using the task frequency for the `"guerrero"` method so seasonality is
-accounted for. The estimated (or supplied) `lambda` is stored and reused
-at predict time and for inversion. On keyed (multi-series) tasks a
-separate `lambda` is estimated per series and each row is transformed
-and inverted with its series' `lambda`; predicting series not seen
-during training is then an error. A supplied `lambda` applies to all
-series.
+(default) it is estimated from the training data, per series on keyed
+tasks. Predicting a series not seen during training is an error.
 
 Box-Cox and log transformations require strictly positive target values.
-Non-positive values produce `NaN` or an error from
-[`forecast::BoxCox()`](https://pkg.robjhyndman.com/forecast/reference/BoxCox.html).
-
-A negative `lambda` (possible when estimated, as `lower` defaults to
-`-1`) makes
+Non-positive values produce `NaN` or an error. A negative estimated
+`lambda` can make
 [`forecast::InvBoxCox()`](https://pkg.robjhyndman.com/forecast/reference/BoxCox.html)
-return `NA` for back-transformed values above `-1 / lambda`, typically
-upper quantiles. Set `lower = 0` to avoid this.
+return `NA` for upper quantiles. Set `lower = 0` to avoid this.
 
 ## Parameters
 
@@ -55,16 +43,10 @@ This PipeOp must not be placed *inside* a
 [RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
 or
 [DirectForecaster](https://mlr3forecast.mlr-org.com/reference/DirectForecaster.md)
-graph. Inside
-[RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md)
-the transformation would entangle with the iterative lag/rolling
-feedback, which reads the original-scale backend, producing a
-train/predict scale mismatch (rejected at construction). Use inside a
-plain
+graph and is rejected at construction. Use it inside a plain
 [mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
-via `ppl("targettrafo", ...)` for batch prediction, or wrap the
-forecaster itself with `ppl("targettrafo", ...)` so all horizons are
-inverted together.
+via `ppl("targettrafo", ...)`, or wrap the forecaster itself with
+`ppl("targettrafo", ...)` so all horizons are inverted together.
 
 ## Super classes
 

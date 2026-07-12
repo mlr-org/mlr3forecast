@@ -11,13 +11,8 @@ are dropped, matching
 [PipeOpFcstLags](https://mlr3forecast.mlr-org.com/reference/mlr_pipeops_fcst.lags.md).
 Predict keeps all rows.
 
-At predict time, rolling features are computed from the task's full
-backend (i.e. including rows outside `row_roles$use`), then joined onto
-the active rows. Used inside
-[RecursiveForecaster](https://mlr3forecast.mlr-org.com/reference/RecursiveForecaster.md),
-where the forecaster writes each step's prediction into the combined
-task's target column between steps so rolling features for the next step
-reflect the freshly predicted value.
+At predict time rolling features are computed from the full series
+history.
 
 ## Parameters
 

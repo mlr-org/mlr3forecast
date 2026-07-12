@@ -8,16 +8,12 @@
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Direct Multi-Step Forecast Learner — DirectForecaster"><meta name="description" content='Trains a separate model for each forecast horizon. For horizon h with base lags 1:p,
 model h uses lags h:(h+p-1), so that at prediction time only observed values are needed.
 Unlike RecursiveForecaster, predictions do not feed back into subsequent steps (no error accumulation).
-Lag features are managed internally with horizon-shifted offsets via lags – do not include any
-iterative feature PipeOp (property "fcst_iterative", e.g. PipeOpFcstLags, PipeOpFcstRolling)
-in the learner or graph. Such ops cannot yet be horizon-offset and would leak future information
-for horizons &amp;gt; 1, so they are rejected at construction.'><meta property="og:description" content='Trains a separate model for each forecast horizon. For horizon h with base lags 1:p,
+Lag features are managed internally via lags. Do not add iterative feature PipeOps (property
+"fcst_iterative", e.g. PipeOpFcstLags, PipeOpFcstRolling), which are rejected at construction.'><meta property="og:description" content='Trains a separate model for each forecast horizon. For horizon h with base lags 1:p,
 model h uses lags h:(h+p-1), so that at prediction time only observed values are needed.
 Unlike RecursiveForecaster, predictions do not feed back into subsequent steps (no error accumulation).
-Lag features are managed internally with horizon-shifted offsets via lags – do not include any
-iterative feature PipeOp (property "fcst_iterative", e.g. PipeOpFcstLags, PipeOpFcstRolling)
-in the learner or graph. Such ops cannot yet be horizon-offset and would leak future information
-for horizons &amp;gt; 1, so they are rejected at construction.'></head><body>
+Lag features are managed internally via lags. Do not add iterative feature PipeOps (property
+"fcst_iterative", e.g. PipeOpFcstLags, PipeOpFcstRolling), which are rejected at construction.'></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -65,10 +61,8 @@ for horizons &amp;gt; 1, so they are rejected at construction.'></head><body>
     <p>Trains a separate model for each forecast horizon. For horizon <code>h</code> with base lags <code>1:p</code>,
 model <code>h</code> uses lags <code>h:(h+p-1)</code>, so that at prediction time only observed values are needed.
 Unlike <a href="RecursiveForecaster.html">RecursiveForecaster</a>, predictions do not feed back into subsequent steps (no error accumulation).</p>
-<p>Lag features are managed internally with horizon-shifted offsets via <code>lags</code> – do not include any
-iterative feature PipeOp (property <code>"fcst_iterative"</code>, e.g. <a href="mlr_pipeops_fcst.lags.html">PipeOpFcstLags</a>, <a href="mlr_pipeops_fcst.rolling.html">PipeOpFcstRolling</a>)
-in the learner or graph. Such ops cannot yet be horizon-offset and would leak future information
-for horizons &gt; 1, so they are rejected at construction.</p>
+<p>Lag features are managed internally via <code>lags</code>. Do not add iterative feature PipeOps (property
+<code>"fcst_iterative"</code>, e.g. <a href="mlr_pipeops_fcst.lags.html">PipeOpFcstLags</a>, <a href="mlr_pipeops_fcst.rolling.html">PipeOpFcstRolling</a>), which are rejected at construction.</p>
     </div>
 
 
