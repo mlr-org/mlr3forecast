@@ -23,7 +23,7 @@ generate_newdata = function(task, n = 1L) {
   setorderv(dt, c(key_cols, order_cols))
   assert_regular_grid(dt, order_cols, key_cols, task$freq)
 
-  last_rows = if (length(key_cols) > 0L) dt[, .SD[.N], by = key_cols] else dt[.N]
+  last_rows = if (length(key_cols) > 0L) dt[dt[, .I[.N], by = key_cols]$V1] else dt[.N]
   freq = if (is.character(task$freq)) task$freq else infer_freq(sort(unique(dt[[order_cols]])))
   newdata = last_rows[rep(seq_len(.N), each = n)]
 

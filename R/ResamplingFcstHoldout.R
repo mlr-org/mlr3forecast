@@ -102,8 +102,8 @@ ResamplingFcstHoldout = R6Class(
         {
           ids = make_split(.N, ratio, n)
           list(
-            train = list(.SD[ids$train, "row_id"][[1L]]),
-            test = list(.SD[ids$test, "row_id"][[1L]])
+            train = list(row_id[ids$train]),
+            test = list(row_id[ids$test])
           )
         },
         by = key_cols

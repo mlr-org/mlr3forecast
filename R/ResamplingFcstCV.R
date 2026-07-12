@@ -109,6 +109,7 @@ ResamplingFcstCV = R6Class(
       if (!has_key) {
         setorderv(dt, order_cols)
         n = nrow(dt)
+        row_id = dt$row_id
         if (window_size + horizon > n) {
           error_input(
             "Resampling '%s': `window_size + horizon` (%i) exceeds the number of observations (%i) in Task '%s'.",
@@ -130,11 +131,11 @@ ResamplingFcstCV = R6Class(
         }
         train_end = frev(seq(from = n - horizon, by = -step_size, length.out = folds))
         train_ids = if (fixed_window) {
-          map(train_end, function(i) dt[(i - window_size + 1L):i, "row_id"][[1L]])
+          map(train_end, function(i) row_id[(i - window_size + 1L):i])
         } else {
-          map(train_end, function(i) dt[1L:i, "row_id"][[1L]])
+          map(train_end, function(i) row_id[1L:i])
         }
-        test_ids = map(train_end, function(i) dt[(i + 1L):(i + horizon), "row_id"][[1L]])
+        test_ids = map(train_end, function(i) row_id[(i + 1L):(i + horizon)])
         return(list(train = train_ids, test = test_ids))
       }
 
@@ -163,11 +164,11 @@ ResamplingFcstCV = R6Class(
           }
           train_end = frev(seq(from = n_group - horizon, by = -step_size, length.out = folds))
           if (fixed_window) {
-            train_ids = map(train_end, function(i) .SD[(i - window_size + 1L):i, "row_id"][[1L]])
+            train_ids = map(train_end, function(i) row_id[(i - window_size + 1L):i])
           } else {
-            train_ids = map(train_end, function(i) .SD[1L:i, "row_id"][[1L]])
+            train_ids = map(train_end, function(i) row_id[1L:i])
           }
-          test_ids = map(train_end, function(i) .SD[(i + 1L):(i + horizon), "row_id"][[1L]])
+          test_ids = map(train_end, function(i) row_id[(i + 1L):(i + horizon)])
           list(train_ids = train_ids, test_ids = test_ids, fold = seq_len(folds))
         },
         by = key_cols
