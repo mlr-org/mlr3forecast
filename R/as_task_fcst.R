@@ -204,6 +204,9 @@ as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(
   order = tsibble::index_var(x)
   key = tsibble::key_vars(x)
   x = tsbox::ts_dt(x)
+  for (k in key) {
+    set(x, j = k, value = as.factor(x[[k]]))
+  }
   as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 

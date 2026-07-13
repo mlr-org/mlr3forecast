@@ -49,6 +49,25 @@ test_that("as_task conversion timeSeries", {
   expect_no_error(as_task_fcst(x))
 })
 
+test_that("as_task conversion keyed tsibble", {
+  skip_if_not_installed("tsibble")
+  skip_if_not_installed("tsbox")
+
+  x = tsibble::tsibble(
+    id = c("a", "a", "b", "b"),
+    time = rep(seq(as.Date("2020-01-01"), by = "day", length.out = 2L), 2L),
+    y = 1:4,
+    key = id,
+    index = time
+  )
+  task = as_task_fcst(x, target = "y")
+
+  expect_class(task, "TaskFcst")
+  expect_equal(task$col_roles$key, "id")
+  expect_true("keys" %in% task$properties)
+  expect_factor(task$data(cols = "id")$id)
+})
+
 test_that("as_task_fcst assertions", {
   # target can't be NA
   value = rnorm(20L)
