@@ -92,7 +92,7 @@ PredictionFcst = R6Class(
         predict_types = union(predict_types, "response")
       }
       self$predict_types = predict_types
-      if (is.null(pdata$response)) private$.quantile_response = attr(quantiles, "response")
+      if (is.null(pdata$response)) private$.quantile_response = attr(pdata$quantiles, "response")
     }
   ),
 

@@ -50,3 +50,19 @@ test_that("PredictionFcst$order and $key are NULL without extra data", {
   expect_null(p$order)
   expect_null(p$key)
 })
+
+test_that("PredictionFcst derives response from quantiles", {
+  quantiles = matrix(1:9, nrow = 3L, dimnames = list(NULL, c("q0.1", "q0.5", "q0.9")))
+  setattr(quantiles, "probs", c(0.1, 0.5, 0.9))
+  setattr(quantiles, "response", 0.5)
+
+  p = PredictionFcst$new(
+    row_ids = 1:3,
+    truth = 1:3,
+    quantiles = quantiles,
+    extra = list(date = seq(as.Date("2020-01-01"), by = "day", length.out = 3L))
+  )
+
+  expect_equal(p$response, p$data$quantiles[, "q0.5"])
+  expect_equal(as.data.table(p)$response, p$data$quantiles[, "q0.5"])
+})
