@@ -126,7 +126,7 @@ prediction = forecast(learner, task, 12L)
 prediction
 ```
 
-The resulting [`PredictionFcst`](https://mlr-org.github.io/mlr3forecast/reference/PredictionFcst.html)
+The resulting [`PredictionFcst`](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.html)
 can be plotted with `autoplot()`, overlaying the forecast on the historical series:
 
 ```{r, message = FALSE, dpi = 300}
