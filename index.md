@@ -165,7 +165,7 @@ prediction
 ```
 
 The resulting
-[`PredictionFcst`](https://mlr-org.github.io/mlr3forecast/reference/PredictionFcst.html)
+[`PredictionFcst`](https://mlr3forecast.mlr-org.com/reference/PredictionFcst.html)
 can be plotted with
 [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html),
 overlaying the forecast on the historical series:
