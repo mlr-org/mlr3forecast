@@ -59,6 +59,17 @@ test_that("DirectForecaster scalar horizon expands to 1:H", {
   expect_equal(learner$horizons, 1:5)
 })
 
+test_that("DirectForecaster requires nonempty unique horizons", {
+  expect_error(
+    DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = integer()),
+    "Must have length >= 1"
+  )
+  expect_error(
+    DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = c(1L, 1L)),
+    "Contains duplicated values"
+  )
+})
+
 test_that("DirectForecaster routes specific (non-contiguous) horizons by step-distance", {
   task = tsk("airpassengers")
   n = task$nrow

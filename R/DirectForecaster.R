@@ -51,7 +51,14 @@ DirectForecaster = R6Class(
     #'   The predict type, default `NULL`.
     initialize = function(learner, lags, horizons, id = NULL, param_vals = list(), predict_type = NULL) {
       lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
-      horizons = assert_integerish(horizons, lower = 1L, any.missing = FALSE, coerce = TRUE)
+      horizons = assert_integerish(
+        horizons,
+        lower = 1L,
+        any.missing = FALSE,
+        min.len = 1L,
+        unique = TRUE,
+        coerce = TRUE
+      )
       if (length(horizons) == 1L) {
         horizons = seq_len(horizons)
       }
