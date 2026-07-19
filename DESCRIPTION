@@ -144,6 +144,7 @@ Collate:
     'PipeOpFcstUniteKey.R'
     'PipeOpTargetTrafoBoxCox.R'
     'PipeOpTargetTrafoDifference.R'
+    'PipeOpTargetTrafoScale.R'
     'PredictionDataFcst.R'
     'PredictionFcst.R'
     'RecursiveForecaster.R'
