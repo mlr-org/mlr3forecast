@@ -246,11 +246,11 @@ DirectForecaster = R6Class(
         glrn$train(task)
       })
 
-      # per-key origin and freq let predict recover each row's step-distance
+      # per-key origin and step let predict recover each row's step-distance
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
       dt = task$data(cols = c(order_cols, key_cols))
-      freq = task$freq %??% infer_freq(sort(unique(dt[[order_cols]])))
+      step = resolve_step(task$freq, dt[[order_cols]])
       origin = if (length(key_cols) > 0L) {
         dt[, list(.origin = max(get(order_cols))), by = key_cols]
       } else {
@@ -272,7 +272,8 @@ DirectForecaster = R6Class(
         list(
           models = models,
           origin = origin,
-          freq = freq,
+          freq = task$freq,
+          step = step,
           train_tail = train_tail,
           target = task$target_names,
           feature_names = task$feature_names
@@ -285,22 +286,22 @@ DirectForecaster = R6Class(
       models = self$model$models
       horizons = private$.horizons
       max_h = max(horizons)
-      freq = self$model$freq
+      step = self$model$step
       origin = self$model$origin
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
 
       ord = task$data(cols = c(key_cols, order_cols))
 
-      # a row's step is its position on the future grid seq_order(origin, freq, max_h)
+      # a row's step is its position on the future grid seq_order(origin, step, max_h)
       if (length(key_cols) > 0L) {
         ord = origin[ord, on = key_cols]
         ord[,
-          ".step" := match(get(order_cols), seq_order(get(".origin")[1L], freq, max_h)),
+          ".step" := match(get(order_cols), seq_order(get(".origin")[1L], step, max_h)),
           by = key_cols
         ]
       } else {
-        grid = seq_order(origin, freq, max_h)
+        grid = seq_order(origin, step, max_h)
         set(ord, j = ".step", value = match(ord[[order_cols]], grid))
       }
 
@@ -327,7 +328,7 @@ DirectForecaster = R6Class(
       # lags resolve from training history and positional shifts equal true step distance
       if (length(key_cols) > 0L) {
         skeleton = ord[,
-          set_names(list(seq_order(get(".origin")[1L], freq, max(get(".step")))), order_cols),
+          set_names(list(seq_order(get(".origin")[1L], step, max(get(".step")))), order_cols),
           by = key_cols
         ]
       } else {
@@ -338,7 +339,7 @@ DirectForecaster = R6Class(
       set(combined, j = "..row_id", value = seq_row(combined))
 
       backend = DataBackendDataTable$new(combined, "..row_id")
-      step_task = as_task_fcst(backend, target = target, order = order_cols, key = key_cols, freq = freq)
+      step_task = as_task_fcst(backend, target = target, order = order_cols, key = key_cols, freq = self$model$freq)
       step_task$col_roles$feature = intersect(feature_names, names(combined))
 
       lookup = combined[, c(key_cols, order_cols, "..row_id"), with = FALSE]
@@ -395,7 +396,7 @@ print.direct_forecaster_model = function(x, ...) {
   cat_cli({
     cli::cli_text("<direct_forecaster_model>")
     cli::cli_li("Target: {x$target}")
-    cli::cli_li("Frequency: {x$freq}")
+    if (!is.null(x$freq)) cli::cli_li("Frequency: {x$freq}")
     cli::cli_li("Horizon models: {length(x$models)}")
   })
   invisible(x)

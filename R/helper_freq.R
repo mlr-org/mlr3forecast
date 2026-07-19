@@ -43,6 +43,11 @@ infer_freq = function(order) {
   }
 }
 
+# a numeric freq is the seasonal period, not the grid step, so only calendar freqs step the grid
+resolve_step = function(freq, order) {
+  if (is.character(freq)) freq else infer_freq(sort(unique(order)))
+}
+
 calendar_months = function(freq) {
   if (!is.character(freq)) {
     return(NA_integer_)

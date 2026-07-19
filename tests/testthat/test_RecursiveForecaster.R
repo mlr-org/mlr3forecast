@@ -35,6 +35,21 @@ test_that("RecursiveForecaster handles a non-unit integer index without explicit
   expect_length(prediction$response, length(split$test))
 })
 
+test_that("RecursiveForecaster treats a numeric freq as the seasonal period, not the step", {
+  dt = data.table(time = 1:60, value = sin(2 * pi * (1:60) / 12))
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+
+  task = as_task_fcst(dt, target = "value", order = "time", freq = 12)
+  learner$train(task, 1:48)
+  prediction = learner$predict(task, 49:60)
+  expect_class(prediction, "PredictionRegr")
+
+  ref_learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+  ref_task = as_task_fcst(dt, target = "value", order = "time")
+  ref_learner$train(ref_task, 1:48)
+  expect_equal(prediction$response, ref_learner$predict(ref_task, 49:60)$response)
+})
+
 test_that("RecursiveForecaster works with keyed task", {
   task = make_date_major_panel_task(30L)
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)

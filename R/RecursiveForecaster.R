@@ -266,7 +266,7 @@ RecursiveForecaster = R6Class(
       train_data = train_data[!test_data, on = join_cols]
 
       # test rows must form the gap-free future grid so positional shifts equal true step distance
-      freq = self$model$freq %??% infer_freq(sort(unique(train_data[[order_cols]])))
+      step = resolve_step(self$model$freq, train_data[[order_cols]])
       if (length(key_cols) > 0L) {
         origin = train_data[, list(.origin = max(get(order_cols))), by = key_cols]
         grid_check = origin[test_data[, c(key_cols, order_cols), with = FALSE], on = key_cols]
@@ -278,7 +278,7 @@ RecursiveForecaster = R6Class(
         }
         grid_ok = grid_check[,
           list(.ok = {
-            expected = seq_order(get(".origin")[1L], freq, .N)
+            expected = seq_order(get(".origin")[1L], step, .N)
             !anyNA(expected) && all(sort(get(order_cols)) == expected)
           }),
           by = key_cols
@@ -295,12 +295,12 @@ RecursiveForecaster = R6Class(
           error_input("No training rows remain before the test set.")
         }
         origin = max(train_data[[order_cols]])
-        expected = seq_order(origin, freq, nrow(test_data))
+        expected = seq_order(origin, step, nrow(test_data))
         if (anyNA(expected) || !all(sort(test_data[[order_cols]]) == expected)) {
           error_input(
             "Test rows must form the gap-free future grid following the training data (origin %s, freq %s).",
             format(origin),
-            freq
+            step
           )
         }
       }
@@ -363,7 +363,7 @@ print.recursive_forecaster_model = function(x, ...) {
   cat_cli({
     cli::cli_text("<recursive_forecaster_model>")
     cli::cli_li("Target: {x$target}")
-    cli::cli_li("Frequency: {x$freq}")
+    if (!is.null(x$freq)) cli::cli_li("Frequency: {x$freq}")
     cli::cli_li("Training rows: {nrow(x$train_data)}")
   })
   invisible(x)

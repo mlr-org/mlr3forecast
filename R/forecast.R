@@ -24,13 +24,13 @@ generate_newdata = function(task, n = 1L) {
   assert_regular_grid(dt, order_cols, key_cols, task$freq)
 
   last_rows = if (length(key_cols) > 0L) dt[dt[, .I[.N], by = key_cols]$V1] else dt[.N]
-  freq = if (is.character(task$freq)) task$freq else infer_freq(sort(unique(dt[[order_cols]])))
+  step = resolve_step(task$freq, dt[[order_cols]])
   newdata = last_rows[rep(seq_len(.N), each = n)]
 
   if (length(key_cols) > 0L) {
-    newdata[, (order_cols) := seq_order(get(order_cols)[1L], freq, n), by = key_cols]
+    newdata[, (order_cols) := seq_order(get(order_cols)[1L], step, n), by = key_cols]
   } else {
-    set(newdata, j = order_cols, value = seq_order(last_rows[[order_cols]], freq, n))
+    set(newdata, j = order_cols, value = seq_order(last_rows[[order_cols]], step, n))
   }
 
   set(newdata, j = task$target_names, value = NA_real_)

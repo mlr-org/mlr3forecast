@@ -46,6 +46,23 @@ test_that("DirectForecaster works with keyed task", {
   expect_length(prediction$response, length(split$test))
 })
 
+test_that("DirectForecaster treats a numeric freq as the seasonal period, not the step", {
+  dt = data.table(time = 1:60, value = sin(2 * pi * (1:60) / 12))
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 12L)
+
+  task = as_task_fcst(dt, target = "value", order = "time", freq = 12)
+  learner$train(task, 1:48)
+  prediction = learner$predict(task, 49:60)
+  expect_class(prediction, "PredictionRegr")
+
+  # a period-multiple row alone must route to its true step, not alias to step 1
+  ref_learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 12L)
+  ref_task = as_task_fcst(dt, target = "value", order = "time")
+  ref_learner$train(ref_task, 1:48)
+  expect_equal(prediction$response, ref_learner$predict(ref_task, 49:60)$response)
+  expect_equal(learner$predict(task, 60L)$response, ref_learner$predict(ref_task, 60L)$response)
+})
+
 test_that("DirectForecaster errors when test extends past trained horizons", {
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)
