@@ -111,6 +111,13 @@ freq_to_period = function(freq) {
   periods[[ii]] / n
 }
 
+resolve_measure_period = function(period, freq) {
+  if (!is.null(period)) {
+    return(period)
+  }
+  max(1L, as.integer(round(freq_to_period(freq))))
+}
+
 to_tsibble_index = function(order, freq) {
   if (is.character(freq)) {
     if (grepl("week", freq, fixed = TRUE)) {

@@ -16,6 +16,8 @@
 #' }
 #' where \eqn{z} is the training series, \eqn{m} is the seasonal period, and \eqn{T} is the length of the
 #' training series.
+#' If `period` is `NULL` (default), the seasonal period is derived from `task$freq` and rounded to the nearest
+#' positive integer, falling back to one when the task frequency is unavailable.
 #'
 #' @references
 #' `r format_bib("hyndman2006another")`
@@ -32,8 +34,7 @@ MeasureMASE = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(period = p_int(lower = 1L, tags = "required"))
-      param_set$set_values(period = 1L)
+      param_set = ps(period = p_int(lower = 1L, default = NULL, special_vals = list(NULL)))
 
       super$initialize(
         id = "fcst.mase",
@@ -58,7 +59,7 @@ MeasureMASE = R6Class(
 
     .score_ungrouped = function(prediction, task, train_set, ...) {
       train = task$data(rows = train_set, cols = task$target_names, ordered = TRUE)[[1L]]
-      period = self$param_set$get_values()$period
+      period = resolve_measure_period(self$param_set$get_values()$period, task$freq)
       scale = mean(abs(diff(train, lag = period)), na.rm = TRUE)
       resid = prediction$truth - prediction$response
       mean(abs(resid / scale), na.rm = TRUE)
@@ -84,6 +85,8 @@ MeasureMASE = R6Class(
 #' }
 #' where \eqn{z} is the training series, \eqn{m} is the seasonal period, and \eqn{T} is the length of the
 #' training series.
+#' If `period` is `NULL` (default), the seasonal period is derived from `task$freq` and rounded to the nearest
+#' positive integer, falling back to one when the task frequency is unavailable.
 #'
 #' @references
 #' `r format_bib("hyndman2006another")`
@@ -100,8 +103,7 @@ MeasureRMSSE = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      param_set = ps(period = p_int(lower = 1L, tags = "required"))
-      param_set$set_values(period = 1L)
+      param_set = ps(period = p_int(lower = 1L, default = NULL, special_vals = list(NULL)))
 
       super$initialize(
         id = "fcst.rmsse",
@@ -127,7 +129,7 @@ MeasureRMSSE = R6Class(
 
     .score_ungrouped = function(prediction, task, train_set, ...) {
       train = task$data(rows = train_set, cols = task$target_names, ordered = TRUE)[[1L]]
-      period = self$param_set$get_values()$period
+      period = resolve_measure_period(self$param_set$get_values()$period, task$freq)
       scale = mean(diff(train, lag = period)^2, na.rm = TRUE)
       resid = prediction$truth - prediction$response
       sqrt(mean(resid^2 / scale, na.rm = TRUE))

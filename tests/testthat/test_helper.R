@@ -96,6 +96,12 @@ test_that("freq_to_period passes through numeric and falls back for unknown", {
   expect_identical(freq_to_period("nonsense"), 1L)
 })
 
+test_that("resolve_measure_period returns an integer lag", {
+  expect_identical(resolve_measure_period(NULL, "week"), 52L)
+  expect_identical(resolve_measure_period(NULL, NULL), 1L)
+  expect_identical(resolve_measure_period(7L, "month"), 7L)
+})
+
 test_that("calendar_months maps overflow-prone freqs and returns NA otherwise", {
   expect_identical(calendar_months("month"), 1L)
   expect_identical(calendar_months("2 month"), 2L)
