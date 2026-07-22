@@ -339,29 +339,29 @@ test_that("measures match fabletools reference implementation", {
   test_response = test_truth + rnorm(length(test_ids))
   test_resid = test_truth - test_response
   pred_ts = PredictionRegr$new(truth = test_truth, response = test_response, row_ids = test_ids)
-  expected_mase = fabletools::MASE(test_resid, train_data, .period = 1)
+  expected_mase = fabletools::MASE(test_resid, train_data, .period = 12)
   expect_equal(
     unname(pred_ts$score(msr("fcst.mase"), task = task, train_set = train_ids)),
     expected_mase
   )
-  # seasonal MASE with period = 12
-  expected_mase_12 = fabletools::MASE(test_resid, train_data, .period = 12)
+  # explicit period overrides task frequency
+  expected_mase_1 = fabletools::MASE(test_resid, train_data, .period = 1)
   expect_equal(
-    unname(pred_ts$score(msr("fcst.mase", period = 12L), task = task, train_set = train_ids)),
-    expected_mase_12
+    unname(pred_ts$score(msr("fcst.mase", period = 1L), task = task, train_set = train_ids)),
+    expected_mase_1
   )
 
   # RMSSE
-  expected_rmsse = fabletools::RMSSE(test_resid, train_data, .period = 1)
+  expected_rmsse = fabletools::RMSSE(test_resid, train_data, .period = 12)
   expect_equal(
     unname(pred_ts$score(msr("fcst.rmsse"), task = task, train_set = train_ids)),
     expected_rmsse
   )
-  # seasonal RMSSE with period = 12
-  expected_rmsse_12 = fabletools::RMSSE(test_resid, train_data, .period = 12)
+  # explicit period overrides task frequency
+  expected_rmsse_1 = fabletools::RMSSE(test_resid, train_data, .period = 1)
   expect_equal(
-    unname(pred_ts$score(msr("fcst.rmsse", period = 12L), task = task, train_set = train_ids)),
-    expected_rmsse_12
+    unname(pred_ts$score(msr("fcst.rmsse", period = 1L), task = task, train_set = train_ids)),
+    expected_rmsse_1
   )
 })
 
@@ -388,6 +388,12 @@ test_that("fcst.msis matches greybox::sMIS reference", {
       greybox::sMIS(truth, lower, upper, scale = scale, level = 0.95)
     )
   }
+
+  scale = mean(abs(diff(train, lag = 12L)))
+  expect_equal(
+    unname(pred$score(msr("fcst.msis"), task = task, train_set = train_ids)),
+    greybox::sMIS(truth, lower, upper, scale = scale, level = 0.95)
+  )
 })
 
 test_that("fcst.msis on a keyed task averages per-series scaled scores", {

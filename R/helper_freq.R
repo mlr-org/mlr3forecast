@@ -43,6 +43,11 @@ infer_freq = function(order) {
   }
 }
 
+# a numeric freq is the seasonal period, not the grid step, so only calendar freqs step the grid
+resolve_step = function(freq, order) {
+  if (is.character(freq)) freq else infer_freq(sort(unique(order)))
+}
+
 calendar_months = function(freq) {
   if (!is.character(freq)) {
     return(NA_integer_)
@@ -109,6 +114,13 @@ freq_to_period = function(freq) {
     return(1L)
   }
   periods[[ii]] / n
+}
+
+resolve_measure_period = function(period, freq) {
+  if (!is.null(period)) {
+    return(period)
+  }
+  max(1L, as.integer(round(freq_to_period(freq))))
 }
 
 to_tsibble_index = function(order, freq) {

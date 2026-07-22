@@ -24,6 +24,8 @@ For a central interval at level \code{1 - alpha} with lower and upper bounds \eq
 }
 where \eqn{z} is the training series, \eqn{m} is the seasonal period, and \eqn{T} is the length of
 the training series. For keyed tasks the score is computed per series and averaged.
+If \code{period} is \code{NULL} (default), the seasonal period is derived from \code{task$freq} and rounded to the nearest
+positive integer, falling back to one when the task frequency is unavailable.
 }
 \section{Dictionary}{
 
@@ -60,7 +62,7 @@ List them via the key prefix, not the task type, as the latter returns nothing:
 \tabular{llll}{
    Id \tab Type \tab Default \tab Range \cr
    alpha \tab numeric \tab - \tab \eqn{[0, 1]}{[0, 1]} \cr
-   period \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   period \tab integer \tab NULL \tab \eqn{[1, \infty)}{[1, Inf)} \cr
 }
 }
 

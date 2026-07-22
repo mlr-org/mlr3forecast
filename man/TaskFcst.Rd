@@ -174,8 +174,10 @@ Name of the order column.}
 Name of the key column.}
       \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Frequency of the time series.
-Either a positive number or a \code{seq()}-compatible string, e.g.:
-\code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.}
+A \code{seq()}-compatible string gives the calendar step of the time grid, e.g.
+\code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.
+A positive number gives the seasonal period (as in \code{\link[stats:ts]{stats::ts()}}) for an integer or
+numeric order column; the grid step is then inferred from the data.}
       \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
       \item{\code{extra_args}}{(named \code{list()})\cr

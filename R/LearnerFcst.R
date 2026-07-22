@@ -106,7 +106,7 @@ LearnerFcst = R6Class(
         model = model,
         row_ids = task$row_ids[order(order_vals)],
         max_index = max(order_vals),
-        step = if (is.character(task$freq)) task$freq else infer_freq(sort(order_vals))
+        step = resolve_step(task$freq, order_vals)
       )
     },
 

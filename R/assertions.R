@@ -39,7 +39,7 @@ check_regular_grid = function(order, freq = NULL) {
     return(TRUE)
   }
   if (inherits(o, c("Date", "POSIXct", "POSIXlt"))) {
-    step = if (is.character(freq)) freq else infer_freq(o)
+    step = resolve_step(freq, o)
     expected = c(o[1L], seq_order(o[1L], step, n - 1L))
     return(!anyNA(expected) && all(o == expected))
   }
