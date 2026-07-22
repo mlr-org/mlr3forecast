@@ -12,7 +12,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/mlr-org/mlr3forecast/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/DESCRIPTION)
 
 Mücke M, Becker M, Bischl B (2026). *mlr3forecast: Extending 'mlr3' to
 Time Series Forecasting*. R package version 0.1.0,
