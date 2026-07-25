@@ -7,9 +7,9 @@ test_that("fcst.holdout basic properties", {
   # mutually exclusive params
   task = tsk("airpassengers")
   resampling = rsmp("fcst.holdout", ratio = 0.8, n = 10L)
-  expect_error(resampling$instantiate(task), "One of `ratio` or `n` must be provided, not both.", fixed = TRUE)
+  expect_error(resampling$instantiate(task), "Exactly one of `ratio` or `n` must be provided.", fixed = TRUE)
   resampling = rsmp("fcst.holdout")
-  expect_error(resampling$instantiate(task), "One of `ratio` or `n` must be provided, not both.", fixed = TRUE)
+  expect_error(resampling$instantiate(task), "Exactly one of `ratio` or `n` must be provided.", fixed = TRUE)
 
   # task without a key
   task = tsk("airpassengers")
@@ -34,6 +34,15 @@ test_that("fcst.holdout basic properties", {
   resampling = rsmp("fcst.holdout", n = -10L)$instantiate(task)
   expect_length(resampling$train_set(1L), task$nrow - 10L)
   expect_length(resampling$test_set(1L), 10L)
+
+  # n = 0 requests an empty training set, like ratio = 0
+  resampling = rsmp("fcst.holdout", n = 0L)$instantiate(task)
+  expect_length(resampling$train_set(1L), 0L)
+  expect_length(resampling$test_set(1L), task$nrow)
+
+  resampling = rsmp("fcst.holdout", ratio = 0)$instantiate(task)
+  expect_length(resampling$train_set(1L), 0L)
+  expect_length(resampling$test_set(1L), task$nrow)
 
   resampling = rsmp("fcst.holdout", ratio = 1.0)$instantiate(task)
   expect_length(resampling$train_set(1L), task$nrow)

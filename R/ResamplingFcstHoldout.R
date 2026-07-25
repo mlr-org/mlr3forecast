@@ -78,7 +78,7 @@ ResamplingFcstHoldout = R6Class(
       n = pv$n
 
       if (!xor(is.null(ratio), is.null(n))) {
-        error_config("One of `ratio` or `n` must be provided, not both.")
+        error_config("Exactly one of `ratio` or `n` must be provided.")
       }
 
       col_roles = task$col_roles
@@ -131,7 +131,7 @@ ResamplingFcstHoldout = R6Class(
 make_split = function(n_obs, ratio, n) {
   nr = if (!is.null(ratio)) {
     round(n_obs * ratio)
-  } else if (n > 0L) {
+  } else if (n >= 0L) {
     min(n_obs, n)
   } else {
     max(n_obs + n, 0L)
