@@ -62,6 +62,23 @@ test_that("RecursiveForecaster works with keyed task", {
   expect_length(prediction$response, length(split$test))
 })
 
+test_that("RecursiveForecaster works with an integer-keyed task", {
+  skip_if_not_installed("rpart")
+  dates = seq(as.Date("2020-01-01"), by = "day", length.out = 30L)
+  data = CJ(date = dates, store = c(1L, 2L))
+  data[, y := fifelse(store == 1L, 0L, 100L) + rowid(store)]
+  task = TaskFcst$new("panel", as_data_backend(data), target = "y", order = "date", key = "store", freq = "day")
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+
+  learner$train(task)
+  prediction = forecast(learner, task, h = 3L)
+
+  expect_identical(prediction$col_roles, list(order = "date", key = "store"))
+  expect_integer(prediction$key$key)
+  expect_setequal(unique(prediction$key$key), c(1L, 2L))
+  expect_named(as.data.table(prediction), c("store", "date", "row_ids", "truth", "response"))
+})
+
 test_that("RecursiveForecaster works with graph constructor", {
   task = tsk("airpassengers")
   graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")

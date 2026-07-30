@@ -4,7 +4,8 @@ make_series_prediction = function(row_ids, response, start = as.Date("2020-01-01
     truth = rep(NA_real_, length(row_ids)),
     response = response,
     quantiles = quantiles,
-    extra = list(date = seq(start, by = "day", length.out = length(row_ids)))
+    extra = list(date = seq(start, by = "day", length.out = length(row_ids))),
+    col_roles = list(order = "date", key = character())
   )
 }
 
@@ -25,6 +26,7 @@ test_that("PipeOpFcstUniteKey row-binds per-series predictions and rebuilds the 
   expect_equal(out$response, c(1, 2, 3, 10, 20, 30))
   expect_equal(out$key$key, factor(rep(c("a", "b"), each = 3L)))
   expect_equal(out$order$order, rep(seq(as.Date("2020-01-01"), by = "day", length.out = 3L), 2L))
+  expect_identical(out$data$col_roles, list(order = "date", key = "key"))
 })
 
 test_that("PipeOpFcstUniteKey preserves quantile predictions", {

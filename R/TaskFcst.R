@@ -20,7 +20,9 @@
 #' ```
 #'
 #' For a high-cardinality key, encode it inside the learner graph (e.g. `po("encodeimpact")` or `po("encodelmer")`)
-#' rather than passing the raw factor to the model.
+#' rather than passing the raw factor to the model. Note that keys are labels regardless of their type: an integer
+#' key used as a feature is passed to the learner as a number, which is rarely intended -- convert it to a factor
+#' first.
 #'
 #' @template param_id
 #' @template param_backend
@@ -173,7 +175,7 @@ TaskFcst = R6Class(
     #' If the task has a column with designated role `"key"`, a table with two or more columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * key variable(s) (`character()` | `factor()` | `ordered()`).
+    #' * key variable(s) (`character()` | `integer()` | `factor()` | `ordered()`).
     #'
     #' If there is only one key column, it will be named as `key`.
     #' Returns `NULL` if there are no key columns.
@@ -237,11 +239,31 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
   }
 
   key_cols = new_roles[["key"]]
+  if (length(key_cols) > 0L && any(key_cols %in% order_cols)) {
+    error_input(
+      "Column(s) %s may not have both the 'order' and the 'key' role.",
+      str_collapse(intersect(key_cols, order_cols), quote = "'")
+    )
+  }
+
+  if (length(key_cols) > 0L && any(key_cols %in% new_roles[["target"]])) {
+    error_input(
+      "Key column(s) %s may not also be the target column.",
+      str_collapse(intersect(key_cols, new_roles[["target"]]), quote = "'")
+    )
+  }
+
   if (
     length(key_cols) > 0L &&
-      any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("character", "factor", "ordered"))
+      any(
+        fget_keys(task$col_info, key_cols, "type", key = "id") %nin%
+          c("character", "integer", "factor", "ordered")
+      )
   ) {
-    error_input("Key column(s) %s must be character, factor, or ordered columns.", str_collapse(key_cols, quote = "'"))
+    error_input(
+      "Key column(s) %s must be character, integer, factor, or ordered columns.",
+      str_collapse(key_cols, quote = "'")
+    )
   }
 
   if (length(key_cols) > 0L && any(task$missings(cols = key_cols) > 0L)) {

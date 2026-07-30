@@ -84,11 +84,11 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
 
   fc = as.data.table(object)
 
-  # recover the order (time index) and key column names from the prediction's extra slot; the
+  # recover the order (time index) and key column names from the prediction's extra roles; the
   # task's column names are not authoritative here since a prediction united from local
   # per-series models carries a reconstructed generic key column instead of the task keys
-  roles = fcst_extra_roles(object$data$extra)
-  if (is.null(roles$order)) {
+  roles = object$col_roles
+  if (length(roles$order) == 0L) {
     error_input("Cannot determine the time index of the prediction.")
   }
   order = roles$order

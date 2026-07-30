@@ -23,7 +23,9 @@ To let a global model specialize per series, add the feature role back:
 }\if{html}{\out{</div>}}
 
 For a high-cardinality key, encode it inside the learner graph (e.g. \code{po("encodeimpact")} or \code{po("encodelmer")})
-rather than passing the raw factor to the model.
+rather than passing the raw factor to the model. Note that keys are labels regardless of their type: an integer
+key used as a feature is passed to the learner as a number, which is rarely intended -- convert it to a factor
+first.
 }
 
 \examples{
@@ -98,7 +100,7 @@ A table with two columns:
 If the task has a column with designated role \code{"key"}, a table with two or more columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
-\item key variable(s) (\code{character()} | \code{factor()} | \code{ordered()}).
+\item key variable(s) (\code{character()} | \code{integer()} | \code{factor()} | \code{ordered()}).
 }
 
 If there is only one key column, it will be named as \code{key}.
@@ -172,7 +174,7 @@ Name of the target column.}
 Name of the order column.}
       \item{\code{key}}{(\code{character()})\cr
 Names of the columns whose combination identifies a series.
-Key columns must be character, factor, or ordered columns.}
+Key columns must be character, integer, factor, or ordered columns.}
       \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Frequency of the time series.
 A \code{seq()}-compatible string gives the calendar step of the time grid, e.g.

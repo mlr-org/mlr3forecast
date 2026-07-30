@@ -7,7 +7,7 @@
 \description{
 Performs (weighted) averaging of forecast \link{PredictionFcst}s, mirroring \link[mlr3pipelines:PipeOpRegrAvg]{mlr3pipelines::PipeOpRegrAvg} but
 preserving the forecast prediction type, which plain \code{regravg} would drop. The output is a \link{PredictionFcst} that
-keeps the time index and key columns (carried in the \code{extra} slot), so \verb{$order}, \verb{$key},
+keeps the time index and key columns (carried in the \code{extra} slot with explicit column roles), so \verb{$order}, \verb{$key},
 \code{\link[=autoplot.PredictionFcst]{autoplot.PredictionFcst()}}, and forecast \code{task_type} inference keep working through the ensemble.
 
 Connect it to several \link[mlr3pipelines:PipeOpLearner]{PipeOpLearner} outputs (classical forecast learners or

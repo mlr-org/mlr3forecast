@@ -351,7 +351,8 @@ DirectForecaster = R6Class(
       new_data = list(
         row_ids = task$row_ids,
         truth = out_data[[target]],
-        extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE])
+        extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE]),
+        col_roles = list(order = order_cols, key = key_cols)
       )
       # returning a Prediction bypasses the weights injection of as_prediction_data.list
       if ("weights_measure" %chin% task$properties) {

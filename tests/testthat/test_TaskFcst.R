@@ -64,15 +64,52 @@ test_that("character keys are structural-only by default", {
   expect_true("region" %in% task$feature_names)
 })
 
-test_that("integer key columns are rejected", {
+test_that("integer keys are structural-only by default", {
   data = data.frame(
     date = rep(as.Date("2025-01-01") + 0:2, 2L),
     store = rep(c(1L, 2L), each = 3L),
     value = rnorm(6L)
   )
+  task = as_task_fcst(data, target = "value", order = "date", key = "store")
+
+  expect_identical(task$col_roles$key, "store")
+  expect_length(intersect(task$col_roles$key, task$feature_names), 0L)
+  expect_integer(task$data(cols = "store")$store)
+  expect_integer(task$key$key)
+})
+
+test_that("a column may not be both order and key", {
+  dt = data.table(idx = rep(1:5, 2L), store = rep(c(1L, 2L), each = 5L), y = rnorm(10L))
+  expect_error(
+    TaskFcst$new("t", as_data_backend(dt), target = "y", order = "idx", key = "idx"),
+    "both the 'order' and the 'key' role"
+  )
+
+  task = as_task_fcst(dt, target = "y", order = "idx", key = "store")
+  expect_error(
+    task$set_col_roles("idx", add_to = "key"),
+    "both the 'order' and the 'key' role"
+  )
+})
+
+test_that("a key column may not be the target", {
+  dt = data.table(idx = rep(1:5, 2L), store = rep(c(1L, 2L), each = 5L), y = rnorm(10L))
+  task = as_task_fcst(dt, target = "y", order = "idx", key = "store")
+  expect_error(
+    task$set_col_roles("y", add_to = "key"),
+    "may not also be the target"
+  )
+})
+
+test_that("numeric key columns are rejected", {
+  data = data.frame(
+    date = rep(as.Date("2025-01-01") + 0:2, 2L),
+    store = rep(c(1.5, 2.5), each = 3L),
+    value = rnorm(6L)
+  )
   expect_error(
     as_task_fcst(data, target = "value", order = "date", key = "store"),
-    "must be character, factor, or ordered"
+    "must be character, integer, factor, or ordered"
   )
 })
 
