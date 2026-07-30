@@ -46,6 +46,23 @@ test_that("key binding returns row_id and key columns", {
   expect_names(names(task$key), identical.to = c("row_id", "key"))
 })
 
+test_that("feature preprocessing ignores structural keys", {
+  data = data.frame(
+    date = as.Date("2025-01-01") + 0:5,
+    region = factor(rep("HCMC", 6L)),
+    value = rnorm(6L),
+    covariate = rnorm(6L),
+    stringsAsFactors = FALSE
+  )
+  task = as_task_fcst(data, target = "value", order = "date", key = "region")
+
+  encoded = po("encode", affect_columns = selector_type("factor"))$train(list(task))[[1L]]
+
+  expect_identical(encoded$col_roles$key, "region")
+  expect_false("region" %in% encoded$feature_names)
+  expect_factor(encoded$data(cols = "region")$region)
+})
+
 test_that("order column may not contain missing values", {
   dt = data.table(date = seq(as.Date("2025-01-01"), length.out = 10L), y = rnorm(10L))
   dt[5L, date := NA]

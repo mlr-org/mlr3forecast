@@ -16,10 +16,10 @@ A task may have one or more \code{key} columns whose combination identifies each
 per-series operations: target lags and rolling windows (\link{PipeOpFcstLags}, \link{PipeOpFcstRolling}) are computed within
 each series, and the future forecast grid is built per series.
 
-Key columns are \strong{also} features by default, which lets a global model specialize per series. Drop a key's feature
-role while keeping the grouping when it carries no signal beyond identifying the series:
+Key columns are \strong{not} features by default.
+To let a global model specialize per series, add the feature role back:
 
-\if{html}{\out{<div class="sourceCode r">}}\preformatted{task$set_col_roles("series_id", remove_from = "feature")
+\if{html}{\out{<div class="sourceCode r">}}\preformatted{task$set_col_roles("series_id", add_to = "feature")
 }\if{html}{\out{</div>}}
 
 For a high-cardinality key, encode it inside the learner graph (e.g. \code{po("encodeimpact")} or \code{po("encodelmer")})

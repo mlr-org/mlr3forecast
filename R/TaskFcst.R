@@ -12,11 +12,11 @@
 #' per-series operations: target lags and rolling windows ([PipeOpFcstLags], [PipeOpFcstRolling]) are computed within
 #' each series, and the future forecast grid is built per series.
 #'
-#' Key columns are **also** features by default, which lets a global model specialize per series. Drop a key's feature
-#' role while keeping the grouping when it carries no signal beyond identifying the series:
+#' Key columns are **not** features by default.
+#' To let a global model specialize per series, add the feature role back:
 #'
 #' ```r
-#' task$set_col_roles("series_id", remove_from = "feature")
+#' task$set_col_roles("series_id", add_to = "feature")
 #' ```
 #'
 #' For a high-cardinality key, encode it inside the learner graph (e.g. `po("encodeimpact")` or `po("encodelmer")`)
@@ -70,7 +70,7 @@ TaskFcst = R6Class(
       col_roles = self$col_roles
       col_roles$order = order
       col_roles$key = key
-      col_roles$feature = setdiff(col_roles$feature, order)
+      col_roles$feature = setdiff(col_roles$feature, c(order, key))
       self$col_roles = col_roles
       self$extra_args = insert_named(self$extra_args, list(order = order, key = key, freq = freq))
     },
