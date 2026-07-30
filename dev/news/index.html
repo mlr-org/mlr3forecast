@@ -50,7 +50,10 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3forecast-development-version">mlr3forecast (development version)<a class="anchor" aria-label="anchor" href="#mlr3forecast-development-version"></a></h2>
-</div>
+<ul><li>BREAKING CHANGE: key columns are no longer features by default. Add the feature role back explicitly with <code>task$set_col_roles(key, add_to = "feature")</code> to let a global model specialize per series.</li>
+<li>feat: key columns may now be character columns in addition to factor and ordered. The tsibble, tsf, and tsbox converters no longer coerce keys to factor.</li>
+<li>fix: <code>rsmp("fcst.holdout", n = 0)</code> now puts no observations into the training set instead of all of them.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="mlr3forecast-010">mlr3forecast 0.1.0<a class="anchor" aria-label="anchor" href="#mlr3forecast-010"></a></h2><p class="text-muted">CRAN release: 2026-07-22</p>
 <ul><li>Initial CRAN submission.</li>

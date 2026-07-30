@@ -59,7 +59,9 @@ generic visualizations.
 
   - `row_id` ([`integer()`](https://rdrr.io/r/base/integer.html)), and
 
-  - key variable(s) ([`factor()`](https://rdrr.io/r/base/factor.html) \|
+  - key variable(s)
+    ([`character()`](https://rdrr.io/r/base/character.html) \|
+    [`factor()`](https://rdrr.io/r/base/factor.html) \|
     [`ordered()`](https://rdrr.io/r/base/factor.html)).
 
   If there is only one key column, it is named `key`. Returns `NULL` if

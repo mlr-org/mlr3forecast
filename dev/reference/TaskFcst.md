@@ -23,11 +23,10 @@ and rolling windows
 are computed within each series, and the future forecast grid is built
 per series.
 
-Key columns are **also** features by default, which lets a global model
-specialize per series. Drop a key's feature role while keeping the
-grouping when it carries no signal beyond identifying the series:
+Key columns are **not** features by default. To let a global model
+specialize per series, add the feature role back:
 
-    task$set_col_roles("series_id", remove_from = "feature")
+    task$set_col_roles("series_id", add_to = "feature")
 
 For a high-cardinality key, encode it inside the learner graph (e.g.
 `po("encodeimpact")` or `po("encodelmer")`) rather than passing the raw
@@ -139,7 +138,9 @@ Other Task:
 
   - `row_id` ([`integer()`](https://rdrr.io/r/base/integer.html)), and
 
-  - key variable(s) ([`factor()`](https://rdrr.io/r/base/factor.html) \|
+  - key variable(s)
+    ([`character()`](https://rdrr.io/r/base/character.html) \|
+    [`factor()`](https://rdrr.io/r/base/factor.html) \|
     [`ordered()`](https://rdrr.io/r/base/factor.html)).
 
   If there is only one key column, it will be named as `key`. Returns
@@ -234,7 +235,8 @@ provides an alternative way to construct forecast tasks.
 - `key`:
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
-  Name of the key column.
+  Names of the columns whose combination identifies a series. Key
+  columns must be character, factor, or ordered columns.
 
 - `freq`:
 

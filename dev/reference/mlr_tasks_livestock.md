@@ -27,7 +27,7 @@ the associated sugar function
 
 - Task type: “fcst”
 
-- Dimensions: 29364x3
+- Dimensions: 29364x1
 
 - Properties: “ordered”, “keys”
 
@@ -35,7 +35,7 @@ the associated sugar function
 
 - Target: “count”
 
-- Features: “animal”, “state”
+- Features: -
 
 ## See also
 

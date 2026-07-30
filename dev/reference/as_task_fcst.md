@@ -135,7 +135,8 @@ as_task_fcst(
 - key:
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
-  Name of the key column.
+  Names of the columns whose combination identifies a series. Key
+  columns must be character, factor, or ordered columns.
 
 - freq:
 
