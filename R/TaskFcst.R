@@ -173,7 +173,7 @@ TaskFcst = R6Class(
     #' If the task has a column with designated role `"key"`, a table with two or more columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * key variable(s) (`factor()` | `ordered()`).
+    #' * key variable(s) (`character()` | `factor()` | `ordered()`).
     #'
     #' If there is only one key column, it will be named as `key`.
     #' Returns `NULL` if there are no key columns.
@@ -238,9 +238,10 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
 
   key_cols = new_roles[["key"]]
   if (
-    length(key_cols) > 0L && any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("factor", "ordered"))
+    length(key_cols) > 0L &&
+      any(fget_keys(task$col_info, key_cols, "type", key = "id") %nin% c("character", "factor", "ordered"))
   ) {
-    error_input("Key column(s) %s must be factor or ordered columns.", str_collapse(key_cols, quote = "'"))
+    error_input("Key column(s) %s must be character, factor, or ordered columns.", str_collapse(key_cols, quote = "'"))
   }
 
   if (length(key_cols) > 0L && any(task$missings(cols = key_cols) > 0L)) {

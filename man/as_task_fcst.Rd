@@ -99,7 +99,8 @@ Name of the target column.}
 Name of the order column.}
 
 \item{key}{(\code{character()})\cr
-Name of the key column.}
+Names of the columns whose combination identifies a series.
+Key columns must be character, factor, or ordered columns.}
 
 \item{freq}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Frequency of the time series.

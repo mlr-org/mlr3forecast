@@ -98,7 +98,7 @@ A table with two columns:
 If the task has a column with designated role \code{"key"}, a table with two or more columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
-\item key variable(s) (\code{factor()} | \code{ordered()}).
+\item key variable(s) (\code{character()} | \code{factor()} | \code{ordered()}).
 }
 
 If there is only one key column, it will be named as \code{key}.
@@ -171,7 +171,8 @@ Name of the target column.}
       \item{\code{order}}{(\code{character(1)})\cr
 Name of the order column.}
       \item{\code{key}}{(\code{character()})\cr
-Name of the key column.}
+Names of the columns whose combination identifies a series.
+Key columns must be character, factor, or ordered columns.}
       \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Frequency of the time series.
 A \code{seq()}-compatible string gives the calendar step of the time grid, e.g.

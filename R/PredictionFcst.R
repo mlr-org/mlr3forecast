@@ -118,7 +118,7 @@ PredictionFcst = R6Class(
     #' or more columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * key variable(s) (`factor()` | `ordered()`).
+    #' * key variable(s) (`character()` | `factor()` | `ordered()`).
     #'
     #' If there is only one key column, it is named `key`. Returns `NULL` if there are no key columns.
     key = function(rhs) {
@@ -151,7 +151,8 @@ as.data.table.PredictionFcst = function(x, ...) {
 
 fcst_extra_roles = function(extra) {
   nms = names(extra)
-  is_key = map_lgl(extra, is.factor)
+  # keys are discrete label columns; the order column is a time index and can never be character
+  is_key = map_lgl(extra, function(x) is.factor(x) || is.character(x))
   order = nms[!is_key]
   if (length(order) > 1L) {
     stopf("Malformed forecast prediction: expected one order column in `$data$extra`, found %i.", length(order))

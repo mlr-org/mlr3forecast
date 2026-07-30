@@ -66,3 +66,20 @@ test_that("PredictionFcst derives response from quantiles", {
   expect_equal(p$response, p$data$quantiles[, "q0.5"])
   expect_equal(as.data.table(p)$response, p$data$quantiles[, "q0.5"])
 })
+
+test_that("PredictionFcst recognizes character keys in extra", {
+  p = PredictionFcst$new(
+    row_ids = 1:4,
+    truth = rep(NA_real_, 4L),
+    response = 1:4,
+    extra = list(
+      date = as.Date("2020-01-01") + 0:3,
+      region = rep(c("north", "south"), each = 2L)
+    )
+  )
+
+  expect_identical(p$order$order, as.Date("2020-01-01") + 0:3)
+  expect_character(p$key$key)
+  expect_identical(p$key$key, rep(c("north", "south"), each = 2L))
+  expect_named(as.data.table(p), c("region", "date", "row_ids", "truth", "response"))
+})

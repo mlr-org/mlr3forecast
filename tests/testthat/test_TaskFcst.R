@@ -46,6 +46,36 @@ test_that("key binding returns row_id and key columns", {
   expect_names(names(task$key), identical.to = c("row_id", "key"))
 })
 
+test_that("character keys are structural-only by default", {
+  data = data.frame(
+    date = rep(as.Date("2025-01-01") + 0:2, 2L),
+    region = rep(c("north", "south"), each = 3L),
+    value = rnorm(6L),
+    stringsAsFactors = FALSE
+  )
+  task = as_task_fcst(data, target = "value", order = "date", key = "region")
+
+  expect_identical(task$col_roles$key, "region")
+  expect_length(intersect(task$col_roles$key, task$feature_names), 0L)
+  expect_character(task$data(cols = "region")$region)
+  expect_character(task$key$key)
+
+  task$set_col_roles("region", add_to = "feature")
+  expect_true("region" %in% task$feature_names)
+})
+
+test_that("integer key columns are rejected", {
+  data = data.frame(
+    date = rep(as.Date("2025-01-01") + 0:2, 2L),
+    store = rep(c(1L, 2L), each = 3L),
+    value = rnorm(6L)
+  )
+  expect_error(
+    as_task_fcst(data, target = "value", order = "date", key = "store"),
+    "must be character, factor, or ordered"
+  )
+})
+
 test_that("feature preprocessing ignores structural keys", {
   data = data.frame(
     date = as.Date("2025-01-01") + 0:5,

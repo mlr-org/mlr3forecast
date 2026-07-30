@@ -1,2 +1,3 @@
 #' @param key (`character()`)\cr
-#'   Name of the key column.
+#'   Names of the columns whose combination identifies a series.
+#'   Key columns must be character, factor, or ordered columns.

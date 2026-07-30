@@ -47,7 +47,7 @@ The series identity columns of the forecast horizon, recovered from \verb{$data$
 or more columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
-\item key variable(s) (\code{factor()} | \code{ordered()}).
+\item key variable(s) (\code{character()} | \code{factor()} | \code{ordered()}).
 }
 
 If there is only one key column, it is named \code{key}. Returns \code{NULL} if there are no key columns.}

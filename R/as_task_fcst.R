@@ -153,9 +153,6 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
     x[, (order) := seq_len(.N), by = cn]
   }
   key = setdiff(cn, order)
-  for (k in key) {
-    set(x, j = k, value = as.factor(x[[k]]))
-  }
 
   freq = attr(x, "frequency")
   freq = if (has_order && !is.null(freq)) tsf_to_seq(freq) else NULL
@@ -204,9 +201,6 @@ as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(
   order = tsibble::index_var(x)
   key = tsibble::key_vars(x)
   x = tsbox::ts_dt(x)
-  for (k in key) {
-    set(x, j = k, value = as.factor(x[[k]]))
-  }
   as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 
@@ -214,9 +208,6 @@ task_fcst_from_tsbox = function(x, freq, id, label, ...) {
   require_namespaces("tsbox")
   x = tsbox::ts_dt(x)
   is_multi = "id" %in% names(x)
-  if (is_multi) {
-    set(x, j = "id", value = as.factor(x$id))
-  }
   as_task_fcst(
     x = x,
     target = "value",

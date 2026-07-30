@@ -77,7 +77,7 @@ PipeOpFcstUniteKey = R6Class(
       pdatas = map(inputs, "data")
       pdata = if (length(pdatas) == 1L) pdatas[[1L]] else invoke(c, .args = unname(pdatas))
       extra = as.list(pdata$extra)
-      if (!any(map_lgl(extra, is.factor))) {
+      if (length(fcst_extra_roles(extra)$key) == 0L) {
         key = self$param_set$get_values(tags = "predict")$key
         if (key %in% names(extra)) {
           error_input(
