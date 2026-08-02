@@ -313,7 +313,7 @@ DirectForecaster = R6Class(
         tail(tail_dt, max_lag)
       }
 
-      structure(
+      set_class(
         list(
           models = models,
           origin = origin,
@@ -323,7 +323,7 @@ DirectForecaster = R6Class(
           target = task$target_names,
           feature_names = task$feature_names
         ),
-        class = c("direct_forecaster_model", "list")
+        c("direct_forecaster_model", "list")
       )
     },
 
@@ -458,9 +458,9 @@ marshal_model.direct_forecaster_model = function(model, inplace = FALSE, ...) {
       m$model = marshal_model(m$model, inplace = TRUE, ...)
       m
     })
-    return(structure(
+    return(set_class(
       list(marshaled = model, packages = c("mlr3pipelines", "mlr3forecast")),
-      class = c(paste0(class(model), "_marshaled"), "marshaled")
+      c(paste0(class(model), "_marshaled"), "marshaled")
     ))
   }
   # we clone the learner without its model
@@ -478,9 +478,9 @@ marshal_model.direct_forecaster_model = function(model, inplace = FALSE, ...) {
     m_clone
   })
   model$models = marshaled_models
-  structure(
+  set_class(
     list(marshaled = model, packages = c("mlr3pipelines", "mlr3forecast")),
-    class = c(paste0(class(model), "_marshaled"), "marshaled")
+    c(paste0(class(model), "_marshaled"), "marshaled")
   )
 }
 
@@ -493,7 +493,7 @@ unmarshal_model.direct_forecaster_model_marshaled = function(model, inplace = FA
       m$model = unmarshal_model(m$model, inplace = TRUE, ...)
       m
     })
-    return(structure(m_inner, class = c("direct_forecaster_model", "list")))
+    return(set_class(m_inner, c("direct_forecaster_model", "list")))
   }
   unmarshaled_models = map(m_inner$models, function(m) {
     prev_model = m$model
@@ -509,5 +509,5 @@ unmarshal_model.direct_forecaster_model_marshaled = function(model, inplace = FA
     m_clone
   })
   m_inner$models = unmarshaled_models
-  structure(m_inner, class = c("direct_forecaster_model", "list"))
+  set_class(m_inner, c("direct_forecaster_model", "list"))
 }

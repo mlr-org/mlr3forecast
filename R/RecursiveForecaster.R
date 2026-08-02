@@ -508,12 +508,12 @@ marshal_model.recursive_forecaster_model = function(model, inplace = FALSE, ...)
   if (!is_marshaled_model(marshaled_gs)) {
     return(model)
   }
-  structure(
+  set_class(
     list(
       marshaled = insert_named(model, list(graph_state = marshaled_gs)),
       packages = c("mlr3pipelines", "mlr3forecast")
     ),
-    class = c(paste0(class(model), "_marshaled"), "marshaled")
+    c(paste0(class(model), "_marshaled"), "marshaled")
   )
 }
 
@@ -523,7 +523,7 @@ unmarshal_model.recursive_forecaster_model_marshaled = function(model, inplace =
   m = model$marshaled
   m$graph_state = unmarshal_model(m$graph_state, inplace = inplace, ...)
   class(m$graph_state) = setdiff(class(m$graph_state), "graph_learner_model")
-  structure(m, class = c("recursive_forecaster_model", "list"))
+  set_class(m, c("recursive_forecaster_model", "list"))
 }
 
 #' @title Configure Validation for a RecursiveForecaster
