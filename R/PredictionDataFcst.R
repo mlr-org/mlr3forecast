@@ -35,6 +35,18 @@ check_fcst_prediction_col_roles = function(col_roles, extra) {
   list(order = col_roles[["order"]], key = col_roles[["key"]])
 }
 
+fcst_common_col_roles = function(pdatas) {
+  col_roles = map(pdatas, function(pdata) pdata$col_roles %??% empty_fcst_prediction_col_roles())
+  ref = col_roles[[1L]]
+  same_roles = every(col_roles[-1L], function(roles) {
+    identical(roles$order, ref$order) && setequal(roles$key, ref$key)
+  })
+  if (!same_roles) {
+    error_input("Cannot combine predictions: different extra column roles.")
+  }
+  ref
+}
+
 #' @export
 as_prediction.PredictionDataFcst = function(x, check = FALSE, ...) {
   invoke(PredictionFcst$new, check = check, .args = x)
@@ -62,14 +74,7 @@ is_missing_prediction_data.PredictionDataFcst = function(pdata, ...) {
 #' @export
 c.PredictionDataFcst = function(..., keep_duplicates = TRUE) {
   dots = list(...)
-  col_roles = map(dots, function(pdata) pdata$col_roles %??% empty_fcst_prediction_col_roles())
-  ref = col_roles[[1L]]
-  same_roles = every(col_roles[-1L], function(roles) {
-    identical(roles$order, ref$order) && setequal(roles$key, ref$key)
-  })
-  if (!same_roles) {
-    error_input("Cannot combine predictions: different extra column roles.")
-  }
+  col_roles = fcst_common_col_roles(dots)
   dots = map(dots, as_pdata_regr)
   quantiles = compact(map(dots, "quantiles"))
   if (length(quantiles) > 1L) {
@@ -79,7 +84,7 @@ c.PredictionDataFcst = function(..., keep_duplicates = TRUE) {
     }
   }
   result = invoke(c, .args = c(dots, list(keep_duplicates = keep_duplicates)))
-  result$col_roles = ref
+  result$col_roles = col_roles
   as_pdata_fcst(result)
 }
 

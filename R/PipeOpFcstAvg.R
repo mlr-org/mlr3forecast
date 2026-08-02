@@ -51,7 +51,7 @@ PipeOpFcstAvg = R6Class(
   private = list(
     weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
       extra = inputs[[1L]]$data$extra
-      col_roles = inputs[[1L]]$data$col_roles
+      col_roles = fcst_common_col_roles(map(inputs, "data"))
       obs_weights = inputs[[1L]]$data$weights
       quantiles = map(inputs, function(x) x$data$quantiles)
       if (every(quantiles, is.null)) {
