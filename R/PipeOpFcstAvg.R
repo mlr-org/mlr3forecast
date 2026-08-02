@@ -40,8 +40,16 @@ PipeOpFcstAvg = R6Class(
     #'   List of hyperparameter settings, overwriting the hyperparameter settings that would otherwise be set during
     #'   construction. Default `list()`.
     initialize = function(innum = 0L, collect_multiplicity = FALSE, id = "fcstavg", param_vals = list()) {
-      super$initialize(innum, collect_multiplicity, id = id, param_vals = param_vals)
-      # retype channels to PredictionFcst so the output stays a forecast and task_type infers as "fcst"
+      super$initialize(
+        innum,
+        collect_multiplicity,
+        id = id,
+        param_vals = param_vals,
+        packages = c("mlr3forecast", "mlr3pipelines"),
+        tags = "fcst"
+      )
+      # retype channels to PredictionFcst so the output stays a forecast and task_type infers as "fcst";
+      # PipeOpRegrAvg hardcodes prediction_type = "PredictionRegr", so it cannot be passed through
       ptype = if (collect_multiplicity) "[PredictionFcst]" else "PredictionFcst"
       set(self$input, j = "predict", value = ptype)
       set(self$output, j = "predict", value = "PredictionFcst")
