@@ -111,7 +111,23 @@ DirectForecaster = R6Class(
         task_type = "fcst",
         predict_types = private$.learner$predict_types,
         feature_types = private$.learner$feature_types,
-        properties = private$.learner$properties,
+        # one model per horizon means no single delegate for validation, internal tuning, importance,
+        # etc., and each would need an active binding or method ($validate, $importance(), ...) that
+        # this class does not implement -- most visibly AutoTuner, which calls set_validate() on any
+        # learner with the "validation" property and dies with "cannot add bindings to a locked
+        # environment"; hotstart is advertised by GraphLearner without being implemented
+        properties = setdiff(
+          private$.learner$properties,
+          c(
+            "hotstart_backward",
+            "hotstart_forward",
+            "importance",
+            "internal_tuning",
+            "oob_error",
+            "selected_features",
+            "validation"
+          )
+        ),
         packages = c("mlr3forecast", private$.learner$packages),
         man = private$.learner$man
       )
@@ -397,7 +413,9 @@ print.direct_forecaster_model = function(x, ...) {
   cat_cli({
     cli::cli_text("<direct_forecaster_model>")
     cli::cli_li("Target: {x$target}")
-    if (!is.null(x$freq)) cli::cli_li("Frequency: {x$freq}")
+    if (!is.null(x$freq)) {
+      cli::cli_li("Frequency: {x$freq}")
+    }
     cli::cli_li("Horizon models: {length(x$models)}")
   })
   invisible(x)

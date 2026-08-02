@@ -40,6 +40,16 @@ Only the point forecast is fed back between steps, so \code{se}/\code{distr} unc
 and intervals are too narrow for \code{h > 1}. For calibrated multi-step intervals, prefer \link{DirectForecaster}.
 }
 
+\section{Validation and internal tuning}{
+
+If the wrapped graph contains a learner with the \code{"validation"} property, the forecaster supports
+validation and internal tuning as well. Configure it with \code{\link[mlr3:set_validate]{mlr3::set_validate()}}, which sets the
+forecaster's \verb{$validate} field and routes the validation data to the graph's base learner.
+A numeric ratio is split chronologically per key (via \code{\link[mlr3:partition]{partition()}}), so the
+validation set is always the most recent fraction of each series. Note that the validation scores
+measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.
+}
+
 \examples{
 library(mlr3pipelines)
 
@@ -76,6 +86,18 @@ Set of hyperparameters.}
     \item{\code{marshaled}}{(\code{logical(1)})\cr
 Whether the learner's model is currently in marshaled form.}
 
+    \item{\code{validate}}{(\code{numeric(1)} | \code{"predefined"} | \code{"test"} | \code{NULL})\cr
+How to construct the internal validation data. Use \code{\link[mlr3:set_validate]{mlr3::set_validate()}} to also configure
+the wrapped graph.}
+
+    \item{\code{internal_valid_scores}}{(named \code{list()} | \code{NULL})\cr
+The internal validation scores extracted from the wrapped graph, or \code{NULL} if no validation
+was done.}
+
+    \item{\code{internal_tuned_values}}{(named \code{list()} | \code{NULL})\cr
+The internally tuned values extracted from the wrapped graph, or \code{NULL} if no internal
+tuning was done.}
+
     \item{\code{predict_type}}{(\code{character(1)})\cr
 Stores the currently active predict type.}
   }
@@ -88,6 +110,9 @@ Stores the currently active predict type.}
     \item \href{#method-RecursiveForecaster-print}{\code{RecursiveForecaster$print()}}
     \item \href{#method-RecursiveForecaster-marshal}{\code{RecursiveForecaster$marshal()}}
     \item \href{#method-RecursiveForecaster-unmarshal}{\code{RecursiveForecaster$unmarshal()}}
+    \item \href{#method-RecursiveForecaster-importance}{\code{RecursiveForecaster$importance()}}
+    \item \href{#method-RecursiveForecaster-selected_features}{\code{RecursiveForecaster$selected_features()}}
+    \item \href{#method-RecursiveForecaster-oob_error}{\code{RecursiveForecaster$oob_error()}}
     \item \href{#method-RecursiveForecaster-clone}{\code{RecursiveForecaster$clone()}}
   }
 }
@@ -101,7 +126,6 @@ Stores the currently active predict type.}
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href='../../mlr3/html/Learner.html#method-Learner-selected_features'><code>mlr3::Learner$selected_features()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
 </ul>
 </details>}}
@@ -200,6 +224,51 @@ Additional arguments passed to \code{\link[mlr3:marshal_model]{mlr3::marshal_mod
 Additional arguments passed to \code{\link[mlr3:unmarshal_model]{mlr3::unmarshal_model()}}.}
     }
     \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RecursiveForecaster-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-RecursiveForecaster-importance}{}}}
+\subsection{\code{RecursiveForecaster$importance()}}{
+  The importance scores of the base learner, if it supports them.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RecursiveForecaster$importance()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Named \code{numeric()}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RecursiveForecaster-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-RecursiveForecaster-selected_features}{}}}
+\subsection{\code{RecursiveForecaster$selected_features()}}{
+  The selected features of the base learner, if it supports them.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RecursiveForecaster$selected_features()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{character()}.
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RecursiveForecaster-oob_error"></a>}}
+\if{latex}{\out{\hypertarget{method-RecursiveForecaster-oob_error}{}}}
+\subsection{\code{RecursiveForecaster$oob_error()}}{
+  The out-of-bag error of the base learner, if it supports it.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RecursiveForecaster$oob_error()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{numeric(1)}.
   }
 }
 

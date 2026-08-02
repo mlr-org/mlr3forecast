@@ -32,6 +32,14 @@
 #' Only the point forecast is fed back between steps, so `se`/`distr` uncertainty does not accumulate across horizons
 #' and intervals are too narrow for `h > 1`. For calibrated multi-step intervals, prefer [DirectForecaster].
 #'
+#' @section Validation and internal tuning:
+#' If the wrapped graph contains a learner with the `"validation"` property, the forecaster supports
+#' validation and internal tuning as well. Configure it with [mlr3::set_validate()], which sets the
+#' forecaster's `$validate` field and routes the validation data to the graph's base learner.
+#' A numeric ratio is split chronologically per key (via [`partition()`][mlr3::partition]), so the
+#' validation set is always the most recent fraction of each series. Note that the validation scores
+#' measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.
+#'
 #' @export
 #' @examples
 #' library(mlr3pipelines)
@@ -111,7 +119,8 @@ RecursiveForecaster = R6Class(
         task_type = "fcst",
         predict_types = private$.learner$predict_types,
         feature_types = private$.learner$feature_types,
-        properties = private$.learner$properties,
+        # GraphLearner advertises hotstart support it does not implement, so it must not be re-advertised
+        properties = setdiff(private$.learner$properties, c("hotstart_backward", "hotstart_forward")),
         packages = c("mlr3forecast", private$.learner$packages),
         man = private$.learner$man
       )
@@ -144,6 +153,27 @@ RecursiveForecaster = R6Class(
     #'   Additional arguments passed to [`mlr3::unmarshal_model()`].
     unmarshal = function(...) {
       learner_unmarshal(.learner = self, ...)
+    },
+
+    #' @description
+    #' The importance scores of the base learner, if it supports them.
+    #' @return Named `numeric()`.
+    importance = function() {
+      private$.with_graph_state(function() private$.learner$importance())
+    },
+
+    #' @description
+    #' The selected features of the base learner, if it supports them.
+    #' @return `character()`.
+    selected_features = function() {
+      private$.with_graph_state(function() private$.learner$selected_features())
+    },
+
+    #' @description
+    #' The out-of-bag error of the base learner, if it supports it.
+    #' @return `numeric(1)`.
+    oob_error = function() {
+      private$.with_graph_state(function() private$.learner$oob_error())
     }
   ),
 
@@ -191,6 +221,35 @@ RecursiveForecaster = R6Class(
       learner_marshaled(self)
     },
 
+    #' @field validate (`numeric(1)` | `"predefined"` | `"test"` | `NULL`)\cr
+    #' How to construct the internal validation data. Use [mlr3::set_validate()] to also configure
+    #' the wrapped graph.
+    validate = function(rhs) {
+      if (!missing(rhs)) {
+        if ("validation" %nin% private$.learner$properties) {
+          error_input("None of the PipeOps in the graph of Learner '%s' supports validation.", self$id)
+        }
+        private$.validate = assert_validate(rhs)
+      }
+      private$.validate
+    },
+
+    #' @field internal_valid_scores (named `list()` | `NULL`)\cr
+    #' The internal validation scores extracted from the wrapped graph, or `NULL` if no validation
+    #' was done.
+    internal_valid_scores = function(rhs) {
+      assert_ro_binding(rhs)
+      self$state$internal_valid_scores
+    },
+
+    #' @field internal_tuned_values (named `list()` | `NULL`)\cr
+    #' The internally tuned values extracted from the wrapped graph, or `NULL` if no internal
+    #' tuning was done.
+    internal_tuned_values = function(rhs) {
+      assert_ro_binding(rhs)
+      self$state$internal_tuned_values
+    },
+
     #' @field predict_type (`character(1)`)\cr
     #' Stores the currently active predict type.
     predict_type = function(rhs) {
@@ -208,12 +267,75 @@ RecursiveForecaster = R6Class(
   private = list(
     .learner = NULL,
     .predict_type = NULL,
+    .validate = NULL,
 
     deep_clone = function(name, value) {
       switch(name, .learner = value$clone(deep = TRUE), super$deep_clone(name, value))
     },
 
+    .pos_with_property = function(property) {
+      keep(private$.learner$graph$pipeops, function(po) property %chin% po$properties)
+    },
+
+    .with_graph_state = function(fn) {
+      if (is.null(self$model)) {
+        error_input("No model stored.")
+      }
+      if (isTRUE(self$marshaled)) {
+        error_input("Model is marshaled, call $unmarshal() first.")
+      }
+      graph = private$.learner$graph
+      on.exit({
+        graph$state = NULL
+      })
+      graph$state = self$model$graph_state
+      fn()
+    },
+
+    .extract_internal_valid_scores = function() {
+      if ("validation" %nin% self$properties) {
+        return(NULL)
+      }
+      scores = unlist(
+        imap(private$.pos_with_property("validation"), function(po, id) {
+          self$model$graph_state[[id]]$internal_valid_scores
+        }),
+        recursive = FALSE
+      )
+      if (length(scores)) scores else named_list()
+    },
+
+    .extract_internal_tuned_values = function() {
+      if ("internal_tuning" %nin% self$properties) {
+        return(NULL)
+      }
+      values = unlist(
+        imap(private$.pos_with_property("internal_tuning"), function(po, id) {
+          self$model$graph_state[[id]]$internal_tuned_values
+        }),
+        recursive = FALSE
+      )
+      if (length(values)) values else named_list()
+    },
+
+    .base_learner = function(recursive = Inf) {
+      if (recursive <= 0L) {
+        return(self)
+      }
+      if (is.null(self$model)) {
+        return(private$.learner$base_learner(recursive - 1L))
+      }
+      private$.with_graph_state(function() private$.learner$base_learner(recursive - 1L))
+    },
+
     .train = function(task) {
+      if (!is.null(get0("validate", self))) {
+        uses_valid = some(private$.pos_with_property("validation"), function(po) !is.null(po$validate))
+        if (!uses_valid) {
+          lg$warn("Learner '%s' specifies a validation set, but none of its PipeOps use it.", self$id)
+        }
+      }
+
       graph = private$.learner$graph
       on.exit({
         graph$state = NULL
@@ -222,9 +344,18 @@ RecursiveForecaster = R6Class(
       graph_state = graph$state
 
       cols = unique(c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order))
+      train_data = task$data(cols = cols)
+      valid_task = task$internal_valid_task
+      if (!is.null(valid_task)) {
+        # validation rows are observed history: keep them in the recursion tail so test rows still
+        # form the gap-free future grid after the training window
+        valid_data = valid_task$data(cols = cols)
+        valid_data = valid_data[!train_data, on = c(task$col_roles$key, task$col_roles$order)]
+        train_data = rbindlist(list(train_data, valid_data), use.names = TRUE)
+      }
       state = list(
         graph_state = graph_state,
-        train_data = task$data(cols = cols),
+        train_data = train_data,
         target = task$target_names,
         key_cols = task$col_roles$key,
         order_cols = task$col_roles$order,
@@ -365,7 +496,9 @@ print.recursive_forecaster_model = function(x, ...) {
   cat_cli({
     cli::cli_text("<recursive_forecaster_model>")
     cli::cli_li("Target: {x$target}")
-    if (!is.null(x$freq)) cli::cli_li("Frequency: {x$freq}")
+    if (!is.null(x$freq)) {
+      cli::cli_li("Frequency: {x$freq}")
+    }
     cli::cli_li("Training rows: {nrow(x$train_data)}")
   })
   invisible(x)
@@ -396,4 +529,49 @@ unmarshal_model.recursive_forecaster_model_marshaled = function(model, inplace =
   m$graph_state = unmarshal_model(m$graph_state, inplace = inplace, ...)
   class(m$graph_state) = setdiff(class(m$graph_state), "graph_learner_model")
   structure(m, class = c("recursive_forecaster_model", "list"))
+}
+
+#' @title Configure Validation for a RecursiveForecaster
+#'
+#' @description
+#' Sets the `$validate` field of the forecaster, which controls *how* the validation data is
+#' constructed (see [mlr3::Learner]), and configures the wrapped graph so its base learner uses it
+#' (via [mlr3pipelines::set_validate.GraphLearner()], the inner PipeOps receive `"predefined"`).
+#'
+#' @param learner ([RecursiveForecaster])\cr
+#'   The forecaster to configure.
+#' @param validate (`numeric(1)` | `"predefined"` | `"test"` | `NULL`)\cr
+#'   How to construct the internal validation data.
+#' @param ids (`character()` | `NULL`)\cr
+#'   The ids of the PipeOps for which to enable validation, forwarded to
+#'   [mlr3pipelines::set_validate.GraphLearner()]. Defaults to the base learner.
+#' @param args_all (named `list()`)\cr
+#'   Arguments passed to all `set_validate()` calls of the affected PipeOps.
+#' @param args (named `list()` of named `list()`s)\cr
+#'   Arguments passed to the `set_validate()` calls of specific PipeOps, named by their ids.
+#' @param ... (any)\cr
+#'   Further arguments passed to [mlr3pipelines::set_validate.GraphLearner()].
+#'
+#' @return [RecursiveForecaster], invisibly.
+#'
+#' @export
+set_validate.RecursiveForecaster = function(learner, validate, ids = NULL, args_all = list(), args = list(), ...) {
+  if ("validation" %nin% learner$properties) {
+    error_input("Learner '%s' does not support validation.", learner$id)
+  }
+  prev_validate = learner$validate
+  on.exit({
+    learner$validate = prev_validate
+  })
+  learner$validate = validate
+  set_validate(
+    get_private(learner)$.learner,
+    validate = if (is.null(validate)) NULL else "predefined",
+    ids = ids,
+    args_all = args_all,
+    args = args,
+    ...
+  )
+  on.exit()
+  invisible(learner)
 }

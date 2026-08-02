@@ -303,3 +303,37 @@ test_that("DirectForecaster attaches measure weights to the prediction", {
   expected = task$weights_measure[list(row_id = prediction$row_ids), on = "row_id", "weight"][[1L]]
   expect_equal(prediction$weights, expected)
 })
+
+test_that("DirectForecaster drops wrapped-learner properties it cannot honour", {
+  learner = direct_forecaster(make_property_stub_learner(), lags = 1:3, horizons = 3L)
+  expect_disjunct(
+    learner$properties,
+    c(
+      "hotstart_backward",
+      "hotstart_forward",
+      "importance",
+      "internal_tuning",
+      "oob_error",
+      "selected_features",
+      "validation"
+    )
+  )
+  expect_subset("missings", learner$properties)
+})
+
+test_that("DirectForecaster can be tuned with a validating learner", {
+  skip_if_not_installed("mlr3tuning")
+  task = tsk("airpassengers")
+  learner = direct_forecaster(make_property_stub_learner(), lags = 1:3, horizons = 3L)
+  learner$param_set$set_values(regr.stub.shift = to_tune(0, 1))
+
+  at = mlr3tuning::auto_tuner(
+    tuner = mlr3tuning::tnr("random_search"),
+    learner = learner,
+    resampling = rsmp("fcst.cv", folds = 2L, horizon = 3L),
+    measure = msr("regr.rmse"),
+    term_evals = 2L
+  )
+  expect_error(at$train(task), NA)
+  expect_number(at$tuning_result$regr.stub.shift)
+})

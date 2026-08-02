@@ -231,3 +231,118 @@ test_that("non-iterative graphs still attach the time index to the prediction", 
   expect_r6_class(prediction, "PredictionFcst")
   expect_equal(prediction$order$order, task$data(rows = split$test, cols = "month")[[1L]])
 })
+
+test_that("RecursiveForecaster keeps supported wrapped-learner properties", {
+  learner = recursive_forecaster(make_property_stub_learner(), lags = 1:3)
+  expect_disjunct(learner$properties, c("hotstart_backward", "hotstart_forward"))
+  expect_subset(
+    c("importance", "internal_tuning", "missings", "oob_error", "selected_features", "validation"),
+    learner$properties
+  )
+
+  learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
+  expect_disjunct(
+    learner$properties,
+    c("hotstart_backward", "hotstart_forward", "internal_tuning", "validation")
+  )
+  expect_error(set_validate(learner, validate = 0.2), "validation")
+  expect_error(
+    {
+      learner$validate = 0.2
+    },
+    "validation"
+  )
+})
+
+test_that("RecursiveForecaster supports validation", {
+  task = tsk("airpassengers")
+  learner = recursive_forecaster(make_property_stub_learner(), lags = 1:3)
+  set_validate(learner, validate = 0.2)
+  expect_identical(learner$validate, 0.2)
+  expect_identical(get_private(learner)$.learner$validate, "predefined")
+
+  learner$train(task)
+  expect_named(learner$internal_valid_scores, "regr.stub.mse")
+  expect_number(learner$internal_valid_scores$regr.stub.mse)
+
+  # validation rows stay in the recursion tail, so predicting the future grid still works
+  split = partition(task, ratio = 0.9)
+  learner$train(task, split$train)
+  expect_r6_class(learner$predict(task, split$test), "PredictionFcst")
+
+  set_validate(learner, validate = NULL)
+  expect_null(learner$validate)
+  expect_null(get_private(learner)$.learner$validate)
+  learner$train(task)
+  expect_null(learner$internal_valid_scores)
+})
+
+test_that("RecursiveForecaster supports predefined validation tasks", {
+  task = tsk("airpassengers")
+  task$internal_valid_task = tail(task$row_ids, 12L)
+  learner = recursive_forecaster(make_property_stub_learner(), lags = 1:3)
+  set_validate(learner, validate = "predefined")
+  learner$train(task)
+  expect_named(learner$internal_valid_scores, "regr.stub.mse")
+})
+
+test_that("RecursiveForecaster delegates importance, selected_features, and oob_error", {
+  task = tsk("airpassengers")
+  learner = recursive_forecaster(make_property_stub_learner(), lags = 1:3)
+  expect_error(learner$importance(), "No model stored")
+  expect_error(learner$selected_features(), "No model stored")
+  expect_error(learner$oob_error(), "No model stored")
+
+  learner$train(task)
+  expect_numeric(learner$importance(), names = "unique")
+  expect_character(learner$selected_features(), any.missing = FALSE)
+  expect_identical(learner$oob_error(), 42)
+
+  base = learner$base_learner()
+  expect_r6_class(base, "LearnerRegrPropertyStub")
+  expect_false(is.null(base$model))
+})
+
+test_that("RecursiveForecaster can be tuned with a validating learner", {
+  skip_if_not_installed("mlr3tuning")
+  task = tsk("airpassengers")
+  learner = recursive_forecaster(make_property_stub_learner(), lags = 1:3)
+  learner$param_set$set_values(regr.stub.shift = to_tune(0, 1))
+
+  at = mlr3tuning::auto_tuner(
+    tuner = mlr3tuning::tnr("random_search"),
+    learner = learner,
+    resampling = rsmp("fcst.cv", folds = 2L, horizon = 3L),
+    measure = msr("regr.rmse"),
+    term_evals = 2L
+  )
+  expect_error(at$train(task), NA)
+  expect_number(at$tuning_result$regr.stub.shift)
+})
+
+test_that("RecursiveForecaster supports internal tuning", {
+  skip_if_not_installed("mlr3tuning")
+  task = tsk("airpassengers")
+  learner = recursive_forecaster(make_property_stub_learner(), lags = 1:3)
+  set_validate(learner, validate = "test")
+  learner$param_set$set_values(
+    regr.stub.early_stopping = TRUE,
+    regr.stub.iter = to_tune(upper = 16L, internal = TRUE)
+  )
+
+  at = mlr3tuning::auto_tuner(
+    tuner = mlr3tuning::tnr("internal"),
+    learner = learner,
+    resampling = rsmp("fcst.holdout", ratio = 0.8),
+    measure = msr("internal_valid_score", select = "regr.stub.mse", minimize = TRUE),
+    term_evals = 1L
+  )
+  at$train(task)
+
+  internal_tuned = at$tuning_result$internal_tuned_values[[1L]]
+  expect_named(internal_tuned, "regr.stub.iter")
+  expect_identical(internal_tuned$regr.stub.iter, 8L)
+  # disable_in_tune switches early stopping off for the final refit
+  expect_false(at$learner$param_set$values$regr.stub.early_stopping)
+  expect_identical(at$learner$param_set$values$regr.stub.iter, 8L)
+})
