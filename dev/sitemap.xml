@@ -67,6 +67,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_measures_fcst.rmsse.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_measures_fcst.wape.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_measures_fcst.winkler.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.avg.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.catch22.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.feasts.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.fourier.html</loc></url>
@@ -77,7 +78,6 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.targetdiff.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.tsfeats.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.unitekey.html</loc></url>
-<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcstavg.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_resamplings_fcst.cv.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_resamplings_fcst.holdout.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_airpassengers.html</loc></url>

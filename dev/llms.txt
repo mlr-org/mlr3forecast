@@ -489,7 +489,7 @@ bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 
 Several forecasters can be ensembled by branching with
 [`gunion()`](https://mlr3pipelines.mlr-org.com/reference/gunion.html)
-and averaging their forecasts with `po("fcstavg")`, which keeps the
+and averaging their forecasts with `po("fcst.avg")`, which keeps the
 forecast prediction type (so the time index, keys, and
 [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
 survive the averaging). This mirrors the idea behind the forecastHybrid
@@ -504,7 +504,7 @@ graph = gunion(list(
   po("learner", lrn("fcst.ets"), id = "ets"),
   po("learner", lrn("fcst.theta"), id = "theta")
 )) %>>%
-  po("fcstavg")
+  po("fcst.avg")
 flrn = as_learner(graph)$train(task)
 forecast(flrn, task, 12L)
 #> 
@@ -522,7 +522,7 @@ flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 #>  12.23143
 
 # weight the members instead of averaging equally
-graph$param_set$set_values(fcstavg.weights = c(0.5, 0.3, 0.2))
+graph$param_set$set_values(fcst.avg.weights = c(0.5, 0.3, 0.2))
 flrn = as_learner(graph)$train(task)
 flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 #> regr.rmse 
@@ -906,6 +906,9 @@ do.call(c, prediction_local)$score(msr("regr.rmse"))
 
 ## Pipeline Operators
 
+- [`mlr_pipeops_fcst.avg`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.avg.md)
+  [`PipeOpFcstAvg`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.avg.md)
+  : Weighted Prediction Averaging for Forecasts
 - [`mlr_pipeops_fcst.catch22`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.catch22.md)
   [`PipeOpFcstCatch22`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.catch22.md)
   : Time Series Feature Extraction (catch22)
@@ -936,9 +939,6 @@ do.call(c, prediction_local)$score(msr("regr.rmse"))
 - [`mlr_pipeops_fcst.unitekey`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.unitekey.md)
   [`PipeOpFcstUniteKey`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.unitekey.md)
   : Unite Per-Series Forecasts into One Prediction
-- [`mlr_pipeops_fcstavg`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcstavg.md)
-  [`PipeOpFcstAvg`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcstavg.md)
-  : Weighted Prediction Averaging for Forecasts
 - [`pipeline_fcst_local()`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_graphs_fcst.local.md)
   : Create a Graph to Fit Local Per-Series Forecast Models
 

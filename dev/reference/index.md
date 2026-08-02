@@ -193,6 +193,9 @@
 
 ## Pipeline Operators
 
+- [`mlr_pipeops_fcst.avg`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.avg.md)
+  [`PipeOpFcstAvg`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.avg.md)
+  : Weighted Prediction Averaging for Forecasts
 - [`mlr_pipeops_fcst.catch22`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.catch22.md)
   [`PipeOpFcstCatch22`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.catch22.md)
   : Time Series Feature Extraction (catch22)
@@ -223,9 +226,6 @@
 - [`mlr_pipeops_fcst.unitekey`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.unitekey.md)
   [`PipeOpFcstUniteKey`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.unitekey.md)
   : Unite Per-Series Forecasts into One Prediction
-- [`mlr_pipeops_fcstavg`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcstavg.md)
-  [`PipeOpFcstAvg`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcstavg.md)
-  : Weighted Prediction Averaging for Forecasts
 - [`pipeline_fcst_local()`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_graphs_fcst.local.md)
   : Create a Graph to Fit Local Per-Series Forecast Models
 

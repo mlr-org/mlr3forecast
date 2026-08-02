@@ -51,6 +51,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3forecast-development-version">mlr3forecast (development version)<a class="anchor" aria-label="anchor" href="#mlr3forecast-development-version"></a></h2>
 <ul><li>BREAKING CHANGE: Key columns are no longer features by default. Restore the feature role explicitly when needed.</li>
+<li>BREAKING CHANGE: <code>po("fcstavg")</code> was renamed to <code>po("fcst.avg")</code> to match the id prefix of the other PipeOps.</li>
 <li>Numeric <code>freq</code> values now represent the seasonal period, while the grid step is inferred from the order column.</li>
 <li>
 <code>DirectForecaster</code> now rejects empty or duplicate <code>horizons</code> values.</li>
