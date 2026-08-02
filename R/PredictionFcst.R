@@ -148,13 +148,8 @@ PredictionFcst = R6Class(
         return()
       }
       data = data.table(row_id = self$data$row_ids)
-      if (length(roles$key) == 1L) {
-        set(data, j = "key", value = self$data$extra[[roles$key]])
-      } else {
-        for (k in roles$key) {
-          set(data, j = k, value = self$data$extra[[k]])
-        }
-      }
+      cols = if (length(roles$key) == 1L) "key" else roles$key
+      set(data, j = cols, value = self$data$extra[roles$key])
       data[]
     }
   )
