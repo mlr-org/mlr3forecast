@@ -91,5 +91,6 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/reexports.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/selector_fcst_lags.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/selector_fcst_rolling.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/set_validate.RecursiveForecaster.html</loc></url>
 </urlset>
 

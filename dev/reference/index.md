@@ -14,6 +14,8 @@
   : Recursive Forecast Learner
 - [`recursive_forecaster()`](https://mlr3forecast.mlr-org.com/dev/reference/recursive_forecaster.md)
   : Create a Recursive Forecast Learner
+- [`set_validate(`*`<RecursiveForecaster>`*`)`](https://mlr3forecast.mlr-org.com/dev/reference/set_validate.RecursiveForecaster.md)
+  : Configure Validation for a RecursiveForecaster
 - [`DirectForecaster`](https://mlr3forecast.mlr-org.com/dev/reference/DirectForecaster.md)
   : Direct Multi-Step Forecast Learner
 - [`direct_forecaster()`](https://mlr3forecast.mlr-org.com/dev/reference/direct_forecaster.md)

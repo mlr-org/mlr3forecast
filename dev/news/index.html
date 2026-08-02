@@ -59,6 +59,9 @@
 <li>
 <code>PredictionFcst</code> now stores explicit roles for extra columns in <code>$col_roles</code>, replacing type-based detection.</li>
 <li>
+<code>RecursiveForecaster</code> now supports validation and internal tuning (configure with <code><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">set_validate()</a></code>) and delegates <code>$importance()</code>, <code>$selected_features()</code>, and <code>$oob_error()</code> to the wrapped graph.</li>
+<li>Both forecasters no longer advertise learner properties they cannot honour, fixing failures when tuning with <code>AutoTuner</code>. This drops the hotstart properties for both and additionally validation, internal tuning, importance, selected features, and OOB error for <code>DirectForecaster</code>.</li>
+<li>
 <code>rsmp("fcst.holdout", n = 0)</code> now puts no observations into the training set instead of all of them.</li>
 <li>
 <code>TaskFcst</code> now accepts character or integer keys, while tsibble, tsf, and tsbox converters preserve their types.</li>

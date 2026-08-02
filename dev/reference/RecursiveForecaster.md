@@ -45,6 +45,20 @@ uncertainty does not accumulate across horizons and intervals are too
 narrow for `h > 1`. For calibrated multi-step intervals, prefer
 [DirectForecaster](https://mlr3forecast.mlr-org.com/dev/reference/DirectForecaster.md).
 
+## Validation and internal tuning
+
+If the wrapped graph contains a learner with the `"validation"`
+property, the forecaster supports validation and internal tuning as
+well. Configure it with
+[`mlr3::set_validate()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html),
+which sets the forecaster's `$validate` field and routes the validation
+data to the graph's base learner. A numeric ratio is split
+chronologically per key (via
+[`partition()`](https://mlr3.mlr-org.com/reference/partition.html)), so
+the validation set is always the most recent fraction of each series.
+Note that the validation scores measure one-step-ahead (teacher-forced)
+accuracy, not recursive multi-step accuracy.
+
 ## Super class
 
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
@@ -79,6 +93,25 @@ narrow for `h > 1`. For calibrated multi-step intervals, prefer
   (`logical(1)`)  
   Whether the learner's model is currently in marshaled form.
 
+- `validate`:
+
+  (`numeric(1)` \| `"predefined"` \| `"test"` \| `NULL`)  
+  How to construct the internal validation data. Use
+  [`mlr3::set_validate()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html)
+  to also configure the wrapped graph.
+
+- `internal_valid_scores`:
+
+  (named [`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
+  The internal validation scores extracted from the wrapped graph, or
+  `NULL` if no validation was done.
+
+- `internal_tuned_values`:
+
+  (named [`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
+  The internally tuned values extracted from the wrapped graph, or
+  `NULL` if no internal tuning was done.
+
 - `predict_type`:
 
   (`character(1)`)  
@@ -96,6 +129,12 @@ narrow for `h > 1`. For calibrated multi-step intervals, prefer
 
 - [`RecursiveForecaster$unmarshal()`](#method-RecursiveForecaster-unmarshal)
 
+- [`RecursiveForecaster$importance()`](#method-RecursiveForecaster-importance)
+
+- [`RecursiveForecaster$selected_features()`](#method-RecursiveForecaster-selected_features)
+
+- [`RecursiveForecaster$oob_error()`](#method-RecursiveForecaster-oob_error)
+
 - [`RecursiveForecaster$clone()`](#method-RecursiveForecaster-clone)
 
 Inherited methods
@@ -108,7 +147,6 @@ Inherited methods
 - [`mlr3::Learner$predict()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict)
 - [`mlr3::Learner$predict_newdata()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict_newdata)
 - [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
-- [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
 
 ------------------------------------------------------------------------
@@ -220,6 +258,48 @@ Unmarshal the learner's model.
   (any)  
   Additional arguments passed to
   [`mlr3::unmarshal_model()`](https://mlr3.mlr-org.com/reference/marshaling.html).
+
+------------------------------------------------------------------------
+
+### `RecursiveForecaster$importance()`
+
+The importance scores of the base learner, if it supports them.
+
+#### Usage
+
+    RecursiveForecaster$importance()
+
+#### Returns
+
+Named [`numeric()`](https://rdrr.io/r/base/numeric.html).
+
+------------------------------------------------------------------------
+
+### `RecursiveForecaster$selected_features()`
+
+The selected features of the base learner, if it supports them.
+
+#### Usage
+
+    RecursiveForecaster$selected_features()
+
+#### Returns
+
+[`character()`](https://rdrr.io/r/base/character.html).
+
+------------------------------------------------------------------------
+
+### `RecursiveForecaster$oob_error()`
+
+The out-of-bag error of the base learner, if it supports it.
+
+#### Usage
+
+    RecursiveForecaster$oob_error()
+
+#### Returns
+
+`numeric(1)`.
 
 ------------------------------------------------------------------------
 
