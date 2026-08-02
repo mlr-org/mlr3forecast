@@ -62,6 +62,17 @@ test_that("PipeOpFcstUniteKey attaches the key for a single series", {
   expect_equal(out$key$key, factor(c("a", "a", "a")))
 })
 
+test_that("PipeOpFcstUniteKey canonicalizes the roles of a prediction without col_roles", {
+  p1 = make_series_prediction(1:3, c(1, 2, 3))
+  # simulate a prediction serialized before predictions carried col_roles
+  p1$data$col_roles = NULL
+  po_unite = trained_unitekey("a")
+
+  out = po_unite$predict(list(Multiplicity(a = p1)))[[1L]]
+  expect_identical(out$data$col_roles, list(order = character(), key = "key"))
+  expect_equal(out$key$key, factor(c("a", "a", "a")))
+})
+
 test_that("PipeOpFcstUniteKey errors on unnamed multiplicities", {
   p1 = make_series_prediction(1:3, c(1, 2, 3))
   p2 = make_series_prediction(4:6, c(10, 20, 30))

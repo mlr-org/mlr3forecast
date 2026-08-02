@@ -94,6 +94,8 @@ PipeOpFcstUniteKey = R6Class(
         counts = map_int(pdatas, function(x) length(x$row_ids))
         extra[[key]] = factor(rep(labels, counts), levels = labels)
         pdata$extra = extra
+        # predictions serialized before col_roles existed carry none
+        pdata$col_roles = pdata$col_roles %??% empty_fcst_prediction_col_roles()
         pdata$col_roles$key = key
       }
       list(as_prediction(pdata, check = FALSE))
