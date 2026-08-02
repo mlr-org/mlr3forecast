@@ -50,6 +50,7 @@ reference:
       - LearnerFcst
       - RecursiveForecaster
       - recursive_forecaster
+      - set_validate.RecursiveForecaster
       - DirectForecaster
       - direct_forecaster
       - starts_with("mlr_learners")
