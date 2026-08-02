@@ -17,6 +17,21 @@ assert_has_model = function(learner) {
   }
 }
 
+assert_fcst_prediction_col_roles = function(col_roles, extra) {
+  assert_list(col_roles, names = "unique", .var.name = "col_roles")
+  assert_names(names(col_roles), permutation.of = c("order", "key"), .var.name = "names of col_roles")
+  col_roles = map(col_roles, assert_character, any.missing = FALSE, unique = TRUE)
+  if (length(col_roles$order) > 1L) {
+    error_learner_predict("There may only be up to one extra column with role 'order'")
+  }
+  if (length(intersect(col_roles$order, col_roles$key)) > 0L) {
+    error_learner_predict("Extra column(s) may not have both the 'order' and the 'key' role")
+  }
+  assert_subset(unlist(col_roles, use.names = FALSE), names(extra), .var.name = "columns in col_roles")
+  # canonical element order so downstream comparisons are representation-independent
+  list(order = col_roles[["order"]], key = col_roles[["key"]])
+}
+
 check_freq = function(x) {
   if (is.null(x) || (test_number(x, finite = TRUE) && x > 0)) {
     return(TRUE)
@@ -35,7 +50,7 @@ assert_freq = makeAssertionFunction(check_freq)
 
 assert_regular_grid = function(dt, order_cols, key_cols, freq) {
   if (length(key_cols) > 0L) {
-    ok = dt[, list(.ok = check_regular_grid(get(order_cols), freq)), by = key_cols]
+    ok = dt[, list(.ok = test_regular_grid(get(order_cols), freq)), by = key_cols]
     bad = ok[!ok$.ok]
     if (nrow(bad) > 0L) {
       error_input(
@@ -43,7 +58,7 @@ assert_regular_grid = function(dt, order_cols, key_cols, freq) {
         str_collapse(key_labels(bad, key_cols), quote = "'")
       )
     }
-  } else if (!check_regular_grid(dt[[order_cols]], freq)) {
+  } else if (!test_regular_grid(dt[[order_cols]], freq)) {
     error_input(
       "Cannot extend an irregular series into the future. Use a regular order index (e.g. integer steps) or fill the gaps first."
     )
@@ -51,7 +66,7 @@ assert_regular_grid = function(dt, order_cols, key_cols, freq) {
   invisible(dt)
 }
 
-check_regular_grid = function(order, freq = NULL) {
+test_regular_grid = function(order, freq = NULL) {
   o = sort(order)
   n = length(o)
   if (n < 2L) {

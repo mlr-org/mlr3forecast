@@ -20,21 +20,6 @@ fcst_prediction_col_roles = function(task, extra) {
   )
 }
 
-check_fcst_prediction_col_roles = function(col_roles, extra) {
-  assert_list(col_roles, names = "unique", .var.name = "col_roles")
-  assert_names(names(col_roles), permutation.of = c("order", "key"), .var.name = "names of col_roles")
-  col_roles = map(col_roles, assert_character, any.missing = FALSE, unique = TRUE)
-  if (length(col_roles$order) > 1L) {
-    error_learner_predict("There may only be up to one extra column with role 'order'")
-  }
-  if (length(intersect(col_roles$order, col_roles$key)) > 0L) {
-    error_learner_predict("Extra column(s) may not have both the 'order' and the 'key' role")
-  }
-  assert_subset(unlist(col_roles, use.names = FALSE), names(extra), .var.name = "columns in col_roles")
-  # canonical element order so downstream comparisons are representation-independent
-  list(order = col_roles[["order"]], key = col_roles[["key"]])
-}
-
 fcst_common_col_roles = function(pdatas) {
   col_roles = map(pdatas, function(pdata) pdata$col_roles %??% empty_fcst_prediction_col_roles())
   ref = col_roles[[1L]]
@@ -62,7 +47,7 @@ check_prediction_data.PredictionDataFcst = function(pdata, ..., train_task = NUL
       fcst_prediction_col_roles(train_task, pdata$extra)
     }
   }
-  pdata$col_roles = check_fcst_prediction_col_roles(pdata$col_roles, pdata$extra)
+  pdata$col_roles = assert_fcst_prediction_col_roles(pdata$col_roles, pdata$extra)
   as_pdata_fcst(pdata)
 }
 
