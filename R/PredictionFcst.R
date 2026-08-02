@@ -6,7 +6,8 @@
 #' `response`, `se`, `quantiles` and `distr` fields and all regression measures continue to work.
 #'
 #' In addition, the prediction carries the time index (and any key columns) of the forecast horizon in its
-#' `$data$extra` slot. These are exposed via the `$order` and `$key` fields, lead the `as.data.table()` output,
+#' `$data$extra` slot and their roles in `$col_roles`.
+#' These are exposed via the `$order` and `$key` fields, lead the `as.data.table()` output,
 #' and are used by [autoplot.PredictionFcst()] to draw a forecast plot.
 #'
 #' The `task_type` is kept as `"regr"` so that regression measures remain compatible: forecasting is scored as
@@ -48,8 +49,11 @@ PredictionFcst = R6Class(
     #' @param check (`logical(1)`)\cr
     #'   If `TRUE`, performs some argument checks and predict type conversions.
     #' @param extra (`list()`)\cr
-    #'   Named list carrying the order (time) column and any key columns of the forecast horizon. The list
-    #'   names are the original task column names.
+    #'   Named list carrying the order (time) column and any key columns of the forecast horizon.
+    #'   The list names are the original task column names.
+    #' @param col_roles (named `list()`)\cr
+    #'   Column roles for `extra`, with elements `order` and `key`. If `NULL`, the roles are derived from
+    #'   `task`; without a task, the extra columns carry no roles.
     #' @param raw (any)\cr
     #'   Raw prediction object from the upstream model. Stored as-is without validation.
     initialize = function(
@@ -63,8 +67,16 @@ PredictionFcst = R6Class(
       weights = NULL,
       check = TRUE,
       extra = NULL,
+      col_roles = NULL,
       raw = NULL
     ) {
+      if (is.null(col_roles)) {
+        col_roles = if (is.null(task)) {
+          empty_fcst_prediction_col_roles()
+        } else {
+          fcst_prediction_col_roles(task, extra)
+        }
+      }
       pdata = set_class(
         compact(list(
           row_ids = row_ids,
@@ -75,6 +87,7 @@ PredictionFcst = R6Class(
           distr = distr,
           weights = weights,
           extra = extra,
+          col_roles = col_roles,
           raw = raw
         )),
         c("PredictionDataFcst", "PredictionData")
@@ -97,17 +110,24 @@ PredictionFcst = R6Class(
   ),
 
   active = list(
+    #' @field col_roles (named `list()`)\cr
+    #' Column roles for `$data$extra`, with elements `order` and `key`.
+    col_roles = function(rhs) {
+      assert_ro_binding(rhs)
+      self$data$col_roles
+    },
+
     #' @field order ([data.table::data.table()] | `NULL`)\cr
     #' The forecast time index, recovered from `$data$extra`. A table with two columns:
     #'
     #' * `row_id` (`integer()`), and
     #' * `order` (`Date()` | `POSIXct()` | `integer()` | `numeric()`).
     #'
-    #' Returns `NULL` if no extra data is stored.
+    #' Returns `NULL` if no order role is stored.
     order = function(rhs) {
       assert_ro_binding(rhs)
-      roles = fcst_extra_roles(self$data$extra)
-      if (is.null(roles$order)) {
+      roles = self$col_roles
+      if (length(roles$order) == 0L) {
         return()
       }
       data.table(row_id = self$data$row_ids, order = self$data$extra[[roles$order]])
@@ -118,12 +138,12 @@ PredictionFcst = R6Class(
     #' or more columns:
     #'
     #' * `row_id` (`integer()`), and
-    #' * key variable(s) (`character()` | `factor()` | `ordered()`).
+    #' * key variable(s) (`character()` | `integer()` | `factor()` | `ordered()`).
     #'
     #' If there is only one key column, it is named `key`. Returns `NULL` if there are no key columns.
     key = function(rhs) {
       assert_ro_binding(rhs)
-      roles = fcst_extra_roles(self$data$extra)
+      roles = self$col_roles
       if (length(roles$key) == 0L) {
         return()
       }
@@ -143,19 +163,8 @@ PredictionFcst = R6Class(
 #' @export
 as.data.table.PredictionFcst = function(x, ...) {
   tab = NextMethod()
-  roles = fcst_extra_roles(x$data$extra)
+  roles = x$col_roles
   lead = intersect(c(roles$key, roles$order), names(tab))
   setcolorder(tab, c(lead, setdiff(names(tab), lead)))
   tab[]
-}
-
-fcst_extra_roles = function(extra) {
-  nms = names(extra)
-  # keys are discrete label columns; the order column is a time index and can never be character
-  is_key = map_lgl(extra, function(x) is.factor(x) || is.character(x))
-  order = nms[!is_key]
-  if (length(order) > 1L) {
-    stopf("Malformed forecast prediction: expected one order column in `$data$extra`, found %i.", length(order))
-  }
-  list(order = if (length(order) == 1L) order else NULL, key = nms[is_key])
 }

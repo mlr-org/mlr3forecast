@@ -4,7 +4,7 @@
 #' @description
 #' Performs (weighted) averaging of forecast [PredictionFcst]s, mirroring [mlr3pipelines::PipeOpRegrAvg] but
 #' preserving the forecast prediction type, which plain `regravg` would drop. The output is a [PredictionFcst] that
-#' keeps the time index and key columns (carried in the `extra` slot), so `$order`, `$key`,
+#' keeps the time index and key columns (carried in the `extra` slot with explicit column roles), so `$order`, `$key`,
 #' [autoplot.PredictionFcst()], and forecast `task_type` inference keep working through the ensemble.
 #'
 #' Connect it to several [PipeOpLearner][mlr3pipelines::PipeOpLearner] outputs (classical forecast learners or
@@ -51,6 +51,7 @@ PipeOpFcstAvg = R6Class(
   private = list(
     weighted_avg_predictions = function(inputs, weights, row_ids, truth) {
       extra = inputs[[1L]]$data$extra
+      col_roles = fcst_common_col_roles(map(inputs, "data"))
       obs_weights = inputs[[1L]]$data$weights
       quantiles = map(inputs, function(x) x$data$quantiles)
       if (every(quantiles, is.null)) {
@@ -62,7 +63,8 @@ PipeOpFcstAvg = R6Class(
           response = prediction$response,
           se = prediction$data$se,
           weights = obs_weights,
-          extra = extra
+          extra = extra,
+          col_roles = col_roles
         ))
       }
       if (some(quantiles, is.null)) {
@@ -87,7 +89,8 @@ PipeOpFcstAvg = R6Class(
         truth = truth,
         quantiles = averaged,
         weights = obs_weights,
-        extra = extra
+        extra = extra,
+        col_roles = col_roles
       )
     }
   )

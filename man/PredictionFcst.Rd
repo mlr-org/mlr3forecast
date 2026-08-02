@@ -9,7 +9,8 @@ This object wraps the predictions returned by a forecast learner (\link{LearnerF
 \code{response}, \code{se}, \code{quantiles} and \code{distr} fields and all regression measures continue to work.
 
 In addition, the prediction carries the time index (and any key columns) of the forecast horizon in its
-\verb{$data$extra} slot. These are exposed via the \verb{$order} and \verb{$key} fields, lead the \code{as.data.table()} output,
+\verb{$data$extra} slot and their roles in \verb{$col_roles}.
+These are exposed via the \verb{$order} and \verb{$key} fields, lead the \code{as.data.table()} output,
 and are used by \code{\link[=autoplot.PredictionFcst]{autoplot.PredictionFcst()}} to draw a forecast plot.
 
 The \code{task_type} is kept as \code{"regr"} so that regression measures remain compatible: forecasting is scored as
@@ -33,6 +34,9 @@ Package \CRANpkg{mlr3viz} for some generic visualizations.
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
+    \item{\code{col_roles}}{(named \code{list()})\cr
+Column roles for \verb{$data$extra}, with elements \code{order} and \code{key}.}
+
     \item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}} | \code{NULL})\cr
 The forecast time index, recovered from \verb{$data$extra}. A table with two columns:
 \itemize{
@@ -40,14 +44,14 @@ The forecast time index, recovered from \verb{$data$extra}. A table with two col
 \item \code{order} (\code{Date()} | \code{POSIXct()} | \code{integer()} | \code{numeric()}).
 }
 
-Returns \code{NULL} if no extra data is stored.}
+Returns \code{NULL} if no order role is stored.}
 
     \item{\code{key}}{(\code{\link[data.table:data.table]{data.table::data.table()}} | \code{NULL})\cr
 The series identity columns of the forecast horizon, recovered from \verb{$data$extra}. A table with two
 or more columns:
 \itemize{
 \item \code{row_id} (\code{integer()}), and
-\item key variable(s) (\code{character()} | \code{factor()} | \code{ordered()}).
+\item key variable(s) (\code{character()} | \code{integer()} | \code{factor()} | \code{ordered()}).
 }
 
 If there is only one key column, it is named \code{key}. Returns \code{NULL} if there are no key columns.}
@@ -89,6 +93,7 @@ If there is only one key column, it is named \code{key}. Returns \code{NULL} if 
   weights = NULL,
   check = TRUE,
   extra = NULL,
+  col_roles = NULL,
   raw = NULL
 )}
     \if{html}{\out{</div>}}
@@ -115,8 +120,11 @@ Vector of measure weights for each observation.}
       \item{\code{check}}{(\code{logical(1)})\cr
 If \code{TRUE}, performs some argument checks and predict type conversions.}
       \item{\code{extra}}{(\code{list()})\cr
-Named list carrying the order (time) column and any key columns of the forecast horizon. The list
-names are the original task column names.}
+Named list carrying the order (time) column and any key columns of the forecast horizon.
+The list names are the original task column names.}
+      \item{\code{col_roles}}{(named \code{list()})\cr
+Column roles for \code{extra}, with elements \code{order} and \code{key}. If \code{NULL}, the roles are derived from
+\code{task}; without a task, the extra columns carry no roles.}
       \item{\code{raw}}{(any)\cr
 Raw prediction object from the upstream model. Stored as-is without validation.}
     }

@@ -52,6 +52,24 @@ test_that("PipeOpFcstAvg preserves keys for multi-series tasks", {
   expect_equal(as.character(p$key$key), c("a", "a", "a", "b", "b", "b"))
 })
 
+test_that("PipeOpFcstAvg rejects members with different extra column roles", {
+  make_pred = function(key) {
+    PredictionFcst$new(
+      row_ids = 1:3,
+      truth = c(1, 2, 3),
+      response = c(1, 2, 3),
+      extra = list(date = as.Date("2020-01-01") + 0:2, id = c("a", "b", "c")),
+      col_roles = list(order = "date", key = key)
+    )
+  }
+  po_avg = po("fcstavg")
+  po_avg$train(list(NULL, NULL))
+  expect_error(
+    po_avg$predict(list(make_pred("id"), make_pred(character()))),
+    "different extra column roles"
+  )
+})
+
 test_that("PipeOpFcstAvg averages quantile forecasts per level", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")

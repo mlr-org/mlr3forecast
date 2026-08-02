@@ -248,7 +248,8 @@ RecursiveForecaster = R6Class(
         # the inner learner does not set extra, so attach the time index and keys here
         cols = c(self$model$key_cols, self$model$order_cols)
         extra = as.list(task$data(rows = out$data$row_ids, cols = cols))
-        out$data = insert_named(out$data, list(extra = extra))
+        col_roles = list(order = self$model$order_cols, key = self$model$key_cols)
+        out$data = insert_named(out$data, list(extra = extra, col_roles = col_roles))
         return(out)
       }
 
@@ -345,7 +346,8 @@ RecursiveForecaster = R6Class(
       new_data = list(
         row_ids = out_row_ids,
         truth = out_data[[target]],
-        extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE])
+        extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE]),
+        col_roles = list(order = order_cols, key = key_cols)
       )
       # returning a Prediction bypasses the weights injection of as_prediction_data.list
       if ("weights_measure" %chin% task$properties) {

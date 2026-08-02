@@ -111,7 +111,8 @@ make_quantile_prediction = function(h = 12L, probs = c(0.05, 0.1, 0.5, 0.9, 0.95
     truth = rep(NA_real_, h),
     response = response,
     quantiles = quantiles,
-    extra = list(month = seq(start, by = "month", length.out = h))
+    extra = list(month = seq(start, by = "month", length.out = h)),
+    col_roles = list(order = "month", key = character())
   )
 }
 

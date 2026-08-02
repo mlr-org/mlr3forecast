@@ -6,10 +6,11 @@
 #' created downstream of [`po("fcst.splitkey")`][mlr_pipeops_fcst.splitkey], into a single
 #' [PredictionFcst].
 #'
-#' The series identity is rebuilt from the multiplicity names as a factor column in the
-#' prediction's `extra` slot, so `$key`, `as.data.table()`, and [autoplot.PredictionFcst()] keep
-#' working. Set `key` to the task's key column name to get predictions column-compatible with global
-#' forecasters such as [RecursiveForecaster], which attach the original key column.
+#' The series identity is rebuilt from the multiplicity names in the prediction's `extra` slot,
+#' and its role is stored in `col_roles`.
+#' This keeps `$key`, `as.data.table()`, and [autoplot.PredictionFcst()] working.
+#' Set `key` to the task's key column name to get predictions column-compatible with global forecasters such as
+#' [RecursiveForecaster], which attach the original key column.
 #'
 #' @section Parameters:
 #' * `key` :: `character(1)`\cr
@@ -77,11 +78,14 @@ PipeOpFcstUniteKey = R6Class(
       pdatas = map(inputs, "data")
       pdata = if (length(pdatas) == 1L) pdatas[[1L]] else invoke(c, .args = unname(pdatas))
       extra = as.list(pdata$extra)
-      if (length(fcst_extra_roles(extra)$key) == 0L) {
+      if (length(pdata$col_roles$key) == 0L) {
         key = self$param_set$get_values(tags = "predict")$key
         if (key %in% names(extra)) {
           error_input(
-            "%s cannot rebuild the series identity as '%s': the prediction already carries an extra column with that name.",
+            paste0(
+              "%s cannot rebuild the series identity as '%s': ",
+              "the prediction already carries an extra column with that name."
+            ),
             self$id,
             key
           )
@@ -90,6 +94,9 @@ PipeOpFcstUniteKey = R6Class(
         counts = map_int(pdatas, function(x) length(x$row_ids))
         extra[[key]] = factor(rep(labels, counts), levels = labels)
         pdata$extra = extra
+        # predictions serialized before col_roles existed carry none
+        pdata$col_roles = pdata$col_roles %??% empty_fcst_prediction_col_roles()
+        pdata$col_roles$key = key
       }
       list(as_prediction(pdata, check = FALSE))
     }

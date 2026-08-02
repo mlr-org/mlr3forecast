@@ -67,7 +67,26 @@ test_that("PredictionFcst derives response from quantiles", {
   expect_equal(as.data.table(p)$response, p$data$quantiles[, "q0.5"])
 })
 
-test_that("PredictionFcst recognizes character keys in extra", {
+test_that("PredictionFcst supports integer keys with explicit column roles", {
+  p = PredictionFcst$new(
+    row_ids = 1:4,
+    truth = rep(NA_real_, 4L),
+    response = 1:4,
+    extra = list(
+      date = as.Date("2020-01-01") + 0:3,
+      store = rep(c(1L, 2L), each = 2L)
+    ),
+    col_roles = list(order = "date", key = "store")
+  )
+
+  expect_identical(p$col_roles, list(order = "date", key = "store"))
+  expect_identical(p$order$order, as.Date("2020-01-01") + 0:3)
+  expect_integer(p$key$key)
+  expect_identical(p$key$key, rep(c(1L, 2L), each = 2L))
+  expect_named(as.data.table(p), c("store", "date", "row_ids", "truth", "response"))
+})
+
+test_that("PredictionFcst supports character keys with explicit column roles", {
   p = PredictionFcst$new(
     row_ids = 1:4,
     truth = rep(NA_real_, 4L),
@@ -75,7 +94,8 @@ test_that("PredictionFcst recognizes character keys in extra", {
     extra = list(
       date = as.Date("2020-01-01") + 0:3,
       region = rep(c("north", "south"), each = 2L)
-    )
+    ),
+    col_roles = list(order = "date", key = "region")
   )
 
   expect_identical(p$order$order, as.Date("2020-01-01") + 0:3)

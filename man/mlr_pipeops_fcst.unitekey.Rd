@@ -9,10 +9,11 @@ Row-binds a \link[mlr3pipelines:Multiplicity]{Multiplicity} of per-series \link{
 created downstream of \code{\link[=mlr_pipeops_fcst.splitkey]{po("fcst.splitkey")}}, into a single
 \link{PredictionFcst}.
 
-The series identity is rebuilt from the multiplicity names as a factor column in the
-prediction's \code{extra} slot, so \verb{$key}, \code{as.data.table()}, and \code{\link[=autoplot.PredictionFcst]{autoplot.PredictionFcst()}} keep
-working. Set \code{key} to the task's key column name to get predictions column-compatible with global
-forecasters such as \link{RecursiveForecaster}, which attach the original key column.
+The series identity is rebuilt from the multiplicity names in the prediction's \code{extra} slot,
+and its role is stored in \code{col_roles}.
+This keeps \verb{$key}, \code{as.data.table()}, and \code{\link[=autoplot.PredictionFcst]{autoplot.PredictionFcst()}} working.
+Set \code{key} to the task's key column name to get predictions column-compatible with global forecasters such as
+\link{RecursiveForecaster}, which attach the original key column.
 }
 \section{Parameters}{
 
