@@ -278,12 +278,7 @@ RecursiveForecaster = R6Class(
     },
 
     .with_graph_state = function(fn) {
-      if (is.null(self$model)) {
-        error_input("No model stored.")
-      }
-      if (isTRUE(self$marshaled)) {
-        error_input("Model is marshaled, call $unmarshal() first.")
-      }
+      assert_has_model(self)
       graph = private$.learner$graph
       on.exit({
         graph$state = NULL

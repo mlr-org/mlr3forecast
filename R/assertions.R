@@ -1,3 +1,12 @@
+assert_has_model = function(learner) {
+  if (is.null(learner$model)) {
+    error_input("No model stored.")
+  }
+  if (isTRUE(learner$marshaled)) {
+    error_input("Model is marshaled, call $unmarshal() first.")
+  }
+}
+
 check_freq = function(x) {
   if (is.null(x) || (test_number(x, finite = TRUE) && x > 0)) {
     return(TRUE)
