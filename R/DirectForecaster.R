@@ -171,7 +171,8 @@ DirectForecaster = R6Class(
     #' @return Named `list()` of named `numeric()`, one element per horizon (`h1`, `h2`, ...).
     importance = function() {
       assert_has_model(self)
-      map(set_names(self$model$models, paste0("h", self$horizons)), function(glrn) glrn$importance())
+      importance = map(self$model$models, function(glrn) glrn$importance())
+      set_names(importance, paste0("h", self$horizons))
     },
 
     #' @description
@@ -179,7 +180,8 @@ DirectForecaster = R6Class(
     #' @return Named `list()` of `character()`, one element per horizon (`h1`, `h2`, ...).
     selected_features = function() {
       assert_has_model(self)
-      map(set_names(self$model$models, paste0("h", self$horizons)), function(glrn) glrn$selected_features())
+      features = map(self$model$models, function(glrn) glrn$selected_features())
+      set_names(features, paste0("h", self$horizons))
     },
 
     #' @description
@@ -187,7 +189,8 @@ DirectForecaster = R6Class(
     #' @return Named `list()` of `numeric(1)`, one element per horizon (`h1`, `h2`, ...).
     oob_error = function() {
       assert_has_model(self)
-      map(set_names(self$model$models, paste0("h", self$horizons)), function(glrn) glrn$oob_error())
+      errors = map(self$model$models, function(glrn) glrn$oob_error())
+      set_names(errors, paste0("h", self$horizons))
     }
   ),
 
