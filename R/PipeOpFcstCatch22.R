@@ -79,11 +79,7 @@ PipeOpFcstCatch22 = R6Class(
       feat_cols = setdiff(names(feats), key_cols)
       if (length(key_cols) > 0L) {
         keys = task$data(cols = key_cols)
-        unseen = unique(keys)[!feats, on = key_cols]
-        if (nrow(unseen) > 0L) {
-          labels = key_labels(unseen)
-          error_input("Key group(s) %s were not seen during training.", str_collapse(labels, quote = "'"))
-        }
+        assert_seen_keys(feats, keys, key_cols)
         task$select(task$feature_names)$cbind(feats[keys, on = key_cols, feat_cols, with = FALSE])
       } else {
         task$select(task$feature_names)$cbind(feats[rep.int(1L, task$nrow)])

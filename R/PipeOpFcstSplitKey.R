@@ -65,13 +65,7 @@ PipeOpFcstSplitKey = R6Class(
       groups = private$.split_rows(task)
       keys = self$state$keys
       key_cols = task$col_roles$key
-      unseen = groups[!keys, on = key_cols]
-      if (nrow(unseen) > 0L) {
-        error_input(
-          "Task has key group(s) not seen during training: %s.",
-          str_collapse(key_labels(unseen, key_cols), quote = "'")
-        )
-      }
+      assert_seen_keys(keys, groups, key_cols)
       missing = keys[!groups, on = key_cols]
       if (nrow(missing) > 0L) {
         error_input(

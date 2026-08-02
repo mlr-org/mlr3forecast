@@ -50,16 +50,6 @@ fcst_invert_state = function(task) {
   state
 }
 
-assert_seen_keys = function(seen, dt, key_cols) {
-  unseen = unique(dt[, key_cols, with = FALSE])[!seen, on = key_cols]
-  if (nrow(unseen) > 0L) {
-    error_input(
-      "Task has key group(s) not seen during training: %s.",
-      str_collapse(key_labels(unseen, key_cols), quote = "'")
-    )
-  }
-}
-
 fcst_drop_incomplete = function(dt, feat_cols, key_cols) {
   kept = stats::na.omit(dt, cols = feat_cols)
   if (nrow(kept) == 0L) {

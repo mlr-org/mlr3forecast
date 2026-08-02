@@ -1,3 +1,13 @@
+assert_seen_keys = function(seen, dt, key_cols) {
+  unseen = unique(dt[, key_cols, with = FALSE])[!seen, on = key_cols]
+  if (nrow(unseen) > 0L) {
+    error_input(
+      "Task has key group(s) not seen during training: %s.",
+      str_collapse(key_labels(unseen, key_cols), quote = "'")
+    )
+  }
+}
+
 assert_has_model = function(learner) {
   if (is.null(learner$model)) {
     error_input("No model stored.")
