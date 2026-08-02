@@ -21,6 +21,9 @@
   hotstart properties for both and additionally validation, internal
   tuning, importance, selected features, and OOB error for
   `DirectForecaster`.
+- `DirectForecaster` gained `$importance()`, `$selected_features()`, and
+  `$oob_error()` methods returning one result per horizon model, named
+  like `$native_model`.
 - `rsmp("fcst.holdout", n = 0)` now puts no observations into the
   training set instead of all of them.
 - `TaskFcst` now accepts character or integer keys, while tsibble, tsf,

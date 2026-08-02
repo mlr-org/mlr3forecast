@@ -67,6 +67,12 @@ which are rejected at construction.
 
 - [`DirectForecaster$unmarshal()`](#method-DirectForecaster-unmarshal)
 
+- [`DirectForecaster$importance()`](#method-DirectForecaster-importance)
+
+- [`DirectForecaster$selected_features()`](#method-DirectForecaster-selected_features)
+
+- [`DirectForecaster$oob_error()`](#method-DirectForecaster-oob_error)
+
 - [`DirectForecaster$clone()`](#method-DirectForecaster-clone)
 
 Inherited methods
@@ -79,7 +85,6 @@ Inherited methods
 - [`mlr3::Learner$predict()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict)
 - [`mlr3::Learner$predict_newdata()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict_newdata)
 - [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
-- [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
 
 ------------------------------------------------------------------------
@@ -195,6 +200,59 @@ Unmarshal the learner's model.
   (any)  
   Additional arguments passed to
   [`mlr3::unmarshal_model()`](https://mlr3.mlr-org.com/reference/marshaling.html).
+
+------------------------------------------------------------------------
+
+### `DirectForecaster$importance()`
+
+The importance scores of the base learner of each horizon model, if it
+supports them. Unlike
+[mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)'s
+`$importance()` this returns one vector per horizon, so the
+`"importance"` property is deliberately not advertised.
+
+#### Usage
+
+    DirectForecaster$importance()
+
+#### Returns
+
+Named [`list()`](https://rdrr.io/r/base/list.html) of named
+[`numeric()`](https://rdrr.io/r/base/numeric.html), one element per
+horizon (`h1`, `h2`, ...).
+
+------------------------------------------------------------------------
+
+### `DirectForecaster$selected_features()`
+
+The selected features of the base learner of each horizon model, if it
+supports them.
+
+#### Usage
+
+    DirectForecaster$selected_features()
+
+#### Returns
+
+Named [`list()`](https://rdrr.io/r/base/list.html) of
+[`character()`](https://rdrr.io/r/base/character.html), one element per
+horizon (`h1`, `h2`, ...).
+
+------------------------------------------------------------------------
+
+### `DirectForecaster$oob_error()`
+
+The out-of-bag error of the base learner of each horizon model, if it
+supports it.
+
+#### Usage
+
+    DirectForecaster$oob_error()
+
+#### Returns
+
+Named [`list()`](https://rdrr.io/r/base/list.html) of `numeric(1)`, one
+element per horizon (`h1`, `h2`, ...).
 
 ------------------------------------------------------------------------
 
