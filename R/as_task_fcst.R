@@ -207,7 +207,7 @@ as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(
 task_fcst_from_tsbox = function(x, freq, id, label, ...) {
   require_namespaces("tsbox")
   x = tsbox::ts_dt(x)
-  is_multi = "id" %in% names(x)
+  is_multi = "id" %chin% names(x)
   as_task_fcst(
     x = x,
     target = "value",

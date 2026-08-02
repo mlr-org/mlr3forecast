@@ -80,7 +80,7 @@ PipeOpFcstUniteKey = R6Class(
       extra = as.list(pdata$extra)
       if (length(pdata$col_roles$key) == 0L) {
         key = self$param_set$get_values(tags = "predict")$key
-        if (key %in% names(extra)) {
+        if (key %chin% names(extra)) {
           error_input(
             paste0(
               "%s cannot rebuild the series identity as '%s': ",

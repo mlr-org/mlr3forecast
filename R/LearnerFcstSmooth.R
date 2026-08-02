@@ -30,7 +30,7 @@ LearnerFcstSmooth = R6Class(
         return(insert_named(prediction, list(response = response)))
       }
       args = list(h = task$nrow)
-      if ("exogenous" %in% self$properties && task$n_features > 0L) {
+      if ("exogenous" %chin% self$properties && task$n_features > 0L) {
         args$newdata = ordered_features(task, self)
       }
       if (is_quantile) {

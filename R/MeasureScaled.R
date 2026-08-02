@@ -51,7 +51,7 @@ MeasureMASE = R6Class(
   ),
   private = list(
     .score = function(prediction, task, train_set, ...) {
-      if ("keys" %in% task$properties) {
+      if ("keys" %chin% task$properties) {
         return(score_grouped(private$.score_ungrouped, prediction, task, train_set, ...))
       }
       private$.score_ungrouped(prediction, task, train_set, ...)
@@ -121,7 +121,7 @@ MeasureRMSSE = R6Class(
 
   private = list(
     .score = function(prediction, task, train_set, ...) {
-      if ("keys" %in% task$properties) {
+      if ("keys" %chin% task$properties) {
         return(score_grouped(private$.score_ungrouped, prediction, task, train_set, ...))
       }
       private$.score_ungrouped(prediction, task, train_set, ...)

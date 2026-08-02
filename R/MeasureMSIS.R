@@ -63,7 +63,7 @@ MeasureMSIS = R6Class(
   private = list(
     .score = function(prediction, task, train_set, ...) {
       probs = attr(prediction$data$quantiles, "probs")
-      if ("keys" %in% task$properties) {
+      if ("keys" %chin% task$properties) {
         return(score_grouped(private$.score_ungrouped, prediction, task, train_set, probs = probs, ...))
       }
       private$.score_ungrouped(prediction, task, train_set, probs = probs, ...)

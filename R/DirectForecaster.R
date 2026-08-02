@@ -86,7 +86,7 @@ DirectForecaster = R6Class(
 
       iterative_ids = keep(
         names(private$.learner$graph$pipeops),
-        function(id) "fcst_iterative" %in% private$.learner$graph$pipeops[[id]]$properties
+        function(id) "fcst_iterative" %chin% private$.learner$graph$pipeops[[id]]$properties
       )
       if (length(iterative_ids) > 0L) {
         error_input(

@@ -208,7 +208,7 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     error_input("There may only be up to one column with role 'order'.")
   }
 
-  if (length(order_cols) > 0L && order_cols %in% new_roles[["target"]]) {
+  if (length(order_cols) > 0L && order_cols %chin% new_roles[["target"]]) {
     error_input("Order column '%s' may not also be the target column.", order_cols)
   }
 
@@ -239,14 +239,14 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
   }
 
   key_cols = new_roles[["key"]]
-  if (length(key_cols) > 0L && any(key_cols %in% order_cols)) {
+  if (length(key_cols) > 0L && any(key_cols %chin% order_cols)) {
     error_input(
       "Column(s) %s may not have both the 'order' and the 'key' role.",
       str_collapse(intersect(key_cols, order_cols), quote = "'")
     )
   }
 
-  if (length(key_cols) > 0L && any(key_cols %in% new_roles[["target"]])) {
+  if (length(key_cols) > 0L && any(key_cols %chin% new_roles[["target"]])) {
     error_input(
       "Key column(s) %s may not also be the target column.",
       str_collapse(intersect(key_cols, new_roles[["target"]]), quote = "'")

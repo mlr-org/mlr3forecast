@@ -36,7 +36,7 @@ MeasureACF1 = R6Class(
 
   private = list(
     .score = function(prediction, task, ...) {
-      if ("keys" %in% task$properties) {
+      if ("keys" %chin% task$properties) {
         return(score_grouped(private$.score_ungrouped, prediction, task, ...))
       }
       private$.score_ungrouped(prediction, task, ...)

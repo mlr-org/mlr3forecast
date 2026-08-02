@@ -107,7 +107,7 @@ RecursiveForecaster = R6Class(
         )
       }
 
-      has_iterative = any(map_lgl(private$.learner$graph$pipeops, function(po) "fcst_iterative" %in% po$properties))
+      has_iterative = any(map_lgl(private$.learner$graph$pipeops, function(po) "fcst_iterative" %chin% po$properties))
       if (!has_iterative) {
         warning_input(
           "Graph contains no PipeOps with the 'fcst_iterative' property (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting."
@@ -368,7 +368,7 @@ RecursiveForecaster = R6Class(
       })
       graph$state = self$model$graph_state
 
-      iterative_pos = keep(graph$pipeops, function(po) "fcst_iterative" %in% po$properties)
+      iterative_pos = keep(graph$pipeops, function(po) "fcst_iterative" %chin% po$properties)
       if (length(iterative_pos) == 0L) {
         out = graph$predict(task)[[1L]]
         # the inner learner does not set extra, so attach the time index and keys here

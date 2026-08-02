@@ -81,7 +81,7 @@ read_tsf = function(file) {
       stopf("Invalid frequency %s, must be one of %s.", freq, str_collapse(names(tsf_frequencies), quote = "'"))
     }
     if (has_date) {
-      if (freq %in% names(tsf_high_frequencies)) {
+      if (freq %chin% names(tsf_high_frequencies)) {
         set(dt, j = date_col, value = as.POSIXct(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S", tz = "UTC"))
       } else {
         set(dt, j = date_col, value = as.Date(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S"))

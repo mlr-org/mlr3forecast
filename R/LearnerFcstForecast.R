@@ -20,7 +20,7 @@ LearnerFcstForecast = R6Class(
     },
 
     .has_exogenous = function(task) {
-      "exogenous" %in% self$properties && task$n_features > 0L
+      "exogenous" %chin% self$properties && task$n_features > 0L
     },
 
     .fit = function(task, pv) {
