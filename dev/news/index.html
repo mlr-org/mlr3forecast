@@ -50,10 +50,20 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3forecast-development-version">mlr3forecast (development version)<a class="anchor" aria-label="anchor" href="#mlr3forecast-development-version"></a></h2>
-<ul><li>BREAKING CHANGE: key columns are no longer features by default. Add the feature role back explicitly with <code>task$set_col_roles(key, add_to = "feature")</code> to let a global model specialize per series.</li>
-<li>feat: key columns may now be character columns in addition to factor and ordered. The tsibble, tsf, and tsbox converters no longer coerce keys to factor.</li>
-<li>feat: key columns may now also be integer columns. Predictions store explicit column roles for their extra columns in <code>$col_roles</code>, derived from the task at predict time, replacing type-based detection.</li>
-<li>fix: <code>rsmp("fcst.holdout", n = 0)</code> now puts no observations into the training set instead of all of them.</li>
+<ul><li>BREAKING CHANGE: Key columns are no longer features by default. Restore the feature role explicitly when needed.</li>
+<li>Numeric <code>freq</code> values now represent the seasonal period, while the grid step is inferred from the order column.</li>
+<li>
+<code>DirectForecaster</code> now rejects empty or duplicate <code>horizons</code> values.</li>
+<li>
+<code>DirectForecaster</code> and <code>RecursiveForecaster</code> now omit unsupported properties, fixing tuning failures.</li>
+<li>
+<code>fcst.mase</code>, <code>fcst.msis</code>, and <code>fcst.rmsse</code> now infer <code>period</code> from <code>task$freq</code> unless it is set.</li>
+<li>
+<code>PredictionFcst</code> now stores explicit roles for extra columns in <code>$col_roles</code>, replacing type-based detection.</li>
+<li>
+<code>rsmp("fcst.holdout", n = 0)</code> now puts no observations into the training set instead of all of them.</li>
+<li>
+<code>TaskFcst</code> now accepts character or integer keys, while tsibble, tsf, and tsbox converters preserve their types.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="mlr3forecast-010">mlr3forecast 0.1.0<a class="anchor" aria-label="anchor" href="#mlr3forecast-010"></a></h2><p class="text-muted">CRAN release: 2026-07-22</p>
