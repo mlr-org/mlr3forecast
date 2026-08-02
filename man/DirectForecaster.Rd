@@ -65,6 +65,9 @@ Stores the currently active predict type.}
     \item \href{#method-DirectForecaster-print}{\code{DirectForecaster$print()}}
     \item \href{#method-DirectForecaster-marshal}{\code{DirectForecaster$marshal()}}
     \item \href{#method-DirectForecaster-unmarshal}{\code{DirectForecaster$unmarshal()}}
+    \item \href{#method-DirectForecaster-importance}{\code{DirectForecaster$importance()}}
+    \item \href{#method-DirectForecaster-selected_features}{\code{DirectForecaster$selected_features()}}
+    \item \href{#method-DirectForecaster-oob_error}{\code{DirectForecaster$oob_error()}}
     \item \href{#method-DirectForecaster-clone}{\code{DirectForecaster$clone()}}
   }
 }
@@ -78,7 +81,6 @@ Stores the currently active predict type.}
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict"><a href='../../mlr3/html/Learner.html#method-Learner-predict'><code>mlr3::Learner$predict()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href='../../mlr3/html/Learner.html#method-Learner-selected_features'><code>mlr3::Learner$selected_features()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
 </ul>
 </details>}}
@@ -180,6 +182,53 @@ Additional arguments passed to \code{\link[mlr3:marshal_model]{mlr3::marshal_mod
 Additional arguments passed to \code{\link[mlr3:unmarshal_model]{mlr3::unmarshal_model()}}.}
     }
     \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DirectForecaster-importance"></a>}}
+\if{latex}{\out{\hypertarget{method-DirectForecaster-importance}{}}}
+\subsection{\code{DirectForecaster$importance()}}{
+  The importance scores of the base learner of each horizon model, if it supports them.
+Unlike \link[mlr3:Learner]{mlr3::Learner}'s \verb{$importance()} this returns one vector per horizon, so the
+\code{"importance"} property is deliberately not advertised.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DirectForecaster$importance()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Named \code{list()} of named \code{numeric()}, one element per horizon (\code{h1}, \code{h2}, ...).
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DirectForecaster-selected_features"></a>}}
+\if{latex}{\out{\hypertarget{method-DirectForecaster-selected_features}{}}}
+\subsection{\code{DirectForecaster$selected_features()}}{
+  The selected features of the base learner of each horizon model, if it supports them.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DirectForecaster$selected_features()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Named \code{list()} of \code{character()}, one element per horizon (\code{h1}, \code{h2}, ...).
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DirectForecaster-oob_error"></a>}}
+\if{latex}{\out{\hypertarget{method-DirectForecaster-oob_error}{}}}
+\subsection{\code{DirectForecaster$oob_error()}}{
+  The out-of-bag error of the base learner of each horizon model, if it supports it.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DirectForecaster$oob_error()}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    Named \code{list()} of \code{numeric(1)}, one element per horizon (\code{h1}, \code{h2}, ...).
   }
 }
 

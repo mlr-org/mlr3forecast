@@ -162,6 +162,29 @@ DirectForecaster = R6Class(
     #'   Additional arguments passed to [`mlr3::unmarshal_model()`].
     unmarshal = function(...) {
       learner_unmarshal(.learner = self, ...)
+    },
+
+    #' @description
+    #' The importance scores of the base learner of each horizon model, if it supports them.
+    #' Unlike [mlr3::Learner]'s `$importance()` this returns one vector per horizon, so the
+    #' `"importance"` property is deliberately not advertised.
+    #' @return Named `list()` of named `numeric()`, one element per horizon (`h1`, `h2`, ...).
+    importance = function() {
+      private$.map_horizon_models(function(glrn) glrn$importance())
+    },
+
+    #' @description
+    #' The selected features of the base learner of each horizon model, if it supports them.
+    #' @return Named `list()` of `character()`, one element per horizon (`h1`, `h2`, ...).
+    selected_features = function() {
+      private$.map_horizon_models(function(glrn) glrn$selected_features())
+    },
+
+    #' @description
+    #' The out-of-bag error of the base learner of each horizon model, if it supports it.
+    #' @return Named `list()` of `numeric(1)`, one element per horizon (`h1`, `h2`, ...).
+    oob_error = function() {
+      private$.map_horizon_models(function(glrn) glrn$oob_error())
     }
   ),
 
@@ -239,6 +262,16 @@ DirectForecaster = R6Class(
     .learner = NULL,
     .fcst_param_set = NULL,
     .horizons = NULL,
+
+    .map_horizon_models = function(fn) {
+      if (is.null(self$model)) {
+        error_input("No model stored.")
+      }
+      if (isTRUE(self$marshaled)) {
+        error_input("Model is marshaled, call $unmarshal() first.")
+      }
+      map(set_names(self$model$models, paste0("h", self$horizons)), fn)
+    },
 
     deep_clone = function(name, value) {
       switch(

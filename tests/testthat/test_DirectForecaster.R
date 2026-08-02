@@ -321,6 +321,25 @@ test_that("DirectForecaster drops wrapped-learner properties it cannot honour", 
   expect_subset("missings", learner$properties)
 })
 
+test_that("DirectForecaster delegates importance, selected_features, and oob_error per horizon", {
+  task = tsk("airpassengers")
+  learner = direct_forecaster(make_property_stub_learner(), lags = 1:3, horizons = 3L)
+  expect_error(learner$importance(), "No model stored")
+  expect_error(learner$selected_features(), "No model stored")
+  expect_error(learner$oob_error(), "No model stored")
+
+  learner$train(task)
+  importance = learner$importance()
+  expect_list(importance, types = "numeric", len = 3L)
+  expect_named(importance, c("h1", "h2", "h3"))
+  selected = learner$selected_features()
+  expect_list(selected, types = "character", len = 3L)
+  expect_named(selected, c("h1", "h2", "h3"))
+  oob = learner$oob_error()
+  expect_list(oob, types = "numeric", len = 3L)
+  expect_named(oob, c("h1", "h2", "h3"))
+})
+
 test_that("DirectForecaster can be tuned with a validating learner", {
   skip_if_not_installed("mlr3tuning")
   task = tsk("airpassengers")
