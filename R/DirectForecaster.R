@@ -111,11 +111,10 @@ DirectForecaster = R6Class(
         task_type = "fcst",
         predict_types = private$.learner$predict_types,
         feature_types = private$.learner$feature_types,
-        # one model per horizon means no single delegate for validation, internal tuning, importance,
-        # etc., and each would need an active binding or method ($validate, $importance(), ...) that
-        # this class does not implement -- most visibly AutoTuner, which calls set_validate() on any
-        # learner with the "validation" property and dies with "cannot add bindings to a locked
-        # environment"; hotstart is advertised by GraphLearner without being implemented
+        # one model per horizon: validation and internal tuning have no single delegate, and the
+        # importance(), selected_features(), and oob_error() methods return one result per horizon
+        # instead of the single value the mlr3 property contract promises (AutoTuner and friends call
+        # these expecting that shape). Hotstart is advertised by GraphLearner without being implemented.
         properties = setdiff(
           private$.learner$properties,
           c(
