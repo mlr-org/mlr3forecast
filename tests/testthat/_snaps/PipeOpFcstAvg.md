@@ -8,5 +8,5 @@
       x Cannot average predictions: some predict quantiles, others do not.
       > Class: Mlr3ErrorInput
       
-      This happened in PipeOp fcstavg's $predict()
+      This happened in PipeOp fcst.avg's $predict()
 

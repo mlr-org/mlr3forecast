@@ -251,6 +251,6 @@ test_that("targetboxcox works wrapping DirectForecaster", {
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
-  # inversion keeps the forecast time index so $order/autoplot/fcstavg work downstream
+  # inversion keeps the forecast time index so $order/autoplot/fcst.avg work downstream
   expect_equal(nrow(prediction$order), length(split$test))
 })

@@ -1,6 +1,7 @@
 # mlr3forecast (development version)
 
 * BREAKING CHANGE: Key columns are no longer features by default. Restore the feature role explicitly when needed.
+* BREAKING CHANGE: `po("fcstavg")` was renamed to `po("fcst.avg")` to match the id prefix of the other PipeOps.
 * Numeric `freq` values now represent the seasonal period, while the grid step is inferred from the order column.
 * `DirectForecaster` now rejects empty or duplicate `horizons` values.
 * `fcst.mase`, `fcst.msis`, and `fcst.rmsse` now infer `period` from `task$freq` unless it is set.

@@ -477,7 +477,7 @@ bmr$aggregate(msr("regr.rmse"))[, .(learner_id, regr.rmse)]
 #### Ensemble forecasting
 
 Several forecasters can be ensembled by branching with `gunion()` and
-averaging their forecasts with `po("fcstavg")`, which keeps the forecast
+averaging their forecasts with `po("fcst.avg")`, which keeps the forecast
 prediction type (so the time index, keys, and `autoplot()` survive the
 averaging). This mirrors the idea behind the forecastHybrid package, but
 with any mix of classical or ML learners.
@@ -490,7 +490,7 @@ graph = gunion(list(
   po("learner", lrn("fcst.ets"), id = "ets"),
   po("learner", lrn("fcst.theta"), id = "theta")
 )) %>>%
-  po("fcstavg")
+  po("fcst.avg")
 flrn = as_learner(graph)$train(task)
 forecast(flrn, task, 12L)
 #> 
@@ -508,7 +508,7 @@ flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 #>  12.23143
 
 # weight the members instead of averaging equally
-graph$param_set$set_values(fcstavg.weights = c(0.5, 0.3, 0.2))
+graph$param_set$set_values(fcst.avg.weights = c(0.5, 0.3, 0.2))
 flrn = as_learner(graph)$train(task)
 flrn$predict(task, 140:144)$score(msr("regr.rmse"))
 #> regr.rmse 
