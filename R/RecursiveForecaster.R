@@ -159,21 +159,39 @@ RecursiveForecaster = R6Class(
     #' The importance scores of the base learner, if it supports them.
     #' @return Named `numeric()`.
     importance = function() {
-      private$.with_graph_state(function() private$.learner$importance())
+      assert_has_model(self)
+      graph = private$.learner$graph
+      on.exit({
+        graph$state = NULL
+      })
+      graph$state = self$model$graph_state
+      private$.learner$importance()
     },
 
     #' @description
     #' The selected features of the base learner, if it supports them.
     #' @return `character()`.
     selected_features = function() {
-      private$.with_graph_state(function() private$.learner$selected_features())
+      assert_has_model(self)
+      graph = private$.learner$graph
+      on.exit({
+        graph$state = NULL
+      })
+      graph$state = self$model$graph_state
+      private$.learner$selected_features()
     },
 
     #' @description
     #' The out-of-bag error of the base learner, if it supports it.
     #' @return `numeric(1)`.
     oob_error = function() {
-      private$.with_graph_state(function() private$.learner$oob_error())
+      assert_has_model(self)
+      graph = private$.learner$graph
+      on.exit({
+        graph$state = NULL
+      })
+      graph$state = self$model$graph_state
+      private$.learner$oob_error()
     }
   ),
 
@@ -277,16 +295,6 @@ RecursiveForecaster = R6Class(
       keep(private$.learner$graph$pipeops, function(po) property %chin% po$properties)
     },
 
-    .with_graph_state = function(fn) {
-      assert_has_model(self)
-      graph = private$.learner$graph
-      on.exit({
-        graph$state = NULL
-      })
-      graph$state = self$model$graph_state
-      fn()
-    },
-
     .extract_internal_valid_scores = function() {
       if ("validation" %nin% self$properties) {
         return(NULL)
@@ -320,7 +328,13 @@ RecursiveForecaster = R6Class(
       if (is.null(self$model)) {
         return(private$.learner$base_learner(recursive - 1L))
       }
-      private$.with_graph_state(function() private$.learner$base_learner(recursive - 1L))
+      assert_has_model(self)
+      graph = private$.learner$graph
+      on.exit({
+        graph$state = NULL
+      })
+      graph$state = self$model$graph_state
+      private$.learner$base_learner(recursive - 1L)
     },
 
     .train = function(task) {
