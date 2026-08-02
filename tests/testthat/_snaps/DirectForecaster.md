@@ -6,8 +6,8 @@
       Error:
       ! 
       x PipeOpTargetTrafoDifference inside a DirectForecaster graph is not supported
-        (found: fcst.targetdiff): each horizon is inverted independently against the
-        training tail, which is wrong for horizons >= 2. Wrap the forecaster with
+        (found: 'fcst.targetdiff'): each horizon is inverted independently against
+        the training tail, which is wrong for horizons >= 2. Wrap the forecaster with
         ppl("targettrafo") instead.
       > Class: Mlr3ErrorInput
 
@@ -19,7 +19,7 @@
       Error:
       ! 
       x Iterative feature PipeOps (property 'fcst_iterative') are not supported in a
-        DirectForecaster graph (found: fcst.lags). Lags are handled internally via
+        DirectForecaster graph (found: 'fcst.lags'). Lags are handled internally via
         `lags`.
       > Class: Mlr3ErrorInput
 
@@ -31,7 +31,7 @@
       Error:
       ! 
       x Iterative feature PipeOps (property 'fcst_iterative') are not supported in a
-        DirectForecaster graph (found: fcst.rolling). Lags are handled internally via
-        `lags`.
+        DirectForecaster graph (found: 'fcst.rolling'). Lags are handled internally
+        via `lags`.
       > Class: Mlr3ErrorInput
 

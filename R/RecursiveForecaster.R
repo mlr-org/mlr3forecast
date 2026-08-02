@@ -103,7 +103,7 @@ RecursiveForecaster = R6Class(
       if (length(target_trafo_ids) > 0L) {
         error_input(
           "Target transformations inside a RecursiveForecaster graph are not supported (found: %s). Wrap the forecaster with ppl(\"targettrafo\") instead.",
-          toString(target_trafo_ids)
+          str_collapse(target_trafo_ids, quote = "'")
         )
       }
 
@@ -414,7 +414,7 @@ RecursiveForecaster = R6Class(
         if (nrow(bad) > 0L) {
           error_input(
             "Test rows must form the gap-free future grid following the training data. Offending key group(s): %s.",
-            toString(key_labels(bad, key_cols))
+            str_collapse(key_labels(bad, key_cols), quote = "'")
           )
         }
       } else {

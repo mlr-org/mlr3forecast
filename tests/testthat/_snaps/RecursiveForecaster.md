@@ -28,7 +28,7 @@
       Error:
       ! 
       x Test rows must form the gap-free future grid following the training data.
-        Offending key group(s): a, b.
+        Offending key group(s): 'a', 'b'.
       > Class: Mlr3ErrorInput
 
 # RecursiveForecaster errors on target trafo inside the graph
@@ -39,7 +39,7 @@
       Error:
       ! 
       x Target transformations inside a RecursiveForecaster graph are not supported
-        (found: fcst.targetdiff). Wrap the forecaster with ppl("targettrafo")
+        (found: 'fcst.targetdiff'). Wrap the forecaster with ppl("targettrafo")
         instead.
       > Class: Mlr3ErrorInput
 
