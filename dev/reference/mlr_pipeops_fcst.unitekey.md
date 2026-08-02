@@ -9,12 +9,13 @@ as created downstream of
 into a single
 [PredictionFcst](https://mlr3forecast.mlr-org.com/dev/reference/PredictionFcst.md).
 
-The series identity is rebuilt from the multiplicity names as a factor
-column in the prediction's `extra` slot, so `$key`,
+The series identity is rebuilt from the multiplicity names in the
+prediction's `extra` slot, and its role is stored in `col_roles`. This
+keeps `$key`,
 [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html),
 and
 [`autoplot.PredictionFcst()`](https://mlr3forecast.mlr-org.com/dev/reference/autoplot.PredictionFcst.md)
-keep working. Set `key` to the task's key column name to get predictions
+working. Set `key` to the task's key column name to get predictions
 column-compatible with global forecasters such as
 [RecursiveForecaster](https://mlr3forecast.mlr-org.com/dev/reference/RecursiveForecaster.md),
 which attach the original key column.

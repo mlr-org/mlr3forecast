@@ -30,7 +30,9 @@ specialize per series, add the feature role back:
 
 For a high-cardinality key, encode it inside the learner graph (e.g.
 `po("encodeimpact")` or `po("encodelmer")`) rather than passing the raw
-factor to the model.
+factor to the model. Note that keys are labels regardless of their type:
+an integer key used as a feature is passed to the learner as a number,
+which is rarely intended – convert it to a factor first.
 
 ## See also
 
@@ -140,6 +142,7 @@ Other Task:
 
   - key variable(s)
     ([`character()`](https://rdrr.io/r/base/character.html) \|
+    [`integer()`](https://rdrr.io/r/base/integer.html) \|
     [`factor()`](https://rdrr.io/r/base/factor.html) \|
     [`ordered()`](https://rdrr.io/r/base/factor.html)).
 
@@ -236,7 +239,7 @@ provides an alternative way to construct forecast tasks.
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
   Names of the columns whose combination identifies a series. Key
-  columns must be character, factor, or ordered columns.
+  columns must be character, integer, factor, or ordered columns.
 
 - `freq`:
 

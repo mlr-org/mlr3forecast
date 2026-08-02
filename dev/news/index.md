@@ -9,6 +9,9 @@
 - feat: key columns may now be character columns in addition to factor
   and ordered. The tsibble, tsf, and tsbox converters no longer coerce
   keys to factor.
+- feat: key columns may now also be integer columns. Predictions store
+  explicit column roles for their extra columns in `$col_roles`, derived
+  from the task at predict time, replacing type-based detection.
 - fix: `rsmp("fcst.holdout", n = 0)` now puts no observations into the
   training set instead of all of them.
 

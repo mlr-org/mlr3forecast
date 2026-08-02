@@ -11,8 +11,9 @@ so forecasting is treated as regression: the `response`, `se`,
 work.
 
 In addition, the prediction carries the time index (and any key columns)
-of the forecast horizon in its `$data$extra` slot. These are exposed via
-the `$order` and `$key` fields, lead the
+of the forecast horizon in its `$data$extra` slot and their roles in
+`$col_roles`. These are exposed via the `$order` and `$key` fields, lead
+the
 [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
 output, and are used by
 [`autoplot.PredictionFcst()`](https://mlr3forecast.mlr-org.com/dev/reference/autoplot.PredictionFcst.md)
@@ -35,6 +36,11 @@ generic visualizations.
 
 ## Active bindings
 
+- `col_roles`:
+
+  (named [`list()`](https://rdrr.io/r/base/list.html))  
+  Column roles for `$data$extra`, with elements `order` and `key`.
+
 - `order`:
 
   ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
@@ -48,7 +54,7 @@ generic visualizations.
     [`integer()`](https://rdrr.io/r/base/integer.html) \|
     [`numeric()`](https://rdrr.io/r/base/numeric.html)).
 
-  Returns `NULL` if no extra data is stored.
+  Returns `NULL` if no order role is stored.
 
 - `key`:
 
@@ -61,6 +67,7 @@ generic visualizations.
 
   - key variable(s)
     ([`character()`](https://rdrr.io/r/base/character.html) \|
+    [`integer()`](https://rdrr.io/r/base/integer.html) \|
     [`factor()`](https://rdrr.io/r/base/factor.html) \|
     [`ordered()`](https://rdrr.io/r/base/factor.html)).
 
@@ -104,6 +111,7 @@ Creates a new instance of this
       weights = NULL,
       check = TRUE,
       extra = NULL,
+      col_roles = NULL,
       raw = NULL
     )
 
@@ -164,6 +172,13 @@ Creates a new instance of this
   ([`list()`](https://rdrr.io/r/base/list.html))  
   Named list carrying the order (time) column and any key columns of the
   forecast horizon. The list names are the original task column names.
+
+- `col_roles`:
+
+  (named [`list()`](https://rdrr.io/r/base/list.html))  
+  Column roles for `extra`, with elements `order` and `key`. If `NULL`,
+  the roles are derived from `task`; without a task, the extra columns
+  carry no roles.
 
 - `raw`:
 

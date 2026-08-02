@@ -7,8 +7,8 @@ mirroring
 but preserving the forecast prediction type, which plain `regravg` would
 drop. The output is a
 [PredictionFcst](https://mlr3forecast.mlr-org.com/dev/reference/PredictionFcst.md)
-that keeps the time index and key columns (carried in the `extra` slot),
-so `$order`, `$key`,
+that keeps the time index and key columns (carried in the `extra` slot
+with explicit column roles), so `$order`, `$key`,
 [`autoplot.PredictionFcst()`](https://mlr3forecast.mlr-org.com/dev/reference/autoplot.PredictionFcst.md),
 and forecast `task_type` inference keep working through the ensemble.
 
