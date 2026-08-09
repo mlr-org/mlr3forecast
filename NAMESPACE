@@ -116,6 +116,8 @@ import(paradox)
 importFrom(R6,R6Class)
 importFrom(generics,forecast)
 importFrom(stats,as.ts)
-importFrom(utils,bibentry)
-importFrom(utils,head)
-importFrom(utils,tail)
+importFrom(utils,
+  bibentry,
+  head,
+  tail
+)
