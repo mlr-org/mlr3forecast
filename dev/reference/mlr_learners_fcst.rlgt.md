@@ -96,6 +96,7 @@ Modifications*. R package version 0.2-3,
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md),
 [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.adam.md),
+[`mlr_learners_fcst.ar`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ar.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.auto_adam.md),
@@ -120,6 +121,7 @@ Other Learner:
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.md),
+[`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ssarima.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stlm.md),
@@ -223,16 +225,16 @@ print(learner$model)
 #> [1] 5000
 #> 
 #> $sigma2
-#> [1] 0.604276
+#> [1] 1.235378
 #> 
 #> $xi2
-#> [1] 1.166297
+#> [1] 1.272214
 #> 
 #> $phi
-#> [1] 0.5517241
+#> [1] 0.4827586
 #> 
 #> $chi2
-#> [1] 6.108444
+#> [1] 13.4906
 #> 
 #> $chi2.lambda2
 #> [1] 0
@@ -241,22 +243,22 @@ print(learner$model)
 #> [1] 0
 #> 
 #> $alpha
-#> [1] 0.766976
+#> [1] 0.8392522
 #> 
 #> $beta
 #> [1] 0.7
 #> 
 #> $zeta
-#> [1] 0.2963094
+#> [1] 0.1313393
 #> 
 #> $rho
 #> [1] -0.03448276
 #> 
 #> $tau
-#> [1] 0.3793103
+#> [1] 0.2758621
 #> 
 #> $nu
-#> [1] 18.63
+#> [1] 8.84
 #> 
 #> $l1
 #> [1] 0
@@ -265,34 +267,34 @@ print(learner$model)
 #> [1] 0
 #> 
 #> $lt
-#> [1] 333.5498
+#> [1] 336.1072
 #> 
 #> $bt
 #> [1] 0
 #> 
 #> $et
-#> [1] -3.27692
+#> [1] -0.606094
 #> 
 #> $log.s
-#> [1] 0.003506381
+#> [1] -0.008367256
 #> 
 #> $y.on.l
-#> [1] 0.009007088
+#> [1] -0.002471157
 #> 
 #> $L
 #> [1] 0
 #> 
 #> $log.s1
-#> [1] 0.001750675
+#> [1] -0.00826725
 #> 
 #> $w.s
 #> [1] 0
 #> 
 #> $l2.log.s
-#> [1] 0.8075309
+#> [1] 0.7935043
 #> 
 #> $t2.log.s
-#> [1] 0.01803689
+#> [1] 0.01968547
 #> 
 #> $s.ix
 #> [1] 7
@@ -304,7 +306,7 @@ print(learner$model)
 #> [1] 200
 #> 
 #> $mu.hat
-#> [1] 205.7539
+#> [1] 204.8284
 #> 
 #> $method
 #> [1] "Gibbs"
@@ -333,6 +335,6 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1330.235 
+#> 1262.252 
 # }
 ```

@@ -1,8 +1,9 @@
-# CES Forecast Learner
+# Autoregressive Forecast Learner
 
-Complex Exponential Smoothing (CES) model. Calls
-[`smooth::ces()`](https://rdrr.io/pkg/smooth/man/ces.html) from package
-[smooth](https://CRAN.R-project.org/package=smooth).
+Univariate autoregressive model with the order selected by AIC. Calls
+[`stats::ar()`](https://rdrr.io/r/stats/ar.html) from package stats and
+forecasts via
+[`forecast::forecast()`](https://generics.r-lib.org/reference/forecast.html).
 
 ## Dictionary
 
@@ -13,8 +14,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.ces")
-    lrn("fcst.ces")
+    mlr_learners$get("fcst.ar")
+    lrn("fcst.ar")
 
 ## Meta Information
 
@@ -22,37 +23,35 @@ or with the associated sugar function
 
 - Predict Types: “response”, “quantiles”
 
-- Feature Types: “logical”, “integer”, “numeric”
+- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
+  “ordered”, “POSIXct”, “Date”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [smooth](https://CRAN.R-project.org/package=smooth)
+  [forecast](https://CRAN.R-project.org/package=forecast)
 
 ## Parameters
 
-|  |  |  |  |
-|----|----|----|----|
-| Id | Type | Default | Levels |
-| seasonality | character | none | none, simple, partial, full |
-| lags | untyped | \- |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
-| a | untyped | NULL |  |
-| b | untyped | NULL |  |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
-| holdout | logical | FALSE | TRUE, FALSE |
-| bounds | character | admissible | admissible, none |
-| silent | logical | TRUE | TRUE, FALSE |
-| regressors | character | use | use, select, adapt |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| aic | logical | TRUE | TRUE, FALSE | \- |
+| order.max | integer | NULL |  | \\\[1, \infty)\\ |
+| method | character | yule-walker | yule-walker, burg, ols, mle, yw | \- |
+| demean | logical | TRUE | TRUE, FALSE | \- |
+| var.method | integer | 1 |  | \\\[1, 2\]\\ |
+| intercept | logical | \- | TRUE, FALSE | \- |
+| simulate | logical | FALSE | TRUE, FALSE | \- |
+| bootstrap | logical | FALSE | TRUE, FALSE | \- |
+| innov | untyped | NULL |  | \- |
+| npaths | integer | 5000 |  | \\\[1, \infty)\\ |
+| lambda | untyped | NULL |  | \- |
+| biasadj | logical | FALSE | TRUE, FALSE | \- |
 
 ## References
 
-Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
-2301.01790, <https://arxiv.org/abs/2301.01790>.
-
-Svetunkov I (2023). *Forecasting and Analytics with the Augmented
-Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
-[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
-<https://openforecast.org/adam/>.
+Brockwell PJ, Davis RA (1991). *Time Series: Theory and Methods*, 2nd
+edition. Springer, New York.
 
 ## See also
 
@@ -97,7 +96,6 @@ Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md),
 [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.adam.md),
-[`mlr_learners_fcst.ar`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ar.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.auto_adam.md),
@@ -108,6 +106,7 @@ Other Learner:
 [`mlr_learners_fcst.auto_ssarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.auto_ssarima.md),
 [`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.bagged.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.bats.md),
+[`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md),
@@ -139,16 +138,16 @@ Other Learner:
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
 -\>
-[`LearnerFcstSmooth`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstSmooth.md)
--\> `LearnerFcstCes`
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstForecast.md)
+-\> `LearnerFcstAr`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstCes$new()`](#method-LearnerFcstCes-initialize)
+- [`LearnerFcstAr$new()`](#method-LearnerFcstAr-initialize)
 
-- [`LearnerFcstCes$clone()`](#method-LearnerFcstCes-clone)
+- [`LearnerFcstAr$clone()`](#method-LearnerFcstAr-clone)
 
 Inherited methods
 
@@ -167,24 +166,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstCes$new()`
+### `LearnerFcstAr$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstCes$new()
+    LearnerFcstAr$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstCes$clone()`
+### `LearnerFcstAr$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstCes$clone(deep = FALSE)
+    LearnerFcstAr$clone(deep = FALSE)
 
 #### Arguments
 
@@ -196,17 +195,18 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.ces")
+learner = lrn("fcst.ar")
 print(learner)
 #> 
-#> ── <LearnerFcstCes> (fcst.ces): CES ────────────────────────────────────────────
+#> ── <LearnerFcstAr> (fcst.ar): Autoregressive ───────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and smooth
+#> • Packages: mlr3, mlr3forecast, and forecast
 #> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, and numeric
+#> • Feature Types: logical, integer, numeric, character, factor, ordered,
+#> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -221,20 +221,17 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.02 seconds
-#> Model estimated using ces() function: CES(none)
-#> With backcasting initialisation
-#> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 437.9841
-#>         a0+ia1 
-#> 1.9839+0.9918i
 #> 
-#> Sample size: 96
-#> Number of estimated parameters: 3
-#> Number of degrees of freedom: 93
-#> Information criteria:
-#>      AIC     AICc      BIC     BICc 
-#> 881.9682 882.2291 889.6613 890.2566 
+#> Call:
+#> ar(x = passengers)
+#> 
+#> Coefficients:
+#>       1        2        3        4        5        6        7        8  
+#>  1.0097  -0.0830   0.0013  -0.0054   0.0494  -0.0416  -0.0756  -0.0232  
+#>       9       10       11       12       13  
+#>  0.1222  -0.1374   0.2058   0.4188  -0.5033  
+#> 
+#> Order selected 13  sigma^2 estimated as  528.9
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -258,5 +255,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 26389.16 
+#> 38743.67 
 ```

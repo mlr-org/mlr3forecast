@@ -1,8 +1,11 @@
-# CES Forecast Learner
+# Sparse ARMA Forecast Learner
 
-Complex Exponential Smoothing (CES) model. Calls
-[`smooth::ces()`](https://rdrr.io/pkg/smooth/man/ces.html) from package
-[smooth](https://CRAN.R-project.org/package=smooth).
+Sparse ARMA model in state-space form. Unlike ARIMA, which expands
+polynomials, the AR and MA orders map to specific lags, so
+`orders = list(ar = c(1, 12), ma = 0)` fits terms at lags 1 and 12 and
+nothing in between. Calls
+[`smooth::sparma()`](https://rdrr.io/pkg/smooth/man/sparma.html) from
+package [smooth](https://CRAN.R-project.org/package=smooth).
 
 ## Dictionary
 
@@ -13,8 +16,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.ces")
-    lrn("fcst.ces")
+    mlr_learners$get("fcst.sparma")
+    lrn("fcst.sparma")
 
 ## Meta Information
 
@@ -22,7 +25,8 @@ or with the associated sugar function
 
 - Predict Types: “response”, “quantiles”
 
-- Feature Types: “logical”, “integer”, “numeric”
+- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
+  “ordered”, “POSIXct”, “Date”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
@@ -33,16 +37,14 @@ or with the associated sugar function
 |  |  |  |  |
 |----|----|----|----|
 | Id | Type | Default | Levels |
-| seasonality | character | none | none, simple, partial, full |
-| lags | untyped | \- |  |
+| orders | untyped | list(ar = 1, ma = 1) |  |
+| constant | logical | FALSE | TRUE, FALSE |
+| arma | untyped | NULL |  |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete |
-| a | untyped | NULL |  |
-| b | untyped | NULL |  |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) |
 | holdout | logical | FALSE | TRUE, FALSE |
-| bounds | character | admissible | admissible, none |
+| bounds | character | none | none, usual, admissible |
 | silent | logical | TRUE | TRUE, FALSE |
-| regressors | character | use | use, select, adapt |
 
 ## References
 
@@ -108,6 +110,7 @@ Other Learner:
 [`mlr_learners_fcst.auto_ssarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.auto_ssarima.md),
 [`mlr_learners_fcst.bagged`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.bagged.md),
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.bats.md),
+[`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md),
@@ -122,7 +125,6 @@ Other Learner:
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.md),
-[`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ssarima.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stlm.md),
@@ -140,15 +142,15 @@ Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
 -\>
 [`LearnerFcstSmooth`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstSmooth.md)
--\> `LearnerFcstCes`
+-\> `LearnerFcstSparma`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstCes$new()`](#method-LearnerFcstCes-initialize)
+- [`LearnerFcstSparma$new()`](#method-LearnerFcstSparma-initialize)
 
-- [`LearnerFcstCes$clone()`](#method-LearnerFcstCes-clone)
+- [`LearnerFcstSparma$clone()`](#method-LearnerFcstSparma-clone)
 
 Inherited methods
 
@@ -167,24 +169,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstCes$new()`
+### `LearnerFcstSparma$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstCes$new()
+    LearnerFcstSparma$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstCes$clone()`
+### `LearnerFcstSparma$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstCes$clone(deep = FALSE)
+    LearnerFcstSparma$clone(deep = FALSE)
 
 #### Arguments
 
@@ -196,17 +198,17 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.ces")
+learner = lrn("fcst.sparma")
 print(learner)
 #> 
-#> ── <LearnerFcstCes> (fcst.ces): CES ────────────────────────────────────────────
+#> ── <LearnerFcstSparma> (fcst.sparma): Sparse ARMA ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and smooth
 #> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, and numeric
+#> • Feature Types: logical, integer, numeric, character, factor, ordered, POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -221,26 +223,23 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.02 seconds
-#> Model estimated using ces() function: CES(none)
+#> Time elapsed: 0.01 seconds
+#> Model estimated using sparma() function: SpARMA(1;1)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 437.9841
-#>         a0+ia1 
-#> 1.9839+0.9918i
-#> 
+#> Loss function type: likelihood; Loss function value: 433.0529
+#> AR(1): 1.0001
+#> MA(1): 0.4015
 #> Sample size: 96
 #> Number of estimated parameters: 3
 #> Number of degrees of freedom: 93
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 881.9682 882.2291 889.6613 890.2566 
+#> 872.1057 872.3666 879.7988 880.3941 
 #> 
 #> $row_ids
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-#> [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
-#> [51] 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75
-#> [76] 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96
+#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58
+#> [59] 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96
 #> 
 #> $max_index
 #> [1] "1956-12-01"
@@ -258,5 +257,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 26389.16 
+#> 13900.84 
 ```

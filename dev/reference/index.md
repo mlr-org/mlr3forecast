@@ -23,6 +23,9 @@
 - [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.adam.md)
   [`LearnerFcstAdam`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.adam.md)
   : ADAM Forecast Learner
+- [`mlr_learners_fcst.ar`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ar.md)
+  [`LearnerFcstAr`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ar.md)
+  : Autoregressive Forecast Learner
 - [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.arfima.md)
   [`LearnerFcstArfima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.arfima.md)
   : ARFIMA Forecast Learner
@@ -98,6 +101,9 @@
 - [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.md)
   [`LearnerFcstSma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.md)
   : Simple Moving Average Forecast Learner
+- [`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.md)
+  [`LearnerFcstSparma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.md)
+  : Sparse ARMA Forecast Learner
 - [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.spline.md)
   [`LearnerFcstSpline`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.spline.md)
   : Spline Forecast Learner
