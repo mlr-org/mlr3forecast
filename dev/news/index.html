@@ -58,6 +58,8 @@
 <li>
 <code>fcst.mase</code>, <code>fcst.msis</code>, and <code>fcst.rmsse</code> now infer <code>period</code> from <code>task$freq</code> unless it is set.</li>
 <li>
+<code>fcst.mean</code> gained the <code>bootstrap</code> and <code>npaths</code> parameters for empirical quantiles resampled from the residuals.</li>
+<li>
 <code>PredictionFcst</code> now stores explicit roles for extra columns in <code>$col_roles</code>, replacing type-based detection.</li>
 <li>
 <code>RecursiveForecaster</code> now supports validation and internal tuning (configure with <code><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">set_validate()</a></code>) and delegates <code>$importance()</code>, <code>$selected_features()</code>, and <code>$oob_error()</code> to the wrapped graph.</li>

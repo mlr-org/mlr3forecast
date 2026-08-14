@@ -31,11 +31,13 @@ or with the associated sugar function
 
 ## Parameters
 
-|         |         |         |             |
-|---------|---------|---------|-------------|
-| Id      | Type    | Default | Levels      |
-| lambda  | untyped | NULL    |             |
-| biasadj | logical | FALSE   | TRUE, FALSE |
+|           |         |         |             |                  |
+|-----------|---------|---------|-------------|------------------|
+| Id        | Type    | Default | Levels      | Range            |
+| lambda    | untyped | NULL    |             | \-               |
+| biasadj   | logical | FALSE   | TRUE, FALSE | \-               |
+| bootstrap | logical | FALSE   | TRUE, FALSE | \-               |
+| npaths    | integer | 5000    |             | \\\[1, \infty)\\ |
 
 ## References
 

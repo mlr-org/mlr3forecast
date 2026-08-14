@@ -11,6 +11,8 @@
 - `DirectForecaster` now rejects empty or duplicate `horizons` values.
 - `fcst.mase`, `fcst.msis`, and `fcst.rmsse` now infer `period` from
   `task$freq` unless it is set.
+- `fcst.mean` gained the `bootstrap` and `npaths` parameters for
+  empirical quantiles resampled from the residuals.
 - `PredictionFcst` now stores explicit roles for extra columns in
   `$col_roles`, replacing type-based detection.
 - `RecursiveForecaster` now supports validation and internal tuning
