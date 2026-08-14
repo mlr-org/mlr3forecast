@@ -28,10 +28,12 @@ lrn("fcst.mean")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   lambda \tab untyped \tab NULL \tab  \cr
-   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   lambda \tab untyped \tab NULL \tab  \tab - \cr
+   biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   npaths \tab integer \tab 5000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
 }
 }
 
