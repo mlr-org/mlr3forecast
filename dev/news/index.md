@@ -40,8 +40,8 @@
   values.
 - fix: `fcst.mase`, `fcst.msis`, and `fcst.rmsse` now infer `period`
   from `task$freq` unless it is set.
-- fix: `PipeOpFcstAvg` now declares the packages and parameter tags of
-  the wrapped learners instead of dropping them.
+- fix: `PipeOpFcstAvg` now declares its required packages and the
+  `"fcst"` tag instead of dropping them.
 - fix: `rsmp("fcst.holdout", n = 0)` now puts no observations into the
   training set instead of all of them.
 

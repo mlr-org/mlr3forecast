@@ -63,7 +63,7 @@
 <li>fix: Both forecasters no longer advertise learner properties they cannot honour, fixing failures when tuning with <code>AutoTuner</code>. This drops the hotstart properties for both and additionally validation, internal tuning, importance, selected features, and OOB error for <code>DirectForecaster</code>.</li>
 <li>fix: <code>DirectForecaster</code> now rejects empty or duplicate <code>horizons</code> values.</li>
 <li>fix: <code>fcst.mase</code>, <code>fcst.msis</code>, and <code>fcst.rmsse</code> now infer <code>period</code> from <code>task$freq</code> unless it is set.</li>
-<li>fix: <code>PipeOpFcstAvg</code> now declares the packages and parameter tags of the wrapped learners instead of dropping them.</li>
+<li>fix: <code>PipeOpFcstAvg</code> now declares its required packages and the <code>"fcst"</code> tag instead of dropping them.</li>
 <li>fix: <code>rsmp("fcst.holdout", n = 0)</code> now puts no observations into the training set instead of all of them.</li>
 </ul></div>
     <div class="section level2">
