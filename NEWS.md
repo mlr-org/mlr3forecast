@@ -4,6 +4,7 @@
 * BREAKING CHANGE: `po("fcstavg")` was renamed to `po("fcst.avg")` to match the id prefix of the other PipeOps.
 * Numeric `freq` values now represent the seasonal period, while the grid step is inferred from the order column.
 * `DirectForecaster` now rejects empty or duplicate `horizons` values.
+* New learner `fcst.ar` wrapping `stats::ar()`, fitting autoregressive models by Yule-Walker, Burg, OLS, or maximum likelihood with optional AIC order selection.
 * `fcst.mase`, `fcst.msis`, and `fcst.rmsse` now infer `period` from `task$freq` unless it is set.
 * `fcst.mean` gained the `bootstrap` and `npaths` parameters for empirical quantiles resampled from the residuals.
 * `PredictionFcst` now stores explicit roles for extra columns in `$col_roles`, replacing type-based detection.

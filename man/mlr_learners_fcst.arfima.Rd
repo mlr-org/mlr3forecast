@@ -122,6 +122,7 @@ for established default tuning spaces.
 Other Learner:
 \code{\link{LearnerFcst}},
 \code{\link{mlr_learners_fcst.adam}},
+\code{\link{mlr_learners_fcst.ar}},
 \code{\link{mlr_learners_fcst.arima}},
 \code{\link{mlr_learners_fcst.auto_adam}},
 \code{\link{mlr_learners_fcst.auto_arima}},

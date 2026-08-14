@@ -73,6 +73,7 @@ Collate:
     'LearnerFcst.R'
     'zzz.R'
     'LearnerFcstAdam.R'
+    'LearnerFcstAr.R'
     'LearnerFcstArfima.R'
     'LearnerFcstArima.R'
     'LearnerFcstAutoAdam.R'
