@@ -131,6 +131,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.random_walk}},
 \code{\link{mlr_learners_fcst.rlgt}},
 \code{\link{mlr_learners_fcst.sma}},
+\code{\link{mlr_learners_fcst.sparma}},
 \code{\link{mlr_learners_fcst.spline}},
 \code{\link{mlr_learners_fcst.ssarima}},
 \code{\link{mlr_learners_fcst.struct_ts}},
