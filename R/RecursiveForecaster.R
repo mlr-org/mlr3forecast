@@ -439,7 +439,7 @@ RecursiveForecaster = R6Class(
         expected = seq_order(origin, step, nrow(test_data))
         if (anyNA(expected) || !all(sort(test_data[[order_cols]]) == expected)) {
           error_input(
-            "Test rows must form the gap-free future grid following the training data (origin %s, freq %s).",
+            "Test rows must form the gap-free future grid following the training data (origin %s, step %s).",
             format(origin),
             step
           )

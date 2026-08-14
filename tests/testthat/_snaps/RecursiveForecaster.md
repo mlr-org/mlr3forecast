@@ -6,7 +6,7 @@
       Error:
       ! 
       x Test rows must form the gap-free future grid following the training data
-        (origin 1958-12-01, freq month).
+        (origin 1958-12-01, step month).
       > Class: Mlr3ErrorInput
 
 ---
@@ -17,7 +17,7 @@
       Error:
       ! 
       x Test rows must form the gap-free future grid following the training data
-        (origin 1958-12-01, freq month).
+        (origin 1958-12-01, step month).
       > Class: Mlr3ErrorInput
 
 # RecursiveForecaster errors on gapped keyed test rows
