@@ -1,5 +1,5 @@
 
-# mlr3forecast
+# mlr3forecast <img src="man/figures/logo.png" align="right" width = "120" />
 
 Extending mlr3 to time series forecasting.
 
