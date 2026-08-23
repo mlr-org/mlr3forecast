@@ -20,7 +20,7 @@ or with the associated sugar function
 
 - Task type: “fcst”
 
-- Predict Types: “response”
+- Predict Types: “response”, “quantiles”
 
 - Feature Types: “logical”, “integer”, “numeric”
 
@@ -201,7 +201,7 @@ print(learner)
 #> • Model: -
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response]
+#> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties: exogenous, featureless, and missings
