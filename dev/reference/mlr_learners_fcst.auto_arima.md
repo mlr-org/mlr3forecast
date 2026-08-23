@@ -4,6 +4,12 @@ Auto ARIMA model. Calls
 [`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
+Parallel fitting via `parallel` or
+[`mlr3::set_threads()`](https://mlr3.mlr-org.com/reference/set_threads.html)
+requires `stepwise = FALSE`; with the default stepwise search,
+[`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
+warns and fits in serial.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)

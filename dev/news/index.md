@@ -26,6 +26,15 @@
   [`partition()`](https://mlr3.mlr-org.com/reference/partition.html) now
   validates `ratio` before partitioning a `TaskFcst`.
 - feat:
+  [`mlr3::set_threads()`](https://mlr3.mlr-org.com/reference/set_threads.html)
+  support: the `num.cores` parameter of `fcst.arfima`,
+  `fcst.auto_arima`, `fcst.nnetar`, `fcst.bats`, and `fcst.tbats` now
+  carries the `"threads"` tag, and setting `num.cores` to a value
+  greater than one enables the corresponding parallel switch at train
+  time.
+- fix: `fcst.nnetar` now declares `nnet` in its packages so parallel
+  training finds `predict.nnet` on the main process.
+- feat:
   [`pipeline_fcst_local()`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_graphs_fcst.local.md)
   now accepts any object supported by
   [`as_graph()`](https://mlr3pipelines.mlr-org.com/reference/as_graph.html)

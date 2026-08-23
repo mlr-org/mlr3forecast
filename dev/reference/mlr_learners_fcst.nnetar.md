@@ -26,7 +26,8 @@ or with the associated sugar function
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [forecast](https://CRAN.R-project.org/package=forecast)
+  [forecast](https://CRAN.R-project.org/package=forecast),
+  [nnet](https://CRAN.R-project.org/package=nnet)
 
 ## Parameters
 
@@ -200,7 +201,7 @@ print(learner)
 #> ── <LearnerFcstNnetar> (fcst.nnetar): Neural Network Time Series Forecasts ─────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and forecast
+#> • Packages: mlr3, mlr3forecast, forecast, and nnet
 #> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
