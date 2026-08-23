@@ -34,6 +34,10 @@ test_that("as_task conversion", {
   expect_no_error(as_task_fcst(x))
 })
 
+test_that("as_task_fcst rejects unused arguments for TaskFcst", {
+  expect_error(as_task_fcst(tsk("airpassengers"), typo = TRUE), "unused: typo")
+})
+
 test_that("as_task conversion timeSeries", {
   skip_if_not_installed("timeSeries")
 

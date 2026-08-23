@@ -25,7 +25,7 @@ Columns other than those are overlaid onto the generated skeleton, while skeleto
 without a match keep \code{NA}.}
 
 \item{...}{(any)\cr
-Ignored.}
+Must be empty.}
 }
 \value{
 \link[mlr3:Prediction]{mlr3::Prediction}.

@@ -101,6 +101,10 @@ test_that("forecast() works with a classic forecast learner", {
   expect_length(pred$response, 12L)
 })
 
+test_that("forecast() rejects unused arguments", {
+  expect_error(forecast(lrn("regr.featureless"), tsk("airpassengers"), typo = TRUE), "unused: typo")
+})
+
 test_that("forecast() overlays newdata onto the skeleton", {
   task = tsk("airpassengers")
   flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)

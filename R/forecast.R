@@ -58,10 +58,11 @@ generate_newdata = function(task, n = 1L) {
 #'   Columns other than those are overlaid onto the generated skeleton, while skeleton rows
 #'   without a match keep `NA`.
 #' @param ... (any)\cr
-#'   Ignored.
+#'   Must be empty.
 #' @return [mlr3::Prediction].
 #' @export
 forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
+  assert_empty_ellipsis(...)
   assert_learner(object)
   task = assert_task(as_task_fcst(task), task_type = "fcst")
   h = assert_count(h, positive = TRUE, coerce = TRUE)

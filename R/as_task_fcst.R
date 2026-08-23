@@ -53,6 +53,7 @@ as_tasks_fcst.list = function(x, ...) {
 #' @rdname as_task_fcst
 #' @export
 as_task_fcst.TaskFcst = function(x, clone = FALSE, ...) {
+  assert_empty_ellipsis(...)
   if (clone) x$clone() else x
 }
 

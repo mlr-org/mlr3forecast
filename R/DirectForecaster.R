@@ -75,8 +75,9 @@ DirectForecaster = R6Class(
       if (inherits(learner, c("Graph", "PipeOp"))) {
         graph = as_graph(learner)
       } else {
-        assert_learner(as_learner(learner), task_type = "regr")
-        graph = as_graph(as_learner(learner))
+        learner = as_learner(learner)
+        assert_learner(learner, task_type = "regr")
+        graph = as_graph(learner)
       }
 
       private$.learner = GraphLearner$new(graph, task_type = "regr")
@@ -285,7 +286,7 @@ DirectForecaster = R6Class(
 
       models = map(horizons, function(h) {
         offset_lags = lags + (h - 1L)
-        g = po("fcst.lags", lags = offset_lags) %>>% as_graph(graph, clone = TRUE)
+        g = po("fcst.lags", lags = offset_lags) %>>% graph
         glrn = GraphLearner$new(g, task_type = "regr", clone_graph = FALSE)
         glrn$train(task)
       })
