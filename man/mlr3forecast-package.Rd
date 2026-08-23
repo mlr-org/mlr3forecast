@@ -6,6 +6,8 @@
 \alias{mlr3forecast-package}
 \title{mlr3forecast: Extending 'mlr3' to Time Series Forecasting}
 \description{
+\if{html}{\figure{logo.png}{options: style='float: right' alt='logo' width='120'}}
+
 Extends the 'mlr3' package and ecosystem to time series forecasting. Provides forecasting tasks, learners, resampling strategies, performance measures, and 'mlr3pipelines' operators for time-series feature engineering. Machine learning regression learners can be turned into forecasters through recursive and direct multi-step strategies.
 }
 \seealso{

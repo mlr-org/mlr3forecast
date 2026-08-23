@@ -34,7 +34,7 @@ lrn("fcst.arima")
    seasonal \tab untyped \tab c(0L, 0L, 0L) \tab  \tab - \cr
    include.mean \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    include.drift \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   include.constant \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   include.constant \tab logical \tab NULL \tab TRUE, FALSE \tab - \cr
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    method \tab character \tab CSS-ML \tab CSS-ML, ML, CSS \tab - \cr

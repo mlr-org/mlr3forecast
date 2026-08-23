@@ -42,7 +42,7 @@ lrn("fcst.ets")
    lower \tab untyped \tab c(rep.int(1e-04, 3), 0.8) \tab  \tab - \cr
    upper \tab untyped \tab c(rep.int(0.9999, 3), 0.98) \tab  \tab - \cr
    opt.crit \tab character \tab lik \tab lik, amse, mse, sigma, mae \tab - \cr
-   nmse \tab integer \tab 3 \tab  \tab \eqn{[0, 30]}{[0, 30]} \cr
+   nmse \tab integer \tab 3 \tab  \tab \eqn{[1, 30]}{[1, 30]} \cr
    bounds \tab character \tab both \tab both, usual, admissible \tab - \cr
    ic \tab character \tab aicc \tab aicc, aic, bic \tab - \cr
    restrict \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
