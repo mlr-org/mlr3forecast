@@ -39,7 +39,7 @@ or with the associated sugar function
 | include.drift | logical | FALSE | TRUE, FALSE | \- |
 | include.constant | logical | NULL | TRUE, FALSE | \- |
 | lambda | untyped | NULL |  | \- |
-| biasadj | logical | FALSE | TRUE, FALSE | \- |
+| biasadj | logical | \- | TRUE, FALSE | \- |
 | method | character | CSS-ML | CSS-ML, ML, CSS | \- |
 | simulate | logical | FALSE | TRUE, FALSE | \- |
 | bootstrap | logical | FALSE | TRUE, FALSE | \- |

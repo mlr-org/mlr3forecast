@@ -33,14 +33,13 @@ or with the associated sugar function
 
 ## Parameters
 
-|         |           |         |                      |                  |
-|---------|-----------|---------|----------------------|------------------|
-| Id      | Type      | Default | Levels               | Range            |
-| order   | integer   | NULL    |                      | \\\[1, \infty)\\ |
-| ic      | character | AICc    | AICc, AIC, BIC, BICc | \-               |
-| holdout | logical   | FALSE   | TRUE, FALSE          | \-               |
-| silent  | logical   | TRUE    | TRUE, FALSE          | \-               |
-| fast    | logical   | TRUE    | TRUE, FALSE          | \-               |
+|        |           |         |                      |                  |
+|--------|-----------|---------|----------------------|------------------|
+| Id     | Type      | Default | Levels               | Range            |
+| order  | integer   | NULL    |                      | \\\[1, \infty)\\ |
+| ic     | character | AICc    | AICc, AIC, BIC, BICc | \-               |
+| silent | logical   | TRUE    | TRUE, FALSE          | \-               |
+| fast   | logical   | TRUE    | TRUE, FALSE          | \-               |
 
 ## References
 

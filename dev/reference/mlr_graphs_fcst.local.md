@@ -24,8 +24,11 @@ pipeline_fcst_local(graph, key = "key")
 
 - graph:
 
-  ([Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html))  
-  Graph being wrapped between
+  (any)  
+  Object coercible to a
+  [Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html) with
+  [`mlr3pipelines::as_graph()`](https://mlr3pipelines.mlr-org.com/reference/as_graph.html),
+  being wrapped between
   [`po("fcst.splitkey")`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.splitkey.md)
   and
   [`po("fcst.unitekey")`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.unitekey.md).

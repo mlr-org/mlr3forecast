@@ -4,6 +4,11 @@ Prophet model. Calls
 [`prophet::prophet()`](https://rdrr.io/pkg/prophet/man/prophet.html)
 from package [prophet](https://CRAN.R-project.org/package=prophet).
 
+With `growth = "logistic"`, the task must have a feature named `cap`
+containing the saturation capacity. An optional `floor` feature
+specifies the saturation minimum. These columns must also be supplied
+for future prediction rows and are not registered as extra regressors.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)

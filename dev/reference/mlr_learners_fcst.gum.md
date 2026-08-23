@@ -42,7 +42,7 @@ or with the associated sugar function
 | initial | character | backcasting | backcasting, optimal, two-stage, complete |
 | persistence | untyped | NULL |  |
 | transition | untyped | NULL |  |
-| measurement | untyped | NULL |  |
+| measurement | untyped | \- |  |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
 | holdout | logical | FALSE | TRUE, FALSE |
 | bounds | character | usual | usual, admissible, none |
@@ -221,7 +221,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.07 seconds
+#> Time elapsed: 0.03 seconds
 #> Model estimated using gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
