@@ -46,7 +46,7 @@ or with the associated sugar function
 | lower | untyped | c(rep.int(1e-04, 3), 0.8) |  | \- |
 | upper | untyped | c(rep.int(0.9999, 3), 0.98) |  | \- |
 | opt.crit | character | lik | lik, amse, mse, sigma, mae | \- |
-| nmse | integer | 3 |  | \\\[0, 30\]\\ |
+| nmse | integer | 3 |  | \\\[1, 30\]\\ |
 | bounds | character | both | both, usual, admissible | \- |
 | ic | character | aicc | aicc, aic, bic | \- |
 | restrict | logical | TRUE | TRUE, FALSE | \- |

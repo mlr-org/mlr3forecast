@@ -1,7 +1,7 @@
 # Auto State-Space ARIMA Forecast Learner
 
 Automatic order selection for State-Space ARIMA. Picks `orders`
-minimising the chosen information criterion. Calls
+minimizing the chosen information criterion. Calls
 [`smooth::auto.ssarima()`](https://rdrr.io/pkg/smooth/man/ssarima.html)
 from package [smooth](https://CRAN.R-project.org/package=smooth).
 
@@ -223,7 +223,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 1.77 seconds
+#> Time elapsed: 1.71 seconds
 #> Model estimated using auto.ssarima() function: SSARIMA(0,1,3)[1](0,1,0)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

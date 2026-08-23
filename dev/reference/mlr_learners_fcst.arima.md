@@ -37,7 +37,7 @@ or with the associated sugar function
 | seasonal | untyped | c(0L, 0L, 0L) |  | \- |
 | include.mean | logical | TRUE | TRUE, FALSE | \- |
 | include.drift | logical | FALSE | TRUE, FALSE | \- |
-| include.constant | logical | FALSE | TRUE, FALSE | \- |
+| include.constant | logical | NULL | TRUE, FALSE | \- |
 | lambda | untyped | NULL |  | \- |
 | biasadj | logical | FALSE | TRUE, FALSE | \- |
 | method | character | CSS-ML | CSS-ML, ML, CSS | \- |

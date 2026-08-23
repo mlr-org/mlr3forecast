@@ -1,7 +1,7 @@
 # Auto Multiple-Seasonal ARIMA Forecast Learner
 
 Automatic order selection for Multiple-Seasonal ARIMA. Picks `orders`
-minimising the chosen information criterion. Calls
+minimizing the chosen information criterion. Calls
 [`smooth::auto.msarima()`](https://rdrr.io/pkg/smooth/man/msarima.html)
 from package [smooth](https://CRAN.R-project.org/package=smooth).
 
@@ -221,7 +221,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.6 seconds
+#> Time elapsed: 0.67 seconds
 #> Model estimated using auto.msarima() function: SARIMA(0,1,1)[1](0,1,1)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
