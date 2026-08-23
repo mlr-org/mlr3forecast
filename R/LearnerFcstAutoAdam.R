@@ -32,10 +32,16 @@ LearnerFcstAutoAdam = R6Class(
           default = "none",
           tags = "train"
         ),
-        distribution = p_fct(
-          c("dnorm", "dlaplace", "ds", "dgnorm", "dlnorm", "dinvgauss", "dgamma"),
-          default = "dnorm",
-          tags = "train"
+        distribution = p_uty(
+          default = c("dnorm", "dlaplace", "ds", "dgnorm", "dlnorm", "dinvgauss", "dgamma"),
+          tags = "train",
+          custom_check = crate(function(x) {
+            check_subset(
+              x,
+              choices = c("dnorm", "dlaplace", "ds", "dgnorm", "dlnorm", "dinvgauss", "dgamma"),
+              empty.ok = FALSE
+            )
+          })
         ),
         outliers = p_fct(c("ignore", "use", "select"), default = "ignore", tags = "train"),
         holdout = p_lgl(default = FALSE, tags = "train"),

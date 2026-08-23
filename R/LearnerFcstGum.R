@@ -41,7 +41,6 @@ LearnerFcstGum = R6Class(
           custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
         ),
         measurement = p_uty(
-          default = NULL,
           special_vals = list(NULL),
           tags = "train",
           custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
