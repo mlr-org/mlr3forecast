@@ -27,7 +27,6 @@ LearnerFcstSma = R6Class(
       param_set = ps(
         order = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
-        holdout = p_lgl(default = FALSE, tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train"),
         fast = p_lgl(default = TRUE, tags = "train")
       )
@@ -49,7 +48,7 @@ LearnerFcstSma = R6Class(
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
-      private$.set_context(invoke(smooth::sma, y = as.ts(task), .args = pv), task)
+      private$.set_context(invoke(smooth::sma, y = as.ts(task), h = 0L, .args = pv), task)
     },
 
     .predict = function(task) {
