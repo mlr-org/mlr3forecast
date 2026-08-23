@@ -4,6 +4,7 @@
 #' task = tsk("airpassengers")
 #' split = partition(task, ratio = 0.8)
 partition.TaskFcst = function(task, ratio = 0.67) {
+  assert_numeric(ratio, lower = 0, upper = 1, any.missing = FALSE, min.len = 1L, max.len = 2L)
   task = task$clone(deep = TRUE)
   if (sum(ratio) >= 1) {
     error_input("Sum of `ratio` must be smaller than 1.")
