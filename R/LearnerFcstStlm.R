@@ -35,10 +35,19 @@ LearnerFcstStlm = R6Class(
           tags = "train",
           custom_check = crate(function(x) check_function(x, null.ok = TRUE))
         ),
-        etsmodel = p_uty(default = "ZZN", tags = "train", custom_check = check_string),
+        etsmodel = p_uty(
+          default = "ZZN",
+          tags = "train",
+          custom_check = check_string,
+          depends = quote(method == "ets")
+        ),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
-        allow.multiplicative.trend = p_lgl(default = FALSE, tags = c("train", "predict"))
+        allow.multiplicative.trend = p_lgl(
+          default = FALSE,
+          tags = c("train", "predict"),
+          depends = quote(method == "ets")
+        )
       )
 
       super$initialize(
