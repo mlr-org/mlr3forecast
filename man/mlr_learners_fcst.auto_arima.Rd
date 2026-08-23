@@ -7,6 +7,9 @@
 \description{
 Auto ARIMA model.
 Calls \code{\link[forecast:auto.arima]{forecast::auto.arima()}} from package \CRANpkg{forecast}.
+
+Parallel fitting via \code{parallel} or \code{\link[mlr3:set_threads]{mlr3::set_threads()}} requires \code{stepwise = FALSE};
+with the default stepwise search, \code{\link[forecast:auto.arima]{forecast::auto.arima()}} warns and fits in serial.
 }
 \section{Dictionary}{
 

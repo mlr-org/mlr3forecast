@@ -22,7 +22,21 @@ test_that("num.cores alone enables the parallel switch at train", {
   learner = set_threads(lrn("fcst.bats", use.box.cox = FALSE, use.trend = FALSE), 2L)
   expect_false("use.parallel" %in% names(learner$param_set$values))
   learner$train(task)
+  expect_true(learner$native_model$call$use.parallel)
   expect_numeric(learner$predict(task)$response, any.missing = FALSE, len = task$nrow)
+})
+
+test_that("a single thread stays serial", {
+  task = tsk("airpassengers")$filter(1:72)
+  learner = set_threads(lrn("fcst.bats", use.box.cox = FALSE, use.trend = FALSE), 1L)
+  learner$train(task)
+  expect_null(learner$native_model$call$use.parallel)
+})
+
+test_that("fcst.auto_adam accepts a flag or a positive core count", {
+  expect_identical(lrn("fcst.auto_adam", parallel = TRUE)$param_set$values$parallel, TRUE)
+  expect_identical(lrn("fcst.auto_adam", parallel = 2L)$param_set$values$parallel, 2L)
+  expect_error(lrn("fcst.auto_adam", parallel = 0L), "flag or a positive integer")
 })
 
 test_that("an explicit parallel switch is not overridden", {

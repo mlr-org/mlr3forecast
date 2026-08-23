@@ -6,6 +6,9 @@
 #' Auto ARIMA model.
 #' Calls [forecast::auto.arima()] from package \CRANpkg{forecast}.
 #'
+#' Parallel fitting via `parallel` or [mlr3::set_threads()] requires `stepwise = FALSE`;
+#' with the default stepwise search, [forecast::auto.arima()] warns and fits in serial.
+#'
 #' @templateVar id fcst.auto_arima
 #' @template learner
 #'

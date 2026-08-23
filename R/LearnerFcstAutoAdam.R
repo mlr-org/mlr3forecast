@@ -60,7 +60,13 @@ LearnerFcstAutoAdam = R6Class(
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train"),
-        parallel = p_int(1L, default = FALSE, special_vals = list(TRUE, FALSE), tags = c("train", "threads")),
+        parallel = p_uty(
+          default = FALSE,
+          tags = c("train", "threads"),
+          custom_check = crate(function(x) {
+            if (isTRUE(x) || isFALSE(x) || test_int(x, lower = 1L)) TRUE else "Must be a flag or a positive integer"
+          })
+        ),
         ets = p_fct(c("conventional", "adam"), default = "conventional", tags = "train")
       )
 
