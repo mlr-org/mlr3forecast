@@ -75,8 +75,7 @@ DirectForecaster = R6Class(
       if (inherits(learner, c("Graph", "PipeOp"))) {
         graph = as_graph(learner)
       } else {
-        learner = as_learner(learner)
-        assert_learner(learner, task_type = "regr")
+        learner = assert_learner(as_learner(learner), task_type = "regr")
         graph = as_graph(learner)
       }
 
