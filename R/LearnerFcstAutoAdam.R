@@ -63,9 +63,7 @@ LearnerFcstAutoAdam = R6Class(
         parallel = p_uty(
           default = FALSE,
           tags = c("train", "threads"),
-          custom_check = crate(function(x) {
-            if (test_flag(x) || test_int(x, lower = 1L)) TRUE else "Must be a flag or a positive integer"
-          })
+          custom_check = crate(function(x) check_flag(x) %check||% check_int(x, lower = 1L))
         ),
         ets = p_fct(c("conventional", "adam"), default = "conventional", tags = "train")
       )

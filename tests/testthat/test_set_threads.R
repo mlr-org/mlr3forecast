@@ -36,7 +36,7 @@ test_that("a single thread stays serial", {
 test_that("fcst.auto_adam accepts a flag or a positive core count", {
   expect_identical(lrn("fcst.auto_adam", parallel = TRUE)$param_set$values$parallel, TRUE)
   expect_identical(lrn("fcst.auto_adam", parallel = 2L)$param_set$values$parallel, 2L)
-  expect_error(lrn("fcst.auto_adam", parallel = 0L), "flag or a positive integer")
+  expect_error(lrn("fcst.auto_adam", parallel = 0L), "logical flag")
 })
 
 test_that("an explicit parallel switch is not overridden", {
