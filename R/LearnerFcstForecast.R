@@ -9,6 +9,7 @@ LearnerFcstForecast = R6Class(
     .pkg = "forecast",
     .fn = NULL,
     .y_arg = "y",
+    .parallel_arg = NULL,
 
     .postprocess = function(pred) pred,
     .adjust_level = function(level) level,
@@ -17,6 +18,10 @@ LearnerFcstForecast = R6Class(
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
+      parallel_arg = private$.parallel_arg
+      if (!is.null(parallel_arg) && !is.null(pv$num.cores) && is.null(pv[[parallel_arg]])) {
+        pv[[parallel_arg]] = TRUE
+      }
       private$.set_context(private$.fit(task, pv), task)
     },
 

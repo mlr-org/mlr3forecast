@@ -38,8 +38,7 @@ LearnerFcstBats = R6Class(
           lower = 1L,
           default = 2L,
           special_vals = list(NULL),
-          tags = "train",
-          depends = quote(use.parallel == TRUE)
+          tags = c("train", "threads")
         ),
         bc.lower = p_dbl(default = 0, tags = "train"),
         bc.upper = p_dbl(default = 1, tags = "train"),
@@ -60,7 +59,8 @@ LearnerFcstBats = R6Class(
   ),
 
   private = list(
-    .fn = "bats"
+    .fn = "bats",
+    .parallel_arg = "use.parallel"
   )
 )
 

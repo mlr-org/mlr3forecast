@@ -54,8 +54,7 @@ LearnerFcstArfima = R6Class(
           lower = 1L,
           default = 2L,
           special_vals = list(NULL),
-          tags = "train",
-          depends = quote(parallel == TRUE)
+          tags = c("train", "threads")
         ),
         # additional arguments to stats::arima
         transform.pars = p_lgl(default = TRUE, tags = "train"),
@@ -88,7 +87,8 @@ LearnerFcstArfima = R6Class(
   ),
 
   private = list(
-    .fn = "arfima"
+    .fn = "arfima",
+    .parallel_arg = "parallel"
   )
 )
 

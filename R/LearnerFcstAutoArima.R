@@ -57,8 +57,7 @@ LearnerFcstAutoArima = R6Class(
           lower = 1L,
           default = 2L,
           special_vals = list(NULL),
-          tags = "train",
-          depends = quote(parallel == TRUE)
+          tags = c("train", "threads")
         ),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         simulate = p_lgl(default = FALSE, tags = "predict"),
@@ -93,7 +92,8 @@ LearnerFcstAutoArima = R6Class(
   ),
 
   private = list(
-    .fn = "auto.arima"
+    .fn = "auto.arima",
+    .parallel_arg = "parallel"
   )
 )
 

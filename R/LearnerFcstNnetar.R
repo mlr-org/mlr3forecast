@@ -34,8 +34,7 @@ LearnerFcstNnetar = R6Class(
           lower = 1L,
           default = 2L,
           special_vals = list(NULL),
-          tags = "train",
-          depends = quote(parallel == TRUE)
+          tags = c("train", "threads")
         ),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 1000L, tags = "predict"),
@@ -61,6 +60,7 @@ LearnerFcstNnetar = R6Class(
 
   private = list(
     .fn = "nnetar",
+    .parallel_arg = "parallel",
 
     .adjust_predict_args = function(args, is_quantile) {
       if (is_quantile && any(private$.quantiles != 0.5)) {

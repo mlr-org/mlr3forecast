@@ -45,7 +45,7 @@ lrn("fcst.auto_adam")
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
    bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
-   parallel \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   parallel \tab integer \tab FALSE \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    ets \tab character \tab conventional \tab conventional, adam \tab - \cr
 }
 }

@@ -8,6 +8,7 @@
 * feat: New learner `fcst.sparma` wrapping `smooth::sparma()`, fitting sparse ARMA models whose `orders` map to specific lags instead of expanding polynomials.
 * feat: `forecast()` now validates `newdata` as a data frame with unique column names.
 * feat: `partition()` now validates `ratio` before partitioning a `TaskFcst`.
+* feat: `mlr3::set_threads()` support: the core-count parameters of `fcst.arfima`, `fcst.auto_arima`, `fcst.nnetar`, `fcst.bats`, `fcst.tbats`, and `fcst.auto_adam` now carry the `"threads"` tag, and setting `num.cores` alone enables the corresponding parallel switch at train time.
 * feat: `pipeline_fcst_local()` now accepts any object supported by `as_graph()` and validates `key`.
 * feat: `PredictionFcst` now stores explicit roles for extra columns in `$col_roles`, replacing type-based detection (#52).
 * feat: `RecursiveForecaster` now supports validation and internal tuning (configure with `set_validate()`) and delegates `$importance()`, `$selected_features()`, and `$oob_error()` to the wrapped graph.
