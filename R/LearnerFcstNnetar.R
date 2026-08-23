@@ -51,7 +51,7 @@ LearnerFcstNnetar = R6Class(
         predict_types = c("response", "quantiles"),
         feature_types = c("logical", "integer", "numeric"),
         properties = c("featureless", "exogenous", "missings"),
-        packages = c("mlr3forecast", "forecast"),
+        packages = c("mlr3forecast", "forecast", "nnet"),
         label = "Neural Network Time Series Forecasts",
         man = "mlr3forecast::mlr_learners_fcst.nnetar"
       )

@@ -9,6 +9,18 @@ test_that("autotest", {
   }
 })
 
+test_that("parallel training works with set_threads", {
+  skip_if_not_installed("nnet")
+  task = tsk("airpassengers")$filter(1:72)
+  learner = set_threads(lrn("fcst.nnetar", p = 2L, size = 1L, repeats = 2L), 2L)
+  # the learner must load nnet so predict.nnet is registered on the master,
+  # else forecast's parallel path fails during fitted value computation
+  expect_subset("nnet", learner$packages)
+  learner$train(task)
+  response = learner$predict_newdata(generate_newdata(task, n = 3L))$response
+  expect_numeric(response, any.missing = FALSE, len = 3L)
+})
+
 test_that("quantile prediction enables prediction intervals", {
   withr::local_seed(42)
   task = tsk("airpassengers")

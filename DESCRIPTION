@@ -43,6 +43,7 @@ Suggests:
     ggplot2 (>= 3.4.0),
     greybox,
     mlr3tuning,
+    nnet,
     nnfor (>= 0.9.9),
     prophet (>= 1.1.7),
     Rcatch22,
