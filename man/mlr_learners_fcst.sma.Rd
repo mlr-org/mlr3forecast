@@ -34,7 +34,6 @@ lrn("fcst.sma")
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    order \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
-   holdout \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    fast \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
 }

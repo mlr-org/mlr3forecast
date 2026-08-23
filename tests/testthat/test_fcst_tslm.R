@@ -22,6 +22,16 @@ test_that("tslm handles exogenous features", {
   expect_false(anyMissing(p$response))
 })
 
+test_that("tslm default formula handles non-seasonal tasks", {
+  dt = data.table(time = 1:24, y = as.numeric(1:24), x = rep(c(0, 1), 12L))
+  task = as_task_fcst(dt, target = "y", order = "time", freq = 1L)
+  split = partition(task, ratio = 0.8)
+  learner = lrn("fcst.tslm")
+  learner$train(task, split$train)
+  expect_setequal(attr(stats::terms(learner$native_model), "term.labels"), c("trend", "x"))
+  expect_numeric(learner$predict(task, split$test)$response, any.missing = FALSE, len = length(split$test))
+})
+
 test_that("tslm accepts a user formula referencing the target name", {
   withr::local_seed(1)
   dt = data.table(time = 1:48, passengers = as.numeric(1:48) + rnorm(48), x = rnorm(48))

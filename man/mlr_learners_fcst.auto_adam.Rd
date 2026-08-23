@@ -35,7 +35,7 @@ lrn("fcst.auto_adam")
    orders \tab untyped \tab list(ar = c(3, 3), i = c(2, 1), ma = c(3, 3), select = TRUE) \tab  \tab - \cr
    regressors \tab character \tab use \tab use, select, adapt \tab - \cr
    occurrence \tab character \tab none \tab none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct \tab - \cr
-   distribution \tab character \tab dnorm \tab dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma \tab - \cr
+   distribution \tab untyped \tab c("dnorm", "dlaplace", "ds", "dgnorm", "dlnorm", "dinvgauss", \tab  \tab - \cr
    outliers \tab character \tab ignore \tab ignore, use, select \tab - \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    persistence \tab untyped \tab NULL \tab  \tab - \cr

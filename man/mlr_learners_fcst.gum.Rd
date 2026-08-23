@@ -37,7 +37,7 @@ lrn("fcst.gum")
    initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr
    persistence \tab untyped \tab NULL \tab  \cr
    transition \tab untyped \tab NULL \tab  \cr
-   measurement \tab untyped \tab NULL \tab  \cr
+   measurement \tab untyped \tab - \tab  \cr
    loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
    bounds \tab character \tab usual \tab usual, admissible, none \cr

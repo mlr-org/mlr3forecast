@@ -6,8 +6,8 @@
 #' Time series linear model.
 #' Calls [forecast::tslm()] from package \CRANpkg{forecast}.
 #'
-#' If `formula` is not set, the model is fit with the `trend` and `season` terms of [forecast::tslm()] plus all
-#' features, i.e. `<target> ~ trend + season + <features>`.
+#' If `formula` is not set, the model is fit with the `trend` term of [forecast::tslm()] plus all features.
+#' The `season` term is included when the task frequency is greater than one.
 #'
 #' @templateVar id fcst.tslm
 #' @template learner
@@ -49,10 +49,11 @@ LearnerFcstTslm = R6Class(
     .newdata_as_matrix = FALSE,
 
     .fit = function(task, pv) {
-      if (is.null(pv$formula)) {
-        pv$formula = task$formula(rhs = c("trend", "season", task$feature_names))
-      }
       y = as.ts(task)
+      if (is.null(pv$formula)) {
+        rhs = c("trend", if (stats::frequency(y) > 1) "season", task$feature_names)
+        pv$formula = task$formula(rhs = rhs)
+      }
       if (task$n_features > 0L) {
         mat = cbind(matrix(y, ncol = 1L), as.matrix(task$data(cols = task$feature_names, ordered = TRUE)))
         colnames(mat)[1L] = task$target_names
