@@ -13,6 +13,7 @@
 * fix: Both forecasters no longer advertise learner properties they cannot honour, fixing failures when tuning with `AutoTuner`. This drops the hotstart properties for both and additionally validation, internal tuning, importance, selected features, and OOB error for `DirectForecaster`.
 * fix: `DirectForecaster` now rejects empty or duplicate `horizons` values.
 * fix: `fcst.mase`, `fcst.msis`, and `fcst.rmsse` now infer `period` from `task$freq` unless it is set.
+* fix: `fcst.nnetar` now supports quantile predictions and uses `bootstrap`, `npaths`, and `innov` when simulating their prediction intervals.
 * fix: `PipeOpFcstAvg` now declares its required packages and the `"fcst"` tag instead of dropping them.
 * fix: `rsmp("fcst.holdout", n = 0)` now puts no observations into the training set instead of all of them.
 

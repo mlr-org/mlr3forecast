@@ -12,6 +12,7 @@ LearnerFcstForecast = R6Class(
 
     .postprocess = function(pred) pred,
     .adjust_level = function(level) level,
+    .adjust_predict_args = function(args, is_quantile) args,
 
     .train = function(task) {
       super$.train(task)
@@ -65,6 +66,7 @@ LearnerFcstForecast = R6Class(
           args = insert_named(args, list(level = level))
         }
       }
+      args = private$.adjust_predict_args(args, is_quantile)
       args = insert_named(args, pv)
       pred = private$.postprocess(invoke(generics::forecast, self$native_model, .args = args))
 

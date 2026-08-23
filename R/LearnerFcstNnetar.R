@@ -49,7 +49,7 @@ LearnerFcstNnetar = R6Class(
       super$initialize(
         id = "fcst.nnetar",
         param_set = param_set,
-        predict_types = "response",
+        predict_types = c("response", "quantiles"),
         feature_types = c("logical", "integer", "numeric"),
         properties = c("featureless", "exogenous", "missings"),
         packages = c("mlr3forecast", "forecast"),
@@ -60,7 +60,14 @@ LearnerFcstNnetar = R6Class(
   ),
 
   private = list(
-    .fn = "nnetar"
+    .fn = "nnetar",
+
+    .adjust_predict_args = function(args, is_quantile) {
+      if (is_quantile && any(private$.quantiles != 0.5)) {
+        args$PI = TRUE
+      }
+      args
+    }
   )
 )
 
