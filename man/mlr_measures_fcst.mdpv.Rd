@@ -18,8 +18,8 @@ Measure of average percentage‐weighted directional accuracy in forecast tasks.
     \end{cases}
 }{
   \text{mean}\bigl(\lvert\Delta y / y_{-}\rvert \times \text{directional indicator}\bigr)
-where `n` is the number of observations.
 }
+where \code{n} is the number of observations.
 }
 \section{Dictionary}{
 

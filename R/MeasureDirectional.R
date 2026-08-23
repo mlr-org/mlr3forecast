@@ -16,11 +16,6 @@
 #' where `a` is the reward for a correct direction (default `1`), `b` is the penalty for an incorrect direction
 #' (default `0`), and `n` is the number of observations.
 #'
-#' @param reward `numeric(1)`\cr
-#'   Reward applied when the predicted direction matches the true direction.
-#' @param penalty `numeric(1)`\cr
-#'   Penalty applied when the predicted direction does not match.
-#'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`
 #'
@@ -168,8 +163,8 @@ MeasureMDV = R6Class(
 #'     \end{cases}
 #' }{
 #'   \text{mean}\bigl(\lvert\Delta y / y_{-}\rvert \times \text{directional indicator}\bigr)
-#' where `n` is the number of observations.
 #' }
+#' where `n` is the number of observations.
 #'
 #' @references
 #' `r format_bib("blaskowitz2011directional")`

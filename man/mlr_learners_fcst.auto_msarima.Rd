@@ -5,7 +5,7 @@
 \alias{LearnerFcstAutoMsarima}
 \title{Auto Multiple-Seasonal ARIMA Forecast Learner}
 \description{
-Automatic order selection for Multiple-Seasonal ARIMA. Picks \code{orders} minimising the chosen
+Automatic order selection for Multiple-Seasonal ARIMA. Picks \code{orders} minimizing the chosen
 information criterion.
 Calls \code{\link[smooth:auto.msarima]{smooth::auto.msarima()}} from package \CRANpkg{smooth}.
 }

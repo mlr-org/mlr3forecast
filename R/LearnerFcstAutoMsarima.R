@@ -3,7 +3,7 @@
 #' @name mlr_learners_fcst.auto_msarima
 #'
 #' @description
-#' Automatic order selection for Multiple-Seasonal ARIMA. Picks `orders` minimising the chosen
+#' Automatic order selection for Multiple-Seasonal ARIMA. Picks `orders` minimizing the chosen
 #' information criterion.
 #' Calls [smooth::auto.msarima()] from package \CRANpkg{smooth}.
 #'

@@ -5,7 +5,7 @@
 \alias{LearnerFcstAutoSsarima}
 \title{Auto State-Space ARIMA Forecast Learner}
 \description{
-Automatic order selection for State-Space ARIMA. Picks \code{orders} minimising the chosen
+Automatic order selection for State-Space ARIMA. Picks \code{orders} minimizing the chosen
 information criterion.
 Calls \code{\link[smooth:auto.ssarima]{smooth::auto.ssarima()}} from package \CRANpkg{smooth}.
 }
