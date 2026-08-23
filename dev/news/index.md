@@ -47,6 +47,9 @@
   drops the hotstart properties for both and additionally validation,
   internal tuning, importance, selected features, and OOB error for
   `DirectForecaster`.
+- fix: `default_measures("fcst")` now returns `regr.mse`, so forecast
+  resampling and benchmark results can be aggregated without an explicit
+  measure.
 - fix: `DirectForecaster` now rejects empty or duplicate `horizons`
   values.
 - fix: `fcst.arima`, `fcst.auto_adam`, `fcst.ets`, `fcst.gum`,
