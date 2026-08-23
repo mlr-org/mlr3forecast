@@ -6,6 +6,10 @@
 #' Prophet model.
 #' Calls [prophet::prophet()] from package \CRANpkg{prophet}.
 #'
+#' With `growth = "logistic"`, the task must have a feature named `cap` containing the saturation capacity.
+#' An optional `floor` feature specifies the saturation minimum.
+#' These columns must also be supplied for future prediction rows and are not registered as extra regressors.
+#'
 #' @templateVar id fcst.prophet
 #' @template learner
 #'
@@ -68,11 +72,15 @@ LearnerFcstProphet = R6Class(
       setnames(dt, c("ds", "y"))
 
       feature_names = task$feature_names
+      growth = pv$growth %??% "linear"
+      if (growth == "logistic" && "cap" %nin% feature_names) {
+        error_input("With `growth = \"logistic\"`, `fcst.prophet` requires a task feature named `cap`.")
+      }
       if (length(feature_names) > 0L) {
         features = task$data(cols = feature_names)
         dt = cbind(dt, features)
         m = invoke(prophet::prophet, df = NULL, .args = pv)
-        for (nm in feature_names) {
+        for (nm in setdiff(feature_names, c("cap", "floor"))) {
           m = prophet::add_regressor(m, nm)
         }
         m = prophet::fit.prophet(m, dt)

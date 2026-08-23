@@ -7,6 +7,10 @@
 \description{
 Prophet model.
 Calls \code{\link[prophet:prophet]{prophet::prophet()}} from package \CRANpkg{prophet}.
+
+With \code{growth = "logistic"}, the task must have a feature named \code{cap} containing the saturation capacity.
+An optional \code{floor} feature specifies the saturation minimum.
+These columns must also be supplied for future prediction rows and are not registered as extra regressors.
 }
 \section{Dictionary}{
 
