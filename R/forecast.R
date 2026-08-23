@@ -68,6 +68,7 @@ forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
 
   generated = generate_newdata(task, h)
   if (!is.null(newdata)) {
+    assert_data_frame(newdata, col.names = "unique")
     newdata = as.data.table(newdata)
     by_cols = c(task$col_roles$order, task$col_roles$key)
     miss = setdiff(by_cols, names(newdata))

@@ -144,6 +144,8 @@ test_that("forecast() validates newdata alignment", {
   flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   flrn$train(task)
 
+  expect_error(forecast(flrn, task, h = 3L, newdata = 1), "data.frame")
+
   # key columns alone must not silently broadcast across all future rows
   newdata = data.table(id = factor(c("a", "b")), temp = c(100, 200))
   expect_error(forecast(flrn, task, h = 3L, newdata = newdata), "missing 'date'")

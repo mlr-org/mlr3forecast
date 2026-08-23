@@ -1,5 +1,6 @@
 test_that("partition two way split", {
   task = tsk("airpassengers")
+  expect_error(partition(task, ratio = -0.1), "not >= 0")
   li = partition(task, ratio = 0.67)
   expect_list(li, len = 3L)
   expect_names(names(li), identical.to = c("train", "test", "validation"))
