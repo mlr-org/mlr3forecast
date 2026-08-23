@@ -1,6 +1,8 @@
 test_that("ppl(\"fcst.local\") wraps a graph between splitkey and unitekey", {
   task = make_date_major_panel_task()
   fg = po("fcst.lags", lags = 1L) %>>% lrn("regr.featureless")
+  expect_error(pipeline_fcst_local(1), "converted to PipeOp")
+  expect_error(pipeline_fcst_local(fg, key = ""), "at least 1 characters")
   graph = ppl("fcst.local", recursive_forecaster(fg))
   expect_class(graph, "Graph")
   expect_subset(c("fcst.splitkey", "fcst.unitekey"), graph$ids())

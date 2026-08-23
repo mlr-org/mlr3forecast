@@ -8,8 +8,9 @@
 pipeline_fcst_local(graph, key = "key")
 }
 \arguments{
-\item{graph}{(\link[mlr3pipelines:Graph]{Graph})\cr
-Graph being wrapped between \code{\link[=mlr_pipeops_fcst.splitkey]{po("fcst.splitkey")}} and
+\item{graph}{(any)\cr
+Object coercible to a \link[mlr3pipelines:Graph]{Graph} with \code{\link[mlr3pipelines:as_graph]{mlr3pipelines::as_graph()}}, being wrapped between
+\code{\link[=mlr_pipeops_fcst.splitkey]{po("fcst.splitkey")}} and
 \code{\link[=mlr_pipeops_fcst.unitekey]{po("fcst.unitekey")}}. The graph should return \code{NULL} during
 training and a \link{PredictionFcst} during prediction.}
 

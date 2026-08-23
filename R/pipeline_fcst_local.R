@@ -10,8 +10,9 @@
 #' All input arguments are cloned and have no references in common with the returned
 #' [Graph][mlr3pipelines::Graph].
 #'
-#' @param graph ([Graph][mlr3pipelines::Graph])\cr
-#'   Graph being wrapped between [`po("fcst.splitkey")`][mlr_pipeops_fcst.splitkey] and
+#' @param graph (any)\cr
+#'   Object coercible to a [Graph][mlr3pipelines::Graph] with [mlr3pipelines::as_graph()], being wrapped between
+#'   [`po("fcst.splitkey")`][mlr_pipeops_fcst.splitkey] and
 #'   [`po("fcst.unitekey")`][mlr_pipeops_fcst.unitekey]. The graph should return `NULL` during
 #'   training and a [PredictionFcst] during prediction.
 #' @param key (`character(1)`)\cr
@@ -32,6 +33,8 @@
 #' flrn = as_learner(ppl("fcst.local", lrn("fcst.ets")))$train(task)
 #' forecast(flrn, task, 12L)
 pipeline_fcst_local = function(graph, key = "key") {
+  graph = as_graph(graph)
+  assert_string(key, min.chars = 1L)
   PipeOpFcstSplitKey$new() %>>!% graph %>>!% PipeOpFcstUniteKey$new(param_vals = list(key = key))
 }
 
