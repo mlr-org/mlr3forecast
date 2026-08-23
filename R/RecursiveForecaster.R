@@ -107,7 +107,7 @@ RecursiveForecaster = R6Class(
         )
       }
 
-      has_iterative = any(map_lgl(private$.learner$graph$pipeops, function(po) "fcst_iterative" %chin% po$properties))
+      has_iterative = some(private$.learner$graph$pipeops, function(po) "fcst_iterative" %chin% po$properties)
       if (!has_iterative) {
         warning_input(
           "Graph contains no PipeOps with the 'fcst_iterative' property (e.g., PipeOpFcstLags). Predictions will not use recursive forecasting."
