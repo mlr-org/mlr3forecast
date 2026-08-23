@@ -19,6 +19,17 @@
   [`smooth::sparma()`](https://rdrr.io/pkg/smooth/man/sparma.html),
   fitting sparse ARMA models whose `orders` map to specific lags instead
   of expanding polynomials.
+- feat:
+  [`forecast()`](https://generics.r-lib.org/reference/forecast.html) now
+  validates `newdata` as a data frame with unique column names.
+- feat:
+  [`partition()`](https://mlr3.mlr-org.com/reference/partition.html) now
+  validates `ratio` before partitioning a `TaskFcst`.
+- feat:
+  [`pipeline_fcst_local()`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_graphs_fcst.local.md)
+  now accepts any object supported by
+  [`as_graph()`](https://mlr3pipelines.mlr-org.com/reference/as_graph.html)
+  and validates `key`.
 - feat: `PredictionFcst` now stores explicit roles for extra columns in
   `$col_roles`, replacing type-based detection
   ([\#52](https://github.com/mlr-org/mlr3forecast/issues/52)).
@@ -38,11 +49,20 @@
   `DirectForecaster`.
 - fix: `DirectForecaster` now rejects empty or duplicate `horizons`
   values.
+- fix: `fcst.arima`, `fcst.auto_adam`, `fcst.ets`, `fcst.gum`,
+  `fcst.rlgt`, and `fcst.stlm` parameter definitions now match the
+  wrapped functions’ defaults, ranges, and dependencies.
 - fix: `fcst.mase`, `fcst.msis`, and `fcst.rmsse` now infer `period`
   from `task$freq` unless it is set.
 - fix: `fcst.nnetar` now supports quantile predictions and uses
   `bootstrap`, `npaths`, and `innov` when simulating their prediction
   intervals.
+- fix: `fcst.prophet` now supports logistic growth through a required
+  `cap` task feature and an optional `floor` task feature.
+- fix: `fcst.sma` now fits the complete training task and no longer
+  exposes the incompatible `holdout` parameter.
+- fix: `fcst.tslm` now omits `season` from its generated default formula
+  for nonseasonal tasks.
 - fix: `PipeOpFcstAvg` now declares its required packages and the
   `"fcst"` tag instead of dropping them.
 - fix: `rsmp("fcst.holdout", n = 0)` now puts no observations into the

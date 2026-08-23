@@ -55,14 +55,21 @@
 <li>feat: New learner <code>fcst.ar</code> wrapping <code><a href="https://rdrr.io/r/stats/ar.html" class="external-link">stats::ar()</a></code>, fitting autoregressive models by Yule-Walker, Burg, OLS, or maximum likelihood with optional AIC order selection.</li>
 <li>feat: <code>fcst.mean</code> gained the <code>bootstrap</code> and <code>npaths</code> parameters for empirical quantiles resampled from the residuals.</li>
 <li>feat: New learner <code>fcst.sparma</code> wrapping <code><a href="https://rdrr.io/pkg/smooth/man/sparma.html" class="external-link">smooth::sparma()</a></code>, fitting sparse ARMA models whose <code>orders</code> map to specific lags instead of expanding polynomials.</li>
+<li>feat: <code><a href="https://generics.r-lib.org/reference/forecast.html" class="external-link">forecast()</a></code> now validates <code>newdata</code> as a data frame with unique column names.</li>
+<li>feat: <code><a href="https://mlr3.mlr-org.com/reference/partition.html" class="external-link">partition()</a></code> now validates <code>ratio</code> before partitioning a <code>TaskFcst</code>.</li>
+<li>feat: <code><a href="../reference/mlr_graphs_fcst.local.html">pipeline_fcst_local()</a></code> now accepts any object supported by <code><a href="https://mlr3pipelines.mlr-org.com/reference/as_graph.html" class="external-link">as_graph()</a></code> and validates <code>key</code>.</li>
 <li>feat: <code>PredictionFcst</code> now stores explicit roles for extra columns in <code>$col_roles</code>, replacing type-based detection (<a href="https://github.com/mlr-org/mlr3forecast/issues/52" class="external-link">#52</a>).</li>
 <li>feat: <code>RecursiveForecaster</code> now supports validation and internal tuning (configure with <code><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">set_validate()</a></code>) and delegates <code>$importance()</code>, <code>$selected_features()</code>, and <code>$oob_error()</code> to the wrapped graph.</li>
 <li>feat: <code>TaskFcst</code> now accepts character or integer keys, while tsibble, tsf, and tsbox converters preserve their types.</li>
 <li>fix: Numeric <code>freq</code> values now represent the seasonal period, while the grid step is inferred from the order column.</li>
 <li>fix: Both forecasters no longer advertise learner properties they cannot honour, fixing failures when tuning with <code>AutoTuner</code>. This drops the hotstart properties for both and additionally validation, internal tuning, importance, selected features, and OOB error for <code>DirectForecaster</code>.</li>
 <li>fix: <code>DirectForecaster</code> now rejects empty or duplicate <code>horizons</code> values.</li>
+<li>fix: <code>fcst.arima</code>, <code>fcst.auto_adam</code>, <code>fcst.ets</code>, <code>fcst.gum</code>, <code>fcst.rlgt</code>, and <code>fcst.stlm</code> parameter definitions now match the wrapped functions’ defaults, ranges, and dependencies.</li>
 <li>fix: <code>fcst.mase</code>, <code>fcst.msis</code>, and <code>fcst.rmsse</code> now infer <code>period</code> from <code>task$freq</code> unless it is set.</li>
 <li>fix: <code>fcst.nnetar</code> now supports quantile predictions and uses <code>bootstrap</code>, <code>npaths</code>, and <code>innov</code> when simulating their prediction intervals.</li>
+<li>fix: <code>fcst.prophet</code> now supports logistic growth through a required <code>cap</code> task feature and an optional <code>floor</code> task feature.</li>
+<li>fix: <code>fcst.sma</code> now fits the complete training task and no longer exposes the incompatible <code>holdout</code> parameter.</li>
+<li>fix: <code>fcst.tslm</code> now omits <code>season</code> from its generated default formula for nonseasonal tasks.</li>
 <li>fix: <code>PipeOpFcstAvg</code> now declares its required packages and the <code>"fcst"</code> tag instead of dropping them.</li>
 <li>fix: <code>rsmp("fcst.holdout", n = 0)</code> now puts no observations into the training set instead of all of them.</li>
 </ul></div>
