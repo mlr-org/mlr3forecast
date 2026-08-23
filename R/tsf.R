@@ -55,8 +55,8 @@ read_tsf = function(file) {
 
   metadata = setDT(tstrsplit(metadata, " ", fixed = TRUE, keep = c(2L, 3L)))
   setnames(metadata, c("name", "type"))
-  col_names = metadata$name
-  col_classes = map_values(metadata$type, c("string", "date", "numeric"), c("character", "character", "numeric"))
+  cn = metadata$name
+  cc = map_values(metadata$type, c("string", "date", "numeric"), c("character", "character", "numeric"))
 
   dt = fread(
     file = file,
@@ -64,8 +64,8 @@ read_tsf = function(file) {
     header = FALSE,
     na.strings = "?",
     skip = skip,
-    col.names = c(col_names, "value"),
-    colClasses = c(col_classes, "character")
+    col.names = c(cn, "value"),
+    colClasses = c(cc, "character")
   )
 
   date_col = metadata["date", "name", on = "type"][[1L]]
@@ -93,7 +93,7 @@ read_tsf = function(file) {
   }
 
   value = NULL
-  dt = dt[, list(value = strsplit1(value, ",")), by = col_names]
+  dt = dt[, list(value = strsplit1(value, ",")), by = cn]
   dt["?", "value" := NA_character_, on = "value"]
   set(dt, j = "value", value = as.numeric(dt$value))
   if (has_freq) {
@@ -104,7 +104,7 @@ read_tsf = function(file) {
           origin = get(date_col)[1L]
           c(origin, seq_order(origin, by_freq, .N - 1L))
         },
-        by = col_names
+        by = cn
       ]
     }
     setattr(dt, "frequency", freq)
