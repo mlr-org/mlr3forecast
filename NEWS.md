@@ -14,6 +14,7 @@
 * feat: `TaskFcst` now accepts character or integer keys, while tsibble, tsf, and tsbox converters preserve their types.
 * fix: Numeric `freq` values now represent the seasonal period, while the grid step is inferred from the order column.
 * fix: Both forecasters no longer advertise learner properties they cannot honour, fixing failures when tuning with `AutoTuner`. This drops the hotstart properties for both and additionally validation, internal tuning, importance, selected features, and OOB error for `DirectForecaster`.
+* fix: `default_measures("fcst")` now returns `regr.mse`, so forecast resampling and benchmark results can be aggregated without an explicit measure.
 * fix: `DirectForecaster` now rejects empty or duplicate `horizons` values.
 * fix: `fcst.arima`, `fcst.auto_adam`, `fcst.ets`, `fcst.gum`, `fcst.rlgt`, and `fcst.stlm` parameter definitions now match the wrapped functions' defaults, ranges, and dependencies.
 * fix: `fcst.mase`, `fcst.msis`, and `fcst.rmsse` now infer `period` from `task$freq` unless it is set.

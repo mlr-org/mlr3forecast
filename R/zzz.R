@@ -60,6 +60,7 @@ register_mlr3 = function(...) {
   mlr_reflections$task_col_roles$fcst = union(mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles)
   mlr_reflections$task_properties$fcst = union(mlr_reflections$task_properties$regr, mlr3forecast_task_properties)
   mlr_reflections$measure_properties$fcst = mlr_reflections$measure_properties$regr
+  mlr_reflections$default_measures$fcst = "regr.mse"
   mlr_reflections$task_print_col_roles$after = named_union(
     mlr_reflections$task_print_col_roles$after,
     mlr3forecast_task_print_col_roles
@@ -119,7 +120,8 @@ register_mlr3pipelines = function(...) {
     "learner_properties",
     "task_col_roles",
     "task_properties",
-    "measure_properties"
+    "measure_properties",
+    "default_measures"
   )
   walk(reflections, function(x) mlr_reflections[[x]] = remove_named(mlr_reflections[[x]], "fcst"))
   mlr_reflections$task_print_col_roles$after = remove_named(
