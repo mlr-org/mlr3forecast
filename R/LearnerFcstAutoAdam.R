@@ -64,7 +64,7 @@ LearnerFcstAutoAdam = R6Class(
           default = FALSE,
           tags = c("train", "threads"),
           custom_check = crate(function(x) {
-            if (isTRUE(x) || isFALSE(x) || test_int(x, lower = 1L)) TRUE else "Must be a flag or a positive integer"
+            if (test_flag(x) || test_int(x, lower = 1L)) TRUE else "Must be a flag or a positive integer"
           })
         ),
         ets = p_fct(c("conventional", "adam"), default = "conventional", tags = "train")
