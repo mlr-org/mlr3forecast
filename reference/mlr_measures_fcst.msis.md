@@ -19,7 +19,9 @@ For a central interval at level `1 - alpha` with lower and upper bounds
 \sum\_{t=m+1}^T \lvert z_t - z\_{t-m} \rvert} \$\$ where \\z\\ is the
 training series, \\m\\ is the seasonal period, and \\T\\ is the length
 of the training series. For keyed tasks the score is computed per series
-and averaged.
+and averaged. If `period` is `NULL` (default), the seasonal period is
+derived from `task$freq` and rounded to the nearest positive integer,
+falling back to one when the task frequency is unavailable.
 
 ## Dictionary
 
@@ -66,7 +68,7 @@ task type, as the latter returns nothing:
 |--------|---------|---------|------------------|
 | Id     | Type    | Default | Range            |
 | alpha  | numeric | \-      | \\\[0, 1\]\\     |
-| period | integer | \-      | \\\[1, \infty)\\ |
+| period | integer | NULL    | \\\[1, \infty)\\ |
 
 ## References
 

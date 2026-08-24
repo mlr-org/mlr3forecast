@@ -5,7 +5,7 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changelog"></head><body>
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Changelog"><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -13,7 +13,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -43,16 +43,45 @@
 </nav><div class="container template-news">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Changelog</h1>
-      <small>Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>Changelog</h1>
+      <small>Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.2.0" id="mlr3forecast-020">mlr3forecast 0.2.0<a class="anchor" aria-label="anchor" href="#mlr3forecast-020"></a></h2><p class="text-muted">CRAN release: 2026-08-24</p>
+<ul><li>BREAKING CHANGE: Key columns are no longer features by default. Restore the feature role explicitly when needed.</li>
+<li>BREAKING CHANGE: <code>po("fcstavg")</code> was renamed to <code>po("fcst.avg")</code> to match the id prefix of the other PipeOps.</li>
+<li>feat: <code>DirectForecaster</code> gained <code>$importance()</code>, <code>$selected_features()</code>, and <code>$oob_error()</code> methods returning one result per horizon model, named like <code>$native_model</code>.</li>
+<li>feat: New learner <code>fcst.ar</code> wrapping <code><a href="https://rdrr.io/r/stats/ar.html" class="external-link">stats::ar()</a></code>, fitting autoregressive models by Yule-Walker, Burg, OLS, or maximum likelihood with optional AIC order selection.</li>
+<li>feat: <code>fcst.mean</code> gained the <code>bootstrap</code> and <code>npaths</code> parameters for empirical quantiles resampled from the residuals.</li>
+<li>feat: New learner <code>fcst.sparma</code> wrapping <code><a href="https://rdrr.io/pkg/smooth/man/sparma.html" class="external-link">smooth::sparma()</a></code>, fitting sparse ARMA models whose <code>orders</code> map to specific lags instead of expanding polynomials.</li>
+<li>feat: <code><a href="https://generics.r-lib.org/reference/forecast.html" class="external-link">forecast()</a></code> now validates <code>newdata</code> as a data frame with unique column names.</li>
+<li>feat: <code><a href="https://mlr3.mlr-org.com/reference/partition.html" class="external-link">partition()</a></code> now validates <code>ratio</code> before partitioning a <code>TaskFcst</code>.</li>
+<li>feat: <code><a href="https://mlr3.mlr-org.com/reference/set_threads.html" class="external-link">mlr3::set_threads()</a></code> support: the <code>num.cores</code> parameter of <code>fcst.arfima</code>, <code>fcst.auto_arima</code>, <code>fcst.nnetar</code>, <code>fcst.bats</code>, and <code>fcst.tbats</code> now carries the <code>"threads"</code> tag, and setting <code>num.cores</code> to a value greater than one enables the corresponding parallel switch at train time.</li>
+<li>fix: <code>fcst.nnetar</code> now declares <code>nnet</code> in its packages so parallel training finds <code>predict.nnet</code> on the main process.</li>
+<li>feat: <code><a href="../reference/mlr_graphs_fcst.local.html">pipeline_fcst_local()</a></code> now accepts any object supported by <code><a href="https://mlr3pipelines.mlr-org.com/reference/as_graph.html" class="external-link">as_graph()</a></code> and validates <code>key</code>.</li>
+<li>feat: <code>PredictionFcst</code> now stores explicit roles for extra columns in <code>$col_roles</code>, replacing type-based detection (<a href="https://github.com/mlr-org/mlr3forecast/issues/52" class="external-link">#52</a>).</li>
+<li>feat: <code>RecursiveForecaster</code> now supports validation and internal tuning (configure with <code><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">set_validate()</a></code>) and delegates <code>$importance()</code>, <code>$selected_features()</code>, and <code>$oob_error()</code> to the wrapped graph.</li>
+<li>feat: <code>TaskFcst</code> now accepts character or integer keys, while tsibble, tsf, and tsbox converters preserve their types.</li>
+<li>fix: Numeric <code>freq</code> values now represent the seasonal period, while the grid step is inferred from the order column.</li>
+<li>fix: Both forecasters no longer advertise learner properties they cannot honour, fixing failures when tuning with <code>AutoTuner</code>. This drops the hotstart properties for both and additionally validation, internal tuning, importance, selected features, and OOB error for <code>DirectForecaster</code>.</li>
+<li>fix: <code>default_measures("fcst")</code> now returns <code>regr.mse</code>, so forecast resampling and benchmark results can be aggregated without an explicit measure.</li>
+<li>fix: <code>DirectForecaster</code> now rejects empty or duplicate <code>horizons</code> values.</li>
+<li>fix: <code>fcst.arima</code>, <code>fcst.auto_adam</code>, <code>fcst.ets</code>, <code>fcst.gum</code>, <code>fcst.rlgt</code>, and <code>fcst.stlm</code> parameter definitions now match the wrapped functions’ defaults, ranges, and dependencies.</li>
+<li>fix: <code>fcst.mase</code>, <code>fcst.msis</code>, and <code>fcst.rmsse</code> now infer <code>period</code> from <code>task$freq</code> unless it is set.</li>
+<li>fix: <code>fcst.nnetar</code> now supports quantile predictions and uses <code>bootstrap</code>, <code>npaths</code>, and <code>innov</code> when simulating their prediction intervals.</li>
+<li>fix: <code>fcst.prophet</code> now supports logistic growth through a required <code>cap</code> task feature and an optional <code>floor</code> task feature.</li>
+<li>fix: <code>fcst.sma</code> now fits the complete training task and no longer exposes the incompatible <code>holdout</code> parameter.</li>
+<li>fix: <code>fcst.tslm</code> now omits <code>season</code> from its generated default formula for nonseasonal tasks.</li>
+<li>fix: <code>PipeOpFcstAvg</code> now declares its required packages and the <code>"fcst"</code> tag instead of dropping them.</li>
+<li>fix: <code>rsmp("fcst.holdout", n = 0)</code> now puts no observations into the training set instead of all of them.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="mlr3forecast-010">mlr3forecast 0.1.0<a class="anchor" aria-label="anchor" href="#mlr3forecast-010"></a></h2><p class="text-muted">CRAN release: 2026-07-22</p>
 <ul><li>Initial CRAN submission.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">

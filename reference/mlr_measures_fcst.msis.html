@@ -13,7 +13,7 @@ M4 competition. Smaller scores indicate better calibrated and narrower intervals
 in-sample mean absolute error of the naive (or seasonal naive) forecast. The interval score rewards
 narrow intervals and penalizes observations falling outside them, and the scaling makes the measure
 comparable across series of different magnitudes. This is the prediction-interval metric used in the
-M4 competition. Smaller scores indicate better calibrated and narrower intervals."></head><body>
+M4 competition. Smaller scores indicate better calibrated and narrower intervals."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -21,7 +21,7 @@ M4 competition. Smaller scores indicate better calibrated and narrower intervals
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,9 +51,8 @@ M4 competition. Smaller scores indicate better calibrated and narrower intervals
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Mean Scaled Interval Score</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/R/MeasureMSIS.R" class="external-link"><code>R/MeasureMSIS.R</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>Mean Scaled Interval Score</h1>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/R/MeasureMSIS.R" class="external-link"><code>R/MeasureMSIS.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_fcst.msis.Rd</code></div>
     </div>
 
@@ -77,7 +76,9 @@ $$
     {\frac{1}{T-m} \sum_{t=m+1}^T \lvert z_t - z_{t-m} \rvert}
 $$
 where \(z\) is the training series, \(m\) is the seasonal period, and \(T\) is the length of
-the training series. For keyed tasks the score is computed per series and averaged.</p>
+the training series. For keyed tasks the score is computed per series and averaged.
+If <code>period</code> is <code>NULL</code> (default), the seasonal period is derived from <code>task$freq</code> and rounded to the nearest
+positive integer, falling back to one when the task frequency is unavailable.</p>
     </div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
@@ -110,7 +111,7 @@ List them via the key prefix, not the task type, as the latter returns nothing:<
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>alpha</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td></tr><tr><td>period</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>alpha</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td></tr><tr><td>period</td><td>integer</td><td>NULL</td><td>\([1, \infty)\)</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Gneiting T, Raftery AE (2007).

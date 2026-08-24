@@ -23,15 +23,16 @@ and rolling windows
 are computed within each series, and the future forecast grid is built
 per series.
 
-Key columns are **also** features by default, which lets a global model
-specialize per series. Drop a key's feature role while keeping the
-grouping when it carries no signal beyond identifying the series:
+Key columns are **not** features by default. To let a global model
+specialize per series, add the feature role back:
 
-    task$set_col_roles("series_id", remove_from = "feature")
+    task$set_col_roles("series_id", add_to = "feature")
 
 For a high-cardinality key, encode it inside the learner graph (e.g.
 `po("encodeimpact")` or `po("encodelmer")`) rather than passing the raw
-factor to the model.
+factor to the model. Note that keys are labels regardless of their type:
+an integer key used as a feature is passed to the learner as a number,
+which is rarely intended – convert it to a factor first.
 
 ## See also
 
@@ -139,7 +140,10 @@ Other Task:
 
   - `row_id` ([`integer()`](https://rdrr.io/r/base/integer.html)), and
 
-  - key variable(s) ([`factor()`](https://rdrr.io/r/base/factor.html) \|
+  - key variable(s)
+    ([`character()`](https://rdrr.io/r/base/character.html) \|
+    [`integer()`](https://rdrr.io/r/base/integer.html) \|
+    [`factor()`](https://rdrr.io/r/base/factor.html) \|
     [`ordered()`](https://rdrr.io/r/base/factor.html)).
 
   If there is only one key column, it will be named as `key`. Returns
@@ -234,14 +238,19 @@ provides an alternative way to construct forecast tasks.
 - `key`:
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
-  Name of the key column.
+  Names of the columns whose combination identifies a series. Key
+  columns must be character, integer, factor, or ordered columns.
 
 - `freq`:
 
   (`character(1)` \| `numeric(1)` \| `NULL`)  
-  Frequency of the time series. Either a positive number or a
-  [`seq()`](https://rdrr.io/r/base/seq.html)-compatible string, e.g.:
-  `"1 month"`, `"day"`, `"3 months"`, `"1 hour"`, `"week"`.
+  Frequency of the time series. A
+  [`seq()`](https://rdrr.io/r/base/seq.html)-compatible string gives the
+  calendar step of the time grid, e.g. `"1 month"`, `"day"`,
+  `"3 months"`, `"1 hour"`, `"week"`. A positive number gives the
+  seasonal period (as in
+  [`stats::ts()`](https://rdrr.io/r/stats/ts.html)) for an integer or
+  numeric order column; the grid step is then inferred from the data.
 
 - `label`:
 

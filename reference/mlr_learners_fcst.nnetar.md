@@ -20,13 +20,14 @@ or with the associated sugar function
 
 - Task type: “fcst”
 
-- Predict Types: “response”
+- Predict Types: “response”, “quantiles”
 
 - Feature Types: “logical”, “integer”, “numeric”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [forecast](https://CRAN.R-project.org/package=forecast)
+  [forecast](https://CRAN.R-project.org/package=forecast),
+  [nnet](https://CRAN.R-project.org/package=nnet)
 
 ## Parameters
 
@@ -95,6 +96,7 @@ University Press.
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md),
 [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
+[`mlr_learners_fcst.ar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ar.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
@@ -119,6 +121,7 @@ Other Learner:
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
+[`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sparma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ssarima.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
@@ -198,8 +201,8 @@ print(learner)
 #> ── <LearnerFcstNnetar> (fcst.nnetar): Neural Network Time Series Forecasts ─────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and forecast
-#> • Predict Types: [response]
+#> • Packages: mlr3, mlr3forecast, forecast, and nnet
+#> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
 #> • Properties: exogenous, featureless, and missings

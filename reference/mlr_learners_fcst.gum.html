@@ -9,7 +9,7 @@
 persistence vector and measurement vector. Generalises exponential smoothing beyond the ETS structural template.
 Calls smooth::gum() from package smooth."><meta property="og:description" content="Generalised Univariate Model (GUM): a single-source-of-error state-space model with a user-defined transition matrix,
 persistence vector and measurement vector. Generalises exponential smoothing beyond the ETS structural template.
-Calls smooth::gum() from package smooth."></head><body>
+Calls smooth::gum() from package smooth."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +17,7 @@ Calls smooth::gum() from package smooth."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +47,8 @@ Calls smooth::gum() from package smooth."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>GUM Forecast Learner</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/R/LearnerFcstGum.R" class="external-link"><code>R/LearnerFcstGum.R</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>GUM Forecast Learner</h1>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/R/LearnerFcstGum.R" class="external-link"><code>R/LearnerFcstGum.R</code></a></small>
       <div class="d-none name"><code>mlr_learners_fcst.gum.Rd</code></div>
     </div>
 
@@ -80,7 +79,7 @@ Calls <code><a href="https://rdrr.io/pkg/smooth/man/gum.html" class="external-li
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td></tr><tr><td>orders</td><td>untyped</td><td>c(1, 1)</td><td></td></tr><tr><td>lags</td><td>untyped</td><td>-</td><td></td></tr><tr><td>type</td><td>character</td><td>additive</td><td>additive, multiplicative</td></tr><tr><td>initial</td><td>character</td><td>backcasting</td><td>backcasting, optimal, two-stage, complete</td></tr><tr><td>persistence</td><td>untyped</td><td>NULL</td><td></td></tr><tr><td>transition</td><td>untyped</td><td>NULL</td><td></td></tr><tr><td>measurement</td><td>untyped</td><td>NULL</td><td></td></tr><tr><td>loss</td><td>character</td><td>likelihood</td><td>likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL</td></tr><tr><td>holdout</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td></tr><tr><td>bounds</td><td>character</td><td>usual</td><td>usual, admissible, none</td></tr><tr><td>silent</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td></tr><tr><td>regressors</td><td>character</td><td>use</td><td>use, select, adapt, integrate</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td></tr><tr><td>orders</td><td>untyped</td><td>c(1, 1)</td><td></td></tr><tr><td>lags</td><td>untyped</td><td>-</td><td></td></tr><tr><td>type</td><td>character</td><td>additive</td><td>additive, multiplicative</td></tr><tr><td>initial</td><td>character</td><td>backcasting</td><td>backcasting, optimal, two-stage, complete</td></tr><tr><td>persistence</td><td>untyped</td><td>NULL</td><td></td></tr><tr><td>transition</td><td>untyped</td><td>NULL</td><td></td></tr><tr><td>measurement</td><td>untyped</td><td>-</td><td></td></tr><tr><td>loss</td><td>character</td><td>likelihood</td><td>likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL</td></tr><tr><td>holdout</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td></tr><tr><td>bounds</td><td>character</td><td>usual</td><td>usual, admissible, none</td></tr><tr><td>silent</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td></tr><tr><td>regressors</td><td>character</td><td>use</td><td>use, select, adapt, integrate</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Svetunkov I (2023).
@@ -106,6 +105,7 @@ for established default tuning spaces.</p></li>
 </ul><p>Other Learner:
 <code><a href="LearnerFcst.html">LearnerFcst</a></code>,
 <code><a href="mlr_learners_fcst.adam.html">mlr_learners_fcst.adam</a></code>,
+<code><a href="mlr_learners_fcst.ar.html">mlr_learners_fcst.ar</a></code>,
 <code><a href="mlr_learners_fcst.arfima.html">mlr_learners_fcst.arfima</a></code>,
 <code><a href="mlr_learners_fcst.arima.html">mlr_learners_fcst.arima</a></code>,
 <code><a href="mlr_learners_fcst.auto_adam.html">mlr_learners_fcst.auto_adam</a></code>,
@@ -130,6 +130,7 @@ for established default tuning spaces.</p></li>
 <code><a href="mlr_learners_fcst.random_walk.html">mlr_learners_fcst.random_walk</a></code>,
 <code><a href="mlr_learners_fcst.rlgt.html">mlr_learners_fcst.rlgt</a></code>,
 <code><a href="mlr_learners_fcst.sma.html">mlr_learners_fcst.sma</a></code>,
+<code><a href="mlr_learners_fcst.sparma.html">mlr_learners_fcst.sparma</a></code>,
 <code><a href="mlr_learners_fcst.spline.html">mlr_learners_fcst.spline</a></code>,
 <code><a href="mlr_learners_fcst.ssarima.html">mlr_learners_fcst.ssarima</a></code>,
 <code><a href="mlr_learners_fcst.stlm.html">mlr_learners_fcst.stlm</a></code>,

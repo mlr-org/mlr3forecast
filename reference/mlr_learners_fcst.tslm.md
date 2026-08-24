@@ -4,10 +4,10 @@ Time series linear model. Calls
 [`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
-If `formula` is not set, the model is fit with the `trend` and `season`
-terms of
+If `formula` is not set, the model is fit with the `trend` term of
 [`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
-plus all features, i.e. `<target> ~ trend + season + <features>`.
+plus all features. The `season` term is included when the task frequency
+is greater than one.
 
 ## Dictionary
 
@@ -91,6 +91,7 @@ practice*, 2nd edition. OTexts, Melbourne, Australia.
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md),
 [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
+[`mlr_learners_fcst.ar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ar.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
@@ -116,6 +117,7 @@ Other Learner:
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
+[`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sparma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ssarima.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),

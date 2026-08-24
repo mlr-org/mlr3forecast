@@ -25,7 +25,7 @@ timeSeries: from Rmetrics timeSeries objects.
 tsf: from tsf format data.
 tbl_ts: from tsibble objects.
 
-"></head><body>
+"><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -33,7 +33,7 @@ tbl_ts: from tsibble objects.
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,9 +63,8 @@ tbl_ts: from tsibble objects.
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Convert to a Forecast Task</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/R/as_task_fcst.R" class="external-link"><code>R/as_task_fcst.R</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>Convert to a Forecast Task</h1>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/R/as_task_fcst.R" class="external-link"><code>R/as_task_fcst.R</code></a></small>
       <div class="d-none name"><code>as_task_fcst.Rd</code></div>
     </div>
 
@@ -191,14 +190,17 @@ Name of the order column.</p></dd>
 
 <dt id="arg-key">key<a class="anchor" aria-label="anchor" href="#arg-key"></a></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>)<br>
-Name of the key column.</p></dd>
+Names of the columns whose combination identifies a series.
+Key columns must be character, integer, factor, or ordered columns.</p></dd>
 
 
 <dt id="arg-freq">freq<a class="anchor" aria-label="anchor" href="#arg-freq"></a></dt>
 <dd><p>(<code>character(1)</code> | <code>numeric(1)</code> | <code>NULL</code>)<br>
 Frequency of the time series.
-Either a positive number or a <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq()</a></code>-compatible string, e.g.:
-<code>"1 month"</code>, <code>"day"</code>, <code>"3 months"</code>, <code>"1 hour"</code>, <code>"week"</code>.</p></dd>
+A <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq()</a></code>-compatible string gives the calendar step of the time grid, e.g.
+<code>"1 month"</code>, <code>"day"</code>, <code>"3 months"</code>, <code>"1 hour"</code>, <code>"week"</code>.
+A positive number gives the seasonal period (as in <code><a href="https://rdrr.io/r/stats/ts.html" class="external-link">stats::ts()</a></code>) for an integer or
+numeric order column; the grid step is then inferred from the data.</p></dd>
 
 
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>

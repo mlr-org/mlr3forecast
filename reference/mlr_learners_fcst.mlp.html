@@ -9,7 +9,7 @@
 selection, deterministic seasonality handling, and ensemble combination across multiple training repetitions.
 Calls nnfor::mlp() from package nnfor."><meta property="og:description" content="Automatic time series forecasting with a multilayer perceptron neural network, including automatic input lag
 selection, deterministic seasonality handling, and ensemble combination across multiple training repetitions.
-Calls nnfor::mlp() from package nnfor."></head><body>
+Calls nnfor::mlp() from package nnfor."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +17,7 @@ Calls nnfor::mlp() from package nnfor."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +47,8 @@ Calls nnfor::mlp() from package nnfor."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Multilayer Perceptron Forecast Learner</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/R/LearnerFcstMlp.R" class="external-link"><code>R/LearnerFcstMlp.R</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>Multilayer Perceptron Forecast Learner</h1>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/R/LearnerFcstMlp.R" class="external-link"><code>R/LearnerFcstMlp.R</code></a></small>
       <div class="d-none name"><code>mlr_learners_fcst.mlp.Rd</code></div>
     </div>
 
@@ -108,6 +107,7 @@ for established default tuning spaces.</p></li>
 </ul><p>Other Learner:
 <code><a href="LearnerFcst.html">LearnerFcst</a></code>,
 <code><a href="mlr_learners_fcst.adam.html">mlr_learners_fcst.adam</a></code>,
+<code><a href="mlr_learners_fcst.ar.html">mlr_learners_fcst.ar</a></code>,
 <code><a href="mlr_learners_fcst.arfima.html">mlr_learners_fcst.arfima</a></code>,
 <code><a href="mlr_learners_fcst.arima.html">mlr_learners_fcst.arima</a></code>,
 <code><a href="mlr_learners_fcst.auto_adam.html">mlr_learners_fcst.auto_adam</a></code>,
@@ -132,6 +132,7 @@ for established default tuning spaces.</p></li>
 <code><a href="mlr_learners_fcst.random_walk.html">mlr_learners_fcst.random_walk</a></code>,
 <code><a href="mlr_learners_fcst.rlgt.html">mlr_learners_fcst.rlgt</a></code>,
 <code><a href="mlr_learners_fcst.sma.html">mlr_learners_fcst.sma</a></code>,
+<code><a href="mlr_learners_fcst.sparma.html">mlr_learners_fcst.sparma</a></code>,
 <code><a href="mlr_learners_fcst.spline.html">mlr_learners_fcst.spline</a></code>,
 <code><a href="mlr_learners_fcst.ssarima.html">mlr_learners_fcst.ssarima</a></code>,
 <code><a href="mlr_learners_fcst.stlm.html">mlr_learners_fcst.stlm</a></code>,
@@ -194,7 +195,8 @@ for established default tuning spaces.</p></li>
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Define the Learner and set parameter values</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+<span class="r-in"><span><span class="co"># Define the Learner and set parameter values</span></span></span>
 <span class="r-in"><span><span class="va">learner</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"fcst.mlp"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
@@ -251,6 +253,7 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> regr.mse </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1002.902 </span>
+<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

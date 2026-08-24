@@ -75,6 +75,7 @@ Predefined learners can be found in the
 
 Other Learner:
 [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
+[`mlr_learners_fcst.ar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ar.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
@@ -100,6 +101,7 @@ Other Learner:
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
+[`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sparma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ssarima.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),
@@ -282,18 +284,18 @@ The objects of this class are cloneable with this method.
 # get all forecast learners from mlr_learners:
 lrns = mlr_learners$mget(mlr_learners$keys("^fcst"))
 names(lrns)
-#>  [1] "fcst.adam"         "fcst.arfima"       "fcst.arima"       
-#>  [4] "fcst.auto_adam"    "fcst.auto_arima"   "fcst.auto_ces"    
-#>  [7] "fcst.auto_gum"     "fcst.auto_msarima" "fcst.auto_ssarima"
-#> [10] "fcst.bagged"       "fcst.bats"         "fcst.ces"         
-#> [13] "fcst.croston"      "fcst.elm"          "fcst.es"          
-#> [16] "fcst.ets"          "fcst.gum"          "fcst.holt_winters"
-#> [19] "fcst.mean"         "fcst.mlp"          "fcst.msarima"     
-#> [22] "fcst.nnetar"       "fcst.prophet"      "fcst.random_walk" 
-#> [25] "fcst.rlgt"         "fcst.sma"          "fcst.spline"      
-#> [28] "fcst.ssarima"      "fcst.stlm"         "fcst.struct_ts"   
-#> [31] "fcst.tbats"        "fcst.theta"        "fcst.tscount"     
-#> [34] "fcst.tslm"        
+#>  [1] "fcst.adam"         "fcst.ar"           "fcst.arfima"      
+#>  [4] "fcst.arima"        "fcst.auto_adam"    "fcst.auto_arima"  
+#>  [7] "fcst.auto_ces"     "fcst.auto_gum"     "fcst.auto_msarima"
+#> [10] "fcst.auto_ssarima" "fcst.bagged"       "fcst.bats"        
+#> [13] "fcst.ces"          "fcst.croston"      "fcst.elm"         
+#> [16] "fcst.es"           "fcst.ets"          "fcst.gum"         
+#> [19] "fcst.holt_winters" "fcst.mean"         "fcst.mlp"         
+#> [22] "fcst.msarima"      "fcst.nnetar"       "fcst.prophet"     
+#> [25] "fcst.random_walk"  "fcst.rlgt"         "fcst.sma"         
+#> [28] "fcst.sparma"       "fcst.spline"       "fcst.ssarima"     
+#> [31] "fcst.stlm"         "fcst.struct_ts"    "fcst.tbats"       
+#> [34] "fcst.theta"        "fcst.tscount"      "fcst.tslm"        
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("fcst.ets")

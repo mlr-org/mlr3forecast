@@ -7,7 +7,7 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Neural Network Forecast Learner — mlr_learners_fcst.nnetar"><meta name="description" content="Single Layer Neural Network.
 Calls forecast::nnetar() from package forecast."><meta property="og:description" content="Single Layer Neural Network.
-Calls forecast::nnetar() from package forecast."></head><body>
+Calls forecast::nnetar() from package forecast."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +15,7 @@ Calls forecast::nnetar() from package forecast."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,9 +45,8 @@ Calls forecast::nnetar() from package forecast."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Neural Network Forecast Learner</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/R/LearnerFcstNnetar.R" class="external-link"><code>R/LearnerFcstNnetar.R</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>Neural Network Forecast Learner</h1>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/R/LearnerFcstNnetar.R" class="external-link"><code>R/LearnerFcstNnetar.R</code></a></small>
       <div class="d-none name"><code>mlr_learners_fcst.nnetar.Rd</code></div>
     </div>
 
@@ -70,9 +69,9 @@ Calls <code><a href="https://pkg.robjhyndman.com/forecast/reference/nnetar.html"
 
 
 <ul><li><p>Task type: “fcst”</p></li>
-<li><p>Predict Types: “response”</p></li>
+<li><p>Predict Types: “response”, “quantiles”</p></li>
 <li><p>Feature Types: “logical”, “integer”, “numeric”</p></li>
-<li><p>Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=mlr3forecast" class="external-link"><span class="pkg">mlr3forecast</span></a>, <a href="https://CRAN.R-project.org/package=forecast" class="external-link"><span class="pkg">forecast</span></a></p></li>
+<li><p>Required Packages: <a href="https://CRAN.R-project.org/package=mlr3" class="external-link"><span class="pkg">mlr3</span></a>, <a href="https://CRAN.R-project.org/package=mlr3forecast" class="external-link"><span class="pkg">mlr3forecast</span></a>, <a href="https://CRAN.R-project.org/package=forecast" class="external-link"><span class="pkg">forecast</span></a>, <a href="https://CRAN.R-project.org/package=nnet" class="external-link"><span class="pkg">nnet</span></a></p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
@@ -105,6 +104,7 @@ for established default tuning spaces.</p></li>
 </ul><p>Other Learner:
 <code><a href="LearnerFcst.html">LearnerFcst</a></code>,
 <code><a href="mlr_learners_fcst.adam.html">mlr_learners_fcst.adam</a></code>,
+<code><a href="mlr_learners_fcst.ar.html">mlr_learners_fcst.ar</a></code>,
 <code><a href="mlr_learners_fcst.arfima.html">mlr_learners_fcst.arfima</a></code>,
 <code><a href="mlr_learners_fcst.arima.html">mlr_learners_fcst.arima</a></code>,
 <code><a href="mlr_learners_fcst.auto_adam.html">mlr_learners_fcst.auto_adam</a></code>,
@@ -129,6 +129,7 @@ for established default tuning spaces.</p></li>
 <code><a href="mlr_learners_fcst.random_walk.html">mlr_learners_fcst.random_walk</a></code>,
 <code><a href="mlr_learners_fcst.rlgt.html">mlr_learners_fcst.rlgt</a></code>,
 <code><a href="mlr_learners_fcst.sma.html">mlr_learners_fcst.sma</a></code>,
+<code><a href="mlr_learners_fcst.sparma.html">mlr_learners_fcst.sparma</a></code>,
 <code><a href="mlr_learners_fcst.spline.html">mlr_learners_fcst.spline</a></code>,
 <code><a href="mlr_learners_fcst.ssarima.html">mlr_learners_fcst.ssarima</a></code>,
 <code><a href="mlr_learners_fcst.stlm.html">mlr_learners_fcst.stlm</a></code>,
@@ -198,8 +199,8 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #00BBBB;">──</span> <span style="color: #0000BB; font-weight: bold;">&lt;LearnerFcstNnetar&gt;</span><span style="font-weight: bold;"> (fcst.nnetar): Neural Network Time Series Forecasts</span> <span style="color: #00BBBB;">─────</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Model: -</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Parameters: list()</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Packages: <span style="color: #0000BB;">mlr3</span>, <span style="color: #0000BB;">mlr3forecast</span>, and <span style="color: #0000BB;">forecast</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Predict Types: [response]</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Packages: <span style="color: #0000BB;">mlr3</span>, <span style="color: #0000BB;">mlr3forecast</span>, <span style="color: #0000BB;">forecast</span>, and <span style="color: #0000BB;">nnet</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Predict Types: [response] and quantiles</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Feature Types: logical, integer, and numeric</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Encapsulation: none (fallback: -)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: exogenous, featureless, and missings</span>

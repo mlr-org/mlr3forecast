@@ -90,6 +90,7 @@ Analysis of Count Time Series Following Generalized Linear Models.”
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/reference/LearnerFcst.md),
 [`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.adam.md),
+[`mlr_learners_fcst.ar`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ar.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.arima.md),
 [`mlr_learners_fcst.auto_adam`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.auto_adam.md),
@@ -115,6 +116,7 @@ Other Learner:
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sma.md),
+[`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.sparma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.ssarima.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/reference/mlr_learners_fcst.stlm.md),

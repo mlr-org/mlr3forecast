@@ -51,7 +51,7 @@ forecast(object, task, h = 12L, newdata = NULL, ...)
 - ...:
 
   (any)  
-  Ignored.
+  Must be empty.
 
 ## Value
 

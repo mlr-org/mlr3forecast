@@ -7,7 +7,7 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ARIMA Forecast Learner — mlr_learners_fcst.arima"><meta name="description" content="Autoregressive Integrated Moving Average Forecast (ARIMA) model.
 Calls forecast::Arima() from package forecast."><meta property="og:description" content="Autoregressive Integrated Moving Average Forecast (ARIMA) model.
-Calls forecast::Arima() from package forecast."></head><body>
+Calls forecast::Arima() from package forecast."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +15,7 @@ Calls forecast::Arima() from package forecast."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,9 +45,8 @@ Calls forecast::Arima() from package forecast."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>ARIMA Forecast Learner</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/R/LearnerFcstArima.R" class="external-link"><code>R/LearnerFcstArima.R</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>ARIMA Forecast Learner</h1>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/R/LearnerFcstArima.R" class="external-link"><code>R/LearnerFcstArima.R</code></a></small>
       <div class="d-none name"><code>mlr_learners_fcst.arima.Rd</code></div>
     </div>
 
@@ -77,7 +76,7 @@ Calls <code><a href="https://pkg.robjhyndman.com/forecast/reference/Arima.html" 
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>order</td><td>untyped</td><td>c(0L, 0L, 0L)</td><td></td><td>-</td></tr><tr><td>seasonal</td><td>untyped</td><td>c(0L, 0L, 0L)</td><td></td><td>-</td></tr><tr><td>include.mean</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>include.drift</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>include.constant</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>lambda</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>biasadj</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>method</td><td>character</td><td>CSS-ML</td><td>CSS-ML, ML, CSS</td><td>-</td></tr><tr><td>simulate</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>bootstrap</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>npaths</td><td>integer</td><td>5000</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>transform.pars</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>fixed</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>init</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>SSinit</td><td>character</td><td>Gardner1980</td><td>Gardner1980, Rossignol2011</td><td>-</td></tr><tr><td>n.cond</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>optim.method</td><td>character</td><td>BFGS</td><td>Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent</td><td>-</td></tr><tr><td>optim.control</td><td>untyped</td><td>list()</td><td></td><td>-</td></tr><tr><td>kappa</td><td>numeric</td><td>1e+06</td><td></td><td>\((-\infty, \infty)\)</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>order</td><td>untyped</td><td>c(0L, 0L, 0L)</td><td></td><td>-</td></tr><tr><td>seasonal</td><td>untyped</td><td>c(0L, 0L, 0L)</td><td></td><td>-</td></tr><tr><td>include.mean</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>include.drift</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>include.constant</td><td>logical</td><td>NULL</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>lambda</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>biasadj</td><td>logical</td><td>-</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>method</td><td>character</td><td>CSS-ML</td><td>CSS-ML, ML, CSS</td><td>-</td></tr><tr><td>simulate</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>bootstrap</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>npaths</td><td>integer</td><td>5000</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>transform.pars</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>fixed</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>init</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>SSinit</td><td>character</td><td>Gardner1980</td><td>Gardner1980, Rossignol2011</td><td>-</td></tr><tr><td>n.cond</td><td>integer</td><td>-</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>optim.method</td><td>character</td><td>BFGS</td><td>Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent</td><td>-</td></tr><tr><td>optim.control</td><td>untyped</td><td>list()</td><td></td><td>-</td></tr><tr><td>kappa</td><td>numeric</td><td>1e+06</td><td></td><td>\((-\infty, \infty)\)</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Hyndman RJ, Athanasopoulos G (2018).
@@ -104,6 +103,7 @@ for established default tuning spaces.</p></li>
 </ul><p>Other Learner:
 <code><a href="LearnerFcst.html">LearnerFcst</a></code>,
 <code><a href="mlr_learners_fcst.adam.html">mlr_learners_fcst.adam</a></code>,
+<code><a href="mlr_learners_fcst.ar.html">mlr_learners_fcst.ar</a></code>,
 <code><a href="mlr_learners_fcst.arfima.html">mlr_learners_fcst.arfima</a></code>,
 <code><a href="mlr_learners_fcst.auto_adam.html">mlr_learners_fcst.auto_adam</a></code>,
 <code><a href="mlr_learners_fcst.auto_arima.html">mlr_learners_fcst.auto_arima</a></code>,
@@ -128,6 +128,7 @@ for established default tuning spaces.</p></li>
 <code><a href="mlr_learners_fcst.random_walk.html">mlr_learners_fcst.random_walk</a></code>,
 <code><a href="mlr_learners_fcst.rlgt.html">mlr_learners_fcst.rlgt</a></code>,
 <code><a href="mlr_learners_fcst.sma.html">mlr_learners_fcst.sma</a></code>,
+<code><a href="mlr_learners_fcst.sparma.html">mlr_learners_fcst.sparma</a></code>,
 <code><a href="mlr_learners_fcst.spline.html">mlr_learners_fcst.spline</a></code>,
 <code><a href="mlr_learners_fcst.ssarima.html">mlr_learners_fcst.ssarima</a></code>,
 <code><a href="mlr_learners_fcst.stlm.html">mlr_learners_fcst.stlm</a></code>,

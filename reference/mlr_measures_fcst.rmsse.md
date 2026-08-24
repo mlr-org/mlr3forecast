@@ -10,7 +10,10 @@ baseline.
 \$\$ \mathrm{RMSSE} = \sqrt{\frac{1}{n} \sum\_{i=1}^n \frac{(y_i - \hat
 y_i)^2} {\frac{1}{T-m} \sum\_{t=m+1}^T (z_t - z\_{t-m})^2}} \$\$ where
 \\z\\ is the training series, \\m\\ is the seasonal period, and \\T\\ is
-the length of the training series.
+the length of the training series. If `period` is `NULL` (default), the
+seasonal period is derived from `task$freq` and rounded to the nearest
+positive integer, falling back to one when the task frequency is
+unavailable.
 
 ## Dictionary
 
@@ -56,7 +59,7 @@ task type, as the latter returns nothing:
 |        |         |         |                  |
 |--------|---------|---------|------------------|
 | Id     | Type    | Default | Range            |
-| period | integer | \-      | \\\[1, \infty)\\ |
+| period | integer | NULL    | \\\[1, \infty)\\ |
 
 ## References
 

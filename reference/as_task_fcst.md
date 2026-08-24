@@ -135,14 +135,19 @@ as_task_fcst(
 - key:
 
   ([`character()`](https://rdrr.io/r/base/character.html))  
-  Name of the key column.
+  Names of the columns whose combination identifies a series. Key
+  columns must be character, integer, factor, or ordered columns.
 
 - freq:
 
   (`character(1)` \| `numeric(1)` \| `NULL`)  
-  Frequency of the time series. Either a positive number or a
-  [`seq()`](https://rdrr.io/r/base/seq.html)-compatible string, e.g.:
-  `"1 month"`, `"day"`, `"3 months"`, `"1 hour"`, `"week"`.
+  Frequency of the time series. A
+  [`seq()`](https://rdrr.io/r/base/seq.html)-compatible string gives the
+  calendar step of the time grid, e.g. `"1 month"`, `"day"`,
+  `"3 months"`, `"1 hour"`, `"week"`. A positive number gives the
+  seasonal period (as in
+  [`stats::ts()`](https://rdrr.io/r/stats/ts.html)) for an integer or
+  numeric order column; the grid step is then inferred from the data.
 
 - id:
 

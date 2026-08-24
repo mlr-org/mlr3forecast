@@ -9,7 +9,7 @@
 heteroscedasticity, fitted via MCMC. The seasonal period is taken from the frequency of the series.
 Calls Rlgt::rlgt() from package Rlgt."><meta property="og:description" content="Bayesian exponential smoothing with a nonlinear global trend (LGT/SGT), Student-t errors, and optional
 heteroscedasticity, fitted via MCMC. The seasonal period is taken from the frequency of the series.
-Calls Rlgt::rlgt() from package Rlgt."></head><body>
+Calls Rlgt::rlgt() from package Rlgt."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -17,7 +17,7 @@ Calls Rlgt::rlgt() from package Rlgt."></head><body>
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -47,9 +47,8 @@ Calls Rlgt::rlgt() from package Rlgt."></head><body>
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Local and Global Trend Forecast Learner</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/R/LearnerFcstRlgt.R" class="external-link"><code>R/LearnerFcstRlgt.R</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>Local and Global Trend Forecast Learner</h1>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/R/LearnerFcstRlgt.R" class="external-link"><code>R/LearnerFcstRlgt.R</code></a></small>
       <div class="d-none name"><code>mlr_learners_fcst.rlgt.Rd</code></div>
     </div>
 
@@ -80,7 +79,7 @@ Calls <code><a href="https://rdrr.io/pkg/Rlgt/man/rlgt.html" class="external-lin
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>seasonality</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>seasonality2</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>seasonality.type</td><td>character</td><td>multiplicative</td><td>multiplicative, generalized</td><td>-</td></tr><tr><td>error.size.method</td><td>character</td><td>std</td><td>std, innov</td><td>-</td></tr><tr><td>level.method</td><td>character</td><td>HW</td><td>HW, seasAvg, HW_sAvg</td><td>-</td></tr><tr><td>method</td><td>character</td><td>Gibbs</td><td>Gibbs, Stan</td><td>-</td></tr><tr><td>homoscedastic</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>control</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>verbose</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>NUM_OF_TRIALS</td><td>integer</td><td>2000</td><td></td><td>\([1, \infty)\)</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>seasonality</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>seasonality2</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>seasonality.type</td><td>character</td><td>multiplicative</td><td>multiplicative, generalized</td><td>-</td></tr><tr><td>error.size.method</td><td>character</td><td>std</td><td>std, innov</td><td>-</td></tr><tr><td>level.method</td><td>character</td><td>HW</td><td>HW, seasAvg, HW_sAvg</td><td>-</td></tr><tr><td>method</td><td>character</td><td>Gibbs</td><td>Gibbs, Stan</td><td>-</td></tr><tr><td>homoscedastic</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>control</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>verbose</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>NUM_OF_TRIALS</td><td>integer</td><td>2000</td><td></td><td>\([1, \infty)\)</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Smyl S, Bergmeir C, Wibowo E, Ng TW, Long X, Dokumentov A, Schmidt D (2025).
@@ -106,6 +105,7 @@ for established default tuning spaces.</p></li>
 </ul><p>Other Learner:
 <code><a href="LearnerFcst.html">LearnerFcst</a></code>,
 <code><a href="mlr_learners_fcst.adam.html">mlr_learners_fcst.adam</a></code>,
+<code><a href="mlr_learners_fcst.ar.html">mlr_learners_fcst.ar</a></code>,
 <code><a href="mlr_learners_fcst.arfima.html">mlr_learners_fcst.arfima</a></code>,
 <code><a href="mlr_learners_fcst.arima.html">mlr_learners_fcst.arima</a></code>,
 <code><a href="mlr_learners_fcst.auto_adam.html">mlr_learners_fcst.auto_adam</a></code>,
@@ -130,6 +130,7 @@ for established default tuning spaces.</p></li>
 <code><a href="mlr_learners_fcst.prophet.html">mlr_learners_fcst.prophet</a></code>,
 <code><a href="mlr_learners_fcst.random_walk.html">mlr_learners_fcst.random_walk</a></code>,
 <code><a href="mlr_learners_fcst.sma.html">mlr_learners_fcst.sma</a></code>,
+<code><a href="mlr_learners_fcst.sparma.html">mlr_learners_fcst.sparma</a></code>,
 <code><a href="mlr_learners_fcst.spline.html">mlr_learners_fcst.spline</a></code>,
 <code><a href="mlr_learners_fcst.ssarima.html">mlr_learners_fcst.ssarima</a></code>,
 <code><a href="mlr_learners_fcst.stlm.html">mlr_learners_fcst.stlm</a></code>,

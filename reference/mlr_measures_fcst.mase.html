@@ -7,7 +7,7 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Mean Absolute Scaled Error — mlr_measures_fcst.mase"><meta name="description" content="Measures the mean absolute error of the forecast scaled by the in-sample mean absolute error of the naive
 (or seasonal naive) forecast. Values less than one indicate the forecast is better than the naive baseline."><meta property="og:description" content="Measures the mean absolute error of the forecast scaled by the in-sample mean absolute error of the naive
-(or seasonal naive) forecast. Values less than one indicate the forecast is better than the naive baseline."></head><body>
+(or seasonal naive) forecast. Values less than one indicate the forecast is better than the naive baseline."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.png"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -15,7 +15,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">mlr3forecast</a>
 
-    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.1.0</small>
+    <small class="nav-text text-default me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,9 +45,8 @@
 </nav><div class="container template-reference-topic">
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>Mean Absolute Scaled Error</h1>
-      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/v0.1.0/R/MeasureScaled.R" class="external-link"><code>R/MeasureScaled.R</code></a></small>
+      <img src="../logo.png" class="logo" alt=""><h1>Mean Absolute Scaled Error</h1>
+      <small class="dont-index">Source: <a href="https://github.com/mlr-org/mlr3forecast/blob/main/R/MeasureScaled.R" class="external-link"><code>R/MeasureScaled.R</code></a></small>
       <div class="d-none name"><code>mlr_measures_fcst.mase.Rd</code></div>
     </div>
 
@@ -65,7 +64,9 @@
     {\frac{1}{T-m} \sum_{t=m+1}^T \lvert z_t - z_{t-m} \rvert}
 $$
 where \(z\) is the training series, \(m\) is the seasonal period, and \(T\) is the length of the
-training series.</p>
+training series.
+If <code>period</code> is <code>NULL</code> (default), the seasonal period is derived from <code>task$freq</code> and rounded to the nearest
+positive integer, falling back to one when the task frequency is unavailable.</p>
     </div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
@@ -98,7 +99,7 @@ List them via the key prefix, not the task type, as the latter returns nothing:<
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>period</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>period</td><td>integer</td><td>NULL</td><td>\([1, \infty)\)</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Hyndman RJ, Koehler AB (2006).
