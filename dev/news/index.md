@@ -2,6 +2,10 @@
 
 ## mlr3forecast (development version)
 
+## mlr3forecast 0.2.0
+
+CRAN release: 2026-08-24
+
 - BREAKING CHANGE: Key columns are no longer features by default.
   Restore the feature role explicitly when needed.
 - BREAKING CHANGE: `po("fcstavg")` was renamed to `po("fcst.avg")` to

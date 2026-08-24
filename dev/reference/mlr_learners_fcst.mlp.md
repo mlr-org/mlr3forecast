@@ -201,6 +201,7 @@ The objects of this class are cloneable with this method.
 ## Examples
 
 ``` r
+# \donttest{
 # Define the Learner and set parameter values
 learner = lrn("fcst.mlp")
 print(learner)
@@ -258,4 +259,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 predictions$score()
 #> regr.mse 
 #> 1002.902 
+# }
 ```
