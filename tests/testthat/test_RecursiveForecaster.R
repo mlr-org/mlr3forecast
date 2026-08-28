@@ -367,3 +367,17 @@ test_that("RecursiveForecaster hash covers graph structure", {
   expect_false(learner$hash == other_values$hash)
   expect_identical(learner$phash, other_values$phash)
 })
+
+test_that("RecursiveForecaster native_model errors while marshaled", {
+  task = tsk("airpassengers")
+  learner = RecursiveForecaster$new(make_marshal_stub_learner(), lags = 1:3)
+  learner$train(task)
+  expect_class(learner$native_model, "regr_marshal_stub_model")
+
+  learner$marshal()
+  expect_true(learner$marshaled)
+  expect_error(learner$native_model, "unmarshal")
+
+  learner$unmarshal()
+  expect_class(learner$native_model, "regr_marshal_stub_model")
+})

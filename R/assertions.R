@@ -8,13 +8,17 @@ assert_seen_keys = function(seen, dt, key_cols) {
   }
 }
 
+assert_unmarshaled = function(learner) {
+  if (isTRUE(learner$marshaled)) {
+    error_input("Model is marshaled, call $unmarshal() first.")
+  }
+}
+
 assert_has_model = function(learner) {
   if (is.null(learner$model)) {
     error_input("No model stored.")
   }
-  if (isTRUE(learner$marshaled)) {
-    error_input("Model is marshaled, call $unmarshal() first.")
-  }
+  assert_unmarshaled(learner)
 }
 
 assert_fcst_prediction_col_roles = function(col_roles, extra) {

@@ -208,6 +208,7 @@ DirectForecaster = R6Class(
       if (is.null(self$model)) {
         return()
       }
+      assert_unmarshaled(self)
       models = map(self$model$models, function(glrn) glrn$base_learner()$model)
       set_names(models, paste0("h", self$horizons))
     },

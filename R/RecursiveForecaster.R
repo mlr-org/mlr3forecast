@@ -210,6 +210,7 @@ RecursiveForecaster = R6Class(
       if (is.null(self$model)) {
         return()
       }
+      assert_unmarshaled(self)
       self$model$graph_state[[self$learner$id]]$model
     },
 

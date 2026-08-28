@@ -235,3 +235,48 @@ make_property_stub_learner = function() {
     )
   )$new()
 }
+
+# regr learner with a marshalable model, modeled on mlr3's classif.debug
+make_marshal_stub_learner = function() {
+  R6Class(
+    "LearnerRegrMarshalStub",
+    inherit = LearnerRegr,
+    public = list(
+      initialize = function() {
+        super$initialize(
+          id = "regr.marshal_stub",
+          feature_types = c("logical", "integer", "numeric"),
+          predict_types = "response",
+          properties = "marshal"
+        )
+      },
+      marshal = function(...) learner_marshal(.learner = self, ...),
+      unmarshal = function(...) learner_unmarshal(.learner = self, ...)
+    ),
+    active = list(
+      marshaled = function() learner_marshaled(self)
+    ),
+    private = list(
+      .train = function(task) set_class(list(mean = mean(task$truth())), "regr_marshal_stub_model"),
+      .predict = function(task) list(response = rep(self$model$mean, task$nrow))
+    )
+  )$new()
+}
+
+marshal_model.regr_marshal_stub_model = function(model, inplace = FALSE, ...) {
+  set_class(
+    list(marshaled = unclass(model), packages = "mlr3"),
+    c("regr_marshal_stub_model_marshaled", "marshaled")
+  )
+}
+
+unmarshal_model.regr_marshal_stub_model_marshaled = function(model, inplace = FALSE, ...) {
+  set_class(model$marshaled, "regr_marshal_stub_model")
+}
+
+registerS3method("marshal_model", "regr_marshal_stub_model", marshal_model.regr_marshal_stub_model)
+registerS3method(
+  "unmarshal_model",
+  "regr_marshal_stub_model_marshaled",
+  unmarshal_model.regr_marshal_stub_model_marshaled
+)

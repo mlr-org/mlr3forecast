@@ -372,3 +372,17 @@ test_that("DirectForecaster hash covers horizons and graph structure", {
   expect_false(learner$hash == other_values$hash)
   expect_identical(learner$phash, other_values$phash)
 })
+
+test_that("DirectForecaster native_model errors while marshaled", {
+  task = tsk("airpassengers")
+  learner = DirectForecaster$new(make_marshal_stub_learner(), lags = 1:3, horizons = 2L)
+  learner$train(task)
+  expect_list(learner$native_model, len = 2L)
+
+  learner$marshal()
+  expect_true(learner$marshaled)
+  expect_error(learner$native_model, "unmarshal")
+
+  learner$unmarshal()
+  expect_list(learner$native_model, len = 2L)
+})
