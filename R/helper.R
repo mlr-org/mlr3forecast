@@ -20,3 +20,21 @@ ordered_features = function(task, learner) {
   cols = names(learner$state$data_prototype) %??% learner$state$feature_names
   task$data(cols = intersect(cols, task$feature_names))
 }
+
+reorder_prediction = function(prediction, row_ids) {
+  data = prediction$data
+  ord = match(row_ids, data$row_ids)
+  for (nm in names(data)) {
+    x = data[[nm]]
+    data[[nm]] = if (is.matrix(x)) {
+      x[] = x[ord, , drop = FALSE]
+      x
+    } else if (length(x) == length(ord)) {
+      x[ord]
+    } else {
+      x
+    }
+  }
+  prediction$data = data
+  prediction
+}

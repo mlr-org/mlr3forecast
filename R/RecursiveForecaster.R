@@ -509,16 +509,20 @@ RecursiveForecaster = R6Class(
       setorderv(ord, c(key_cols, order_cols))
       active_cids = ord[["..row_id"]]
 
-      preds = vector("list", n_test)
-      for (i in seq_len(n_test)) {
-        cid = active_cids[i]
-        step_task$row_roles$use = cid
+      # step s of a key depends only on its history and earlier steps, so keys predict jointly per step
+      steps = if (length(key_cols) > 0L) rowidv(ord, cols = key_cols) else seq_len(n_test)
+      step_cids = split(active_cids, steps)
+      preds = vector("list", length(step_cids))
+      for (s in seq_along(step_cids)) {
+        cids = step_cids[[s]]
+        step_task$row_roles$use = cids
         prediction = graph$predict(step_task)[[1L]]
-        preds[[i]] = prediction
-        set(combined, i = cid, j = target, value = prediction$response)
+        preds[[s]] = prediction
+        set(combined, i = cids, j = target, value = prediction$response[match(cids, prediction$row_ids)])
       }
 
-      out = do.call(c, preds)
+      # concatenation is step-major; restore the (key, order)-major row order
+      out = reorder_prediction(do.call(c, preds), active_cids)
       out_row_ids = task$row_ids[active_cids - n_train]
       out_data = task$data(rows = out_row_ids, cols = c(target, key_cols, order_cols))
       new_data = list(

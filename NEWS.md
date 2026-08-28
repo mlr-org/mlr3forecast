@@ -4,6 +4,7 @@
 * fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
+* perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
 
 # mlr3forecast 0.2.0
 

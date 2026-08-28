@@ -409,3 +409,31 @@ test_that("RecursiveForecaster propagates predict parameters changed after train
   learner$param_set$values$regr.debug.error_predict = 0
   expect_prediction(learner$predict(task, split$test))
 })
+
+test_that("RecursiveForecaster joint per-step prediction matches per-key prediction", {
+  task = make_date_major_panel_task(12L)
+  dt = task$data(cols = c("date", "id"))
+  dates = sort(unique(dt$date))
+  test_dates = tail(dates, 3L)
+  row_ids = task$row_ids
+  test_ids = row_ids[dt$date %in% test_dates]
+  train_ids = setdiff(row_ids, test_ids)
+
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:2)
+  learner$train(task, train_ids)
+  full = learner$predict(task, test_ids)
+
+  for (key in c("a", "b")) {
+    key_ids = row_ids[dt$id == key & dt$date %in% test_dates]
+    single = learner$predict(task, key_ids)
+    expect_identical(single$response, full$response[match(key_ids, full$row_ids)])
+  }
+
+  # unequal horizons per key: three steps for key "a", one step for key "b"
+  uneven_ids = c(
+    row_ids[dt$id == "a" & dt$date %in% test_dates],
+    row_ids[dt$id == "b" & dt$date == test_dates[1L]]
+  )
+  uneven = learner$predict(task, uneven_ids)
+  expect_identical(uneven$response, full$response[match(uneven$row_ids, full$row_ids)])
+})

@@ -455,24 +455,8 @@ DirectForecaster = R6Class(
         task$row_roles$use = ids
         models[[as.integer(h)]]$predict(task)
       })
-      combined = do.call(c, preds)
-      # batches come back in model order; restore the caller's row_ids order, mutating in place
-      # to keep the PredictionData class on $data
-      data = combined$data
-      ord = match(row_ids, data$row_ids)
-      for (nm in names(data)) {
-        x = data[[nm]]
-        data[[nm]] = if (is.matrix(x)) {
-          x[] = x[ord, , drop = FALSE]
-          x
-        } else if (length(x) == length(ord)) {
-          x[ord]
-        } else {
-          x
-        }
-      }
-      combined$data = data
-      combined
+      # batches come back in model order; restore the caller's row_ids order
+      reorder_prediction(do.call(c, preds), row_ids)
     }
   )
 )
