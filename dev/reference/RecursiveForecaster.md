@@ -88,6 +88,18 @@ accuracy, not recursive multi-step accuracy.
   ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
   Set of hyperparameters.
 
+- `hash`:
+
+  (`character(1)`)  
+  Hash (unique identifier) for this object.
+
+- `phash`:
+
+  (`character(1)`)  
+  Hash (unique identifier) for this partial object, excluding some
+  components which are varied systematically during tuning (parameter
+  values).
+
 - `marshaled`:
 
   (`logical(1)`)  

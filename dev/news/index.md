@@ -2,6 +2,9 @@
 
 ## mlr3forecast (development version)
 
+- fix: Forecaster hashes now cover the wrapped graph’s structure and the
+  `horizons`.
+
 ## mlr3forecast 0.2.0
 
 CRAN release: 2026-08-24
