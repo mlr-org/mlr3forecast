@@ -87,7 +87,7 @@ PipeOpFcstFourier = R6Class(
       full = task$backend$data(rows = task$backend$rownames, cols = c(key_cols, order_cols))
       setorderv(full, c(key_cols, order_cols))
       if (length(key_cols) > 0L) {
-        full[, "..t" := seq_len(.N), by = key_cols]
+        set(full, j = "..t", value = rowidv(full, cols = key_cols))
       } else {
         set(full, j = "..t", value = seq_row(full))
       }
