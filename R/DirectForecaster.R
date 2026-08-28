@@ -240,6 +240,45 @@ DirectForecaster = R6Class(
       private$.param_set
     },
 
+    #' @field hash (`character(1)`)\cr
+    #' Hash (unique identifier) for this object.
+    hash = function(rhs) {
+      assert_ro_binding(rhs)
+      calculate_hash(
+        class(self),
+        self$id,
+        self$param_set$values,
+        private$.predict_type,
+        self$fallback$hash,
+        self$parallel_predict,
+        get0("validate", self),
+        self$predict_sets,
+        private$.use_weights,
+        private$.predict_raw,
+        private$.learner$phash,
+        private$.horizons
+      )
+    },
+
+    #' @field phash (`character(1)`)\cr
+    #' Hash (unique identifier) for this partial object, excluding some components which are
+    #' varied systematically during tuning (parameter values).
+    phash = function(rhs) {
+      assert_ro_binding(rhs)
+      calculate_hash(
+        class(self),
+        self$id,
+        private$.predict_type,
+        self$fallback$hash,
+        self$parallel_predict,
+        get0("validate", self),
+        private$.use_weights,
+        private$.predict_raw,
+        private$.learner$phash,
+        private$.horizons
+      )
+    },
+
     #' @field marshaled (`logical(1)`)\cr
     #' Whether the learner's model is currently in marshaled form.
     marshaled = function() {

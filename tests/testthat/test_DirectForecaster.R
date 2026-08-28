@@ -356,3 +356,19 @@ test_that("DirectForecaster can be tuned with a validating learner", {
   expect_error(at$train(task), NA)
   expect_number(at$tuning_result$regr.stub.shift)
 })
+
+test_that("DirectForecaster hash covers horizons and graph structure", {
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3L)
+  same = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3L)
+  expect_identical(learner$hash, same$hash)
+  expect_identical(learner$phash, same$phash)
+
+  other_horizons = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 6L)
+  expect_false(learner$hash == other_horizons$hash)
+  expect_false(learner$phash == other_horizons$phash)
+
+  other_values = learner$clone(deep = TRUE)
+  other_values$param_set$values$regr.rpart.minsplit = 5L
+  expect_false(learner$hash == other_values$hash)
+  expect_identical(learner$phash, other_values$phash)
+})

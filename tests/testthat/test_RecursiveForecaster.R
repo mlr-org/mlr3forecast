@@ -346,3 +346,24 @@ test_that("RecursiveForecaster supports internal tuning", {
   expect_false(at$learner$param_set$values$regr.stub.early_stopping)
   expect_identical(at$learner$param_set$values$regr.stub.iter, 8L)
 })
+
+test_that("RecursiveForecaster hash covers graph structure", {
+  graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
+  learner = RecursiveForecaster$new(graph, id = "x")
+  same = RecursiveForecaster$new(po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart"), id = "x")
+  expect_identical(learner$hash, same$hash)
+  expect_identical(learner$phash, same$phash)
+
+  # nop contributes no parameter values, so only the graph structure differs
+  other_graph = RecursiveForecaster$new(
+    po("fcst.lags", lags = 1:3) %>>% po("nop") %>>% lrn("regr.rpart"),
+    id = "x"
+  )
+  expect_false(learner$hash == other_graph$hash)
+  expect_false(learner$phash == other_graph$phash)
+
+  other_values = learner$clone(deep = TRUE)
+  other_values$param_set$values$fcst.lags.lags = 1:6
+  expect_false(learner$hash == other_values$hash)
+  expect_identical(learner$phash, other_values$phash)
+})

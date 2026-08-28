@@ -83,6 +83,13 @@ The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
     \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
 Set of hyperparameters.}
 
+    \item{\code{hash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this object.}
+
+    \item{\code{phash}}{(\code{character(1)})\cr
+Hash (unique identifier) for this partial object, excluding some components which are
+varied systematically during tuning (parameter values).}
+
     \item{\code{marshaled}}{(\code{logical(1)})\cr
 Whether the learner's model is currently in marshaled form.}
 
