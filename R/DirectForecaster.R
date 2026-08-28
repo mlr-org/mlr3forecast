@@ -550,3 +550,9 @@ unmarshal_model.direct_forecaster_model_marshaled = function(model, inplace = FA
   m_inner$models = unmarshaled_models
   set_class(m_inner, c("direct_forecaster_model", "list"))
 }
+
+#' @export
+#' @method default_fallback DirectForecaster
+default_fallback.DirectForecaster = function(learner, ...) {
+  default_fallback(learner$learner, ...)
+}

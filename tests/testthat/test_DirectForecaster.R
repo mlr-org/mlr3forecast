@@ -386,3 +386,17 @@ test_that("DirectForecaster native_model errors while marshaled", {
   learner$unmarshal()
   expect_list(learner$native_model, len = 2L)
 })
+
+test_that("DirectForecaster provides a default fallback", {
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 2L)
+  fallback = default_fallback(learner)
+  expect_class(fallback, "LearnerRegrFeatureless")
+  expect_identical(fallback$predict_type, learner$predict_type)
+
+  task = tsk("airpassengers")
+  failing = DirectForecaster$new(lrn("regr.debug", error_train = 1), lags = 1:3, horizons = 15L)
+  rr = resample(task, failing, rsmp("fcst.holdout", ratio = 0.9), encapsulate = "evaluate")
+  expect_class(rr, "ResampleResult")
+  expect_number(rr$aggregate())
+  expect_true(nrow(rr$errors) > 0L)
+})

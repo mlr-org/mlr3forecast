@@ -622,3 +622,9 @@ set_validate.RecursiveForecaster = function(learner, validate, ids = NULL, args_
   on.exit()
   invisible(learner)
 }
+
+#' @export
+#' @method default_fallback RecursiveForecaster
+default_fallback.RecursiveForecaster = function(learner, ...) {
+  default_fallback(learner$learner, ...)
+}

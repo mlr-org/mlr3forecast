@@ -381,3 +381,17 @@ test_that("RecursiveForecaster native_model errors while marshaled", {
   learner$unmarshal()
   expect_class(learner$native_model, "regr_marshal_stub_model")
 })
+
+test_that("RecursiveForecaster provides a default fallback", {
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+  fallback = default_fallback(learner)
+  expect_class(fallback, "LearnerRegrFeatureless")
+  expect_identical(fallback$predict_type, learner$predict_type)
+
+  task = tsk("airpassengers")
+  failing = RecursiveForecaster$new(lrn("regr.debug", error_train = 1), lags = 1:3)
+  rr = resample(task, failing, rsmp("fcst.holdout", ratio = 0.9), encapsulate = "evaluate")
+  expect_class(rr, "ResampleResult")
+  expect_number(rr$aggregate())
+  expect_true(nrow(rr$errors) > 0L)
+})

@@ -2,6 +2,7 @@
 
 * fix: Forecaster hashes now cover the wrapped graph's structure and the `horizons`.
 * fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
+* feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 
 # mlr3forecast 0.2.0
 
