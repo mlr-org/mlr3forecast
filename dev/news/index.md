@@ -10,6 +10,8 @@
   [`default_fallback()`](https://mlr3.mlr-org.com/reference/default_fallback.html)
   support for both forecasters, enabling `resample(encapsulate =)`
   without an explicit fallback.
+- fix: `DirectForecaster` no longer ignores predict parameters changed
+  after training.
 
 ## mlr3forecast 0.2.0
 
