@@ -400,3 +400,17 @@ test_that("DirectForecaster provides a default fallback", {
   expect_number(rr$aggregate())
   expect_true(nrow(rr$errors) > 0L)
 })
+
+test_that("DirectForecaster propagates predict parameters changed after training", {
+  task = tsk("airpassengers")
+  split = partition(task, ratio = 0.9)
+  learner = DirectForecaster$new(lrn("regr.debug"), lags = 1:3, horizons = length(split$test))
+  learner$train(task, split$train)
+  expect_prediction(learner$predict(task, split$test))
+
+  learner$param_set$values$regr.debug.error_predict = 1
+  expect_error(learner$predict(task, split$test))
+
+  learner$param_set$values$regr.debug.error_predict = 0
+  expect_prediction(learner$predict(task, split$test))
+})

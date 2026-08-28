@@ -368,6 +368,8 @@ DirectForecaster = R6Class(
 
     .predict = function(task) {
       models = self$model$models
+      template_values = private$.learner$param_set$values
+      walk(models, function(m) m$param_set$set_values(.values = template_values))
       horizons = private$.horizons
       max_h = max(horizons)
       step = self$model$step
