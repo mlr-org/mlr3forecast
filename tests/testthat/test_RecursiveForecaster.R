@@ -377,6 +377,9 @@ test_that("RecursiveForecaster native_model errors while marshaled", {
   learner$marshal()
   expect_true(learner$marshaled)
   expect_error(learner$native_model, "unmarshal")
+  expect_error(learner$importance(), "unmarshal")
+  expect_error(learner$selected_features(), "unmarshal")
+  expect_error(learner$oob_error(), "unmarshal")
 
   learner$unmarshal()
   expect_class(learner$native_model, "regr_marshal_stub_model")

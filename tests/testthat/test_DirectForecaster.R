@@ -382,6 +382,9 @@ test_that("DirectForecaster native_model errors while marshaled", {
   learner$marshal()
   expect_true(learner$marshaled)
   expect_error(learner$native_model, "unmarshal")
+  expect_error(learner$importance(), "unmarshal")
+  expect_error(learner$selected_features(), "unmarshal")
+  expect_error(learner$oob_error(), "unmarshal")
 
   learner$unmarshal()
   expect_list(learner$native_model, len = 2L)
