@@ -49,9 +49,9 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3forecast-development-version">mlr3forecast (development version)<a class="anchor" aria-label="anchor" href="#mlr3forecast-development-version"></a></h2>
-<ul><li>fix: Forecaster hashes now cover the wrapped graph’s structure and the <code>horizons</code>.</li>
+<ul><li>feat: <code><a href="https://mlr3.mlr-org.com/reference/default_fallback.html" class="external-link">default_fallback()</a></code> support for both forecasters, enabling <code>resample(encapsulate =)</code> without an explicit fallback.</li>
+<li>fix: Forecaster hashes now cover the wrapped graph’s structure and the <code>horizons</code>.</li>
 <li>fix: <code>$native_model</code> now errors on marshaled models instead of returning wrong objects.</li>
-<li>feat: <code><a href="https://mlr3.mlr-org.com/reference/default_fallback.html" class="external-link">default_fallback()</a></code> support for both forecasters, enabling <code>resample(encapsulate =)</code> without an explicit fallback.</li>
 <li>fix: <code>DirectForecaster</code> no longer ignores predict parameters changed after training.</li>
 <li>perf: <code>RecursiveForecaster</code> now predicts all keys jointly per step instead of row by row, making keyed prediction roughly <code>n_keys</code> times faster.</li>
 </ul></div>
