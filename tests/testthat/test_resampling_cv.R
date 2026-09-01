@@ -1,4 +1,7 @@
 test_that("fcst.cv basic properties", {
+  skip_if_not_installed("tsibbledata")
+  skip_if_not_installed("tsibble")
+
   resampling = rsmp(
     "fcst.cv",
     folds = 10L,

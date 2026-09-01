@@ -12,6 +12,7 @@ Lag features are managed internally via \code{lags}. Do not add iterative featur
 \code{"fcst_iterative"}, e.g. \link{PipeOpFcstLags}, \link{PipeOpFcstRolling}), which are rejected at construction.
 }
 \examples{
+\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
 library(mlr3pipelines)
 
@@ -28,6 +29,7 @@ flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 }
+\dontshow{\}) # examplesIf}
 }
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{DirectForecaster}

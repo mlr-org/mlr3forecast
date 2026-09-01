@@ -39,6 +39,8 @@ test_that("infer_freq detects calendar units", {
 })
 
 test_that("to_tsibble_index maps calendar units and passes through the rest", {
+  skip_if_not_installed("tsibble")
+
   d = seq(as.Date("2020-01-01"), by = "month", length.out = 4L)
   expect_class(to_tsibble_index(d, "week"), "yearweek")
   expect_class(to_tsibble_index(d, "month"), "yearmonth")

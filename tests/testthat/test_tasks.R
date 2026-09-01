@@ -14,11 +14,16 @@ test_that("lynx task", {
 })
 
 test_that("electricity task", {
+  skip_if_not_installed("tsibbledata")
+
   task = tsk("electricity")
   expect_task(task)
 })
 
 test_that("livestock task", {
+  skip_if_not_installed("tsibbledata")
+  skip_if_not_installed("tsibble")
+
   task = tsk("livestock")
   expect_task(task)
 })

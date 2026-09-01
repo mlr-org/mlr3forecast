@@ -20,6 +20,8 @@ test_that("stats forecaster: resample + aggregate", {
 })
 
 test_that("RecursiveForecaster: train + predict + score", {
+  skip_if_not_installed("rpart")
+
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)
   flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)$train(task, split$train)
@@ -28,6 +30,8 @@ test_that("RecursiveForecaster: train + predict + score", {
 })
 
 test_that("DirectForecaster: train + predict + score", {
+  skip_if_not_installed("rpart")
+
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)
   flrn = direct_forecaster(
@@ -40,6 +44,8 @@ test_that("DirectForecaster: train + predict + score", {
 })
 
 test_that("ML forecasters: resample + aggregate", {
+  skip_if_not_installed("rpart")
+
   task = tsk("airpassengers")
   flrns = list(
     recursive = recursive_forecaster(lrn("regr.rpart"), lags = 1:3),

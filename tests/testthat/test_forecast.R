@@ -27,6 +27,8 @@ test_that("generate_newdata anchors on the chronologically last row when backend
 })
 
 test_that("a tsf with frequency but no timestamp uses an integer step", {
+  skip_if_not_installed("withr")
+
   file = withr::local_tempfile(fileext = ".tsf")
   writeLines(c("@attribute series_name string", "@frequency yearly", "@data", "T1:10,20,30,40"), file)
   task = as_task_fcst(read_tsf(file))
@@ -72,6 +74,8 @@ test_that("generate_newdata works with keyed task", {
 })
 
 test_that("forecast() works with RecursiveForecaster", {
+  skip_if_not_installed("rpart")
+
   task = tsk("airpassengers")
   flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   flrn$train(task)
@@ -82,6 +86,8 @@ test_that("forecast() works with RecursiveForecaster", {
 })
 
 test_that("forecast() works with DirectForecaster", {
+  skip_if_not_installed("rpart")
+
   task = tsk("airpassengers")
   flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 6L)
   flrn$train(task)
@@ -92,6 +98,8 @@ test_that("forecast() works with DirectForecaster", {
 })
 
 test_that("forecast() works with a classic forecast learner", {
+  skip_if_not_installed("forecast")
+
   task = tsk("airpassengers")
   flrn = lrn("fcst.mean")
   flrn$train(task)
@@ -106,6 +114,8 @@ test_that("forecast() rejects unused arguments", {
 })
 
 test_that("forecast() overlays newdata onto the skeleton", {
+  skip_if_not_installed("rpart")
+
   task = tsk("airpassengers")
   flrn = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   flrn$train(task)
@@ -117,6 +127,9 @@ test_that("forecast() overlays newdata onto the skeleton", {
 })
 
 test_that("forecast() overlays multiple exogenous columns on a keyed task", {
+  skip_if_not_installed("withr")
+  skip_if_not_installed("rpart")
+
   withr::local_seed(42L)
   dt = data.table(
     date = rep(seq(as.Date("2024-01-01"), by = "month", length.out = 24L), 2L),
@@ -137,6 +150,9 @@ test_that("forecast() overlays multiple exogenous columns on a keyed task", {
 })
 
 test_that("forecast() validates newdata alignment", {
+  skip_if_not_installed("withr")
+  skip_if_not_installed("rpart")
+
   withr::local_seed(42L)
   dt = data.table(
     date = rep(seq(as.Date("2024-01-01"), by = "month", length.out = 24L), 2L),

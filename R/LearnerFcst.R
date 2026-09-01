@@ -28,7 +28,7 @@
 #'
 #' @template seealso_learner
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("forecast", quietly = TRUE)
 #' # get all forecast learners from mlr_learners:
 #' lrns = mlr_learners$mget(mlr_learners$keys("^fcst"))
 #' names(lrns)

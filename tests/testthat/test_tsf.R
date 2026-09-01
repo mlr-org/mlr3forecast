@@ -7,6 +7,8 @@ test_that("fread_tsf works", {
 })
 
 test_that("read_tsf preserves high-frequency timestamps", {
+  skip_if_not_installed("withr")
+
   file = withr::local_tempfile(fileext = ".tsf")
   writeLines(
     c(
@@ -26,6 +28,8 @@ test_that("read_tsf preserves high-frequency timestamps", {
 })
 
 test_that("read_tsf rejects timestamps without a time component", {
+  skip_if_not_installed("withr")
+
   file = withr::local_tempfile(fileext = ".tsf")
   writeLines(
     c(
@@ -41,6 +45,8 @@ test_that("read_tsf rejects timestamps without a time component", {
 })
 
 test_that("read_tsf handles frequency without date attribute", {
+  skip_if_not_installed("withr")
+
   file = withr::local_tempfile(fileext = ".tsf")
   writeLines(
     c(
@@ -57,6 +63,8 @@ test_that("read_tsf handles frequency without date attribute", {
 })
 
 test_that("read_tsf sets the horizon attribute", {
+  skip_if_not_installed("withr")
+
   file = withr::local_tempfile(fileext = ".tsf")
   writeLines(
     c(

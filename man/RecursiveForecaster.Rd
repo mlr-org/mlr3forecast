@@ -51,6 +51,7 @@ measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accur
 }
 
 \examples{
+\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
@@ -64,6 +65,7 @@ graph = po("fcst.lags", lags = 1:3) \%>>\% lrn("regr.rpart")
 flrn = RecursiveForecaster$new(graph)
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
+\dontshow{\}) # examplesIf}
 }
 \section{Super class}{
 \code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{RecursiveForecaster}

@@ -31,7 +31,7 @@
 #' forecaster itself with `ppl("targettrafo", ...)` so all horizons are inverted together.
 #'
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("rpart", quietly = TRUE) && requireNamespace("forecast", quietly = TRUE)
 #' \donttest{
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")

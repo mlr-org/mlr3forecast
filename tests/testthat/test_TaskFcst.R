@@ -13,6 +13,9 @@ test_that("calendar-string freq requires a Date or POSIXct order column", {
 })
 
 test_that("view includes key and order columns", {
+  skip_if_not_installed("tsibbledata")
+  skip_if_not_installed("tsibble")
+
   task = tsk("livestock")
   v = task$view(cols = "count")
   expect_names(names(v), identical.to = c("animal", "state", "month", "count"))
@@ -30,6 +33,9 @@ test_that("order binding returns row_id and order columns", {
 })
 
 test_that("key binding returns row_id and key columns", {
+  skip_if_not_installed("tsibbledata")
+  skip_if_not_installed("tsibble")
+
   expect_null(tsk("airpassengers")$key)
 
   task = tsk("livestock")

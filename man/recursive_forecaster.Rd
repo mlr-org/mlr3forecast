@@ -45,6 +45,7 @@ prediction back as a lag/rolling feature for the next step. For the direct strat
 \code{\link[=direct_forecaster]{direct_forecaster()}}.
 }
 \examples{
+\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
@@ -58,4 +59,5 @@ flrn$predict(task, split$test)
 # graph: custom preprocessing pipeline
 graph = po("fcst.lags", lags = 1:3) \%>>\% lrn("regr.rpart")
 flrn = recursive_forecaster(graph)
+\dontshow{\}) # examplesIf}
 }

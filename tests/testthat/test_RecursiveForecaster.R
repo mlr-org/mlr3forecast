@@ -1,3 +1,5 @@
+skip_if_not_installed("rpart")
+
 test_that("RecursiveForecaster basic train/predict works", {
   task = tsk("airpassengers")
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
@@ -100,6 +102,8 @@ test_that("RecursiveForecaster warns without iterative PipeOps", {
 })
 
 test_that("RecursiveForecaster does not truncate predictions fed back into integer targets", {
+  skip_if_not_installed("withr")
+
   withr::local_seed(1)
   y = as.integer(round(100 + 10 * sin(seq_len(60) / 3) + rnorm(60, sd = 2)))
   dates = seq(as.Date("2020-01-01"), by = "day", length.out = 60L)

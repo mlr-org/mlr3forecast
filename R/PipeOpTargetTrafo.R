@@ -22,7 +22,7 @@
 #' Quantile predictions cannot be inverted and are rejected.
 #'
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("rpart", quietly = TRUE)
 #' \donttest{
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")

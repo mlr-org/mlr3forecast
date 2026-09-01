@@ -1,3 +1,5 @@
+skip_if_not_installed("rpart")
+
 test_that("DirectForecaster basic train/predict works", {
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)

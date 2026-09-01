@@ -24,6 +24,7 @@ on quantile regression for more details.
 Predefined learners can be found in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners}.
 }
 \examples{
+\dontshow{if (requireNamespace("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # get all forecast learners from mlr_learners:
 lrns = mlr_learners$mget(mlr_learners$keys("^fcst"))
 names(lrns)
@@ -31,6 +32,7 @@ names(lrns)
 # get a specific learner from mlr_learners:
 mlr_learners$get("fcst.ets")
 lrn("fcst.auto_arima")
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \itemize{

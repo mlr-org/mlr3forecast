@@ -37,6 +37,8 @@ test_that("PipeOpTargetTrafoDifference round-trip with lag = 12", {
 })
 
 test_that("targetdiff + fcst.lags + learner trains and predicts inside a graph", {
+  skip_if_not_installed("rpart")
+
   task = tsk("airpassengers")
   inner = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
   graph = ppl("targettrafo", graph = inner, trafo_pipeop = po("fcst.targetdiff", lag = 1L))
@@ -124,6 +126,8 @@ test_that("targetdiff drops series too short for the lag and rejects them at pre
 })
 
 test_that("targetdiff works wrapping DirectForecaster on a keyed task", {
+  skip_if_not_installed("rpart")
+
   task = make_monthly_panel_task()
   split = partition(task, ratio = 0.9)
   key = task$col_roles$key
@@ -143,6 +147,8 @@ test_that("targetdiff works wrapping DirectForecaster on a keyed task", {
 })
 
 test_that("targetdiff works wrapping RecursiveForecaster on a keyed task", {
+  skip_if_not_installed("rpart")
+
   task = make_monthly_panel_task()
   split = partition(task, ratio = 0.9)
   flrn = as_learner(ppl(
@@ -157,6 +163,8 @@ test_that("targetdiff works wrapping RecursiveForecaster on a keyed task", {
 })
 
 test_that("targetdiff works wrapping DirectForecaster", {
+  skip_if_not_installed("rpart")
+
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.8)
   flrn = as_learner(ppl(

@@ -44,6 +44,7 @@ A direct forecaster trains a separate regression model per forecast horizon, so 
 another (no error accumulation). For the recursive strategy (a single iterated model) see \code{\link[=recursive_forecaster]{recursive_forecaster()}}.
 }
 \examples{
+\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 
 task = tsk("airpassengers")
@@ -53,4 +54,5 @@ split = partition(task, ratio = 0.8)
 flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
+\dontshow{\}) # examplesIf}
 }

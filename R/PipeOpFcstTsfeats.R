@@ -55,7 +55,6 @@ PipeOpFcstTsfeats = R6Class(
         trim_amount = p_dbl(lower = 0, default = 0.1, tags = "train", depends = quote(trim == TRUE)), # nolint
         parallel = p_lgl(default = FALSE, tags = "train"),
         multiprocess = p_uty(
-          default = future::multisession,
           tags = "train",
           depends = quote(parallel == TRUE), # nolint
           custom_check = check_function

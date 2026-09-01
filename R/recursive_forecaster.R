@@ -23,7 +23,7 @@
 #'   Whether to clone the graph, default `TRUE`.
 #' @return [RecursiveForecaster].
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("rpart", quietly = TRUE)
 #' library(mlr3pipelines)
 #'
 #' task = tsk("airpassengers")

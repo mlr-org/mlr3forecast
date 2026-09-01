@@ -22,7 +22,7 @@
 #'   The predict type, default `NULL`.
 #' @return [DirectForecaster].
 #' @export
-#' @examples
+#' @examplesIf requireNamespace("rpart", quietly = TRUE)
 #' library(mlr3pipelines)
 #'
 #' task = tsk("airpassengers")

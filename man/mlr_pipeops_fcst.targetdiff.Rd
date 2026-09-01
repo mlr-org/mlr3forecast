@@ -31,6 +31,7 @@ Quantile predictions cannot be inverted and are rejected.
 }
 
 \examples{
+\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
 library(mlr3pipelines)
 task = tsk("airpassengers")
@@ -42,6 +43,7 @@ flrn = as_learner(ppl("targettrafo",
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 }
+\dontshow{\}) # examplesIf}
 }
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTargetTrafo]{mlr3pipelines::PipeOpTargetTrafo}} -> \code{PipeOpTargetTrafoDifference}

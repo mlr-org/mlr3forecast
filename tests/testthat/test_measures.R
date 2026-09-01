@@ -1,4 +1,6 @@
 test_that("forecast measures", {
+  skip_if_not_installed("rpart")
+
   keys = mlr_measures$keys("^fcst\\.")
   task = tsk("california_housing")
   learner = lrn("regr.rpart")
@@ -230,6 +232,9 @@ test_that("MeasureMASE works", {
 })
 
 test_that("keyed scoring handles partially observed key groups", {
+  skip_if_not_installed("tsibbledata")
+  skip_if_not_installed("tsibble")
+
   task = tsk("livestock")
   key = task$data(cols = task$col_roles$key)[[1L]]
   ids = task$row_ids[key == levels(key)[1L]]
@@ -242,6 +247,9 @@ test_that("keyed scoring handles partially observed key groups", {
 })
 
 test_that("keyed scoring errors for key groups absent from the training set", {
+  skip_if_not_installed("tsibbledata")
+  skip_if_not_installed("tsibble")
+
   task = tsk("livestock")
   key = task$data(cols = task$col_roles$key)[[1L]]
   train_ids = task$row_ids[key == levels(key)[1L]]
