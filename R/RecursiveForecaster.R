@@ -227,6 +227,20 @@ RecursiveForecaster = R6Class(
       learner$quantile_response = rhs
     },
 
+    #' @field graph_model ([mlr3pipelines::Graph])\cr
+    #' [mlr3pipelines::Graph] that is being wrapped. This [mlr3pipelines::Graph] contains a trained state after
+    #' `$train()`. Read-only.
+    graph_model = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(self$model)) {
+        return(private$.learner$graph)
+      }
+      assert_unmarshaled(self)
+      graph = private$.learner$graph$clone(deep = TRUE)
+      graph$state = self$model$graph_state
+      graph
+    },
+
     #' @field native_model (any)\cr
     #' The fitted model.
     native_model = function(rhs) {

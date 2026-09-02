@@ -86,6 +86,10 @@ Set to \code{NULL} to reset both \verb{$quantiles} and \verb{$quantile_response}
     \item{\code{quantile_response}}{(\code{numeric(1)})\cr
 The quantile to be used as response.}
 
+    \item{\code{graph_model}}{(\link[mlr3pipelines:Graph]{mlr3pipelines::Graph})\cr
+\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} that is being wrapped. This \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} contains a trained state after
+\verb{$train()}. Read-only.}
+
     \item{\code{native_model}}{(any)\cr
 The fitted model.}
 

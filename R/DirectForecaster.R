@@ -237,6 +237,19 @@ DirectForecaster = R6Class(
       }
     },
 
+    #' @field graph_model ([mlr3pipelines::Graph] | named `list()`)\cr
+    #' [mlr3pipelines::Graph] that is being wrapped. After `$train()`, a named list with one trained
+    #' [mlr3pipelines::Graph] per horizon (`h1`, `h2`, ...). Read-only.
+    graph_model = function(rhs) {
+      assert_ro_binding(rhs)
+      if (is.null(self$model)) {
+        return(private$.learner$graph)
+      }
+      assert_unmarshaled(self)
+      graphs = map(self$model$models, function(glrn) glrn$graph_model)
+      set_names(graphs, paste0("h", self$horizons))
+    },
+
     #' @field native_model (named `list()`)\cr
     #' The fitted models.
     native_model = function(rhs) {

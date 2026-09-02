@@ -50,6 +50,10 @@ Set to \code{NULL} to reset both \verb{$quantiles} and \verb{$quantile_response}
     \item{\code{quantile_response}}{(\code{numeric(1)})\cr
 The quantile to be used as response.}
 
+    \item{\code{graph_model}}{(\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | named \code{list()})\cr
+\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} that is being wrapped. After \verb{$train()}, a named list with one trained
+\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} per horizon (\code{h1}, \code{h2}, ...). Read-only.}
+
     \item{\code{native_model}}{(named \code{list()})\cr
 The fitted models.}
 
