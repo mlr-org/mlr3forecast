@@ -25,6 +25,21 @@ which are rejected at construction.
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
   The base regression learner.
 
+- `quantiles`:
+
+  ([`numeric()`](https://rdrr.io/r/base/numeric.html))  
+  Numeric vector of probabilities to be used while predicting quantiles.
+  Elements must be between 0 and 1, not missing and provided in
+  ascending order. If only one quantile is provided, it is used as
+  response. Otherwise, set `$quantile_response` to specify the response
+  quantile. Set to `NULL` to reset both `$quantiles` and
+  `$quantile_response`.
+
+- `quantile_response`:
+
+  (`numeric(1)`)  
+  The quantile to be used as response.
+
 - `native_model`:
 
   (named [`list()`](https://rdrr.io/r/base/list.html))  

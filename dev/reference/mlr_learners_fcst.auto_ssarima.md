@@ -208,7 +208,7 @@ print(learner)
 #> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: exogenous and featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -223,7 +223,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 2.17 seconds
+#> Time elapsed: 1.74 seconds
 #> Model estimated using auto.ssarima() function: SSARIMA(0,1,3)[1](0,1,0)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

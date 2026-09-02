@@ -214,7 +214,7 @@ print(learner)
 #> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: exogenous and featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -229,7 +229,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 7.3 seconds
+#> Time elapsed: 7.54 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)+SARIMA(3,0,0)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Log-Normal

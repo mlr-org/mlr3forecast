@@ -210,7 +210,7 @@ print(learner)
 #> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous, featureless, and missings
+#> • Properties: exogenous and featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -225,7 +225,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.28 seconds
+#> Time elapsed: 0.38 seconds
 #> Model estimated using es() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
