@@ -77,7 +77,7 @@ LearnerFcstTscount = R6Class(
 
       xreg = NULL
       if (task$n_features > 0L) {
-        xreg = as.matrix(task$data(cols = task$feature_names, ordered = TRUE))
+        xreg = as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE))
       }
 
       model = invoke(
@@ -108,7 +108,7 @@ LearnerFcstTscount = R6Class(
       model = self$native_model
       newxreg = NULL
       if (task$n_features > 0L) {
-        newxreg = as.matrix(ordered_features(task, self))
+        newxreg = as_numeric_matrix(ordered_features(task, self))
       }
 
       pv = self$param_set$get_values(tags = "predict")

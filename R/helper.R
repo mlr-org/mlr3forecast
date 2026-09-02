@@ -47,3 +47,11 @@ graph_template_learner = function(graph) {
   learner = pos[[1L]]$learner
   if (inherits(learner, "GraphLearner")) graph_template_learner(learner$graph) else learner
 }
+
+as_numeric_matrix = function(x) {
+  x = as.matrix(x)
+  if (is.logical(x)) {
+    storage.mode(x) = "double"
+  }
+  x
+}

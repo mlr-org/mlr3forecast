@@ -55,7 +55,7 @@ LearnerFcstTslm = R6Class(
         pv$formula = task$formula(rhs = rhs)
       }
       if (task$n_features > 0L) {
-        mat = cbind(matrix(y, ncol = 1L), as.matrix(task$data(cols = task$feature_names, ordered = TRUE)))
+        mat = cbind(matrix(y, ncol = 1L), as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE)))
         colnames(mat)[1L] = task$target_names
       } else {
         mat = matrix(y, ncol = 1L, dimnames = list(NULL, task$target_names))
