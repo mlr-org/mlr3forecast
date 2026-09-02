@@ -32,7 +32,7 @@ LearnerFcstAutoArima = R6Class(
         max.q = p_int(0L, default = 5L, tags = "train"),
         max.P = p_int(0L, default = 2L, tags = "train"),
         max.Q = p_int(0L, default = 2L, tags = "train"),
-        max.order = p_int(0L, default = 5L, tags = "train"),
+        max.order = p_int(0L, default = 5L, tags = "train", depends = quote(stepwise == FALSE)),
         max.d = p_int(0L, default = 2L, tags = "train"),
         max.D = p_int(0L, default = 1L, tags = "train"),
         start.p = p_int(0L, default = 2L, tags = "train"),
@@ -55,7 +55,7 @@ LearnerFcstAutoArima = R6Class(
         allowdrift = p_lgl(default = TRUE, tags = "train"),
         allowmean = p_lgl(default = TRUE, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
-        parallel = p_lgl(default = FALSE, tags = "train"),
+        parallel = p_lgl(default = FALSE, tags = "train", depends = quote(stepwise == FALSE)),
         num.cores = p_int(
           lower = 1L,
           default = 2L,

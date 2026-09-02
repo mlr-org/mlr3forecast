@@ -26,7 +26,7 @@ LearnerFcstMean = R6Class(
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
-        npaths = p_int(1L, default = 5000L, tags = "predict")
+        npaths = p_int(1L, default = 5000L, tags = "predict", depends = quote(bootstrap == TRUE))
       )
 
       super$initialize(

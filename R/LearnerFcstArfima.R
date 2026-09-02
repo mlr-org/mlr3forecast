@@ -39,7 +39,7 @@ LearnerFcstArfima = R6Class(
         # so differencing, seasonal, drift, and mean parameters are not available
         max.p = p_int(0L, default = 5L, tags = "train"),
         max.q = p_int(0L, default = 5L, tags = "train"),
-        max.order = p_int(0L, default = 5L, tags = "train"),
+        max.order = p_int(0L, default = 5L, tags = "train", depends = quote(stepwise == FALSE)),
         start.p = p_int(0L, default = 2L, tags = "train"),
         start.q = p_int(0L, default = 2L, tags = "train"),
         ic = p_fct(c("aicc", "aic", "bic"), default = "aicc", tags = "train"),
@@ -49,7 +49,7 @@ LearnerFcstArfima = R6Class(
         approximation = p_lgl(tags = "train"),
         method = p_fct(c("CSS-ML", "ML", "CSS"), default = NULL, special_vals = list(NULL), tags = "train"),
         truncate = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
-        parallel = p_lgl(default = FALSE, tags = "train"),
+        parallel = p_lgl(default = FALSE, tags = "train", depends = quote(stepwise == FALSE)),
         num.cores = p_int(
           lower = 1L,
           default = 2L,
