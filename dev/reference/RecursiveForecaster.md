@@ -86,6 +86,14 @@ accuracy, not recursive multi-step accuracy.
   (`numeric(1)`)  
   The quantile to be used as response.
 
+- `graph_model`:
+
+  ([mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html))  
+  [mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
+  that is being wrapped. This
+  [mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
+  contains a trained state after `$train()`. Read-only.
+
 - `native_model`:
 
   (any)  

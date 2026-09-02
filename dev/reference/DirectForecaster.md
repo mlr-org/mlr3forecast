@@ -40,6 +40,15 @@ which are rejected at construction.
   (`numeric(1)`)  
   The quantile to be used as response.
 
+- `graph_model`:
+
+  ([mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
+  \| named [`list()`](https://rdrr.io/r/base/list.html))  
+  [mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
+  that is being wrapped. After `$train()`, a named list with one trained
+  [mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
+  per horizon (`h1`, `h2`, ...). Read-only.
+
 - `native_model`:
 
   (named [`list()`](https://rdrr.io/r/base/list.html))  
