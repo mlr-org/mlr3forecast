@@ -87,6 +87,9 @@ ResamplingFcstCV = R6Class(
       if ("ordered" %nin% task$properties) {
         error_input("Resampling '%s' requires an ordered task, but Task '%s' has no order.", self$id, task$id)
       }
+      if ("groups" %chin% task$properties) {
+        error_input("Resampling '%s' does not support grouped tasks, but Task '%s' has groups.", self$id, task$id)
+      }
 
       pv = self$param_set$get_values()
       window_size = pv$window_size
