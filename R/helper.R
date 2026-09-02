@@ -38,3 +38,12 @@ reorder_prediction = function(prediction, row_ids) {
   prediction$data = data
   prediction
 }
+
+graph_template_learner = function(graph) {
+  pos = keep(graph$pipeops, function(po) inherits(po, "PipeOpLearner"))
+  if (length(pos) != 1L) {
+    error_input("Graph '%s' has no unique PipeOpLearner.", graph$id %??% "")
+  }
+  learner = pos[[1L]]$learner
+  if (inherits(learner, "GraphLearner")) graph_template_learner(learner$graph) else learner
+}

@@ -201,6 +201,42 @@ DirectForecaster = R6Class(
       private$.learner$base_learner()
     },
 
+    #' @field quantiles (`numeric()`)\cr
+    #' Numeric vector of probabilities to be used while predicting quantiles.
+    #' Elements must be between 0 and 1, not missing and provided in ascending order.
+    #' If only one quantile is provided, it is used as response.
+    #' Otherwise, set `$quantile_response` to specify the response quantile.
+    #' Set to `NULL` to reset both `$quantiles` and `$quantile_response`.
+    quantiles = function(rhs) {
+      learner = self$learner
+      if (missing(rhs)) {
+        return(learner$quantiles)
+      }
+      learner$quantiles = rhs
+      if (!is.null(self$model)) {
+        walk(self$model$models, function(m) {
+          learner = graph_template_learner(m$graph)
+          learner$quantiles = rhs
+        })
+      }
+    },
+
+    #' @field quantile_response (`numeric(1)`)\cr
+    #' The quantile to be used as response.
+    quantile_response = function(rhs) {
+      learner = self$learner
+      if (missing(rhs)) {
+        return(learner$quantile_response)
+      }
+      learner$quantile_response = rhs
+      if (!is.null(self$model)) {
+        walk(self$model$models, function(m) {
+          learner = graph_template_learner(m$graph)
+          learner$quantile_response = rhs
+        })
+      }
+    },
+
     #' @field native_model (named `list()`)\cr
     #' The fitted models.
     native_model = function(rhs) {
