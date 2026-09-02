@@ -78,10 +78,10 @@ LearnerFcst = R6Class(
     .train = function(task) {
       properties = task$properties
       if ("ordered" %nin% properties) {
-        error_input("%s learner requires an ordered task.", self$id)
+        error_config("%s learner requires an ordered task.", self$id)
       }
       if ("keys" %chin% properties) {
-        error_input("%s learner does not support tasks with keys.", self$id)
+        error_config("%s learner does not support tasks with keys.", self$id)
       }
       invisible()
     },

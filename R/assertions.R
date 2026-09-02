@@ -16,7 +16,7 @@ assert_unmarshaled = function(learner) {
 
 assert_has_model = function(learner) {
   if (is.null(learner$model)) {
-    error_input("No model stored.")
+    error_learner("No model stored.")
   }
   assert_unmarshaled(learner)
 }
