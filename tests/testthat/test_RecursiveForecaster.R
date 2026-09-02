@@ -203,6 +203,25 @@ test_that("RecursiveForecaster native_model returns the base learner model", {
   expect_class(learner$native_model, "rpart")
 })
 
+test_that("RecursiveForecaster propagates quantiles to every learner in an ensemble graph", {
+  ensemble = gunion(list(
+    po("learner", lrn("regr.featureless"), id = "a"),
+    po("learner", lrn("regr.featureless"), id = "b")
+  )) %>>%
+    po("regravg", innum = 2L)
+  learner = RecursiveForecaster$new(po("fcst.lags", lags = 1:3) %>>% ensemble, predict_type = "quantiles")
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.5
+  expect_equal(learner$quantiles, c(0.1, 0.5, 0.9))
+
+  task = tsk("airpassengers")
+  learner$train(task, 1:141)
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  expect_equal(learner$quantiles, c(0.25, 0.5, 0.75))
+  quantiles = map(graph_quantile_learners(learner$graph_model), "quantiles")
+  expect_true(every(quantiles, function(x) identical(x, c(0.25, 0.5, 0.75))))
+})
+
 test_that("RecursiveForecaster model prints a compact summary", {
   task = tsk("airpassengers")
   learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)$train(task)

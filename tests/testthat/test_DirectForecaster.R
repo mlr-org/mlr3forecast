@@ -265,6 +265,27 @@ test_that("DirectForecaster preserves quantiles probs attribute across horizons"
   expect_number(pred$score(msr("fcst.pinball")), finite = TRUE)
 })
 
+test_that("DirectForecaster propagates quantiles to every learner in an ensemble graph", {
+  graph = gunion(list(
+    po("learner", lrn("regr.featureless"), id = "a"),
+    po("learner", lrn("regr.featureless"), id = "b")
+  )) %>>%
+    po("regravg", innum = 2L)
+  learner = DirectForecaster$new(graph, lags = 1:3, horizons = 3L, predict_type = "quantiles")
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.5
+  expect_equal(learner$quantiles, c(0.1, 0.5, 0.9))
+
+  task = tsk("airpassengers")
+  learner$train(task, 1:141)
+  learner$quantiles = c(0.25, 0.5, 0.75)
+  expect_equal(learner$quantiles, c(0.25, 0.5, 0.75))
+  walk(learner$model$models, function(model) {
+    quantiles = map(graph_quantile_learners(model$graph), "quantiles")
+    expect_true(every(quantiles, function(x) identical(x, c(0.25, 0.5, 0.75))))
+  })
+})
+
 test_that("DirectForecaster clone has independent lags", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
   clone = learner$clone(deep = TRUE)

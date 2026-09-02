@@ -39,13 +39,38 @@ reorder_prediction = function(prediction, row_ids) {
   prediction
 }
 
-graph_template_learner = function(graph) {
-  pos = keep(graph$pipeops, function(po) inherits(po, "PipeOpLearner"))
-  if (length(pos) != 1L) {
-    error_input("Graph '%s' has no unique PipeOpLearner.", graph$id %??% "")
+graph_quantile_learners = function(graph) {
+  learners = list()
+  for (po in graph$pipeops) {
+    if (inherits(po, "PipeOpLearner")) {
+      learner = po$learner
+      learners = c(
+        learners,
+        if (inherits(learner, "GraphLearner")) graph_quantile_learners(learner$graph) else list(learner)
+      )
+    }
   }
-  learner = pos[[1L]]$learner
-  if (inherits(learner, "GraphLearner")) graph_template_learner(learner$graph) else learner
+  keep(learners, function(learner) "quantiles" %chin% learner$predict_types)
+}
+
+get_graph_quantile_field = function(graph, field) {
+  learners = graph_quantile_learners(graph)
+  if (length(learners) == 0L) {
+    error_config("Graph '%s' has no learner that supports quantiles.", graph$id %??% "")
+  }
+  values = map(learners, function(learner) learner[[field]])
+  if (!every(values, function(value) identical(value, values[[1L]]))) {
+    error_config("The learners in Graph '%s' use different `%s` values.", graph$id %??% "", field)
+  }
+  values[[1L]]
+}
+
+set_graph_quantile_field = function(graph, field, value) {
+  learners = graph_quantile_learners(graph)
+  if (length(learners) == 0L) {
+    error_config("Graph '%s' has no learner that supports quantiles.", graph$id %??% "")
+  }
+  walk(learners, function(learner) learner[[field]] = value)
 }
 
 as_numeric_matrix = function(x) {

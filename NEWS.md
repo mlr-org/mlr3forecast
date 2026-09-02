@@ -1,10 +1,17 @@
 # mlr3forecast (development version)
 
-* feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
+* fix: Forecast learner configuration errors and missing-model errors now use their matching structured error classes.
+* fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.
+* fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
 * fix: Forecaster hashes now cover the wrapped graph's structure and the `horizons`.
-* fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
+* feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
+* feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
+* feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
+* fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
+* fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
 * perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
+* fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
 
 # mlr3forecast 0.2.0
 
