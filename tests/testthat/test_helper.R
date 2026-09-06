@@ -77,7 +77,9 @@ test_that("freq_to_period maps single-unit freqs to seasonal periods", {
   expect_equal(freq_to_period("1 month"), 12)
   expect_equal(freq_to_period("quarter"), 4)
   expect_equal(freq_to_period("week"), 52.18)
-  expect_equal(freq_to_period("day"), 365.25)
+  # daily data has both a weekly (7) and an annual (365.25) cycle; the weekly one is the
+  # usable default, matching tsibble, statsmodels and fable
+  expect_equal(freq_to_period("day"), 7)
   expect_equal(freq_to_period("hour"), 24)
   expect_equal(freq_to_period("year"), 1)
 })
@@ -89,7 +91,7 @@ test_that("freq_to_period handles multi-count freqs", {
   expect_equal(freq_to_period("30 min"), 48)
   expect_equal(freq_to_period("15 mins"), 96)
   expect_equal(freq_to_period("6 hours"), 4)
-  expect_equal(freq_to_period("2 day"), 365.25 / 2)
+  expect_equal(freq_to_period("2 day"), 3.5)
 })
 
 test_that("freq_to_period passes through numeric and falls back for unknown", {
