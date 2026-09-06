@@ -126,7 +126,9 @@ read_tsf = function(file) {
 #' @param dataset_name (`character(1)`)\cr
 #'   The name of the dataset to download.
 #' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency or horizon, the
-#'   `"frequency"` and `"horizon"` attributes are set, respectively.
+#'   `"frequency"` and `"horizon"` attributes are set, respectively. For Monash datasets whose file lacks a
+#'   `@horizon` line, the `"horizon"` attribute is filled from the forecast horizon used in the Monash
+#'   benchmark experiments, if one exists for that dataset.
 #'
 #' @references
 #' `r format_bib("godahewa2021monash")`
@@ -170,8 +172,44 @@ download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly
   if (length(file) != 1L) {
     stopf("Expected exactly one TSF file in the downloaded archive, but found %i.", length(file))
   }
-  read_tsf(file)
+  dt = read_tsf(file)
+  if (is.null(attr(dt, "horizon"))) {
+    horizon = zenodo_horizon(dataset_name)
+    if (!is.na(horizon)) {
+      setattr(dt, "horizon", horizon)
+    }
+  }
+  dt
 }
+
+zenodo_horizon = function(dataset_name) {
+  name = sub("_dataset(_with(out)?_missing_values)?$", "", dataset_name)
+  horizon = zenodo_horizons[name]
+  if (is.na(horizon)) NA_integer_ else unname(horizon)
+}
+
+# forecast horizons used in the Monash benchmark experiments for datasets whose
+# tsf file lacks a @horizon line, see experiments/fixed_horizon.R in
+# https://github.com/rakshitha123/TSForecasting
+zenodo_horizons = c(
+  australian_electricity_demand = 336L,
+  bitcoin = 30L,
+  car_parts = 12L,
+  covid_deaths = 30L,
+  electricity_hourly = 168L,
+  fred_md = 12L,
+  hospital = 12L,
+  kdd_cup_2018 = 168L,
+  pedestrian_counts = 24L,
+  rideshare = 168L,
+  saugeenday = 30L,
+  solar_10_minutes = 1008L,
+  sunspot = 30L,
+  temperature_rain = 30L,
+  traffic_hourly = 168L,
+  us_births = 30L,
+  vehicle_trips = 30L
+)
 
 tsf_high_frequencies = c(
   `4_seconds` = "4 secs",

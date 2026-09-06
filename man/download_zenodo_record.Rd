@@ -15,7 +15,9 @@ The name of the dataset to download.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}. If the file contains a frequency or horizon, the
-\code{"frequency"} and \code{"horizon"} attributes are set, respectively.
+\code{"frequency"} and \code{"horizon"} attributes are set, respectively. For Monash datasets whose file lacks a
+\verb{@horizon} line, the \code{"horizon"} attribute is filled from the forecast horizon used in the Monash
+benchmark experiments, if one exists for that dataset.
 }
 \description{
 Downloads a tsf file from Zenodo using the provided record ID and dataset name.
