@@ -274,19 +274,7 @@ RecursiveForecaster = R6Class(
     #' Hash (unique identifier) for this object.
     hash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(
-        class(self),
-        self$id,
-        self$param_set$values,
-        private$.predict_type,
-        self$fallback$hash,
-        self$parallel_predict,
-        get0("validate", self),
-        self$predict_sets,
-        private$.use_weights,
-        private$.predict_raw,
-        private$.learner$phash
-      )
+      calculate_hash(super$hash, private$.learner$phash)
     },
 
     #' @field phash (`character(1)`)\cr
@@ -294,17 +282,7 @@ RecursiveForecaster = R6Class(
     #' varied systematically during tuning (parameter values).
     phash = function(rhs) {
       assert_ro_binding(rhs)
-      calculate_hash(
-        class(self),
-        self$id,
-        private$.predict_type,
-        self$fallback$hash,
-        self$parallel_predict,
-        get0("validate", self),
-        private$.use_weights,
-        private$.predict_raw,
-        private$.learner$phash
-      )
+      calculate_hash(super$phash, private$.learner$phash)
     },
 
     #' @field marshaled (`logical(1)`)\cr
