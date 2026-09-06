@@ -27,7 +27,7 @@ LearnerFcstGum = R6Class(
         orders = p_uty(default = c(1, 1), tags = "train", custom_check = check_integerish),
         lags = p_uty(tags = "train", custom_check = check_integerish),
         type = p_fct(c("additive", "multiplicative"), default = "additive", tags = "train"),
-        initial = p_fct(c("backcasting", "optimal", "two-stage", "complete"), default = "backcasting", tags = "train"),
+        initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
         persistence = p_uty(
           default = NULL,
           special_vals = list(NULL),

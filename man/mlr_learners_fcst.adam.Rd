@@ -42,7 +42,8 @@ lrn("fcst.adam")
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    persistence \tab untyped \tab NULL \tab  \tab - \cr
    phi \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \tab - \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \tab - \cr
+   smoother \tab character \tab default \tab default, ma, lowess, supsmu, global \tab - \cr
    arma \tab untyped \tab NULL \tab  \tab - \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
    bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr

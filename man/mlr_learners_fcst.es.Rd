@@ -35,7 +35,8 @@ lrn("fcst.es")
    lags \tab untyped \tab - \tab  \tab - \cr
    persistence \tab untyped \tab NULL \tab  \tab - \cr
    phi \tab numeric \tab NULL \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \tab - \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \tab - \cr
+   smoother \tab character \tab default \tab default, ma, lowess, supsmu, global \tab - \cr
    initialSeason \tab untyped \tab NULL \tab  \tab - \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
    loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \tab - \cr

@@ -34,7 +34,7 @@ lrn("fcst.gum")
    orders \tab untyped \tab c(1, 1) \tab  \cr
    lags \tab untyped \tab - \tab  \cr
    type \tab character \tab additive \tab additive, multiplicative \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \cr
    persistence \tab untyped \tab NULL \tab  \cr
    transition \tab untyped \tab NULL \tab  \cr
    measurement \tab untyped \tab - \tab  \cr

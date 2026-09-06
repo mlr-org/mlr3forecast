@@ -32,7 +32,7 @@ lrn("fcst.auto_ces")
    Id \tab Type \tab Default \tab Levels \cr
    seasonality \tab character \tab none \tab none, simple, partial, full \cr
    lags \tab untyped \tab - \tab  \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
    loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr

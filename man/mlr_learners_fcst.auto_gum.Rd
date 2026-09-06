@@ -33,7 +33,7 @@ lrn("fcst.auto_gum")
    orders \tab integer \tab 3 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    lags \tab integer \tab - \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    type \tab character \tab additive \tab additive, multiplicative, select \tab - \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete \tab - \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \tab - \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
    loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \tab - \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr

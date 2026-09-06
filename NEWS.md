@@ -1,5 +1,6 @@
 # mlr3forecast (development version)
 
+* feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.1.
 * fix: Forecast learner configuration errors and missing-model errors now use their matching structured error classes.
 * fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
