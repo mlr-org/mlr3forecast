@@ -52,6 +52,21 @@ check_freq = function(x) {
 
 assert_freq = makeAssertionFunction(check_freq)
 
+check_period = function(x) {
+  if (is.null(x)) {
+    return(TRUE)
+  }
+  if (test_character(x, min.len = 1L, any.missing = FALSE)) {
+    return(TRUE)
+  }
+  if (test_numeric(x, min.len = 1L, any.missing = FALSE, finite = TRUE) && all(x > 0)) {
+    return(TRUE)
+  }
+  "Must be a positive number, a vector of positive numbers, a cycle name (e.g. 'year'), or NULL"
+}
+
+assert_period = makeAssertionFunction(check_period)
+
 assert_regular_grid = function(dt, order_cols, key_cols, freq) {
   if (length(key_cols) > 0L) {
     ok = dt[, list(.ok = test_regular_grid(get(order_cols), freq)), by = key_cols]
@@ -82,5 +97,6 @@ test_regular_grid = function(order, freq = NULL) {
     return(!anyNA(expected) && all(o == expected))
   }
   d = diff(o)
-  d[1L] != 0 && all(d == d[1L])
+  step = if (test_number(freq)) freq else d[1L]
+  !is.na(step) && step != 0 && all(d == step)
 }

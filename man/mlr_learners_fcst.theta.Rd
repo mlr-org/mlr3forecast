@@ -32,6 +32,7 @@ lrn("fcst.theta")
    Id \tab Type \tab Default \tab Levels \cr
    lambda \tab untyped \tab NULL \tab  \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 

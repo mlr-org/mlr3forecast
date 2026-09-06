@@ -5,12 +5,13 @@ LearnerFcstSmooth = R6Class(
   "LearnerFcstSmooth",
   inherit = LearnerFcst,
   private = list(
+    .seasonal = TRUE,
     .fn = NULL,
     .y_arg = "data",
 
     .train = function(task) {
       super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
+      pv = private$.train_values()
       fn = getExportedValue("smooth", private$.fn)
       model = invoke(fn, private$.smooth_data(task), .args = pv)
       private$.set_context(private$.tidy_model(model, task), task)
@@ -48,7 +49,7 @@ LearnerFcstSmooth = R6Class(
     },
 
     .smooth_data = function(task) {
-      y = as.ts(task)
+      y = private$.as_ts(task)
       if ("exogenous" %nin% self$properties || task$n_features == 0L) {
         return(y)
       }

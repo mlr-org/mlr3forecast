@@ -7,7 +7,7 @@
 #' Calls [forecast::tslm()] from package \CRANpkg{forecast}.
 #'
 #' If `formula` is not set, the model is fit with the `trend` term of [forecast::tslm()] plus all features.
-#' The `season` term is included when the task frequency is greater than one.
+#' The `season` term is included when the seasonal period is greater than one.
 #'
 #' @templateVar id fcst.tslm
 #' @template learner
@@ -49,7 +49,7 @@ LearnerFcstTslm = R6Class(
     .newdata_as_matrix = FALSE,
 
     .fit = function(task, pv) {
-      y = as.ts(task)
+      y = private$.as_ts(task)
       if (is.null(pv$formula)) {
         rhs = c("trend", if (stats::frequency(y) > 1) "season", task$feature_names)
         pv$formula = task$formula(rhs = rhs)

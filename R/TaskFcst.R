@@ -51,6 +51,7 @@ TaskFcst = R6Class(
     #' @template param_order
     #' @template param_key
     #' @template param_freq
+    #' @template param_period
     #' @template param_label
     #' @template param_extra_args
     initialize = function(
@@ -60,12 +61,14 @@ TaskFcst = R6Class(
       order,
       key = character(),
       freq = NULL,
+      period = NULL,
       label = NA_character_,
       extra_args = list()
     ) {
       super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
       self$task_type = "fcst"
       private$.freq = assert_freq(freq)
+      private$.period = if (is.null(assert_period(period))) NULL else resolve_period(period, freq)
 
       assert_string(order)
       assert_character(key, any.missing = FALSE)
@@ -74,7 +77,10 @@ TaskFcst = R6Class(
       col_roles$key = key
       col_roles$feature = setdiff(col_roles$feature, c(order, key))
       self$col_roles = col_roles
-      self$extra_args = insert_named(self$extra_args, list(order = order, key = key, freq = freq))
+      self$extra_args = insert_named(
+        self$extra_args,
+        list(order = order, key = key, freq = freq, period = period)
+      )
     },
 
     #' @description
@@ -128,15 +134,29 @@ TaskFcst = R6Class(
       if (!is.null(self$freq)) {
         cat_cli(cli::cli_li("Frequency: {self$freq}"))
       }
+      period = self$period
+      if (!identical(names(period), "none")) {
+        cat_cli(cli::cli_li("Seasonal period: {format_periods(period)}"))
+      }
     }
   ),
 
   active = list(
     #' @field freq (`character(1)` | `numeric(1)` | `NULL`)\cr
-    #' The frequency of the time series.
+    #' The step of the time index, i.e. the spacing between two consecutive observations.
     freq = function(rhs) {
       assert_ro_binding(rhs)
       private$.freq
+    },
+
+    #' @field period (named `numeric()`)\cr
+    #' The seasonal period(s) of the time series, in observations per cycle. This is the default
+    #' consulted by learners, pipeops and measures that need a seasonal period; each of them accepts
+    #' its own `period` hyperparameter that takes precedence. Unless `period` was set explicitly, it
+    #' is derived from `$freq` -- see [common_periods()] for the other cycles the frequency implies.
+    period = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.period %??% default_period(private$.freq)
     },
 
     #' @field properties (`character()`)\cr
@@ -197,7 +217,8 @@ TaskFcst = R6Class(
   ),
 
   private = list(
-    .freq = NULL
+    .freq = NULL,
+    .period = NULL
   )
 )
 
@@ -219,19 +240,29 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     error_input("Order column '%s' must be a Date, POSIXct, numeric or integer column.", order_cols)
   }
 
-  if (
-    length(order_cols) > 0L &&
-      test_string(task$freq) &&
-      any(fget_keys(task$col_info, order_cols, "type", key = "id") %nin% c("Date", "POSIXct"))
-  ) {
-    error_input(
-      paste0(
-        "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
-        "Use a numeric `freq` (the seasonal period) or `NULL` for an integer index."
-      ),
-      task$freq,
-      order_cols
-    )
+  if (length(order_cols) > 0L) {
+    order_type = fget_keys(task$col_info, order_cols, "type", key = "id")
+    if (test_string(task$freq) && any(order_type %nin% c("Date", "POSIXct"))) {
+      error_input(
+        paste0(
+          "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
+          "Use a numeric `freq` (the step between observations) or `NULL` to infer it."
+        ),
+        task$freq,
+        order_cols
+      )
+    }
+    if (test_number(task$freq) && any(order_type %nin% c("integer", "numeric"))) {
+      error_input(
+        paste0(
+          "A numeric `freq` (%s) is the step between observations and requires a numeric or integer ",
+          "order column, but '%s' is not. Use a calendar `freq` (e.g. \"month\") for the step, and ",
+          "`period` for the seasonal cycle."
+        ),
+        format(task$freq),
+        order_cols
+      )
+    }
   }
 
   if (length(order_cols) > 0L && any(task$missings(cols = order_cols) > 0L)) {

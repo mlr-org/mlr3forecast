@@ -40,6 +40,7 @@ lrn("fcst.struct_ts")
    optim.control \tab untyped \tab NULL \tab  \cr
    lambda \tab untyped \tab NULL \tab  \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 
