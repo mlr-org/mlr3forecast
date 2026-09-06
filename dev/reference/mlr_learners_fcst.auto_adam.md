@@ -43,7 +43,7 @@ or with the associated sugar function
 | holdout | logical | FALSE | TRUE, FALSE | \- |
 | persistence | untyped | NULL |  | \- |
 | phi | numeric | NULL |  | \\(-\infty, \infty)\\ |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete | \- |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient | \- |
 | arma | untyped | NULL |  | \- |
 | ic | character | AICc | AICc, AIC, BIC, BICc | \- |
 | bounds | character | usual | usual, admissible, none | \- |
@@ -229,27 +229,21 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 6.29 seconds
-#> Model estimated using auto.adam() function: ETS(MAM)+SARIMA(3,0,0)[12]
+#> Time elapsed: 5.17 seconds
+#> Model estimated using auto.adam() function: ETS(MAM)
 #> With backcasting initialisation
-#> Distribution assumed in the model: Log-Normal
-#> Loss function type: likelihood; Loss function value: 312.2551
+#> Distribution assumed in the model: Normal
+#> Loss function type: likelihood; Loss function value: 320.0254
 #> Persistence vector g:
 #>  alpha   beta  gamma 
-#> 0.5527 0.0278 0.0271 
-#> 
-#> ARMA parameters of the model:
-#>        Lag 12
-#> AR(1)  0.0088
-#> AR(2) -0.0448
-#> AR(3) -0.7392
+#> 0.6975 0.0000 0.0000 
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 7
-#> Number of degrees of freedom: 89
+#> Number of estimated parameters: 17
+#> Number of degrees of freedom: 79
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 638.5102 639.7830 656.4607 659.3653 
+#> 674.0509 681.8970 717.6448 735.5511 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -273,6 +267,6 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 780.5313 
+#> 995.0934 
 # }
 ```

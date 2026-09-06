@@ -38,7 +38,7 @@ or with the associated sugar function
 | lags | untyped | \- |  |
 | fast | logical | TRUE | TRUE, FALSE |
 | constant | logical | NULL | TRUE, FALSE |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | ic | character | AICc | AICc, AIC, BIC, BICc |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
 | holdout | logical | FALSE | TRUE, FALSE |
@@ -223,23 +223,24 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 2.1 seconds
-#> Model estimated using auto.ssarima() function: SSARIMA(0,1,3)[1](0,1,0)[12]
+#> Time elapsed: 0.93 seconds
+#> Model estimated using auto.ssarima() function: SSARIMA(0,1,3)[1](0,1,0)[12] with drift
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 357.556
+#> Loss function type: likelihood; Loss function value: 356.8429
+#> Intercept/Drift value: 0.5277
 #> ARMA parameters of the model:
 #>         Lag 1
-#> MA(1) -0.2539
-#> MA(2)  0.0322
-#> MA(3) -0.3127
+#> MA(1) -0.2816
+#> MA(2)  0.0118
+#> MA(3) -0.3393
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 4
-#> Number of degrees of freedom: 92
+#> Number of estimated parameters: 19
+#> Number of degrees of freedom: 77
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 723.1121 723.5516 733.3694 734.3726 
+#> 751.6857 761.6857 800.4084 823.2301 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -263,5 +264,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 623.1152 
+#> 2495.067 
 ```

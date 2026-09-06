@@ -40,7 +40,7 @@ or with the associated sugar function
 | orders | untyped | list(ar = 1, ma = 1) |  |
 | constant | logical | FALSE | TRUE, FALSE |
 | arma | untyped | NULL |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) |
 | holdout | logical | FALSE | TRUE, FALSE |
 | bounds | character | none | none, usual, admissible |
@@ -231,11 +231,11 @@ print(learner$model)
 #> AR(1): 1.0001
 #> MA(1): 0.4015
 #> Sample size: 96
-#> Number of estimated parameters: 3
-#> Number of degrees of freedom: 93
+#> Number of estimated parameters: 4
+#> Number of degrees of freedom: 92
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 872.1057 872.3666 879.7988 880.3941 
+#> 874.1057 874.5453 884.3631 885.3663 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58

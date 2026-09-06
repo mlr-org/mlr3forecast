@@ -35,7 +35,7 @@ or with the associated sugar function
 | Id | Type | Default | Levels |
 | seasonality | character | none | none, simple, partial, full |
 | lags | untyped | \- |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | ic | character | AICc | AICc, AIC, BIC, BICc |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
 | holdout | logical | FALSE | TRUE, FALSE |
@@ -221,21 +221,21 @@ learner$train(task, row_ids = ids$train)
 print(learner$model)
 #> $model
 #> Time elapsed: 0.17 seconds
-#> Model estimated using auto.ces() function: CES(full)
+#> Model estimated using auto.ces() function: CES(partial)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
-#> Loss function type: likelihood; Loss function value: 350.1011
-#>         a0+ia1 
-#> 1.5357+1.0131i
-#>         b0+ib1 
-#> 1.6325+1.1564i
+#> Loss function type: likelihood; Loss function value: 361.3768
+#>        a0+ia1 
+#> 1.951+1.0076i
+#>      b 
+#> 0.3175 
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 5
-#> Number of degrees of freedom: 91
+#> Number of estimated parameters: 18
+#> Number of degrees of freedom: 78
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 710.2023 710.8690 723.0240 724.5455 
+#> 758.7537 767.6368 804.9119 825.1848 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -259,5 +259,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 568.6471 
+#> 6306.005 
 ```

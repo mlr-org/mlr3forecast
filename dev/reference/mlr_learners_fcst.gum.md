@@ -39,7 +39,7 @@ or with the associated sugar function
 | orders | untyped | c(1, 1) |  |
 | lags | untyped | \- |  |
 | type | character | additive | additive, multiplicative |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | persistence | untyped | NULL |  |
 | transition | untyped | NULL |  |
 | measurement | untyped | \- |  |
@@ -227,11 +227,11 @@ print(learner$model)
 #> Distribution assumed in the model: Normal
 #> Loss function type: likelihood; Loss function value: 368.5502
 #> Sample size: 96
-#> Number of estimated parameters: 7
-#> Number of degrees of freedom: 89
+#> Number of estimated parameters: 20
+#> Number of degrees of freedom: 76
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 751.1004 752.3732 769.0509 771.9555 
+#> 777.1004 788.3004 828.3874 853.9478 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25

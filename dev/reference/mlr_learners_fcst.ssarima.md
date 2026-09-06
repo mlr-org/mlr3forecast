@@ -38,7 +38,7 @@ or with the associated sugar function
 | lags | untyped | \- |  |
 | constant | logical | FALSE | TRUE, FALSE |
 | arma | untyped | NULL |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
 | holdout | logical | FALSE | TRUE, FALSE |
 | bounds | character | admissible | admissible, usual, none |
@@ -232,11 +232,11 @@ print(learner$model)
 #> MA(1) 0.4012
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 2
-#> Number of degrees of freedom: 94
+#> Number of estimated parameters: 3
+#> Number of degrees of freedom: 93
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 870.1058 870.2348 875.2345 875.5289 
+#> 872.1058 872.3666 879.7988 880.3942 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58

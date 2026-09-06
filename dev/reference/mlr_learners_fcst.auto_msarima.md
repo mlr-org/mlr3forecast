@@ -36,7 +36,7 @@ or with the associated sugar function
 | Id | Type | Default | Levels |
 | orders | untyped | list(ar = c(3, 3), i = c(2, 1), ma = c(3, 3)) |  |
 | lags | untyped | \- |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | ic | character | AICc | AICc, AIC, BIC, BICc |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
 | holdout | logical | FALSE | TRUE, FALSE |
@@ -221,7 +221,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.67 seconds
+#> Time elapsed: 0.58 seconds
 #> Model estimated using auto.msarima() function: SARIMA(0,1,1)[1](0,1,1)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
@@ -231,11 +231,11 @@ print(learner$model)
 #> MA(1) -0.2176 -0.1701
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 3
-#> Number of degrees of freedom: 93
+#> Number of estimated parameters: 16
+#> Number of degrees of freedom: 80
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 699.8793 700.1402 707.5724 708.1677 
+#> 725.8793 732.7654 766.9089 782.6241 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25

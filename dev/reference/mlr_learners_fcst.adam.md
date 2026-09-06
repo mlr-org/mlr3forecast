@@ -45,7 +45,8 @@ or with the associated sugar function
 | holdout | logical | FALSE | TRUE, FALSE | \- |
 | persistence | untyped | NULL |  | \- |
 | phi | numeric | NULL |  | \\(-\infty, \infty)\\ |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete | \- |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient | \- |
+| smoother | character | default | default, ma, lowess, supsmu, global | \- |
 | arma | untyped | NULL |  | \- |
 | ic | character | AICc | AICc, AIC, BIC, BICc | \- |
 | bounds | character | usual | usual, admissible, none | \- |
@@ -229,7 +230,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.28 seconds
+#> Time elapsed: 0.25 seconds
 #> Model estimated using adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Gamma
@@ -239,11 +240,11 @@ print(learner$model)
 #> 0.7029 0.0000 0.0000 
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 4
-#> Number of degrees of freedom: 92
+#> Number of estimated parameters: 17
+#> Number of degrees of freedom: 79
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 648.8290 649.2686 659.0864 660.0896 
+#> 674.8290 682.6752 718.4230 736.3292 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25

@@ -49,11 +49,20 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="mlr3forecast-development-version">mlr3forecast (development version)<a class="anchor" aria-label="anchor" href="#mlr3forecast-development-version"></a></h2>
-<ul><li>feat: <code><a href="https://mlr3.mlr-org.com/reference/default_fallback.html" class="external-link">default_fallback()</a></code> support for both forecasters, enabling <code>resample(encapsulate =)</code> without an explicit fallback.</li>
+<ul><li>feat: <code><a href="../reference/download_zenodo_record.html">download_zenodo_record()</a></code> now sets the <code>"horizon"</code> attribute from the Monash benchmark horizons for datasets whose tsf file lacks a <code>@horizon</code> line.</li>
+<li>feat: The <code>smooth</code> learners gained the <code>"gradient"</code> level of <code>initial</code>, and <code>fcst.adam</code> and <code>fcst.es</code> gained the <code>smoother</code> parameter. This raises the required <code>smooth</code> version to 4.5.1.</li>
+<li>fix: Forecast learner configuration errors and missing-model errors now use their matching structured error classes.</li>
+<li>fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.</li>
+<li>fix: Exogenous learners from <code>smooth</code> no longer advertise support for missing feature values.</li>
 <li>fix: Forecaster hashes now cover the wrapped graph’s structure and the <code>horizons</code>.</li>
-<li>fix: <code>$native_model</code> now errors on marshaled models instead of returning wrong objects.</li>
+<li>feat: <code><a href="https://mlr3.mlr-org.com/reference/default_fallback.html" class="external-link">default_fallback()</a></code> support for both forecasters, enabling <code>resample(encapsulate =)</code> without an explicit fallback.</li>
 <li>fix: <code>DirectForecaster</code> no longer ignores predict parameters changed after training.</li>
+<li>feat: <code>DirectForecaster</code> and <code>RecursiveForecaster</code> gained <code>$quantiles</code> and <code>$quantile_response</code> fields that configure every compatible learner in the wrapped graph.</li>
+<li>feat: <code>DirectForecaster</code> and <code>RecursiveForecaster</code> gained a read-only <code>$graph_model</code> field that exposes their wrapped graph or trained graphs.</li>
+<li>fix: <code>fcst.arfima</code>, <code>fcst.auto_arima</code>, and <code>fcst.mean</code> now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.</li>
+<li>fix: <code>$native_model</code> now errors on marshaled models instead of returning wrong objects.</li>
 <li>perf: <code>RecursiveForecaster</code> now predicts all keys jointly per step instead of row by row, making keyed prediction roughly <code>n_keys</code> times faster.</li>
+<li>fix: <code>rsmp("fcst.cv")</code> and <code>rsmp("fcst.holdout")</code> now reject grouped tasks instead of creating invalid time-based splits.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.2.0" id="mlr3forecast-020">mlr3forecast 0.2.0<a class="anchor" aria-label="anchor" href="#mlr3forecast-020"></a></h2><p class="text-muted">CRAN release: 2026-08-24</p>

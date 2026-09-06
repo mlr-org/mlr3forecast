@@ -25,7 +25,10 @@ download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 
 ([`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html))
 with class `"tsf"`. If the file contains a frequency or horizon, the
-`"frequency"` and `"horizon"` attributes are set, respectively.
+`"frequency"` and `"horizon"` attributes are set, respectively. For
+Monash datasets whose file lacks a `@horizon` line, the `"horizon"`
+attribute is filled from the forecast horizon used in the Monash
+benchmark experiments, if one exists for that dataset.
 
 ## References
 

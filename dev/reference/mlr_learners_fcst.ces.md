@@ -35,7 +35,7 @@ or with the associated sugar function
 | Id | Type | Default | Levels |
 | seasonality | character | none | none, simple, partial, full |
 | lags | untyped | \- |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | a | untyped | NULL |  |
 | b | untyped | NULL |  |
 | loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
@@ -230,11 +230,11 @@ print(learner$model)
 #> 1.9839+0.9918i
 #> 
 #> Sample size: 96
-#> Number of estimated parameters: 3
-#> Number of degrees of freedom: 93
+#> Number of estimated parameters: 5
+#> Number of degrees of freedom: 91
 #> Information criteria:
 #>      AIC     AICc      BIC     BICc 
-#> 881.9682 882.2291 889.6613 890.2566 
+#> 885.9682 886.6349 898.7900 900.3114 
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25

@@ -79,7 +79,7 @@ Calls <code><a href="https://rdrr.io/pkg/smooth/man/es.html" class="external-lin
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>model</td><td>untyped</td><td>"ZXZ"</td><td></td><td>-</td></tr><tr><td>lags</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>persistence</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>phi</td><td>numeric</td><td>NULL</td><td></td><td>\((-\infty, \infty)\)</td></tr><tr><td>initial</td><td>character</td><td>backcasting</td><td>backcasting, optimal, two-stage, complete</td><td>-</td></tr><tr><td>initialSeason</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>ic</td><td>character</td><td>AICc</td><td>AICc, AIC, BIC, BICc</td><td>-</td></tr><tr><td>loss</td><td>character</td><td>likelihood</td><td>likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL</td><td>-</td></tr><tr><td>holdout</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>bounds</td><td>character</td><td>usual</td><td>usual, admissible, none</td><td>-</td></tr><tr><td>silent</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>regressors</td><td>character</td><td>use</td><td>use, select</td><td>-</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>model</td><td>untyped</td><td>"ZXZ"</td><td></td><td>-</td></tr><tr><td>lags</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>persistence</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>phi</td><td>numeric</td><td>NULL</td><td></td><td>\((-\infty, \infty)\)</td></tr><tr><td>initial</td><td>character</td><td>backcasting</td><td>backcasting, optimal, two-stage, complete, gradient</td><td>-</td></tr><tr><td>smoother</td><td>character</td><td>default</td><td>default, ma, lowess, supsmu, global</td><td>-</td></tr><tr><td>initialSeason</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr><tr><td>ic</td><td>character</td><td>AICc</td><td>AICc, AIC, BIC, BICc</td><td>-</td></tr><tr><td>loss</td><td>character</td><td>likelihood</td><td>likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL</td><td>-</td></tr><tr><td>holdout</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>bounds</td><td>character</td><td>usual</td><td>usual, admissible, none</td><td>-</td></tr><tr><td>silent</td><td>logical</td><td>TRUE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>regressors</td><td>character</td><td>use</td><td>use, select</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Svetunkov I (2023).
@@ -235,11 +235,11 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 0.6975 0.0000 0.0000 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Sample size: 96</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of estimated parameters: 4</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Number of degrees of freedom: 92</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of estimated parameters: 17</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Number of degrees of freedom: 79</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Information criteria:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      AIC     AICc      BIC     BICc </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 648.0509 648.4904 658.3082 659.3114 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 674.0509 681.8970 717.6448 735.5511 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $row_ids</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25</span>
