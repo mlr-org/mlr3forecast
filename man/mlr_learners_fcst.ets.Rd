@@ -50,6 +50,7 @@ lrn("fcst.ets")
    simulate \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    npaths \tab integer \tab 5000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

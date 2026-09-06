@@ -48,11 +48,11 @@ test_that("DirectForecaster works with keyed task", {
   expect_length(prediction$response, length(split$test))
 })
 
-test_that("DirectForecaster treats a numeric freq as the seasonal period, not the step", {
+test_that("DirectForecaster routes steps by the index step, not the seasonal period", {
   dt = data.table(time = 1:60, value = sin(2 * pi * (1:60) / 12))
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 12L)
 
-  task = as_task_fcst(dt, target = "value", order = "time", freq = 12)
+  task = as_task_fcst(dt, target = "value", order = "time", period = 12)
   learner$train(task, 1:48)
   prediction = learner$predict(task, 49:60)
   expect_class(prediction, "PredictionRegr")

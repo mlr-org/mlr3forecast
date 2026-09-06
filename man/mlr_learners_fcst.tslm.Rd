@@ -9,7 +9,7 @@ Time series linear model.
 Calls \code{\link[forecast:tslm]{forecast::tslm()}} from package \CRANpkg{forecast}.
 
 If \code{formula} is not set, the model is fit with the \code{trend} term of \code{\link[forecast:tslm]{forecast::tslm()}} plus all features.
-The \code{season} term is included when the task frequency is greater than one.
+The \code{season} term is included when the seasonal period is greater than one.
 }
 \section{Dictionary}{
 
@@ -36,6 +36,7 @@ lrn("fcst.tslm")
    formula \tab untyped \tab - \tab  \cr
    lambda \tab untyped \tab NULL \tab  \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 

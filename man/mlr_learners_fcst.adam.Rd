@@ -49,6 +49,7 @@ lrn("fcst.adam")
    bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    ets \tab character \tab conventional \tab conventional, adam \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 
