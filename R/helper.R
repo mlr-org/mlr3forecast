@@ -53,22 +53,22 @@ graph_quantile_learners = function(graph) {
   keep(learners, function(learner) "quantiles" %chin% learner$predict_types)
 }
 
-get_graph_quantile_field = function(graph, field) {
+get_graph_quantile_field = function(graph, field, id) {
   learners = graph_quantile_learners(graph)
   if (length(learners) == 0L) {
     return(NULL)
   }
   values = map(learners, function(learner) learner[[field]])
   if (!every(values, function(value) identical(value, values[[1L]]))) {
-    error_config("The learners in Graph '%s' use different `%s` values.", graph$id %??% "", field)
+    error_config("The learners in the graph of Learner '%s' use different `%s` values.", id, field)
   }
   values[[1L]]
 }
 
-set_graph_quantile_field = function(graph, field, value) {
+set_graph_quantile_field = function(graph, field, value, id) {
   learners = graph_quantile_learners(graph)
   if (length(learners) == 0L) {
-    error_config("Graph '%s' has no learner that supports quantiles.", graph$id %??% "")
+    error_config("Learner '%s' does not support predicting quantiles.", id)
   }
   walk(learners, function(learner) learner[[field]] = value)
 }

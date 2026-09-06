@@ -211,18 +211,18 @@ RecursiveForecaster = R6Class(
     #' Set to `NULL` to reset both `$quantiles` and `$quantile_response`.
     quantiles = function(rhs) {
       if (missing(rhs)) {
-        return(get_graph_quantile_field(private$.learner$graph, "quantiles"))
+        return(get_graph_quantile_field(private$.learner$graph, "quantiles", self$id))
       }
-      set_graph_quantile_field(private$.learner$graph, "quantiles", rhs)
+      set_graph_quantile_field(private$.learner$graph, "quantiles", rhs, self$id)
     },
 
     #' @field quantile_response (`numeric(1)`)\cr
     #' The quantile to be used as response.
     quantile_response = function(rhs) {
       if (missing(rhs)) {
-        return(get_graph_quantile_field(private$.learner$graph, "quantile_response"))
+        return(get_graph_quantile_field(private$.learner$graph, "quantile_response", self$id))
       }
-      set_graph_quantile_field(private$.learner$graph, "quantile_response", rhs)
+      set_graph_quantile_field(private$.learner$graph, "quantile_response", rhs, self$id)
     },
 
     #' @field graph_model ([mlr3pipelines::Graph])\cr

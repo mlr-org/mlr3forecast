@@ -209,12 +209,12 @@ DirectForecaster = R6Class(
     #' Set to `NULL` to reset both `$quantiles` and `$quantile_response`.
     quantiles = function(rhs) {
       if (missing(rhs)) {
-        return(get_graph_quantile_field(private$.learner$graph, "quantiles"))
+        return(get_graph_quantile_field(private$.learner$graph, "quantiles", self$id))
       }
-      set_graph_quantile_field(private$.learner$graph, "quantiles", rhs)
+      set_graph_quantile_field(private$.learner$graph, "quantiles", rhs, self$id)
       if (!is.null(self$model)) {
         walk(self$model$models, function(m) {
-          set_graph_quantile_field(m$graph, "quantiles", rhs)
+          set_graph_quantile_field(m$graph, "quantiles", rhs, self$id)
         })
       }
     },
@@ -223,12 +223,12 @@ DirectForecaster = R6Class(
     #' The quantile to be used as response.
     quantile_response = function(rhs) {
       if (missing(rhs)) {
-        return(get_graph_quantile_field(private$.learner$graph, "quantile_response"))
+        return(get_graph_quantile_field(private$.learner$graph, "quantile_response", self$id))
       }
-      set_graph_quantile_field(private$.learner$graph, "quantile_response", rhs)
+      set_graph_quantile_field(private$.learner$graph, "quantile_response", rhs, self$id)
       if (!is.null(self$model)) {
         walk(self$model$models, function(m) {
-          set_graph_quantile_field(m$graph, "quantile_response", rhs)
+          set_graph_quantile_field(m$graph, "quantile_response", rhs, self$id)
         })
       }
     },
