@@ -5,7 +5,7 @@
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
-* fix: Forecast learner configuration errors and missing-model errors now use their matching structured error classes.
+* fix: Missing-model errors now use their matching structured error class.
 * fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
 * fix: Forecaster hashes now cover the wrapped graph's structure and the `horizons`.
