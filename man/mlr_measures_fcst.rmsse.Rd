@@ -18,8 +18,9 @@ Measures the root mean squared error of the forecast scaled by the in-sample mea
 }
 where \eqn{z} is the training series, \eqn{m} is the seasonal period, and \eqn{T} is the length of the
 training series.
-If \code{period} is \code{NULL} (default), the seasonal period is derived from \code{task$freq} and rounded to the nearest
-positive integer, falling back to one when the task frequency is unavailable.
+\code{period} is the seasonal lag of the naive benchmark, either a positive number or a cycle name such as
+\code{"year"}. If \code{NULL} (default), the task's \verb{$period} is used. Either way it is rounded to the nearest
+positive integer.
 }
 \section{Dictionary}{
 
@@ -53,9 +54,9 @@ List them via the key prefix, not the task type, as the latter returns nothing:
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Range \cr
-   period \tab integer \tab NULL \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+\tabular{lll}{
+   Id \tab Type \tab Default \cr
+   period \tab untyped \tab NULL \cr
 }
 }
 

@@ -3,7 +3,7 @@ skip_if_not_installed("smooth")
 test_that("smooth learners use exogenous features", {
   withr::local_seed(1)
   dt = data.table(time = 1:48, y = as.numeric(1:48) + rnorm(48), x = rnorm(48))
-  task = as_task_fcst(dt, target = "y", order = "time", freq = 12L)
+  task = as_task_fcst(dt, target = "y", order = "time", period = 12L)
   split = partition(task, ratio = 0.8)
   ids = c(
     "fcst.adam",
