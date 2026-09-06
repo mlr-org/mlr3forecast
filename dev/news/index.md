@@ -19,8 +19,8 @@
 - feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles`
   and `$quantile_response` fields that configure every compatible
   learner in the wrapped graph.
-- fix: Forecast learner configuration errors and missing-model errors
-  now use their matching structured error classes.
+- fix: Missing-model errors now use their matching structured error
+  class.
 - fix: Forecast learners now convert logical exogenous features to
   numeric values before passing them to the wrapped forecasting
   packages.
