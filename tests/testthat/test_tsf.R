@@ -103,5 +103,7 @@ test_that("zenodo_horizon looks up Monash horizons for files without @horizon", 
   expect_identical(zenodo_horizon("pedestrian_counts_dataset"), 24L)
   expect_identical(zenodo_horizon("solar_10_minutes_dataset"), 1008L)
   expect_identical(zenodo_horizon("m3_yearly_dataset"), NA_integer_)
-  expect_identical(zenodo_horizon("dominick_dataset"), NA_integer_)
+  expect_identical(zenodo_horizon("dominick_dataset"), 8L)
+  expect_identical(zenodo_horizon("weather_dataset"), 30L)
+  expect_identical(zenodo_horizon("elecdemand_dataset"), NA_integer_)
 })

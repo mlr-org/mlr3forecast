@@ -196,6 +196,7 @@ zenodo_horizons = c(
   bitcoin = 30L,
   car_parts = 12L,
   covid_deaths = 30L,
+  dominick = 8L,
   electricity_hourly = 168L,
   fred_md = 12L,
   hospital = 12L,
@@ -208,7 +209,8 @@ zenodo_horizons = c(
   temperature_rain = 30L,
   traffic_hourly = 168L,
   us_births = 30L,
-  vehicle_trips = 30L
+  vehicle_trips = 30L,
+  weather = 30L
 )
 
 tsf_high_frequencies = c(
