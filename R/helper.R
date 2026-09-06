@@ -56,7 +56,7 @@ graph_quantile_learners = function(graph) {
 get_graph_quantile_field = function(graph, field, id) {
   learners = graph_quantile_learners(graph)
   if (length(learners) == 0L) {
-    return(NULL)
+    return()
   }
   values = map(learners, function(learner) learner[[field]])
   if (!every(values, function(value) identical(value, values[[1L]]))) {

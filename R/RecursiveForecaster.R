@@ -349,7 +349,7 @@ RecursiveForecaster = R6Class(
 
     .extract_internal_valid_scores = function() {
       if ("validation" %nin% self$properties) {
-        return(NULL)
+        return()
       }
       scores = unlist(
         imap(private$.pos_with_property("validation"), function(po, id) {
@@ -362,7 +362,7 @@ RecursiveForecaster = R6Class(
 
     .extract_internal_tuned_values = function() {
       if ("internal_tuning" %nin% self$properties) {
-        return(NULL)
+        return()
       }
       values = unlist(
         imap(private$.pos_with_property("internal_tuning"), function(po, id) {
