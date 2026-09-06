@@ -2,18 +2,18 @@
 
 * feat: `download_zenodo_record()` now sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.1.
+* feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
+* feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
+* feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
 * fix: Forecast learner configuration errors and missing-model errors now use their matching structured error classes.
 * fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
 * fix: Forecaster hashes now cover the wrapped graph's structure and the `horizons`.
-* feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
-* feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
-* feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
 * fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
 * fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
-* perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
+* perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
 
 # mlr3forecast 0.2.0
 
@@ -26,11 +26,11 @@
 * feat: `forecast()` now validates `newdata` as a data frame with unique column names.
 * feat: `partition()` now validates `ratio` before partitioning a `TaskFcst`.
 * feat: `mlr3::set_threads()` support: the `num.cores` parameter of `fcst.arfima`, `fcst.auto_arima`, `fcst.nnetar`, `fcst.bats`, and `fcst.tbats` now carries the `"threads"` tag, and setting `num.cores` to a value greater than one enables the corresponding parallel switch at train time.
-* fix: `fcst.nnetar` now declares `nnet` in its packages so parallel training finds `predict.nnet` on the main process.
 * feat: `pipeline_fcst_local()` now accepts any object supported by `as_graph()` and validates `key`.
 * feat: `PredictionFcst` now stores explicit roles for extra columns in `$col_roles`, replacing type-based detection (#52).
 * feat: `RecursiveForecaster` now supports validation and internal tuning (configure with `set_validate()`) and delegates `$importance()`, `$selected_features()`, and `$oob_error()` to the wrapped graph.
 * feat: `TaskFcst` now accepts character or integer keys, while tsibble, tsf, and tsbox converters preserve their types.
+* fix: `fcst.nnetar` now declares `nnet` in its packages so parallel training finds `predict.nnet` on the main process.
 * fix: Numeric `freq` values now represent the seasonal period, while the grid step is inferred from the order column.
 * fix: Both forecasters no longer advertise learner properties they cannot honour, fixing failures when tuning with `AutoTuner`. This drops the hotstart properties for both and additionally validation, internal tuning, importance, selected features, and OOB error for `DirectForecaster`.
 * fix: `default_measures("fcst")` now returns `regr.mse`, so forecast resampling and benchmark results can be aggregated without an explicit measure.
