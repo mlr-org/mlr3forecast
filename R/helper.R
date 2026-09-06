@@ -56,7 +56,7 @@ graph_quantile_learners = function(graph) {
 get_graph_quantile_field = function(graph, field) {
   learners = graph_quantile_learners(graph)
   if (length(learners) == 0L) {
-    error_config("Graph '%s' has no learner that supports quantiles.", graph$id %??% "")
+    return(NULL)
   }
   values = map(learners, function(learner) learner[[field]])
   if (!every(values, function(value) identical(value, values[[1L]]))) {
