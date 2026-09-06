@@ -67,8 +67,8 @@ test_that("in-sample prediction is invariant to backend row order", {
   n = 48L
   y = 10 + 0.3 * (1:n) + 5 * sin(2 * pi * (1:n) / 12) + rnorm(n, 0, 0.2)
   dat = data.table(t = 1:n, y = y)
-  sorted = as_task_fcst(dat, target = "y", order = "t", freq = 12)
-  shuffled = as_task_fcst(dat[sample(n)], target = "y", order = "t", freq = 12)
+  sorted = as_task_fcst(dat, target = "y", order = "t", period = 12)
+  shuffled = as_task_fcst(dat[sample(n)], target = "y", order = "t", period = 12)
 
   # in-sample fitted values must follow each row's timestamp, not the backend layout
   insample = function(task) {
@@ -119,4 +119,21 @@ test_that("future predict rejects windows that are not the next h steps", {
 
   prediction = learner$predict(task, split$test)
   expect_length(prediction$response, length(split$test))
+})
+
+test_that("the learner's period overrides the task's", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  expect_equal(stats::frequency(lrn("fcst.ets")$train(task)$native_model$x), 12)
+  expect_equal(stats::frequency(lrn("fcst.ets", period = 4)$train(task)$native_model$x), 4)
+  # a cycle name resolves against the task's freq
+  expect_equal(stats::frequency(lrn("fcst.ets", period = "year")$train(task)$native_model$x), 12)
+  # `period` is consumed here, never forwarded to the wrapped function
+  expect_false("period" %in% names(lrn("fcst.ets", period = 4)$param_set$get_values(tags = "predict")))
+})
+
+test_that("learners without a ts backend have no period hyperparameter", {
+  skip_if_not_installed("prophet")
+  expect_false("period" %in% lrn("fcst.prophet")$param_set$ids())
+  expect_true("period" %in% lrn("fcst.ets")$param_set$ids())
 })

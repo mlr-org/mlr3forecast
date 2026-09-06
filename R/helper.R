@@ -80,3 +80,13 @@ as_numeric_matrix = function(x) {
   }
   x
 }
+
+format_periods = function(x) {
+  nms = names(x)
+  labels = format(x, trim = TRUE)
+  if (!is.null(nms)) {
+    ii = nzchar(nms) & nms != "none"
+    labels[ii] = sprintf("%s (%s)", labels[ii], nms[ii])
+  }
+  str_collapse(labels)
+}

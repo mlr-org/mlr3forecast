@@ -16,6 +16,7 @@
 #' @template param_order
 #' @template param_key
 #' @template param_freq
+#' @template param_period
 #'
 #' @return [TaskFcst].
 #' @export
@@ -65,6 +66,7 @@ as_task_fcst.DataBackend = function(
   order,
   key = character(),
   freq = NULL,
+  period = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -78,7 +80,17 @@ as_task_fcst.DataBackend = function(
     assert_subset(key, cn)
   }
 
-  TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
+  TaskFcst$new(
+    id = id,
+    backend = x,
+    target = target,
+    order = order,
+    key = key,
+    freq = freq,
+    period = period,
+    label = label,
+    ...
+  )
 }
 
 #' @rdname as_task_fcst
@@ -89,6 +101,7 @@ as_task_fcst.data.frame = function(
   order,
   key = character(),
   freq = NULL,
+  period = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -132,7 +145,17 @@ as_task_fcst.data.frame = function(
     error_input("`order` values must be unique for each time series.")
   }
 
-  TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
+  TaskFcst$new(
+    id = id,
+    backend = x,
+    target = target,
+    order = order,
+    key = key,
+    freq = freq,
+    period = period,
+    label = label,
+    ...
+  )
 }
 
 #' @rdname as_task_fcst
@@ -163,49 +186,92 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+as_task_fcst.ts = function(
+  x,
+  freq = NULL,
+  period = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+) {
   force(id)
+  ts_freq = stats::frequency(x)
   if (is.null(freq)) {
-    freq = stats::frequency(x)
     freq = switch(
-      as.character(freq),
+      as.character(ts_freq),
       `365.25` = "day",
       `52` = "week",
       `12` = "month",
       `4` = "quarter",
       `1` = "year",
-      freq
+      NULL
     )
   }
-  task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
+  # a non-calendar ts frequency carries seasonality but says nothing about the index step
+  if (is.null(freq) && is.null(period) && ts_freq > 1) {
+    period = ts_freq
+  }
+  task_fcst_from_tsbox(x, freq = freq, period = period, id = id, label = label, ...)
 }
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+as_task_fcst.zoo = function(
+  x,
+  freq = NULL,
+  period = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+) {
   force(id)
-  task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
+  task_fcst_from_tsbox(x, freq = freq, period = period, id = id, label = label, ...)
 }
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.timeSeries = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+as_task_fcst.timeSeries = function(
+  x,
+  freq = NULL,
+  period = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+) {
   force(id)
-  task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
+  task_fcst_from_tsbox(x, freq = freq, period = period, id = id, label = label, ...)
 }
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
+as_task_fcst.tbl_ts = function(
+  x,
+  target,
+  freq = NULL,
+  period = NULL,
+  id = deparse1(substitute(x)),
+  label = NA_character_,
+  ...
+) {
   force(id)
   require_namespaces(c("tsbox", "tsibble"))
   order = tsibble::index_var(x)
   key = tsibble::key_vars(x)
   x = tsbox::ts_dt(x)
-  as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
+  as_task_fcst(
+    x = x,
+    target = target,
+    order = order,
+    key = key,
+    freq = freq,
+    period = period,
+    id = id,
+    label = label,
+    ...
+  )
 }
 
-task_fcst_from_tsbox = function(x, freq, id, label, ...) {
+task_fcst_from_tsbox = function(x, freq, id, label, period = NULL, ...) {
   require_namespaces("tsbox")
   x = tsbox::ts_dt(x)
   is_multi = "id" %chin% names(x)
@@ -215,6 +281,7 @@ task_fcst_from_tsbox = function(x, freq, id, label, ...) {
     order = "time",
     key = if (is_multi) "id" else character(),
     freq = freq,
+    period = period,
     id = id,
     label = label,
     ...

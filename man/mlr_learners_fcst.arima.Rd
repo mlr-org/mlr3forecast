@@ -49,6 +49,7 @@ lrn("fcst.arima")
    optim.method \tab character \tab BFGS \tab Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent \tab - \cr
    optim.control \tab untyped \tab list() \tab  \tab - \cr
    kappa \tab numeric \tab 1e+06 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

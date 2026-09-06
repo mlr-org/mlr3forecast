@@ -1,5 +1,12 @@
 # mlr3forecast (development version)
 
+* BREAKING CHANGE: `freq` is now only the step of the time index; the seasonal period moved to the new `period` argument of `as_task_fcst()` and `TaskFcst$new()`. A numeric `freq` used to mean the seasonal period and is now the index step, so it requires a numeric or integer order column -- replace `freq = 12` on such a task with `period = 12`. A calendar `freq` is unaffected.
+* BREAKING CHANGE: Seasonal periods derived from a calendar `freq` now follow the next natural calendar cycle up from the step. Daily data derives `7` (was `365.25`) and minute data `1440`; monthly, quarterly, weekly and hourly data are unchanged at `12`, `4`, `52.18` and `24`. This changes the scaling of `msr("fcst.mase")`, `msr("fcst.rmsse")` and `msr("fcst.msis")` on daily tasks.
+* BREAKING CHANGE: `as.ts.TaskFcst()` takes `period` instead of `freq`.
+* feat: `TaskFcst` gained a `$period` field holding the seasonal period(s) in observations per cycle, derived from `$freq` unless set explicitly. It is the default for every learner, `PipeOp` and `Measure` that needs a seasonal period.
+* feat: The forecast learners that fit on a `ts` gained a `period` hyperparameter, and `po("fcst.targetboxcox")` and `po("fcst.tsfeats")` gained a `period` parameter. Each takes precedence over the task's `$period`.
+* feat: `period` arguments accept a cycle name resolved against the frequency, e.g. `period = "year"` on hourly data means `8766`.
+* feat: New `common_periods()` lists the seasonal periods a frequency implies, e.g. `c(week = 7, year = 365.25)` for daily data.
 * feat: `download_zenodo_record()` now sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.1.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.

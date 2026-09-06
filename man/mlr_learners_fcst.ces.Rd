@@ -40,6 +40,7 @@ lrn("fcst.ces")
    bounds \tab character \tab admissible \tab admissible, none \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
    regressors \tab character \tab use \tab use, select, adapt \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 

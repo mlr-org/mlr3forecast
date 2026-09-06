@@ -32,6 +32,7 @@ lrn("fcst.croston")
    Id \tab Type \tab Default \tab Levels \tab Range \cr
    alpha \tab numeric \tab 0.1 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    type \tab character \tab croston \tab croston, sba, sbj \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

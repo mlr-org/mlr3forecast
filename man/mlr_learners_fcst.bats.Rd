@@ -41,6 +41,7 @@ lrn("fcst.bats")
    bc.lower \tab numeric \tab 0 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    bc.upper \tab numeric \tab 1 \tab  \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

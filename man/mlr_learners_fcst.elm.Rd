@@ -45,6 +45,7 @@ lrn("fcst.elm")
    det.type \tab character \tab auto \tab auto, bin, trg \tab - \cr
    barebone \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    retrain \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

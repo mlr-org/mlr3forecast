@@ -71,7 +71,13 @@ Other Task:
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
     \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
-The frequency of the time series.}
+The step of the time index, i.e. the spacing between two consecutive observations.}
+
+    \item{\code{period}}{(named \code{numeric()})\cr
+The seasonal period(s) of the time series, in observations per cycle. This is the default
+consulted by learners, pipeops and measures that need a seasonal period; each of them accepts
+its own \code{period} hyperparameter that takes precedence. Unless \code{period} was set explicitly, it
+is derived from \verb{$freq} -- see \code{\link[=common_periods]{common_periods()}} for the other cycles the frequency implies.}
 
     \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.
@@ -155,6 +161,7 @@ The function \code{\link[=as_task_fcst]{as_task_fcst()}} provides an alternative
   order,
   key = character(),
   freq = NULL,
+  period = NULL,
   label = NA_character_,
   extra_args = list()
 )}
@@ -176,11 +183,21 @@ Name of the order column.}
 Names of the columns whose combination identifies a series.
 Key columns must be character, integer, factor, or ordered columns.}
       \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
-Frequency of the time series.
-A \code{seq()}-compatible string gives the calendar step of the time grid, e.g.
+Step of the time index, i.e. the spacing between two consecutive observations.
+A \code{seq()}-compatible string for a \code{Date} or \code{POSIXct} order column, e.g.
 \code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.
-A positive number gives the seasonal period (as in \code{\link[stats:ts]{stats::ts()}}) for an integer or
-numeric order column; the grid step is then inferred from the data.}
+A positive number for a numeric or integer order column.
+If \code{NULL} (default), the step is inferred from the order column.
+This is \emph{not} the seasonal period -- see \code{period}.}
+      \item{\code{period}}{(\code{character()} | \code{numeric()} | \code{NULL})\cr
+Seasonal period(s) of the time series, in observations per cycle.
+Either a positive number (or vector of them) such as \code{12}, or a cycle name resolved against
+\code{freq} such as \code{"year"} or \code{"week"}. See \code{\link[=common_periods]{common_periods()}} for the cycles a frequency implies.
+If \code{NULL} (default), the period is derived from \code{freq}: the shortest implied cycle spanning at
+least four observations, e.g. \code{12} for monthly, \code{4} for quarterly, \code{7} for daily and \code{24} for
+hourly data.
+Sets the default for every learner, \code{PipeOp} and \code{Measure} that needs a seasonal period; each of
+them accepts its own \code{period} hyperparameter that takes precedence.}
       \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
       \item{\code{extra_args}}{(named \code{list()})\cr

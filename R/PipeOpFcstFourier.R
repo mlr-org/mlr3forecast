@@ -10,9 +10,10 @@
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreprocSimple], as well as the following
 #' parameters:
-#' * `period` :: `numeric()` | `NULL`\cr
-#'   Seasonal period(s), in number of observations per cycle. May be non-integer and may contain multiple periods for
-#'   multiple seasonalities. If `NULL` (default), the period is derived from the task's frequency (`task$freq`).
+#' * `period` :: `character()` | `numeric()` | `NULL`\cr
+#'   Seasonal period(s), in number of observations per cycle, or cycle name(s) such as `"year"` resolved against the
+#'   task's frequency. May be non-integer and may contain multiple periods for multiple seasonalities. If `NULL`
+#'   (default), the task's `$period` is used.
 #' * `K` :: `integer()`\cr
 #'   Number of Fourier harmonics per `period`. Either a single value recycled to all periods, or one value per period.
 #'   Each `K` must satisfy `2 * K <= period`. Default `1L`.
@@ -39,12 +40,7 @@ PipeOpFcstFourier = R6Class(
     #'   otherwise be set during construction. Default `list()`.
     initialize = function(id = "fcst.fourier", param_vals = list()) {
       param_set = ps(
-        period = p_uty(
-          tags = c("train", "predict"),
-          custom_check = crate(function(x) {
-            check_numeric(x, lower = 0, finite = TRUE, any.missing = FALSE, min.len = 1L)
-          })
-        ),
+        period = p_uty(tags = c("train", "predict"), custom_check = check_period),
         K = p_uty(
           tags = c("train", "predict"),
           custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
@@ -72,7 +68,7 @@ PipeOpFcstFourier = R6Class(
       key_cols = col_roles$key
       order_cols = col_roles$order
 
-      period = pv$period %??% freq_to_period(task$freq)
+      period = task_period(pv$period, task, multiple = TRUE)
       K = pv$K
       if (length(K) == 1L) {
         K = rep(K, length(period))

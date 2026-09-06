@@ -421,7 +421,8 @@ RecursiveForecaster = R6Class(
         key_cols = task$col_roles$key,
         order_cols = task$col_roles$order,
         feature_names = task$feature_names,
-        freq = task$freq
+        freq = task$freq,
+        period = task$period
       )
       class(state) = c("recursive_forecaster_model", class(state))
       state
@@ -514,7 +515,8 @@ RecursiveForecaster = R6Class(
         target = target,
         order = order_cols,
         key = key_cols,
-        freq = self$model$freq
+        freq = self$model$freq,
+        period = self$model$period
       )
       # preserve training feature col_roles so PipeOpTaskPreproc's layout check passes
       step_task$col_roles$feature = intersect(self$model$feature_names, names(combined))

@@ -65,43 +65,78 @@ test_that("as.ts works", {
   expect_identical(stats::frequency(ts), 12)
 })
 
-test_that("as.ts works with explicit freq", {
+test_that("as.ts works with an explicit period", {
   task = tsk("airpassengers")
-  ts = as.ts(task, freq = 4L)
+  ts = as.ts(task, period = 4L)
   expect_class(ts, "ts")
   expect_identical(stats::frequency(ts), 4)
 })
 
-test_that("freq_to_period maps single-unit freqs to seasonal periods", {
-  expect_equal(freq_to_period("month"), 12)
-  expect_equal(freq_to_period("1 month"), 12)
-  expect_equal(freq_to_period("quarter"), 4)
-  expect_equal(freq_to_period("week"), 52.18)
-  expect_equal(freq_to_period("day"), 365.25)
-  expect_equal(freq_to_period("hour"), 24)
-  expect_equal(freq_to_period("year"), 1)
+test_that("common_periods lists the cycles a frequency implies", {
+  expect_equal(common_periods("month"), c(year = 12))
+  expect_equal(common_periods("quarter"), c(year = 4))
+  expect_equal(common_periods("day"), c(week = 7, year = 365.25))
+  expect_equal(common_periods("hour"), c(day = 24, week = 168, year = 8766))
+  expect_equal(common_periods("30 min"), c(hour = 2, day = 48, week = 336, year = 17532))
+  # a step with no longer cycle, and a frequency without calendar meaning
+  expect_equal(common_periods("year"), c(none = 1))
+  expect_equal(common_periods(12), c(none = 1))
+  expect_equal(common_periods(NULL), c(none = 1))
+  expect_equal(common_periods("nonsense"), c(none = 1))
 })
 
-test_that("freq_to_period handles multi-count freqs", {
-  expect_equal(freq_to_period("3 months"), 4)
-  expect_equal(freq_to_period("6 months"), 2)
-  expect_equal(freq_to_period("2 month"), 6)
-  expect_equal(freq_to_period("30 min"), 48)
-  expect_equal(freq_to_period("15 mins"), 96)
-  expect_equal(freq_to_period("6 hours"), 4)
-  expect_equal(freq_to_period("2 day"), 365.25 / 2)
+test_that("common_periods works on a task", {
+  expect_equal(common_periods(tsk("airpassengers")), c(year = 12))
 })
 
-test_that("freq_to_period passes through numeric and falls back for unknown", {
-  expect_equal(freq_to_period(12), 12)
-  expect_identical(freq_to_period(NULL), 1L)
-  expect_identical(freq_to_period("nonsense"), 1L)
+test_that("default_period picks the shortest cycle worth modelling", {
+  expect_equal(default_period("month"), c(year = 12))
+  expect_equal(default_period("1 month"), c(year = 12))
+  expect_equal(default_period("quarter"), c(year = 4))
+  expect_equal(default_period("week"), c(year = 52.17857), tolerance = 1e-5)
+  expect_equal(default_period("day"), c(week = 7))
+  expect_equal(default_period("hour"), c(day = 24))
+  expect_equal(default_period("year"), c(none = 1))
+  # sub-daily steps step up to the day, not to the shortest cycle available
+  expect_equal(default_period("30 min"), c(day = 48))
+  expect_equal(default_period("min"), c(day = 1440))
+  # a cycle too short to carry a seasonal shape is skipped for the next one up
+  expect_equal(default_period("12 hour"), c(week = 14))
+  expect_equal(default_period("2 day"), c(year = 182.625))
+  # below a minute the hour is the natural cycle
+  expect_equal(default_period("sec"), c(hour = 3600))
+})
+
+test_that("default_period handles multi-count freqs", {
+  expect_equal(default_period("3 months"), c(year = 4))
+  expect_equal(default_period("2 month"), c(year = 6))
+  expect_equal(default_period("15 mins"), c(day = 96))
+  expect_equal(default_period("6 months"), c(year = 2))
+  expect_equal(default_period("6 hours"), c(day = 4))
+})
+
+test_that("resolve_period counts steps per named cycle and passes numerics through", {
+  expect_equal(resolve_period("year", "month"), c(year = 12))
+  expect_equal(resolve_period("day", "hour"), c(day = 24))
+  expect_equal(resolve_period(c("day", "week"), "hour"), c(day = 24, week = 168))
+  expect_equal(resolve_period(12, NULL), 12)
+  expect_equal(resolve_period(c(24, 168), "hour"), c(24, 168))
+  expect_equal(resolve_period(NULL, NULL), c(none = 1))
+  expect_error(resolve_period("year", NULL), "requires a calendar `freq`")
+  expect_error(resolve_period("fortnight", "day"), "Unknown `period`")
 })
 
 test_that("resolve_measure_period returns an integer lag", {
-  expect_identical(resolve_measure_period(NULL, "week"), 52L)
-  expect_identical(resolve_measure_period(NULL, NULL), 1L)
-  expect_identical(resolve_measure_period(7L, "month"), 7L)
+  weekly = as_task_fcst(
+    data.table(d = seq(as.Date("2020-01-06"), by = "week", length.out = 60L), y = as.numeric(1:60)),
+    target = "y",
+    order = "d",
+    freq = "week"
+  )
+  expect_identical(resolve_measure_period(NULL, weekly), 52L)
+  expect_identical(resolve_measure_period(7L, weekly), 7L)
+  expect_identical(resolve_measure_period(NULL, tsk("airpassengers")), 12L)
+  expect_identical(resolve_measure_period("year", tsk("airpassengers")), 12L)
 })
 
 test_that("calendar_months maps overflow-prone freqs and returns NA otherwise", {

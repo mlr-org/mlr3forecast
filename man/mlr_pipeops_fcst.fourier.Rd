@@ -15,9 +15,10 @@ multiple seasonalities at once.
 The parameters are the parameters inherited from \link[mlr3pipelines:PipeOpTaskPreprocSimple]{mlr3pipelines::PipeOpTaskPreprocSimple}, as well as the following
 parameters:
 \itemize{
-\item \code{period} :: \code{numeric()} | \code{NULL}\cr
-Seasonal period(s), in number of observations per cycle. May be non-integer and may contain multiple periods for
-multiple seasonalities. If \code{NULL} (default), the period is derived from the task's frequency (\code{task$freq}).
+\item \code{period} :: \code{character()} | \code{numeric()} | \code{NULL}\cr
+Seasonal period(s), in number of observations per cycle, or cycle name(s) such as \code{"year"} resolved against the
+task's frequency. May be non-integer and may contain multiple periods for multiple seasonalities. If \code{NULL}
+(default), the task's \verb{$period} is used.
 \item \code{K} :: \code{integer()}\cr
 Number of Fourier harmonics per \code{period}. Either a single value recycled to all periods, or one value per period.
 Each \code{K} must satisfy \code{2 * K <= period}. Default \code{1L}.

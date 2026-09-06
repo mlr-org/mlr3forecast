@@ -47,6 +47,7 @@ lrn("fcst.auto_adam")
    silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    parallel \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    ets \tab character \tab conventional \tab conventional, adam \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

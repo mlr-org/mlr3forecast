@@ -1,6 +1,7 @@
 #' @param freq (`character(1)` | `numeric(1)` | `NULL`)\cr
-#'   Frequency of the time series.
-#'   A `seq()`-compatible string gives the calendar step of the time grid, e.g.
+#'   Step of the time index, i.e. the spacing between two consecutive observations.
+#'   A `seq()`-compatible string for a `Date` or `POSIXct` order column, e.g.
 #'   `"1 month"`, `"day"`, `"3 months"`, `"1 hour"`, `"week"`.
-#'   A positive number gives the seasonal period (as in [stats::ts()]) for an integer or
-#'   numeric order column; the grid step is then inferred from the data.
+#'   A positive number for a numeric or integer order column.
+#'   If `NULL` (default), the step is inferred from the order column.
+#'   This is *not* the seasonal period -- see `period`.

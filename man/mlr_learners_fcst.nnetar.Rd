@@ -41,6 +41,7 @@ lrn("fcst.nnetar")
    bootstrap \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    npaths \tab integer \tab 1000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    innov \tab untyped \tab NULL \tab  \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

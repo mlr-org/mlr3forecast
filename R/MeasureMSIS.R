@@ -22,8 +22,9 @@
 #' }
 #' where \eqn{z} is the training series, \eqn{m} is the seasonal period, and \eqn{T} is the length of
 #' the training series. For keyed tasks the score is computed per series and averaged.
-#' If `period` is `NULL` (default), the seasonal period is derived from `task$freq` and rounded to the nearest
-#' positive integer, falling back to one when the task frequency is unavailable.
+#' `period` is the seasonal lag of the naive benchmark, either a positive number or a cycle name such as
+#' `"year"`. If `NULL` (default), the task's `$period` is used. Either way it is rounded to the nearest
+#' positive integer.
 #'
 #' @references
 #' `r format_bib("gneiting2007scoring", "makridakis2020m4")`
@@ -42,7 +43,7 @@ MeasureMSIS = R6Class(
     initialize = function() {
       param_set = ps(
         alpha = p_dbl(lower = 0, upper = 1, tags = "required"),
-        period = p_int(lower = 1L, default = NULL, special_vals = list(NULL))
+        period = p_uty(default = NULL, custom_check = check_period)
       )
       param_set$set_values(alpha = 0.05)
 
@@ -84,7 +85,7 @@ MeasureMSIS = R6Class(
       interval_score = (ut - lt) + (2 / alpha) * (pmax(lt - truth, 0) + pmax(truth - ut, 0))
 
       train = task$data(rows = train_set, cols = task$target_names, ordered = TRUE)[[1L]]
-      period = resolve_measure_period(pv$period, task$freq)
+      period = resolve_measure_period(pv$period, task)
       scale = mean(abs(diff(train, lag = period)), na.rm = TRUE)
       mean(interval_score, na.rm = TRUE) / scale
     }
