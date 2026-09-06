@@ -9,6 +9,16 @@
 - feat: The `smooth` learners gained the `"gradient"` level of
   `initial`, and `fcst.adam` and `fcst.es` gained the `smoother`
   parameter. This raises the required `smooth` version to 4.5.1.
+- feat:
+  [`default_fallback()`](https://mlr3.mlr-org.com/reference/default_fallback.html)
+  support for both forecasters, enabling `resample(encapsulate =)`
+  without an explicit fallback.
+- feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only
+  `$graph_model` field that exposes their wrapped graph or trained
+  graphs.
+- feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles`
+  and `$quantile_response` fields that configure every compatible
+  learner in the wrapped graph.
 - fix: Forecast learner configuration errors and missing-model errors
   now use their matching structured error classes.
 - fix: Forecast learners now convert logical exogenous features to
@@ -18,28 +28,18 @@
   missing feature values.
 - fix: Forecaster hashes now cover the wrapped graph’s structure and the
   `horizons`.
-- feat:
-  [`default_fallback()`](https://mlr3.mlr-org.com/reference/default_fallback.html)
-  support for both forecasters, enabling `resample(encapsulate =)`
-  without an explicit fallback.
 - fix: `DirectForecaster` no longer ignores predict parameters changed
   after training.
-- feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles`
-  and `$quantile_response` fields that configure every compatible
-  learner in the wrapped graph.
-- feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only
-  `$graph_model` field that exposes their wrapped graph or trained
-  graphs.
 - fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare
   dependencies for parameters that only affect exhaustive search or
   bootstrap prediction.
 - fix: `$native_model` now errors on marshaled models instead of
   returning wrong objects.
+- fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
+  tasks instead of creating invalid time-based splits.
 - perf: `RecursiveForecaster` now predicts all keys jointly per step
   instead of row by row, making keyed prediction roughly `n_keys` times
   faster.
-- fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
-  tasks instead of creating invalid time-based splits.
 
 ## mlr3forecast 0.2.0
 
@@ -75,8 +75,6 @@ CRAN release: 2026-08-24
   carries the `"threads"` tag, and setting `num.cores` to a value
   greater than one enables the corresponding parallel switch at train
   time.
-- fix: `fcst.nnetar` now declares `nnet` in its packages so parallel
-  training finds `predict.nnet` on the main process.
 - feat:
   [`pipeline_fcst_local()`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_graphs_fcst.local.md)
   now accepts any object supported by
@@ -92,6 +90,8 @@ CRAN release: 2026-08-24
   `$oob_error()` to the wrapped graph.
 - feat: `TaskFcst` now accepts character or integer keys, while tsibble,
   tsf, and tsbox converters preserve their types.
+- fix: `fcst.nnetar` now declares `nnet` in its packages so parallel
+  training finds `predict.nnet` on the main process.
 - fix: Numeric `freq` values now represent the seasonal period, while
   the grid step is inferred from the order column.
 - fix: Both forecasters no longer advertise learner properties they
