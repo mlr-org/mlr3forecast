@@ -3,7 +3,7 @@
 * fix: A daily `freq` now derives a seasonal period of `7` (the weekly cycle) instead of `365.25` (the annual one). Both are valid seasonal periods for daily data, but `365.25` is unusable as a default: it is non-integer, so `forecast::ets()` and friends refuse to fit seasonal models, and it made `msr("fcst.mase")`, `msr("fcst.rmsse")` and `msr("fcst.msis")` return `NaN` for any daily task with fewer than 365 training observations. `7` is what `tsibble::guess_frequency()`, `fabletools::get_frequencies()` and `statsmodels`' `freq_to_period()` derive. Pass `period` explicitly to keep the annual cycle. Scores and fitted models change for daily tasks.
 
 * feat: `download_zenodo_record()` now sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
-* feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.1.
+* feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
