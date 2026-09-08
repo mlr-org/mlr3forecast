@@ -44,6 +44,7 @@ or with the associated sugar function
 | persistence | untyped | NULL |  | \- |
 | phi | numeric | NULL |  | \\(-\infty, \infty)\\ |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient | \- |
+| smoother | character | default | default, ma, lowess, supsmu, global | \- |
 | arma | untyped | NULL |  | \- |
 | ic | character | AICc | AICc, AIC, BIC, BICc | \- |
 | bounds | character | usual | usual, admissible, none | \- |
@@ -229,7 +230,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 5.91 seconds
+#> Time elapsed: 5.87 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
