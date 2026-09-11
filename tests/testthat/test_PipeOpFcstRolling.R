@@ -72,5 +72,6 @@ test_that("PipeOpFcstRolling mixes finite and expanding windows", {
 })
 
 test_that("PipeOpFcstRolling rejects non-integer finite window sizes", {
-  expect_snapshot(po("fcst.rolling", window_sizes = 2.5), error = TRUE)
+  snapshot_variant = if (packageVersion("paradox") >= "2.0.0") "paradox-2" else NULL
+  expect_snapshot(po("fcst.rolling", window_sizes = 2.5), error = TRUE, variant = snapshot_variant)
 })
