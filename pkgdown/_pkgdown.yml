@@ -42,9 +42,6 @@ navbar:
       href: https://mlr-org.com/
 
 reference:
-  - title: Package
-    contents:
-      - mlr3forecast-package
   - title: Learners
     contents:
       - LearnerFcst
@@ -85,3 +82,6 @@ reference:
       - partition.TaskFcst
       - read_tsf
       - download_zenodo_record
+  - title: Package
+    contents:
+      - mlr3forecast-package
