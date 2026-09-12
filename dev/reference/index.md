@@ -1,11 +1,5 @@
 # Package index
 
-## Package
-
-- [`mlr3forecast`](https://mlr3forecast.mlr-org.com/dev/reference/mlr3forecast-package.md)
-  [`mlr3forecast-package`](https://mlr3forecast.mlr-org.com/dev/reference/mlr3forecast-package.md)
-  : mlr3forecast: Extending 'mlr3' to Time Series Forecasting
-
 ## Learners
 
 - [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
@@ -261,3 +255,9 @@
   : Read tsf files
 - [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   : Download tsf file from Zenodo
+
+## Package
+
+- [`mlr3forecast`](https://mlr3forecast.mlr-org.com/dev/reference/mlr3forecast-package.md)
+  [`mlr3forecast-package`](https://mlr3forecast.mlr-org.com/dev/reference/mlr3forecast-package.md)
+  : mlr3forecast: Extending 'mlr3' to Time Series Forecasting
