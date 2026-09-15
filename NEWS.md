@@ -3,6 +3,7 @@
 * BREAKING CHANGE: `download_zenodo_record()` no longer defaults to the M3 yearly dataset. Both `record_id` and `dataset_name` must be supplied.
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * feat: `download_zenodo_record()` now sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
+* feat: `download_zenodo_record()` and `tsk("monash")` now accept canonical Monash dataset IDs backed by pinned Zenodo records.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.

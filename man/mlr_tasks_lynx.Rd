@@ -69,6 +69,7 @@ Other Task:
 \code{\link{mlr_tasks_airpassengers}},
 \code{\link{mlr_tasks_electricity}},
 \code{\link{mlr_tasks_livestock}},
+\code{\link{mlr_tasks_monash}},
 \code{\link{mlr_tasks_usaccdeaths}}
 }
 \concept{Task}

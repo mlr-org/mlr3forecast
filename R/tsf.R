@@ -11,6 +11,7 @@
 #' @references
 #' `r format_bib("godahewa2021monash")`
 #'
+#' @include monash_datasets.R
 #' @export
 #' @examples
 #' file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
@@ -119,12 +120,19 @@ read_tsf = function(file) {
 #' @title Download tsf file from Zenodo
 #'
 #' @description
-#' Downloads a tsf file from Zenodo using the provided record ID and dataset name.
+#' Downloads a tsf file from Zenodo using a Monash dataset ID or an explicit Zenodo record ID and dataset name.
+#' The catalog pins the Zenodo record for each dataset version listed at \url{https://forecastingdata.org/}.
+#' Dataset IDs for incomplete variants end in `"_with_missing_values"`.
 #'
-#' @param record_id (`integer(1)`)\cr
+#' @param record_id (`integer(1)` | `NULL`)\cr
 #'   The Zenodo record ID, e.g. `4656222` for the M3 yearly dataset.
-#' @param dataset_name (`character(1)`)\cr
+#'   Must be supplied together with `dataset_name` when `dataset` is `NULL`.
+#' @param dataset_name (`character(1)` | `NULL`)\cr
 #'   The name of the dataset to download, e.g. `"m3_yearly_dataset"`.
+#'   Must be supplied together with `record_id` when `dataset` is `NULL`.
+#' @param dataset (`character(1)` | `NULL`)\cr
+#'   The Monash dataset ID, e.g. `"m3_yearly"`.
+#'   This argument cannot be combined with `record_id` or `dataset_name`.
 #' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency or horizon, the
 #'   `"frequency"` and `"horizon"` attributes are set, respectively. For Monash datasets whose file lacks a
 #'   `@horizon` line, the `"horizon"` attribute is filled from the forecast horizon used in the Monash
@@ -137,7 +145,7 @@ read_tsf = function(file) {
 #' @examples
 #' \dontrun{
 #' library(data.table)
-#' dt = download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+#' dt = download_zenodo_record(dataset = "m3_yearly")
 #'
 #' # optional renaming
 #' setnames(dt, c("id", "date", "value"))
@@ -155,9 +163,19 @@ read_tsf = function(file) {
 #' bmr = benchmark(design)
 #' bmr$aggregate(msr("regr.rmse"))[, .(rmse = mean(regr.rmse)), by = learner_id]
 #' }
-download_zenodo_record = function(record_id, dataset_name) {
-  record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
-  assert_string(dataset_name, min.chars = 1L)
+download_zenodo_record = function(record_id = NULL, dataset_name = NULL, dataset = NULL) {
+  assert_string(dataset, min.chars = 1L, null.ok = TRUE)
+  if (is.null(dataset)) {
+    record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
+    assert_string(dataset_name, min.chars = 1L)
+  } else {
+    assert_null(record_id)
+    assert_null(dataset_name)
+    # nolint next
+    info = resolve_monash_dataset(dataset)
+    record_id = info$record_id
+    dataset_name = info$dataset_name
+  }
 
   url = sprintf("https://zenodo.org/record/%i/files/%s.zip", record_id, dataset_name)
   td = tempfile()

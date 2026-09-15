@@ -4,14 +4,20 @@
 \alias{download_zenodo_record}
 \title{Download tsf file from Zenodo}
 \usage{
-download_zenodo_record(record_id, dataset_name)
+download_zenodo_record(record_id = NULL, dataset_name = NULL, dataset = NULL)
 }
 \arguments{
-\item{record_id}{(\code{integer(1)})\cr
-The Zenodo record ID, e.g. \code{4656222} for the M3 yearly dataset.}
+\item{record_id}{(\code{integer(1)} | \code{NULL})\cr
+The Zenodo record ID, e.g. \code{4656222} for the M3 yearly dataset.
+Must be supplied together with \code{dataset_name} when \code{dataset} is \code{NULL}.}
 
-\item{dataset_name}{(\code{character(1)})\cr
-The name of the dataset to download, e.g. \code{"m3_yearly_dataset"}.}
+\item{dataset_name}{(\code{character(1)} | \code{NULL})\cr
+The name of the dataset to download, e.g. \code{"m3_yearly_dataset"}.
+Must be supplied together with \code{record_id} when \code{dataset} is \code{NULL}.}
+
+\item{dataset}{(\code{character(1)} | \code{NULL})\cr
+The Monash dataset ID, e.g. \code{"m3_yearly"}.
+This argument cannot be combined with \code{record_id} or \code{dataset_name}.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}. If the file contains a frequency or horizon, the
@@ -20,12 +26,14 @@ The name of the dataset to download, e.g. \code{"m3_yearly_dataset"}.}
 benchmark experiments, if one exists for that dataset.
 }
 \description{
-Downloads a tsf file from Zenodo using the provided record ID and dataset name.
+Downloads a tsf file from Zenodo using a Monash dataset ID or an explicit Zenodo record ID and dataset name.
+The catalog pins the Zenodo record for each dataset version listed at \url{https://forecastingdata.org/}.
+Dataset IDs for incomplete variants end in \code{"_with_missing_values"}.
 }
 \examples{
 \dontrun{
 library(data.table)
-dt = download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+dt = download_zenodo_record(dataset = "m3_yearly")
 
 # optional renaming
 setnames(dt, c("id", "date", "value"))

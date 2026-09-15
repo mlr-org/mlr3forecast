@@ -86,7 +86,7 @@ test_that("read_tsf works", {
   skip_if_offline()
 
   # simple data
-  expect_data_table(download_zenodo_record(4656222, "m3_yearly_dataset"), min.rows = 1, min.cols = 1)
+  expect_data_table(download_zenodo_record(dataset = "m3_yearly"), min.rows = 1, min.cols = 1)
   # no index col
   expect_data_table(download_zenodo_record(4656335, "m3_other_dataset"), min.rows = 1, min.cols = 1)
   # large data w/ NAs
@@ -95,6 +95,34 @@ test_that("read_tsf works", {
     min.rows = 1,
     min.cols = 1
   )
+})
+
+test_that("Monash dataset catalog resolves pinned Zenodo records", {
+  expect_data_table(monash_datasets, nrows = 58L, ncols = 4L)
+  expect_identical(anyDuplicated(monash_datasets$dataset), 0L)
+  expect_identical(anyDuplicated(monash_datasets$record_id), 0L)
+  expect_identical(anyDuplicated(monash_datasets$dataset_name), 0L)
+
+  info = resolve_monash_dataset("m3_yearly")
+  expect_identical(info$record_id, 4656222L)
+  expect_identical(info$dataset_name, "m3_yearly_dataset")
+  expect_false(info$has_missing)
+
+  info = resolve_monash_dataset("nn5_daily_with_missing_values")
+  expect_identical(info$record_id, 4656110L)
+  expect_identical(info$dataset_name, "nn5_daily_dataset_with_missing_values")
+  expect_true(info$has_missing)
+
+  info = resolve_monash_dataset("nn5_daily")
+  expect_identical(info$record_id, 4656117L)
+  expect_identical(info$dataset_name, "nn5_daily_dataset_without_missing_values")
+  expect_false(info$has_missing)
+})
+
+test_that("download_zenodo_record validates catalog arguments", {
+  expect_error(download_zenodo_record(dataset = "unknown"), "Must be element of set")
+  expect_error(download_zenodo_record(record_id = 4656222, dataset = "m3_yearly"), "Must be NULL")
+  expect_error(download_zenodo_record(dataset_name = "m3_yearly_dataset", dataset = "m3_yearly"), "Must be NULL")
 })
 
 test_that("zenodo_horizon looks up Monash horizons for files without @horizon", {
