@@ -10,7 +10,8 @@ direct_forecaster(
   horizons,
   id = NULL,
   param_vals = list(),
-  predict_type = NULL
+  predict_type = NULL,
+  clone_graph = TRUE
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ Hyperparameter values applied to every horizon model. Per-horizon hyperparameter
 
 \item{predict_type}{(\code{character(1)} | \code{NULL})\cr
 The predict type, default \code{NULL}.}
+
+\item{clone_graph}{(\code{logical(1)})\cr
+Whether to clone the graph, default \code{TRUE}.}
 }
 \value{
 \link{DirectForecaster}.

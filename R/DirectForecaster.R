@@ -49,7 +49,17 @@ DirectForecaster = R6Class(
     #'   currently supported.
     #' @param predict_type (`character(1)` | `NULL`)\cr
     #'   The predict type, default `NULL`.
-    initialize = function(learner, lags, horizons, id = NULL, param_vals = list(), predict_type = NULL) {
+    #' @param clone_graph (`logical(1)`)\cr
+    #'   Whether to clone the graph, default `TRUE`.
+    initialize = function(
+      learner,
+      lags,
+      horizons,
+      id = NULL,
+      param_vals = list(),
+      predict_type = NULL,
+      clone_graph = TRUE
+    ) {
       lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
       horizons = assert_integerish(
         horizons,
@@ -79,7 +89,7 @@ DirectForecaster = R6Class(
         graph = as_graph(learner)
       }
 
-      private$.learner = GraphLearner$new(graph, task_type = "regr")
+      private$.learner = GraphLearner$new(graph, task_type = "regr", clone_graph = clone_graph)
       if (length(param_vals)) {
         private$.learner$param_set$values = insert_named(private$.learner$param_set$values, param_vals)
       }

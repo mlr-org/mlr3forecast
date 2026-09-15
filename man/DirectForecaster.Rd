@@ -120,7 +120,8 @@ Stores the currently active predict type.}
   horizons,
   id = NULL,
   param_vals = list(),
-  predict_type = NULL
+  predict_type = NULL,
+  clone_graph = TRUE
 )}
     \if{html}{\out{</div>}}
   }
@@ -144,6 +145,8 @@ Hyperparameter values applied to every horizon model. Per-horizon hyperparameter
 currently supported.}
       \item{\code{predict_type}}{(\code{character(1)} | \code{NULL})\cr
 The predict type, default \code{NULL}.}
+      \item{\code{clone_graph}}{(\code{logical(1)})\cr
+Whether to clone the graph, default \code{TRUE}.}
     }
     \if{html}{\out{</div>}}
   }

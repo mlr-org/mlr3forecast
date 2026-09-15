@@ -20,6 +20,8 @@
 #'   Hyperparameter values applied to every horizon model. Per-horizon hyperparameters are not currently supported.
 #' @param predict_type (`character(1)` | `NULL`)\cr
 #'   The predict type, default `NULL`.
+#' @param clone_graph (`logical(1)`)\cr
+#'   Whether to clone the graph, default `TRUE`.
 #' @return [DirectForecaster].
 #' @export
 #' @examplesIf requireNamespace("rpart", quietly = TRUE)
@@ -32,13 +34,22 @@
 #' flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
-direct_forecaster = function(learner, lags, horizons, id = NULL, param_vals = list(), predict_type = NULL) {
+direct_forecaster = function(
+  learner,
+  lags,
+  horizons,
+  id = NULL,
+  param_vals = list(),
+  predict_type = NULL,
+  clone_graph = TRUE
+) {
   DirectForecaster$new(
     learner = learner,
     lags = lags,
     horizons = horizons,
     id = id,
     param_vals = param_vals,
-    predict_type = predict_type
+    predict_type = predict_type,
+    clone_graph = clone_graph
   )
 }

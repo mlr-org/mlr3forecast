@@ -440,3 +440,21 @@ test_that("DirectForecaster propagates predict parameters changed after training
   learner$param_set$values$regr.debug.error_predict = 0
   expect_prediction(learner$predict(task, split$test))
 })
+
+test_that("DirectForecaster clone_graph controls whether the wrapped graph is shared", {
+  task = tsk("airpassengers")
+  graph = as_graph(lrn("regr.rpart"))
+
+  learner = DirectForecaster$new(graph, lags = 1:3, horizons = 2L)
+  learner$param_set$set_values(regr.rpart.cp = 0.5)
+  expect_null(graph$param_set$values$regr.rpart.cp)
+
+  learner = direct_forecaster(graph, lags = 1:3, horizons = 2L, clone_graph = FALSE)
+  learner$param_set$set_values(regr.rpart.cp = 0.5)
+  expect_identical(graph$param_set$values$regr.rpart.cp, 0.5)
+
+  # training must not mutate the shared graph
+  learner$train(task, 1:100)
+  expect_null(graph$state$regr.rpart)
+  expect_length(learner$model$models, 2L)
+})
