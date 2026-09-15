@@ -50,7 +50,7 @@ as_tasks_fcst(x, ...)
 
 \method{as_task_fcst}{tsf}(x, id = deparse1(substitute(x)), label = NA_character_, ...)
 
-\method{as_task}{tsf}(x, ...)
+\method{as_task}{tsf}(x, id = deparse1(substitute(x)), clone = FALSE, ...)
 
 \method{as_task_fcst}{ts}(
   x,

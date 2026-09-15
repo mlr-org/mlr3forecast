@@ -163,8 +163,9 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
 
 #' @rdname as_task_fcst
 #' @exportS3Method mlr3::as_task
-as_task.tsf = function(x, ...) {
-  as_task_fcst(x, ...)
+as_task.tsf = function(x, id = deparse1(substitute(x)), clone = FALSE, ...) {
+  force(id)
+  as_task_fcst(x, id = id, ...)
 }
 
 #' @rdname as_task_fcst

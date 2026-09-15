@@ -44,6 +44,10 @@ test_that("as_task converts tsf objects", {
 
   expect_class(task, "TaskFcst")
   expect_identical(task$id, "m3_yearly")
+
+  m3_yearly = read_tsf(file)
+  expect_identical(as_task(m3_yearly)$id, "m3_yearly")
+  expect_class(as_task(m3_yearly, clone = TRUE), "TaskFcst")
 })
 
 test_that("as_task conversion timeSeries", {
