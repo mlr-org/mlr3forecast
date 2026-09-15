@@ -170,7 +170,8 @@ Stores the currently active predict type.</p></dd>
 <span>  <span class="va">horizons</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  predict_type <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  predict_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  clone_graph <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
 <h4 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h4>
@@ -202,6 +203,10 @@ currently supported.</p></dd>
       <dt><code>predict_type</code></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 The predict type, default <code>NULL</code>.</p></dd>
+
+      <dt><code>clone_graph</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Whether to clone the graph, default <code>TRUE</code>.</p></dd>
 
 
 </dl><p></p></div>

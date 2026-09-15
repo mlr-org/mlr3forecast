@@ -19,7 +19,8 @@ direct_forecaster(
   horizons,
   id = NULL,
   param_vals = list(),
-  predict_type = NULL
+  predict_type = NULL,
+  clone_graph = TRUE
 )
 ```
 
@@ -62,6 +63,11 @@ direct_forecaster(
 
   (`character(1)` \| `NULL`)  
   The predict type, default `NULL`.
+
+- clone_graph:
+
+  (`logical(1)`)  
+  Whether to clone the graph, default `TRUE`.
 
 ## Value
 

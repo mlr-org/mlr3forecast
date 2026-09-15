@@ -6,7 +6,7 @@ dataset name.
 ## Usage
 
 ``` r
-download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+download_zenodo_record(record_id, dataset_name)
 ```
 
 ## Arguments
@@ -14,12 +14,12 @@ download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
 - record_id:
 
   (`integer(1)`)  
-  The Zenodo record ID.
+  The Zenodo record ID, e.g. `4656222` for the M3 yearly dataset.
 
 - dataset_name:
 
   (`character(1)`)  
-  The name of the dataset to download.
+  The name of the dataset to download, e.g. `"m3_yearly_dataset"`.
 
 ## Value
 

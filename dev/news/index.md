@@ -2,6 +2,11 @@
 
 ## mlr3forecast (development version)
 
+- BREAKING CHANGE:
+  [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
+  no longer defaults to the M3 yearly dataset. Both `record_id` and
+  `dataset_name` must be supplied.
+
 - fix: A daily `freq` now derives a seasonal period of `7` (the weekly
   cycle) instead of the non-integer `365.25`, which blocked seasonal
   models and made scaled measures return `NaN`. Pass `period` explicitly
@@ -22,6 +27,10 @@
   [`default_fallback()`](https://mlr3.mlr-org.com/reference/default_fallback.html)
   support for both forecasters, enabling `resample(encapsulate =)`
   without an explicit fallback.
+
+- feat: `DirectForecaster` and
+  [`direct_forecaster()`](https://mlr3forecast.mlr-org.com/dev/reference/direct_forecaster.md)
+  gained the `clone_graph` argument, matching `RecursiveForecaster`.
 
 - feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only
   `$graph_model` field that exposes their wrapped graph or trained

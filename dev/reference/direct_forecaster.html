@@ -69,7 +69,8 @@ another (no error accumulation). For the recursive strategy (a single iterated m
 <span>  <span class="va">horizons</span>,</span>
 <span>  id <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  param_vals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  predict_type <span class="op">=</span> <span class="cn">NULL</span></span>
+<span>  predict_type <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  clone_graph <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -106,6 +107,11 @@ Hyperparameter values applied to every horizon model. Per-horizon hyperparameter
 <dt id="arg-predict-type">predict_type<a class="anchor" aria-label="anchor" href="#arg-predict-type"></a></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
 The predict type, default <code>NULL</code>.</p></dd>
+
+
+<dt id="arg-clone-graph">clone_graph<a class="anchor" aria-label="anchor" href="#arg-clone-graph"></a></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Whether to clone the graph, default <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
