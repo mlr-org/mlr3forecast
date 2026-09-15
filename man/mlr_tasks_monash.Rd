@@ -7,17 +7,17 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskFcst}.
 }
 \arguments{
-\item{dataset}{(\code{character(1)})
+\item{dataset}{(\code{character(1)})\cr
 The dataset ID, e.g. \code{"m3_yearly"}.
 The IDs follow the names used by the Monash Forecasting Repository.
 Variants whose IDs end in \code{"_with_missing_values"} cannot be converted to a forecast task and can only be
 retrieved with \code{\link[=download_zenodo_record]{download_zenodo_record()}}.}
 
-\item{id}{(\code{character(1)})
+\item{id}{(\code{character(1)})\cr
 The task ID.
 Defaults to \code{dataset}.}
 
-\item{...}{(any)
+\item{...}{(any)\cr
 Additional arguments passed to \code{\link[=as_task_fcst]{as_task_fcst()}}.}
 }
 \description{

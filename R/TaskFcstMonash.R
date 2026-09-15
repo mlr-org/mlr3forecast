@@ -6,15 +6,15 @@
 #' @description
 #' Downloads a dataset from the Monash Forecasting Repository and converts it to a forecast task.
 #'
-#' @param dataset (`character(1)`)
+#' @param dataset (`character(1)`)\cr
 #'   The dataset ID, e.g. `"m3_yearly"`.
 #'   The IDs follow the names used by the Monash Forecasting Repository.
 #'   Variants whose IDs end in `"_with_missing_values"` cannot be converted to a forecast task and can only be
 #'   retrieved with [download_zenodo_record()].
-#' @param id (`character(1)`)
+#' @param id (`character(1)`)\cr
 #'   The task ID.
 #'   Defaults to `dataset`.
-#' @param ... (any)
+#' @param ... (any)\cr
 #'   Additional arguments passed to [as_task_fcst()].
 #'
 #' @section Dictionary:
@@ -32,9 +32,11 @@
 #' @family Task
 NULL
 
-load_task_monash = function(dataset, id = dataset, ...) {
-  # nolint next
-  info = resolve_monash_dataset(dataset)
+load_task_monash = function(dataset = NULL, id = dataset, ...) {
+  if (is.null(dataset)) {
+    stop(errorCondition("Argument 'dataset' must be provided.", class = "missingDefaultError")) # nolint
+  }
+  info = resolve_monash_dataset(dataset) # nolint
   assert_string(id, min.chars = 1L)
   if (info$has_missing) {
     error_input(
