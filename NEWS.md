@@ -4,6 +4,7 @@
 
 * fix: A daily `freq` now derives a seasonal period of `7` (the weekly cycle) instead of the non-integer `365.25`, which blocked seasonal models and made scaled measures return `NaN`. Pass `period` explicitly to keep the annual cycle. Scores and fitted models change for daily tasks.
 
+* feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * feat: `download_zenodo_record()` now sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.

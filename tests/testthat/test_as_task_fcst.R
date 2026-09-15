@@ -38,6 +38,14 @@ test_that("as_task_fcst rejects unused arguments for TaskFcst", {
   expect_error(as_task_fcst(tsk("airpassengers"), typo = TRUE), "unused: typo")
 })
 
+test_that("as_task converts tsf objects", {
+  file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
+  task = as_task(read_tsf(file), id = "m3_yearly")
+
+  expect_class(task, "TaskFcst")
+  expect_identical(task$id, "m3_yearly")
+})
+
 test_that("as_task conversion timeSeries", {
   skip_if_not_installed("timeSeries")
 

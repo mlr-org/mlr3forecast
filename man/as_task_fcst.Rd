@@ -9,6 +9,7 @@
 \alias{as_task_fcst.DataBackend}
 \alias{as_task_fcst.data.frame}
 \alias{as_task_fcst.tsf}
+\alias{as_task.tsf}
 \alias{as_task_fcst.ts}
 \alias{as_task_fcst.zoo}
 \alias{as_task_fcst.timeSeries}
@@ -48,6 +49,8 @@ as_tasks_fcst(x, ...)
 )
 
 \method{as_task_fcst}{tsf}(x, id = deparse1(substitute(x)), label = NA_character_, ...)
+
+\method{as_task}{tsf}(x, ...)
 
 \method{as_task_fcst}{ts}(
   x,

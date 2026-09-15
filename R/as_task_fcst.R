@@ -162,6 +162,12 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
 }
 
 #' @rdname as_task_fcst
+#' @exportS3Method mlr3::as_task
+as_task.tsf = function(x, ...) {
+  as_task_fcst(x, ...)
+}
+
+#' @rdname as_task_fcst
 #' @export
 as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
