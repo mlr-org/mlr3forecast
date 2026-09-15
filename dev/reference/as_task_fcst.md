@@ -66,6 +66,9 @@ as_task_fcst(
 # S3 method for class 'tsf'
 as_task_fcst(x, id = deparse1(substitute(x)), label = NA_character_, ...)
 
+# S3 method for class 'tsf'
+as_task(x, ...)
+
 # S3 method for class 'ts'
 as_task_fcst(
   x,

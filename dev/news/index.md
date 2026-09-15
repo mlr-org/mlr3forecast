@@ -13,6 +13,11 @@
   to keep the annual cycle. Scores and fitted models change for daily
   tasks.
 
+- feat: [`as_task()`](https://mlr3.mlr-org.com/reference/as_task.html)
+  now converts objects returned by
+  [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
+  to forecast tasks.
+
 - feat:
   [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   now sets the `"horizon"` attribute from the Monash benchmark horizons

@@ -240,6 +240,7 @@
 
 - [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   [`as_tasks_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  [`as_task(`*`<tsf>`*`)`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   : Convert to a Forecast Task
 - [`autoplot(`*`<PredictionFcst>`*`)`](https://mlr3forecast.mlr-org.com/dev/reference/autoplot.PredictionFcst.md)
   : Plot for Forecast Predictions
