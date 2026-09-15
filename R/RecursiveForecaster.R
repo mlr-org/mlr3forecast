@@ -327,7 +327,7 @@ RecursiveForecaster = R6Class(
         return(private$.predict_type)
       }
       if (rhs %nin% self$predict_types) {
-        error_input("Learner '%s' does not support predict type '%s'.", self$id, rhs)
+        error_config("Learner '%s' does not support predict type '%s'.", self$id, rhs)
       }
       private$.learner$predict_type = rhs
       private$.predict_type = rhs
