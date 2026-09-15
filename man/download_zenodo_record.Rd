@@ -4,14 +4,14 @@
 \alias{download_zenodo_record}
 \title{Download tsf file from Zenodo}
 \usage{
-download_zenodo_record(record_id = 4656222, dataset_name = "m3_yearly_dataset")
+download_zenodo_record(record_id, dataset_name)
 }
 \arguments{
 \item{record_id}{(\code{integer(1)})\cr
-The Zenodo record ID.}
+The Zenodo record ID, e.g. \code{4656222} for the M3 yearly dataset.}
 
 \item{dataset_name}{(\code{character(1)})\cr
-The name of the dataset to download.}
+The name of the dataset to download, e.g. \code{"m3_yearly_dataset"}.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}. If the file contains a frequency or horizon, the

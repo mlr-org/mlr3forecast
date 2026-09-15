@@ -122,9 +122,9 @@ read_tsf = function(file) {
 #' Downloads a tsf file from Zenodo using the provided record ID and dataset name.
 #'
 #' @param record_id (`integer(1)`)\cr
-#'   The Zenodo record ID.
+#'   The Zenodo record ID, e.g. `4656222` for the M3 yearly dataset.
 #' @param dataset_name (`character(1)`)\cr
-#'   The name of the dataset to download.
+#'   The name of the dataset to download, e.g. `"m3_yearly_dataset"`.
 #' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency or horizon, the
 #'   `"frequency"` and `"horizon"` attributes are set, respectively. For Monash datasets whose file lacks a
 #'   `@horizon` line, the `"horizon"` attribute is filled from the forecast horizon used in the Monash
@@ -155,7 +155,7 @@ read_tsf = function(file) {
 #' bmr = benchmark(design)
 #' bmr$aggregate(msr("regr.rmse"))[, .(rmse = mean(regr.rmse)), by = learner_id]
 #' }
-download_zenodo_record = function(record_id = 4656222, dataset_name = "m3_yearly_dataset") {
+download_zenodo_record = function(record_id, dataset_name) {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
   assert_string(dataset_name, min.chars = 1L)
 
