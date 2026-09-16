@@ -169,6 +169,16 @@ bibentries = c(
     author = "Brian D Ripley",
     title = "Pattern Recognition and Neural Networks"
   ),
+  haeusser2026echo = bibentry(
+    "misc",
+    title = "Echo State Networks for Time Series Forecasting: Hyperparameter Sweep and Benchmarking",
+    author = "Alexander Häußer",
+    year = "2026",
+    eprint = "2602.03912",
+    archivePrefix = "arXiv",
+    primaryClass = "cs.LG",
+    url = "https://arxiv.org/abs/2602.03912"
+  ),
   svetunkov2023smooth = bibentry(
     "misc",
     title = "Smooth forecasting with the smooth package in R",

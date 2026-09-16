@@ -1,7 +1,10 @@
 ARMA
 CRAN
+ESN
+Häußer
 arfima
 autoregressive
+echos
 fcst
 fcstavg
 hotstart

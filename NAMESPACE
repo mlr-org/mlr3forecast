@@ -53,6 +53,7 @@ export(LearnerFcstCes)
 export(LearnerFcstCroston)
 export(LearnerFcstElm)
 export(LearnerFcstEs)
+export(LearnerFcstEsn)
 export(LearnerFcstEts)
 export(LearnerFcstGum)
 export(LearnerFcstHoltWinters)
@@ -120,7 +121,10 @@ import(mlr3pipelines)
 import(paradox)
 importFrom(R6,R6Class)
 importFrom(generics,forecast)
-importFrom(stats,as.ts)
+importFrom(stats,
+  as.ts,
+  quantile
+)
 importFrom(utils,
   bibentry,
   head,

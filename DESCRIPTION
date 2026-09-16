@@ -37,6 +37,7 @@ Imports:
     utils
 Suggests:
     distributional,
+    echos (>= 1.0.3),
     fabletools,
     feasts,
     forecast (>= 9.0.2),
@@ -89,6 +90,7 @@ Collate:
     'LearnerFcstCroston.R'
     'LearnerFcstElm.R'
     'LearnerFcstEs.R'
+    'LearnerFcstEsn.R'
     'LearnerFcstEts.R'
     'LearnerFcstForecast.R'
     'LearnerFcstGum.R'
