@@ -261,6 +261,21 @@ bibentries = c(
     year = "2000",
     publisher = "Elsevier"
   ),
+  fiorucci2016models = bibentry(
+    "article",
+    title = "Models for optimising the theta method and their relationship to state space models",
+    author = paste(
+      "Jose Augusto Fiorucci and Tiago Roberto Pellegrini and Francisco Louzada and Fotios Petropoulos and",
+      "Anne B Koehler"
+    ),
+    journal = "International Journal of Forecasting",
+    volume = "32",
+    number = "4",
+    pages = "1151--1161",
+    year = "2016",
+    doi = "10.1016/j.ijforecast.2016.02.005",
+    publisher = "Elsevier"
+  ),
   hyndman2003unmasking = bibentry(
     "article",
     title = "Unmasking the Theta method",

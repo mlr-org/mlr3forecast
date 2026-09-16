@@ -40,6 +40,7 @@ Suggests:
     echos (>= 1.0.3),
     fabletools,
     feasts,
+    forecTheta,
     forecast (>= 9.0.2),
     ggplot2 (>= 3.4.0),
     greybox,
@@ -89,6 +90,9 @@ Collate:
     'LearnerFcstBats.R'
     'LearnerFcstCes.R'
     'LearnerFcstCroston.R'
+    'LearnerFcstForecTheta.R'
+    'LearnerFcstDotm.R'
+    'LearnerFcstDstm.R'
     'LearnerFcstElm.R'
     'LearnerFcstEs.R'
     'LearnerFcstEsn.R'
@@ -101,6 +105,7 @@ Collate:
     'LearnerFcstMlp.R'
     'LearnerFcstMsarima.R'
     'LearnerFcstNnetar.R'
+    'LearnerFcstOtm.R'
     'LearnerFcstProphet.R'
     'LearnerFcstRandomWalk.R'
     'LearnerFcstRlgt.R'
@@ -110,7 +115,9 @@ Collate:
     'LearnerFcstSparma.R'
     'LearnerFcstSpline.R'
     'LearnerFcstSsarima.R'
+    'LearnerFcstStheta.R'
     'LearnerFcstStlm.R'
+    'LearnerFcstStm.R'
     'LearnerFcstStructTS.R'
     'LearnerFcstTbats.R'
     'LearnerFcstTheta.R'
