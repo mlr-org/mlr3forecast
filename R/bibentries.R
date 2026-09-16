@@ -414,6 +414,27 @@ bibentries = c(
     year = "1960",
     doi = "10.1287/mnsc.6.3.324"
   ),
+  petropoulos2015forecast = bibentry(
+    "article",
+    title = "Forecast combinations for intermittent demand",
+    author = "Fotios Petropoulos and Nikolaos Kourentzes",
+    journal = "Journal of the Operational Research Society",
+    volume = "66",
+    number = "6",
+    pages = "914--924",
+    year = "2015",
+    doi = "10.1057/jors.2014.62"
+  ),
+  kourentzes2014intermittent = bibentry(
+    "article",
+    title = "On intermittent demand model optimisation and selection",
+    author = "Nikolaos Kourentzes",
+    journal = "International Journal of Production Economics",
+    volume = "156",
+    pages = "180--190",
+    year = "2014",
+    doi = "10.1016/j.ijpe.2014.06.007"
+  ),
   smyl2025rlgt = bibentry(
     "manual",
     title = "Rlgt: Bayesian Exponential Smoothing Models with Trend Modifications",

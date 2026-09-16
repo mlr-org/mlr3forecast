@@ -59,6 +59,7 @@ Suggests:
     tsfeatures,
     tsibble,
     tsibbledata,
+    tsintermittent,
     vctrs,
     vdiffr (>= 1.0.0),
     withr (>= 3.0.0),
@@ -95,6 +96,7 @@ Collate:
     'LearnerFcstForecast.R'
     'LearnerFcstGum.R'
     'LearnerFcstHoltWinters.R'
+    'LearnerFcstImapa.R'
     'LearnerFcstMean.R'
     'LearnerFcstMlp.R'
     'LearnerFcstMsarima.R'
