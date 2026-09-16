@@ -26,6 +26,13 @@ test_that("forecasts repeat the last season", {
   expect_equal(response, as.numeric(forecast::snaive(as.ts(task$clone()$filter(1:132)), h = 12L)$mean))
 })
 
+test_that("weekly forecasts use a 52-week lag", {
+  data = data.table(y = as.numeric(1:160), date = seq(as.Date("2020-01-01"), by = "week", length.out = 160L))
+  task = as_task_fcst(data, target = "y", order = "date", freq = "week")
+  learner = lrn("fcst.snaive")$train(task)
+  expect_equal(learner$predict_newdata(generate_newdata(task, n = 3L))$response, as.numeric(109:111))
+})
+
 test_that("quantile prediction works", {
   task = tsk("airpassengers")
   learner = lrn("fcst.snaive")

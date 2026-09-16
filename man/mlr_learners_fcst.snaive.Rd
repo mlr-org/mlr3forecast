@@ -7,7 +7,8 @@
 \description{
 Seasonal naive model.
 Each forecast equals the last observed value from the same season, with the seasonal period taken from the task
-frequency. For non-seasonal tasks this reduces to the naive (random walk) forecast.
+frequency, rounded to the nearest integer and bounded below by one.
+For non-seasonal tasks this reduces to the naive (random walk) forecast.
 Calls \code{\link[forecast:rw_model]{forecast::rw_model()}} from package \CRANpkg{forecast} with \code{lag} set to the seasonal period.
 
 Use \link{mlr_learners_fcst.random_walk} to choose the lag manually or to add drift.
