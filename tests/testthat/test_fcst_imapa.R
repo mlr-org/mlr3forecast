@@ -58,3 +58,18 @@ test_that("one-step-ahead prediction works", {
   y = task$data(rows = 1:100, cols = "demand")[[1L]]
   expect_equal(response, as.numeric(tsintermittent::imapa(y, h = 2L, outplot = 0L)$frc.out[1L]))
 })
+
+test_that("a single usable aggregation level yields a vector forecast", {
+  # tsintermittent issue #2: imapa() returns the full level matrix with NA rows in this case
+  x = c(rep(0, 55), 2, 18)
+  data = data.table(demand = x, date = seq(as.Date("2020-01-01"), by = "day", length.out = length(x)))
+  task = as_task_fcst(data, target = "demand", order = "date", id = "sparse")
+  learner = lrn("fcst.imapa")
+  learner$train(task)
+  newdata = generate_newdata(task, n = 3L)
+  response = learner$predict_newdata(newdata)$response
+  expect_numeric(response, any.missing = FALSE, len = 3L)
+  expect_true(all(response == response[1L]))
+  fitted = learner$predict(task)$response
+  expect_numeric(fitted, len = nrow(data))
+})

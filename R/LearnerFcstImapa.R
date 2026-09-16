@@ -69,7 +69,18 @@ LearnerFcstImapa = R6Class(
     },
 
     .fitted = function() {
-      as.numeric(self$native_model$frc.in)
+      private$.combine(self$native_model, self$native_model$frc.in)
+    },
+
+    # imapa() returns the combined demand rate as a vector when several aggregation levels are in use, but the
+    # full level-by-horizon matrix, including NA rows for unused levels, when only one level is usable
+    .combine = function(model, frc) {
+      if (!is.matrix(frc)) {
+        return(as.numeric(frc))
+      }
+      frc = frc[model$summary[6L, ] == 1, , drop = FALSE]
+      comb = self$param_set$values$comb %??% "mean"
+      as.numeric(if (comb == "median") apply(frc, 2L, stats::median) else colMeans(frc))
     },
 
     .predict = function(task) {
@@ -90,7 +101,7 @@ LearnerFcstImapa = R6Class(
         outplot = 0L,
         .args = pv
       )
-      insert_named(prediction, list(response = as.numeric(pred$frc.out)[seq_len(task$nrow)]))
+      insert_named(prediction, list(response = private$.combine(pred, pred$frc.out)[seq_len(task$nrow)]))
     }
   )
 )
