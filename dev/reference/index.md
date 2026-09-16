@@ -74,6 +74,9 @@
 - [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.holt_winters.md)
   [`LearnerFcstHoltWinters`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.holt_winters.md)
   : Holt-Winters Forecast Learner
+- [`mlr_learners_fcst.imapa`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.imapa.md)
+  [`LearnerFcstImapa`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.imapa.md)
+  : Intermittent MAPA Forecast Learner
 - [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.mean.md)
   [`LearnerFcstMean`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.mean.md)
   : Mean Forecast Learner

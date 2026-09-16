@@ -53,6 +53,10 @@
 - feat: New learner `fcst.snaive` provides the seasonal naive forecast
   with the seasonal period taken from the task frequency.
 
+- feat: New learner `fcst.imapa` wraps
+  [`tsintermittent::imapa()`](https://rdrr.io/pkg/tsintermittent/man/imapa.html)
+  for intermittent demand forecasting with temporal aggregation.
+
 - fix: Missing-model errors now use their matching structured error
   class.
 
