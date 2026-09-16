@@ -25,6 +25,12 @@ LearnerFcstForecTheta = R6Class(
       insert_named(context, list(xreg = xreg, params = pv))
     },
 
+    .fitted = function() {
+      model = self$native_model
+      fitted = if (is.null(model$lambda)) model$fitted else forecast::InvBoxCox(model$fitted, model$lambda)
+      as.numeric(fitted)
+    },
+
     .predict = function(task) {
       is_quantile = self$predict_type == "quantiles"
       if (is_quantile) {

@@ -21,6 +21,15 @@ test_that("forecasts reuse fitted theta parameters", {
   expect_equal(learner$predict(train_task)$response, as.numeric(learner$native_model$fitted))
 })
 
+test_that("theta fitted values return to the original scale", {
+  task = tsk("airpassengers")$filter(1:132)
+  for (id in c("dotm", "dstm", "otm", "stm")) {
+    learner = lrn(paste0("fcst.", id), lambda = 0)$train(task)
+    expected = exp(as.numeric(learner$native_model$fitted))
+    expect_equal(learner$predict(task)$response, expected, info = id)
+  }
+})
+
 test_that("optimized theta learners support quantiles", {
   task = tsk("airpassengers")$filter(1:132)
   learner = lrn("fcst.otm")
