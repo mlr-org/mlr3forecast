@@ -1,8 +1,9 @@
 # Seasonal Naive Forecast Learner
 
 Seasonal naive model. Each forecast equals the last observed value from
-the same season, with the seasonal period taken from the task frequency.
-For non-seasonal tasks this reduces to the naive (random walk) forecast.
+the same season, with the seasonal period taken from the task frequency,
+rounded to the nearest integer and bounded below by one. For
+non-seasonal tasks this reduces to the naive (random walk) forecast.
 Calls
 [`forecast::rw_model()`](https://pkg.robjhyndman.com/forecast/reference/rw_model.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast)
@@ -229,7 +230,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Call: rw_model(y = passengers, lag = stats::frequency(y), drift = FALSE) 
+#> Call: rw_model(y = passengers, lag = lag, drift = FALSE) 
 #> 
 #> Residual sd: 32.7332 
 #> 

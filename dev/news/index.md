@@ -59,7 +59,8 @@
   for intermittent demand forecasting with temporal aggregation.
 
 - feat: New learner `fcst.snaive` provides the seasonal naive forecast
-  with the seasonal period taken from the task frequency.
+  with the seasonal period taken from the task frequency, rounded to the
+  nearest integer and bounded below by one.
 
 - fix: Missing-model errors now use their matching structured error
   class.
