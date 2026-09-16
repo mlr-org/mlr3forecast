@@ -172,7 +172,7 @@ bibentries = c(
   haeusser2026echo = bibentry(
     "misc",
     title = "Echo State Networks for Time Series Forecasting: Hyperparameter Sweep and Benchmarking",
-    author = "Alexander Häußer",
+    author = "Alexander H\u00e4u\u00dfer",
     year = "2026",
     eprint = "2602.03912",
     archivePrefix = "arXiv",
