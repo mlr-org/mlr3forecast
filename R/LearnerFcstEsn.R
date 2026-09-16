@@ -109,7 +109,7 @@ LearnerFcstEsn = R6Class(
 
       pv = self$param_set$get_values(tags = "predict")
       if (!is_quantile) {
-        pv$n_sim = NULL
+        pv = insert_named(pv, list(n_sim = NULL))
       }
       pred = invoke(echos::forecast_esn, self$native_model, n_ahead = task$nrow, levels = 80, .args = pv)
 
