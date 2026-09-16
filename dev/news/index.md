@@ -50,6 +50,9 @@
   for echo state network forecasts with response and quantile
   prediction.
 
+- feat: New learner `fcst.snaive` provides the seasonal naive forecast
+  with the seasonal period taken from the task frequency.
+
 - fix: Missing-model errors now use their matching structured error
   class.
 

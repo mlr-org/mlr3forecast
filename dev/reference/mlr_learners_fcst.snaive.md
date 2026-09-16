@@ -1,8 +1,16 @@
-# ADAM Forecast Learner
+# Seasonal Naive Forecast Learner
 
-Augmented Dynamic Adaptive Model (ADAM) Forecast Learner model. Calls
-[`smooth::adam()`](https://rdrr.io/pkg/smooth/man/adam.html) from
-package [smooth](https://CRAN.R-project.org/package=smooth).
+Seasonal naive model. Each forecast equals the last observed value from
+the same season, with the seasonal period taken from the task frequency.
+For non-seasonal tasks this reduces to the naive (random walk) forecast.
+Calls
+[`forecast::rw_model()`](https://pkg.robjhyndman.com/forecast/reference/rw_model.html)
+from package [forecast](https://CRAN.R-project.org/package=forecast)
+with `lag` set to the seasonal period.
+
+Use
+[mlr_learners_fcst.random_walk](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.md)
+to choose the lag manually or to add drift.
 
 ## Dictionary
 
@@ -13,8 +21,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.adam")
-    lrn("fcst.adam")
+    mlr_learners$get("fcst.snaive")
+    lrn("fcst.snaive")
 
 ## Meta Information
 
@@ -22,46 +30,29 @@ or with the associated sugar function
 
 - Predict Types: “response”, “quantiles”
 
-- Feature Types: “logical”, “integer”, “numeric”
+- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
+  “ordered”, “POSIXct”, “Date”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [smooth](https://CRAN.R-project.org/package=smooth)
+  [forecast](https://CRAN.R-project.org/package=forecast)
 
 ## Parameters
 
-|  |  |  |  |  |
-|----|----|----|----|----|
-| Id | Type | Default | Levels | Range |
-| model | untyped | "ZXZ" |  | \- |
-| lags | untyped | \- |  | \- |
-| orders | untyped | list(ar = 0, i = 0, ma = 0, select = FALSE) |  | \- |
-| constant | logical | FALSE | TRUE, FALSE | \- |
-| regressors | character | use | use, select, adapt | \- |
-| occurrence | character | none | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct | \- |
-| distribution | character | default | default, dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma | \- |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) | \- |
-| outliers | character | ignore | ignore, use, select | \- |
-| holdout | logical | FALSE | TRUE, FALSE | \- |
-| persistence | untyped | NULL |  | \- |
-| phi | numeric | NULL |  | \\(-\infty, \infty)\\ |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient | \- |
-| smoother | character | default | default, ma, lowess, supsmu, global | \- |
-| arma | untyped | NULL |  | \- |
-| ic | character | AICc | AICc, AIC, BIC, BICc | \- |
-| bounds | character | usual | usual, admissible, none | \- |
-| silent | logical | TRUE | TRUE, FALSE | \- |
-| ets | character | conventional | conventional, adam | \- |
+|           |         |         |             |                  |
+|-----------|---------|---------|-------------|------------------|
+| Id        | Type    | Default | Levels      | Range            |
+| lambda    | untyped | NULL    |             | \-               |
+| biasadj   | logical | FALSE   | TRUE, FALSE | \-               |
+| simulate  | logical | FALSE   | TRUE, FALSE | \-               |
+| bootstrap | logical | FALSE   | TRUE, FALSE | \-               |
+| npaths    | integer | 5000    |             | \\\[1, \infty)\\ |
 
 ## References
 
-Svetunkov I (2023). “Smooth forecasting with the smooth package in R.”
-2301.01790, <https://arxiv.org/abs/2301.01790>.
-
-Svetunkov I (2023). *Forecasting and Analytics with the Augmented
-Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
-[doi:10.1201/9781003452652](https://doi.org/10.1201/9781003452652) .
-<https://openforecast.org/adam/>.
+Hyndman RJ, Athanasopoulos G (2018). *Forecasting: principles and
+practice*, 2nd edition. OTexts, Melbourne, Australia.
+<https://OTexts.com/fpp2/>.
 
 ## See also
 
@@ -105,6 +96,7 @@ Dynamic Adaptive Model (ADAM)*, 1st edition. Chapman and Hall/CRC.
 
 Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md),
+[`mlr_learners_fcst.adam`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.adam.md),
 [`mlr_learners_fcst.ar`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ar.md),
 [`mlr_learners_fcst.arfima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.arfima.md),
 [`mlr_learners_fcst.arima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.arima.md),
@@ -132,7 +124,6 @@ Other Learner:
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.rlgt`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.rlgt.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.md),
-[`mlr_learners_fcst.snaive`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.snaive.md),
 [`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ssarima.md),
@@ -150,16 +141,16 @@ Other Learner:
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
 -\>
-[`LearnerFcstSmooth`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstSmooth.md)
--\> `LearnerFcstAdam`
+[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstForecast.md)
+-\> `LearnerFcstSnaive`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstAdam$new()`](#method-LearnerFcstAdam-initialize)
+- [`LearnerFcstSnaive$new()`](#method-LearnerFcstSnaive-initialize)
 
-- [`LearnerFcstAdam$clone()`](#method-LearnerFcstAdam-clone)
+- [`LearnerFcstSnaive$clone()`](#method-LearnerFcstSnaive-clone)
 
 Inherited methods
 
@@ -178,24 +169,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstAdam$new()`
+### `LearnerFcstSnaive$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstAdam$new()
+    LearnerFcstSnaive$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstAdam$clone()`
+### `LearnerFcstSnaive$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstAdam$clone(deep = FALSE)
+    LearnerFcstSnaive$clone(deep = FALSE)
 
 #### Arguments
 
@@ -207,17 +198,17 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.adam")
+learner = lrn("fcst.snaive")
 print(learner)
 #> 
-#> ── <LearnerFcstAdam> (fcst.adam): ADAM ─────────────────────────────────────────
+#> ── <LearnerFcstSnaive> (fcst.snaive): Seasonal Naive ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and smooth
+#> • Packages: mlr3, mlr3forecast, and forecast
 #> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, and numeric
+#> • Feature Types: logical, integer, numeric, character, factor, ordered, POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: exogenous and featureless
+#> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -232,27 +223,13 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.35 seconds
-#> Model estimated using adam() function: ETS(MAM)
-#> With backcasting initialisation
-#> Distribution assumed in the model: Gamma
-#> Loss function type: likelihood; Loss function value: 320.4145
-#> Persistence vector g:
-#>  alpha   beta  gamma 
-#> 0.7029 0.0000 0.0000 
+#> Call: rw_model(y = passengers, lag = stats::frequency(y), drift = FALSE) 
 #> 
-#> Sample size: 96
-#> Number of estimated parameters: 17
-#> Number of degrees of freedom: 79
-#> Information criteria:
-#>      AIC     AICc      BIC     BICc 
-#> 674.8290 682.6752 718.4230 736.3292 
+#> Residual sd: 32.7332 
 #> 
 #> $row_ids
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
-#> [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
-#> [51] 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75
-#> [76] 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96
+#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58
+#> [59] 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96
 #> 
 #> $max_index
 #> [1] "1956-12-01"
@@ -270,5 +247,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 995.6365 
+#> 9565.021 
 ```

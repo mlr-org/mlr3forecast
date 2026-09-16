@@ -98,6 +98,9 @@
 - [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.md)
   [`LearnerFcstSma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.md)
   : Simple Moving Average Forecast Learner
+- [`mlr_learners_fcst.snaive`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.snaive.md)
+  [`LearnerFcstSnaive`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.snaive.md)
+  : Seasonal Naive Forecast Learner
 - [`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.md)
   [`LearnerFcstSparma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.md)
   : Sparse ARMA Forecast Learner
