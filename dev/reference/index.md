@@ -56,6 +56,12 @@
 - [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md)
   [`LearnerFcstCroston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md)
   : Croston Forecast Learner
+- [`mlr_learners_fcst.dotm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.dotm.md)
+  [`LearnerFcstDotm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.dotm.md)
+  : Dynamic Optimized Theta Model Forecast Learner
+- [`mlr_learners_fcst.dstm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.dstm.md)
+  [`LearnerFcstDstm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.dstm.md)
+  : Dynamic Standard Theta Model Forecast Learner
 - [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md)
   [`LearnerFcstElm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md)
   : Extreme Learning Machine Forecast Learner
@@ -89,6 +95,9 @@
 - [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.nnetar.md)
   [`LearnerFcstNnetar`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.nnetar.md)
   : Neural Network Forecast Learner
+- [`mlr_learners_fcst.otm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.otm.md)
+  [`LearnerFcstOtm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.otm.md)
+  : Optimized Theta Model Forecast Learner
 - [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.prophet.md)
   [`LearnerFcstProphet`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.prophet.md)
   : Prophet Forecast Learner
@@ -113,9 +122,15 @@
 - [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ssarima.md)
   [`LearnerFcstSsarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ssarima.md)
   : State-Space ARIMA Forecast Learner
+- [`mlr_learners_fcst.stheta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stheta.md)
+  [`LearnerFcstStheta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stheta.md)
+  : Standard Theta Method Forecast Learner
 - [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stlm.md)
   [`LearnerFcstStlm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stlm.md)
   : STL + ETS/ARIMA Forecast Learner
+- [`mlr_learners_fcst.stm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stm.md)
+  [`LearnerFcstStm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stm.md)
+  : Standard Theta Model Forecast Learner
 - [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.struct_ts.md)
   [`LearnerFcstStructTS`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.struct_ts.md)
   : Structural Time Series Forecast Learner

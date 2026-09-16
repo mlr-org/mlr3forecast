@@ -6,6 +6,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/news/index.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/DirectForecaster.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstForecTheta.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstForecast.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstSmooth.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/PredictionFcst.html</loc></url>
@@ -35,6 +36,8 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.bats.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ces.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.dotm.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.dstm.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.html</loc></url>
@@ -46,6 +49,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.mlp.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.msarima.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.nnetar.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.otm.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.prophet.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.rlgt.html</loc></url>
@@ -54,7 +58,9 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.spline.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ssarima.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stheta.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stlm.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stm.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.struct_ts.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tbats.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.theta.html</loc></url>

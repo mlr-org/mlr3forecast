@@ -109,6 +109,8 @@ Other Learner:
 [`mlr_learners_fcst.bats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.bats.md),
 [`mlr_learners_fcst.ces`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ces.md),
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md),
+[`mlr_learners_fcst.dotm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.dotm.md),
+[`mlr_learners_fcst.dstm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.dstm.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md),
 [`mlr_learners_fcst.esn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md),
@@ -120,6 +122,7 @@ Other Learner:
 [`mlr_learners_fcst.mlp`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.mlp.md),
 [`mlr_learners_fcst.msarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.msarima.md),
 [`mlr_learners_fcst.nnetar`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.nnetar.md),
+[`mlr_learners_fcst.otm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.otm.md),
 [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.prophet.md),
 [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.md),
 [`mlr_learners_fcst.sma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.md),
@@ -127,7 +130,9 @@ Other Learner:
 [`mlr_learners_fcst.sparma`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sparma.md),
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ssarima.md),
+[`mlr_learners_fcst.stheta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stheta.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stlm.md),
+[`mlr_learners_fcst.stm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stm.md),
 [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.struct_ts.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.theta.md),
@@ -228,16 +233,16 @@ print(learner$model)
 #> [1] 5000
 #> 
 #> $sigma2
-#> [1] 0.5121744
+#> [1] 0.3647757
 #> 
 #> $xi2
-#> [1] 0.3789531
+#> [1] 0.8622268
 #> 
 #> $phi
-#> [1] 0.4482759
+#> [1] 0.5172414
 #> 
 #> $chi2
-#> [1] 3.882007
+#> [1] 4.045609
 #> 
 #> $chi2.lambda2
 #> [1] 0
@@ -246,19 +251,19 @@ print(learner$model)
 #> [1] 0
 #> 
 #> $alpha
-#> [1] 0.7820933
+#> [1] 0.5831365
 #> 
 #> $beta
 #> [1] 0.7
 #> 
 #> $zeta
-#> [1] 0.2510207
+#> [1] 0.5605499
 #> 
 #> $rho
-#> [1] -0.03448276
+#> [1] 0.01724138
 #> 
 #> $tau
-#> [1] 0.3965517
+#> [1] 0.4482759
 #> 
 #> $nu
 #> [1] 8.84
@@ -270,34 +275,34 @@ print(learner$model)
 #> [1] 0
 #> 
 #> $lt
-#> [1] 336.3863
+#> [1] 327.4846
 #> 
 #> $bt
 #> [1] 0
 #> 
 #> $et
-#> [1] 1.179933
+#> [1] -3.59661
 #> 
 #> $log.s
-#> [1] -0.004679024
+#> [1] 0.04263173
 #> 
 #> $y.on.l
-#> [1] 0.003855907
+#> [1] 0.04843297
 #> 
 #> $L
 #> [1] 0
 #> 
 #> $log.s1
-#> [1] -0.006582698
+#> [1] 0.0009999897
 #> 
 #> $w.s
 #> [1] 0
 #> 
 #> $l2.log.s
-#> [1] 0.8069818
+#> [1] 0.8012621
 #> 
 #> $t2.log.s
-#> [1] 0.01799118
+#> [1] 0.01243834
 #> 
 #> $s.ix
 #> [1] 7
@@ -309,7 +314,7 @@ print(learner$model)
 #> [1] 200
 #> 
 #> $mu.hat
-#> [1] 204.181
+#> [1] 205.6357
 #> 
 #> $method
 #> [1] "Gibbs"
@@ -338,6 +343,6 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1231.424 
+#> 818.2719 
 # }
 ```
