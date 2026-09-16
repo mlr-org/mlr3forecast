@@ -38,13 +38,13 @@ lrn("fcst.esn")
    n_models \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    n_initial \tab integer \tab NULL \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    n_seed \tab integer \tab 42 \tab  \tab \eqn{[0, 2147483647]}{[0, 2147483647]} \cr
-   alpha \tab numeric \tab 1 \tab  \tab \eqn{[1e-08, 1]}{[1e-08, 1]} \cr
+   alpha \tab numeric \tab 1 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    rho \tab numeric \tab 1 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
-   tau \tab numeric \tab 0.4 \tab  \tab \eqn{[1e-08, 1]}{[1e-08, 1]} \cr
-   density \tab numeric \tab 0.5 \tab  \tab \eqn{[1e-08, 1]}{[1e-08, 1]} \cr
+   tau \tab numeric \tab 0.4 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   density \tab numeric \tab 0.5 \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    lambda \tab untyped \tab c(1e-04, 2) \tab  \tab - \cr
-   scale_win \tab numeric \tab 0.5 \tab  \tab \eqn{[1e-08, \infty)}{[1e-08, Inf)} \cr
-   scale_wres \tab numeric \tab 0.5 \tab  \tab \eqn{[1e-08, \infty)}{[1e-08, Inf)} \cr
+   scale_win \tab numeric \tab 0.5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   scale_wres \tab numeric \tab 0.5 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    scale_inputs \tab untyped \tab c(-0.5, 0.5) \tab  \tab - \cr
    n_sim \tab integer \tab 100 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
 }

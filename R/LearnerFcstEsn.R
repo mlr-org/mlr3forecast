@@ -23,7 +23,6 @@ LearnerFcstEsn = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
-      positive = 1e-8
       param_set = ps(
         lags = p_uty(
           default = 1L,
@@ -36,23 +35,23 @@ LearnerFcstEsn = R6Class(
         n_models = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
         n_initial = p_int(0L, default = NULL, special_vals = list(NULL), tags = "train"),
         n_seed = p_int(0L, .Machine$integer.max, default = 42L, tags = c("train", "predict")),
-        alpha = p_dbl(positive, 1, default = 1, tolerance = 0, tags = "train"),
+        alpha = p_dbl(0, 1, default = 1, tags = "train"),
         rho = p_dbl(0, default = 1, tags = "train"),
-        tau = p_dbl(positive, 1, default = 0.4, tolerance = 0, tags = "train"),
-        density = p_dbl(positive, 1, default = 0.5, tolerance = 0, tags = "train"),
+        tau = p_dbl(0, 1, default = 0.4, tags = "train"),
+        density = p_dbl(0, 1, default = 0.5, tags = "train"),
         lambda = p_uty(
           default = c(1e-4, 2),
           tags = "train",
           custom_check = crate(function(x) {
-            check = check_numeric(x, lower = .Machine$double.eps, finite = TRUE, any.missing = FALSE, len = 2L)
+            check = check_numeric(x, lower = 0, finite = TRUE, any.missing = FALSE, len = 2L)
             if (!isTRUE(check)) {
               return(check)
             }
             if (x[1L] >= x[2L]) "Must be strictly increasing." else TRUE
           })
         ),
-        scale_win = p_dbl(positive, default = 0.5, tolerance = .Machine$double.eps, tags = "train"),
-        scale_wres = p_dbl(positive, default = 0.5, tolerance = .Machine$double.eps, tags = "train"),
+        scale_win = p_dbl(0, default = 0.5, tags = "train"),
+        scale_wres = p_dbl(0, default = 0.5, tags = "train"),
         scale_inputs = p_uty(
           default = c(-0.5, 0.5),
           tags = "train",
