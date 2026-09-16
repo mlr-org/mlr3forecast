@@ -3,8 +3,9 @@ test_that("PipeOpFcstLags declares fcst_iterative property", {
 })
 
 test_that("PipeOpFcstLags rejects non-positive lags", {
-  expect_snapshot(po("fcst.lags", lags = 0L), error = TRUE)
-  expect_snapshot(po("fcst.lags", lags = c(1L, -1L)), error = TRUE)
+  snapshot_variant = if (packageVersion("paradox") >= "2.0.0") "paradox-2" else NULL
+  expect_snapshot(po("fcst.lags", lags = 0L), error = TRUE, variant = snapshot_variant)
+  expect_snapshot(po("fcst.lags", lags = c(1L, -1L)), error = TRUE, variant = snapshot_variant)
 })
 
 test_that("PipeOpFcstLags aligns train features on date-major keyed task", {
