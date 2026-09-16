@@ -19,6 +19,7 @@ regr
 rlgt
 rmsse
 rsmp
+snaive
 sparma
 stlm
 tbats

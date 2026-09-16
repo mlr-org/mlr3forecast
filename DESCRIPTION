@@ -104,6 +104,7 @@ Collate:
     'LearnerFcstRlgt.R'
     'LearnerFcstSma.R'
     'LearnerFcstSmooth.R'
+    'LearnerFcstSnaive.R'
     'LearnerFcstSparma.R'
     'LearnerFcstSpline.R'
     'LearnerFcstSsarima.R'
