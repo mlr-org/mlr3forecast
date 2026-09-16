@@ -13,7 +13,6 @@
 #' @references
 #' `r format_bib("haeusser2026echo")`
 #'
-#' @importFrom stats quantile
 #' @export
 #' @template seealso_learner
 #' @template example
@@ -121,8 +120,8 @@ LearnerFcstEsn = R6Class(
       probs = private$.quantiles
       quantiles = matrix(
         vapply(
-          seq_nrow(pred$sim),
-          function(i) quantile(pred$sim[i, ], probs = probs, names = FALSE),
+          seq_row(pred$sim),
+          function(i) stats::quantile(pred$sim[i, ], probs = probs, names = FALSE),
           numeric(length(probs))
         ),
         nrow = length(probs),

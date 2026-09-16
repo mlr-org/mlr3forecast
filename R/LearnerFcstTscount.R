@@ -124,9 +124,9 @@ LearnerFcstTscount = R6Class(
       probs = private$.quantiles
       if (n_ahead == 1L) {
         quantiles = if (model$distr == "poisson") {
-          map_dbl(probs, function(p) qpois(p, lambda = mu))
+          map_dbl(probs, function(p) stats::qpois(p, lambda = mu))
         } else {
-          map_dbl(probs, function(p) qnbinom(p, size = model$distrcoefs, mu = mu))
+          map_dbl(probs, function(p) stats::qnbinom(p, size = model$distrcoefs, mu = mu))
         }
         quantiles = matrix(quantiles, nrow = 1L)
       } else {
@@ -135,7 +135,7 @@ LearnerFcstTscount = R6Class(
           tscount::tsglm.sim(n = n_ahead, fit = model, xreg = newxreg, n_start = 0L)$ts
         })
         quantiles = matrix(
-          apply(futureobs, 1L, quantile, probs = probs, type = 1L),
+          apply(futureobs, 1L, stats::quantile, probs = probs, type = 1L),
           nrow = n_ahead,
           ncol = length(probs),
           byrow = TRUE
