@@ -350,8 +350,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x55f9fb3da458>
-#> <environment: 0x55f9fb3de8b8>
+#> <bytecode: 0x556083da5800>
+#> <environment: 0x556083da5e30>
 #> 
 #> $lambda
 #> NULL

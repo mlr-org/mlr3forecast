@@ -232,7 +232,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.35 seconds
+#> Time elapsed: 0.34 seconds
 #> Model estimated using adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Gamma
