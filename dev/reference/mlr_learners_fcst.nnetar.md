@@ -111,6 +111,7 @@ Other Learner:
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md),
+[`mlr_learners_fcst.esn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.holt_winters.md),
@@ -228,7 +229,7 @@ print(learner$model)
 #> a 2-2-1 network with 9 weights
 #> options were - linear output units 
 #> 
-#> sigma^2 estimated as 131.9
+#> sigma^2 estimated as 132.8
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -252,5 +253,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 3093.322 
+#> 3382.135 
 ```

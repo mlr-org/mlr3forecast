@@ -112,6 +112,7 @@ Other Learner:
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md),
+[`mlr_learners_fcst.esn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.holt_winters.md),
 [`mlr_learners_fcst.mean`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.mean.md),
@@ -221,7 +222,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.03 seconds
+#> Time elapsed: 0.05 seconds
 #> Model estimated using gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

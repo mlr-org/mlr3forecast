@@ -90,6 +90,7 @@ Other Learner:
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md),
+[`mlr_learners_fcst.esn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.holt_winters.md),
@@ -289,13 +290,14 @@ names(lrns)
 #>  [7] "fcst.auto_ces"     "fcst.auto_gum"     "fcst.auto_msarima"
 #> [10] "fcst.auto_ssarima" "fcst.bagged"       "fcst.bats"        
 #> [13] "fcst.ces"          "fcst.croston"      "fcst.elm"         
-#> [16] "fcst.es"           "fcst.ets"          "fcst.gum"         
-#> [19] "fcst.holt_winters" "fcst.mean"         "fcst.mlp"         
-#> [22] "fcst.msarima"      "fcst.nnetar"       "fcst.prophet"     
-#> [25] "fcst.random_walk"  "fcst.rlgt"         "fcst.sma"         
-#> [28] "fcst.sparma"       "fcst.spline"       "fcst.ssarima"     
-#> [31] "fcst.stlm"         "fcst.struct_ts"    "fcst.tbats"       
-#> [34] "fcst.theta"        "fcst.tscount"      "fcst.tslm"        
+#> [16] "fcst.es"           "fcst.esn"          "fcst.ets"         
+#> [19] "fcst.gum"          "fcst.holt_winters" "fcst.mean"        
+#> [22] "fcst.mlp"          "fcst.msarima"      "fcst.nnetar"      
+#> [25] "fcst.prophet"      "fcst.random_walk"  "fcst.rlgt"        
+#> [28] "fcst.sma"          "fcst.sparma"       "fcst.spline"      
+#> [31] "fcst.ssarima"      "fcst.stlm"         "fcst.struct_ts"   
+#> [34] "fcst.tbats"        "fcst.theta"        "fcst.tscount"     
+#> [37] "fcst.tslm"        
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("fcst.ets")

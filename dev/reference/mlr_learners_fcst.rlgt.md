@@ -111,6 +111,7 @@ Other Learner:
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md),
+[`mlr_learners_fcst.esn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.holt_winters.md),
@@ -225,16 +226,16 @@ print(learner$model)
 #> [1] 5000
 #> 
 #> $sigma2
-#> [1] 0.604276
+#> [1] 0.5121744
 #> 
 #> $xi2
-#> [1] 1.166297
+#> [1] 0.3789531
 #> 
 #> $phi
-#> [1] 0.5517241
+#> [1] 0.4482759
 #> 
 #> $chi2
-#> [1] 6.108444
+#> [1] 3.882007
 #> 
 #> $chi2.lambda2
 #> [1] 0
@@ -243,22 +244,22 @@ print(learner$model)
 #> [1] 0
 #> 
 #> $alpha
-#> [1] 0.766976
+#> [1] 0.7820933
 #> 
 #> $beta
 #> [1] 0.7
 #> 
 #> $zeta
-#> [1] 0.2963094
+#> [1] 0.2510207
 #> 
 #> $rho
 #> [1] -0.03448276
 #> 
 #> $tau
-#> [1] 0.3793103
+#> [1] 0.3965517
 #> 
 #> $nu
-#> [1] 18.63
+#> [1] 8.84
 #> 
 #> $l1
 #> [1] 0
@@ -267,34 +268,34 @@ print(learner$model)
 #> [1] 0
 #> 
 #> $lt
-#> [1] 333.5498
+#> [1] 336.3863
 #> 
 #> $bt
 #> [1] 0
 #> 
 #> $et
-#> [1] -3.27692
+#> [1] 1.179933
 #> 
 #> $log.s
-#> [1] 0.003506381
+#> [1] -0.004679024
 #> 
 #> $y.on.l
-#> [1] 0.009007088
+#> [1] 0.003855907
 #> 
 #> $L
 #> [1] 0
 #> 
 #> $log.s1
-#> [1] 0.001750675
+#> [1] -0.006582698
 #> 
 #> $w.s
 #> [1] 0
 #> 
 #> $l2.log.s
-#> [1] 0.8075309
+#> [1] 0.8069818
 #> 
 #> $t2.log.s
-#> [1] 0.01803689
+#> [1] 0.01799118
 #> 
 #> $s.ix
 #> [1] 7
@@ -306,7 +307,7 @@ print(learner$model)
 #> [1] 200
 #> 
 #> $mu.hat
-#> [1] 205.7539
+#> [1] 204.181
 #> 
 #> $method
 #> [1] "Gibbs"
@@ -335,6 +336,6 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1330.235 
+#> 1231.424 
 # }
 ```

@@ -45,6 +45,11 @@
   and `$quantile_response` fields that configure every compatible
   learner in the wrapped graph.
 
+- feat: New learner `fcst.esn` wraps
+  [`echos::train_esn()`](https://ahaeusser.github.io/echos/reference/train_esn.html)
+  for echo state network forecasts with response and quantile
+  prediction.
+
 - fix: Missing-model errors now use their matching structured error
   class.
 

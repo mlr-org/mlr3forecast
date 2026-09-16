@@ -1,16 +1,14 @@
-# Structural Time Series Forecast Learner
+# Echo state network forecast learner
 
-Structural time series model fit by maximum likelihood. Three model
-types are supported: local level, local linear trend, and basic
-structural model (level + trend + seasonal). Calls
-[`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) from
-package stats.
-
-`type = "BSM"` requires a seasonal time series (frequency \> 1).
-Prediction is performed via
-[`forecast::forecast.StructTS()`](https://pkg.robjhyndman.com/forecast/reference/forecast.StructTS.html)
-which yields point forecasts and predictive intervals from the Kalman
-filter.
+Fits a univariate echo state network with a randomly initialized
+recurrent reservoir and a ridge regression readout. Quantile predictions
+are empirical quantiles of the future paths simulated by
+[`echos::forecast_esn()`](https://ahaeusser.github.io/echos/reference/forecast_esn.html).
+Calls
+[`echos::train_esn()`](https://ahaeusser.github.io/echos/reference/train_esn.html)
+and
+[`echos::forecast_esn()`](https://ahaeusser.github.io/echos/reference/forecast_esn.html)
+from package [echos](https://CRAN.R-project.org/package=echos).
 
 ## Dictionary
 
@@ -21,8 +19,8 @@ can be instantiated via the
 or with the associated sugar function
 [`mlr3::lrn()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_learners$get("fcst.struct_ts")
-    lrn("fcst.struct_ts")
+    mlr_learners$get("fcst.esn")
+    lrn("fcst.esn")
 
 ## Meta Information
 
@@ -35,24 +33,35 @@ or with the associated sugar function
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
-  [forecast](https://CRAN.R-project.org/package=forecast)
+  [echos](https://CRAN.R-project.org/package=echos)
 
 ## Parameters
 
-|               |           |         |                   |
-|---------------|-----------|---------|-------------------|
-| Id            | Type      | Default | Levels            |
-| type          | character | level   | level, trend, BSM |
-| init          | untyped   | NULL    |                   |
-| fixed         | untyped   | NULL    |                   |
-| optim.control | untyped   | NULL    |                   |
-| lambda        | untyped   | NULL    |                   |
-| biasadj       | logical   | FALSE   | TRUE, FALSE       |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| lags | untyped | 1L |  | \- |
+| inf_crit | character | bic | aic, aicc, bic, hqc | \- |
+| n_diff | integer | NULL |  | \\\[0, \infty)\\ |
+| n_states | integer | NULL |  | \\\[1, \infty)\\ |
+| n_models | integer | NULL |  | \\\[1, \infty)\\ |
+| n_initial | integer | NULL |  | \\\[0, \infty)\\ |
+| n_seed | integer | 42 |  | \\\[0, 2147483647\]\\ |
+| alpha | numeric | 1 |  | \\\[0, 1\]\\ |
+| rho | numeric | 1 |  | \\\[0, \infty)\\ |
+| tau | numeric | 0.4 |  | \\\[0, 1\]\\ |
+| density | numeric | 0.5 |  | \\\[0, 1\]\\ |
+| lambda | untyped | c(1e-04, 2) |  | \- |
+| scale_win | numeric | 0.5 |  | \\\[0, \infty)\\ |
+| scale_wres | numeric | 0.5 |  | \\\[0, \infty)\\ |
+| scale_inputs | untyped | c(-0.5, 0.5) |  | \- |
+| n_sim | integer | 100 |  | \\\[1, \infty)\\ |
 
 ## References
 
-Harvey AC (1989). *Forecasting, Structural Time Series Models and the
-Kalman Filter*. Cambridge University Press, Cambridge.
+Häußer A (2026). “Echo State Networks for Time Series Forecasting:
+Hyperparameter Sweep and Benchmarking.” 2602.03912,
+<https://arxiv.org/abs/2602.03912>.
 
 ## See also
 
@@ -112,7 +121,6 @@ Other Learner:
 [`mlr_learners_fcst.croston`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.croston.md),
 [`mlr_learners_fcst.elm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.elm.md),
 [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md),
-[`mlr_learners_fcst.esn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md),
 [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md),
 [`mlr_learners_fcst.gum`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.gum.md),
 [`mlr_learners_fcst.holt_winters`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.holt_winters.md),
@@ -128,6 +136,7 @@ Other Learner:
 [`mlr_learners_fcst.spline`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.spline.md),
 [`mlr_learners_fcst.ssarima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ssarima.md),
 [`mlr_learners_fcst.stlm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.stlm.md),
+[`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.struct_ts.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.theta.md),
 [`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tscount.md),
@@ -139,17 +148,15 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
--\>
-[`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstForecast.md)
--\> `LearnerFcstStructTS`
+-\> `LearnerFcstEsn`
 
 ## Methods
 
 ### Public methods
 
-- [`LearnerFcstStructTS$new()`](#method-LearnerFcstStructTS-initialize)
+- [`LearnerFcstEsn$new()`](#method-LearnerFcstEsn-initialize)
 
-- [`LearnerFcstStructTS$clone()`](#method-LearnerFcstStructTS-clone)
+- [`LearnerFcstEsn$clone()`](#method-LearnerFcstEsn-clone)
 
 Inherited methods
 
@@ -168,24 +175,24 @@ Inherited methods
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstStructTS$new()`
+### `LearnerFcstEsn$new()`
 
 Creates a new instance of this
 [R6](https://r6.r-lib.org/reference/R6Class.html) class.
 
 #### Usage
 
-    LearnerFcstStructTS$new()
+    LearnerFcstEsn$new()
 
 ------------------------------------------------------------------------
 
-### `LearnerFcstStructTS$clone()`
+### `LearnerFcstEsn$clone()`
 
 The objects of this class are cloneable with this method.
 
 #### Usage
 
-    LearnerFcstStructTS$clone(deep = FALSE)
+    LearnerFcstEsn$clone(deep = FALSE)
 
 #### Arguments
 
@@ -197,17 +204,18 @@ The objects of this class are cloneable with this method.
 
 ``` r
 # Define the Learner and set parameter values
-learner = lrn("fcst.struct_ts")
+learner = lrn("fcst.esn")
 print(learner)
 #> 
-#> ── <LearnerFcstStructTS> (fcst.struct_ts): Structural Time Series ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+#> ── <LearnerFcstEsn> (fcst.esn): Echo State Network ─────────────────────────────
 #> • Model: -
 #> • Parameters: list()
-#> • Packages: mlr3, mlr3forecast, and forecast
+#> • Packages: mlr3, mlr3forecast, and echos
 #> • Predict Types: [response] and quantiles
-#> • Feature Types: logical, integer, numeric, character, factor, ordered, POSIXct, and Date
+#> • Feature Types: logical, integer, numeric, character, factor, ordered,
+#> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: featureless and missings
+#> • Properties: featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
@@ -222,17 +230,12 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> 
-#> Call:
-#> StructTS(x = passengers)
-#> 
-#> Variances:
-#>   level    slope     seas  epsilon  
-#>    0.00    98.02    18.92     0.00  
-#> 
+#> ESN({38, 1, 1}, {76, 15.86})
 #> $row_ids
-#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58
-#> [59] 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96
+#>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
+#> [26] 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50
+#> [51] 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75
+#> [76] 76 77 78 79 80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95 96
 #> 
 #> $max_index
 #> [1] "1956-12-01"
@@ -250,5 +253,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 279831.3 
+#> 1119.704 
 ```

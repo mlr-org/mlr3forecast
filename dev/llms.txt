@@ -775,6 +775,9 @@ do.call(c, prediction_local)$score(msr("regr.rmse"))
 - [`mlr_learners_fcst.es`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md)
   [`LearnerFcstEs`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.es.md)
   : Exponential Smoothing Forecast Learner
+- [`mlr_learners_fcst.esn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md)
+  [`LearnerFcstEsn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md)
+  : Echo state network forecast learner
 - [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md)
   [`LearnerFcstEts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md)
   : ETS Forecast Learner
