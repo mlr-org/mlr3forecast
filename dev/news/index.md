@@ -6,87 +6,66 @@
   [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   no longer defaults to the M3 yearly dataset. Both `record_id` and
   `dataset_name` must be supplied.
-
+- feat: [`as_task()`](https://mlr3.mlr-org.com/reference/as_task.html)
+  now converts objects returned by
+  [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
+  to forecast tasks.
+- feat:
+  [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
+  now sets the `"horizon"` attribute from the Monash benchmark horizons
+  for datasets whose tsf file lacks a `@horizon` line.
+- feat: The `smooth` learners gained the `"gradient"` level of
+  `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the
+  `smoother` parameter. This raises the required `smooth` version to
+  4.5.2.
+- feat:
+  [`default_fallback()`](https://mlr3.mlr-org.com/reference/default_fallback.html)
+  support for both forecasters, enabling `resample(encapsulate =)`
+  without an explicit fallback.
+- feat: `DirectForecaster` and
+  [`direct_forecaster()`](https://mlr3forecast.mlr-org.com/dev/reference/direct_forecaster.md)
+  gained the `clone_graph` argument, matching `RecursiveForecaster`.
+- feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only
+  `$graph_model` field that exposes their wrapped graph or trained
+  graphs.
+- feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles`
+  and `$quantile_response` fields that configure every compatible
+  learner in the wrapped graph.
+- feat: New learners `fcst.dotm`, `fcst.dstm`, `fcst.otm`,
+  `fcst.stheta`, and `fcst.stm` wrap the theta methods from
+  `forecTheta`.
+- feat: New learner `fcst.esn` wraps
+  [`echos::train_esn()`](https://ahaeusser.github.io/echos/reference/train_esn.html)
+  for echo state network forecasts with response and quantile
+  prediction.
+- feat: New learner `fcst.imapa` wraps
+  [`tsintermittent::imapa()`](https://rdrr.io/pkg/tsintermittent/man/imapa.html)
+  for intermittent demand forecasting with temporal aggregation.
+- feat: New learner `fcst.snaive` provides the seasonal naive forecast
+  with the seasonal period taken from the task frequency.
 - fix: A daily `freq` now derives a seasonal period of `7` (the weekly
   cycle) instead of the non-integer `365.25`, which blocked seasonal
   models and made scaled measures return `NaN`. Pass `period` explicitly
   to keep the annual cycle. Scores and fitted models change for daily
   tasks.
-
-- feat: [`as_task()`](https://mlr3.mlr-org.com/reference/as_task.html)
-  now converts objects returned by
-  [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
-  to forecast tasks.
-
-- feat:
-  [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
-  now sets the `"horizon"` attribute from the Monash benchmark horizons
-  for datasets whose tsf file lacks a `@horizon` line.
-
-- feat: The `smooth` learners gained the `"gradient"` level of
-  `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the
-  `smoother` parameter. This raises the required `smooth` version to
-  4.5.2.
-
-- feat:
-  [`default_fallback()`](https://mlr3.mlr-org.com/reference/default_fallback.html)
-  support for both forecasters, enabling `resample(encapsulate =)`
-  without an explicit fallback.
-
-- feat: `DirectForecaster` and
-  [`direct_forecaster()`](https://mlr3forecast.mlr-org.com/dev/reference/direct_forecaster.md)
-  gained the `clone_graph` argument, matching `RecursiveForecaster`.
-
-- feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only
-  `$graph_model` field that exposes their wrapped graph or trained
-  graphs.
-
-- feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles`
-  and `$quantile_response` fields that configure every compatible
-  learner in the wrapped graph.
-
-- feat: New learners `fcst.dotm`, `fcst.dstm`, `fcst.otm`,
-  `fcst.stheta`, and `fcst.stm` wrap the theta methods from
-  `forecTheta`.
-
-- feat: New learner `fcst.esn` wraps
-  [`echos::train_esn()`](https://ahaeusser.github.io/echos/reference/train_esn.html)
-  for echo state network forecasts with response and quantile
-  prediction.
-
-- feat: New learner `fcst.imapa` wraps
-  [`tsintermittent::imapa()`](https://rdrr.io/pkg/tsintermittent/man/imapa.html)
-  for intermittent demand forecasting with temporal aggregation.
-
-- feat: New learner `fcst.snaive` provides the seasonal naive forecast
-  with the seasonal period taken from the task frequency.
-
 - fix: Missing-model errors now use their matching structured error
   class.
-
 - fix: Forecast learners now convert logical exogenous features to
   numeric values before passing them to the wrapped forecasting
   packages.
-
 - fix: Exogenous learners from `smooth` no longer advertise support for
   missing feature values.
-
 - fix: Forecaster hashes now cover the wrapped graph’s structure and the
   `horizons`.
-
 - fix: `DirectForecaster` no longer ignores predict parameters changed
   after training.
-
 - fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare
   dependencies for parameters that only affect exhaustive search or
   bootstrap prediction.
-
 - fix: `$native_model` now errors on marshaled models instead of
   returning wrong objects.
-
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
   tasks instead of creating invalid time-based splits.
-
 - perf: `RecursiveForecaster` now predicts all keys jointly per step
   instead of row by row, making keyed prediction roughly `n_keys` times
   faster.
