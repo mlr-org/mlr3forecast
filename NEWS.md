@@ -1,9 +1,6 @@
 # mlr3forecast (development version)
 
 * BREAKING CHANGE: `download_zenodo_record()` no longer defaults to the M3 yearly dataset. Both `record_id` and `dataset_name` must be supplied.
-
-* fix: A daily `freq` now derives a seasonal period of `7` (the weekly cycle) instead of the non-integer `365.25`, which blocked seasonal models and made scaled measures return `NaN`. Pass `period` explicitly to keep the annual cycle. Scores and fitted models change for daily tasks.
-
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * feat: `download_zenodo_record()` now sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
@@ -15,6 +12,7 @@
 * feat: New learner `fcst.esn` wraps `echos::train_esn()` for echo state network forecasts with response and quantile prediction.
 * feat: New learner `fcst.imapa` wraps `tsintermittent::imapa()` for intermittent demand forecasting with temporal aggregation.
 * feat: New learner `fcst.snaive` provides the seasonal naive forecast with the seasonal period taken from the task frequency.
+* fix: A daily `freq` now derives a seasonal period of `7` (the weekly cycle) instead of the non-integer `365.25`, which blocked seasonal models and made scaled measures return `NaN`. Pass `period` explicitly to keep the annual cycle. Scores and fitted models change for daily tasks.
 * fix: Missing-model errors now use their matching structured error class.
 * fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
