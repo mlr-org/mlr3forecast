@@ -171,7 +171,6 @@ download_zenodo_record = function(record_id = NULL, dataset_name = NULL, dataset
   } else {
     assert_null(record_id)
     assert_null(dataset_name)
-    # nolint next
     info = resolve_monash_dataset(dataset)
     record_id = info$record_id
     dataset_name = info$dataset_name
