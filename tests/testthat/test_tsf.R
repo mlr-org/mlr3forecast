@@ -98,7 +98,7 @@ test_that("download_monash_dataset resolves the catalog and fills the horizon", 
   local_mocked_bindings(
     download_zenodo_file = function(record_id, file) {
       expect_identical(record_id, monash_datasets[dataset == "sunspot", record_id])
-      expect_identical(file, "sunspot_dataset_without_missing_values")
+      expect_identical(file, "sunspot_dataset_without_missing_values.zip")
       dt = read_tsf(path)
       setattr(dt, "horizon", NULL)
     }

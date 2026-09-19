@@ -17,16 +17,16 @@ test_that("Monash dataset catalog resolves pinned Zenodo records", {
 
   info = resolve_monash_dataset("m3_yearly")
   expect_identical(info$record_id, 4656222L)
-  expect_identical(info$file, "m3_yearly_dataset")
+  expect_identical(info$file, "m3_yearly_dataset.zip")
   expect_false(info$has_missing)
 
   info = resolve_monash_dataset("nn5_daily_with_missing_values")
   expect_identical(info$record_id, 4656110L)
-  expect_identical(info$file, "nn5_daily_dataset_with_missing_values")
+  expect_identical(info$file, "nn5_daily_dataset_with_missing_values.zip")
   expect_true(info$has_missing)
 
   info = resolve_monash_dataset("nn5_daily")
   expect_identical(info$record_id, 4656117L)
-  expect_identical(info$file, "nn5_daily_dataset_without_missing_values")
+  expect_identical(info$file, "nn5_daily_dataset_without_missing_values.zip")
   expect_false(info$has_missing)
 })

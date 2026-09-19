@@ -171,13 +171,14 @@ download_zenodo_record = function(record_id, dataset_name) {
   .Deprecated("download_monash_dataset()", old = "download_zenodo_record()")
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
   assert_string(dataset_name, min.chars = 1L)
-  dt = download_zenodo_file(record_id, dataset_name)
-  dataset = fget_key(monash_datasets, dataset_name, "dataset", key = "file")
+  file = paste0(dataset_name, ".zip")
+  dt = download_zenodo_file(record_id, file)
+  dataset = fget_key(monash_datasets, file, "dataset", key = "file")
   if (length(dataset) == 0L) dt else set_monash_horizon(dt, dataset)
 }
 
 download_zenodo_file = function(record_id, file) {
-  url = sprintf("https://zenodo.org/record/%i/files/%s.zip", record_id, file)
+  url = sprintf("https://zenodo.org/record/%i/files/%s", record_id, file)
   td = tempfile()
   dir.create(td)
   on.exit(unlink(td, recursive = TRUE), add = TRUE)
