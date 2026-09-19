@@ -81,6 +81,7 @@ reference:
       - generate_newdata
       - partition.TaskFcst
       - read_tsf
+      - download_monash_dataset
       - download_zenodo_record
   - title: Package
     contents:

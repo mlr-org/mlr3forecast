@@ -4,56 +4,20 @@
 \alias{download_zenodo_record}
 \title{Download tsf file from Zenodo}
 \usage{
-download_zenodo_record(record_id = NULL, dataset_name = NULL, dataset = NULL)
+download_zenodo_record(record_id, dataset_name)
 }
 \arguments{
-\item{record_id}{(\code{integer(1)} | \code{NULL})\cr
-The Zenodo record ID, e.g. \code{4656222} for the M3 yearly dataset.
-Must be supplied together with \code{dataset_name} when \code{dataset} is \code{NULL}.}
+\item{record_id}{(\code{integer(1)})\cr
+The Zenodo record ID, e.g. \code{4656222} for the M3 yearly dataset.}
 
-\item{dataset_name}{(\code{character(1)} | \code{NULL})\cr
-The name of the dataset to download, e.g. \code{"m3_yearly_dataset"}.
-Must be supplied together with \code{record_id} when \code{dataset} is \code{NULL}.}
-
-\item{dataset}{(\code{character(1)} | \code{NULL})\cr
-The Monash dataset ID, e.g. \code{"m3_yearly"}.
-This argument cannot be combined with \code{record_id} or \code{dataset_name}.}
+\item{dataset_name}{(\code{character(1)})\cr
+The name of the file to download, e.g. \code{"m3_yearly_dataset"}.}
 }
 \value{
-(\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}. If the file contains a frequency or horizon, the
-\code{"frequency"} and \code{"horizon"} attributes are set, respectively. For Monash datasets whose file lacks a
-\verb{@horizon} line, the \code{"horizon"} attribute is filled from the forecast horizon used in the Monash
-benchmark experiments, if one exists for that dataset.
+(\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}, see \code{\link[=download_monash_dataset]{download_monash_dataset()}}.
 }
 \description{
-Downloads a tsf file from Zenodo using a Monash dataset ID or an explicit Zenodo record ID and dataset name.
-The catalog pins the Zenodo record for each dataset version listed at \url{https://forecastingdata.org/}.
-Dataset IDs for incomplete variants end in \code{"_with_missing_values"}.
+Deprecated, use \code{\link[=download_monash_dataset]{download_monash_dataset()}} instead.
+Downloads a tsf file from Zenodo using a Zenodo record ID and file name.
 }
-\examples{
-\dontrun{
-library(data.table)
-dt = download_zenodo_record(dataset = "m3_yearly")
-
-# optional renaming
-setnames(dt, c("id", "date", "value"))
-
-# transform into single task
-task = as_task_fcst(dt)
-
-# or split up for forecast learners that don't allow key columns
-tasks = as_tasks_fcst(split(dt, by = "id", keep.by = FALSE))
-
-# benchmark
-learners = lrns(c("fcst.auto_arima", "fcst.ets", "fcst.random_walk"))
-resampling = rsmp("fcst.holdout", ratio = 0.8)
-design = benchmark_grid(tasks, learners, resampling)
-bmr = benchmark(design)
-bmr$aggregate(msr("regr.rmse"))[, .(rmse = mean(regr.rmse)), by = learner_id]
-}
-}
-\references{
-Godahewa R, Bergmeir C, Webb GI, Hyndman RJ, Montero-Manso P (2021).
-\dQuote{Monash time series forecasting archive.}
-\emph{arXiv preprint arXiv:2105.06643}.
-}
+\keyword{internal}

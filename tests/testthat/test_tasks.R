@@ -5,7 +5,7 @@ test_that("airpassengers task", {
 
 test_that("monash task", {
   local_mocked_bindings(
-    download_zenodo_record = function(dataset) {
+    download_monash_dataset = function(dataset) {
       file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
       read_tsf(file)
     },

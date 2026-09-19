@@ -117,24 +117,17 @@ read_tsf = function(file) {
   dt[]
 }
 
-#' @title Download tsf file from Zenodo
+#' @title Download a Monash Forecasting Repository dataset
 #'
 #' @description
-#' Downloads a tsf file from Zenodo using a Monash dataset ID or an explicit Zenodo record ID and dataset name.
+#' Downloads a dataset of the Monash Forecasting Repository from Zenodo and parses it with [read_tsf()].
 #' The catalog pins the Zenodo record for each dataset version listed at \url{https://forecastingdata.org/}.
 #' Dataset IDs for incomplete variants end in `"_with_missing_values"`.
 #'
-#' @param record_id (`integer(1)` | `NULL`)\cr
-#'   The Zenodo record ID, e.g. `4656222` for the M3 yearly dataset.
-#'   Must be supplied together with `dataset_name` when `dataset` is `NULL`.
-#' @param dataset_name (`character(1)` | `NULL`)\cr
-#'   The name of the dataset to download, e.g. `"m3_yearly_dataset"`.
-#'   Must be supplied together with `record_id` when `dataset` is `NULL`.
-#' @param dataset (`character(1)` | `NULL`)\cr
+#' @param dataset (`character(1)`)\cr
 #'   The Monash dataset ID, e.g. `"m3_yearly"`.
-#'   This argument cannot be combined with `record_id` or `dataset_name`.
 #' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency or horizon, the
-#'   `"frequency"` and `"horizon"` attributes are set, respectively. For Monash datasets whose file lacks a
+#'   `"frequency"` and `"horizon"` attributes are set, respectively. For datasets whose file lacks a
 #'   `@horizon` line, the `"horizon"` attribute is filled from the forecast horizon used in the Monash
 #'   benchmark experiments, if one exists for that dataset.
 #'
@@ -145,7 +138,7 @@ read_tsf = function(file) {
 #' @examples
 #' \dontrun{
 #' library(data.table)
-#' dt = download_zenodo_record(dataset = "m3_yearly")
+#' dt = download_monash_dataset("m3_yearly")
 #'
 #' # optional renaming
 #' setnames(dt, c("id", "date", "value"))
@@ -163,35 +156,11 @@ read_tsf = function(file) {
 #' bmr = benchmark(design)
 #' bmr$aggregate(msr("regr.rmse"))[, .(rmse = mean(regr.rmse)), by = learner_id]
 #' }
-download_zenodo_record = function(record_id = NULL, dataset_name = NULL, dataset = NULL) {
-  assert_string(dataset, min.chars = 1L, null.ok = TRUE)
-  if (is.null(dataset)) {
-    record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
-    assert_string(dataset_name, min.chars = 1L)
-  } else {
-    assert_null(record_id)
-    assert_null(dataset_name)
-    info = resolve_monash_dataset(dataset)
-    record_id = info$record_id
-    dataset_name = info$dataset_name
-  }
-
-  url = sprintf("https://zenodo.org/record/%i/files/%s.zip", record_id, dataset_name)
-  td = tempfile()
-  dir.create(td)
-  on.exit(unlink(td, recursive = TRUE), add = TRUE)
-  tf = file.path(td, "tempfile.zip")
-  tryCatch(utils::download.file(url, tf, quiet = TRUE, mode = "wb"), error = function(e) {
-    stopf("Failed to download TSF file from Zenodo with id: %s and name: %s.", record_id, dataset_name)
-  })
-  files = utils::unzip(tf, exdir = td)
-  file = files[endsWith(files, ".tsf")]
-  if (length(file) != 1L) {
-    stopf("Expected exactly one TSF file in the downloaded archive, but found %i.", length(file))
-  }
-  dt = read_tsf(file)
+download_monash_dataset = function(dataset) {
+  info = resolve_monash_dataset(dataset)
+  dt = download_zenodo_file(info$record_id, info$dataset_name)
   if (is.null(attr(dt, "horizon"))) {
-    horizon = zenodo_horizon(dataset_name)
+    horizon = monash_horizon(info$dataset_name)
     if (!is.na(horizon)) {
       setattr(dt, "horizon", horizon)
     }
@@ -199,16 +168,61 @@ download_zenodo_record = function(record_id = NULL, dataset_name = NULL, dataset
   dt
 }
 
-zenodo_horizon = function(dataset_name) {
+#' @title Download tsf file from Zenodo
+#'
+#' @description
+#' Deprecated, use [download_monash_dataset()] instead.
+#' Downloads a tsf file from Zenodo using a Zenodo record ID and file name.
+#'
+#' @param record_id (`integer(1)`)\cr
+#'   The Zenodo record ID, e.g. `4656222` for the M3 yearly dataset.
+#' @param dataset_name (`character(1)`)\cr
+#'   The name of the file to download, e.g. `"m3_yearly_dataset"`.
+#' @return ([data.table::data.table()]) with class `"tsf"`, see [download_monash_dataset()].
+#'
+#' @keywords internal
+#' @export
+download_zenodo_record = function(record_id, dataset_name) {
+  warn_deprecated("download_zenodo_record()")
+  record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
+  assert_string(dataset_name, min.chars = 1L)
+  dt = download_zenodo_file(record_id, dataset_name)
+  if (is.null(attr(dt, "horizon"))) {
+    horizon = monash_horizon(dataset_name)
+    if (!is.na(horizon)) {
+      setattr(dt, "horizon", horizon)
+    }
+  }
+  dt
+}
+
+download_zenodo_file = function(record_id, file) {
+  url = sprintf("https://zenodo.org/record/%i/files/%s.zip", record_id, file)
+  td = tempfile()
+  dir.create(td)
+  on.exit(unlink(td, recursive = TRUE), add = TRUE)
+  tf = file.path(td, "tempfile.zip")
+  tryCatch(utils::download.file(url, tf, quiet = TRUE, mode = "wb"), error = function(e) {
+    stopf("Failed to download TSF file from Zenodo with id: %s and name: %s.", record_id, file)
+  })
+  files = utils::unzip(tf, exdir = td)
+  tsf = files[endsWith(files, ".tsf")]
+  if (length(tsf) != 1L) {
+    stopf("Expected exactly one TSF file in the downloaded archive, but found %i.", length(tsf))
+  }
+  read_tsf(tsf)
+}
+
+monash_horizon = function(dataset_name) {
   name = sub("_dataset(_with(out)?_missing_values)?$", "", dataset_name)
-  horizon = zenodo_horizons[name]
+  horizon = monash_horizons[name]
   if (is.na(horizon)) NA_integer_ else unname(horizon)
 }
 
 # forecast horizons used in the Monash benchmark experiments for datasets whose
 # tsf file lacks a @horizon line, see experiments/fixed_horizon.R in
 # https://github.com/rakshitha123/TSForecasting
-zenodo_horizons = c(
+monash_horizons = c(
   australian_electricity_demand = 336L,
   bitcoin = 30L,
   car_parts = 12L,
