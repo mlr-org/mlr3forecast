@@ -154,6 +154,11 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
     x[, (order) := seq_len(.N), by = cn]
   }
   key = setdiff(cn, order)
+  for (col in key) {
+    if (is.double(x[[col]]) && test_integerish(x[[col]])) {
+      set(x, j = col, value = as.integer(x[[col]]))
+    }
+  }
 
   freq = attr(x, "frequency")
   freq = if (has_order && !is.null(freq)) tsf_to_seq(freq) else NULL
