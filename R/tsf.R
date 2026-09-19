@@ -58,9 +58,9 @@ read_tsf = function(file) {
     colClasses = c(cc, "character")
   )
 
-  date_col = metadata["date", "name", on = "type"][[1L]]
+  date_col = fget_key(metadata, "date", "name", key = "type")
   has_freq = length(freq) > 0L
-  has_date = !is.na(date_col)
+  has_date = length(date_col) > 0L
 
   if (has_date && !has_freq) {
     stopf("Frequency is missing: a 'date' attribute requires a @frequency.")
@@ -172,8 +172,8 @@ download_zenodo_record = function(record_id, dataset_name) {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
   assert_string(dataset_name, min.chars = 1L)
   dt = download_zenodo_file(record_id, dataset_name)
-  dataset = monash_datasets[dataset_name, on = "dataset_name", dataset]
-  if (is.na(dataset)) dt else set_monash_horizon(dt, dataset)
+  dataset = fget_key(monash_datasets, dataset_name, "dataset", key = "dataset_name")
+  if (length(dataset) == 0L) dt else set_monash_horizon(dt, dataset)
 }
 
 download_zenodo_file = function(record_id, file) {
