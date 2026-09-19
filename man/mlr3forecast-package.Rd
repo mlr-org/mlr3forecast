@@ -10,6 +10,17 @@
 
 Extends the 'mlr3' package and ecosystem to time series forecasting. Provides forecasting tasks, learners, resampling strategies, performance measures, and 'mlr3pipelines' operators for time-series feature engineering. Machine learning regression learners can be turned into forecasters through recursive and direct multi-step strategies.
 }
+\section{Options}{
+
+\itemize{
+\item \code{mlr3forecast.cache}: Enables or disables caching of downloaded datasets.
+If set to \code{FALSE}, caching is disabled.
+If set to \code{TRUE}, the cache directory as reported by \code{\link[tools:R_user_dir]{tools::R_user_dir()}} is used.
+Alternatively, you can specify a path on the local file system here.
+Default is \code{FALSE}.
+}
+}
+
 \seealso{
 Useful links:
 \itemize{

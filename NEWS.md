@@ -4,6 +4,7 @@
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * fix: `as_task_fcst()` coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash `cif_2016` dataset can be converted.
 * feat: `download_monash_dataset()` downloads Monash Forecasting Repository datasets by dataset ID from pinned Zenodo records and sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
+* feat: `download_monash_dataset()` and `tsk("monash")` cache downloaded files if the new option `mlr3forecast.cache` is set to `TRUE` or a directory.
 * fix: `download_zenodo_record()` is deprecated in favor of `download_monash_dataset()` and warns on each call.
 * feat: `list_monash_datasets()` lists the Monash Forecasting Repository datasets available to `download_monash_dataset()` and `tsk("monash")`, including their download sizes.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.

@@ -127,6 +127,44 @@ test_that("download_zenodo_file raises the download timeout", {
   expect_identical(getOption("timeout"), 60)
 })
 
+test_that("download_zenodo_file caches when the option is set", {
+  path = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
+  calls = new.env()
+  calls$n = 0L
+  local_mocked_bindings(fetch_zenodo_file = function(record_id, file, path_out) {
+    calls$n = calls$n + 1L
+    file.copy(path, path_out)
+    path_out
+  })
+
+  withr::local_options(mlr3forecast.cache = FALSE)
+  expect_data_table(download_zenodo_file(1L, "m3.zip"))
+  expect_data_table(download_zenodo_file(1L, "m3.zip"))
+  expect_identical(calls$n, 2L)
+
+  cache = withr::local_tempdir()
+  withr::local_options(mlr3forecast.cache = cache)
+  expect_data_table(download_zenodo_file(1L, "m3.zip"))
+  expect_data_table(download_zenodo_file(1L, "m3.zip"))
+  expect_identical(calls$n, 3L)
+  expect_file_exists(file.path(cache, "1_m3.tsf"))
+})
+
+test_that("get_cache_dir resolves the option", {
+  withr::local_options(mlr3forecast.cache = FALSE)
+  expect_null(get_cache_dir())
+
+  root = withr::local_tempdir()
+  withr::local_envvar(R_USER_CACHE_DIR = root)
+  withr::local_options(mlr3forecast.cache = TRUE)
+  expect_true(startsWith(get_cache_dir(), root))
+  expect_directory_exists(get_cache_dir())
+
+  withr::local_options(mlr3forecast.cache = file.path(root, "custom"))
+  expect_identical(get_cache_dir(), file.path(root, "custom"))
+  expect_directory_exists(file.path(root, "custom"))
+})
+
 test_that("download_zenodo_record is deprecated", {
   local_mocked_bindings(download_zenodo_file = function(record_id, file) {
     read_tsf(system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast"))

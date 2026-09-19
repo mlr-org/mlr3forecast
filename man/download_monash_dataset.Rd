@@ -22,6 +22,7 @@ Downloads a dataset of the Monash Forecasting Repository from Zenodo and parses 
 The catalog pins the Zenodo record for each dataset version listed at \url{https://forecastingdata.org/}.
 The dataset ID is the name of the Zenodo file without the \code{"_dataset"} and \code{"_without_missing_values"} suffixes,
 so variants that keep missing values end in \code{"_with_missing_values"}.
+Downloaded files are cached if the option \code{mlr3forecast.cache} is set, see \link[=mlr3forecast-package]{mlr3forecast}.
 }
 \examples{
 \dontrun{

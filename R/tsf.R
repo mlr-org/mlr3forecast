@@ -113,6 +113,7 @@ read_tsf = function(file) {
 #' The catalog pins the Zenodo record for each dataset version listed at \url{https://forecastingdata.org/}.
 #' The dataset ID is the name of the Zenodo file without the `"_dataset"` and `"_without_missing_values"` suffixes,
 #' so variants that keep missing values end in `"_with_missing_values"`.
+#' Downloaded files are cached if the option `mlr3forecast.cache` is set, see [mlr3forecast][mlr3forecast-package].
 #'
 #' @param dataset (`character(1)`)\cr
 #'   The Monash dataset ID, e.g. `"m3_yearly"`.
@@ -178,11 +179,25 @@ download_zenodo_record = function(record_id, dataset_name) {
 }
 
 download_zenodo_file = function(record_id, file) {
+  cache = get_cache_dir()
+  if (is.null(cache)) {
+    path = tempfile(fileext = ".tsf")
+    on.exit(unlink(path), add = TRUE)
+    return(read_tsf(fetch_zenodo_file(record_id, file, path)))
+  }
+  path = file.path(cache, sprintf("%i_%s", record_id, sub("\\.zip$", ".tsf", file)))
+  if (!file.exists(path)) {
+    fetch_zenodo_file(record_id, file, path)
+  }
+  read_tsf(path)
+}
+
+fetch_zenodo_file = function(record_id, file, path) {
   url = sprintf("https://zenodo.org/record/%i/files/%s", record_id, file)
   td = tempfile()
   dir.create(td)
   on.exit(unlink(td, recursive = TRUE), add = TRUE)
-  tf = file.path(td, "tempfile.zip")
+  tf = file.path(td, file)
   opts = options(timeout = max(600, getOption("timeout")))
   on.exit(options(opts), add = TRUE)
   tryCatch(utils::download.file(url, tf, quiet = TRUE, mode = "wb"), error = function(e) {
@@ -193,7 +208,23 @@ download_zenodo_file = function(record_id, file) {
   if (length(tsf) != 1L) {
     stopf("Expected exactly one TSF file in the downloaded archive, but found %i.", length(tsf))
   }
-  read_tsf(tsf)
+  file.copy(tsf, path, overwrite = TRUE)
+  invisible(path)
+}
+
+get_cache_dir = function() {
+  cache = getOption("mlr3forecast.cache", FALSE)
+  if (isFALSE(cache)) {
+    return(NULL)
+  }
+  if (isTRUE(cache)) {
+    cache = R_user_dir("mlr3forecast", "cache")
+  }
+  assert_string(cache, min.chars = 1L)
+  if (!dir.exists(cache)) {
+    dir.create(cache, recursive = TRUE)
+  }
+  cache
 }
 
 set_monash_horizon = function(dt, dataset) {
