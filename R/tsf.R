@@ -149,7 +149,7 @@ read_tsf = function(file) {
 #' }
 download_monash_dataset = function(dataset) {
   info = resolve_monash_dataset(dataset)
-  dt = download_zenodo_file(info$record_id, info$dataset_name)
+  dt = download_zenodo_file(info$record_id, info$file)
   set_monash_horizon(dt, dataset)
 }
 
@@ -172,7 +172,7 @@ download_zenodo_record = function(record_id, dataset_name) {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
   assert_string(dataset_name, min.chars = 1L)
   dt = download_zenodo_file(record_id, dataset_name)
-  dataset = fget_key(monash_datasets, dataset_name, "dataset", key = "dataset_name")
+  dataset = fget_key(monash_datasets, dataset_name, "dataset", key = "file")
   if (length(dataset) == 0L) dt else set_monash_horizon(dt, dataset)
 }
 

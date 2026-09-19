@@ -9,7 +9,7 @@ list_monash_datasets()
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with one row per dataset and the columns \code{dataset} (the dataset ID),
 \code{title}, \code{has_missing} (whether the series contain missing values), \code{size} (the size of the compressed
-archive in bytes), \code{record_id} (the Zenodo record ID), and \code{dataset_name} (the name of the Zenodo file without
+archive in bytes), \code{record_id} (the Zenodo record ID), and \code{file} (the name of the Zenodo file without
 the \code{".zip"} extension).
 }
 \description{

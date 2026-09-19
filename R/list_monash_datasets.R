@@ -1,7 +1,7 @@
 # Pinned records from https://forecastingdata.org/, size is the compressed archive size in bytes
 # fmt: skip
 monash_datasets = rowwise_table(
-  ~dataset, ~record_id, ~dataset_name, ~has_missing, ~title, ~size,
+  ~dataset, ~record_id, ~file, ~has_missing, ~title, ~size,
   "m1_yearly", 4656193L, "m1_yearly_dataset", FALSE, "M1 Yearly", 13179L,
   "m1_quarterly", 4656154L, "m1_quarterly_dataset", FALSE, "M1 Quarterly", 21290L,
   "m1_monthly", 4656159L, "m1_monthly_dataset", FALSE, "M1 Monthly", 120931L,
@@ -87,7 +87,7 @@ monash_datasets = rowwise_table(
 #'
 #' @return ([data.table::data.table()]) with one row per dataset and the columns `dataset` (the dataset ID),
 #'   `title`, `has_missing` (whether the series contain missing values), `size` (the size of the compressed
-#'   archive in bytes), `record_id` (the Zenodo record ID), and `dataset_name` (the name of the Zenodo file without
+#'   archive in bytes), `record_id` (the Zenodo record ID), and `file` (the name of the Zenodo file without
 #'   the `".zip"` extension).
 #'
 #' @references
