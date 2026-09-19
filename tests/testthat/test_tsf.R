@@ -114,6 +114,19 @@ test_that("download_monash_dataset resolves the catalog and fills the horizon", 
   expect_null(attr(download_monash_dataset("m3_yearly"), "horizon"))
 })
 
+test_that("download_zenodo_file raises the download timeout", {
+  withr::local_options(timeout = 60)
+  local_mocked_bindings(
+    download.file = function(url, destfile, ...) {
+      expect_identical(getOption("timeout"), 600)
+      stopf("offline")
+    },
+    .package = "utils"
+  )
+  expect_error(download_zenodo_file(1L, "file"), "Failed to download")
+  expect_identical(getOption("timeout"), 60)
+})
+
 test_that("download_zenodo_record is deprecated", {
   local_mocked_bindings(download_zenodo_file = function(record_id, file) {
     read_tsf(system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast"))
