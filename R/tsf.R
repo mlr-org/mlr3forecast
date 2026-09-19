@@ -169,7 +169,7 @@ download_monash_dataset = function(dataset) {
 #' @keywords internal
 #' @export
 download_zenodo_record = function(record_id, dataset_name) {
-  warn_deprecated("download_zenodo_record()")
+  .Deprecated("download_monash_dataset()", old = "download_zenodo_record()")
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
   assert_string(dataset_name, min.chars = 1L)
   dt = download_zenodo_file(record_id, dataset_name)
