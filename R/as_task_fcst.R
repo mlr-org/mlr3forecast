@@ -155,7 +155,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   }
   key = setdiff(cn, order)
   for (col in key) {
-    if (is.double(x[[col]]) && test_integerish(x[[col]])) {
+    if (test_integerish(x[[col]])) {
       set(x, j = col, value = as.integer(x[[col]]))
     }
   }
