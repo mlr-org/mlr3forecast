@@ -7,9 +7,16 @@
 #' @importFrom R6 R6Class
 #' @importFrom stats as.ts
 #' @importFrom utils head tail
+#'
+#' @section Options:
+#' * `mlr3forecast.cache`: Enables or disables caching of downloaded datasets.
+#'   If set to `FALSE`, caching is disabled.
+#'   If set to `TRUE`, the cache directory as reported by [tools::R_user_dir()] is used.
+#'   Alternatively, you can specify a path on the local file system here.
+#'   Default is `FALSE`.
 "_PACKAGE"
 
-utils::globalVariables(c(".idx", ".value", ".type", ".key", "..row_id"))
+utils::globalVariables(c(".idx", ".value", ".type", ".key", "..row_id", "R_user_dir"))
 
 mlr3forecast_resamplings = new.env(parent = emptyenv())
 mlr3forecast_tasks = new.env(parent = emptyenv())
@@ -96,6 +103,7 @@ register_mlr3pipelines = function(...) {
 
 .onLoad = function(libname, pkgname) {
   backports::import(pkgname)
+  backports::import(pkgname, "R_user_dir", force = TRUE)
 
   assign("lg", lgr::get_logger("mlr3"), envir = parent.env(environment()))
   if (Sys.getenv("IN_PKGDOWN") == "true") {
