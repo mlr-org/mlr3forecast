@@ -3,7 +3,6 @@ test_that("list_monash_datasets returns a copy of the catalog", {
   expect_data_table(datasets, nrows = nrow(monash_datasets), ncols = 5L)
   expect_names(names(datasets), permutation.of = names(monash_datasets))
   expect_identical(names(datasets)[1:3], c("dataset", "title", "has_missing"))
-  expect_identical(datasets$dataset, sort(datasets$dataset, method = "radix"))
   datasets[, dataset := "x"]
   expect_false("x" %in% monash_datasets$dataset)
 })
