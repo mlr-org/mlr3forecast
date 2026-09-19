@@ -20,6 +20,7 @@ Defaults to \code{dataset}.}
 }
 \description{
 Downloads a dataset from the Monash Forecasting Repository and converts it to a forecast task.
+Datasets without timestamps, e.g. \code{"m3_other"}, get an integer \code{index} column as order and no frequency.
 }
 \section{Dictionary}{
 

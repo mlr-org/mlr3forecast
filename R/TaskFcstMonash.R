@@ -5,6 +5,7 @@
 #'
 #' @description
 #' Downloads a dataset from the Monash Forecasting Repository and converts it to a forecast task.
+#' Datasets without timestamps, e.g. `"m3_other"`, get an integer `index` column as order and no frequency.
 #'
 #' @param dataset (`character(1)`)\cr
 #'   The dataset ID, e.g. `"m3_yearly"`.
