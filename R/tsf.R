@@ -162,7 +162,7 @@ download_monash_dataset = function(dataset) {
 #' @param record_id (`integer(1)`)\cr
 #'   The Zenodo record ID, e.g. `4656222` for the M3 yearly dataset.
 #' @param dataset_name (`character(1)`)\cr
-#'   The name of the file to download, e.g. `"m3_yearly_dataset"`.
+#'   The name of the Zenodo file without the `".zip"` extension, e.g. `"m3_yearly_dataset"`.
 #' @return ([data.table::data.table()]) with class `"tsf"`, see [download_monash_dataset()].
 #'
 #' @keywords internal

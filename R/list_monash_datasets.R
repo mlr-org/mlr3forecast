@@ -87,7 +87,8 @@ monash_datasets = rowwise_table(
 #'
 #' @return ([data.table::data.table()]) with one row per dataset and the columns `dataset` (the dataset ID),
 #'   `title`, `has_missing` (whether the series contain missing values), `size` (the size of the compressed
-#'   archive in bytes), `record_id` (the Zenodo record ID), and `dataset_name` (the name of the Zenodo file).
+#'   archive in bytes), `record_id` (the Zenodo record ID), and `dataset_name` (the name of the Zenodo file without
+#'   the `".zip"` extension).
 #'
 #' @references
 #' `r format_bib("godahewa2021monash")`

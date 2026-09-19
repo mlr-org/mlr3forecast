@@ -11,7 +11,7 @@ download_zenodo_record(record_id, dataset_name)
 The Zenodo record ID, e.g. \code{4656222} for the M3 yearly dataset.}
 
 \item{dataset_name}{(\code{character(1)})\cr
-The name of the file to download, e.g. \code{"m3_yearly_dataset"}.}
+The name of the Zenodo file without the \code{".zip"} extension, e.g. \code{"m3_yearly_dataset"}.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}, see \code{\link[=download_monash_dataset]{download_monash_dataset()}}.
