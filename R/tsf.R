@@ -182,9 +182,8 @@ download_zenodo_file = function(record_id, file) {
   dir.create(td)
   on.exit(unlink(td, recursive = TRUE), add = TRUE)
   tf = file.path(td, "tempfile.zip")
-  # the default timeout of 60 seconds is too short for archives of 50 MB or more, see ?utils::download.file
-  old = options(timeout = max(600, getOption("timeout")))
-  on.exit(options(old), add = TRUE)
+  opts = options(timeout = max(600, getOption("timeout")))
+  on.exit(options(opts), add = TRUE)
   tryCatch(utils::download.file(url, tf, quiet = TRUE, mode = "wb"), error = function(e) {
     stopf("Failed to download TSF file from Zenodo with id: %s and name: %s.", record_id, file)
   })
