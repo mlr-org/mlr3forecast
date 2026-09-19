@@ -15,6 +15,8 @@ test_that("monash task", {
   task = tsk("monash", dataset = "m3_yearly")
   expect_task(task)
   expect_identical(task$id, "m3_yearly")
+  expect_identical(task$label, "M3 Yearly")
+  expect_identical(task$man, "mlr3forecast::mlr_tasks_monash")
   expect_identical(tsk("monash", dataset = "m3_yearly", id = "custom")$id, "custom")
   expect_error(tsk("monash", dataset = "bitcoin_with_missing_values"), class = "Mlr3ErrorInput")
   expect_error(tsk("monash"), class = "missingDefaultError")

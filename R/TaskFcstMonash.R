@@ -32,7 +32,8 @@ NULL
 
 load_task_monash = function(dataset = NULL, id = dataset) {
   if (is.null(dataset)) {
-    stop(errorCondition("Argument 'dataset' must be provided.", class = "missingDefaultError")) # nolint
+    # nolint next
+    stop(errorCondition("Argument 'dataset' must be provided.", class = "missingDefaultError"))
   }
   info = resolve_monash_dataset(dataset)
   assert_string(id, min.chars = 1L)
@@ -43,7 +44,9 @@ load_task_monash = function(dataset = NULL, id = dataset) {
     )
   }
 
-  as_task_fcst(download_monash_dataset(dataset), id = id)
+  task = as_task_fcst(download_monash_dataset(dataset), id = id, label = info$title)
+  task$man = "mlr3forecast::mlr_tasks_monash"
+  task
 }
 
 #' @include monash_datasets.R zzz.R

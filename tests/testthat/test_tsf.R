@@ -94,8 +94,9 @@ test_that("read_tsf works", {
 })
 
 test_that("Monash dataset catalog resolves pinned Zenodo records", {
-  expect_data_table(monash_datasets, nrows = 59L, ncols = 4L)
+  expect_data_table(monash_datasets, nrows = 59L, ncols = 5L)
   expect_identical(anyDuplicated(monash_datasets$dataset), 0L)
+  expect_identical(anyDuplicated(monash_datasets$title), 0L)
   expect_identical(anyDuplicated(monash_datasets$record_id), 0L)
   expect_identical(anyDuplicated(monash_datasets$dataset_name), 0L)
 
