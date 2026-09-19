@@ -67,5 +67,5 @@ monash_datasets = rowwise_table(
 
 resolve_monash_dataset = function(dataset) {
   assert_choice(dataset, monash_datasets$dataset)
-  as.list(monash_datasets[dataset, on = "dataset"])
+  monash_datasets[dataset, on = "dataset"]
 }
