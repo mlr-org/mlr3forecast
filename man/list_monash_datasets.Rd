@@ -18,7 +18,7 @@ Datasets with \code{has_missing = FALSE} can also be loaded as a forecast task w
 \examples{
 datasets = list_monash_datasets()
 head(datasets)
-datasets[has_missing == FALSE, dataset]
+datasets[(!has_missing), dataset]
 }
 \references{
 Godahewa R, Bergmeir C, Webb GI, Hyndman RJ, Montero-Manso P (2021).
