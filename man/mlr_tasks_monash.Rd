@@ -10,6 +10,7 @@
 \item{dataset}{(\code{character(1)})\cr
 The dataset ID, e.g. \code{"m3_yearly"}.
 The ID is the name of the Zenodo file without the \code{"_dataset"} and \code{"_without_missing_values"} suffixes.
+See \code{\link[=list_monash_datasets]{list_monash_datasets()}} for the available IDs.
 Variants whose IDs end in \code{"_with_missing_values"} cannot be converted to a forecast task and can only be
 retrieved with \code{\link[=download_monash_dataset]{download_monash_dataset()}}.}
 

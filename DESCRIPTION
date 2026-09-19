@@ -153,7 +153,7 @@ Collate:
     'TaskFcstElectricity.R'
     'TaskFcstLivestock.R'
     'TaskFcstLynx.R'
-    'monash_datasets.R'
+    'list_monash_datasets.R'
     'TaskFcstMonash.R'
     'TaskFcstUsaccdeaths.R'
     'as_task_fcst.R'

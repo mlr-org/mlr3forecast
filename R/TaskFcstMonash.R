@@ -9,6 +9,7 @@
 #' @param dataset (`character(1)`)\cr
 #'   The dataset ID, e.g. `"m3_yearly"`.
 #'   The ID is the name of the Zenodo file without the `"_dataset"` and `"_without_missing_values"` suffixes.
+#'   See [list_monash_datasets()] for the available IDs.
 #'   Variants whose IDs end in `"_with_missing_values"` cannot be converted to a forecast task and can only be
 #'   retrieved with [download_monash_dataset()].
 #' @param id (`character(1)`)\cr
@@ -49,5 +50,5 @@ load_task_monash = function(dataset = NULL, id = dataset) {
   task
 }
 
-#' @include monash_datasets.R zzz.R
+#' @include list_monash_datasets.R zzz.R
 register_task("monash", load_task_monash)

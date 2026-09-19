@@ -11,7 +11,7 @@
 #' @references
 #' `r format_bib("godahewa2021monash")`
 #'
-#' @include monash_datasets.R
+#' @include list_monash_datasets.R
 #' @export
 #' @examples
 #' file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
@@ -127,6 +127,7 @@ read_tsf = function(file) {
 #'
 #' @param dataset (`character(1)`)\cr
 #'   The Monash dataset ID, e.g. `"m3_yearly"`.
+#'   See [list_monash_datasets()] for the available IDs.
 #' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency or horizon, the
 #'   `"frequency"` and `"horizon"` attributes are set, respectively. For datasets whose file lacks a
 #'   `@horizon` line, the `"horizon"` attribute is filled from the forecast horizon used in the Monash

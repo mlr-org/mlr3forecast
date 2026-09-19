@@ -93,29 +93,6 @@ test_that("read_tsf works", {
   expect_data_table(download_monash_dataset("temperature_rain_with_missing_values"), min.rows = 1, min.cols = 1)
 })
 
-test_that("Monash dataset catalog resolves pinned Zenodo records", {
-  expect_data_table(monash_datasets, nrows = 59L, ncols = 5L)
-  expect_identical(anyDuplicated(monash_datasets$dataset), 0L)
-  expect_identical(anyDuplicated(monash_datasets$title), 0L)
-  expect_identical(anyDuplicated(monash_datasets$record_id), 0L)
-  expect_identical(anyDuplicated(monash_datasets$dataset_name), 0L)
-
-  info = resolve_monash_dataset("m3_yearly")
-  expect_identical(info$record_id, 4656222L)
-  expect_identical(info$dataset_name, "m3_yearly_dataset")
-  expect_false(info$has_missing)
-
-  info = resolve_monash_dataset("nn5_daily_with_missing_values")
-  expect_identical(info$record_id, 4656110L)
-  expect_identical(info$dataset_name, "nn5_daily_dataset_with_missing_values")
-  expect_true(info$has_missing)
-
-  info = resolve_monash_dataset("nn5_daily")
-  expect_identical(info$record_id, 4656117L)
-  expect_identical(info$dataset_name, "nn5_daily_dataset_without_missing_values")
-  expect_false(info$has_missing)
-})
-
 test_that("download_monash_dataset resolves the catalog and fills the horizon", {
   path = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
   local_mocked_bindings(

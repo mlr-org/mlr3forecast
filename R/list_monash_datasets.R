@@ -76,6 +76,29 @@ monash_datasets = rowwise_table(
   "wind_4_seconds", 4656032L, "wind_4_seconds_dataset", FALSE, "Wind Power 4 Seconds"
 )
 
+#' @title List Monash Forecasting Repository datasets
+#'
+#' @description
+#' Lists the datasets of the Monash Forecasting Repository that [download_monash_dataset()] can retrieve.
+#' Datasets with `has_missing = FALSE` can also be loaded as a forecast task with `tsk("monash", dataset = )`.
+#'
+#' @return ([data.table::data.table()]) with one row per dataset and the columns `dataset` (the dataset ID),
+#'   `title`, `has_missing` (whether the series contain missing values), `record_id` (the Zenodo record ID),
+#'   and `dataset_name` (the name of the Zenodo file).
+#'
+#' @references
+#' `r format_bib("godahewa2021monash")`
+#'
+#' @export
+#' @examples
+#' datasets = list_monash_datasets()
+#' head(datasets)
+#' datasets[has_missing == FALSE, dataset]
+list_monash_datasets = function() {
+  out = copy(monash_datasets)
+  setcolorder(out, c("dataset", "title", "has_missing"))[]
+}
+
 resolve_monash_dataset = function(dataset) {
   assert_choice(dataset, monash_datasets$dataset)
   monash_datasets[dataset, on = "dataset"]
