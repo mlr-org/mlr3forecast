@@ -94,7 +94,7 @@ test_that("read_tsf works", {
 })
 
 test_that("Monash dataset catalog resolves pinned Zenodo records", {
-  expect_data_table(monash_datasets, nrows = 58L, ncols = 4L)
+  expect_data_table(monash_datasets, nrows = 59L, ncols = 4L)
   expect_identical(anyDuplicated(monash_datasets$dataset), 0L)
   expect_identical(anyDuplicated(monash_datasets$record_id), 0L)
   expect_identical(anyDuplicated(monash_datasets$dataset_name), 0L)
@@ -142,13 +142,11 @@ test_that("download_zenodo_record is deprecated", {
   expect_warning(download_zenodo_record(4656222, "m3_yearly_dataset"), class = "Mlr3WarningDeprecated")
 })
 
-test_that("monash_horizon looks up Monash horizons for files without @horizon", {
-  expect_identical(monash_horizon("sunspot_dataset_without_missing_values"), 30L)
-  expect_identical(monash_horizon("kdd_cup_2018_dataset_with_missing_values"), 168L)
-  expect_identical(monash_horizon("pedestrian_counts_dataset"), 24L)
-  expect_identical(monash_horizon("solar_10_minutes_dataset"), 1008L)
-  expect_identical(monash_horizon("m3_yearly_dataset"), NA_integer_)
-  expect_identical(monash_horizon("dominick_dataset"), 8L)
-  expect_identical(monash_horizon("weather_dataset"), 30L)
-  expect_identical(monash_horizon("elecdemand_dataset"), NA_integer_)
+test_that("set_monash_horizon fills benchmark horizons by dataset ID", {
+  expect_subset(names(monash_horizons), monash_datasets$dataset)
+  horizon = function(dataset, dt = data.table(value = 1)) attr(set_monash_horizon(dt, dataset), "horizon")
+  expect_identical(horizon("sunspot"), 30L)
+  expect_identical(horizon("kdd_cup_2018_with_missing_values"), 168L)
+  expect_null(horizon("m3_yearly"))
+  expect_identical(horizon("sunspot", setattr(data.table(value = 1), "horizon", 6L)), 6L)
 })

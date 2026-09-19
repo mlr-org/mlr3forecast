@@ -122,7 +122,8 @@ read_tsf = function(file) {
 #' @description
 #' Downloads a dataset of the Monash Forecasting Repository from Zenodo and parses it with [read_tsf()].
 #' The catalog pins the Zenodo record for each dataset version listed at \url{https://forecastingdata.org/}.
-#' Dataset IDs for incomplete variants end in `"_with_missing_values"`.
+#' The dataset ID is the name of the Zenodo file without the `"_dataset"` and `"_without_missing_values"` suffixes,
+#' so variants that keep missing values end in `"_with_missing_values"`.
 #'
 #' @param dataset (`character(1)`)\cr
 #'   The Monash dataset ID, e.g. `"m3_yearly"`.
@@ -159,13 +160,7 @@ read_tsf = function(file) {
 download_monash_dataset = function(dataset) {
   info = resolve_monash_dataset(dataset)
   dt = download_zenodo_file(info$record_id, info$dataset_name)
-  if (is.null(attr(dt, "horizon"))) {
-    horizon = monash_horizon(info$dataset_name)
-    if (!is.na(horizon)) {
-      setattr(dt, "horizon", horizon)
-    }
-  }
-  dt
+  set_monash_horizon(dt, dataset)
 }
 
 #' @title Download tsf file from Zenodo
@@ -187,13 +182,8 @@ download_zenodo_record = function(record_id, dataset_name) {
   record_id = assert_count(record_id, positive = TRUE, coerce = TRUE)
   assert_string(dataset_name, min.chars = 1L)
   dt = download_zenodo_file(record_id, dataset_name)
-  if (is.null(attr(dt, "horizon"))) {
-    horizon = monash_horizon(dataset_name)
-    if (!is.na(horizon)) {
-      setattr(dt, "horizon", horizon)
-    }
-  }
-  dt
+  dataset = monash_datasets[dataset_name, on = "dataset_name", dataset]
+  if (is.na(dataset)) dt else set_monash_horizon(dt, dataset)
 }
 
 download_zenodo_file = function(record_id, file) {
@@ -213,14 +203,18 @@ download_zenodo_file = function(record_id, file) {
   read_tsf(tsf)
 }
 
-monash_horizon = function(dataset_name) {
-  name = sub("_dataset(_with(out)?_missing_values)?$", "", dataset_name)
-  horizon = monash_horizons[name]
-  if (is.na(horizon)) NA_integer_ else unname(horizon)
+set_monash_horizon = function(dt, dataset) {
+  if (is.null(attr(dt, "horizon"))) {
+    horizon = monash_horizons[sub("_with_missing_values$", "", dataset)]
+    if (!is.na(horizon)) {
+      setattr(dt, "horizon", unname(horizon))
+    }
+  }
+  dt
 }
 
 # forecast horizons used in the Monash benchmark experiments for datasets whose
-# tsf file lacks a @horizon line, see experiments/fixed_horizon.R in
+# tsf file lacks a @horizon line, keyed by dataset ID, see experiments/fixed_horizon.R in
 # https://github.com/rakshitha123/TSForecasting
 monash_horizons = c(
   australian_electricity_demand = 336L,

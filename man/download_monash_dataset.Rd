@@ -19,7 +19,8 @@ benchmark experiments, if one exists for that dataset.
 \description{
 Downloads a dataset of the Monash Forecasting Repository from Zenodo and parses it with \code{\link[=read_tsf]{read_tsf()}}.
 The catalog pins the Zenodo record for each dataset version listed at \url{https://forecastingdata.org/}.
-Dataset IDs for incomplete variants end in \code{"_with_missing_values"}.
+The dataset ID is the name of the Zenodo file without the \code{"_dataset"} and \code{"_without_missing_values"} suffixes,
+so variants that keep missing values end in \code{"_with_missing_values"}.
 }
 \examples{
 \dontrun{

@@ -9,7 +9,7 @@
 \arguments{
 \item{dataset}{(\code{character(1)})\cr
 The dataset ID, e.g. \code{"m3_yearly"}.
-The IDs follow the names used by the Monash Forecasting Repository.
+The ID is the name of the Zenodo file without the \code{"_dataset"} and \code{"_without_missing_values"} suffixes.
 Variants whose IDs end in \code{"_with_missing_values"} cannot be converted to a forecast task and can only be
 retrieved with \code{\link[=download_monash_dataset]{download_monash_dataset()}}.}
 
