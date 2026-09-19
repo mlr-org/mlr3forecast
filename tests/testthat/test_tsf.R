@@ -107,7 +107,8 @@ test_that("download_monash_dataset resolves the catalog and fills the horizon", 
   dt = download_monash_dataset("sunspot")
   expect_data_table(dt, min.rows = 1L)
   expect_identical(attr(dt, "horizon"), 30L)
-  expect_error(download_monash_dataset("unknown"), "Must be element of set")
+  expect_error(download_monash_dataset("unknown"), class = "Mlr3ErrorInput")
+  expect_error(download_monash_dataset("m3yearly"), "Did you mean 'm3_yearly'", class = "Mlr3ErrorInput")
 
   local_mocked_bindings(download_zenodo_file = function(record_id, file) setattr(read_tsf(path), "horizon", NULL))
   expect_null(attr(download_monash_dataset("m3_yearly"), "horizon"))

@@ -100,6 +100,13 @@ list_monash_datasets = function() {
 }
 
 resolve_monash_dataset = function(dataset) {
-  assert_choice(dataset, monash_datasets$dataset)
+  assert_string(dataset, min.chars = 1L)
+  if (dataset %nin% monash_datasets$dataset) {
+    error_input(
+      "Unknown Monash dataset '%s'.%s See list_monash_datasets() for the available IDs.",
+      dataset,
+      did_you_mean(dataset, monash_datasets$dataset)
+    )
+  }
   monash_datasets[dataset, on = "dataset"]
 }
