@@ -14,8 +14,6 @@
 #' @param id (`character(1)`)\cr
 #'   The task ID.
 #'   Defaults to `dataset`.
-#' @param ... (any)\cr
-#'   Additional arguments passed to [as_task_fcst()].
 #'
 #' @section Dictionary:
 #' This task can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_tasks][mlr3::mlr_tasks]
@@ -32,7 +30,7 @@
 #' @family Task
 NULL
 
-load_task_monash = function(dataset = NULL, id = dataset, ...) {
+load_task_monash = function(dataset = NULL, id = dataset) {
   if (is.null(dataset)) {
     stop(errorCondition("Argument 'dataset' must be provided.", class = "missingDefaultError")) # nolint
   }
@@ -45,7 +43,7 @@ load_task_monash = function(dataset = NULL, id = dataset, ...) {
     )
   }
 
-  as_task_fcst(download_zenodo_record(dataset = dataset), id = id, ...)
+  as_task_fcst(download_zenodo_record(dataset = dataset), id = id)
 }
 
 #' @include monash_datasets.R zzz.R

@@ -16,9 +16,6 @@ retrieved with \code{\link[=download_zenodo_record]{download_zenodo_record()}}.}
 \item{id}{(\code{character(1)})\cr
 The task ID.
 Defaults to \code{dataset}.}
-
-\item{...}{(any)\cr
-Additional arguments passed to \code{\link[=as_task_fcst]{as_task_fcst()}}.}
 }
 \description{
 Downloads a dataset from the Monash Forecasting Repository and converts it to a forecast task.
