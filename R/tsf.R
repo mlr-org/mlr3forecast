@@ -44,16 +44,6 @@ read_tsf = function(file) {
     skip = skip + 1L
   }
 
-  cat_cli({
-    cli::cli_text("Reading tsf file:")
-    if (length(freq) > 0L) {
-      cli::cli_li("frequency: {freq}")
-    }
-    if (length(horizon) > 0L) {
-      cli::cli_li("horizon: {horizon}")
-    }
-  })
-
   metadata = setDT(tstrsplit(metadata, " ", fixed = TRUE, keep = c(2L, 3L)))
   setnames(metadata, c("name", "type"))
   cn = metadata$name
