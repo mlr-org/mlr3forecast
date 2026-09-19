@@ -119,6 +119,13 @@ test_that("download_zenodo_record is deprecated", {
   })
   expect_warning(download_zenodo_record(4656222, "m3_yearly_dataset"), class = "deprecatedWarning")
   expect_warning(download_zenodo_record(4656222, "m3_yearly_dataset"), "download_monash_dataset")
+
+  local_mocked_bindings(download_zenodo_file = function(record_id, file) {
+    setattr(read_tsf(system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")), "horizon", NULL)
+  })
+  dt = suppressWarnings(download_zenodo_record(4654722, "sunspot_dataset_without_missing_values"))
+  expect_identical(attr(dt, "horizon"), 30L)
+  expect_null(attr(suppressWarnings(download_zenodo_record(1, "other_file")), "horizon"))
 })
 
 test_that("set_monash_horizon fills benchmark horizons by dataset ID", {
