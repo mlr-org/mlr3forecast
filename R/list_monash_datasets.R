@@ -99,7 +99,7 @@ monash_datasets = rowwise_table(
 #' head(datasets)
 #' datasets[(!has_missing), dataset]
 list_monash_datasets = function() {
-  setcolorder(copy(monash_datasets), c("dataset", "title", "has_missing", "size"))[]
+  monash_datasets[, c("dataset", "title", "has_missing", "size", "record_id", "file")]
 }
 
 resolve_monash_dataset = function(dataset) {
