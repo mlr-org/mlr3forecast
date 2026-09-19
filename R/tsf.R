@@ -116,7 +116,7 @@ read_tsf = function(file) {
 #'
 #' @param dataset (`character(1)`)\cr
 #'   The Monash dataset ID, e.g. `"m3_yearly"`.
-#'   See [list_monash_datasets()] for the available IDs.
+#'   See [list_monash_datasets()] for the available IDs and their download sizes.
 #' @return ([data.table::data.table()]) with class `"tsf"`. If the file contains a frequency or horizon, the
 #'   `"frequency"` and `"horizon"` attributes are set, respectively. For datasets whose file lacks a
 #'   `@horizon` line, the `"horizon"` attribute is filled from the forecast horizon used in the Monash

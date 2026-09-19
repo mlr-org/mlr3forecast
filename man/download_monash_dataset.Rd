@@ -9,7 +9,7 @@ download_monash_dataset(dataset)
 \arguments{
 \item{dataset}{(\code{character(1)})\cr
 The Monash dataset ID, e.g. \code{"m3_yearly"}.
-See \code{\link[=list_monash_datasets]{list_monash_datasets()}} for the available IDs.}
+See \code{\link[=list_monash_datasets]{list_monash_datasets()}} for the available IDs and their download sizes.}
 }
 \value{
 (\code{\link[data.table:data.table]{data.table::data.table()}}) with class \code{"tsf"}. If the file contains a frequency or horizon, the

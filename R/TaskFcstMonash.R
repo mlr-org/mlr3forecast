@@ -9,7 +9,7 @@
 #' @param dataset (`character(1)`)\cr
 #'   The dataset ID, e.g. `"m3_yearly"`.
 #'   The ID is the name of the Zenodo file without the `"_dataset"` and `"_without_missing_values"` suffixes.
-#'   See [list_monash_datasets()] for the available IDs.
+#'   See [list_monash_datasets()] for the available IDs and their download sizes.
 #'   Variants whose IDs end in `"_with_missing_values"` cannot be converted to a forecast task and can only be
 #'   retrieved with [download_monash_dataset()].
 #' @param id (`character(1)`)\cr

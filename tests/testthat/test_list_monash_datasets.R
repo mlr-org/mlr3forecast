@@ -1,14 +1,15 @@
 test_that("list_monash_datasets returns a copy of the catalog", {
   datasets = list_monash_datasets()
-  expect_data_table(datasets, nrows = nrow(monash_datasets), ncols = 5L)
+  expect_data_table(datasets, nrows = nrow(monash_datasets), ncols = 6L)
   expect_names(names(datasets), permutation.of = names(monash_datasets))
-  expect_identical(names(datasets)[1:3], c("dataset", "title", "has_missing"))
+  expect_identical(names(datasets)[1:4], c("dataset", "title", "has_missing", "size"))
   datasets[, dataset := "x"]
   expect_false("x" %in% monash_datasets$dataset)
 })
 
 test_that("Monash dataset catalog resolves pinned Zenodo records", {
-  expect_data_table(monash_datasets, ncols = 5L)
+  expect_data_table(monash_datasets, ncols = 6L)
+  expect_integer(monash_datasets$size, lower = 1L, any.missing = FALSE)
   expect_identical(anyDuplicated(monash_datasets$dataset), 0L)
   expect_identical(anyDuplicated(monash_datasets$title), 0L)
   expect_identical(anyDuplicated(monash_datasets$record_id), 0L)
