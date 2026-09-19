@@ -20,7 +20,8 @@ test_that("monash task", {
   expect_identical(tsk("monash", dataset = "m3_yearly", id = "custom")$id, "custom")
   expect_error(tsk("monash", dataset = "bitcoin_with_missing_values"), class = "Mlr3ErrorInput")
   expect_error(tsk("monash"), class = "missingDefaultError")
-  expect_true("monash" %in% as.data.table(mlr_tasks)$key)
+  expect_true("monash" %in% mlr_tasks$keys())
+  expect_null(tryCatch(mlr_tasks$get("monash"), missingDefaultError = function(e) NULL))
 })
 
 test_that("usaccdeaths task", {
