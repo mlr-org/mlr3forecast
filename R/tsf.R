@@ -11,7 +11,6 @@
 #' @references
 #' `r format_bib("godahewa2021monash")`
 #'
-#' @include list_monash_datasets.R
 #' @export
 #' @examples
 #' file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")

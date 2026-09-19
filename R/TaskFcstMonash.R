@@ -28,7 +28,6 @@
 #' `r format_bib("godahewa2021monash")`
 #'
 #' @template seealso_task
-#' @family Task
 NULL
 
 load_task_monash = function(dataset = NULL, id = dataset) {
@@ -50,5 +49,5 @@ load_task_monash = function(dataset = NULL, id = dataset) {
   task
 }
 
-#' @include list_monash_datasets.R zzz.R
+#' @include zzz.R
 register_task("monash", load_task_monash)
