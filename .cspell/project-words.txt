@@ -3,6 +3,7 @@ Assimakopoulos
 CRAN
 ESN
 Fiorucci
+Hinnant
 Häußer
 arfima
 autoregressive

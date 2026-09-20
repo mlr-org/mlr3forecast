@@ -59,6 +59,16 @@ calendar_months = function(freq) {
   if (is.na(per) || is.na(n)) NA_integer_ else n * per
 }
 
+# days since 1970-01-01 without strptime (Hinnant's days_from_civil)
+days_from_civil = function(year, month, day) {
+  year = year - (month <= 2L)
+  era = year %/% 400L
+  yoe = year - era * 400L
+  doy = (153L * ((month + 9L) %% 12L) + 2L) %/% 5L + day - 1L
+  doe = yoe * 365L + yoe %/% 4L - yoe %/% 100L + doy
+  era * 146097L + doe - 719468L
+}
+
 seq_order = function(origin, freq, n) {
   m = calendar_months(freq)
   if (is.na(m)) {
@@ -68,13 +78,14 @@ seq_order = function(origin, freq, n) {
   k = (lt$year + 1900L) * 12L + lt$mon + m * seq_len(n)
   yr = k %/% 12L
   mo = k %% 12L + 1L
-  eom = mday(as.Date(ISOdate(yr + mo %/% 12L, mo %% 12L + 1L, 1L)) - 1L)
+  first = days_from_civil(yr, mo, 1L)
+  eom = days_from_civil(yr + mo %/% 12L, mo %% 12L + 1L, 1L) - first
   day = pmin(lt$mday, eom)
   if (inherits(origin, "POSIXct")) {
     tz = attr(origin, "tzone") %??% ""
     ISOdatetime(yr, mo, day, lt$hour, lt$min, lt$sec, tz = tz)
   } else {
-    as.Date(ISOdate(yr, mo, day))
+    structure(as.double(first + day - 1L), class = "Date")
   }
 }
 

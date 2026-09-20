@@ -149,6 +149,14 @@ test_that("seq_order clamps days 29-31 instead of overflowing", {
   expect_true(all(month(out) == c(2:12, 1L)))
 })
 
+test_that("days_from_civil matches ISOdate", {
+  grid = CJ(year = c(1900L, 1970L, 1999L, 2000L, 2024L, 2100L), month = 1:12, day = c(1L, 15L, 28L))
+  expect_identical(
+    days_from_civil(grid$year, grid$month, grid$day),
+    as.integer(as.Date(ISOdate(grid$year, grid$month, grid$day)))
+  )
+})
+
 test_that("seq_order handles quarter and year and passes other freqs to seq.Date", {
   expect_identical(
     seq_order(as.Date("2020-12-31"), "quarter", 3L),
