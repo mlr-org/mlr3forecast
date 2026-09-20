@@ -31,6 +31,14 @@ test_that("arima generator handles differencing and integer index", {
 test_that("arima generator supports sub-daily frequencies", {
   task = tgen("arima", freq = "hour", start = as.Date("2020-01-01"))$generate(5L)
   expect_posixct(task$data(cols = "date")[[1L]], len = 5L)
+  task = tgen("arima", freq = "DSTday", start = as.Date("2020-01-01"))$generate(5L)
+  expect_posixct(task$data(cols = "date")[[1L]], len = 5L)
+})
+
+test_that("arima generator builds a regular grid from a month-end start", {
+  task = tgen("arima", start = as.Date("2000-01-31"))$generate(4L)
+  expect_identical(task$data(cols = "date")[[1L]], as.Date(c("2000-01-31", "2000-02-29", "2000-03-31", "2000-04-30")))
+  expect_data_table(generate_newdata(task, 2L), nrows = 2L)
 })
 
 test_that("arima generator is reproducible", {

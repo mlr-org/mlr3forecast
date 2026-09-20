@@ -84,10 +84,10 @@ as_numeric_matrix = function(x) {
 # assembles the task of a forecast task generator from `k` simulated series of length `n`, stacked series-major in `y`
 make_generated_task = function(id, y, n, k, freq, start) {
   if (is.character(freq)) {
-    if (inherits(start, "Date") && grepl("sec|min|hour", freq)) {
+    if (inherits(start, "Date") && grepl("sec|min|hour|DSTday", freq)) {
       start = as.POSIXct(start)
     }
-    order = seq(start, by = freq, length.out = n)
+    order = c(start, seq_order(start, freq, n - 1L))
     order_col = "date"
   } else {
     order = seq_len(n)

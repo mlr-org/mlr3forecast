@@ -4,19 +4,13 @@
 #' @include zzz.R
 #'
 #' @description
-#' A [TaskGenerator][mlr3::TaskGenerator] that simulates series from an ARIMA process via [stats::arima.sim()].
-#' The autoregressive and moving average coefficients are given by `ar` and `ma`, the order of differencing by `d`,
-#' and the standard deviation of the Gaussian innovations by `sd`.
-#' The generated [TaskFcst] has the target `y` and a regular time index built from `start` and `freq`.
-#' A calendar `freq` such as `"month"` yields a `date` column, whereas a numeric `freq` yields an integer `index`
-#' column with `freq` as the seasonal period.
-#' With `k > 1`, `k` independent realizations of the process are stacked into a keyed panel with the key column
-#' `series`, so that `n` is the length of each series and the task has `n * k` rows.
-#' The parameters are initialized to an AR(1) process with `ar = 0.7`, `d = 0`, `ma = numeric()`, `sd = 1`, `k = 1`,
-#' `freq = "month"`, and `start = as.Date("2000-01-01")`.
+#' A [TaskGenerator][mlr3::TaskGenerator] that simulates series from an ARIMA process via [stats::arima.sim()],
+#' with autoregressive coefficients `ar`, moving average coefficients `ma`, differencing order `d`,
+#' and innovation standard deviation `sd`.
 #'
 #' @templateVar id arima
 #' @template task_generator
+#' @template task_generator_fcst
 #'
 #' @template seealso_task_generator
 #' @export
@@ -25,7 +19,7 @@
 #' task = generator$generate(60)
 #' task$head()
 #'
-#' # random walk with drift-free innovations, 3 series
+#' # random walk, 3 series
 #' generator = tgen("arima", ar = numeric(), d = 1L, k = 3L)
 #' task = generator$generate(24)
 #' task

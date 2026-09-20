@@ -29,7 +29,8 @@ test_that("seasonal generator scales multiplicative seasonality with the trend",
   y = tgen("seasonal", sd = 0, type = "multiplicative", trend = 100)$generate(12L)$truth()
   base = 100 + 100 * 1:12
   expect_equal(y, base * (1 + 10 * sin(2 * pi * 1:12 / 12) / 100))
-  expect_error(tgen("seasonal", type = "multiplicative", level = 0)$generate(12L), "positive 'level'")
+  expect_error(tgen("seasonal", type = "multiplicative", level = 0)$generate(12L), "positive trend level")
+  expect_error(tgen("seasonal", type = "multiplicative", trend = -10)$generate(12L), "positive trend level")
 })
 
 test_that("seasonal generator builds keyed panels", {
@@ -37,7 +38,7 @@ test_that("seasonal generator builds keyed panels", {
   expect_identical(task$nrow, 28L)
   expect_identical(task$col_roles$key, "series")
   expect_identical(task$data(cols = "series")[, .N, by = "series"]$N, rep(14L, 2L))
-  expect_identical(task$data(cols = "date")[1:14][[1L]], seq(as.Date("2000-01-01"), by = "day", length.out = 14L))
+  expect_equal(task$data(cols = "date")[1:14][[1L]], seq(as.Date("2000-01-01"), by = "day", length.out = 14L))
 })
 
 test_that("seasonal generator is reproducible", {

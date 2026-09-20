@@ -5,23 +5,13 @@
 \alias{TaskGeneratorSeasonal}
 \title{Trend and Seasonality Forecast Task Generator}
 \description{
-A \link[mlr3:TaskGenerator]{TaskGenerator} for series composed of a linear trend, a sinusoidal seasonal pattern,
-and Gaussian noise.
-At time step \verb{t = 1, ..., n}, the trend is \code{level + trend * t}, the seasonal component is
-\code{amplitude * sin(2 * pi * t / period)}, and the noise has standard deviation \code{sd}.
-For \code{type = "additive"}, the seasonal component and the noise are added to the trend.
-For \code{type = "multiplicative"}, both are scaled by the ratio of the trend to \code{level}, so the seasonal swings and
-the noise grow proportionally with the trend, as in the classic airline passengers data.
-In both cases, \code{amplitude} and \code{sd} are on the scale of the target at the start of the series.
-The multiplicative type requires a positive \code{level}.
+A \link[mlr3:TaskGenerator]{TaskGenerator} for series with a linear trend, a sinusoidal seasonal pattern, and Gaussian
+noise.
+At time step \verb{t = 1, ..., n}, the series is \code{level + trend * t + amplitude * sin(2 * pi * t / period) + e_t} with
+\code{e_t ~ N(0, sd^2)}.
+For \code{type = "multiplicative"}, the seasonal component and the noise are scaled by \code{(level + trend * t) / level},
+so they grow with the trend, which requires \code{level + trend * t} to stay positive.
 If \code{period} is not set, it is derived from \code{freq} (e.g. 12 for monthly data).
-The generated \link{TaskFcst} has the target \code{y} and a regular time index built from \code{start} and \code{freq}.
-A calendar \code{freq} such as \code{"month"} yields a \code{date} column, whereas a numeric \code{freq} yields an integer \code{index}
-column with \code{freq} as the seasonal period.
-With \code{k > 1}, \code{k} independent draws are stacked into a keyed panel with the key column \code{series}, so that \code{n} is
-the length of each series and the task has \code{n * k} rows.
-The parameters are initialized to \code{level = 100}, \code{trend = 1}, \code{amplitude = 10}, \code{sd = 1}, \code{type = "additive"},
-\code{k = 1}, \code{freq = "month"}, and \code{start = as.Date("2000-01-01")}.
 }
 \section{Dictionary}{
 
@@ -46,6 +36,15 @@ tgen("seasonal")
    freq \tab untyped \tab - \tab  \tab - \cr
    start \tab untyped \tab - \tab  \tab - \cr
 }
+}
+
+\section{Task structure}{
+
+The generated \link{TaskFcst} has the target \code{y} and a regular time index starting at \code{start} with step \code{freq}.
+A calendar \code{freq} such as \code{"month"} yields a \code{date} column, a numeric \code{freq} an integer \code{index} column with \code{freq}
+as the seasonal period.
+With \code{k > 1}, \code{k} independent series are stacked into a keyed panel with the key column \code{series}, so \code{n} is the
+length of each series and the task has \code{n * k} rows.
 }
 
 \examples{

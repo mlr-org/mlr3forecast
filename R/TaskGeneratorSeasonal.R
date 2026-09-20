@@ -4,26 +4,17 @@
 #' @include zzz.R
 #'
 #' @description
-#' A [TaskGenerator][mlr3::TaskGenerator] for series composed of a linear trend, a sinusoidal seasonal pattern,
-#' and Gaussian noise.
-#' At time step `t = 1, ..., n`, the trend is `level + trend * t`, the seasonal component is
-#' `amplitude * sin(2 * pi * t / period)`, and the noise has standard deviation `sd`.
-#' For `type = "additive"`, the seasonal component and the noise are added to the trend.
-#' For `type = "multiplicative"`, both are scaled by the ratio of the trend to `level`, so the seasonal swings and
-#' the noise grow proportionally with the trend, as in the classic airline passengers data.
-#' In both cases, `amplitude` and `sd` are on the scale of the target at the start of the series.
-#' The multiplicative type requires a positive `level`.
+#' A [TaskGenerator][mlr3::TaskGenerator] for series with a linear trend, a sinusoidal seasonal pattern, and Gaussian
+#' noise.
+#' At time step `t = 1, ..., n`, the series is `level + trend * t + amplitude * sin(2 * pi * t / period) + e_t` with
+#' `e_t ~ N(0, sd^2)`.
+#' For `type = "multiplicative"`, the seasonal component and the noise are scaled by `(level + trend * t) / level`,
+#' so they grow with the trend, which requires `level + trend * t` to stay positive.
 #' If `period` is not set, it is derived from `freq` (e.g. 12 for monthly data).
-#' The generated [TaskFcst] has the target `y` and a regular time index built from `start` and `freq`.
-#' A calendar `freq` such as `"month"` yields a `date` column, whereas a numeric `freq` yields an integer `index`
-#' column with `freq` as the seasonal period.
-#' With `k > 1`, `k` independent draws are stacked into a keyed panel with the key column `series`, so that `n` is
-#' the length of each series and the task has `n * k` rows.
-#' The parameters are initialized to `level = 100`, `trend = 1`, `amplitude = 10`, `sd = 1`, `type = "additive"`,
-#' `k = 1`, `freq = "month"`, and `start = as.Date("2000-01-01")`.
 #'
 #' @templateVar id seasonal
 #' @template task_generator
+#' @template task_generator_fcst
 #'
 #' @template seealso_task_generator
 #' @export
@@ -81,8 +72,8 @@ TaskGeneratorSeasonal = R6Class(
   private = list(
     .generate = function(n) {
       pv = self$param_set$get_values()
-      if (pv$type == "multiplicative" && pv$level <= 0) {
-        error_config("Multiplicative seasonality requires a positive 'level', but 'level' is %g", pv$level)
+      if (pv$type == "multiplicative" && min(pv$level, pv$level + pv$trend * n) <= 0) {
+        error_config("Multiplicative seasonality requires a positive trend level over the whole series")
       }
       period = pv$period %??% freq_to_period(pv$freq)
       tt = seq_len(n)

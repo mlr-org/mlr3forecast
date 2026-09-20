@@ -5,16 +5,9 @@
 \alias{TaskGeneratorArima}
 \title{ARIMA Forecast Task Generator}
 \description{
-A \link[mlr3:TaskGenerator]{TaskGenerator} that simulates series from an ARIMA process via \code{\link[stats:arima.sim]{stats::arima.sim()}}.
-The autoregressive and moving average coefficients are given by \code{ar} and \code{ma}, the order of differencing by \code{d},
-and the standard deviation of the Gaussian innovations by \code{sd}.
-The generated \link{TaskFcst} has the target \code{y} and a regular time index built from \code{start} and \code{freq}.
-A calendar \code{freq} such as \code{"month"} yields a \code{date} column, whereas a numeric \code{freq} yields an integer \code{index}
-column with \code{freq} as the seasonal period.
-With \code{k > 1}, \code{k} independent realizations of the process are stacked into a keyed panel with the key column
-\code{series}, so that \code{n} is the length of each series and the task has \code{n * k} rows.
-The parameters are initialized to an AR(1) process with \code{ar = 0.7}, \code{d = 0}, \code{ma = numeric()}, \code{sd = 1}, \code{k = 1},
-\code{freq = "month"}, and \code{start = as.Date("2000-01-01")}.
+A \link[mlr3:TaskGenerator]{TaskGenerator} that simulates series from an ARIMA process via \code{\link[stats:arima.sim]{stats::arima.sim()}},
+with autoregressive coefficients \code{ar}, moving average coefficients \code{ma}, differencing order \code{d},
+and innovation standard deviation \code{sd}.
 }
 \section{Dictionary}{
 
@@ -39,12 +32,21 @@ tgen("arima")
 }
 }
 
+\section{Task structure}{
+
+The generated \link{TaskFcst} has the target \code{y} and a regular time index starting at \code{start} with step \code{freq}.
+A calendar \code{freq} such as \code{"month"} yields a \code{date} column, a numeric \code{freq} an integer \code{index} column with \code{freq}
+as the seasonal period.
+With \code{k > 1}, \code{k} independent series are stacked into a keyed panel with the key column \code{series}, so \code{n} is the
+length of each series and the task has \code{n * k} rows.
+}
+
 \examples{
 generator = tgen("arima")
 task = generator$generate(60)
 task$head()
 
-# random walk with drift-free innovations, 3 series
+# random walk, 3 series
 generator = tgen("arima", ar = numeric(), d = 1L, k = 3L)
 task = generator$generate(24)
 task
