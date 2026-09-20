@@ -11,6 +11,12 @@ test_that("autotest", {
 
 test_that("paramtest", {
   learner = lrn("fcst.dotm")
-  exclude = c("y", "h", "level", "estimation", "xreg", "s")
+  exclude = c("y", "h", "level", "estimation", "xreg", "s", "period")
   expect_true(run_paramtest(learner, forecTheta::dotm, tag = "train", exclude = exclude))
+})
+
+test_that("the period hyperparameter sets the ts frequency", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.dotm", period = 4)$train(task)
+  expect_equal(stats::frequency(learner$native_model$y), 4)
 })
