@@ -414,17 +414,18 @@ RecursiveForecaster = R6Class(
         valid_data = valid_data[!train_data, on = c(task$col_roles$key, task$col_roles$order)]
         train_data = rbindlist(list(train_data, valid_data), use.names = TRUE)
       }
-      state = list(
-        graph_state = graph_state,
-        train_data = train_data,
-        target = task$target_names,
-        key_cols = task$col_roles$key,
-        order_cols = task$col_roles$order,
-        feature_names = task$feature_names,
-        freq = task$freq
+      set_class(
+        list(
+          graph_state = graph_state,
+          train_data = train_data,
+          target = task$target_names,
+          key_cols = task$col_roles$key,
+          order_cols = task$col_roles$order,
+          feature_names = task$feature_names,
+          freq = task$freq
+        ),
+        c("recursive_forecaster_model", "list")
       )
-      class(state) = c("recursive_forecaster_model", class(state))
-      state
     },
 
     .predict = function(task) {
