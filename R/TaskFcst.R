@@ -307,7 +307,7 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
 
 #' @export
 as.ts.TaskFcst = function(x, ..., period = NULL) {
-  if ("freq" %chin% names(list(...))) {
+  if ("freq" %chin% ...names()) {
     error_input("`as.ts()` no longer takes `freq`. Use `period` for the seasonal period.")
   }
   if (length(x$col_roles$key) > 0L) {
