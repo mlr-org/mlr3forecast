@@ -16,10 +16,12 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/autoplot.PredictionFcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/autoplot.TaskFcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/direct_forecaster.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/forecast.Learner.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/index.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/list_monash_datasets.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr3forecast-package.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_graphs_fcst.local.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.adam.html</loc></url>
@@ -95,6 +97,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_electricity.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_livestock.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_lynx.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_monash.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_usaccdeaths.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/partition.TaskFcst.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.html</loc></url>

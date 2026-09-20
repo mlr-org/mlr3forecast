@@ -33,9 +33,6 @@ arXiv:2105.06643*.
 ``` r
 file = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
 dt = read_tsf(file)
-#> Reading tsf file:
-#> • frequency: yearly
-#> • horizon: 6
 head(dt)
 #>    series_name start_timestamp   value
 #>         <char>          <Date>   <num>

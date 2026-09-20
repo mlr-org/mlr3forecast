@@ -10,10 +10,37 @@
   now converts objects returned by
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   to forecast tasks.
+- fix:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  coerces whole-number numeric attributes of tsf data to integer key
+  columns, so datasets such as the Monash `cif_2016` dataset can be
+  converted.
 - feat:
+  [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
+  downloads Monash Forecasting Repository datasets by dataset ID from
+  pinned Zenodo records and sets the `"horizon"` attribute from the
+  Monash benchmark horizons for datasets whose tsf file lacks a
+  `@horizon` line.
+- feat:
+  [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
+  and `tsk("monash")` cache downloaded files if the new option
+  `mlr3forecast.cache` is set to `TRUE` or a directory.
+- fix:
   [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
-  now sets the `"horizon"` attribute from the Monash benchmark horizons
-  for datasets whose tsf file lacks a `@horizon` line.
+  is deprecated in favor of
+  [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
+  and warns on each call.
+- feat:
+  [`list_monash_datasets()`](https://mlr3forecast.mlr-org.com/dev/reference/list_monash_datasets.md)
+  lists the Monash Forecasting Repository datasets available to
+  [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
+  and `tsk("monash")`, including their download sizes.
+- fix:
+  [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
+  no longer prints the frequency and horizon of the file, which remain
+  available as attributes of the returned object.
+- feat: `tsk("monash", dataset = ...)` creates a forecast task from a
+  Monash Forecasting Repository dataset.
 - feat: The `smooth` learners gained the `"gradient"` level of
   `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the
   `smoother` parameter. This raises the required `smooth` version to

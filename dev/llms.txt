@@ -872,6 +872,8 @@ do.call(c, prediction_local)$score(msr("regr.rmse"))
   : Australian Livestock Slaughter Forecast Task
 - [`mlr_tasks_lynx`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_lynx.md)
   : Annual Canadian Lynx Trappings Forecast Task
+- [`mlr_tasks_monash`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_monash.md)
+  : Monash Forecasting Repository Forecast Task
 - [`mlr_tasks_usaccdeaths`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_usaccdeaths.md)
   : Accidental Deaths in the US Forecast Task
 
@@ -991,6 +993,10 @@ do.call(c, prediction_local)$score(msr("regr.rmse"))
   : Manually Partition into Training, Test and Validation Set
 - [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   : Read tsf files
+- [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
+  : Download a Monash Forecasting Repository dataset
+- [`list_monash_datasets()`](https://mlr3forecast.mlr-org.com/dev/reference/list_monash_datasets.md)
+  : List Monash Forecasting Repository datasets
 - [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   : Download tsf file from Zenodo
 

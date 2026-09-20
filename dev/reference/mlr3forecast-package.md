@@ -6,6 +6,15 @@ measures, and 'mlr3pipelines' operators for time-series feature
 engineering. Machine learning regression learners can be turned into
 forecasters through recursive and direct multi-step strategies.
 
+## Options
+
+- `mlr3forecast.cache`: Enables or disables caching of downloaded
+  datasets. If set to `FALSE`, caching is disabled. If set to `TRUE`,
+  the cache directory as reported by
+  [`tools::R_user_dir()`](https://rdrr.io/r/tools/userdir.html) is used.
+  Alternatively, you can specify a path on the local file system here.
+  Default is `FALSE`.
+
 ## See also
 
 Useful links:

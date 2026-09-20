@@ -76,4 +76,5 @@ Other Task:
 [`mlr_tasks_airpassengers`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_airpassengers.md),
 [`mlr_tasks_livestock`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_livestock.md),
 [`mlr_tasks_lynx`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_lynx.md),
+[`mlr_tasks_monash`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_monash.md),
 [`mlr_tasks_usaccdeaths`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_usaccdeaths.md)

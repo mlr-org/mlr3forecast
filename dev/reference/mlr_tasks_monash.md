@@ -1,9 +1,8 @@
-# Accidental Deaths in the US Forecast Task
+# Monash Forecasting Repository Forecast Task
 
-A forecast task for the popular
-[datasets::USAccDeaths](https://rdrr.io/r/datasets/USAccDeaths.html)
-data set. The task represents the monthly totals of accidental deaths in
-the US from 1973 to 1978.
+Downloads a dataset from the Monash Forecasting Repository and converts
+it to a forecast task. Datasets without timestamps, e.g. `"m3_other"`,
+get an integer `index` column as order and no frequency.
 
 ## Format
 
@@ -11,36 +10,41 @@ the US from 1973 to 1978.
 from
 [TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md).
 
-## Source
+## Arguments
 
-Brockwell PJ, Davis RA (1991). *Time Series: Theory and Methods*, 2nd
-edition. Springer, New York.
+- dataset:
+
+  (`character(1)`)  
+  The dataset ID, e.g. `"m3_yearly"`. The ID is the name of the Zenodo
+  file without the `"_dataset"` and `"_without_missing_values"`
+  suffixes. See
+  [`list_monash_datasets()`](https://mlr3forecast.mlr-org.com/dev/reference/list_monash_datasets.md)
+  for the available IDs and their download sizes. Variants whose IDs end
+  in `"_with_missing_values"` cannot be converted to a forecast task and
+  can only be retrieved with
+  [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md).
+
+- id:
+
+  (`character(1)`)  
+  The task ID. Defaults to `dataset`.
 
 ## Dictionary
 
-This [Task](https://mlr3.mlr-org.com/reference/Task.html) can be
-instantiated via the
+This task can be instantiated via the
 [dictionary](https://mlr3misc.mlr-org.com/reference/Dictionary.html)
 [mlr_tasks](https://mlr3.mlr-org.com/reference/mlr_tasks.html) or with
 the associated sugar function
 [tsk()](https://mlr3.mlr-org.com/reference/mlr_sugar.html):
 
-    mlr_tasks$get("usaccdeaths")
-    tsk("usaccdeaths")
+    mlr_tasks$get("monash", dataset = "m3_yearly")
+    tsk("monash", dataset = "m3_yearly")
 
-## Meta Information
+## References
 
-- Task type: “fcst”
-
-- Dimensions: 72x1
-
-- Properties: “ordered”
-
-- Has Missings: `FALSE`
-
-- Target: “deaths”
-
-- Features: -
+Godahewa R, Bergmeir C, Webb GI, Hyndman RJ, Montero-Manso P (2021).
+“Monash time series forecasting archive.” *arXiv preprint
+arXiv:2105.06643*.
 
 ## See also
 
@@ -82,4 +86,4 @@ Other Task:
 [`mlr_tasks_electricity`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_electricity.md),
 [`mlr_tasks_livestock`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_livestock.md),
 [`mlr_tasks_lynx`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_lynx.md),
-[`mlr_tasks_monash`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_monash.md)
+[`mlr_tasks_usaccdeaths`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_usaccdeaths.md)
