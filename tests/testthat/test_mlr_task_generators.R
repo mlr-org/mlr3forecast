@@ -1,6 +1,6 @@
 test_that("fcst task generators are registered", {
   keys = as.data.table(mlr_task_generators)[task_type == "fcst", key]
-  expect_set_equal(keys, c("arima", "seasonal"))
+  expect_identical(keys, "arima")
 
   for (key in keys) {
     generator = tgen(key)

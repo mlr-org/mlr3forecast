@@ -57,9 +57,6 @@ task
 \item \code{as.data.table(mlr_task_generators)} for a table of available \link[mlr3:TaskGenerator]{TaskGenerators} in the
 running session (depending on the loaded packages).
 }
-
-Other TaskGenerator:
-\code{\link{mlr_task_generators_seasonal}}
 }
 \concept{TaskGenerator}
 \section{Super class}{

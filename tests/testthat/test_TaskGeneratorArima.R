@@ -41,6 +41,13 @@ test_that("arima generator builds a regular grid from a month-end start", {
   expect_data_table(generate_newdata(task, 2L), nrows = 2L)
 })
 
+test_that("arima generator requires a single non-missing start", {
+  expect_error(tgen("arima", start = as.Date(character())), "length 1")
+  expect_error(tgen("arima", start = as.Date(c("2000-01-01", "2000-02-01"))), "length 1")
+  expect_error(tgen("arima", start = as.Date(NA)), "missing")
+  expect_error(tgen("arima", start = "2000-01-01"), "Date")
+})
+
 test_that("arima generator is reproducible", {
   generator = tgen("arima", ma = 0.3, k = 2L)
   task1 = withr::with_seed(1L, generator$generate(40L))

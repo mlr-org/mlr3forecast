@@ -45,7 +45,10 @@ TaskGeneratorArima = R6Class(
         freq = p_uty(tags = "required", custom_check = check_freq),
         start = p_uty(
           tags = "required",
-          custom_check = crate(function(x) check_multi_class(x, c("Date", "POSIXct")))
+          custom_check = crate(function(x) {
+            check = check_multi_class(x, c("Date", "POSIXct"))
+            if (isTRUE(check)) check_atomic_vector(x, len = 1L, any.missing = FALSE) else check
+          })
         )
       )
       param_set$set_values(
