@@ -85,10 +85,6 @@ test_that("common_periods lists the cycles a frequency implies", {
   expect_equal(common_periods("nonsense"), c(none = 1))
 })
 
-test_that("common_periods works on a task", {
-  expect_equal(common_periods(tsk("airpassengers")), c(year = 12))
-})
-
 test_that("default_period picks the shortest cycle worth modelling", {
   expect_equal(default_period("month"), c(year = 12))
   expect_equal(default_period("1 month"), c(year = 12))

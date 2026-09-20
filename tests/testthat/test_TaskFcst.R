@@ -214,7 +214,7 @@ test_that("period defaults to the cycle implied by freq", {
     freq = "day"
   )
   expect_equal(daily$period, c(week = 7))
-  expect_equal(common_periods(daily), c(week = 7, year = 365.25))
+  expect_equal(common_periods(daily$freq), c(week = 7, year = 365.25))
 })
 
 test_that("period overrides the cycle implied by freq", {

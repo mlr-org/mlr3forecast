@@ -15,7 +15,6 @@
 * feat: `TaskFcst` gained a `$period` field holding the seasonal period(s) in observations per cycle, derived from `$freq` unless set explicitly. It is the default for every learner, `PipeOp` and `Measure` that needs a seasonal period.
 * feat: The forecast learners that fit on a `ts` gained a `period` hyperparameter, and `po("fcst.targetboxcox")` and `po("fcst.tsfeats")` gained a `period` parameter. Each takes precedence over the task's `$period`.
 * feat: `period` arguments accept a cycle name resolved against the frequency, e.g. `period = "year"` on hourly data means `8766`.
-* feat: New `common_periods()` lists the seasonal periods a frequency implies, e.g. `c(week = 7, year = 365.25)` for daily data.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.

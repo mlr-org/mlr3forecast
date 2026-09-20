@@ -153,7 +153,7 @@ TaskFcst = R6Class(
     #' The seasonal period(s) of the time series, in observations per cycle. This is the default
     #' consulted by learners, pipeops and measures that need a seasonal period; each of them accepts
     #' its own `period` hyperparameter that takes precedence. Unless `period` was set explicitly, it
-    #' is derived from `$freq` -- see [common_periods()] for the other cycles the frequency implies.
+    #' is derived from `$freq`; see the `period` argument of [as_task_fcst()] for the cycles a frequency implies.
     period = function(rhs) {
       assert_ro_binding(rhs)
       private$.period %??% default_period(private$.freq)

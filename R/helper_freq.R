@@ -78,11 +78,6 @@ seq_order = function(origin, freq, n) {
   }
 }
 
-# --- seasonal period ----------------------------------------------------------------------------
-# The seasonal period is the number of observations per cycle. It is a property of the *model*, not
-# of the index, so it is only ever a default here: every consumer takes an explicit `period` first
-# and falls back to `task$period`, which in turn derives from `freq` unless the task overrides it.
-
 # duration of a seq()-style unit string in seconds, NA if it is not one
 freq_seconds = function(x) {
   secs = c(
@@ -109,50 +104,21 @@ freq_seconds = function(x) {
   n * secs[[unit]]
 }
 
-#' @title Common Seasonal Periods
-#'
-#' @description
-#' Lists the seasonal periods implied by a frequency, i.e. how many observations fit into each
-#' calendar cycle that is longer than a single step. Use it to discover the values accepted by the
-#' `period` argument of [as_task_fcst()], the forecast learners, and the seasonal measures.
-#'
-#' @param x ([TaskFcst] | `character(1)`)\cr
-#'   A task, or a `seq()`-compatible frequency string such as `"month"` or `"30 min"`.
-#' @param ... (ignored).
-#' @return A named `numeric()`, sorted from the shortest cycle to the longest. `c(none = 1)` if the
-#'   frequency carries no calendar meaning.
-#' @export
-#' @examples
-#' common_periods("month")
-#' common_periods("day")
-#' common_periods("30 min")
-common_periods = function(x, ...) {
-  UseMethod("common_periods")
-}
-
-#' @rdname common_periods
-#' @export
-common_periods.default = function(x, ...) {
-  c(none = 1)
-}
-
-#' @rdname common_periods
-#' @export
-common_periods.character = function(x, ...) {
-  step = freq_seconds(x)
+# the seasonal periods a frequency implies: how many observations fit into each calendar cycle longer
+# than a single step, shortest first. `c(none = 1)` if the frequency carries no calendar meaning.
+common_periods = function(freq) {
+  none = c(none = 1)
+  if (!test_string(freq)) {
+    return(none)
+  }
+  step = freq_seconds(freq)
   if (is.na(step)) {
-    return(c(none = 1))
+    return(none)
   }
   cycles = c(minute = 60, hour = 3600, day = 86400, week = 604800, year = 31557600)
   periods = cycles / step
   periods = sort(periods[periods > 1])
-  if (length(periods) == 0L) c(none = 1) else periods
-}
-
-#' @rdname common_periods
-#' @export
-common_periods.TaskFcst = function(x, ...) {
-  common_periods(x$freq)
+  if (length(periods) == 0L) none else periods
 }
 
 # the cycle a `ts()` user would reach for: the next natural calendar cycle up from the step, e.g. the
