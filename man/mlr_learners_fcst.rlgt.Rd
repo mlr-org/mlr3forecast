@@ -41,6 +41,7 @@ lrn("fcst.rlgt")
    control \tab untyped \tab - \tab  \tab - \cr
    verbose \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    NUM_OF_TRIALS \tab integer \tab 2000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

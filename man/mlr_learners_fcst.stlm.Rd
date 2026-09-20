@@ -42,6 +42,7 @@ lrn("fcst.stlm")
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    allow.multiplicative.trend \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

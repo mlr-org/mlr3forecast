@@ -10,6 +10,11 @@
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * feat: `tsk("monash", dataset = ...)` creates a forecast task from a Monash Forecasting Repository dataset.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
+* BREAKING CHANGE: `freq` is now only the step of the time index; the seasonal period moved to the new `period` argument of `as_task_fcst()` and `TaskFcst$new()`. A numeric `freq` used to mean the seasonal period and is now the index step, so it requires a numeric or integer order column -- replace `freq = 12` on such a task with `period = 12`. A calendar `freq` is unaffected.
+* BREAKING CHANGE: `as.ts.TaskFcst()` takes `period` instead of `freq`.
+* feat: `TaskFcst` gained a `$period` field holding the seasonal period(s) in observations per cycle, derived from `$freq` unless set explicitly. It is the default for every learner, `PipeOp` and `Measure` that needs a seasonal period.
+* feat: The forecast learners that fit on a `ts` gained a `period` hyperparameter, and `po("fcst.targetboxcox")` and `po("fcst.tsfeats")` gained a `period` parameter. Each takes precedence over the task's `$period`.
+* feat: `period` arguments accept a cycle name resolved against the frequency, e.g. `period = "year"` on hourly data means `8766`.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.

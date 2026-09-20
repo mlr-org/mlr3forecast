@@ -45,10 +45,11 @@ LearnerFcstSma = R6Class(
   ),
 
   private = list(
+    .seasonal = TRUE,
     .train = function(task) {
       super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
-      private$.set_context(invoke(smooth::sma, y = as.ts(task), h = 0L, .args = pv), task)
+      pv = private$.train_values()
+      private$.set_context(invoke(smooth::sma, y = private$.as_ts(task), h = 0L, .args = pv), task)
     },
 
     .predict = function(task) {

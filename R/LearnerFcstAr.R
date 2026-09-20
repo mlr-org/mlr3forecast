@@ -62,7 +62,7 @@ LearnerFcstAr = R6Class(
 
     # stats::ar() drops the series, which forecast::getResponse.ar() needs to predict
     .tidy_model = function(model, task) {
-      model$x = as.ts(task)
+      model$x = private$.as_ts(task)
       super$.tidy_model(model, task)
     }
   )

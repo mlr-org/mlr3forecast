@@ -45,10 +45,12 @@ LearnerFcstStheta = R6Class(
     }
   ),
   private = list(
+    .seasonal = TRUE,
+
     .train = function(task) {
       super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
-      model = invoke(forecTheta::stheta, y = as.ts(task), h = 1L, .args = pv)
+      pv = private$.train_values()
+      model = invoke(forecTheta::stheta, y = private$.as_ts(task), h = 1L, .args = pv)
       context = private$.set_context(model, task)
       context$params = pv
       context

@@ -44,6 +44,7 @@ lrn("fcst.mlp")
    hd.auto.type \tab character \tab set \tab set, valid, cv, elm \tab - \cr
    hd.max \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    retrain \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

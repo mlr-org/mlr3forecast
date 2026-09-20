@@ -12,7 +12,7 @@ test_that("autotest", {
 
 test_that("paramtest", {
   learner = lrn("fcst.snaive")
-  expect_true(run_paramtest(learner, forecast::rw_model, tag = "train", exclude = c("y", "lag", "drift")))
+  expect_true(run_paramtest(learner, forecast::rw_model, tag = "train", exclude = c("y", "lag", "drift", "period")))
 })
 
 test_that("forecasts repeat the last season", {
@@ -31,6 +31,14 @@ test_that("weekly forecasts use a 52-week lag", {
   task = as_task_fcst(data, target = "y", order = "date", freq = "week")
   learner = lrn("fcst.snaive")$train(task)
   expect_equal(learner$predict_newdata(generate_newdata(task, n = 3L))$response, as.numeric(109:111))
+})
+
+test_that("the period hyperparameter sets the seasonal lag", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.snaive", period = 4)$train(task, 1:132)
+  response = learner$predict_newdata(generate_newdata(task$clone()$filter(1:132), n = 4L))$response
+  y = task$data(cols = task$target_names, ordered = TRUE)[[1L]]
+  expect_equal(response, y[129:132])
 })
 
 test_that("quantile prediction works", {

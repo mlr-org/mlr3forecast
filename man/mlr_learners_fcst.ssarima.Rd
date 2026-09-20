@@ -41,6 +41,7 @@ lrn("fcst.ssarima")
    bounds \tab character \tab admissible \tab admissible, usual, none \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
    regressors \tab character \tab use \tab use, select, adapt \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 

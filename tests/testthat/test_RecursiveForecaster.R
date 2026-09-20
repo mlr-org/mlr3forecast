@@ -41,7 +41,7 @@ test_that("RecursiveForecaster treats a numeric freq as the seasonal period, not
   dt = data.table(time = 1:60, value = sin(2 * pi * (1:60) / 12))
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
 
-  task = as_task_fcst(dt, target = "value", order = "time", freq = 12)
+  task = as_task_fcst(dt, target = "value", order = "time", period = 12)
   learner$train(task, 1:48)
   prediction = learner$predict(task, 49:60)
   expect_class(prediction, "PredictionRegr")

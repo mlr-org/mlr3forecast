@@ -11,6 +11,6 @@ test_that("autotest", {
 
 test_that("paramtest", {
   learner = lrn("fcst.dstm")
-  exclude = c("y", "h", "level", "estimation", "xreg", "s")
+  exclude = c("y", "h", "level", "estimation", "xreg", "s", "period")
   expect_true(run_paramtest(learner, forecTheta::dstm, tag = "train", exclude = exclude))
 })

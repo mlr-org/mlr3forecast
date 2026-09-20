@@ -50,6 +50,7 @@ PipeOpFcstTsfeats = R6Class(
           tags = "train",
           custom_check = crate(function(x) check_character(x, any.missing = FALSE, min.len = 1L))
         ),
+        period = p_uty(default = NULL, custom_check = check_period),
         scale = p_lgl(default = TRUE, tags = "train"),
         trim = p_lgl(default = FALSE, tags = "train"),
         trim_amount = p_dbl(lower = 0, default = 0.1, tags = "train", depends = quote(trim == TRUE)), # nolint
@@ -78,7 +79,7 @@ PipeOpFcstTsfeats = R6Class(
       target = task$target_names
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
-      freq = freq_to_period(task$freq)
+      freq = task_period(self$param_set$values$period, task)
 
       dt = task$data(cols = c(target, order_cols, key_cols))
       setorderv(dt, c(key_cols, order_cols))

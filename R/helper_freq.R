@@ -43,9 +43,9 @@ infer_freq = function(order) {
   }
 }
 
-# a numeric freq is the seasonal period, not the grid step, so only calendar freqs step the grid
+# `freq` is the grid step throughout: a calendar string for date indices, a number for numeric ones
 resolve_step = function(freq, order) {
-  if (is.character(freq)) freq else infer_freq(sort(unique(order)))
+  freq %??% infer_freq(sort(unique(order)))
 }
 
 calendar_months = function(freq) {
@@ -78,49 +78,118 @@ seq_order = function(origin, freq, n) {
   }
 }
 
+# duration of a seq()-style unit string in seconds, NA if it is not one
+freq_seconds = function(x) {
+  secs = c(
+    sec = 1,
+    min = 60,
+    hour = 3600,
+    day = 86400,
+    DSTday = 86400,
+    week = 604800,
+    month = 2629800,
+    quarter = 7889400,
+    year = 31557600
+  )
+  parts = strsplit1(x, " ")
+  n_parts = length(parts)
+  n = if (n_parts == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
+  unit = parts[n_parts]
+  if (unit %nin% names(secs)) {
+    unit = sub("s$", "", unit)
+  }
+  if (is.na(n) || n <= 0 || unit %nin% names(secs)) {
+    return(NA_real_)
+  }
+  n * secs[[unit]]
+}
+
+# the seasonal periods a frequency implies: how many observations fit into each calendar cycle longer
+# than a single step, shortest first. `c(none = 1)` if the frequency carries no calendar meaning.
+common_periods = function(freq) {
+  none = c(none = 1)
+  if (!test_string(freq)) {
+    return(none)
+  }
+  step = freq_seconds(freq)
+  if (is.na(step)) {
+    return(none)
+  }
+  cycles = c(minute = 60, hour = 3600, day = 86400, week = 604800, year = 31557600)
+  periods = cycles / step
+  periods = sort(periods[periods > 1])
+  if (length(periods) == 0L) none else periods
+}
+
+# the cycle a `ts()` user would reach for: the next natural calendar cycle up from the step, e.g. the
+# day for sub-daily data and the week for daily data. Cycles shorter than four observations carry no
+# seasonal shape, so they are skipped in favour of the next one up.
+default_period = function(freq) {
+  none = c(none = 1)
+  if (!test_string(freq)) {
+    return(none)
+  }
+  step = freq_seconds(freq)
+  if (is.na(step)) {
+    return(none)
+  }
+  ladder = c(if (step < 60) "hour", "day", "week", "year")
+  periods = common_periods(freq)
+  candidates = periods[names(periods) %chin% ladder]
+  if (length(candidates) == 0L) {
+    return(none)
+  }
+  long = candidates[candidates >= 4]
+  if (length(long) > 0L) long[1L] else candidates[length(candidates)]
+}
+
+# a character period ("year", "week") counts how many steps fit into that cycle
+resolve_period = function(period, freq) {
+  if (is.null(period)) {
+    return(default_period(freq))
+  }
+  if (!is.character(period)) {
+    return(period)
+  }
+  step = if (test_string(freq)) freq_seconds(freq) else NA_real_
+  if (is.na(step)) {
+    error_input(
+      "A character `period` (%s) requires a calendar `freq`, but `freq` is %s.",
+      str_collapse(period, quote = "'"),
+      if (is.null(freq)) "NULL" else format(freq)
+    )
+  }
+  cycles = map_dbl(period, freq_seconds)
+  if (anyNA(cycles)) {
+    error_input(
+      "Unknown `period` %s. Must be a cycle name such as 'year', 'week' or '2 day'.",
+      str_collapse(period[is.na(cycles)], quote = "'")
+    )
+  }
+  set_names(cycles / step, period)
+}
+
+# explicit hyperparameter beats the task default, which itself derives from `freq`.
+# the measures also score plain regression tasks, which carry neither.
+task_period = function(period, task, multiple = FALSE) {
+  periods = if (is.null(period)) task$period %??% c(none = 1) else resolve_period(period, task$freq)
+  unname(if (multiple) periods else periods[[1L]])
+}
+
 #' @export
-as.ts.TaskFcst = function(x, ..., freq = NULL) {
+as.ts.TaskFcst = function(x, ..., period = NULL) {
+  if ("freq" %chin% ...names()) {
+    error_input("`as.ts()` no longer takes `freq`. Use `period` for the seasonal period.")
+  }
   if (length(x$col_roles$key) > 0L) {
     error_input("Cannot coerce a multi-series (keyed) task to a single ts object.")
   }
-  freq = freq_to_period(freq %??% x$freq)
   y = x$data(cols = x$target_names, ordered = TRUE)[[1L]]
-  stats::ts(y, freq = freq)
+  stats::ts(y, frequency = task_period(period, x))
 }
 
-freq_to_period = function(freq) {
-  if (is.null(freq)) {
-    return(1L)
-  }
-  if (!is.character(freq)) {
-    return(freq)
-  }
-  periods = c(
-    secs = 60,
-    mins = 1440,
-    hours = 24,
-    days = 7,
-    DSTdays = 7,
-    weeks = 52.18,
-    months = 12,
-    quarters = 4,
-    years = 1
-  )
-  parts = strsplit1(freq, " ")
-  n_parts = length(parts)
-  n = if (n_parts == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
-  ii = pmatch(parts[n_parts], names(periods))
-  if (is.na(ii) || is.na(n) || n <= 0) {
-    return(1L)
-  }
-  periods[[ii]] / n
-}
-
-resolve_measure_period = function(period, freq) {
-  if (!is.null(period)) {
-    return(period)
-  }
-  max(1L, as.integer(round(freq_to_period(freq))))
+resolve_measure_period = function(period, task) {
+  max(1L, as.integer(round(task_period(period, task))))
 }
 
 to_tsibble_index = function(order, freq) {

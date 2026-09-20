@@ -5,12 +5,13 @@ LearnerFcstForecTheta = R6Class(
   "LearnerFcstForecTheta",
   inherit = LearnerFcst,
   private = list(
+    .seasonal = TRUE,
     .fn = NULL,
 
     .train = function(task) {
       super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
-      y = as.ts(task)
+      pv = private$.train_values()
+      y = private$.as_ts(task)
       args = list(y = y, h = 1L, level = NULL)
 
       xreg = NULL

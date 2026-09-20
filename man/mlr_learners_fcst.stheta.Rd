@@ -32,6 +32,7 @@ lrn("fcst.stheta")
    Id \tab Type \tab Default \tab Levels \cr
    s_type \tab character \tab multiplicative \tab multiplicative, additive, stl \cr
    s_test \tab untyped \tab "default" \tab  \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 

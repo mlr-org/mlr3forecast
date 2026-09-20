@@ -37,6 +37,7 @@ lrn("fcst.dstm")
    lower \tab untyped \tab c(-1e+10, 0.1) \tab  \cr
    upper \tab untyped \tab c(1e+10, 0.99) \tab  \cr
    opt.method \tab character \tab Nelder-Mead \tab Nelder-Mead, L-BFGS-B, SANN \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 

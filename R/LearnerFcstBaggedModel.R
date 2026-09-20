@@ -52,7 +52,7 @@ LearnerFcstBaggedModel = R6Class(
   private = list(
     .fit = function(task, pv) {
       ps = self$param_set
-      y = as.ts(task)
+      y = private$.as_ts(task)
       pv_mbb = ps$get_values(tags = c("train", "mbb"))
       pv_mbb$num = pv_mbb$num %??% 100L
       bootstrapped_series = invoke(forecast::bld.mbb.bootstrap, x = y, .args = pv_mbb)

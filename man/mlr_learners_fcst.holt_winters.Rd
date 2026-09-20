@@ -46,6 +46,7 @@ lrn("fcst.holt_winters")
    optim.control \tab untyped \tab list() \tab  \tab - \cr
    lambda \tab untyped \tab NULL \tab  \tab - \cr
    biasadj \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 
