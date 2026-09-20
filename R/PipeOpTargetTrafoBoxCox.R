@@ -157,6 +157,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
         }
       }
 
+      inverted = NULL
       if (!is.null(quantiles)) {
         inverted = matrix(
           inverted_values,
@@ -169,20 +170,13 @@ PipeOpTargetTrafoBoxCox = R6Class(
         if (length(resp_col) > 0L) {
           setattr(inverted, "response", as.numeric(sub("^q", "", resp_col)))
         }
-        return(PredictionFcst$new(
-          row_ids = prediction$row_ids,
-          truth = predict_phase_state$truth,
-          response = response %??% inverted[, resp_col],
-          quantiles = inverted,
-          weights = prediction$weights,
-          extra = prediction$data$extra,
-          col_roles = prediction$data$col_roles
-        ))
+        response = response %??% inverted[, resp_col]
       }
       PredictionFcst$new(
         row_ids = prediction$row_ids,
         truth = predict_phase_state$truth,
         response = response,
+        quantiles = inverted,
         weights = prediction$weights,
         extra = prediction$data$extra,
         col_roles = prediction$data$col_roles
