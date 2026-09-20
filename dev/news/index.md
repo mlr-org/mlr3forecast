@@ -39,6 +39,11 @@
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   no longer prints the frequency and horizon of the file, which remain
   available as attributes of the returned object.
+- perf:
+  [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
+  builds calendar date indices arithmetically instead of through
+  [`ISOdate()`](https://rdrr.io/r/base/ISOdatetime.html), which makes
+  reading files with many series about 20 times faster.
 - feat: `tsk("monash", dataset = ...)` creates a forecast task from a
   Monash Forecasting Repository dataset.
 - feat: The `smooth` learners gained the `"gradient"` level of
