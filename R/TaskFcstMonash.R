@@ -1,0 +1,54 @@
+#' @title Monash Forecasting Repository Forecast Task
+#'
+#' @name mlr_tasks_monash
+#' @format [R6::R6Class] inheriting from [TaskFcst].
+#'
+#' @description
+#' Downloads a dataset from the Monash Forecasting Repository and converts it to a forecast task.
+#' Datasets without timestamps, e.g. `"m3_other"`, get an integer `index` column as order and no frequency.
+#'
+#' @param dataset (`character(1)`)\cr
+#'   The dataset ID, e.g. `"m3_yearly"`.
+#'   The ID is the name of the Zenodo file without the `"_dataset"` and `"_without_missing_values"` suffixes.
+#'   See [list_monash_datasets()] for the available IDs and their download sizes.
+#'   Variants whose IDs end in `"_with_missing_values"` cannot be converted to a forecast task
+#'   and can only be retrieved with [download_monash_dataset()].
+#' @param id (`character(1)`)\cr
+#'   The task ID.
+#'   Defaults to `dataset`.
+#'
+#' @section Dictionary:
+#' This task can be instantiated via the [dictionary][mlr3misc::Dictionary] [mlr_tasks][mlr3::mlr_tasks]
+#' or with the associated sugar function [tsk()][mlr3::tsk]:
+#' ```
+#' mlr_tasks$get("monash", dataset = "m3_yearly")
+#' tsk("monash", dataset = "m3_yearly")
+#' ```
+#'
+#' @references
+#' `r format_bib("godahewa2021monash")`
+#'
+#' @template seealso_task
+NULL
+
+load_task_monash = function(dataset = NULL, id = dataset) {
+  if (is.null(dataset)) {
+    # nolint next
+    stop(errorCondition("Argument 'dataset' must be provided.", class = "missingDefaultError"))
+  }
+  info = resolve_monash_dataset(dataset)
+  assert_string(id, min.chars = 1L)
+  if (info$has_missing) {
+    error_input(
+      "Dataset '%s' contains missing target values and cannot be converted to a forecast task.",
+      dataset
+    )
+  }
+
+  task = as_task_fcst(download_monash_dataset(dataset), id = id, label = info$title)
+  task$man = "mlr3forecast::mlr_tasks_monash"
+  task
+}
+
+#' @include zzz.R
+register_task("monash", load_task_monash)

@@ -86,24 +86,105 @@ test_that("read_tsf works", {
   skip_if_offline()
 
   # simple data
-  expect_data_table(download_zenodo_record(4656222, "m3_yearly_dataset"), min.rows = 1, min.cols = 1)
+  expect_data_table(download_monash_dataset("m3_yearly"), min.rows = 1, min.cols = 1)
   # no index col
-  expect_data_table(download_zenodo_record(4656335, "m3_other_dataset"), min.rows = 1, min.cols = 1)
+  expect_data_table(download_monash_dataset("m3_other"), min.rows = 1, min.cols = 1)
   # large data w/ NAs
-  expect_data_table(
-    download_zenodo_record(5129073, "temperature_rain_dataset_with_missing_values"),
-    min.rows = 1,
-    min.cols = 1
-  )
+  expect_data_table(download_monash_dataset("temperature_rain_with_missing_values"), min.rows = 1, min.cols = 1)
 })
 
-test_that("zenodo_horizon looks up Monash horizons for files without @horizon", {
-  expect_identical(zenodo_horizon("sunspot_dataset_without_missing_values"), 30L)
-  expect_identical(zenodo_horizon("kdd_cup_2018_dataset_with_missing_values"), 168L)
-  expect_identical(zenodo_horizon("pedestrian_counts_dataset"), 24L)
-  expect_identical(zenodo_horizon("solar_10_minutes_dataset"), 1008L)
-  expect_identical(zenodo_horizon("m3_yearly_dataset"), NA_integer_)
-  expect_identical(zenodo_horizon("dominick_dataset"), 8L)
-  expect_identical(zenodo_horizon("weather_dataset"), 30L)
-  expect_identical(zenodo_horizon("elecdemand_dataset"), NA_integer_)
+test_that("download_monash_dataset resolves the catalog and fills the horizon", {
+  path = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
+  local_mocked_bindings(
+    download_zenodo_file = function(record_id, file) {
+      expect_identical(record_id, monash_datasets[dataset == "sunspot", record_id])
+      expect_identical(file, "sunspot_dataset_without_missing_values.zip")
+      dt = read_tsf(path)
+      setattr(dt, "horizon", NULL)
+    }
+  )
+
+  dt = download_monash_dataset("sunspot")
+  expect_data_table(dt, min.rows = 1L)
+  expect_identical(attr(dt, "horizon"), 30L)
+  expect_error(download_monash_dataset("unknown"), class = "Mlr3ErrorInput")
+  expect_error(download_monash_dataset("m3yearly"), "Did you mean 'm3_yearly'", class = "Mlr3ErrorInput")
+
+  local_mocked_bindings(download_zenodo_file = function(record_id, file) setattr(read_tsf(path), "horizon", NULL))
+  expect_null(attr(download_monash_dataset("m3_yearly"), "horizon"))
+})
+
+test_that("download_zenodo_file raises the download timeout", {
+  withr::local_options(timeout = 60)
+  local_mocked_bindings(
+    download.file = function(url, destfile, ...) {
+      expect_identical(getOption("timeout"), 600)
+      stopf("offline")
+    },
+    .package = "utils"
+  )
+  expect_error(download_zenodo_file(1L, "file"), "Failed to download")
+  expect_identical(getOption("timeout"), 60)
+})
+
+test_that("download_zenodo_file caches when the option is set", {
+  path = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
+  calls = new.env()
+  calls$n = 0L
+  local_mocked_bindings(fetch_zenodo_file = function(record_id, file, path_out) {
+    calls$n = calls$n + 1L
+    file.copy(path, path_out)
+    path_out
+  })
+
+  withr::local_options(mlr3forecast.cache = FALSE)
+  expect_data_table(download_zenodo_file(1L, "m3.zip"))
+  expect_data_table(download_zenodo_file(1L, "m3.zip"))
+  expect_identical(calls$n, 2L)
+
+  cache = withr::local_tempdir()
+  withr::local_options(mlr3forecast.cache = cache)
+  expect_data_table(download_zenodo_file(1L, "m3.zip"))
+  expect_data_table(download_zenodo_file(1L, "m3.zip"))
+  expect_identical(calls$n, 3L)
+  expect_file_exists(file.path(cache, "1_m3.tsf"))
+})
+
+test_that("get_cache_dir resolves the option", {
+  withr::local_options(mlr3forecast.cache = FALSE)
+  expect_null(get_cache_dir())
+
+  root = withr::local_tempdir()
+  withr::local_envvar(R_USER_CACHE_DIR = root)
+  withr::local_options(mlr3forecast.cache = TRUE)
+  expect_true(startsWith(get_cache_dir(), root))
+  expect_directory_exists(get_cache_dir())
+
+  withr::local_options(mlr3forecast.cache = file.path(root, "custom"))
+  expect_identical(get_cache_dir(), file.path(root, "custom"))
+  expect_directory_exists(file.path(root, "custom"))
+})
+
+test_that("download_zenodo_record is deprecated", {
+  local_mocked_bindings(download_zenodo_file = function(record_id, file) {
+    read_tsf(system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast"))
+  })
+  expect_warning(download_zenodo_record(4656222, "m3_yearly_dataset"), class = "deprecatedWarning")
+  expect_warning(download_zenodo_record(4656222, "m3_yearly_dataset"), "download_monash_dataset")
+
+  local_mocked_bindings(download_zenodo_file = function(record_id, file) {
+    setattr(read_tsf(system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")), "horizon", NULL)
+  })
+  dt = suppressWarnings(download_zenodo_record(4654722, "sunspot_dataset_without_missing_values"))
+  expect_identical(attr(dt, "horizon"), 30L)
+  expect_null(attr(suppressWarnings(download_zenodo_record(1, "other_file")), "horizon"))
+})
+
+test_that("set_monash_horizon fills benchmark horizons by dataset ID", {
+  expect_subset(names(monash_horizons), monash_datasets$dataset)
+  horizon = function(dataset, dt = data.table(value = 1)) attr(set_monash_horizon(dt, dataset), "horizon")
+  expect_identical(horizon("sunspot"), 30L)
+  expect_identical(horizon("kdd_cup_2018_with_missing_values"), 168L)
+  expect_null(horizon("m3_yearly"))
+  expect_identical(horizon("sunspot", setattr(data.table(value = 1), "horizon", 6L)), 6L)
 })
