@@ -46,8 +46,7 @@ TaskGeneratorArima = R6Class(
         start = p_uty(
           tags = "required",
           custom_check = crate(function(x) {
-            check = check_multi_class(x, c("Date", "POSIXct"))
-            if (isTRUE(check)) check_atomic_vector(x, len = 1L, any.missing = FALSE) else check
+            check_date(x, len = 1L, any.missing = FALSE) %check||% check_posixct(x, len = 1L, any.missing = FALSE)
           })
         )
       )
@@ -77,7 +76,35 @@ TaskGeneratorArima = R6Class(
       model = list(order = c(length(pv$ar), pv$d, length(pv$ma)), ar = pv$ar, ma = pv$ma)
       # arima.sim() prepends d zeros when integrating, keep the last n values
       y = unlist(map(seq_len(pv$k), function(i) tail(as.numeric(stats::arima.sim(model, n = n, sd = pv$sd)), n)))
-      make_generated_task(sprintf("%s_%i", self$id, n), y, n, pv$k, pv$freq, pv$start)
+
+      freq = pv$freq
+      if (is.character(freq)) {
+        start = pv$start
+        if (inherits(start, "Date") && grepl("sec|min|hour|DSTday", freq)) {
+          start = as.POSIXct(start)
+        }
+        order = c(start, seq_order(start, freq, n - 1L))
+        order_col = "date"
+      } else {
+        order = seq_len(n)
+        order_col = "index"
+      }
+      data = data.table(rep(order, times = pv$k), y = y)
+      setnames(data, 1L, order_col)
+      key = character()
+      if (pv$k > 1L) {
+        set(data, j = "series", value = factor(rep(seq_len(pv$k), each = n)))
+        setcolorder(data, "series")
+        key = "series"
+      }
+      TaskFcst$new(
+        sprintf("%s_%i", self$id, n),
+        as_data_backend(data),
+        target = "y",
+        order = order_col,
+        key = key,
+        freq = freq
+      )
     }
   )
 )

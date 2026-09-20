@@ -80,26 +80,3 @@ as_numeric_matrix = function(x) {
   }
   x
 }
-
-# assembles the task of a forecast task generator from `k` simulated series of length `n`, stacked series-major in `y`
-make_generated_task = function(id, y, n, k, freq, start) {
-  if (is.character(freq)) {
-    if (inherits(start, "Date") && grepl("sec|min|hour|DSTday", freq)) {
-      start = as.POSIXct(start)
-    }
-    order = c(start, seq_order(start, freq, n - 1L))
-    order_col = "date"
-  } else {
-    order = seq_len(n)
-    order_col = "index"
-  }
-  data = data.table(rep(order, times = k), y = y)
-  setnames(data, 1L, order_col)
-  key = character()
-  if (k > 1L) {
-    set(data, j = "series", value = factor(rep(seq_len(k), each = n)))
-    setcolorder(data, "series")
-    key = "series"
-  }
-  TaskFcst$new(id, as_data_backend(data), target = "y", order = order_col, key = key, freq = freq)
-}
