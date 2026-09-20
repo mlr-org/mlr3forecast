@@ -204,72 +204,68 @@ TaskFcst = R6Class(
 #' @export
 task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
   order_cols = new_roles[["order"]]
+  target_cols = new_roles[["target"]]
   if (length(order_cols) > 1L) {
     error_input("There may only be up to one column with role 'order'.")
   }
 
-  if (length(order_cols) > 0L && order_cols %chin% new_roles[["target"]]) {
-    error_input("Order column '%s' may not also be the target column.", order_cols)
-  }
+  if (length(order_cols) > 0L) {
+    if (order_cols %chin% target_cols) {
+      error_input("Order column '%s' may not also be the target column.", order_cols)
+    }
 
-  if (
-    length(order_cols) > 0L &&
-      any(fget_keys(task$col_info, order_cols, "type", key = "id") %nin% c("Date", "POSIXct", "integer", "numeric"))
-  ) {
-    error_input("Order column '%s' must be a Date, POSIXct, numeric or integer column.", order_cols)
-  }
+    order_type = fget_keys(task$col_info, order_cols, "type", key = "id")
+    if (order_type %nin% c("Date", "POSIXct", "integer", "numeric")) {
+      error_input("Order column '%s' must be a Date, POSIXct, numeric or integer column.", order_cols)
+    }
 
-  if (
-    length(order_cols) > 0L &&
-      test_string(task$freq) &&
-      any(fget_keys(task$col_info, order_cols, "type", key = "id") %nin% c("Date", "POSIXct"))
-  ) {
-    error_input(
-      paste0(
-        "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
-        "Use a numeric `freq` (the seasonal period) or `NULL` for an integer index."
-      ),
-      task$freq,
-      order_cols
-    )
-  }
+    if (test_string(task$freq) && order_type %nin% c("Date", "POSIXct")) {
+      error_input(
+        paste0(
+          "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
+          "Use a numeric `freq` (the seasonal period) or `NULL` for an integer index."
+        ),
+        task$freq,
+        order_cols
+      )
+    }
 
-  if (length(order_cols) > 0L && any(task$missings(cols = order_cols) > 0L)) {
-    error_input("Order column '%s' contains missing values.", order_cols)
+    if (task$missings(cols = order_cols) > 0L) {
+      error_input("Order column '%s' contains missing values.", order_cols)
+    }
   }
 
   key_cols = new_roles[["key"]]
-  if (length(key_cols) > 0L && any(key_cols %chin% order_cols)) {
-    error_input(
-      "Column(s) %s may not have both the 'order' and the 'key' role.",
-      str_collapse(intersect(key_cols, order_cols), quote = "'")
-    )
-  }
-
-  if (length(key_cols) > 0L && any(key_cols %chin% new_roles[["target"]])) {
-    error_input(
-      "Key column(s) %s may not also be the target column.",
-      str_collapse(intersect(key_cols, new_roles[["target"]]), quote = "'")
-    )
-  }
-
-  if (
-    length(key_cols) > 0L &&
-      any(
-        fget_keys(task$col_info, key_cols, "type", key = "id") %nin%
-          c("character", "integer", "factor", "ordered")
+  if (length(key_cols) > 0L) {
+    if (any(key_cols %chin% order_cols)) {
+      error_input(
+        "Column(s) %s may not have both the 'order' and the 'key' role.",
+        str_collapse(intersect(key_cols, order_cols), quote = "'")
       )
-  ) {
-    error_input(
-      "Key column(s) %s must be character, integer, factor, or ordered columns.",
-      str_collapse(key_cols, quote = "'")
-    )
-  }
+    }
 
-  if (length(key_cols) > 0L && any(task$missings(cols = key_cols) > 0L)) {
-    missings = task$missings(cols = key_cols)
-    missings = names(missings[missings > 0L])
-    error_input("Key column(s) %s contain missing values.", str_collapse(missings, quote = "'"))
+    if (any(key_cols %chin% target_cols)) {
+      error_input(
+        "Key column(s) %s may not also be the target column.",
+        str_collapse(intersect(key_cols, target_cols), quote = "'")
+      )
+    }
+
+    key_types = fget_keys(task$col_info, key_cols, "type", key = "id")
+    if (any(key_types %nin% c("character", "integer", "factor", "ordered"))) {
+      error_input(
+        "Key column(s) %s must be character, integer, factor, or ordered columns.",
+        str_collapse(key_cols, quote = "'")
+      )
+    }
+
+    key_missings = task$missings(cols = key_cols)
+    if (any(key_missings > 0L)) {
+      error_input(
+        "Key column(s) %s contain missing values.",
+        str_collapse(names(key_missings[key_missings > 0L]), quote = "'")
+      )
+    }
   }
 
   NextMethod()
