@@ -26,17 +26,17 @@ LearnerFcstTscount = R6Class(
       param_set = ps(
         past_obs = p_uty(
           default = NULL,
-          tags = "train",
+          tags = c("train", "model"),
           custom_check = crate(function(x) check_integerish(x, lower = 1L, null.ok = TRUE))
         ),
         past_mean = p_uty(
           default = NULL,
-          tags = "train",
+          tags = c("train", "model"),
           custom_check = crate(function(x) check_integerish(x, lower = 1L, null.ok = TRUE))
         ),
         external = p_uty(
           default = FALSE,
-          tags = "train",
+          tags = c("train", "model"),
           custom_check = crate(function(x) check_logical(x))
         ),
         link = p_fct(c("identity", "log"), default = "identity", tags = "train"),
@@ -61,20 +61,8 @@ LearnerFcstTscount = R6Class(
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
-
-      model_args = list()
-      if (!is.null(pv$past_obs)) {
-        model_args$past_obs = pv$past_obs
-        pv$past_obs = NULL
-      }
-      if (!is.null(pv$past_mean)) {
-        model_args$past_mean = pv$past_mean
-        pv$past_mean = NULL
-      }
-      if (!is.null(pv$external)) {
-        model_args$external = pv$external
-        pv$external = NULL
-      }
+      model_args = self$param_set$get_values(tags = "model")
+      pv = remove_named(pv, names(model_args))
 
       xreg = NULL
       if (task$n_features > 0L) {
