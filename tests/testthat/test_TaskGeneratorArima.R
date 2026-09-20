@@ -6,7 +6,7 @@ test_that("arima generator", {
   )
   task = generator$generate(24L)
   expect_identical(task$feature_names, character())
-  expect_identical(task$data(cols = "date")[[1L]], seq(as.Date("2000-01-01"), by = "month", length.out = 24L))
+  expect_identical(task$data(cols = "time")[[1L]], seq(as.Date("2000-01-01"), by = "month", length.out = 24L))
   expect_numeric(task$truth(), len = 24L, any.missing = FALSE)
 })
 
@@ -22,22 +22,21 @@ test_that("arima generator handles differencing and integer index", {
   withr::local_seed(1L)
   task = tgen("arima", ar = numeric(), d = 1L, freq = 4)$generate(20L)
   expect_identical(task$nrow, 20L)
-  expect_identical(task$col_roles$order, "index")
-  expect_identical(task$data(cols = "index")[[1L]], 1:20)
+    expect_identical(task$data(cols = "time")[[1L]], 1:20)
   expect_identical(task$freq, 4)
   expect_error(tgen("arima", ar = 1.5)$generate(10L), "not stationary")
 })
 
 test_that("arima generator supports sub-daily frequencies", {
   task = tgen("arima", freq = "hour", start = as.Date("2020-01-01"))$generate(5L)
-  expect_posixct(task$data(cols = "date")[[1L]], len = 5L)
+  expect_posixct(task$data(cols = "time")[[1L]], len = 5L)
   task = tgen("arima", freq = "DSTday", start = as.Date("2020-01-01"))$generate(5L)
-  expect_posixct(task$data(cols = "date")[[1L]], len = 5L)
+  expect_posixct(task$data(cols = "time")[[1L]], len = 5L)
 })
 
 test_that("arima generator builds a regular grid from a month-end start", {
   task = tgen("arima", start = as.Date("2000-01-31"))$generate(4L)
-  expect_identical(task$data(cols = "date")[[1L]], as.Date(c("2000-01-31", "2000-02-29", "2000-03-31", "2000-04-30")))
+  expect_identical(task$data(cols = "time")[[1L]], as.Date(c("2000-01-31", "2000-02-29", "2000-03-31", "2000-04-30")))
   expect_data_table(generate_newdata(task, 2L), nrows = 2L)
 })
 

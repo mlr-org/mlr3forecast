@@ -78,19 +78,16 @@ TaskGeneratorArima = R6Class(
       y = unlist(map(seq_len(pv$k), function(i) tail(as.numeric(stats::arima.sim(model, n = n, sd = pv$sd)), n)))
 
       freq = pv$freq
-      if (is.character(freq)) {
+      time = if (is.character(freq)) {
         start = pv$start
         if (inherits(start, "Date") && grepl("sec|min|hour|DSTday", freq)) {
           start = as.POSIXct(start)
         }
-        order = c(start, seq_order(start, freq, n - 1L))
-        order_col = "date"
+        c(start, seq_order(start, freq, n - 1L))
       } else {
-        order = seq_len(n)
-        order_col = "index"
+        seq_len(n)
       }
-      data = data.table(rep(order, times = pv$k), y = y)
-      setnames(data, 1L, order_col)
+      data = data.table(time = rep(time, times = pv$k), y = y)
       key = character()
       if (pv$k > 1L) {
         set(data, j = "series", value = factor(rep(seq_len(pv$k), each = n)))
@@ -101,7 +98,7 @@ TaskGeneratorArima = R6Class(
         sprintf("%s_%i", self$id, n),
         as_data_backend(data),
         target = "y",
-        order = order_col,
+        order = "time",
         key = key,
         freq = freq
       )
