@@ -57,21 +57,6 @@ test_that("quantiles_to_levels dedupes floating-point levels", {
   expect_equal(quantiles_to_levels(c(0.05, 0.5, 0.95)), 90)
 })
 
-test_that("as.ts works", {
-  task = tsk("airpassengers")
-  ts = as.ts(task)
-  expect_class(ts, "ts")
-  expect_length(ts, task$nrow)
-  expect_identical(stats::frequency(ts), 12)
-})
-
-test_that("as.ts works with explicit freq", {
-  task = tsk("airpassengers")
-  ts = as.ts(task, freq = 4L)
-  expect_class(ts, "ts")
-  expect_identical(stats::frequency(ts), 4)
-})
-
 test_that("freq_to_period maps single-unit freqs to seasonal periods", {
   expect_equal(freq_to_period("month"), 12)
   expect_equal(freq_to_period("1 month"), 12)

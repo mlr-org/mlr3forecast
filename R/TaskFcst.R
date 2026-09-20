@@ -270,3 +270,13 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
 
   NextMethod()
 }
+
+#' @export
+as.ts.TaskFcst = function(x, ..., freq = NULL) {
+  if (length(x$col_roles$key) > 0L) {
+    error_input("Cannot coerce a multi-series (keyed) task to a single ts object.")
+  }
+  freq = freq_to_period(freq %??% x$freq)
+  y = x$data(cols = x$target_names, ordered = TRUE)[[1L]]
+  stats::ts(y, freq = freq)
+}

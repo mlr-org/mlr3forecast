@@ -203,3 +203,18 @@ test_that("print omits frequency when NULL", {
   out = capture.output(print(task))
   expect_no_match(out, "Frequency")
 })
+
+test_that("as.ts works", {
+  task = tsk("airpassengers")
+  ts = as.ts(task)
+  expect_class(ts, "ts")
+  expect_length(ts, task$nrow)
+  expect_identical(stats::frequency(ts), 12)
+})
+
+test_that("as.ts works with explicit freq", {
+  task = tsk("airpassengers")
+  ts = as.ts(task, freq = 4L)
+  expect_class(ts, "ts")
+  expect_identical(stats::frequency(ts), 4)
+})
