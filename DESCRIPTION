@@ -155,6 +155,8 @@ Collate:
     'TaskFcst_lynx.R'
     'TaskFcst_monash.R'
     'TaskFcst_usaccdeaths.R'
+    'TaskGeneratorArima.R'
+    'TaskGeneratorSeasonal.R'
     'as_task_fcst.R'
     'assertions.R'
     'autoplot.R'
