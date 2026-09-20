@@ -122,8 +122,20 @@ This is \emph{not} the seasonal period -- see \code{period}.}
 \item{period}{(\code{character()} | \code{numeric()} | \code{NULL})\cr
 Seasonal period(s) of the time series, in observations per cycle.
 Either a positive number (or vector of them) such as \code{12}, or a cycle name resolved against
-\code{freq} such as \code{"year"} or \code{"week"}. See \code{\link[=common_periods]{common_periods()}} for the cycles a frequency implies.
-If \code{NULL} (default), the period is derived from \code{freq}: the shortest implied cycle spanning at
+\code{freq} such as \code{"year"} or \code{"week"}.
+The cycle names a calendar \code{freq} implies and the periods they resolve to are:\tabular{lllll}{
+   \code{freq} \tab \code{"hour"} \tab \code{"day"} \tab \code{"week"} \tab \code{"year"} \cr
+   \code{"min"} \tab 60 \tab 1440 \tab 10080 \tab 525960 \cr
+   \code{"hour"} \tab  \tab 24 \tab 168 \tab 8766 \cr
+   \code{"day"} \tab  \tab  \tab 7 \tab 365.25 \cr
+   \code{"week"} \tab  \tab  \tab  \tab 52.18 \cr
+   \code{"month"} \tab  \tab  \tab  \tab 12 \cr
+   \code{"quarter"} \tab  \tab  \tab  \tab 4 \cr
+}
+
+
+A multiple of a unit divides the period, e.g. \code{"30 min"} resolves \code{"day"} to \code{48}.
+If \code{NULL} (default), the period is derived from \code{freq} as the shortest implied cycle spanning at
 least four observations, e.g. \code{12} for monthly, \code{4} for quarterly, \code{7} for daily and \code{24} for
 hourly data.
 Sets the default for every learner, \code{PipeOp} and \code{Measure} that needs a seasonal period; each of
