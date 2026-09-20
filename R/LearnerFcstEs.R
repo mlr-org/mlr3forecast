@@ -1,3 +1,4 @@
+#' @include LearnerFcstSmooth.R
 #' @title Exponential Smoothing Forecast Learner
 #'
 #' @name mlr_learners_fcst.es

@@ -1,3 +1,4 @@
+#' @include LearnerFcstSmooth.R
 #' @title GUM Forecast Learner
 #'
 #' @name mlr_learners_fcst.gum

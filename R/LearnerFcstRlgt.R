@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Local and Global Trend Forecast Learner
 #'
 #' @name mlr_learners_fcst.rlgt

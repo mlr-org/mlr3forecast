@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title ETS Forecast Learner
 #'
 #' @name mlr_learners_fcst.ets

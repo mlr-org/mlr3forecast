@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Autoregressive Forecast Learner
 #'
 #' @name mlr_learners_fcst.ar

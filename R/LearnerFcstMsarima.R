@@ -1,3 +1,4 @@
+#' @include LearnerFcstSmooth.R
 #' @title Multiple-Seasonal ARIMA Forecast Learner
 #'
 #' @name mlr_learners_fcst.msarima

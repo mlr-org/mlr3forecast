@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Time Series Linear Model Forecast Learner
 #'
 #' @name mlr_learners_fcst.tslm

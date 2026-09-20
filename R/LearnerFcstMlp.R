@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Multilayer Perceptron Forecast Learner
 #'
 #' @name mlr_learners_fcst.mlp

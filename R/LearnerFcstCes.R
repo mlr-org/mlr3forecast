@@ -1,3 +1,4 @@
+#' @include LearnerFcstSmooth.R
 #' @title CES Forecast Learner
 #'
 #' @name mlr_learners_fcst.ces

@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Croston Forecast Learner
 #'
 #' @name mlr_learners_fcst.croston

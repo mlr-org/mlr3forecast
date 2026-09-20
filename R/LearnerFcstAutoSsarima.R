@@ -1,3 +1,4 @@
+#' @include LearnerFcstSmooth.R
 #' @title Auto State-Space ARIMA Forecast Learner
 #'
 #' @name mlr_learners_fcst.auto_ssarima

@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Mean Forecast Learner
 #'
 #' @name mlr_learners_fcst.mean

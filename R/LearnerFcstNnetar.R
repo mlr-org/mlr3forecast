@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Neural Network Forecast Learner
 #'
 #' @name mlr_learners_fcst.nnetar

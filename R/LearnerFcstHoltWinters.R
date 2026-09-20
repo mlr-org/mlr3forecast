@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Holt-Winters Forecast Learner
 #'
 #' @name mlr_learners_fcst.holt_winters

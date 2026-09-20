@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Spline Forecast Learner
 #'
 #' @name mlr_learners_fcst.spline

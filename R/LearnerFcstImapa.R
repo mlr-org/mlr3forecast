@@ -1,3 +1,4 @@
+#' @include LearnerFcst.R
 #' @title Intermittent MAPA Forecast Learner
 #'
 #' @name mlr_learners_fcst.imapa

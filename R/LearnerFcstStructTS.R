@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Structural Time Series Forecast Learner
 #'
 #' @name mlr_learners_fcst.struct_ts

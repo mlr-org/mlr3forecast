@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Theta Forecast Learner
 #'
 #' @name mlr_learners_fcst.theta

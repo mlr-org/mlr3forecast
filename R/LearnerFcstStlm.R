@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title STL + ETS/ARIMA Forecast Learner
 #'
 #' @name mlr_learners_fcst.stlm

@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title ARFIMA Forecast Learner
 #'
 #' @name mlr_learners_fcst.arfima

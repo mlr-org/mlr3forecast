@@ -1,3 +1,4 @@
+#' @include LearnerFcst.R
 #' @title Abstract class for forecast package learner
 #' @keywords internal
 LearnerFcstForecast = R6Class(

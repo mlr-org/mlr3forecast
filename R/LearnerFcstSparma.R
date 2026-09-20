@@ -1,3 +1,4 @@
+#' @include LearnerFcstSmooth.R
 #' @title Sparse ARMA Forecast Learner
 #'
 #' @name mlr_learners_fcst.sparma

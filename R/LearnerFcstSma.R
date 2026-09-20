@@ -1,3 +1,4 @@
+#' @include LearnerFcst.R
 #' @title Simple Moving Average Forecast Learner
 #'
 #' @name mlr_learners_fcst.sma

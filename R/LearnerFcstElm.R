@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Extreme Learning Machine Forecast Learner
 #'
 #' @name mlr_learners_fcst.elm

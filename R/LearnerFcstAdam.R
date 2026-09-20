@@ -1,3 +1,4 @@
+#' @include LearnerFcstSmooth.R
 #' @title ADAM Forecast Learner
 #'
 #' @name mlr_learners_fcst.adam

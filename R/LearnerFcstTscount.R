@@ -1,3 +1,4 @@
+#' @include LearnerFcst.R
 #' @title Count Time Series Forecast Learner
 #'
 #' @name mlr_learners_fcst.tscount

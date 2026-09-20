@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Bagged Model Forecast Learner
 #'
 #' @name mlr_learners_fcst.bagged

@@ -1,3 +1,4 @@
+#' @include LearnerFcstForecast.R
 #' @title Random Walk Forecast Learner
 #'
 #' @name mlr_learners_fcst.random_walk

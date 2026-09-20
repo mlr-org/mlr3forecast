@@ -1,3 +1,4 @@
+#' @include LearnerFcst.R
 #' @title Prophet Forecast Learner
 #'
 #' @name mlr_learners_fcst.prophet
