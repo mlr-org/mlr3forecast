@@ -194,7 +194,6 @@ as_task.tsf = function(x, id = deparse1(substitute(x)), clone = FALSE, ...) {
 
 #' @rdname as_task_fcst
 #' @export
-as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
 as_task_fcst.ts = function(
   x,
   freq = NULL,

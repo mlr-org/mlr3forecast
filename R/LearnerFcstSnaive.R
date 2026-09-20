@@ -52,7 +52,7 @@ LearnerFcstSnaive = R6Class(
     .fn = "rw_model",
 
     .fit = function(task, pv) {
-      y = as.ts(task)
+      y = private$.as_ts(task)
       lag = max(1L, round(stats::frequency(y)))
       model = invoke(forecast::rw_model, y = y, lag = lag, drift = FALSE, .args = pv)
       private$.tidy_model(model, task)
