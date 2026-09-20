@@ -74,8 +74,6 @@ TaskGeneratorArima = R6Class(
     .generate = function(n) {
       pv = self$param_set$get_values()
       model = list(order = c(length(pv$ar), pv$d, length(pv$ma)), ar = pv$ar, ma = pv$ma)
-      # arima.sim() prepends d zeros when integrating, keep the last n values
-      y = unlist(map(seq_len(pv$k), function(i) tail(as.numeric(stats::arima.sim(model, n = n, sd = pv$sd)), n)))
 
       freq = pv$freq
       time = if (is.character(freq)) {
@@ -87,13 +85,19 @@ TaskGeneratorArima = R6Class(
       } else {
         seq_len(n)
       }
-      data = data.table(time = rep(time, times = pv$k), y = y)
-      key = character()
-      if (pv$k > 1L) {
-        set(data, j = "series", value = factor(rep(seq_len(pv$k), each = n)))
-        setcolorder(data, "series")
-        key = "series"
-      }
+
+      data = map_dtr(
+        seq_len(pv$k),
+        function(i) {
+          # arima.sim() prepends d zeros when integrating, keep the last n values
+          y = tail(as.numeric(stats::arima.sim(model, n = n, sd = pv$sd)), n)
+          data.table(time = time, y = y)
+        },
+        .idcol = "series"
+      )
+      key = if (pv$k > 1L) "series" else character()
+      set(data, j = "series", value = if (pv$k > 1L) factor(data$series) else NULL)
+
       TaskFcst$new(
         sprintf("%s_%i", self$id, n),
         as_data_backend(data),
