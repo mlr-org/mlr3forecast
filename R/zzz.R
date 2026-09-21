@@ -20,6 +20,7 @@ utils::globalVariables(c(".idx", ".value", ".type", ".key", "..row_id", "R_user_
 
 mlr3forecast_resamplings = new.env(parent = emptyenv())
 mlr3forecast_tasks = new.env(parent = emptyenv())
+mlr3forecast_task_generators = new.env(parent = emptyenv())
 mlr3forecast_learners = new.env(parent = emptyenv())
 mlr3forecast_measures = new.env(parent = emptyenv())
 mlr3forecast_col_roles = "key"
@@ -44,6 +45,7 @@ register_item = function(env, type) {
 
 register_resampling = register_item(mlr3forecast_resamplings, "resampling")
 register_task = register_item(mlr3forecast_tasks, "task")
+register_task_generator = register_item(mlr3forecast_task_generators, "task generator")
 register_learner = register_item(mlr3forecast_learners, "learner")
 register_measure = register_item(mlr3forecast_measures, "measure")
 register_po = register_item(mlr3forecast_pipeops, "pipeop")
@@ -82,6 +84,10 @@ register_mlr3 = function(...) {
   mlr_tasks = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
   iwalk(as.list(mlr3forecast_tasks), function(task, id) mlr_tasks$add(id, task))
 
+  # add task generators
+  mlr_task_generators = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
+  iwalk(as.list(mlr3forecast_task_generators), function(generator, id) mlr_task_generators$add(id, generator))
+
   # add learners
   mlr_learners = utils::getFromNamespace("mlr_learners", ns = "mlr3")
   iwalk(as.list(mlr3forecast_learners), function(learner, id) mlr_learners$add(id, learner))
@@ -117,6 +123,7 @@ register_mlr3pipelines = function(...) {
 .onUnload = function(libpath) {
   walk(names(mlr3forecast_resamplings), function(nm) mlr_resamplings$remove(nm))
   walk(names(mlr3forecast_tasks), function(nm) mlr_tasks$remove(nm))
+  walk(names(mlr3forecast_task_generators), function(nm) mlr_task_generators$remove(nm))
   walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
   walk(names(mlr3forecast_measures), function(nm) mlr_measures$remove(nm))
   walk(names(mlr3forecast_pipeops), function(nm) mlr_pipeops$remove(nm))

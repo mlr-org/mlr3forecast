@@ -9,6 +9,7 @@
 * feat: `list_monash_datasets()` lists the Monash Forecasting Repository datasets available to `download_monash_dataset()` and `tsk("monash")`, including their download sizes.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * perf: `read_tsf()` builds calendar date indices arithmetically instead of through `ISOdate()`, which makes reading files with many series about 20 times faster.
+* feat: `tgen("arima")` is a new task generator that simulates ARIMA series via `stats::arima.sim()` into a forecast task, optionally as a keyed panel of `k` independent series.
 * feat: `tsk("monash", dataset = ...)` creates a forecast task from a Monash Forecasting Repository dataset.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.

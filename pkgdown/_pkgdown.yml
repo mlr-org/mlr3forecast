@@ -55,6 +55,9 @@ reference:
     contents:
       - TaskFcst
       - starts_with("mlr_tasks")
+  - title: Task Generators
+    contents:
+      - starts_with("mlr_task_generators")
   - title: Predictions
     contents:
       - PredictionFcst

@@ -32,6 +32,7 @@ sparma
 stheta
 stlm
 tbats
+tgen
 tsbox
 tsibble
 tsintermittent
