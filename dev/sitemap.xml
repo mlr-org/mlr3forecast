@@ -93,6 +93,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.unitekey.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_resamplings_fcst.cv.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_resamplings_fcst.holdout.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_task_generators_arima.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_airpassengers.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_electricity.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_livestock.html</loc></url>

@@ -164,6 +164,12 @@
 - [`mlr_tasks_usaccdeaths`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_usaccdeaths.md)
   : Accidental Deaths in the US Forecast Task
 
+## Task Generators
+
+- [`mlr_task_generators_arima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_task_generators_arima.md)
+  [`TaskGeneratorArima`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_task_generators_arima.md)
+  : ARIMA Forecast Task Generator
+
 ## Predictions
 
 - [`PredictionFcst`](https://mlr3forecast.mlr-org.com/dev/reference/PredictionFcst.md)
