@@ -99,6 +99,8 @@
   `horizons`.
 - fix: `DirectForecaster` no longer ignores predict parameters changed
   after training.
+- fix: Learners wrapping the `forecast` package now return correct
+  quantiles close to the median and support extreme quantiles.
 - fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare
   dependencies for parameters that only affect exhaustive search or
   bootstrap prediction.

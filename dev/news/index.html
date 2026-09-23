@@ -76,6 +76,7 @@
 <li>fix: Exogenous learners from <code>smooth</code> no longer advertise support for missing feature values.</li>
 <li>fix: Forecaster hashes now cover the wrapped graph’s structure and the <code>horizons</code>.</li>
 <li>fix: <code>DirectForecaster</code> no longer ignores predict parameters changed after training.</li>
+<li>fix: Learners wrapping the <code>forecast</code> package now return correct quantiles close to the median and support extreme quantiles.</li>
 <li>fix: <code>fcst.arfima</code>, <code>fcst.auto_arima</code>, and <code>fcst.mean</code> now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.</li>
 <li>fix: <code>fcst.arfima</code> and <code>fcst.auto_arima</code> no longer switch on <code>parallel</code> via <code><a href="https://mlr3.mlr-org.com/reference/set_threads.html" class="external-link">set_threads()</a></code> during stepwise search, where <code><a href="https://pkg.robjhyndman.com/forecast/reference/auto.arima.html" class="external-link">forecast::auto.arima()</a></code> warned and fit in serial.</li>
 <li>fix: <code>fcst.stlm</code> initializes <code>method</code> to <code>"ets"</code>, so <code>etsmodel</code> and <code>allow.multiplicative.trend</code> can be set without setting <code>method</code> first.</li>

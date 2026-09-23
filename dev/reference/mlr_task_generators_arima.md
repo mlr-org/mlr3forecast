@@ -106,14 +106,14 @@ The objects of this class are cloneable with this method.
 generator = tgen("arima")
 task = generator$generate(60)
 task$head()
-#>           y
-#>       <num>
-#> 1: 1.580073
-#> 2: 2.033731
-#> 3: 1.528938
-#> 4: 2.331455
-#> 5: 2.177664
-#> 6: 2.020195
+#>             y
+#>         <num>
+#> 1: -0.9097209
+#> 2: -1.6880591
+#> 3: -1.8292988
+#> 4: -0.3899206
+#> 5: -1.3366492
+#> 6: -0.2272970
 
 # random walk, 3 series
 generator = tgen("arima", ar = numeric(), d = 1L, k = 3L)
