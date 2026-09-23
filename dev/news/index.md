@@ -104,6 +104,9 @@
   during stepwise search, where
   [`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
   warned and fit in serial.
+- fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and
+  `allow.multiplicative.trend` can be set without setting `method`
+  first.
 - fix: `fcst.struct_ts` no longer declares `"level"` as the default of
   `type`, since
   [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits

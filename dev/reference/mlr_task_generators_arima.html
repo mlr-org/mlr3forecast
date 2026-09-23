@@ -138,14 +138,14 @@ running session (depending on the loaded packages).</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">generator</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"arima"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">generator</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1.580073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2.033731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1.528938</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2.331455</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2.177664</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2.020195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: -0.9097209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: -1.6880591</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: -1.8292988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: -0.3899206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: -1.3366492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: -0.2272970</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># random walk, 3 series</span></span></span>
 <span class="r-in"><span><span class="va">generator</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"arima"</span>, ar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>, d <span class="op">=</span> <span class="fl">1L</span>, k <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></span>

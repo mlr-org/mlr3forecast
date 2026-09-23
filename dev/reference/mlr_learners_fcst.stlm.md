@@ -8,6 +8,12 @@ from package [forecast](https://CRAN.R-project.org/package=forecast).
 
 The task must provide a seasonal time series (frequency \> 1).
 
+## Initial parameter values
+
+- `method`: Set to `"ets"`, the upstream default, so that `etsmodel` and
+  `allow.multiplicative.trend` can be set without setting `method`
+  first.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)
@@ -40,7 +46,7 @@ or with the associated sugar function
 | s.window | untyped | 7L + 4L \* seq_len(6L) |  | \- |
 | t.window | integer | NULL |  | \\\[1, \infty)\\ |
 | robust | logical | FALSE | TRUE, FALSE | \- |
-| method | character | ets | ets, arima | \- |
+| method | character | \- | ets, arima | \- |
 | modelfunction | untyped | NULL |  | \- |
 | etsmodel | untyped | "ZZN" |  | \- |
 | lambda | untyped | NULL |  | \- |
@@ -212,7 +218,7 @@ print(learner)
 #> 
 #> ── <LearnerFcstStlm> (fcst.stlm): STL + ETS/ARIMA ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
 #> • Model: -
-#> • Parameters: list()
+#> • Parameters: method=ets
 #> • Packages: mlr3, mlr3forecast, and forecast
 #> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric
@@ -356,8 +362,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x56464b738268>
-#> <environment: 0x56464b7342a0>
+#> <bytecode: 0x560c9e2d9760>
+#> <environment: 0x560c9e2d4b80>
 #> 
 #> $lambda
 #> NULL
