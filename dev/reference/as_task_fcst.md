@@ -21,7 +21,10 @@ objects:
 
 6.  `tsf`: from tsf format data.
 
-7.  `tbl_ts`: from tsibble objects.
+7.  `tbl_ts`: from tsibble objects. The index becomes the order column,
+    where `yearweek`, `yearmonth`, and `yearquarter` indices are
+    converted to dates. The key variables become key columns, and all
+    measured variables other than `target` become features.
 
 ## Usage
 

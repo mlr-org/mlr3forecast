@@ -14,6 +14,9 @@ zoo and xts: from zoo/xts time series objects.
 timeSeries: from Rmetrics timeSeries objects.
 tsf: from tsf format data.
 tbl_ts: from tsibble objects.
+The index becomes the order column, where yearweek, yearmonth, and yearquarter indices are converted to
+dates.
+The key variables become key columns, and all measured variables other than target become features.
 
 "><meta property="og:description" content="Convert object to a TaskFcst.
 This is a S3 generic. mlr3forecast ships with methods for the following objects:
@@ -24,6 +27,9 @@ zoo and xts: from zoo/xts time series objects.
 timeSeries: from Rmetrics timeSeries objects.
 tsf: from tsf format data.
 tbl_ts: from tsibble objects.
+The index becomes the order column, where yearweek, yearmonth, and yearquarter indices are converted to
+dates.
+The key variables become key columns, and all measured variables other than target become features.
 
 "><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -76,7 +82,10 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 <li><p><code>zoo</code> and <code>xts</code>: from zoo/xts time series objects.</p></li>
 <li><p><code>timeSeries</code>: from Rmetrics timeSeries objects.</p></li>
 <li><p><code>tsf</code>: from tsf format data.</p></li>
-<li><p><code>tbl_ts</code>: from tsibble objects.</p></li>
+<li><p><code>tbl_ts</code>: from tsibble objects.
+The index becomes the order column, where <code>yearweek</code>, <code>yearmonth</code>, and <code>yearquarter</code> indices are converted to
+dates.
+The key variables become key columns, and all measured variables other than <code>target</code> become features.</p></li>
 </ol></div>
 
     <div class="section level2">

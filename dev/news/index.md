@@ -15,6 +15,10 @@
   coerces whole-number numeric attributes of tsf data to integer key
   columns, so datasets such as the Monash `cif_2016` dataset can be
   converted.
+- fix:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  now converts tsibbles with several measured variables, keeping the
+  non-target ones as features and numeric indices as numbers.
 - feat:
   [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
   downloads Monash Forecasting Repository datasets by dataset ID from
