@@ -27,6 +27,7 @@
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
 * fix: Forecaster hashes now cover the wrapped graph's structure and the `horizons`.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
+* fix: Learners wrapping the `forecast` package now return correct quantiles close to the median and support extreme quantiles.
 * fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
 * fix: `fcst.arfima` and `fcst.auto_arima` no longer switch on `parallel` via `set_threads()` during stepwise search, where `forecast::auto.arima()` warned and fit in serial.
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.

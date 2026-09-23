@@ -49,6 +49,17 @@ test_that("asymmetric quantile prediction works", {
   expect_equal(q[, "q0.9"], qref[, "q0.9"])
 })
 
+test_that("quantiles near the median and in the far tails map to the right levels", {
+  task = tsk("airpassengers")
+  learner = quantile_learner(c(0.00001, 0.498, 0.5, 0.502))
+  learner$train(task, 1:132)
+  q = learner$predict(task, 133L)$quantiles
+  fc = forecast::forecast(learner$native_model, h = 1L, level = 95)
+  sd = (fc$upper[1L] - fc$mean[1L]) / qnorm(0.975)
+  expect_equal(unname(q[1L, 4L] - q[1L, 2L]), 2 * qnorm(0.502) * sd, tolerance = 1e-6)
+  expect_equal(unname(q[1L, 1L]), fc$mean[1L] + qnorm(0.00001) * sd, tolerance = 1e-6)
+})
+
 test_that("quantile prediction with only the median works", {
   task = tsk("airpassengers")
   learner = quantile_learner(0.5)

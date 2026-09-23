@@ -13,7 +13,8 @@ LearnerFcstForecast = R6Class(
     .parallel_arg = NULL,
 
     .postprocess = function(pred) pred,
-    .adjust_level = function(level) level,
+    # pass fractions, since forecast rescales levels that are all below 1
+    .adjust_level = function(level) level / 100,
     .adjust_predict_args = function(args, is_quantile) args,
 
     .train = function(task) {

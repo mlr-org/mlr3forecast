@@ -58,6 +58,7 @@ LearnerFcstRlgt = R6Class(
       error_config("In-sample prediction is not supported for %s.", self$id)
     },
 
+    # Rlgt expects levels in percent, unlike forecast
     .adjust_level = function(level) {
       # Rlgt special-cases a lone level 50 and crashes; pad it so a 2-column
       # interval matrix comes back. the extra column is ignored downstream
