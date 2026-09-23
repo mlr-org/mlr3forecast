@@ -80,7 +80,6 @@ test_that("as_task conversion timeSeries", {
 
 test_that("as_task conversion keyed tsibble", {
   skip_if_not_installed("tsibble")
-  skip_if_not_installed("tsbox")
 
   x = tsibble::tsibble(
     id = c("a", "a", "b", "b"),
@@ -95,6 +94,32 @@ test_that("as_task conversion keyed tsibble", {
   expect_equal(task$col_roles$key, "id")
   expect_true("keys" %in% task$properties)
   expect_character(task$data(cols = "id")$id)
+})
+
+test_that("as_task conversion multi-measure tsibble", {
+  skip_if_not_installed("tsibble")
+
+  dates = seq(as.Date("2020-01-01"), by = "month", length.out = 4L)
+  x = tsibble::tsibble(
+    month = tsibble::yearmonth(dates),
+    y = c(1, 2, 3, 4),
+    x1 = c(5, 6, 7, 8),
+    flag = c(TRUE, FALSE, TRUE, FALSE),
+    index = month
+  )
+  task = as_task_fcst(x, target = "y")
+
+  expect_identical(task$target_names, "y")
+  expect_setequal(task$feature_names, c("x1", "flag"))
+  expect_identical(task$data(cols = "month")$month, dates)
+  expect_data_table(generate_newdata(task, 2L), nrows = 2L)
+})
+
+test_that("as_task conversion tsibble keeps numeric index", {
+  skip_if_not_installed("tsibble")
+
+  x = tsibble::tsibble(year = 2000:2003, y = c(1, 2, 3, 4), index = year)
+  expect_identical(as_task_fcst(x, target = "y")$data(cols = "year")$year, 2000:2003)
 })
 
 test_that("as_task_fcst assertions", {

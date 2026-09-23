@@ -3,6 +3,7 @@
 * BREAKING CHANGE: `download_zenodo_record()` no longer defaults to the M3 yearly dataset. Both `record_id` and `dataset_name` must be supplied.
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * fix: `as_task_fcst()` coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash `cif_2016` dataset can be converted.
+* fix: `as_task_fcst()` now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.
 * feat: `download_monash_dataset()` downloads Monash Forecasting Repository datasets by dataset ID from pinned Zenodo records and sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
 * feat: `download_monash_dataset()` and `tsk("monash")` cache downloaded files if the new option `mlr3forecast.cache` is set to `TRUE` or a directory.
 * fix: `download_zenodo_record()` is deprecated in favor of `download_monash_dataset()` and warns on each call.

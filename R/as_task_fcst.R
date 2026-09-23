@@ -11,6 +11,9 @@
 #' 5. `timeSeries`: from Rmetrics timeSeries objects.
 #' 6. `tsf`: from tsf format data.
 #' 7. `tbl_ts`: from tsibble objects.
+#'    The index becomes the order column, where `yearweek`, `yearmonth`, and `yearquarter` indices are converted to
+#'    dates.
+#'    The key variables become key columns, and all measured variables other than `target` become features.
 #'
 #' @inheritParams mlr3::as_task_regr
 #' @template param_order
@@ -206,10 +209,13 @@ as_task_fcst.timeSeries = function(x, freq = NULL, id = deparse1(substitute(x)),
 #' @export
 as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
-  require_namespaces(c("tsbox", "tsibble"))
+  require_namespaces("tsibble")
   order = tsibble::index_var(x)
   key = tsibble::key_vars(x)
-  x = tsbox::ts_dt(x)
+  x = as.data.table(tsibble::as_tibble(x))
+  if (inherits(x[[order]], c("yearweek", "yearmonth", "yearquarter"))) {
+    set(x, j = order, value = as.Date(x[[order]]))
+  }
   as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 

@@ -133,6 +133,9 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 \item \code{timeSeries}: from Rmetrics timeSeries objects.
 \item \code{tsf}: from tsf format data.
 \item \code{tbl_ts}: from tsibble objects.
+The index becomes the order column, where \code{yearweek}, \code{yearmonth}, and \code{yearquarter} indices are converted to
+dates.
+The key variables become key columns, and all measured variables other than \code{target} become features.
 }
 }
 \examples{
