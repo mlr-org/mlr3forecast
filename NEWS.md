@@ -27,6 +27,7 @@
 * fix: Forecaster hashes now cover the wrapped graph's structure and the `horizons`.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
 * fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
+* fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.
 * fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
 * perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.

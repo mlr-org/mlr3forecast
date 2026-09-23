@@ -8,6 +8,7 @@
 #' trend, and basic structural model (level + trend + seasonal).
 #' Calls [stats::StructTS()] from package \pkg{stats}.
 #'
+#' If `type` is not set, [stats::StructTS()] fits `"BSM"` for seasonal series (frequency > 1) and `"trend"` otherwise.
 #' `type = "BSM"` requires a seasonal time series (frequency > 1). Prediction is performed via
 #' [forecast::forecast.StructTS()] which yields point forecasts and predictive intervals from the Kalman filter.
 #'
@@ -28,7 +29,7 @@ LearnerFcstStructTS = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        type = p_fct(c("level", "trend", "BSM"), default = "level", tags = "train"),
+        type = p_fct(c("level", "trend", "BSM"), tags = "train"),
         init = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
         fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
         optim.control = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_list),

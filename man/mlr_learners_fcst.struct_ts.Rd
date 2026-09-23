@@ -9,6 +9,7 @@ Structural time series model fit by maximum likelihood. Three model types are su
 trend, and basic structural model (level + trend + seasonal).
 Calls \code{\link[stats:StructTS]{stats::StructTS()}} from package \pkg{stats}.
 
+If \code{type} is not set, \code{\link[stats:StructTS]{stats::StructTS()}} fits \code{"BSM"} for seasonal series (frequency > 1) and \code{"trend"} otherwise.
 \code{type = "BSM"} requires a seasonal time series (frequency > 1). Prediction is performed via
 \code{\link[forecast:forecast.StructTS]{forecast::forecast.StructTS()}} which yields point forecasts and predictive intervals from the Kalman filter.
 }
@@ -34,7 +35,7 @@ lrn("fcst.struct_ts")
 \section{Parameters}{
 \tabular{llll}{
    Id \tab Type \tab Default \tab Levels \cr
-   type \tab character \tab level \tab level, trend, BSM \cr
+   type \tab character \tab - \tab level, trend, BSM \cr
    init \tab untyped \tab NULL \tab  \cr
    fixed \tab untyped \tab NULL \tab  \cr
    optim.control \tab untyped \tab NULL \tab  \cr
