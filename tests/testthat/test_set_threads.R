@@ -18,6 +18,14 @@ test_that("num.cores alone enables the parallel switch at train", {
   expect_numeric(learner$predict(task)$response, any.missing = FALSE, len = task$nrow)
 })
 
+test_that("num.cores does not enable parallel fitting during stepwise search", {
+  task = tsk("airpassengers")$filter(1:72)
+  learner = set_threads(lrn("fcst.auto_arima"), 2L)
+  expect_no_warning(learner$train(task))
+  learner = set_threads(lrn("fcst.arfima"), 2L)
+  expect_no_warning(learner$train(task))
+})
+
 test_that("a single thread stays serial", {
   task = tsk("airpassengers")$filter(1:72)
   learner = set_threads(lrn("fcst.bats", use.box.cox = FALSE, use.trend = FALSE), 1L)

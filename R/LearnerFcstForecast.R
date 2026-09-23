@@ -20,7 +20,10 @@ LearnerFcstForecast = R6Class(
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
       parallel_arg = private$.parallel_arg
-      if (!is.null(parallel_arg) && !is.null(pv$num.cores) && pv$num.cores > 1L && is.null(pv[[parallel_arg]])) {
+      multi_core = !is.null(pv$num.cores) && pv$num.cores > 1L
+      # auto.arima() only fits in parallel without stepwise search, and warns otherwise
+      stepwise = "stepwise" %chin% self$param_set$ids() && !isFALSE(pv$stepwise)
+      if (!is.null(parallel_arg) && multi_core && !stepwise && is.null(pv[[parallel_arg]])) {
         pv[[parallel_arg]] = TRUE
       }
       private$.set_context(private$.fit(task, pv), task)

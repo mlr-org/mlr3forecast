@@ -8,8 +8,8 @@
 Auto ARIMA model.
 Calls \code{\link[forecast:auto.arima]{forecast::auto.arima()}} from package \CRANpkg{forecast}.
 
-Parallel fitting via \code{parallel} or \code{\link[mlr3:set_threads]{mlr3::set_threads()}} requires \code{stepwise = FALSE};
-with the default stepwise search, \code{\link[forecast:auto.arima]{forecast::auto.arima()}} warns and fits in serial.
+Parallel fitting requires \code{stepwise = FALSE}.
+\code{\link[mlr3:set_threads]{mlr3::set_threads()}} then enables \code{parallel} automatically, while with the default stepwise search it has no effect.
 }
 \section{Dictionary}{
 

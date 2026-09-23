@@ -7,6 +7,9 @@
 #' ARFIMA model.
 #' Calls [forecast::arfima()] from package \CRANpkg{forecast}.
 #'
+#' Parallel fitting of the ARMA part requires `stepwise = FALSE`.
+#' [mlr3::set_threads()] then enables `parallel` automatically, while with the default stepwise search it has no effect.
+#'
 #' @templateVar id fcst.arfima
 #' @template learner
 #'
