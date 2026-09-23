@@ -10,6 +10,10 @@
 #'
 #' The task must provide a seasonal time series (frequency > 1).
 #'
+#' @section Initial parameter values:
+#' * `method`: Set to `"ets"`, the upstream default, so that `etsmodel` and `allow.multiplicative.trend` can be set
+#'   without setting `method` first.
+#'
 #' @templateVar id fcst.stlm
 #' @template learner
 #'
@@ -30,7 +34,7 @@ LearnerFcstStlm = R6Class(
         s.window = p_uty(default = 7L + 4L * seq_len(6L), tags = "train"),
         t.window = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
         robust = p_lgl(default = FALSE, tags = "train"),
-        method = p_fct(c("ets", "arima"), default = "ets", tags = "train"),
+        method = p_fct(c("ets", "arima"), init = "ets", tags = "train"),
         modelfunction = p_uty(
           default = NULL,
           tags = "train",

@@ -11,6 +11,14 @@ Calls \code{\link[forecast:stlm]{forecast::stlm()}} from package \CRANpkg{foreca
 
 The task must provide a seasonal time series (frequency > 1).
 }
+\section{Initial parameter values}{
+
+\itemize{
+\item \code{method}: Set to \code{"ets"}, the upstream default, so that \code{etsmodel} and \code{allow.multiplicative.trend} can be set
+without setting \code{method} first.
+}
+}
+
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{mlr3::Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners} or with the associated sugar function \code{\link[mlr3:lrn]{mlr3::lrn()}}:
@@ -36,7 +44,7 @@ lrn("fcst.stlm")
    s.window \tab untyped \tab 7L + 4L * seq_len(6L) \tab  \tab - \cr
    t.window \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    robust \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
-   method \tab character \tab ets \tab ets, arima \tab - \cr
+   method \tab character \tab - \tab ets, arima \tab - \cr
    modelfunction \tab untyped \tab NULL \tab  \tab - \cr
    etsmodel \tab untyped \tab "ZZN" \tab  \tab - \cr
    lambda \tab untyped \tab NULL \tab  \tab - \cr
