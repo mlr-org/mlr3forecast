@@ -201,9 +201,11 @@ Rows default to observations with role \code{"use"}, and columns default to feat
 \code{"target"}, \code{"order"}, \code{"key"} or \code{"feature"}. If \code{rows} or \code{cols} are specified which do not
 exist in the \link[mlr3:DataBackend]{mlr3::DataBackend}, an exception is raised.
 
-Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols}.
+The key and order columns are always included, even if \code{cols} omits them.
+Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols},
+except that the key and order columns come first.
 If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
-If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order)}.
+If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$col_roles$key, task$col_roles$order, task$target_names, task$feature_names)}.
 Note that it is recommended to \strong{not} rely on the order of columns, and instead always
 address columns with their respective column name.
   \subsection{Usage}{
