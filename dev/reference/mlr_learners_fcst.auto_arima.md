@@ -4,11 +4,10 @@ Auto ARIMA model. Calls
 [`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
-Parallel fitting via `parallel` or
+Parallel fitting requires `stepwise = FALSE`.
 [`mlr3::set_threads()`](https://mlr3.mlr-org.com/reference/set_threads.html)
-requires `stepwise = FALSE`; with the default stepwise search,
-[`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
-warns and fits in serial.
+then enables `parallel` automatically, while with the default stepwise
+search it has no effect.
 
 ## Dictionary
 

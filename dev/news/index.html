@@ -76,6 +76,8 @@
 <li>fix: Forecaster hashes now cover the wrapped graph’s structure and the <code>horizons</code>.</li>
 <li>fix: <code>DirectForecaster</code> no longer ignores predict parameters changed after training.</li>
 <li>fix: <code>fcst.arfima</code>, <code>fcst.auto_arima</code>, and <code>fcst.mean</code> now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.</li>
+<li>fix: <code>fcst.arfima</code> and <code>fcst.auto_arima</code> no longer switch on <code>parallel</code> via <code><a href="https://mlr3.mlr-org.com/reference/set_threads.html" class="external-link">set_threads()</a></code> during stepwise search, where <code><a href="https://pkg.robjhyndman.com/forecast/reference/auto.arima.html" class="external-link">forecast::auto.arima()</a></code> warned and fit in serial.</li>
+<li>fix: <code>fcst.struct_ts</code> no longer declares <code>"level"</code> as the default of <code>type</code>, since <code><a href="https://rdrr.io/r/stats/StructTS.html" class="external-link">stats::StructTS()</a></code> fits <code>"BSM"</code> for seasonal series and <code>"trend"</code> otherwise.</li>
 <li>fix: <code>$native_model</code> now errors on marshaled models instead of returning wrong objects.</li>
 <li>fix: <code>rsmp("fcst.cv")</code> and <code>rsmp("fcst.holdout")</code> now reject grouped tasks instead of creating invalid time-based splits.</li>
 <li>perf: <code>RecursiveForecaster</code> now predicts all keys jointly per step instead of row by row, making keyed prediction roughly <code>n_keys</code> times faster.</li>

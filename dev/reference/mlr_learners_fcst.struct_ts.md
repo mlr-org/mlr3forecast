@@ -6,6 +6,9 @@ structural model (level + trend + seasonal). Calls
 [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) from
 package stats.
 
+If `type` is not set,
+[`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits
+`"BSM"` for seasonal series (frequency \> 1) and `"trend"` otherwise.
 `type = "BSM"` requires a seasonal time series (frequency \> 1).
 Prediction is performed via
 [`forecast::forecast.StructTS()`](https://pkg.robjhyndman.com/forecast/reference/forecast.StructTS.html)
@@ -42,7 +45,7 @@ or with the associated sugar function
 |               |           |         |                   |
 |---------------|-----------|---------|-------------------|
 | Id            | Type      | Default | Levels            |
-| type          | character | level   | level, trend, BSM |
+| type          | character | \-      | level, trend, BSM |
 | init          | untyped   | NULL    |                   |
 | fixed         | untyped   | NULL    |                   |
 | optim.control | untyped   | NULL    |                   |

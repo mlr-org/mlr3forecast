@@ -4,6 +4,11 @@ ARFIMA model. Calls
 [`forecast::arfima()`](https://pkg.robjhyndman.com/forecast/reference/arfima.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
+Parallel fitting of the ARMA part requires `stepwise = FALSE`.
+[`mlr3::set_threads()`](https://mlr3.mlr-org.com/reference/set_threads.html)
+then enables `parallel` automatically, while with the default stepwise
+search it has no effect.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)

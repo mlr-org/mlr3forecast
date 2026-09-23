@@ -98,6 +98,16 @@
 - fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare
   dependencies for parameters that only affect exhaustive search or
   bootstrap prediction.
+- fix: `fcst.arfima` and `fcst.auto_arima` no longer switch on
+  `parallel` via
+  [`set_threads()`](https://mlr3.mlr-org.com/reference/set_threads.html)
+  during stepwise search, where
+  [`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
+  warned and fit in serial.
+- fix: `fcst.struct_ts` no longer declares `"level"` as the default of
+  `type`, since
+  [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits
+  `"BSM"` for seasonal series and `"trend"` otherwise.
 - fix: `$native_model` now errors on marshaled models instead of
   returning wrong objects.
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped

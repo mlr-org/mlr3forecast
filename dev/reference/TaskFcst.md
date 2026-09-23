@@ -279,10 +279,12 @@ features with roles `"target"`, `"order"`, `"key"` or `"feature"`. If
 [mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html),
 an exception is raised.
 
-Rows and columns are returned in the order specified via the arguments
-`rows` and `cols`. If `rows` is `NULL`, rows are returned in the order
-of `task$row_ids`. If `cols` is `NULL`, the column order defaults to
-`c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order)`.
+The key and order columns are always included, even if `cols` omits
+them. Rows and columns are returned in the order specified via the
+arguments `rows` and `cols`, except that the key and order columns come
+first. If `rows` is `NULL`, rows are returned in the order of
+`task$row_ids`. If `cols` is `NULL`, the column order defaults to
+`c(task$col_roles$key, task$col_roles$order, task$target_names, task$feature_names)`.
 Note that it is recommended to **not** rely on the order of columns, and
 instead always address columns with their respective column name.
 
