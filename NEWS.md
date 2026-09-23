@@ -33,6 +33,7 @@
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.
 * fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.
 * fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
+* fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
 * perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
 

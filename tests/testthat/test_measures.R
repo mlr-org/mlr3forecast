@@ -113,6 +113,9 @@ test_that("MeasureWAPE works", {
   # large errors relative to small series can exceed 100
   pred = PredictionRegr$new(truth = c(1, 1), response = c(5, 5), row_ids = 1:2)
   expect_equal(unname(pred$score(measure)), 400)
+  # pairs with a missing response are dropped from both sums
+  pred = PredictionRegr$new(truth = truth, response = c(8, NA, 27), row_ids = seq_along(truth))
+  expect_equal(unname(pred$score(measure)), 100 * (2 + 3) / (10 + 30))
 })
 
 test_that("MeasureACF1 works", {

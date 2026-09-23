@@ -42,7 +42,8 @@ MeasureWAPE = R6Class(
     .score = function(prediction, ...) {
       truth = prediction$truth
       response = prediction$response
-      sum(abs(truth - response), na.rm = TRUE) / sum(abs(truth), na.rm = TRUE) * 100
+      ok = !is.na(truth) & !is.na(response)
+      sum(abs(truth[ok] - response[ok])) / sum(abs(truth[ok])) * 100
     }
   )
 )
