@@ -39,32 +39,26 @@ TaskGeneratorArima = R6Class(
     initialize = function() {
       param_set = ps(
         ar = p_uty(
+          init = 0.7,
           tags = "required",
           custom_check = crate(function(x) check_numeric(x, finite = TRUE, any.missing = FALSE))
         ),
-        d = p_int(0L, tags = "required"),
+        d = p_int(0L, init = 0L, tags = "required"),
         ma = p_uty(
+          init = numeric(),
           tags = "required",
           custom_check = crate(function(x) check_numeric(x, finite = TRUE, any.missing = FALSE))
         ),
-        sd = p_dbl(0, tags = "required"),
-        k = p_int(1L, tags = "required"),
-        freq = p_uty(tags = "required", custom_check = check_freq),
+        sd = p_dbl(0, init = 1, tags = "required"),
+        k = p_int(1L, init = 1L, tags = "required"),
+        freq = p_uty(init = "month", tags = "required", custom_check = check_freq),
         start = p_uty(
+          init = as.Date("2000-01-01"),
           tags = "required",
           custom_check = crate(function(x) {
             check_date(x, len = 1L, any.missing = FALSE) %check||% check_posixct(x, len = 1L, any.missing = FALSE)
           })
         )
-      )
-      param_set$set_values(
-        ar = 0.7,
-        d = 0L,
-        ma = numeric(),
-        sd = 1,
-        k = 1L,
-        freq = "month",
-        start = as.Date("2000-01-01")
       )
 
       super$initialize(

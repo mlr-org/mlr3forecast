@@ -46,11 +46,11 @@ PipeOpFcstFourier = R6Class(
           })
         ),
         K = p_uty(
+          init = 1L,
           tags = c("train", "predict"),
           custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
         )
       )
-      param_set$set_values(K = 1L)
 
       super$initialize(
         id = id,

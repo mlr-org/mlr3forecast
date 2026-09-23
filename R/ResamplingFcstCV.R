@@ -50,18 +50,11 @@ ResamplingFcstCV = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        horizon = p_int(1L, tags = "required"),
-        folds = p_int(1L, tags = "required"),
-        step_size = p_int(1L, tags = "required"),
-        window_size = p_int(2L, tags = "required"),
-        fixed_window = p_lgl(tags = "required")
-      )
-      param_set$set_values(
-        horizon = 1L,
-        folds = 5L,
-        step_size = 1L,
-        window_size = 3L,
-        fixed_window = FALSE
+        horizon = p_int(1L, init = 1L, tags = "required"),
+        folds = p_int(1L, init = 5L, tags = "required"),
+        step_size = p_int(1L, init = 1L, tags = "required"),
+        window_size = p_int(2L, init = 3L, tags = "required"),
+        fixed_window = p_lgl(init = FALSE, tags = "required")
       )
 
       super$initialize(

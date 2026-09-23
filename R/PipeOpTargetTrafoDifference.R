@@ -46,9 +46,8 @@ PipeOpTargetTrafoDifference = R6Class(
     #'   otherwise be set during construction. Default `list()`.
     initialize = function(id = "fcst.targetdiff", param_vals = list()) {
       param_set = ps(
-        lag = p_int(1L, tags = c("train", "required"))
+        lag = p_int(1L, init = 1L, tags = c("train", "required"))
       )
-      param_set$set_values(lag = 1L)
 
       super$initialize(
         id = id,

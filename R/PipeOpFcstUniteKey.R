@@ -42,11 +42,11 @@ PipeOpFcstUniteKey = R6Class(
     initialize = function(id = "fcst.unitekey", param_vals = list()) {
       param_set = ps(
         key = p_uty(
+          init = "key",
           tags = "predict",
           custom_check = crate(function(x) check_string(x, min.chars = 1L))
         )
       )
-      param_set$set_values(key = "key")
 
       super$initialize(
         id = id,
