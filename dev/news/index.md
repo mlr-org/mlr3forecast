@@ -119,6 +119,8 @@
   `"BSM"` for seasonal series and `"trend"` otherwise.
 - fix: `$native_model` now errors on marshaled models instead of
   returning wrong objects.
+- fix: `msr("fcst.wape")` now ignores rows with a missing prediction in
+  the denominator too, which previously understated the error.
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
   tasks instead of creating invalid time-based splits.
 - perf: `RecursiveForecaster` now predicts all keys jointly per step

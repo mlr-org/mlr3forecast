@@ -82,6 +82,7 @@
 <li>fix: <code>fcst.stlm</code> initializes <code>method</code> to <code>"ets"</code>, so <code>etsmodel</code> and <code>allow.multiplicative.trend</code> can be set without setting <code>method</code> first.</li>
 <li>fix: <code>fcst.struct_ts</code> no longer declares <code>"level"</code> as the default of <code>type</code>, since <code><a href="https://rdrr.io/r/stats/StructTS.html" class="external-link">stats::StructTS()</a></code> fits <code>"BSM"</code> for seasonal series and <code>"trend"</code> otherwise.</li>
 <li>fix: <code>$native_model</code> now errors on marshaled models instead of returning wrong objects.</li>
+<li>fix: <code>msr("fcst.wape")</code> now ignores rows with a missing prediction in the denominator too, which previously understated the error.</li>
 <li>fix: <code>rsmp("fcst.cv")</code> and <code>rsmp("fcst.holdout")</code> now reject grouped tasks instead of creating invalid time-based splits.</li>
 <li>perf: <code>RecursiveForecaster</code> now predicts all keys jointly per step instead of row by row, making keyed prediction roughly <code>n_keys</code> times faster.</li>
 </ul></div>
