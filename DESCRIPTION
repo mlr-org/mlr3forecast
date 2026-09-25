@@ -20,7 +20,7 @@ URL: https://mlr3forecast.mlr-org.com,
     https://github.com/mlr-org/mlr3forecast
 BugReports: https://github.com/mlr-org/mlr3forecast/issues
 Depends:
-    mlr3 (>= 1.7.0),
+    mlr3 (>= 1.8.0),
     R (>= 3.6.0)
 Imports:
     backports (>= 1.5.0),
@@ -30,7 +30,7 @@ Imports:
     generics (>= 0.1.2),
     lgr,
     mlr3misc (>= 0.22.0),
-    mlr3pipelines (>= 0.11.0),
+    mlr3pipelines (>= 0.12.0),
     paradox (>= 1.0.1),
     R6 (>= 2.4.1),
     stats,
