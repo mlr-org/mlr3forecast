@@ -73,9 +73,6 @@ TaskGeneratorArima = R6Class(
 
   private = list(
     .generate = function(n) {
-      if (n < 1L) {
-        error_input("Argument 'n' must be at least 1.")
-      }
       pv = self$param_set$get_values()
       model = list(order = c(length(pv$ar), pv$d, length(pv$ma)), ar = pv$ar, ma = pv$ma)
 

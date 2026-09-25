@@ -47,8 +47,7 @@ test_that("arima generator requires a single non-missing start", {
   expect_error(tgen("arima", start = "2000-01-01"), "Date")
 })
 
-test_that("arima generator requires at least one observation", {
-  expect_error(tgen("arima")$generate(0L), "at least 1")
+test_that("arima generator returns one row per series for n = 1", {
   expect_identical(tgen("arima", k = 2L)$generate(1L)$nrow, 2L)
 })
 
