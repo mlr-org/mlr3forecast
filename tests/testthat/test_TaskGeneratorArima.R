@@ -22,7 +22,7 @@ test_that("arima generator handles differencing and integer index", {
   withr::local_seed(1L)
   task = tgen("arima", ar = numeric(), d = 1L, freq = 4)$generate(20L)
   expect_identical(task$nrow, 20L)
-    expect_identical(task$data(cols = "time")[[1L]], 1:20)
+  expect_identical(task$data(cols = "time")[[1L]], 1:20)
   expect_identical(task$freq, 4)
   expect_error(tgen("arima", ar = 1.5)$generate(10L), "not stationary")
 })
@@ -45,6 +45,11 @@ test_that("arima generator requires a single non-missing start", {
   expect_error(tgen("arima", start = as.Date(c("2000-01-01", "2000-02-01"))), "length 1")
   expect_error(tgen("arima", start = as.Date(NA)), "missing")
   expect_error(tgen("arima", start = "2000-01-01"), "Date")
+})
+
+test_that("arima generator requires at least one observation", {
+  expect_error(tgen("arima")$generate(0L), "at least 1")
+  expect_identical(tgen("arima", k = 2L)$generate(1L)$nrow, 2L)
 })
 
 test_that("arima generator is reproducible", {
