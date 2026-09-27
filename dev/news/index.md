@@ -54,6 +54,10 @@
   forecast task, optionally as a keyed panel of `k` independent series.
 - feat: `tsk("monash", dataset = ...)` creates a forecast task from a
   Monash Forecasting Repository dataset.
+- fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`,
+  `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, and the `fcst.auto_*`
+  variants now names the target series instead of internal code, so
+  printed models are readable.
 - feat: The `smooth` learners gained the `"gradient"` level of
   `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the
   `smoother` parameter. This raises the required `smooth` version to
