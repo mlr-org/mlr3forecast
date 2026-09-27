@@ -57,7 +57,8 @@ LearnerFcstSparma = R6Class(
   ),
 
   private = list(
-    .fn = "sparma"
+    .fn = "sparma",
+    .y_arg = "data"
   )
 )
 

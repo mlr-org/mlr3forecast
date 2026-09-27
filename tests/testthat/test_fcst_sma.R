@@ -16,6 +16,8 @@ test_that("training uses the full task", {
   learner$train(task)
   expect_length(learner$native_model$fitted, task$nrow)
   expect_identical(learner$native_model$call$h, 0L)
+  expect_equal(learner$native_model$call[[1L]], as.name("sma"))
+  expect_equal(learner$native_model$call$y, as.name(task$target_names))
   expect_numeric(learner$predict(task)$response, any.missing = FALSE, len = task$nrow)
   expect_numeric(forecast(learner, task, h = 10L)$response, any.missing = FALSE, len = 10L)
 })

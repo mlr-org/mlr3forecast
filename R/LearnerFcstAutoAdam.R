@@ -80,7 +80,8 @@ LearnerFcstAutoAdam = R6Class(
   ),
 
   private = list(
-    .fn = "auto.adam"
+    .fn = "auto.adam",
+    .y_arg = "data"
   )
 )
 

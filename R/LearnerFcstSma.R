@@ -46,10 +46,14 @@ LearnerFcstSma = R6Class(
   ),
 
   private = list(
+    .fn = "sma",
+    .y_arg = "y",
+
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
-      private$.set_context(invoke(smooth::sma, y = as.ts(task), h = 0L, .args = pv), task)
+      model = invoke(smooth::sma, y = as.ts(task), h = 0L, .args = pv)
+      private$.set_context(private$.tidy_model(model, task), task)
     },
 
     .predict = function(task) {

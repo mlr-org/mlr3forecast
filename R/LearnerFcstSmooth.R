@@ -6,7 +6,7 @@ LearnerFcstSmooth = R6Class(
   inherit = LearnerFcst,
   private = list(
     .fn = NULL,
-    .y_arg = "data",
+    .y_arg = "y",
 
     .train = function(task) {
       super$.train(task)

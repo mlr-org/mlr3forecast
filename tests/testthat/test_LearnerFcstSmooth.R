@@ -34,3 +34,12 @@ test_that("native model print does not dump the inlined series", {
   out = capture.output(print(learner$native_model))
   expect_all_true(nchar(out) < 120L)
 })
+
+test_that("native model call names the target series", {
+  task = tsk("airpassengers")
+  y_args = c(sparma = "data", es = "y", ces = "y", gum = "y", msarima = "y", ssarima = "y", auto_ces = "y")
+  for (id in names(y_args)) {
+    learner = suppressWarnings(lrn(paste0("fcst.", id))$train(task))
+    expect_equal(learner$native_model$call[[y_args[[id]]]], as.name(task$target_names), info = id)
+  }
+})

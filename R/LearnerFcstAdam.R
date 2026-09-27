@@ -79,7 +79,8 @@ LearnerFcstAdam = R6Class(
   ),
 
   private = list(
-    .fn = "adam"
+    .fn = "adam",
+    .y_arg = "data"
   )
 )
 

@@ -54,7 +54,9 @@ LearnerFcstAutoMsarima = R6Class(
   ),
 
   private = list(
-    .fn = "auto.msarima"
+    .fn = "auto.msarima",
+    # upstream stores the series as `data` in the call, although the formal argument is `y`
+    .y_arg = "data"
   )
 )
 
