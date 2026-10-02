@@ -48,10 +48,7 @@
   builds calendar date indices arithmetically instead of through
   [`ISOdate()`](https://rdrr.io/r/base/ISOdatetime.html), which makes
   reading files with many series about 20 times faster.
-- feat: `tgen("arima")` is a new task generator that simulates ARIMA
-  series via
-  [`stats::arima.sim()`](https://rdrr.io/r/stats/arima.sim.html) into a
-  forecast task, optionally as a keyed panel of `k` independent series.
+- feat: `tgen("arima")` simulates ARIMA series into a forecast task.
 - feat: `tsk("monash", dataset = ...)` creates a forecast task from a
   Monash Forecasting Repository dataset.
 - fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`,

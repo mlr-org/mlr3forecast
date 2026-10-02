@@ -4,7 +4,9 @@ A [TaskGenerator](https://mlr3.mlr-org.com/reference/TaskGenerator.html)
 that simulates series from an ARIMA process via
 [`stats::arima.sim()`](https://rdrr.io/r/stats/arima.sim.html), with
 autoregressive coefficients `ar`, moving average coefficients `ma`,
-differencing order `d`, and innovation standard deviation `sd`.
+differencing order `d`, and innovation standard deviation `sd`. The
+`mean` is the mean of the `d` times differenced series, so it is the
+level of the series for `d = 0` and the drift per step for `d = 1`.
 
 ## Dictionary
 
@@ -21,16 +23,17 @@ or with the associated sugar function
 
 ## Parameters
 
-|       |         |         |                  |
-|-------|---------|---------|------------------|
-| Id    | Type    | Default | Range            |
-| ar    | untyped | \-      | \-               |
-| d     | integer | \-      | \\\[0, \infty)\\ |
-| ma    | untyped | \-      | \-               |
-| sd    | numeric | \-      | \\\[0, \infty)\\ |
-| k     | integer | \-      | \\\[1, \infty)\\ |
-| freq  | untyped | \-      | \-               |
-| start | untyped | \-      | \-               |
+|       |         |         |                       |
+|-------|---------|---------|-----------------------|
+| Id    | Type    | Default | Range                 |
+| ar    | untyped | \-      | \-                    |
+| d     | integer | \-      | \\\[0, \infty)\\      |
+| ma    | untyped | \-      | \-                    |
+| sd    | numeric | \-      | \\\[0, \infty)\\      |
+| mean  | numeric | \-      | \\(-\infty, \infty)\\ |
+| k     | integer | \-      | \\\[1, \infty)\\      |
+| freq  | untyped | \-      | \-                    |
+| start | untyped | \-      | \-                    |
 
 ## Task structure
 
@@ -38,10 +41,10 @@ The generated
 [TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md)
 has the target `y` and the order column `time`, a regular index starting
 at `start` with step `freq`. A calendar `freq` such as `"month"` yields
-dates, a numeric `freq` yields the integers `1, ..., n` with `freq` as
-the seasonal period. With `k > 1`, `k` independent series are stacked
-into a keyed panel with the key column `series`, so `n` is the length of
-each series and the task has `n * k` rows.
+dates, a numeric `freq` yields the integers `1, ..., n` and is stored as
+the frequency of the task. With `k > 1`, `k` independent series are
+stacked into a keyed panel with the key column `series`, so `n` is the
+length of each series and the task has `n * k` rows.
 
 ## See also
 
@@ -115,8 +118,8 @@ task$head()
 #> 5: 2.177664
 #> 6: 2.020195
 
-# random walk, 3 series
-generator = tgen("arima", ar = numeric(), d = 1L, k = 3L)
+# random walk with drift, 3 series
+generator = tgen("arima", ar = numeric(), d = 1L, mean = 0.5, k = 3L)
 task = generator$generate(24)
 task
 #> 

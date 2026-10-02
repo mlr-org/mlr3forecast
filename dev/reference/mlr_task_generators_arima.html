@@ -7,9 +7,13 @@
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="ARIMA Forecast Task Generator — mlr_task_generators_arima"><meta name="description" content="A TaskGenerator that simulates series from an ARIMA process via stats::arima.sim(),
 with autoregressive coefficients ar, moving average coefficients ma, differencing order d,
-and innovation standard deviation sd."><meta property="og:description" content="A TaskGenerator that simulates series from an ARIMA process via stats::arima.sim(),
+and innovation standard deviation sd.
+The mean is the mean of the d times differenced series, so it is the level of the series for d = 0
+and the drift per step for d = 1."><meta property="og:description" content="A TaskGenerator that simulates series from an ARIMA process via stats::arima.sim(),
 with autoregressive coefficients ar, moving average coefficients ma, differencing order d,
-and innovation standard deviation sd."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+and innovation standard deviation sd.
+The mean is the mean of the d times differenced series, so it is the level of the series for d = 0
+and the drift per step for d = 1."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -55,7 +59,9 @@ and innovation standard deviation sd."><meta property="og:image" content="https:
     <div class="ref-description section level2">
     <p>A <a href="https://mlr3.mlr-org.com/reference/TaskGenerator.html" class="external-link">TaskGenerator</a> that simulates series from an ARIMA process via <code><a href="https://rdrr.io/r/stats/arima.sim.html" class="external-link">stats::arima.sim()</a></code>,
 with autoregressive coefficients <code>ar</code>, moving average coefficients <code>ma</code>, differencing order <code>d</code>,
-and innovation standard deviation <code>sd</code>.</p>
+and innovation standard deviation <code>sd</code>.
+The <code>mean</code> is the mean of the <code>d</code> times differenced series, so it is the level of the series for <code>d = 0</code>
+and the drift per step for <code>d = 1</code>.</p>
     </div>
 
 
@@ -71,15 +77,15 @@ and innovation standard deviation <code>sd</code>.</p>
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>ar</td><td>untyped</td><td>-</td><td>-</td></tr><tr><td>d</td><td>integer</td><td>-</td><td>\([0, \infty)\)</td></tr><tr><td>ma</td><td>untyped</td><td>-</td><td>-</td></tr><tr><td>sd</td><td>numeric</td><td>-</td><td>\([0, \infty)\)</td></tr><tr><td>k</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td></tr><tr><td>freq</td><td>untyped</td><td>-</td><td>-</td></tr><tr><td>start</td><td>untyped</td><td>-</td><td>-</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>ar</td><td>untyped</td><td>-</td><td>-</td></tr><tr><td>d</td><td>integer</td><td>-</td><td>\([0, \infty)\)</td></tr><tr><td>ma</td><td>untyped</td><td>-</td><td>-</td></tr><tr><td>sd</td><td>numeric</td><td>-</td><td>\([0, \infty)\)</td></tr><tr><td>mean</td><td>numeric</td><td>-</td><td>\((-\infty, \infty)\)</td></tr><tr><td>k</td><td>integer</td><td>-</td><td>\([1, \infty)\)</td></tr><tr><td>freq</td><td>untyped</td><td>-</td><td>-</td></tr><tr><td>start</td><td>untyped</td><td>-</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="task-structure">Task structure<a class="anchor" aria-label="anchor" href="#task-structure"></a></h2>
 
 
 <p>The generated <a href="TaskFcst.html">TaskFcst</a> has the target <code>y</code> and the order column <code>time</code>, a regular index starting at <code>start</code> with
 step <code>freq</code>.
-A calendar <code>freq</code> such as <code>"month"</code> yields dates, a numeric <code>freq</code> yields the integers <code>1, ..., n</code> with <code>freq</code> as
-the seasonal period.
+A calendar <code>freq</code> such as <code>"month"</code> yields dates, a numeric <code>freq</code> yields the integers <code>1, ..., n</code> and is stored as
+the frequency of the task.
 With <code>k &gt; 1</code>, <code>k</code> independent series are stacked into a keyed panel with the key column <code>series</code>, so <code>n</code> is the
 length of each series and the task has <code>n * k</code> rows.</p>
     </div>
@@ -147,8 +153,8 @@ running session (depending on the loaded packages).</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2.177664</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2.020195</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># random walk, 3 series</span></span></span>
-<span class="r-in"><span><span class="va">generator</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"arima"</span>, ar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>, d <span class="op">=</span> <span class="fl">1L</span>, k <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="co"># random walk with drift, 3 series</span></span></span>
+<span class="r-in"><span><span class="va">generator</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"arima"</span>, ar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>, d <span class="op">=</span> <span class="fl">1L</span>, mean <span class="op">=</span> <span class="fl">0.5</span>, k <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">generator</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">24</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
