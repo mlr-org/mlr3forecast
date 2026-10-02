@@ -36,12 +36,13 @@ assert_fcst_prediction_col_roles = function(col_roles, extra) {
   list(order = col_roles[["order"]], key = col_roles[["key"]])
 }
 
-check_freq = function(x) {
-  if (is.null(x) || (test_number(x, finite = TRUE) && x > 0)) {
+# nolint next: object_name_linter.
+check_freq = function(x, null.ok = FALSE) {
+  if ((null.ok && is.null(x)) || (test_number(x, finite = TRUE) && x > 0)) {
     return(TRUE)
   }
   if (!test_string(x)) {
-    return("Must be a string, a positive number, or NULL")
+    return(sprintf("Must be a string or a positive number%s", if (null.ok) " (or NULL)" else ""))
   }
   units = "sec|min|hour|day|DSTday|week|month|quarter|year"
   if (!grepl(sprintf("^([1-9][0-9]* )?(%s)s?$", units), x)) {

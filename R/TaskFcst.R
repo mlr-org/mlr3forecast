@@ -65,7 +65,7 @@ TaskFcst = R6Class(
     ) {
       super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
       self$task_type = "fcst"
-      private$.freq = assert_freq(freq)
+      private$.freq = assert_freq(freq, null.ok = TRUE)
 
       assert_string(order)
       assert_character(key, any.missing = FALSE)

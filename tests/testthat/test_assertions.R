@@ -1,6 +1,6 @@
 test_that("assert_freq accepts valid inputs", {
   # NULL
-  expect_null(assert_freq(NULL))
+  expect_null(assert_freq(NULL, null.ok = TRUE))
 
   # positive integers
   expect_identical(assert_freq(1L), 1L)
@@ -33,6 +33,7 @@ test_that("assert_freq accepts valid inputs", {
 })
 
 test_that("assert_freq rejects invalid inputs", {
+  expect_error(assert_freq(NULL), "string or a positive number")
   expect_error(assert_freq(-1))
   expect_error(assert_freq(0))
   expect_error(assert_freq(0L))

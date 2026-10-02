@@ -47,6 +47,13 @@ test_that("arima generator builds a regular grid from a month-end start", {
   expect_data_table(generate_newdata(task, 2L), nrows = 2L)
 })
 
+test_that("arima generator requires a frequency", {
+  expect_error(tgen("arima", freq = NULL), "string or a positive number")
+  generator = tgen("arima")
+  generator$param_set$values$freq = NULL
+  expect_error(generator$generate(5L), "freq")
+})
+
 test_that("arima generator requires a single non-missing start", {
   expect_error(tgen("arima", start = as.Date(character())), "length 1")
   expect_error(tgen("arima", start = as.Date(c("2000-01-01", "2000-02-01"))), "length 1")
