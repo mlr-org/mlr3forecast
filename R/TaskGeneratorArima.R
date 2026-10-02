@@ -7,6 +7,8 @@
 #' A [TaskGenerator][mlr3::TaskGenerator] that simulates series from an ARIMA process via [stats::arima.sim()],
 #' with autoregressive coefficients `ar`, moving average coefficients `ma`, differencing order `d`,
 #' and innovation standard deviation `sd`.
+#' The `mean` is the mean of the `d` times differenced series, so it is the level of the series for `d = 0`
+#' and the drift per step for `d = 1`.
 #'
 #' @templateVar id arima
 #' @template task_generator
@@ -26,8 +28,8 @@
 #' task = generator$generate(60)
 #' task$head()
 #'
-#' # random walk, 3 series
-#' generator = tgen("arima", ar = numeric(), d = 1L, k = 3L)
+#' # random walk with drift, 3 series
+#' generator = tgen("arima", ar = numeric(), d = 1L, mean = 0.5, k = 3L)
 #' task = generator$generate(24)
 #' task
 TaskGeneratorArima = R6Class(
@@ -50,6 +52,7 @@ TaskGeneratorArima = R6Class(
           custom_check = crate(function(x) check_numeric(x, finite = TRUE, any.missing = FALSE))
         ),
         sd = p_dbl(0, init = 1, tags = "required"),
+        mean = p_dbl(init = 0, tags = "required"),
         k = p_int(1L, init = 1L, tags = "required"),
         freq = p_uty(init = "month", tags = "required", custom_check = check_freq),
         start = p_uty(
@@ -74,7 +77,7 @@ TaskGeneratorArima = R6Class(
   private = list(
     .generate = function(n) {
       pv = self$param_set$get_values()
-      model = list(order = c(length(pv$ar), pv$d, length(pv$ma)), ar = pv$ar, ma = pv$ma)
+      model = list(order = c(length(pv$ar), 0L, length(pv$ma)), ar = pv$ar, ma = pv$ma)
 
       freq = pv$freq
       time = if (is.character(freq)) {
@@ -90,8 +93,11 @@ TaskGeneratorArima = R6Class(
       data = map_dtr(
         seq_len(pv$k),
         function(i) {
-          # arima.sim() prepends d zeros when integrating, keep the last n values
-          y = tail(as.numeric(stats::arima.sim(model, n = n, sd = pv$sd)), n)
+          y = as.numeric(stats::arima.sim(model, n = n, sd = pv$sd)) + pv$mean
+          if (pv$d > 0L) {
+            # diffinv() prepends d zeros when integrating, drop them
+            y = diffinv(y, differences = pv$d)[-seq_len(pv$d)]
+          }
           data.table(time = time, y = y)
         },
         .idcol = "series"

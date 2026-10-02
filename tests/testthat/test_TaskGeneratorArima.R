@@ -2,7 +2,7 @@ test_that("arima generator", {
   generator = tgen("arima")
   expect_identical(
     generator$param_set$values,
-    list(ar = 0.7, d = 0L, ma = numeric(), sd = 1, k = 1L, freq = "month", start = as.Date("2000-01-01"))
+    list(ar = 0.7, d = 0L, ma = numeric(), sd = 1, mean = 0, k = 1L, freq = "month", start = as.Date("2000-01-01"))
   )
   task = generator$generate(24L)
   expect_identical(task$feature_names, character())
@@ -25,6 +25,13 @@ test_that("arima generator handles differencing and integer index", {
   expect_identical(task$data(cols = "time")[[1L]], 1:20)
   expect_identical(task$freq, 4)
   expect_error(tgen("arima", ar = 1.5)$generate(10L), "not stationary")
+})
+
+test_that("arima generator adds mean as level or drift", {
+  expect_identical(tgen("arima", sd = 0, mean = 3)$generate(4L)$truth(), rep(3, 4L))
+  expect_identical(tgen("arima", ar = numeric(), d = 1L, sd = 0, mean = 2)$generate(5L)$truth(), c(2, 4, 6, 8, 10))
+  y = withr::with_seed(1L, tgen("arima", d = 1L, mean = 5)$generate(500L)$truth())
+  expect_equal(mean(diff(y)), 5, tolerance = 0.1)
 })
 
 test_that("arima generator supports sub-daily frequencies", {

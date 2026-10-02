@@ -8,6 +8,8 @@
 A \link[mlr3:TaskGenerator]{TaskGenerator} that simulates series from an ARIMA process via \code{\link[stats:arima.sim]{stats::arima.sim()}},
 with autoregressive coefficients \code{ar}, moving average coefficients \code{ma}, differencing order \code{d},
 and innovation standard deviation \code{sd}.
+The \code{mean} is the mean of the \code{d} times differenced series, so it is the level of the series for \code{d = 0}
+and the drift per step for \code{d = 1}.
 }
 \section{Dictionary}{
 
@@ -26,6 +28,7 @@ tgen("arima")
    d \tab integer \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    ma \tab untyped \tab - \tab - \cr
    sd \tab numeric \tab - \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   mean \tab numeric \tab - \tab \eqn{(-\infty, \infty)}{(-Inf, Inf)} \cr
    k \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    freq \tab untyped \tab - \tab - \cr
    start \tab untyped \tab - \tab - \cr
@@ -47,8 +50,8 @@ generator = tgen("arima")
 task = generator$generate(60)
 task$head()
 
-# random walk, 3 series
-generator = tgen("arima", ar = numeric(), d = 1L, k = 3L)
+# random walk with drift, 3 series
+generator = tgen("arima", ar = numeric(), d = 1L, mean = 0.5, k = 3L)
 task = generator$generate(24)
 task
 }
