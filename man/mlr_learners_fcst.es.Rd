@@ -44,6 +44,7 @@ lrn("fcst.es")
    bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    regressors \tab character \tab use \tab use, select \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

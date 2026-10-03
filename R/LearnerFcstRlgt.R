@@ -5,7 +5,7 @@
 #'
 #' @description
 #' Bayesian exponential smoothing with a nonlinear global trend (LGT/SGT), Student-t errors, and optional
-#' heteroscedasticity, fitted via MCMC. The seasonal period is taken from the frequency of the series.
+#' heteroscedasticity, fitted via MCMC. The seasonal period is taken from `period`.
 #' Calls [Rlgt::rlgt()] from package \CRANpkg{Rlgt}.
 #'
 #' @templateVar id fcst.rlgt

@@ -17,6 +17,8 @@
 #' * `lambda` :: `numeric(1)` | `NULL`\cr
 #'   Box-Cox transformation parameter. `NULL` (default) estimates it from the training data, `0` is the log
 #'   transformation, any other numeric is used as a fixed value.
+#' * `period` :: `character(1)` | `numeric(1)` | `NULL`\cr
+#'   Seasonal period of the series when estimating `lambda`. Default `NULL`.
 #' * `method` :: `character(1)`\cr
 #'   Method used to estimate `lambda` when `lambda = NULL`, one of `"guerrero"` (default) or `"loglik"`. See
 #'   [forecast::BoxCox.lambda()].
@@ -24,6 +26,8 @@
 #'   Lower bound for the estimated `lambda`. Default `-1`.
 #' * `upper` :: `numeric(1)`\cr
 #'   Upper bound for the estimated `lambda`. Default `2`.
+#'
+#' @template section_period
 #'
 #' @section Limitations:
 #' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph and is rejected at
@@ -56,6 +60,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
     initialize = function(id = "fcst.targetboxcox", param_vals = list()) {
       param_set = ps(
         lambda = p_dbl(default = NULL, special_vals = list(NULL), tags = "train"),
+        period = p_uty(default = NULL, custom_check = check_period),
         method = p_fct(c("guerrero", "loglik"), default = "guerrero", tags = c("train", "estimate")),
         lower = p_dbl(default = -1, tags = c("train", "estimate")),
         upper = p_dbl(default = 2, tags = c("train", "estimate"))
@@ -78,12 +83,16 @@ PipeOpTargetTrafoBoxCox = R6Class(
       key_cols = task$col_roles$key
       if (!is.null(lambda) || length(key_cols) == 0L) {
         if (is.null(lambda)) {
-          lambda = invoke(forecast::BoxCox.lambda, as.ts(task), .args = self$param_set$get_values(tags = "estimate"))
+          lambda = invoke(
+            forecast::BoxCox.lambda,
+            as.ts(task, period = self$param_set$values$period),
+            .args = self$param_set$get_values(tags = "estimate")
+          )
         }
         return(list(lambda = lambda))
       }
       target = task$target_names
-      period = freq_to_period(task$freq)
+      period = task_period(self$param_set$values$period, task)
       args = self$param_set$get_values(tags = "estimate")
       estimate_lambda = function(y) {
         invoke(forecast::BoxCox.lambda, stats::ts(as.numeric(y), frequency = period), .args = args)

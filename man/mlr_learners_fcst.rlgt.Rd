@@ -6,7 +6,7 @@
 \title{Local and Global Trend Forecast Learner}
 \description{
 Bayesian exponential smoothing with a nonlinear global trend (LGT/SGT), Student-t errors, and optional
-heteroscedasticity, fitted via MCMC. The seasonal period is taken from the frequency of the series.
+heteroscedasticity, fitted via MCMC. The seasonal period is taken from \code{period}.
 Calls \code{\link[Rlgt:rlgt]{Rlgt::rlgt()}} from package \CRANpkg{Rlgt}.
 }
 \section{Dictionary}{
@@ -41,6 +41,7 @@ lrn("fcst.rlgt")
    control \tab untyped \tab - \tab  \tab - \cr
    verbose \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    NUM_OF_TRIALS \tab integer \tab 2000 \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

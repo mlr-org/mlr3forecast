@@ -71,8 +71,9 @@ Other Task:
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
-    \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
-The frequency of the time series.}
+    \item{\code{freq}}{(\code{character(1)} | \code{NULL})\cr
+The step of the time index, i.e. the spacing between two consecutive observations,
+or \code{NULL} if it is inferred from the order column.}
 
     \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.
@@ -176,12 +177,13 @@ Name of the order column.}
       \item{\code{key}}{(\code{character()})\cr
 Names of the columns whose combination identifies a series.
 Key columns must be character, integer, factor, or ordered columns.}
-      \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
-Frequency of the time series.
-A \code{seq()}-compatible string gives the calendar step of the time grid, e.g.
+      \item{\code{freq}}{(\code{character(1)} | \code{NULL})\cr
+Step of the time index, i.e. the spacing between two consecutive observations.
+A \code{seq()}-compatible string for a \code{Date} or \code{POSIXct} order column, e.g.
 \code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.
-A positive number gives the seasonal period (as in \code{\link[stats:ts]{stats::ts()}}) for an integer or
-numeric order column; the grid step is then inferred from the data.}
+If \code{NULL} (default), the step is inferred from the order column, which is required for a numeric or integer
+order column.
+This is \emph{not} the seasonal period, which learners, measures, and pipeops take as their \code{period} hyperparameter.}
       \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}
       \item{\code{extra_args}}{(named \code{list()})\cr

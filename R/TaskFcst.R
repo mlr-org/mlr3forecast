@@ -134,8 +134,9 @@ TaskFcst = R6Class(
   ),
 
   active = list(
-    #' @field freq (`character(1)` | `numeric(1)` | `NULL`)\cr
-    #' The frequency of the time series.
+    #' @field freq (`character(1)` | `NULL`)\cr
+    #' The step of the time index, i.e. the spacing between two consecutive observations,
+    #' or `NULL` if it is inferred from the order column.
     freq = function(rhs) {
       assert_ro_binding(rhs)
       private$.freq
@@ -225,7 +226,7 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
       error_input(
         paste0(
           "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
-          "Use a numeric `freq` (the seasonal period) or `NULL` for an integer index."
+          "Use `freq = NULL` to infer the step of a numeric or integer order column."
         ),
         task$freq,
         order_cols
@@ -274,11 +275,13 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
 }
 
 #' @export
-as.ts.TaskFcst = function(x, ..., freq = NULL) {
+as.ts.TaskFcst = function(x, ..., period = NULL) {
+  if ("freq" %chin% ...names()) {
+    error_input("`as.ts()` no longer takes `freq`. Use `period` for the seasonal period.")
+  }
   if (length(x$col_roles$key) > 0L) {
     error_input("Cannot coerce a multi-series (keyed) task to a single ts object.")
   }
-  freq = freq_to_period(freq %??% x$freq)
   y = x$data(cols = x$target_names, ordered = TRUE)[[1L]]
-  stats::ts(y, freq = freq)
+  stats::ts(y, frequency = task_period(period, x))
 }

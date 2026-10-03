@@ -176,16 +176,25 @@ as_task.tsf = function(x, id = deparse1(substitute(x)), clone = FALSE, ...) {
 #' @export
 as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
+  ts_freq = stats::frequency(x)
   if (is.null(freq)) {
-    freq = stats::frequency(x)
     freq = switch(
-      as.character(freq),
+      as.character(ts_freq),
       `365.25` = "day",
       `52` = "week",
       `12` = "month",
       `4` = "quarter",
       `1` = "year",
-      freq
+      NULL
+    )
+  }
+  if (is.null(freq) && ts_freq > 1) {
+    warning_input(
+      paste0(
+        "The frequency %s of the ts object has no calendar step, so its seasonal period is not kept. ",
+        "Set `period` on the learners, measures, or pipeops instead."
+      ),
+      format(ts_freq)
     )
   }
   task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)

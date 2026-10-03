@@ -18,12 +18,10 @@ test_that("arima generator builds keyed panels", {
   expect_identical(task$data(cols = "series")[, .N, by = "series"]$N, rep(10L, 3L))
 })
 
-test_that("arima generator handles differencing and integer index", {
+test_that("arima generator handles differencing", {
   withr::local_seed(1L)
-  task = tgen("arima", ar = numeric(), d = 1L, freq = 4)$generate(20L)
+  task = tgen("arima", ar = numeric(), d = 1L)$generate(20L)
   expect_identical(task$nrow, 20L)
-  expect_identical(task$data(cols = "time")[[1L]], 1:20)
-  expect_identical(task$freq, 4)
   expect_error(tgen("arima", ar = 1.5)$generate(10L), "not stationary")
 })
 
@@ -48,7 +46,8 @@ test_that("arima generator builds a regular grid from a month-end start", {
 })
 
 test_that("arima generator requires a frequency", {
-  expect_error(tgen("arima", freq = NULL), "string or a positive number")
+  expect_error(tgen("arima", freq = NULL), "Must be a string")
+  expect_error(tgen("arima", freq = 4), "not a number")
   generator = tgen("arima")
   generator$param_set$values$freq = NULL
   expect_error(generator$generate(5L), "freq")

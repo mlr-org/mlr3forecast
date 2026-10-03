@@ -39,6 +39,7 @@ lrn("fcst.sparma")
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
    bounds \tab character \tab none \tab none, usual, admissible \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 

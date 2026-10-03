@@ -5,8 +5,8 @@
 #'
 #' @description
 #' Seasonal naive model.
-#' Each forecast equals the last observed value from the same season, with the seasonal period taken from the task
-#' frequency, rounded to the nearest integer and bounded below by one.
+#' Each forecast equals the last observed value from the same season, with the seasonal period `period` rounded to the
+#' nearest integer and bounded below by one.
 #' For non-seasonal tasks this reduces to the naive (random walk) forecast.
 #' Calls [forecast::rw_model()] from package \CRANpkg{forecast} with `lag` set to the seasonal period.
 #'
@@ -53,7 +53,7 @@ LearnerFcstSnaive = R6Class(
     .fn = "rw_model",
 
     .fit = function(task, pv) {
-      y = as.ts(task)
+      y = private$.as_ts(task)
       lag = max(1L, round(stats::frequency(y)))
       model = invoke(forecast::rw_model, y = y, lag = lag, drift = FALSE, .args = pv)
       private$.tidy_model(model, task)

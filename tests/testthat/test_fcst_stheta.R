@@ -11,5 +11,5 @@ test_that("autotest", {
 
 test_that("paramtest", {
   learner = lrn("fcst.stheta")
-  expect_true(run_paramtest(learner, forecTheta::stheta, tag = "train", exclude = c("y", "h", "s")))
+  expect_true(run_paramtest(learner, forecTheta::stheta, tag = "train", exclude = c("y", "h", "s", "period")))
 })

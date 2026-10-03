@@ -38,11 +38,14 @@ assert_fcst_prediction_col_roles = function(col_roles, extra) {
 
 # nolint next: object_name_linter.
 check_freq = function(x, null.ok = FALSE) {
-  if ((null.ok && is.null(x)) || (test_number(x, finite = TRUE) && x > 0)) {
+  if (null.ok && is.null(x)) {
     return(TRUE)
   }
+  if (test_number(x)) {
+    return("Must be a calendar string, not a number. Set the seasonal period via the `period` hyperparameter")
+  }
   if (!test_string(x)) {
-    return(sprintf("Must be a string or a positive number%s", if (null.ok) " (or NULL)" else ""))
+    return(sprintf("Must be a string%s", if (null.ok) " (or NULL)" else ""))
   }
   units = "sec|min|hour|day|DSTday|week|month|quarter|year"
   if (!grepl(sprintf("^([1-9][0-9]* )?(%s)s?$", units), x)) {
@@ -52,6 +55,21 @@ check_freq = function(x, null.ok = FALSE) {
 }
 
 assert_freq = makeAssertionFunction(check_freq)
+
+check_period = function(x, multiple = FALSE) {
+  max_len = if (multiple) NULL else 1L
+  if (is.null(x) || test_character(x, min.len = 1L, max.len = max_len, any.missing = FALSE)) {
+    return(TRUE)
+  }
+  if (test_numeric(x, min.len = 1L, max.len = max_len, any.missing = FALSE, finite = TRUE) && all(x > 0)) {
+    return(TRUE)
+  }
+  if (multiple) {
+    "Must be a vector of positive numbers or cycle names (e.g. 'year'), or NULL"
+  } else {
+    "Must be a positive number or a cycle name (e.g. 'year'), or NULL"
+  }
+}
 
 assert_regular_grid = function(dt, order_cols, key_cols, freq) {
   if (length(key_cols) > 0L) {
