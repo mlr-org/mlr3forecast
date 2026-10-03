@@ -22,13 +22,12 @@
 #' }
 #' where \eqn{z} is the training series, \eqn{m} is the seasonal period, and \eqn{T} is the length of
 #' the training series. For keyed tasks the score is computed per series and averaged.
-#' `period` is the seasonal lag of the naive benchmark, either a positive number or a cycle name such as
-#' `"year"`. If `NULL` (default), the task's `$period` is used. Either way it is rounded to the nearest
-#' positive integer.
+#' `period` is the seasonal lag of the naive benchmark, rounded to the nearest positive integer.
 #'
 #' @references
 #' `r format_bib("gneiting2007scoring", "makridakis2020m4")`
 #'
+#' @template section_period
 #' @templateVar id fcst.msis
 #' @template measure
 #'

@@ -37,10 +37,8 @@ tgen("arima")
 
 \section{Task structure}{
 
-The generated \link{TaskFcst} has the target \code{y} and the order column \code{time}, a regular index starting at \code{start} with
-step \code{freq}.
-A calendar \code{freq} such as \code{"month"} yields dates, a numeric \code{freq} yields the integers \verb{1, ..., n} and is stored as
-the frequency of the task.
+The generated \link{TaskFcst} has the target \code{y} and the order column \code{time}, a regular calendar index starting at
+\code{start} with step \code{freq}.
 With \code{k > 1}, \code{k} independent series are stacked into a keyed panel with the key column \code{series}, so \code{n} is the
 length of each series and the task has \code{n * k} rows.
 }

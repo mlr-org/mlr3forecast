@@ -4,8 +4,7 @@ test_that("calendar-string freq requires a Date or POSIXct order column", {
     as_task_fcst(dt, target = "y", order = "idx", freq = "month"),
     "calendar `freq`"
   )
-  # a numeric freq (the index step) or NULL is allowed on an integer index
-  expect_class(as_task_fcst(dt, target = "y", order = "idx", freq = 1), "TaskFcst")
+  # NULL infers the step of an integer index
   expect_class(as_task_fcst(dt, target = "y", order = "idx"), "TaskFcst")
   # a Date order column still accepts a calendar-string freq
   dd = data.table(d = seq(as.Date("2020-01-01"), by = "month", length.out = 6L), y = as.numeric(1:6))
@@ -204,51 +203,34 @@ test_that("print omits frequency when NULL", {
   expect_no_match(out, "Frequency")
 })
 
-test_that("period defaults to the cycle implied by freq", {
-  expect_equal(tsk("airpassengers")$period, c(year = 12))
-  expect_equal(tsk("livestock")$period, c(year = 12))
+test_that("a numeric freq is rejected in favor of the period hyperparameter", {
+  dt = data.table(i = 1:12, y = as.numeric(1:12))
+  expect_error(as_task_fcst(dt, target = "y", order = "i", freq = 12), "not a number")
+})
+
+test_that("as.ts works", {
+  task = tsk("airpassengers")
+  ts = as.ts(task)
+  expect_class(ts, "ts")
+  expect_length(ts, task$nrow)
+  expect_identical(stats::frequency(ts), 12)
+  expect_error(as.ts(task, freq = 4), "no longer takes `freq`")
+})
+
+test_that("as.ts derives the default period from freq and accepts an explicit one", {
   daily = as_task_fcst(
     data.table(d = seq(as.Date("2020-01-01"), by = "day", length.out = 40L), y = as.numeric(1:40)),
     target = "y",
     order = "d",
     freq = "day"
   )
-  expect_equal(daily$period, c(week = 7))
-  expect_equal(common_periods(daily$freq), c(week = 7, year = 365.25))
-})
+  expect_identical(stats::frequency(as.ts(daily)), 7)
+  expect_identical(stats::frequency(as.ts(daily, period = 365)), 365)
+  expect_identical(stats::frequency(as.ts(daily, period = "year")), 365.25)
 
-test_that("period overrides the cycle implied by freq", {
-  dt = data.table(d = seq(as.Date("2020-01-01"), by = "day", length.out = 40L), y = as.numeric(1:40))
-  expect_equal(as_task_fcst(dt, target = "y", order = "d", freq = "day", period = 365)$period, 365)
-  # a cycle name is resolved against freq at construction
-  expect_equal(as_task_fcst(dt, target = "y", order = "d", freq = "day", period = "year")$period, c(year = 365.25))
-  # multiple seasonalities are kept, shortest first by convention
-  expect_equal(as_task_fcst(dt, target = "y", order = "d", freq = "day", period = c(7, 365))$period, c(7, 365))
-})
-
-test_that("period carries seasonality for an index without calendar meaning", {
-  dt = data.table(i = 1:48, y = as.numeric(1:48))
-  expect_equal(as_task_fcst(dt, target = "y", order = "i")$period, c(none = 1))
-  expect_equal(as_task_fcst(dt, target = "y", order = "i", period = 12)$period, 12)
-  # a cycle name has nothing to resolve against
-  expect_error(as_task_fcst(dt, target = "y", order = "i", period = "year"), "requires a calendar `freq`")
-})
-
-test_that("numeric freq is the index step and requires a numeric order column", {
-  dd = data.table(d = seq(as.Date("2020-01-01"), by = "month", length.out = 12L), y = as.numeric(1:12))
-  expect_error(as_task_fcst(dd, target = "y", order = "d", freq = 12), "step between observations")
-
-  dt = data.table(i = seq(0, by = 3, length.out = 12L), y = as.numeric(1:12))
-  task = as_task_fcst(dt, target = "y", order = "i", freq = 3)
-  expect_equal(generate_newdata(task, 2L)$i, c(36, 39))
-  # a step that contradicts the data is rejected
-  bad = as_task_fcst(dt, target = "y", order = "i", freq = 2)
-  expect_error(generate_newdata(bad, 1L), "irregular series")
-})
-
-test_that("period round-trips through the task's extra_args", {
-  dt = data.table(i = 1:24, y = as.numeric(1:24))
-  task = as_task_fcst(dt, target = "y", order = "i", period = 12)
-  expect_equal(task$extra_args$period, 12)
-  expect_equal(task$clone(deep = TRUE)$period, 12)
+  # an integer index has no calendar cycle to derive or resolve a period from
+  task = as_task_fcst(data.table(i = 1:24, y = as.numeric(1:24)), target = "y", order = "i")
+  expect_identical(stats::frequency(as.ts(task)), 1)
+  expect_identical(stats::frequency(as.ts(task, period = 12)), 12)
+  expect_error(as.ts(task, period = "year"), "requires a calendar `freq`")
 })

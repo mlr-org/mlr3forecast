@@ -32,7 +32,6 @@ as_tasks_fcst(x, ...)
   order,
   key = character(),
   freq = NULL,
-  period = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -44,7 +43,6 @@ as_tasks_fcst(x, ...)
   order,
   key = character(),
   freq = NULL,
-  period = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -57,7 +55,6 @@ as_tasks_fcst(x, ...)
 \method{as_task_fcst}{ts}(
   x,
   freq = NULL,
-  period = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -66,7 +63,6 @@ as_tasks_fcst(x, ...)
 \method{as_task_fcst}{zoo}(
   x,
   freq = NULL,
-  period = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -75,7 +71,6 @@ as_tasks_fcst(x, ...)
 \method{as_task_fcst}{timeSeries}(
   x,
   freq = NULL,
-  period = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -85,7 +80,6 @@ as_tasks_fcst(x, ...)
   x,
   target,
   freq = NULL,
-  period = NULL,
   id = deparse1(substitute(x)),
   label = NA_character_,
   ...
@@ -111,35 +105,13 @@ Name of the order column.}
 Names of the columns whose combination identifies a series.
 Key columns must be character, integer, factor, or ordered columns.}
 
-\item{freq}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
+\item{freq}{(\code{character(1)} | \code{NULL})\cr
 Step of the time index, i.e. the spacing between two consecutive observations.
 A \code{seq()}-compatible string for a \code{Date} or \code{POSIXct} order column, e.g.
 \code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.
-A positive number for a numeric or integer order column.
-If \code{NULL} (default), the step is inferred from the order column.
-This is \emph{not} the seasonal period -- see \code{period}.}
-
-\item{period}{(\code{character()} | \code{numeric()} | \code{NULL})\cr
-Seasonal period(s) of the time series, in observations per cycle.
-Either a positive number (or vector of them) such as \code{12}, or a cycle name resolved against
-\code{freq} such as \code{"year"} or \code{"week"}.
-The cycle names a calendar \code{freq} implies and the periods they resolve to are:\tabular{lllll}{
-   \code{freq} \tab \code{"hour"} \tab \code{"day"} \tab \code{"week"} \tab \code{"year"} \cr
-   \code{"min"} \tab 60 \tab 1440 \tab 10080 \tab 525960 \cr
-   \code{"hour"} \tab  \tab 24 \tab 168 \tab 8766 \cr
-   \code{"day"} \tab  \tab  \tab 7 \tab 365.25 \cr
-   \code{"week"} \tab  \tab  \tab  \tab 52.18 \cr
-   \code{"month"} \tab  \tab  \tab  \tab 12 \cr
-   \code{"quarter"} \tab  \tab  \tab  \tab 4 \cr
-}
-
-
-A multiple of a unit divides the period, e.g. \code{"30 min"} resolves \code{"day"} to \code{48}.
-If \code{NULL} (default), the period is derived from \code{freq} as the shortest implied cycle spanning at
-least four observations, e.g. \code{12} for monthly, \code{4} for quarterly, \code{7} for daily and \code{24} for
-hourly data.
-Sets the default for every learner, \code{PipeOp} and \code{Measure} that needs a seasonal period; each of
-them accepts its own \code{period} hyperparameter that takes precedence.}
+If \code{NULL} (default), the step is inferred from the order column, which is required for a numeric or integer
+order column.
+This is \emph{not} the seasonal period, which learners, measures, and pipeops take as their \code{period} hyperparameter.}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.

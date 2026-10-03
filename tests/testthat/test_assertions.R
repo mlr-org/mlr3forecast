@@ -2,14 +2,6 @@ test_that("assert_freq accepts valid inputs", {
   # NULL
   expect_null(assert_freq(NULL, null.ok = TRUE))
 
-  # positive integers
-  expect_identical(assert_freq(1L), 1L)
-  expect_identical(assert_freq(12L), 12L)
-
-  # positive doubles
-  expect_identical(assert_freq(1.5), 1.5)
-  expect_identical(assert_freq(365.25), 365.25)
-
   # bare unit words
   expect_identical(assert_freq("day"), "day")
   expect_identical(assert_freq("month"), "month")
@@ -33,7 +25,10 @@ test_that("assert_freq accepts valid inputs", {
 })
 
 test_that("assert_freq rejects invalid inputs", {
-  expect_error(assert_freq(NULL), "string or a positive number")
+  expect_error(assert_freq(NULL), "Must be a string")
+  # a number is the seasonal period, which is not part of the task
+  expect_error(assert_freq(12L), "not a number")
+  expect_error(assert_freq(365.25), "not a number")
   expect_error(assert_freq(-1))
   expect_error(assert_freq(0))
   expect_error(assert_freq(0L))
@@ -46,4 +41,14 @@ test_that("assert_freq rejects invalid inputs", {
   expect_error(assert_freq("1 2 months"))
   expect_error(assert_freq(TRUE))
   expect_error(assert_freq("m"))
+})
+
+test_that("check_period accepts a single period unless multiple are allowed", {
+  expect_true(check_period(NULL))
+  expect_true(check_period(12))
+  expect_true(check_period("year"))
+  expect_string(check_period(c(7, 365)), pattern = "positive number")
+  expect_true(check_period(c(7, 365), multiple = TRUE))
+  expect_true(check_period(c("week", "year"), multiple = TRUE))
+  expect_string(check_period(0), pattern = "positive number")
 })

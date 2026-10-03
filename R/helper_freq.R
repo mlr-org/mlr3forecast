@@ -43,7 +43,7 @@ infer_freq = function(order) {
   }
 }
 
-# `freq` is the grid step throughout: a calendar string for date indices, a number for numeric ones
+# `freq` is the grid step: a calendar string for date indices, or NULL to infer it from the data
 resolve_step = function(freq, order) {
   freq %??% infer_freq(sort(unique(order)))
 }
@@ -180,10 +180,9 @@ resolve_period = function(period, freq) {
   set_names(cycles / step, period)
 }
 
-# explicit hyperparameter beats the task default, which itself derives from `freq`.
-# the measures also score plain regression tasks, which carry neither.
+# the measures also score plain regression tasks, whose missing `freq` means no seasonality
 task_period = function(period, task, multiple = FALSE) {
-  periods = if (is.null(period)) task$period %??% c(none = 1) else resolve_period(period, task$freq)
+  periods = resolve_period(period, task$freq)
   unname(if (multiple) periods else periods[[1L]])
 }
 
