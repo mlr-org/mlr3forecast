@@ -23,7 +23,7 @@ lrn("fcst.mlp")
 \itemize{
 \item Task type: \dQuote{fcst}
 \item Predict Types: \dQuote{response}
-\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}, \dQuote{character}, \dQuote{factor}, \dQuote{ordered}, \dQuote{POSIXct}, \dQuote{Date}
+\item Feature Types: \dQuote{logical}, \dQuote{integer}, \dQuote{numeric}
 \item Required Packages: \CRANpkg{mlr3}, \CRANpkg{mlr3forecast}, \CRANpkg{nnfor}, \CRANpkg{forecast}
 }
 }
@@ -41,6 +41,8 @@ lrn("fcst.mlp")
    sel.lag \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    allow.det.season \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    det.type \tab character \tab auto \tab auto, bin, trg \tab - \cr
+   xreg.lags \tab untyped \tab NULL \tab  \tab - \cr
+   xreg.keep \tab untyped \tab NULL \tab  \tab - \cr
    hd.auto.type \tab character \tab set \tab set, valid, cv, elm \tab - \cr
    hd.max \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    retrain \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
@@ -150,7 +152,7 @@ Other Learner:
 }
 \concept{Learner}
 \section{Super classes}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerFcst]{LearnerFcst}} -> \code{\link[mlr3forecast:LearnerFcstForecast]{LearnerFcstForecast}} -> \code{LearnerFcstMlp}
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerFcst]{LearnerFcst}} -> \code{\link[mlr3forecast:LearnerFcstForecast]{LearnerFcstForecast}} -> \code{\link[mlr3forecast:LearnerFcstNnfor]{LearnerFcstNnfor}} -> \code{LearnerFcstMlp}
 }
 \section{Methods}{
 \subsection{Public methods}{

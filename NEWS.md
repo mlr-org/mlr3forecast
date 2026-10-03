@@ -31,7 +31,9 @@
 * fix: Learners wrapping the `forecast` package now return correct quantiles close to the median and support extreme quantiles.
 * fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
 * fix: `fcst.arfima` and `fcst.auto_arima` no longer switch on `parallel` via `set_threads()` during stepwise search, where `forecast::auto.arima()` warned and fit in serial.
+* feat: `fcst.elm` and `fcst.mlp` now use numeric and logical task features as exogenous regressors and gained the `xreg.lags` and `xreg.keep` parameters.
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.
+* fix: `fcst.stlm` now raises a configuration error for features without `method = "arima"`.
 * fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.
 * fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.

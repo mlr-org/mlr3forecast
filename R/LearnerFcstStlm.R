@@ -9,6 +9,7 @@
 #' Calls [forecast::stlm()] from package \CRANpkg{forecast}.
 #'
 #' The task must provide a seasonal time series (frequency > 1).
+#' Exogenous features require `method = "arima"`.
 #'
 #' @section Initial parameter values:
 #' * `method`: Set to `"ets"`, the upstream default, so that `etsmodel` and `allow.multiplicative.trend` can be set
@@ -75,7 +76,7 @@ LearnerFcstStlm = R6Class(
     .fit = function(task, pv) {
       method = pv$method %??% "ets"
       if (task$n_features > 0L && method != "arima") {
-        error_input(
+        error_config(
           "`fcst.stlm` supports exogenous features only with `method = \"arima\"` (current method: \"%s\").",
           method
         )

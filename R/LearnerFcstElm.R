@@ -1,4 +1,4 @@
-#' @include LearnerFcstForecast.R
+#' @include LearnerFcstNnfor.R
 #' @title Extreme Learning Machine Forecast Learner
 #'
 #' @name mlr_learners_fcst.elm
@@ -19,7 +19,7 @@
 #' @template example
 LearnerFcstElm = R6Class(
   "LearnerFcstElm",
-  inherit = LearnerFcstForecast,
+  inherit = LearnerFcstNnfor,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -53,6 +53,16 @@ LearnerFcstElm = R6Class(
         direct = p_lgl(default = FALSE, tags = "train"),
         allow.det.season = p_lgl(default = TRUE, tags = "train"),
         det.type = p_fct(c("auto", "bin", "trg"), default = "auto", tags = "train"),
+        xreg.lags = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_list(x, types = "numeric", null.ok = TRUE))
+        ),
+        xreg.keep = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_list(x, types = "logical", null.ok = TRUE))
+        ),
         barebone = p_lgl(default = FALSE, tags = "train"),
         retrain = p_lgl(default = FALSE, tags = "train")
       )
@@ -61,8 +71,8 @@ LearnerFcstElm = R6Class(
         id = "fcst.elm",
         param_set = param_set,
         predict_types = "response",
-        feature_types = unname(mlr_reflections$task_feature_types),
-        properties = "featureless",
+        feature_types = c("logical", "integer", "numeric"),
+        properties = c("featureless", "exogenous"),
         packages = c("mlr3forecast", "nnfor", "forecast"),
         label = "Extreme Learning Machine",
         man = "mlr3forecast::mlr_learners_fcst.elm"
@@ -71,14 +81,7 @@ LearnerFcstElm = R6Class(
   ),
 
   private = list(
-    .pkg = "nnfor",
-    .fn = "elm",
-
-    .fitted = function() {
-      model = self$native_model
-      fitted = as.numeric(stats::fitted(model))
-      c(rep.int(NA_real_, length(model$y) - length(fitted)), fitted)
-    }
+    .fn = "elm"
   )
 )
 

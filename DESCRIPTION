@@ -95,6 +95,7 @@ Collate:
     'LearnerFcstForecTheta.R'
     'LearnerFcstDotm.R'
     'LearnerFcstDstm.R'
+    'LearnerFcstNnfor.R'
     'LearnerFcstElm.R'
     'LearnerFcstEs.R'
     'LearnerFcstEsn.R'

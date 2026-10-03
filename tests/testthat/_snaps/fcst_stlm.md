@@ -7,5 +7,5 @@
       ! 
       x `fcst.stlm` supports exogenous features only with `method = "arima"` (current
         method: "ets").
-      > Class: Mlr3ErrorInput
+      > Class: Mlr3ErrorConfig
 

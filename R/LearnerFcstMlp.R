@@ -1,4 +1,4 @@
-#' @include LearnerFcstForecast.R
+#' @include LearnerFcstNnfor.R
 #' @title Multilayer Perceptron Forecast Learner
 #'
 #' @name mlr_learners_fcst.mlp
@@ -19,7 +19,7 @@
 #' @template example_slow
 LearnerFcstMlp = R6Class(
   "LearnerFcstMlp",
-  inherit = LearnerFcstForecast,
+  inherit = LearnerFcstNnfor,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -51,6 +51,16 @@ LearnerFcstMlp = R6Class(
         sel.lag = p_lgl(default = TRUE, tags = "train"),
         allow.det.season = p_lgl(default = TRUE, tags = "train"),
         det.type = p_fct(c("auto", "bin", "trg"), default = "auto", tags = "train"),
+        xreg.lags = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_list(x, types = "numeric", null.ok = TRUE))
+        ),
+        xreg.keep = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_list(x, types = "logical", null.ok = TRUE))
+        ),
         hd.auto.type = p_fct(c("set", "valid", "cv", "elm"), default = "set", tags = "train"),
         hd.max = p_int(1L, special_vals = list(NULL), default = NULL, tags = "train"),
         retrain = p_lgl(default = FALSE, tags = "train")
@@ -60,8 +70,8 @@ LearnerFcstMlp = R6Class(
         id = "fcst.mlp",
         param_set = param_set,
         predict_types = "response",
-        feature_types = unname(mlr_reflections$task_feature_types),
-        properties = "featureless",
+        feature_types = c("logical", "integer", "numeric"),
+        properties = c("featureless", "exogenous"),
         packages = c("mlr3forecast", "nnfor", "forecast"),
         label = "Multilayer Perceptron",
         man = "mlr3forecast::mlr_learners_fcst.mlp"
@@ -70,14 +80,7 @@ LearnerFcstMlp = R6Class(
   ),
 
   private = list(
-    .pkg = "nnfor",
-    .fn = "mlp",
-
-    .fitted = function() {
-      model = self$native_model
-      fitted = as.numeric(stats::fitted(model))
-      c(rep.int(NA_real_, length(model$y) - length(fitted)), fitted)
-    }
+    .fn = "mlp"
   )
 )
 

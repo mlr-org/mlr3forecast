@@ -10,6 +10,7 @@ seasonally-adjusted series is forecast with either an \code{ETS} or \code{ARIMA}
 Calls \code{\link[forecast:stlm]{forecast::stlm()}} from package \CRANpkg{forecast}.
 
 The task must provide a seasonal time series (frequency > 1).
+Exogenous features require \code{method = "arima"}.
 }
 \section{Initial parameter values}{
 
