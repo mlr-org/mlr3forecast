@@ -6,8 +6,8 @@
 \title{Seasonal Naive Forecast Learner}
 \description{
 Seasonal naive model.
-Each forecast equals the last observed value from the same season, with the seasonal period taken from the task
-frequency, rounded to the nearest integer and bounded below by one.
+Each forecast equals the last observed value from the same season, with the seasonal period \code{period} rounded to the
+nearest integer and bounded below by one.
 For non-seasonal tasks this reduces to the naive (random walk) forecast.
 Calls \code{\link[forecast:rw_model]{forecast::rw_model()}} from package \CRANpkg{forecast} with \code{lag} set to the seasonal period.
 

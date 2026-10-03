@@ -18,6 +18,8 @@ The parameters are the parameters inherited from \link[mlr3pipelines:PipeOpTaskP
 \item \code{features} :: \code{character()}\cr
 Function names from the \code{tsfeatures} namespace that return numeric feature vectors. Default
 \code{c("frequency", "stl_features", "entropy", "acf_features")}.
+\item \code{period} :: \code{character(1)} | \code{numeric(1)} | \code{NULL}\cr
+Seasonal period passed to the feature functions as the frequency of each series. Default \code{NULL}.
 \item \code{scale} :: \code{logical(1)}\cr
 If \code{TRUE}, scale each series to mean 0 and sd 1 before feature extraction. Default \code{TRUE}.
 \item \code{trim} :: \code{logical(1)}\cr
@@ -31,6 +33,30 @@ Function from the \code{future} package used when \code{parallel = TRUE}. Defaul
 \item \code{na.action} :: \code{function}\cr
 Missing-value handler. Default \code{\link[stats:na.pass]{stats::na.pass()}}.
 }
+}
+
+\section{Seasonal period}{
+
+The seasonal period is not stored in the task.
+It is set by the \code{period} hyperparameter, in observations per cycle.
+Either a positive number such as \code{12}, or a cycle name resolved against the task's \code{freq} such as \code{"year"} or
+\code{"week"}.
+The cycle names a calendar \code{freq} implies and the periods they resolve to are:\tabular{lllll}{
+   \code{freq} \tab \code{"hour"} \tab \code{"day"} \tab \code{"week"} \tab \code{"year"} \cr
+   \code{"min"} \tab 60 \tab 1440 \tab 10080 \tab 525960 \cr
+   \code{"hour"} \tab  \tab 24 \tab 168 \tab 8766 \cr
+   \code{"day"} \tab  \tab  \tab 7 \tab 365.25 \cr
+   \code{"week"} \tab  \tab  \tab  \tab 52.18 \cr
+   \code{"month"} \tab  \tab  \tab  \tab 12 \cr
+   \code{"quarter"} \tab  \tab  \tab  \tab 4 \cr
+}
+
+
+A multiple of a unit divides the period, e.g. \code{"30 min"} resolves \code{"day"} to \code{48}.
+If \code{period} is \code{NULL} (default), it is the day for sub-daily data (the hour below a minute), the week for daily
+data, and the year for longer steps, skipping a cycle of fewer than four observations for the next longer one.
+This gives e.g. \code{12} for monthly, \code{4} for quarterly, \code{7} for daily, \code{24} for hourly, and \code{48} for half-hourly data.
+Without a calendar \code{freq}, the default is \code{1}, i.e. no seasonality.
 }
 
 \examples{

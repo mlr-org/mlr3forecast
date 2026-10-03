@@ -51,7 +51,6 @@ TaskFcst = R6Class(
     #' @template param_order
     #' @template param_key
     #' @template param_freq
-    #' @template param_period
     #' @template param_label
     #' @template param_extra_args
     initialize = function(
@@ -61,14 +60,12 @@ TaskFcst = R6Class(
       order,
       key = character(),
       freq = NULL,
-      period = NULL,
       label = NA_character_,
       extra_args = list()
     ) {
       super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
       self$task_type = "fcst"
       private$.freq = assert_freq(freq, null.ok = TRUE)
-      private$.period = if (is.null(assert_period(period))) NULL else resolve_period(period, freq)
 
       assert_string(order)
       assert_character(key, any.missing = FALSE)
@@ -77,10 +74,7 @@ TaskFcst = R6Class(
       col_roles$key = key
       col_roles$feature = setdiff(col_roles$feature, c(order, key))
       self$col_roles = col_roles
-      self$extra_args = insert_named(
-        self$extra_args,
-        list(order = order, key = key, freq = freq, period = period)
-      )
+      self$extra_args = insert_named(self$extra_args, list(order = order, key = key, freq = freq))
     },
 
     #' @description
@@ -136,29 +130,16 @@ TaskFcst = R6Class(
       if (!is.null(self$freq)) {
         cat_cli(cli::cli_li("Frequency: {self$freq}"))
       }
-      period = self$period
-      if (!identical(names(period), "none")) {
-        cat_cli(cli::cli_li("Seasonal period: {format_periods(period)}"))
-      }
     }
   ),
 
   active = list(
-    #' @field freq (`character(1)` | `numeric(1)` | `NULL`)\cr
-    #' The step of the time index, i.e. the spacing between two consecutive observations.
+    #' @field freq (`character(1)` | `NULL`)\cr
+    #' The step of the time index, i.e. the spacing between two consecutive observations,
+    #' or `NULL` if it is inferred from the order column.
     freq = function(rhs) {
       assert_ro_binding(rhs)
       private$.freq
-    },
-
-    #' @field period (named `numeric()`)\cr
-    #' The seasonal period(s) of the time series, in observations per cycle. This is the default
-    #' consulted by learners, pipeops and measures that need a seasonal period; each of them accepts
-    #' its own `period` hyperparameter that takes precedence. Unless `period` was set explicitly, it
-    #' is derived from `$freq`; see the `period` argument of [as_task_fcst()] for the cycles a frequency implies.
-    period = function(rhs) {
-      assert_ro_binding(rhs)
-      private$.period %??% default_period(private$.freq)
     },
 
     #' @field properties (`character()`)\cr
@@ -219,8 +200,7 @@ TaskFcst = R6Class(
   ),
 
   private = list(
-    .freq = NULL,
-    .period = NULL
+    .freq = NULL
   )
 )
 
@@ -246,20 +226,9 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
       error_input(
         paste0(
           "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
-          "Use a numeric `freq` (the step between observations) or `NULL` to infer it."
+          "Use `freq = NULL` to infer the step of a numeric or integer order column."
         ),
         task$freq,
-        order_cols
-      )
-    }
-    if (test_number(task$freq) && order_type %nin% c("integer", "numeric")) {
-      error_input(
-        paste0(
-          "A numeric `freq` (%s) is the step between observations and requires a numeric or integer ",
-          "order column, but '%s' is not. Use a calendar `freq` (e.g. \"month\") for the step, and ",
-          "`period` for the seasonal cycle."
-        ),
-        format(task$freq),
         order_cols
       )
     }

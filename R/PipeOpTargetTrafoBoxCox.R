@@ -17,6 +17,8 @@
 #' * `lambda` :: `numeric(1)` | `NULL`\cr
 #'   Box-Cox transformation parameter. `NULL` (default) estimates it from the training data, `0` is the log
 #'   transformation, any other numeric is used as a fixed value.
+#' * `period` :: `character(1)` | `numeric(1)` | `NULL`\cr
+#'   Seasonal period of the series when estimating `lambda`. Default `NULL`.
 #' * `method` :: `character(1)`\cr
 #'   Method used to estimate `lambda` when `lambda = NULL`, one of `"guerrero"` (default) or `"loglik"`. See
 #'   [forecast::BoxCox.lambda()].
@@ -24,6 +26,8 @@
 #'   Lower bound for the estimated `lambda`. Default `-1`.
 #' * `upper` :: `numeric(1)`\cr
 #'   Upper bound for the estimated `lambda`. Default `2`.
+#'
+#' @template section_period
 #'
 #' @section Limitations:
 #' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph and is rejected at

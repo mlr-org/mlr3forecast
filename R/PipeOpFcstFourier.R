@@ -13,13 +13,15 @@
 #' * `period` :: `character()` | `numeric()` | `NULL`\cr
 #'   Seasonal period(s), in number of observations per cycle, or cycle name(s) such as `"year"` resolved against the
 #'   task's frequency. May be non-integer and may contain multiple periods for multiple seasonalities. If `NULL`
-#'   (default), the task's `$period` is used.
+#'   (default), the default derived from the task's `freq` is used.
 #' * `K` :: `integer()`\cr
 #'   Number of Fourier harmonics per `period`. Either a single value recycled to all periods, or one value per period.
 #'   Each `K` must satisfy `2 * K <= period`. Default `1L`.
 #'
 #' @references
 #' `r format_bib("livera2011complex", "hyndman2008automatic")`
+#'
+#' @template section_period
 #'
 #' @export
 #' @examples
@@ -40,7 +42,10 @@ PipeOpFcstFourier = R6Class(
     #'   otherwise be set during construction. Default `list()`.
     initialize = function(id = "fcst.fourier", param_vals = list()) {
       param_set = ps(
-        period = p_uty(tags = c("train", "predict"), custom_check = check_period),
+        period = p_uty(
+          tags = c("train", "predict"),
+          custom_check = crate(function(x) check_period(x, multiple = TRUE))
+        ),
         K = p_uty(
           init = 1L,
           tags = c("train", "predict"),

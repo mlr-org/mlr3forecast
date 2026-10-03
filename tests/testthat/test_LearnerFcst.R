@@ -67,12 +67,12 @@ test_that("in-sample prediction is invariant to backend row order", {
   n = 48L
   y = 10 + 0.3 * (1:n) + 5 * sin(2 * pi * (1:n) / 12) + rnorm(n, 0, 0.2)
   dat = data.table(t = 1:n, y = y)
-  sorted = as_task_fcst(dat, target = "y", order = "t", period = 12)
-  shuffled = as_task_fcst(dat[sample(n)], target = "y", order = "t", period = 12)
+  sorted = as_task_fcst(dat, target = "y", order = "t")
+  shuffled = as_task_fcst(dat[sample(n)], target = "y", order = "t")
 
   # in-sample fitted values must follow each row's timestamp, not the backend layout
   insample = function(task) {
-    pred = lrn("fcst.ets")$train(task)$predict(task)
+    pred = lrn("fcst.ets", period = 12L)$train(task)$predict(task)
     t = as.numeric(task$data(rows = pred$row_ids, cols = "t")[[1L]])
     data.table(t = t, response = pred$response)[order(t)]
   }
@@ -121,7 +121,7 @@ test_that("future predict rejects windows that are not the next h steps", {
   expect_length(prediction$response, length(split$test))
 })
 
-test_that("the learner's period overrides the task's", {
+test_that("the period hyperparameter sets the frequency of the ts", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")
   expect_equal(stats::frequency(lrn("fcst.ets")$train(task)$native_model$x), 12)

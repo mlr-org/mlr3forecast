@@ -13,6 +13,8 @@
 #' * `features` :: `character()`\cr
 #'   Function names from the `tsfeatures` namespace that return numeric feature vectors. Default
 #'   `c("frequency", "stl_features", "entropy", "acf_features")`.
+#' * `period` :: `character(1)` | `numeric(1)` | `NULL`\cr
+#'   Seasonal period passed to the feature functions as the frequency of each series. Default `NULL`.
 #' * `scale` :: `logical(1)`\cr
 #'   If `TRUE`, scale each series to mean 0 and sd 1 before feature extraction. Default `TRUE`.
 #' * `trim` :: `logical(1)`\cr
@@ -25,6 +27,8 @@
 #'   Function from the `future` package used when `parallel = TRUE`. Default [future::multisession()].
 #' * `na.action` :: `function`\cr
 #'   Missing-value handler. Default [stats::na.pass()].
+#'
+#' @template section_period
 #'
 #' @export
 #' @examplesIf requireNamespace("tsfeatures", quietly = TRUE)

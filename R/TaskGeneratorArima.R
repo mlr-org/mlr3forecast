@@ -14,10 +14,8 @@
 #' @template task_generator
 #'
 #' @section Task structure:
-#' The generated [TaskFcst] has the target `y` and the order column `time`, a regular index starting at `start` with
-#' step `freq`.
-#' A calendar `freq` such as `"month"` yields dates, a numeric `freq` yields the integers `1, ..., n` and is stored as
-#' the frequency of the task.
+#' The generated [TaskFcst] has the target `y` and the order column `time`, a regular calendar index starting at
+#' `start` with step `freq`.
 #' With `k > 1`, `k` independent series are stacked into a keyed panel with the key column `series`, so `n` is the
 #' length of each series and the task has `n * k` rows.
 #'
@@ -80,15 +78,11 @@ TaskGeneratorArima = R6Class(
       model = list(order = c(length(pv$ar), 0L, length(pv$ma)), ar = pv$ar, ma = pv$ma)
 
       freq = pv$freq
-      time = if (is.character(freq)) {
-        start = pv$start
-        if (inherits(start, "Date") && grepl("sec|min|hour|DSTday", freq)) {
-          start = as.POSIXct(start)
-        }
-        c(start, seq_order(start, freq, n - 1L))
-      } else {
-        seq_len(n)
+      start = pv$start
+      if (inherits(start, "Date") && grepl("sec|min|hour|DSTday", freq)) {
+        start = as.POSIXct(start)
       }
+      time = c(start, seq_order(start, freq, n - 1L))
 
       data = map_dtr(
         seq_len(pv$k),

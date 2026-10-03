@@ -18,11 +18,35 @@ parameters:
 \item \code{period} :: \code{character()} | \code{numeric()} | \code{NULL}\cr
 Seasonal period(s), in number of observations per cycle, or cycle name(s) such as \code{"year"} resolved against the
 task's frequency. May be non-integer and may contain multiple periods for multiple seasonalities. If \code{NULL}
-(default), the task's \verb{$period} is used.
+(default), the default derived from the task's \code{freq} is used.
 \item \code{K} :: \code{integer()}\cr
 Number of Fourier harmonics per \code{period}. Either a single value recycled to all periods, or one value per period.
 Each \code{K} must satisfy \code{2 * K <= period}. Default \code{1L}.
 }
+}
+
+\section{Seasonal period}{
+
+The seasonal period is not stored in the task.
+It is set by the \code{period} hyperparameter, in observations per cycle.
+Either a positive number such as \code{12}, or a cycle name resolved against the task's \code{freq} such as \code{"year"} or
+\code{"week"}.
+The cycle names a calendar \code{freq} implies and the periods they resolve to are:\tabular{lllll}{
+   \code{freq} \tab \code{"hour"} \tab \code{"day"} \tab \code{"week"} \tab \code{"year"} \cr
+   \code{"min"} \tab 60 \tab 1440 \tab 10080 \tab 525960 \cr
+   \code{"hour"} \tab  \tab 24 \tab 168 \tab 8766 \cr
+   \code{"day"} \tab  \tab  \tab 7 \tab 365.25 \cr
+   \code{"week"} \tab  \tab  \tab  \tab 52.18 \cr
+   \code{"month"} \tab  \tab  \tab  \tab 12 \cr
+   \code{"quarter"} \tab  \tab  \tab  \tab 4 \cr
+}
+
+
+A multiple of a unit divides the period, e.g. \code{"30 min"} resolves \code{"day"} to \code{48}.
+If \code{period} is \code{NULL} (default), it is the day for sub-daily data (the hour below a minute), the week for daily
+data, and the year for longer steps, skipping a cycle of fewer than four observations for the next longer one.
+This gives e.g. \code{12} for monthly, \code{4} for quarterly, \code{7} for daily, \code{24} for hourly, and \code{48} for half-hourly data.
+Without a calendar \code{freq}, the default is \code{1}, i.e. no seasonality.
 }
 
 \examples{
