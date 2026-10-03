@@ -111,9 +111,14 @@
   during stepwise search, where
   [`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
   warned and fit in serial.
+- feat: `fcst.elm` and `fcst.mlp` now use numeric and logical task
+  features as exogenous regressors and gained the `xreg.lags` and
+  `xreg.keep` parameters.
 - fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and
   `allow.multiplicative.trend` can be set without setting `method`
   first.
+- fix: `fcst.stlm` now raises a configuration error for features without
+  `method = "arima"`.
 - fix: `fcst.struct_ts` no longer declares `"level"` as the default of
   `type`, since
   [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits

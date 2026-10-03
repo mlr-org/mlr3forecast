@@ -5,13 +5,15 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="STL + ETS/ARIMA Forecast Learner — mlr_learners_fcst.stlm"><meta name="description" content="Forecasts of seasonal time series using STL decomposition. The seasonal component is forecast naively and the
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="STL + ETS/ARIMA Forecast Learner — mlr_learners_fcst.stlm"><meta name="description" content='Forecasts of seasonal time series using STL decomposition. The seasonal component is forecast naively and the
 seasonally-adjusted series is forecast with either an ETS or ARIMA model.
 Calls forecast::stlm() from package forecast.
-The task must provide a seasonal time series (frequency &amp;gt; 1)."><meta property="og:description" content="Forecasts of seasonal time series using STL decomposition. The seasonal component is forecast naively and the
+The task must provide a seasonal time series (frequency &amp;gt; 1).
+Exogenous features require method = "arima".'><meta property="og:description" content='Forecasts of seasonal time series using STL decomposition. The seasonal component is forecast naively and the
 seasonally-adjusted series is forecast with either an ETS or ARIMA model.
 Calls forecast::stlm() from package forecast.
-The task must provide a seasonal time series (frequency &amp;gt; 1)."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+The task must provide a seasonal time series (frequency &amp;gt; 1).
+Exogenous features require method = "arima".'><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -58,7 +60,8 @@ The task must provide a seasonal time series (frequency &amp;gt; 1)."><meta prop
     <p>Forecasts of seasonal time series using STL decomposition. The seasonal component is forecast naively and the
 seasonally-adjusted series is forecast with either an <code>ETS</code> or <code>ARIMA</code> model.
 Calls <code><a href="https://pkg.robjhyndman.com/forecast/reference/stlm.html" class="external-link">forecast::stlm()</a></code> from package <a href="https://CRAN.R-project.org/package=forecast" class="external-link"><span class="pkg">forecast</span></a>.</p>
-<p>The task must provide a seasonal time series (frequency &gt; 1).</p>
+<p>The task must provide a seasonal time series (frequency &gt; 1).
+Exogenous features require <code>method = "arima"</code>.</p>
     </div>
 
 
@@ -365,8 +368,8 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         ...)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x56500f178d80&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x56500f164840&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5583de8cde88&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5583de89a278&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>

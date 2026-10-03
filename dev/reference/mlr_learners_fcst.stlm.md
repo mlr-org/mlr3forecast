@@ -6,7 +6,8 @@ forecast with either an `ETS` or `ARIMA` model. Calls
 [`forecast::stlm()`](https://pkg.robjhyndman.com/forecast/reference/stlm.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
 
-The task must provide a seasonal time series (frequency \> 1).
+The task must provide a seasonal time series (frequency \> 1). Exogenous
+features require `method = "arima"`.
 
 ## Initial parameter values
 
@@ -362,8 +363,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x56500f178d80>
-#> <environment: 0x56500f164840>
+#> <bytecode: 0x5583de8cde88>
+#> <environment: 0x5583de89a278>
 #> 
 #> $lambda
 #> NULL

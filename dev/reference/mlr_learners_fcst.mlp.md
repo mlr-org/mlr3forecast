@@ -25,8 +25,7 @@ or with the associated sugar function
 
 - Predict Types: “response”
 
-- Feature Types: “logical”, “integer”, “numeric”, “character”, “factor”,
-  “ordered”, “POSIXct”, “Date”
+- Feature Types: “logical”, “integer”, “numeric”
 
 - Required Packages: [mlr3](https://CRAN.R-project.org/package=mlr3),
   [mlr3forecast](https://CRAN.R-project.org/package=mlr3forecast),
@@ -48,6 +47,8 @@ or with the associated sugar function
 | sel.lag          | logical   | TRUE    | TRUE, FALSE         | \-               |
 | allow.det.season | logical   | TRUE    | TRUE, FALSE         | \-               |
 | det.type         | character | auto    | auto, bin, trg      | \-               |
+| xreg.lags        | untyped   | NULL    |                     | \-               |
+| xreg.keep        | untyped   | NULL    |                     | \-               |
 | hd.auto.type     | character | set     | set, valid, cv, elm | \-               |
 | hd.max           | integer   | NULL    |                     | \\\[1, \infty)\\ |
 | retrain          | logical   | FALSE   | TRUE, FALSE         | \-               |
@@ -154,6 +155,8 @@ Other Learner:
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
 -\>
 [`LearnerFcstForecast`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstForecast.md)
+-\>
+[`LearnerFcstNnfor`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstNnfor.md)
 -\> `LearnerFcstMlp`
 
 ## Methods
@@ -219,10 +222,9 @@ print(learner)
 #> • Parameters: list()
 #> • Packages: mlr3, mlr3forecast, nnfor, and forecast
 #> • Predict Types: [response]
-#> • Feature Types: logical, integer, numeric, character, factor, ordered,
-#> POSIXct, and Date
+#> • Feature Types: logical, integer, and numeric
 #> • Encapsulation: none (fallback: -)
-#> • Properties: featureless
+#> • Properties: exogenous and featureless
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
