@@ -137,14 +137,14 @@ common_periods = function(freq) {
   if (is.na(step)) {
     return(numeric())
   }
-  cycles = c(minute = 60, hour = 3600, day = 86400, week = 604800, year = 31557600)
+  cycles = c(min = 60, hour = 3600, day = 86400, week = 604800, year = 31557600)
   periods = cycles / step
   sort(periods[periods > 1])
 }
 
 default_period = function(freq) {
   periods = common_periods(freq)
-  ladder = c(if ("minute" %chin% names(periods)) "hour", "day", "week", "year")
+  ladder = c(if ("min" %chin% names(periods)) "hour", "day", "week", "year")
   candidates = unname(periods[names(periods) %chin% ladder])
   if (length(candidates) == 0L) {
     return(1)

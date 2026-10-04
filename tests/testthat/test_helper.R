@@ -75,6 +75,7 @@ test_that("common_periods lists the cycles a frequency implies", {
   expect_equal(common_periods("day"), c(week = 7, year = 365.25))
   expect_equal(common_periods("hour"), c(day = 24, week = 168, year = 8766))
   expect_equal(common_periods("30 min"), c(hour = 2, day = 48, week = 336, year = 17532))
+  expect_equal(common_periods("sec"), c(min = 60, hour = 3600, day = 86400, week = 604800, year = 31557600))
   # a step with no longer cycle, and a frequency without calendar meaning
   expect_length(common_periods("year"), 0L)
   expect_length(common_periods(12), 0L)
@@ -112,6 +113,7 @@ test_that("resolve_period counts steps per named cycle and passes numerics throu
   expect_equal(resolve_period("year", "month"), 12)
   expect_equal(resolve_period("day", "hour"), 24)
   expect_equal(resolve_period(c("day", "week"), "hour"), c(24, 168))
+  expect_equal(resolve_period(names(common_periods("sec")), "sec"), unname(common_periods("sec")))
   expect_equal(resolve_period(12, NULL), 12)
   expect_equal(resolve_period(c(24, 168), "hour"), c(24, 168))
   expect_equal(resolve_period(NULL, NULL), 1)
