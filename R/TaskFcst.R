@@ -279,9 +279,10 @@ as.ts.TaskFcst = function(x, ..., period = NULL) {
   if ("freq" %chin% ...names()) {
     error_input("`as.ts()` no longer takes `freq`. Use `period` for the seasonal period.")
   }
+  assert_period(period)
   if (length(x$col_roles$key) > 0L) {
     error_input("Cannot coerce a multi-series (keyed) task to a single ts object.")
   }
   y = x$data(cols = x$target_names, ordered = TRUE)[[1L]]
-  stats::ts(y, frequency = task_period(period, x))
+  stats::ts(y, frequency = resolve_period(period, x$freq))
 }

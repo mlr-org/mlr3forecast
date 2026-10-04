@@ -73,7 +73,7 @@ PipeOpFcstFourier = R6Class(
       key_cols = col_roles$key
       order_cols = col_roles$order
 
-      period = task_period(pv$period, task, multiple = TRUE)
+      period = resolve_period(pv$period, task$freq)
       K = pv$K
       if (length(K) == 1L) {
         K = rep(K, length(period))

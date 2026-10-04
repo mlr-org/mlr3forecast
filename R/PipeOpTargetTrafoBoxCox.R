@@ -92,7 +92,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
         return(list(lambda = lambda))
       }
       target = task$target_names
-      period = task_period(self$param_set$values$period, task)
+      period = resolve_period(self$param_set$values$period, task$freq)
       args = self$param_set$get_values(tags = "estimate")
       estimate_lambda = function(y) {
         invoke(forecast::BoxCox.lambda, stats::ts(as.numeric(y), frequency = period), .args = args)

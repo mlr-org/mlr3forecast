@@ -115,46 +115,34 @@ freq_seconds = function(x) {
   n * secs[[unit]]
 }
 
-# the seasonal periods a frequency implies: how many observations fit into each calendar cycle longer
-# than a single step, shortest first. `c(none = 1)` if the frequency carries no calendar meaning.
+# the seasonal periods a frequency implies, named by cycle: how many observations fit into each calendar cycle
+# longer than a single step, shortest first. Empty if the frequency carries no calendar meaning.
 common_periods = function(freq) {
-  none = c(none = 1)
-  if (!test_string(freq)) {
-    return(none)
-  }
-  step = freq_seconds(freq)
+  step = if (test_string(freq)) freq_seconds(freq) else NA_real_
   if (is.na(step)) {
-    return(none)
+    return(numeric())
   }
   cycles = c(minute = 60, hour = 3600, day = 86400, week = 604800, year = 31557600)
   periods = cycles / step
-  periods = sort(periods[periods > 1])
-  if (length(periods) == 0L) none else periods
+  sort(periods[periods > 1])
 }
 
 # the cycle a `ts()` user would reach for: the next natural calendar cycle up from the step, e.g. the
-# day for sub-daily data and the week for daily data. Cycles shorter than four observations carry no
-# seasonal shape, so they are skipped in favour of the next one up.
+# day for sub-daily data (the hour below a minute) and the week for daily data. Cycles shorter than four
+# observations carry no seasonal shape, so they are skipped in favour of the next one up.
 default_period = function(freq) {
-  none = c(none = 1)
-  if (!test_string(freq)) {
-    return(none)
-  }
-  step = freq_seconds(freq)
-  if (is.na(step)) {
-    return(none)
-  }
-  ladder = c(if (step < 60) "hour", "day", "week", "year")
   periods = common_periods(freq)
-  candidates = periods[names(periods) %chin% ladder]
+  ladder = c(if ("minute" %chin% names(periods)) "hour", "day", "week", "year")
+  candidates = unname(periods[names(periods) %chin% ladder])
   if (length(candidates) == 0L) {
-    return(none)
+    return(1)
   }
   long = candidates[candidates >= 4]
   if (length(long) > 0L) long[1L] else candidates[length(candidates)]
 }
 
 # a character period ("year", "week") counts how many steps fit into that cycle
+# the measures also score plain regression tasks, whose missing `freq` means no seasonality
 resolve_period = function(period, freq) {
   if (is.null(period)) {
     return(default_period(freq))
@@ -177,17 +165,11 @@ resolve_period = function(period, freq) {
       str_collapse(period[is.na(cycles)], quote = "'")
     )
   }
-  set_names(cycles / step, period)
-}
-
-# the measures also score plain regression tasks, whose missing `freq` means no seasonality
-task_period = function(period, task, multiple = FALSE) {
-  periods = resolve_period(period, task$freq)
-  unname(if (multiple) periods else periods[[1L]])
+  cycles / step
 }
 
 resolve_measure_period = function(period, task) {
-  max(1L, as.integer(round(task_period(period, task))))
+  max(1L, as.integer(round(resolve_period(period, task$freq))))
 }
 
 to_tsibble_index = function(order, freq) {

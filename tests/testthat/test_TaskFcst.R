@@ -227,6 +227,7 @@ test_that("as.ts derives the default period from freq and accepts an explicit on
   expect_identical(stats::frequency(as.ts(daily)), 7)
   expect_identical(stats::frequency(as.ts(daily, period = 365)), 365)
   expect_identical(stats::frequency(as.ts(daily, period = "year")), 365.25)
+  expect_error(as.ts(daily, period = c(7, 365)), "positive number")
 
   # an integer index has no calendar cycle to derive or resolve a period from
   task = as_task_fcst(data.table(i = 1:24, y = as.numeric(1:24)), target = "y", order = "i")

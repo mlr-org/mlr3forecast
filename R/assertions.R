@@ -71,6 +71,8 @@ check_period = function(x, multiple = FALSE) {
   }
 }
 
+assert_period = makeAssertionFunction(check_period)
+
 assert_regular_grid = function(dt, order_cols, key_cols, freq) {
   if (length(key_cols) > 0L) {
     ok = dt[, list(.ok = test_regular_grid(get(order_cols), freq)), by = key_cols]

@@ -83,16 +83,16 @@ PipeOpFcstTsfeats = R6Class(
       target = task$target_names
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
-      freq = task_period(self$param_set$values$period, task)
+      period = resolve_period(self$param_set$values$period, task$freq)
 
       dt = task$data(cols = c(target, order_cols, key_cols))
       setorderv(dt, c(key_cols, order_cols))
       if (length(key_cols) > 0L) {
-        ts_dt = dt[, list(.ts = list(stats::ts(get(target), frequency = freq))), by = key_cols]
+        ts_dt = dt[, list(.ts = list(stats::ts(get(target), frequency = period))), by = key_cols]
         tslist = ts_dt$.ts
         keys = ts_dt[, !".ts"]
       } else {
-        tslist = list(stats::ts(dt[[target]], frequency = freq))
+        tslist = list(stats::ts(dt[[target]], frequency = period))
         keys = NULL
       }
 
