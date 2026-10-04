@@ -44,11 +44,11 @@ infer_freq = function(order) {
   }
 }
 
-# pooling the series would mix their anchors, e.g. monthly series dated on the 1st and the 15th look 14 days apart
 resolve_step = function(freq, order, key = NULL) {
   if (!is.null(freq)) {
     return(freq)
   }
+  # pooling the series would mix their anchors, e.g. monthly series dated on the 1st and the 15th look 14 days apart
   series = if (length(key) > 0L) split(order, key, drop = TRUE) else list(order)
   series = keep(series, function(x) uniqueN(x) > 1L)
   if (length(series) == 0L) {
@@ -105,8 +105,8 @@ seq_order = function(origin, freq, n) {
   }
 }
 
-# calendar units use their average length, e.g. a month is 365.25 / 12 days
 unit_seconds = function(x) {
+  # calendar units use their average length, e.g. a month is 365.25 / 12 days
   secs = c(
     sec = 1,
     min = 60,
@@ -142,7 +142,6 @@ common_periods = function(freq) {
   sort(periods[periods > 1])
 }
 
-# a cycle of fewer than four observations has no seasonal shape
 default_period = function(freq) {
   periods = common_periods(freq)
   ladder = c(if ("minute" %chin% names(periods)) "hour", "day", "week", "year")
@@ -150,6 +149,7 @@ default_period = function(freq) {
   if (length(candidates) == 0L) {
     return(1)
   }
+  # a cycle of fewer than four observations has no seasonal shape
   long = candidates[candidates >= 4]
   if (length(long) > 0L) long[1L] else candidates[length(candidates)]
 }
