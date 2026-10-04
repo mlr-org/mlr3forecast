@@ -89,8 +89,8 @@ seq_order = function(origin, freq, n) {
   }
 }
 
-# duration of a seq()-style unit string in seconds, NA if it is not one
-freq_seconds = function(x) {
+# calendar units use their average length, e.g. a month is 365.25 / 12 days
+unit_seconds = function(x) {
   secs = c(
     sec = 1,
     min = 60,
@@ -118,7 +118,7 @@ freq_seconds = function(x) {
 # the seasonal periods a frequency implies, named by cycle: how many observations fit into each calendar cycle
 # longer than a single step, shortest first. Empty if the frequency carries no calendar meaning.
 common_periods = function(freq) {
-  step = if (test_string(freq)) freq_seconds(freq) else NA_real_
+  step = if (test_string(freq)) unit_seconds(freq) else NA_real_
   if (is.na(step)) {
     return(numeric())
   }
@@ -150,7 +150,7 @@ resolve_period = function(period, freq) {
   if (!is.character(period)) {
     return(period)
   }
-  step = if (test_string(freq)) freq_seconds(freq) else NA_real_
+  step = if (test_string(freq)) unit_seconds(freq) else NA_real_
   if (is.na(step)) {
     error_input(
       "A character `period` (%s) requires a calendar `freq`, but `freq` is %s.",
@@ -158,7 +158,7 @@ resolve_period = function(period, freq) {
       if (is.null(freq)) "NULL" else format(freq)
     )
   }
-  cycles = map_dbl(period, freq_seconds)
+  cycles = map_dbl(period, unit_seconds)
   if (anyNA(cycles)) {
     error_input(
       "Unknown `period` %s. Must be a cycle name such as 'year', 'week' or '2 day'.",
