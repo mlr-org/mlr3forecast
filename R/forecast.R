@@ -24,7 +24,7 @@ generate_newdata = function(task, n = 1L) {
   assert_regular_grid(dt, order_cols, key_cols, task$freq)
 
   last_rows = if (length(key_cols) > 0L) dt[dt[, .I[.N], by = key_cols]$V1] else dt[.N]
-  step = resolve_step(task$freq, dt[[order_cols]])
+  step = resolve_step(task$freq, dt[[order_cols]], dt[, key_cols, with = FALSE])
   newdata = last_rows[rep(seq_len(.N), each = n)]
 
   if (length(key_cols) > 0L) {

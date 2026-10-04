@@ -27,6 +27,18 @@ test_that("infer_freq honors non-unit spacing for numeric and integer order", {
   expect_equal(infer_freq(5L), 1L)
 })
 
+test_that("resolve_step infers the step per series", {
+  a = seq(as.Date("2020-01-01"), by = "month", length.out = 12L)
+  b = seq(as.Date("2020-01-15"), by = "month", length.out = 12L)
+  key = data.table(id = rep(c("a", "b"), each = 12L))
+  expect_identical(resolve_step(NULL, c(a, b), key), "1 month")
+  expect_identical(resolve_step("month", c(a, b), key), "month")
+  quarterly = seq(as.Date("2020-01-01"), by = "quarter", length.out = 12L)
+  expect_error(resolve_step(NULL, c(a, quarterly), key), "different steps")
+  # a single observation carries no step
+  expect_identical(resolve_step(NULL, c(a, b[1L]), data.table(id = rep(c("a", "b"), c(12L, 1L)))), "1 month")
+})
+
 test_that("infer_freq detects calendar units", {
   expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "week", length.out = 10L)), "week")
   expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "month", length.out = 24L)), "1 month")

@@ -1,9 +1,10 @@
 infer_freq = function(order) {
+  order = sort(unique(order))
   if (length(order) < 2L) {
     return(1L)
   }
   if (!inherits(order, c("Date", "POSIXct", "POSIXlt"))) {
-    return(stats::median(diff(sort(order))))
+    return(stats::median(diff(order)))
   }
   secs = max(round(as.numeric(stats::median(diff(order)), units = "secs")), 1)
   if (secs == 604800) {
@@ -43,9 +44,24 @@ infer_freq = function(order) {
   }
 }
 
-# `freq` is the grid step: a calendar string for date indices, or NULL to infer it from the data
-resolve_step = function(freq, order) {
-  freq %??% infer_freq(sort(unique(order)))
+# pooling the series would mix their anchors, e.g. monthly series dated on the 1st and the 15th look 14 days apart
+resolve_step = function(freq, order, key = NULL) {
+  if (!is.null(freq)) {
+    return(freq)
+  }
+  series = if (length(key) > 0L) split(order, key, drop = TRUE) else list(order)
+  series = keep(series, function(x) uniqueN(x) > 1L)
+  if (length(series) == 0L) {
+    return(infer_freq(order))
+  }
+  steps = unique(map(series, infer_freq))
+  if (length(steps) > 1L) {
+    error_input(
+      "Cannot infer a common step, the series have different steps (%s). Set `freq` explicitly.",
+      str_collapse(map_chr(steps, format))
+    )
+  }
+  steps[[1L]]
 }
 
 calendar_months = function(freq) {
@@ -115,8 +131,7 @@ unit_seconds = function(x) {
   n * secs[[unit]]
 }
 
-# the seasonal periods a frequency implies, named by cycle: how many observations fit into each calendar cycle
-# longer than a single step, shortest first. Empty if the frequency carries no calendar meaning.
+# observations per calendar cycle longer than one step, named by cycle
 common_periods = function(freq) {
   step = if (test_string(freq)) unit_seconds(freq) else NA_real_
   if (is.na(step)) {
@@ -127,9 +142,7 @@ common_periods = function(freq) {
   sort(periods[periods > 1])
 }
 
-# the cycle a `ts()` user would reach for: the next natural calendar cycle up from the step, e.g. the
-# day for sub-daily data (the hour below a minute) and the week for daily data. Cycles shorter than four
-# observations carry no seasonal shape, so they are skipped in favour of the next one up.
+# a cycle of fewer than four observations has no seasonal shape
 default_period = function(freq) {
   periods = common_periods(freq)
   ladder = c(if ("minute" %chin% names(periods)) "hour", "day", "week", "year")
@@ -141,8 +154,6 @@ default_period = function(freq) {
   if (length(long) > 0L) long[1L] else candidates[length(candidates)]
 }
 
-# a character period ("year", "week") counts how many steps fit into that cycle
-# the measures also score plain regression tasks, whose missing `freq` means no seasonality
 resolve_period = function(period, freq) {
   if (is.null(period)) {
     return(default_period(freq))

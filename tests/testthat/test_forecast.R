@@ -63,6 +63,17 @@ test_that("generate_newdata preserves mid-month day-of-month", {
   expect_identical(newdata$month, as.Date(c("2020-05-15", "2020-06-15", "2020-07-15")))
 })
 
+test_that("generate_newdata steps staggered series by their common step", {
+  dt = rbind(
+    data.table(id = "a", d = seq(as.Date("2020-01-01"), by = "month", length.out = 12L)),
+    data.table(id = "b", d = seq(as.Date("2020-01-15"), by = "month", length.out = 12L))
+  )
+  set(dt, j = "y", value = as.numeric(seq_len(nrow(dt))))
+  task = as_task_fcst(dt, target = "y", order = "d", key = "id")
+  newdata = generate_newdata(task, 2L)
+  expect_identical(newdata$d, as.Date(c("2021-01-01", "2021-02-01", "2021-01-15", "2021-02-15")))
+})
+
 test_that("generate_newdata works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")
