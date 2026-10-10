@@ -84,10 +84,8 @@ PipeOpFcstAvg = R6Class(
         error_input("Cannot average quantile predictions: incoming predictions use different quantile probabilities.")
       }
       averaged = quantiles[[1L]] * weights[[1L]]
-      if (length(quantiles) > 1L) {
-        for (i in seq.int(2L, length(quantiles))) {
-          averaged = averaged + quantiles[[i]] * weights[[i]]
-        }
+      for (i in seq_along(quantiles)[-1L]) {
+        averaged = averaged + quantiles[[i]] * weights[[i]]
       }
       response = attr(quantiles[[1L]], "response")
       setattr(averaged, "probs", probs)
