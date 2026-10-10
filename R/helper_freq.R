@@ -101,6 +101,9 @@ seq_order = function(origin, freq, n) {
 }
 
 unit_seconds = function(x) {
+  if (!test_string(x)) {
+    return(NA_real_)
+  }
   parts = strsplit1(x, " ")
   n_parts = length(parts)
   n = if (n_parts == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
@@ -113,7 +116,7 @@ unit_seconds = function(x) {
 
 # observations per calendar cycle longer than one step, named by cycle
 common_periods = function(freq) {
-  step = if (test_string(freq)) unit_seconds(freq) else NA_real_
+  step = unit_seconds(freq)
   if (is.na(step)) {
     return(numeric())
   }
@@ -141,7 +144,7 @@ resolve_period = function(period, freq) {
   if (!is.character(period)) {
     return(period)
   }
-  step = if (test_string(freq)) unit_seconds(freq) else NA_real_
+  step = unit_seconds(freq)
   if (is.na(step)) {
     error_input(
       "A character `period` (%s) requires a calendar `freq`, but `freq` is %s.",
