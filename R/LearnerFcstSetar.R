@@ -17,10 +17,7 @@ LearnerFcstSetar = R6Class(
 
       dt = task$data(cols = c(key_cols, order_cols, target))
       setorderv(dt, c(key_cols, order_cols))
-      series = dt[,
-        list(.y = list(as.numeric(get(target))), .origin = max(get(order_cols))),
-        by = key_cols
-      ]
+      series = dt[, list(.y = list(as.numeric(get(target))), .origin = max(get(order_cols))), by = key_cols]
 
       lag = pv$lag %??% 10L
       if (any(lengths(series$.y) <= lag)) {
