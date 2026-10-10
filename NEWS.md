@@ -18,6 +18,7 @@
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
+* fix: `fcst.adam` and `fcst.auto_adam` gained the `lambda` parameter, the weight of the `LASSO` and `RIDGE` penalties. Previously, these losses always used a weight of 0 and fit like plain `MSE`.
 * feat: `fcst.auto_adam` gained the `constant` and `loss` parameters, which are passed on to `smooth::adam()`.
 * feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`, `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to `nnet::nnet()`.
 * feat: New learners `fcst.dotm`, `fcst.dstm`, `fcst.otm`, `fcst.stheta`, and `fcst.stm` wrap the theta methods from `forecTheta`.

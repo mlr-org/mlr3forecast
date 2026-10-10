@@ -50,6 +50,7 @@ LearnerFcstAutoAdam = R6Class(
           default = "likelihood",
           tags = "train"
         ),
+        lambda = p_dbl(0, 1, tags = "train", depends = quote(loss %in% c("LASSO", "RIDGE"))),
         outliers = p_fct(c("ignore", "use", "select"), default = "ignore", tags = "train"),
         holdout = p_lgl(default = FALSE, tags = "train"),
         persistence = p_uty(

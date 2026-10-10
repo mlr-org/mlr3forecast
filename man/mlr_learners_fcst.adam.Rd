@@ -38,6 +38,7 @@ lrn("fcst.adam")
    occurrence \tab character \tab none \tab none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct \tab - \cr
    distribution \tab character \tab default \tab default, dnorm, dlaplace, ds, dgnorm, dlnorm, dinvgauss, dgamma \tab - \cr
    loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, \link{...} \tab - \cr
+   lambda \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    outliers \tab character \tab ignore \tab ignore, use, select \tab - \cr
    holdout \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    persistence \tab untyped \tab NULL \tab  \tab - \cr
