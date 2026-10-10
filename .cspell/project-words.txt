@@ -5,6 +5,7 @@ ESN
 Fiorucci
 Hinnant
 Häußer
+abstol
 arfima
 autoregressive
 dotm
@@ -17,12 +18,14 @@ hotstart
 imapa
 innov
 mase
+maxit
 msis
 newdata
 nnet
 nnetar
 npaths
 regr
+reltol
 rlgt
 rmsse
 rsmp

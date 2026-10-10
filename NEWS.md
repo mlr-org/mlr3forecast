@@ -18,6 +18,8 @@
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
+* feat: `fcst.auto_adam` gained the `constant` and `loss` parameters, which are passed on to `smooth::adam()`.
+* feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`, `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to `nnet::nnet()`.
 * feat: New learners `fcst.dotm`, `fcst.dstm`, `fcst.otm`, `fcst.stheta`, and `fcst.stm` wrap the theta methods from `forecTheta`.
 * feat: New learner `fcst.esn` wraps `echos::train_esn()` for echo state network forecasts with response and quantile prediction.
 * feat: New learner `fcst.imapa` wraps `tsintermittent::imapa()` for intermittent demand forecasting with temporal aggregation.

@@ -27,7 +27,7 @@ LearnerFcstNnetar = R6Class(
         p = p_int(0L, tags = "train"),
         P = p_int(0L, default = 1L, tags = "train"),
         size = p_int(1L, default = NULL, special_vals = list(NULL), tags = "train"),
-        repeats = p_int(default = 20L, tags = "train"),
+        repeats = p_int(1L, default = 20L, tags = "train"),
         lambda = p_uty(default = NULL, tags = c("train", "predict")),
         scale.inputs = p_lgl(default = TRUE, tags = "train"),
         parallel = p_lgl(default = FALSE, tags = "train"),
@@ -37,6 +37,14 @@ LearnerFcstNnetar = R6Class(
           special_vals = list(NULL),
           tags = c("train", "threads")
         ),
+        # additional arguments to nnet::nnet
+        decay = p_dbl(0, default = 0, tags = "train"),
+        maxit = p_int(1L, default = 100L, tags = "train"),
+        rang = p_dbl(0, default = 0.7, tags = "train"),
+        skip = p_lgl(default = FALSE, tags = "train"),
+        MaxNWts = p_int(1L, default = 1000L, tags = "train"),
+        abstol = p_dbl(0, default = 1e-4, tags = "train"),
+        reltol = p_dbl(0, default = 1e-8, tags = "train"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 1000L, tags = "predict"),
         innov = p_uty(

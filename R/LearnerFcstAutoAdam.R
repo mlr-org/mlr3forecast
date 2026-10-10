@@ -27,6 +27,7 @@ LearnerFcstAutoAdam = R6Class(
         model = p_uty(default = "ZXZ", tags = "train"),
         lags = p_uty(tags = "train", custom_check = check_numeric),
         orders = p_uty(default = list(ar = c(3, 3), i = c(2, 1), ma = c(3, 3), select = TRUE), tags = "train"),
+        constant = p_lgl(default = FALSE, tags = "train"),
         regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train"),
         occurrence = p_fct(
           c("none", "auto", "fixed", "general", "odds-ratio", "inverse-odds-ratio", "direct"),
@@ -43,6 +44,11 @@ LearnerFcstAutoAdam = R6Class(
               empty.ok = FALSE
             )
           })
+        ),
+        loss = p_fct(
+          c("likelihood", "MSE", "MAE", "HAM", "LASSO", "RIDGE", "MSEh", "TMSE", "GTMSE", "MSCE", "GPL"),
+          default = "likelihood",
+          tags = "train"
         ),
         outliers = p_fct(c("ignore", "use", "select"), default = "ignore", tags = "train"),
         holdout = p_lgl(default = FALSE, tags = "train"),
