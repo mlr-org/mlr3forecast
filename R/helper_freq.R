@@ -104,10 +104,7 @@ unit_seconds = function(x) {
   parts = strsplit1(x, " ")
   n_parts = length(parts)
   n = if (n_parts == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
-  unit = parts[n_parts]
-  if (unit %nin% names(unit_secs)) {
-    unit = sub("s$", "", unit)
-  }
+  unit = sub("s$", "", parts[n_parts])
   if (is.na(n) || n <= 0 || unit %nin% names(unit_secs)) {
     return(NA_real_)
   }
