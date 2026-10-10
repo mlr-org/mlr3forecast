@@ -39,8 +39,7 @@ or with the associated sugar function
 | type | character | additive | additive, multiplicative, select | \- |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient | \- |
 | ic | character | AICc | AICc, AIC, BIC, BICc | \- |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL | \- |
-| holdout | logical | FALSE | TRUE, FALSE | \- |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM | \- |
 | bounds | character | usual | usual, admissible, none | \- |
 | silent | logical | TRUE | TRUE, FALSE | \- |
 | regressors | character | use | use, select, adapt, integrate | \- |
@@ -225,7 +224,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 1.49 seconds
+#> Time elapsed: 3.02 seconds
 #> Model estimated using auto.gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

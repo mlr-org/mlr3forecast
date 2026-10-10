@@ -38,8 +38,7 @@ or with the associated sugar function
 | initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | a | untyped | NULL |  |
 | b | untyped | NULL |  |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
-| holdout | logical | FALSE | TRUE, FALSE |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM |
 | bounds | character | admissible | admissible, none |
 | silent | logical | TRUE | TRUE, FALSE |
 | regressors | character | use | use, select, adapt |
@@ -229,7 +228,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.01 seconds
+#> Time elapsed: 0.02 seconds
 #> Model estimated using ces() function: CES(none)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

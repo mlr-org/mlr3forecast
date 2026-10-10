@@ -40,9 +40,9 @@ or with the associated sugar function
 | regressors | character | use | use, select, adapt | \- |
 | occurrence | character | none | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct | \- |
 | distribution | untyped | c("dnorm", "dlaplace", "ds", "dgnorm", "dlnorm", "dinvgauss", |  | \- |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) | \- |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE | \- |
+| lambda | numeric | \- |  | \\\[0, 1\]\\ |
 | outliers | character | ignore | ignore, use, select | \- |
-| holdout | logical | FALSE | TRUE, FALSE | \- |
 | persistence | untyped | NULL |  | \- |
 | phi | numeric | NULL |  | \\(-\infty, \infty)\\ |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient | \- |
@@ -240,7 +240,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 3.43 seconds
+#> Time elapsed: 6.04 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

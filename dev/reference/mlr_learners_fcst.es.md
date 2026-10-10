@@ -43,8 +43,8 @@ or with the associated sugar function
 | smoother | character | default | default, ma, lowess, supsmu, global | \- |
 | initialSeason | untyped | NULL |  | \- |
 | ic | character | AICc | AICc, AIC, BIC, BICc | \- |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL | \- |
-| holdout | logical | FALSE | TRUE, FALSE | \- |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE | \- |
+| lambda | numeric | \- |  | \\\[0, 1\]\\ |
 | bounds | character | usual | usual, admissible, none | \- |
 | silent | logical | TRUE | TRUE, FALSE | \- |
 | regressors | character | use | use, select | \- |
@@ -234,7 +234,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.14 seconds
+#> Time elapsed: 0.29 seconds
 #> Model estimated using es() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

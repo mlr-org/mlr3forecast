@@ -32,20 +32,20 @@ or with the associated sugar function
 
 ## Parameters
 
-|  |  |  |  |
-|----|----|----|----|
-| Id | Type | Default | Levels |
-| orders | untyped | list(ar = 0, i = 1, ma = 1) |  |
-| lags | untyped | 1 |  |
-| constant | logical | FALSE | TRUE, FALSE |
-| arma | untyped | NULL |  |
-| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
-| ic | character | AICc | AICc, AIC, BIC, BICc |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
-| holdout | logical | FALSE | TRUE, FALSE |
-| bounds | character | usual | usual, admissible, none |
-| silent | logical | TRUE | TRUE, FALSE |
-| regressors | character | use | use, select, adapt |
+|  |  |  |  |  |
+|----|----|----|----|----|
+| Id | Type | Default | Levels | Range |
+| orders | untyped | list(ar = 0, i = 1, ma = 1) |  | \- |
+| lags | untyped | 1 |  | \- |
+| constant | logical | FALSE | TRUE, FALSE | \- |
+| arma | untyped | NULL |  | \- |
+| initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient | \- |
+| ic | character | AICc | AICc, AIC, BIC, BICc | \- |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE | \- |
+| lambda | numeric | \- |  | \\\[0, 1\]\\ |
+| bounds | character | usual | usual, admissible, none | \- |
+| silent | logical | TRUE | TRUE, FALSE | \- |
+| regressors | character | use | use, select, adapt | \- |
 
 ## References
 

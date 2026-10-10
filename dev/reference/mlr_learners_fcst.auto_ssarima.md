@@ -40,8 +40,7 @@ or with the associated sugar function
 | constant | logical | NULL | TRUE, FALSE |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | ic | character | AICc | AICc, AIC, BIC, BICc |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
-| holdout | logical | FALSE | TRUE, FALSE |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM |
 | bounds | character | admissible | admissible, usual, none |
 | silent | logical | TRUE | TRUE, FALSE |
 | regressors | character | use | use, select, adapt |
@@ -231,7 +230,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.97 seconds
+#> Time elapsed: 0.96 seconds
 #> Model estimated using auto.ssarima() function: SSARIMA(0,1,3)[1](0,1,0)[12] with drift
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

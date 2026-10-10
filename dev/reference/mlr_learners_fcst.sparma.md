@@ -41,8 +41,7 @@ or with the associated sugar function
 | constant | logical | FALSE | TRUE, FALSE |
 | arma | untyped | NULL |  |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) |
-| holdout | logical | FALSE | TRUE, FALSE |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM |
 | bounds | character | none | none, usual, admissible |
 | silent | logical | TRUE | TRUE, FALSE |
 

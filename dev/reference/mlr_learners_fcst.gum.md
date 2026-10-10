@@ -43,8 +43,7 @@ or with the associated sugar function
 | persistence | untyped | NULL |  |
 | transition | untyped | NULL |  |
 | measurement | untyped | \- |  |
-| loss | character | likelihood | likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL |
-| holdout | logical | FALSE | TRUE, FALSE |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM |
 | bounds | character | usual | usual, admissible, none |
 | silent | logical | TRUE | TRUE, FALSE |
 | regressors | character | use | use, select, adapt, integrate |
@@ -229,7 +228,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.03 seconds
+#> Time elapsed: 0.05 seconds
 #> Model estimated using gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

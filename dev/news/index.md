@@ -6,6 +6,13 @@
   [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   no longer defaults to the M3 yearly dataset. Both `record_id` and
   `dataset_name` must be supplied.
+- BREAKING CHANGE: The `smooth` learners no longer offer the multistep
+  losses `MSEh`, `TMSE`, `GTMSE`, `MSCE`, and `GPL` or the `holdout`
+  parameter, which all need a forecast horizon at training time and
+  failed with the learners’ horizon of 0. `fcst.sparma` also drops the
+  `LASSO` and `RIDGE` losses, which
+  [`smooth::sparma()`](https://rdrr.io/pkg/smooth/man/sparma.html) does
+  not implement.
 - feat: [`as_task()`](https://mlr3.mlr-org.com/reference/as_task.html)
   now converts objects returned by
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
@@ -72,6 +79,11 @@
 - feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles`
   and `$quantile_response` fields that configure every compatible
   learner in the wrapped graph.
+- fix: `fcst.adam` and `fcst.auto_adam` gained the `lambda` parameter,
+  the weight of the `LASSO` and `RIDGE` penalties. Previously, these
+  losses always used a weight of 0 and fit like plain `MSE`.
+- feat: `fcst.es` and `fcst.msarima` gained the `LASSO` and `RIDGE`
+  losses together with their penalty weight `lambda`.
 - feat: `fcst.auto_adam` gained the `constant` and `loss` parameters,
   which are passed on to
   [`smooth::adam()`](https://rdrr.io/pkg/smooth/man/adam.html).
