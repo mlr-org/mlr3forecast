@@ -2,30 +2,37 @@
 #' @name mlr_pipeops_fcst.targetboxcox
 #'
 #' @description
-#' Applies a Box-Cox transformation to the target variable to stabilize the variance, producing the new target
-#' `BoxCox(y, lambda)`. The transformation is pointwise and monotonic, so no rows are dropped and predictions are
-#' inverted via [forecast::InvBoxCox()]. `lambda = 0` is the log transformation. When `lambda` is `NULL` (default) it
-#' is estimated from the training data, per series on keyed tasks. Predicting a series not seen during training is an
-#' error.
+#' Applies a Box-Cox transformation to the target variable to stabilize the variance,
+#' producing the new target `BoxCox(y, lambda)`.
+#' The transformation is pointwise and monotonic,
+#' so no rows are dropped and predictions are inverted via [forecast::InvBoxCox()].
+#' `lambda = 0` is the log transformation.
+#' When `lambda` is `NULL` (default) it is estimated from the training data, per series on keyed tasks.
+#' Predicting a series not seen during training is an error.
 #'
-#' Box-Cox and log transformations require strictly positive target values. Non-positive values produce `NaN` or an
-#' error. A negative estimated `lambda` can make [forecast::InvBoxCox()] return `NA` for upper quantiles. Set
-#' `lower = 0` to avoid this.
+#' Box-Cox and log transformations require strictly positive target values.
+#' Non-positive values produce `NaN` or an error.
+#' A negative estimated `lambda` can make [forecast::InvBoxCox()] return `NA` for upper quantiles.
+#' Set `lower = 0` to avoid this.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTargetTrafo], as well as the following:
 #' * `lambda` :: `numeric(1)` | `NULL`\cr
-#'   Box-Cox transformation parameter. `NULL` (default) estimates it from the training data, `0` is the log
-#'   transformation, any other numeric is used as a fixed value.
+#'   Box-Cox transformation parameter.
+#'   `NULL` (default) estimates it from the training data, `0` is the log transformation,
+#'   and any other numeric is used as a fixed value.
 #' * `period` :: `character(1)` | `numeric(1)` | `NULL`\cr
-#'   Seasonal period of the series when estimating `lambda`. Default `NULL`.
+#'   Seasonal period of the series when estimating `lambda`.
+#'   Default `NULL`.
 #' * `method` :: `character(1)`\cr
-#'   Method used to estimate `lambda` when `lambda = NULL`, one of `"guerrero"` (default) or `"loglik"`. See
-#'   [forecast::BoxCox.lambda()].
+#'   Method used to estimate `lambda` when `lambda = NULL`, one of `"guerrero"` (default) or `"loglik"`.
+#'   See [forecast::BoxCox.lambda()].
 #' * `lower` :: `numeric(1)`\cr
-#'   Lower bound for the estimated `lambda`. Default `-1`.
+#'   Lower bound for the estimated `lambda`.
+#'   Default `-1`.
 #' * `upper` :: `numeric(1)`\cr
-#'   Upper bound for the estimated `lambda`. Default `2`.
+#'   Upper bound for the estimated `lambda`.
+#'   Default `2`.
 #'
 #' @template section_period
 #'
@@ -33,9 +40,11 @@
 #' `r format_bib("box1964analysis", "guerrero1993time")`
 #'
 #' @section Limitations:
-#' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph and is rejected at
-#' construction. Use it inside a plain [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)`, or wrap the
-#' forecaster itself with `ppl("targettrafo", ...)` so all horizons are inverted together.
+#' This PipeOp must not be placed *inside* a [RecursiveForecaster] graph and is rejected at construction.
+#' Inside a [DirectForecaster] graph it works,
+#' but with `lambda = NULL` each horizon's model estimates its own `lambda` from the rows it is trained on.
+#' Use it inside a plain [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)`,
+#' or wrap the forecaster itself with `ppl("targettrafo", ...)` so all horizons share the same `lambda`.
 #'
 #' @export
 #' @examplesIf requireNamespace("rpart", quietly = TRUE) && requireNamespace("forecast", quietly = TRUE)

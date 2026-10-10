@@ -5,32 +5,39 @@
 \alias{PipeOpTargetTrafoBoxCox}
 \title{Box-Cox Transform the Target Variable}
 \description{
-Applies a Box-Cox transformation to the target variable to stabilize the variance, producing the new target
-\code{BoxCox(y, lambda)}. The transformation is pointwise and monotonic, so no rows are dropped and predictions are
-inverted via \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}}. \code{lambda = 0} is the log transformation. When \code{lambda} is \code{NULL} (default) it
-is estimated from the training data, per series on keyed tasks. Predicting a series not seen during training is an
-error.
+Applies a Box-Cox transformation to the target variable to stabilize the variance,
+producing the new target \code{BoxCox(y, lambda)}.
+The transformation is pointwise and monotonic,
+so no rows are dropped and predictions are inverted via \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}}.
+\code{lambda = 0} is the log transformation.
+When \code{lambda} is \code{NULL} (default) it is estimated from the training data, per series on keyed tasks.
+Predicting a series not seen during training is an error.
 
-Box-Cox and log transformations require strictly positive target values. Non-positive values produce \code{NaN} or an
-error. A negative estimated \code{lambda} can make \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}} return \code{NA} for upper quantiles. Set
-\code{lower = 0} to avoid this.
+Box-Cox and log transformations require strictly positive target values.
+Non-positive values produce \code{NaN} or an error.
+A negative estimated \code{lambda} can make \code{\link[forecast:InvBoxCox]{forecast::InvBoxCox()}} return \code{NA} for upper quantiles.
+Set \code{lower = 0} to avoid this.
 }
 \section{Parameters}{
 
 The parameters are the parameters inherited from \link[mlr3pipelines:PipeOpTargetTrafo]{mlr3pipelines::PipeOpTargetTrafo}, as well as the following:
 \itemize{
 \item \code{lambda} :: \code{numeric(1)} | \code{NULL}\cr
-Box-Cox transformation parameter. \code{NULL} (default) estimates it from the training data, \code{0} is the log
-transformation, any other numeric is used as a fixed value.
+Box-Cox transformation parameter.
+\code{NULL} (default) estimates it from the training data, \code{0} is the log transformation,
+and any other numeric is used as a fixed value.
 \item \code{period} :: \code{character(1)} | \code{numeric(1)} | \code{NULL}\cr
-Seasonal period of the series when estimating \code{lambda}. Default \code{NULL}.
+Seasonal period of the series when estimating \code{lambda}.
+Default \code{NULL}.
 \item \code{method} :: \code{character(1)}\cr
-Method used to estimate \code{lambda} when \code{lambda = NULL}, one of \code{"guerrero"} (default) or \code{"loglik"}. See
-\code{\link[forecast:BoxCox.lambda]{forecast::BoxCox.lambda()}}.
+Method used to estimate \code{lambda} when \code{lambda = NULL}, one of \code{"guerrero"} (default) or \code{"loglik"}.
+See \code{\link[forecast:BoxCox.lambda]{forecast::BoxCox.lambda()}}.
 \item \code{lower} :: \code{numeric(1)}\cr
-Lower bound for the estimated \code{lambda}. Default \code{-1}.
+Lower bound for the estimated \code{lambda}.
+Default \code{-1}.
 \item \code{upper} :: \code{numeric(1)}\cr
-Upper bound for the estimated \code{lambda}. Default \code{2}.
+Upper bound for the estimated \code{lambda}.
+Default \code{2}.
 }
 }
 
@@ -60,9 +67,11 @@ Without a calendar \code{freq}, the default is \code{1}, i.e. no seasonality.
 
 \section{Limitations}{
 
-This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} or \link{DirectForecaster} graph and is rejected at
-construction. Use it inside a plain \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)}, or wrap the
-forecaster itself with \code{ppl("targettrafo", ...)} so all horizons are inverted together.
+This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} graph and is rejected at construction.
+Inside a \link{DirectForecaster} graph it works,
+but with \code{lambda = NULL} each horizon's model estimates its own \code{lambda} from the rows it is trained on.
+Use it inside a plain \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)},
+or wrap the forecaster itself with \code{ppl("targettrafo", ...)} so all horizons share the same \code{lambda}.
 }
 
 \examples{

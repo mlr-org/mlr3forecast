@@ -250,6 +250,17 @@ test_that("targetboxcox keeps truth aligned when predict rows are not in time or
   expect_equal(prediction$truth, task$truth(prediction$row_ids))
 })
 
+test_that("targetboxcox works inside a DirectForecaster graph", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  graph = ppl("targettrafo", graph = lrn("regr.featureless"), trafo_pipeop = po("fcst.targetboxcox"))
+  flrn = DirectForecaster$new(graph, lags = 1:3, horizons = 3L)
+  flrn$train(task, 1:132)
+  prediction = flrn$predict(task, 133:135)
+  expect_false(anyNA(prediction$response))
+  expect_true(all(prediction$response > 100))
+})
+
 test_that("targetboxcox works wrapping DirectForecaster", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")
