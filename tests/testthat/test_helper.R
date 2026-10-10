@@ -119,6 +119,7 @@ test_that("resolve_period counts steps per named cycle and passes numerics throu
   expect_equal(resolve_period(NULL, NULL), 1)
   expect_error(resolve_period("year", NULL), "requires a calendar `freq`")
   expect_error(resolve_period("fortnight", "day"), "Unknown `period`")
+  expect_error(resolve_period("", "day"), "Unknown `period`")
 })
 
 test_that("resolve_measure_period returns an integer lag", {

@@ -101,7 +101,7 @@ seq_order = function(origin, freq, n) {
 }
 
 unit_seconds = function(x) {
-  if (!test_string(x)) {
+  if (!test_string(x, min.chars = 1L)) {
     return(NA_real_)
   }
   parts = strsplit1(x, " ")
