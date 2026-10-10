@@ -82,12 +82,10 @@ DirectForecaster = R6Class(
       )
       private$.fcst_param_set$set_values(lags = lags)
 
-      if (inherits(learner, c("Graph", "PipeOp"))) {
-        graph = as_graph(learner)
-      } else {
+      if (!inherits(learner, c("Graph", "PipeOp"))) {
         learner = assert_learner(as_learner(learner), task_type = "regr")
-        graph = as_graph(learner)
       }
+      graph = as_graph(learner)
 
       private$.learner = GraphLearner$new(graph, task_type = "regr", clone_graph = clone_graph)
       if (length(param_vals)) {
