@@ -4,7 +4,6 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   set(key_data, j = "..row_id", value = prediction$row_ids)
   groups = key_data[, list(.rows = list(..row_id)), by = key_cols]
 
-  train_groups = NULL
   if (!is.null(train_set)) {
     train_key_data = task$data(rows = train_set, cols = key_cols)
     set(train_key_data, j = "..row_id", value = train_set)
@@ -21,8 +20,7 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
 
   scores = map_dbl(seq_row(groups), function(i) {
     pred = prediction$clone()$filter(groups$.rows[[i]])
-    train_rows = if (is.null(train_set)) NULL else groups$.train_rows[[i]]
-    score_fn(pred, task, train_set = train_rows, ...)
+    score_fn(pred, task, train_set = groups$.train_rows[[i]], ...)
   })
   mean(scores, na.rm = TRUE)
 }
