@@ -60,7 +60,6 @@ LearnerFcstSetar = R6Class(
         error_config("In-sample prediction is not supported for %s.", self$id)
       }
 
-      # step position of each row after the end of its series, the rows of a series must be its next steps
       dt[, ".pos" := match(get(order_cols), seq_order(get(".origin")[1L], self$model$step, .N)), by = ".series"]
       if (anyNA(dt$.pos) || anyDuplicated(dt, by = c(".series", ".pos"))) {
         error_input("Future rows must form the gap-free future grid following the training data.")
