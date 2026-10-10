@@ -26,7 +26,11 @@ LearnerFcstCes = R6Class(
       param_set = ps(
         seasonality = p_fct(c("none", "simple", "partial", "full"), default = "none", tags = "train"),
         lags = p_uty(tags = "train", custom_check = check_numeric),
-        initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
+        initial = p_fct(
+          c("backcasting", "optimal", "two-stage", "complete", "gradient"),
+          default = "backcasting",
+          tags = "train"
+        ),
         a = p_uty(default = NULL, tags = "train"),
         b = p_uty(default = NULL, tags = "train"),
         loss = p_fct(c("likelihood", "MSE", "MAE", "HAM"), default = "likelihood", tags = "train"),

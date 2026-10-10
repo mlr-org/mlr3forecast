@@ -54,7 +54,11 @@ LearnerFcstAutoAdam = R6Class(
           custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
         ),
         phi = p_dbl(default = NULL, special_vals = list(NULL), tags = "train"),
-        initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
+        initial = p_fct(
+          c("backcasting", "optimal", "two-stage", "complete", "gradient"),
+          default = "backcasting",
+          tags = "train"
+        ),
         smoother = p_fct(c("default", "ma", "lowess", "supsmu", "global"), default = "default", tags = "train"),
         arma = p_uty(
           default = NULL,

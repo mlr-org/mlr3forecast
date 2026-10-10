@@ -36,9 +36,12 @@ test_that("as_task conversion", {
 
 test_that("as_task_fcst warns that a non-calendar ts frequency is not kept", {
   skip_if_not_installed("tsbox")
-  expect_warning({
-    task = as_task_fcst(ts(sin(1:28), frequency = 7))
-  }, "no calendar step")
+  expect_warning(
+    {
+      task = as_task_fcst(ts(sin(1:28), frequency = 7))
+    },
+    "no calendar step"
+  )
   expect_null(task$freq)
 })
 

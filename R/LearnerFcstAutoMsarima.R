@@ -27,7 +27,11 @@ LearnerFcstAutoMsarima = R6Class(
       param_set = ps(
         orders = p_uty(default = list(ar = c(3, 3), i = c(2, 1), ma = c(3, 3)), tags = "train"),
         lags = p_uty(tags = "train", custom_check = check_numeric),
-        initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
+        initial = p_fct(
+          c("backcasting", "optimal", "two-stage", "complete", "gradient"),
+          default = "backcasting",
+          tags = "train"
+        ),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         loss = p_fct(c("likelihood", "MSE", "MAE", "HAM"), default = "likelihood", tags = "train"),
         bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),

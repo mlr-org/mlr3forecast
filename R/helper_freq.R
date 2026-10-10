@@ -27,10 +27,22 @@ infer_freq = function(order) {
   } else if (long && uniqueN(mday(order)) == 1L) {
     # calendar-anchored data (constant day-of-month) gets calendar units
     n_months = round(secs / unit_secs[["month"]])
-    if (n_months == 3L) "quarter" else if (n_months == 12L) "year" else sprintf("%g month", n_months)
+    if (n_months == 3L) {
+      "quarter"
+    } else if (n_months == 12L) {
+      "year"
+    } else {
+      sprintf("%g month", n_months)
+    }
   } else if (long && secs %% day != 0) {
     # neither calendar-anchored nor whole days (e.g. month-end data), magnitude guess
-    if (secs <= 31 * day) "month" else if (secs <= 92 * day) "quarter" else "year"
+    if (secs <= 31 * day) {
+      "month"
+    } else if (secs <= 92 * day) {
+      "quarter"
+    } else {
+      "year"
+    }
   } else {
     # fixed-interval data gets exact multiples of the largest unit that divides the step
     units = unit_secs[c("day", "hour", "min", "sec")]

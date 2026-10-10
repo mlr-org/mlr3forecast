@@ -33,7 +33,11 @@ LearnerFcstMsarima = R6Class(
           tags = "train",
           custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
         ),
-        initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
+        initial = p_fct(
+          c("backcasting", "optimal", "two-stage", "complete", "gradient"),
+          default = "backcasting",
+          tags = "train"
+        ),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
         loss = p_fct(c("likelihood", "MSE", "MAE", "HAM", "LASSO", "RIDGE"), default = "likelihood", tags = "train"),
         lambda = p_dbl(0, 1, tags = "train", depends = quote(loss %in% c("LASSO", "RIDGE"))),
