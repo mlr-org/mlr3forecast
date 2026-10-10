@@ -153,14 +153,8 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
     }
     set(hist, j = ".type", value = fctr("history", levels = c("history", "forecast")))
     # bridge the last historical observation per series into the forecast group for line continuity
-    if (length(key) > 0L) {
-      setorderv(hist, c(key, order))
-      bridge = hist[hist[, .I[.N], by = key]$V1]
-    } else {
-      setorderv(hist, order)
-      bridge = hist[.N]
-    }
-    bridge = copy(bridge)
+    setorderv(hist, c(key, order))
+    bridge = if (length(key) > 0L) hist[hist[, .I[.N], by = key]$V1] else hist[.N]
     set(bridge, j = ".type", value = fctr("forecast", levels = c("history", "forecast")))
     data = rbindlist(list(hist, bridge, data), use.names = TRUE, fill = TRUE)
   }
