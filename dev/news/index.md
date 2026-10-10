@@ -151,6 +151,10 @@
   `type`, since
   [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits
   `"BSM"` for seasonal series and `"trend"` otherwise.
+- fix:
+  [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
+  keeps an integer time index integer instead of sometimes returning
+  doubles.
 - fix: `msr("fcst.wape")` now ignores rows with a missing prediction in
   the denominator too, which previously understated the error.
 - fix:
