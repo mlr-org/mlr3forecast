@@ -35,7 +35,8 @@ LearnerFcstMsarima = R6Class(
         ),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
-        loss = p_fct(c("likelihood", "MSE", "MAE", "HAM"), default = "likelihood", tags = "train"),
+        loss = p_fct(c("likelihood", "MSE", "MAE", "HAM", "LASSO", "RIDGE"), default = "likelihood", tags = "train"),
+        lambda = p_dbl(0, 1, tags = "train", depends = quote(loss %in% c("LASSO", "RIDGE"))),
         bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train"),
         regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train")

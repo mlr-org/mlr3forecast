@@ -29,18 +29,19 @@ lrn("fcst.msarima")
 }
 
 \section{Parameters}{
-\tabular{llll}{
-   Id \tab Type \tab Default \tab Levels \cr
-   orders \tab untyped \tab list(ar = 0, i = 1, ma = 1) \tab  \cr
-   lags \tab untyped \tab 1 \tab  \cr
-   constant \tab logical \tab FALSE \tab TRUE, FALSE \cr
-   arma \tab untyped \tab NULL \tab  \cr
-   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \cr
-   ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \cr
-   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM \cr
-   bounds \tab character \tab usual \tab usual, admissible, none \cr
-   silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
-   regressors \tab character \tab use \tab use, select, adapt \cr
+\tabular{lllll}{
+   Id \tab Type \tab Default \tab Levels \tab Range \cr
+   orders \tab untyped \tab list(ar = 0, i = 1, ma = 1) \tab  \tab - \cr
+   lags \tab untyped \tab 1 \tab  \tab - \cr
+   constant \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   arma \tab untyped \tab NULL \tab  \tab - \cr
+   initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \tab - \cr
+   ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, LASSO, RIDGE \tab - \cr
+   lambda \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
+   bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr
+   silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   regressors \tab character \tab use \tab use, select, adapt \tab - \cr
 }
 }
 

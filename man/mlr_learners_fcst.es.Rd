@@ -39,7 +39,8 @@ lrn("fcst.es")
    smoother \tab character \tab default \tab default, ma, lowess, supsmu, global \tab - \cr
    initialSeason \tab untyped \tab NULL \tab  \tab - \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
-   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM \tab - \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, LASSO, RIDGE \tab - \cr
+   lambda \tab numeric \tab - \tab  \tab \eqn{[0, 1]}{[0, 1]} \cr
    bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    regressors \tab character \tab use \tab use, select \tab - \cr
