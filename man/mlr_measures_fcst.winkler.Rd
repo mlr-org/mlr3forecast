@@ -65,6 +65,7 @@ List them via the key prefix, not the task type, as the latter returns nothing:
 Winkler RL (1972).
 \dQuote{A Decision-Theoretic Approach to Interval Estimation.}
 \emph{Journal of the American Statistical Association}, \bold{67}(337), 187--191.
+\doi{10.1080/01621459.1972.10481224}.
 }
 \seealso{
 \itemize{

@@ -117,6 +117,7 @@ Hyndman RJ, Khandakar Y (2008).
 Wang X, Smith K, Hyndman R (2006).
 \dQuote{Characteristic-based clustering for time series data.}
 \emph{Data Mining and Knowledge Discovery}, \bold{13}(3), 335--364.
+\doi{10.1007/s10618-005-0039-x}.
 }
 \seealso{
 \itemize{

@@ -60,6 +60,7 @@ new_task$head()
 De Livera AM, Hyndman RJ, Snyder RD (2011).
 \dQuote{Forecasting time series with complex seasonal patterns using exponential smoothing.}
 \emph{Journal of the American Statistical Association}, \bold{106}(496), 1513--1527.
+\doi{10.1198/jasa.2011.tm09771}.
 
 Hyndman RJ, Khandakar Y (2008).
 \dQuote{Automatic Time Series Forecasting: The forecast Package for R.}

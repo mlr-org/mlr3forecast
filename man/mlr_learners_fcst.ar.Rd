@@ -78,6 +78,7 @@ predictions$score()
 Brockwell PJ, Davis RA (1991).
 \emph{Time Series: Theory and Methods}, 2nd edition.
 Springer, New York.
+\doi{10.1007/978-1-4419-0320-4}.
 }
 \seealso{
 \itemize{

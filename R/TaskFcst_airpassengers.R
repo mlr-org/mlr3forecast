@@ -11,7 +11,7 @@
 #' @template task
 #'
 #' @source
-#' `r format_bib("box1976")`
+#' `r format_bib("box1976time")`
 #'
 #' @template seealso_task
 NULL

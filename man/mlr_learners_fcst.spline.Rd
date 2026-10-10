@@ -72,6 +72,7 @@ predictions$score()
 Hyndman RJ, King ML, Pitrun I, Billah B (2005).
 \dQuote{Local linear forecasts using cubic smoothing splines.}
 \emph{Australian & New Zealand Journal of Statistics}, \bold{47}(1), 87--99.
+\doi{10.1111/j.1467-842X.2005.00374.x}.
 }
 \seealso{
 \itemize{

@@ -93,10 +93,12 @@ List them via the key prefix, not the task type, as the latter returns nothing:
 Gneiting T, Raftery AE (2007).
 \dQuote{Strictly Proper Scoring Rules, Prediction, and Estimation.}
 \emph{Journal of the American Statistical Association}, \bold{102}(477), 359--378.
+\doi{10.1198/016214506000001437}.
 
 Makridakis S, Spiliotis E, Assimakopoulos V (2020).
 \dQuote{The M4 Competition: 100,000 time series and 61 forecasting methods.}
 \emph{International Journal of Forecasting}, \bold{36}(1), 54--74.
+\doi{10.1016/j.ijforecast.2019.04.014}.
 }
 \seealso{
 \itemize{

@@ -1,7 +1,7 @@
 #' @importFrom utils bibentry
 # nolint start
 bibentries = c(
-  bergmeir_2018 = bibentry(
+  bergmeir2018note = bibentry(
     "article",
     title = "A note on the validity of cross-validation for evaluating autoregressive time series prediction",
     author = "Christoph Bergmeir and Rob J Hyndman and Bonsoo Koo",
@@ -9,9 +9,10 @@ bibentries = c(
     volume = "120",
     pages = "70--83",
     year = "2018",
-    publisher = "Elsevier"
+    publisher = "Elsevier",
+    doi = "10.1016/j.csda.2017.11.003"
   ),
-  tashman2000 = bibentry(
+  tashman2000out = bibentry(
     "article",
     title = "Out-of-sample tests of forecasting accuracy: an analysis and review",
     author = "Leonard J Tashman",
@@ -20,7 +21,8 @@ bibentries = c(
     number = "4",
     pages = "437--450",
     year = "2000",
-    publisher = "Elsevier"
+    publisher = "Elsevier",
+    doi = "10.1016/S0169-2070(00)00065-0"
   ),
   hyndman2008automatic = bibentry(
     "article",
@@ -31,7 +33,8 @@ bibentries = c(
     journal = "Journal of Statistical Software",
     author = "Rob J Hyndman and Yeasmin Khandakar",
     year = "2008",
-    pages = "1--22"
+    pages = "1--22",
+    publisher = "Foundation for Open Access Statistics"
   ),
   haslett1989space = bibentry(
     "article",
@@ -40,9 +43,10 @@ bibentries = c(
     journal = "Journal of the Royal Statistical Society: Series C (Applied Statistics)",
     volume = "38",
     number = "1",
-    pages = "1--21",
+    pages = "1--50",
     year = "1989",
-    publisher = "Wiley Online Library"
+    publisher = "Wiley",
+    doi = "10.2307/2347679"
   ),
   wang2006characteristic = bibentry(
     "article",
@@ -53,7 +57,8 @@ bibentries = c(
     number = "3",
     pages = "335--364",
     year = "2006",
-    publisher = "Springer"
+    publisher = "Springer",
+    doi = "10.1007/s10618-005-0039-x"
   ),
   hyndman2018fpp = bibentry(
     "book",
@@ -73,7 +78,9 @@ bibentries = c(
     volume = "18",
     number = "3",
     pages = "439--454",
-    year = "2002"
+    year = "2002",
+    doi = "10.1016/S0169-2070(01)00110-8",
+    publisher = "Elsevier"
   ),
   hyndman2008admissible = bibentry(
     "article",
@@ -83,7 +90,9 @@ bibentries = c(
     volume = "60",
     number = "2",
     pages = "407--426",
-    year = "2008"
+    year = "2008",
+    doi = "10.1007/s10463-006-0109-x",
+    publisher = "Springer"
   ),
   hyndman2008smoothing = bibentry(
     "book",
@@ -91,7 +100,8 @@ bibentries = c(
     author = "Rob J Hyndman and Anne B Koehler and J Keith Ord and Ralph D Snyder",
     publisher = "Springer-Verlag",
     year = "2008",
-    url = "https://robjhyndman.com/expsmooth/"
+    url = "https://robjhyndman.com/expsmooth/",
+    doi = "10.1007/978-3-540-71918-2"
   ),
   livera2011complex = bibentry(
     "article",
@@ -101,7 +111,9 @@ bibentries = c(
     volume = "106",
     number = "496",
     pages = "1513--1527",
-    year = "2011"
+    year = "2011",
+    doi = "10.1198/jasa.2011.tm09771",
+    publisher = "Taylor & Francis"
   ),
   blaskowitz2011directional = bibentry(
     "article",
@@ -111,9 +123,11 @@ bibentries = c(
     volume = "27",
     number = "4",
     pages = "1058--1065",
-    year = "2011"
+    year = "2011",
+    doi = "10.1016/j.ijforecast.2010.07.002",
+    publisher = "Elsevier"
   ),
-  box1976 = bibentry(
+  box1976time = bibentry(
     "book",
     title = "Time Series Analysis: Forecasting and Control",
     author = "George E P Box and Gwilym M Jenkins",
@@ -131,7 +145,8 @@ bibentries = c(
     number = "2",
     pages = "211--252",
     year = "1964",
-    doi = "10.1111/j.2517-6161.1964.tb00553.x"
+    doi = "10.1111/j.2517-6161.1964.tb00553.x",
+    publisher = "Wiley"
   ),
   guerrero1993time = bibentry(
     "article",
@@ -142,16 +157,18 @@ bibentries = c(
     number = "1",
     pages = "37--48",
     year = "1993",
-    doi = "10.1002/for.3980120104"
+    doi = "10.1002/for.3980120104",
+    publisher = "Wiley"
   ),
-  brockwell1991 = bibentry(
+  brockwell1991time = bibentry(
     "book",
     title = "Time Series: Theory and Methods",
     author = "Peter J Brockwell and Richard A Davis",
     edition = "2nd",
     publisher = "Springer",
     address = "New York",
-    year = "1991"
+    year = "1991",
+    doi = "10.1007/978-1-4419-0320-4"
   ),
   becker1988news = bibentry(
     "book",
@@ -170,7 +187,8 @@ bibentries = c(
     number = "4",
     pages = "411--431",
     year = "1977",
-    doi = "10.2307/2345277"
+    doi = "10.2307/2345277",
+    publisher = "Wiley"
   ),
   kourentzes2014neural = bibentry(
     "article",
@@ -181,9 +199,10 @@ bibentries = c(
     number = "9",
     pages = "4235--4244",
     year = "2014",
-    doi = "10.1016/j.eswa.2013.12.011"
+    doi = "10.1016/j.eswa.2013.12.011",
+    publisher = "Elsevier"
   ),
-  ripley_1996 = bibentry(
+  ripley1996pattern = bibentry(
     "book",
     doi = "10.1017/cbo9780511812651",
     year = "1996",
@@ -234,12 +253,13 @@ bibentries = c(
     "article",
     title = "Forecasting and stock control for intermittent demands",
     author = "John D Croston",
-    journal = "Journal of the Operational Research Society",
+    journal = "Operational Research Quarterly",
     volume = "23",
     number = "3",
     pages = "289--303",
     year = "1972",
-    publisher = "Taylor & Francis"
+    publisher = "Taylor & Francis",
+    doi = "10.2307/3007885"
   ),
   shale2006forecasting = bibentry(
     "article",
@@ -250,7 +270,8 @@ bibentries = c(
     number = "5",
     pages = "588--592",
     year = "2006",
-    publisher = "Taylor & Francis"
+    publisher = "Taylor & Francis",
+    doi = "10.1057/palgrave.jors.2602031"
   ),
   shenstone2005stochastic = bibentry(
     "article",
@@ -261,7 +282,8 @@ bibentries = c(
     number = "6",
     pages = "389--402",
     year = "2005",
-    publisher = "Wiley Online Library"
+    publisher = "Wiley",
+    doi = "10.1002/for.963"
   ),
   syntetos2001bias = bibentry(
     "article",
@@ -272,7 +294,8 @@ bibentries = c(
     number = "1-3",
     pages = "457--466",
     year = "2001",
-    publisher = "Elsevier"
+    publisher = "Elsevier",
+    doi = "10.1016/S0925-5273(00)00143-2"
   ),
   assimakopoulos2000theta = bibentry(
     "article",
@@ -283,13 +306,14 @@ bibentries = c(
     number = "4",
     pages = "521--530",
     year = "2000",
-    publisher = "Elsevier"
+    publisher = "Elsevier",
+    doi = "10.1016/S0169-2070(00)00066-2"
   ),
   fiorucci2016models = bibentry(
     "article",
     title = "Models for optimising the theta method and their relationship to state space models",
     author = paste(
-      "Jose Augusto Fiorucci and Tiago Roberto Pellegrini and Francisco Louzada and Fotios Petropoulos and",
+      "Jos\u00e9 Augusto Fiorucci and Tiago Roberto Pellegrini and Francisco Louzada and Fotios Petropoulos and",
       "Anne B Koehler"
     ),
     journal = "International Journal of Forecasting",
@@ -309,7 +333,8 @@ bibentries = c(
     number = "2",
     pages = "287--290",
     year = "2003",
-    publisher = "Elsevier"
+    publisher = "Elsevier",
+    doi = "10.1016/S0169-2070(01)00143-1"
   ),
   hyndman2005local = bibentry(
     "article",
@@ -320,7 +345,8 @@ bibentries = c(
     number = "1",
     pages = "87--99",
     year = "2005",
-    publisher = "Wiley Online Library"
+    publisher = "Wiley",
+    doi = "10.1111/j.1467-842X.2005.00374.x"
   ),
   hyndman2006another = bibentry(
     "article",
@@ -331,7 +357,8 @@ bibentries = c(
     number = "4",
     pages = "679--688",
     year = "2006",
-    publisher = "Elsevier"
+    publisher = "Elsevier",
+    doi = "10.1016/j.ijforecast.2006.03.001"
   ),
   winkler1972scoring = bibentry(
     "article",
@@ -342,7 +369,8 @@ bibentries = c(
     number = "337",
     pages = "187--191",
     year = "1972",
-    publisher = "Taylor & Francis"
+    publisher = "Taylor & Francis",
+    doi = "10.1080/01621459.1972.10481224"
   ),
   makridakis2020m4 = bibentry(
     "article",
@@ -353,7 +381,8 @@ bibentries = c(
     number = "1",
     pages = "54--74",
     year = "2020",
-    publisher = "Elsevier"
+    publisher = "Elsevier",
+    doi = "10.1016/j.ijforecast.2019.04.014"
   ),
   gneiting2007scoring = bibentry(
     "article",
@@ -364,7 +393,8 @@ bibentries = c(
     number = "477",
     pages = "359--378",
     year = "2007",
-    publisher = "Taylor & Francis"
+    publisher = "Taylor & Francis",
+    doi = "10.1198/016214506000001437"
   ),
   koenker1978regression = bibentry(
     "article",
@@ -375,7 +405,8 @@ bibentries = c(
     number = "1",
     pages = "33--50",
     year = "1978",
-    publisher = "JSTOR"
+    publisher = "The Econometric Society",
+    doi = "10.2307/1913643"
   ),
   liboschik2017tscount = bibentry(
     "article",
@@ -386,7 +417,8 @@ bibentries = c(
     number = "5",
     pages = "1--51",
     year = "2017",
-    doi = "10.18637/jss.v082.i05"
+    doi = "10.18637/jss.v082.i05",
+    publisher = "Foundation for Open Access Statistics"
   ),
   taylor2018forecasting = bibentry(
     "article",
@@ -408,7 +440,8 @@ bibentries = c(
     volume = "6",
     number = "1",
     pages = "3--73",
-    year = "1990"
+    year = "1990",
+    publisher = "Statistics Sweden"
   ),
   harvey1989forecasting = bibentry(
     "book",
@@ -416,7 +449,8 @@ bibentries = c(
     author = "Andrew C. Harvey",
     year = "1989",
     publisher = "Cambridge University Press",
-    address = "Cambridge"
+    address = "Cambridge",
+    doi = "10.1017/CBO9781107049994"
   ),
   bergmeir2016bagging = bibentry(
     "article",
@@ -451,7 +485,8 @@ bibentries = c(
     number = "3",
     pages = "324--342",
     year = "1960",
-    doi = "10.1287/mnsc.6.3.324"
+    doi = "10.1287/mnsc.6.3.324",
+    publisher = "INFORMS"
   ),
   petropoulos2015forecast = bibentry(
     "article",
@@ -462,7 +497,8 @@ bibentries = c(
     number = "6",
     pages = "914--924",
     year = "2015",
-    doi = "10.1057/jors.2014.62"
+    doi = "10.1057/jors.2014.62",
+    publisher = "Taylor & Francis"
   ),
   kourentzes2014intermittent = bibentry(
     "article",
@@ -472,7 +508,8 @@ bibentries = c(
     volume = "156",
     pages = "180--190",
     year = "2014",
-    doi = "10.1016/j.ijpe.2014.06.007"
+    doi = "10.1016/j.ijpe.2014.06.007",
+    publisher = "Elsevier"
   ),
   smyl2025rlgt = bibentry(
     "manual",
@@ -491,7 +528,8 @@ bibentries = c(
     number = "6",
     pages = "1821--1852",
     year = "2019",
-    doi = "10.1007/s10618-019-00647-x"
+    doi = "10.1007/s10618-019-00647-x",
+    publisher = "Springer"
   )
 )
 # nolint end

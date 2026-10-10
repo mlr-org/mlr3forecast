@@ -11,7 +11,7 @@
 #' @template learner
 #'
 #' @references
-#' `r format_bib("ripley_1996", "hyndman2018fpp")`
+#' `r format_bib("ripley1996pattern", "hyndman2018fpp")`
 #'
 #' @export
 #' @template seealso_learner

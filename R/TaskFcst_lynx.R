@@ -11,7 +11,7 @@
 #' @template task
 #'
 #' @source
-#' `r format_bib("brockwell1991")`
+#' `r format_bib("brockwell1991time")`
 #'
 #' @references
 #' `r format_bib("campbell1977lynx", "becker1988news")`

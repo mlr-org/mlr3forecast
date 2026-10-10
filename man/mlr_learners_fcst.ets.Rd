@@ -86,14 +86,17 @@ predictions$score()
 Hyndman RJ, Koehler AB, Snyder RD, Grose S (2002).
 \dQuote{A state space framework for automatic forecasting using exponential smoothing methods.}
 \emph{International Journal of Forecasting}, \bold{18}(3), 439--454.
+\doi{10.1016/S0169-2070(01)00110-8}.
 
 Hyndman RJ, Akram M, Archibald B (2008).
 \dQuote{The admissible parameter space for exponential smoothing models.}
 \emph{Annals of the Institute of Statistical Mathematics}, \bold{60}(2), 407--426.
+\doi{10.1007/s10463-006-0109-x}.
 
 Hyndman RJ, Koehler AB, Ord JK, Snyder RD (2008).
 \emph{Forecasting with exponential smoothing: the state space approach}.
 Springer-Verlag.
+\doi{10.1007/978-3-540-71918-2}.
 \url{https://robjhyndman.com/expsmooth/}.
 }
 \seealso{

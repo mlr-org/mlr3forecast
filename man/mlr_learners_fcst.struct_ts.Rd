@@ -77,6 +77,7 @@ predictions$score()
 Harvey AC (1989).
 \emph{Forecasting, Structural Time Series Models and the Kalman Filter}.
 Cambridge University Press, Cambridge.
+\doi{10.1017/CBO9781107049994}.
 }
 \seealso{
 \itemize{

@@ -68,6 +68,7 @@ predictions$score()
 Assimakopoulos V, Nikolopoulos K (2000).
 \dQuote{The theta model: a decomposition approach to forecasting.}
 \emph{International Journal of Forecasting}, \bold{16}(4), 521--530.
+\doi{10.1016/S0169-2070(00)00066-2}.
 }
 \seealso{
 \itemize{

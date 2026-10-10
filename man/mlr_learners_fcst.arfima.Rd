@@ -97,7 +97,8 @@ predictions$score()
 \references{
 Haslett J, Raftery AE (1989).
 \dQuote{Space-time Modelling with Long-memory Dependence: Assessing Ireland's Wind Power Resource.}
-\emph{Journal of the Royal Statistical Society: Series C (Applied Statistics)}, \bold{38}(1), 1--21.
+\emph{Journal of the Royal Statistical Society: Series C (Applied Statistics)}, \bold{38}(1), 1--50.
+\doi{10.2307/2347679}.
 
 Hyndman RJ, Khandakar Y (2008).
 \dQuote{Automatic Time Series Forecasting: The forecast Package for R.}

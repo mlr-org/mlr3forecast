@@ -61,6 +61,7 @@ Empty ParamSet
 Blaskowitz O, Herwartz H (2011).
 \dQuote{On economic evaluation of directional forecasts.}
 \emph{International Journal of Forecasting}, \bold{27}(4), 1058--1065.
+\doi{10.1016/j.ijforecast.2010.07.002}.
 }
 \seealso{
 \itemize{

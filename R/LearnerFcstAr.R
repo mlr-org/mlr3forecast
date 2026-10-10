@@ -11,7 +11,7 @@
 #' @template learner
 #'
 #' @references
-#' `r format_bib("brockwell1991")`
+#' `r format_bib("brockwell1991time")`
 #'
 #' @export
 #' @template seealso_learner

@@ -53,10 +53,12 @@ cv$instance #  list
 Tashman LJ (2000).
 \dQuote{Out-of-sample tests of forecasting accuracy: an analysis and review.}
 \emph{International Journal of Forecasting}, \bold{16}(4), 437--450.
+\doi{10.1016/S0169-2070(00)00065-0}.
 
 Bergmeir C, Hyndman RJ, Koo B (2018).
 \dQuote{A note on the validity of cross-validation for evaluating autoregressive time series prediction.}
 \emph{Computational Statistics & Data Analysis}, \bold{120}, 70--83.
+\doi{10.1016/j.csda.2017.11.003}.
 }
 \seealso{
 \itemize{

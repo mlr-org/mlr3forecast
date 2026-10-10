@@ -86,6 +86,7 @@ List them via the key prefix, not the task type, as the latter returns nothing:
 Hyndman RJ, Koehler AB (2006).
 \dQuote{Another look at measures of forecast accuracy.}
 \emph{International Journal of Forecasting}, \bold{22}(4), 679--688.
+\doi{10.1016/j.ijforecast.2006.03.001}.
 }
 \seealso{
 \itemize{
