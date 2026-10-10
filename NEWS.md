@@ -1,52 +1,52 @@
 # mlr3forecast (development version)
 
-* BREAKING CHANGE: `download_zenodo_record()` no longer defaults to the M3 yearly dataset. Both `record_id` and `dataset_name` must be supplied.
 * BREAKING CHANGE: The `smooth` learners no longer offer the multistep losses `MSEh`, `TMSE`, `GTMSE`, `MSCE`, and `GPL` or the `holdout` parameter, which all need a forecast horizon at training time and failed with the learners' horizon of 0. `fcst.sparma` also drops the `LASSO` and `RIDGE` losses, which `smooth::sparma()` does not implement.
-* feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
-* fix: `as_task_fcst()` coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash `cif_2016` dataset can be converted.
-* fix: `as_task_fcst()` now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.
-* feat: `download_monash_dataset()` downloads Monash Forecasting Repository datasets by dataset ID from pinned Zenodo records and sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
-* feat: `download_monash_dataset()` and `tsk("monash")` cache downloaded files if the new option `mlr3forecast.cache` is set to `TRUE` or a directory.
-* fix: `download_zenodo_record()` is deprecated in favor of `download_monash_dataset()` and warns on each call.
-* feat: `list_monash_datasets()` lists the Monash Forecasting Repository datasets available to `download_monash_dataset()` and `tsk("monash")`, including their download sizes.
-* fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
-* perf: `read_tsf()` builds calendar date indices arithmetically instead of through `ISOdate()`, which makes reading files with many series about 20 times faster.
-* feat: `tgen("arima")` simulates ARIMA series into a forecast task.
-* feat: `tsk("monash", dataset = ...)` creates a forecast task from a Monash Forecasting Repository dataset.
-* fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`, `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, and the `fcst.auto_*` variants now names the target series instead of internal code, so printed models are readable.
-* feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
 * BREAKING CHANGE: `freq` is now only the step of the time index, a calendar string such as `"month"` or `NULL` to infer it. A numeric `freq` used to set the seasonal period and is now an error, set the new `period` hyperparameter instead.
 * BREAKING CHANGE: `as.ts.TaskFcst()` takes `period` instead of `freq`, and `as_task_fcst()` warns that the frequency of a `ts` without a calendar step is not kept.
+* BREAKING CHANGE: `download_zenodo_record()` no longer defaults to the M3 yearly dataset. Both `record_id` and `dataset_name` must be supplied.
+* feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
 * feat: The forecast learners that fit on a `ts`, `po("fcst.targetboxcox")`, and `po("fcst.tsfeats")` gained a `period` hyperparameter that defaults to the seasonal period implied by the task's `freq`.
 * feat: `period` hyperparameters accept a cycle name resolved against `freq`, e.g. `period = "year"` on hourly data means `8766`.
+* feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
-* fix: `fcst.adam` and `fcst.auto_adam` gained the `lambda` parameter, the weight of the `LASSO` and `RIDGE` penalties. Previously, these losses always used a weight of 0 and fit like plain `MSE`.
-* feat: `fcst.es` and `fcst.msarima` gained the `LASSO` and `RIDGE` losses together with their penalty weight `lambda`.
+* feat: `download_monash_dataset()` downloads Monash Forecasting Repository datasets by dataset ID from pinned Zenodo records and sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
+* feat: `download_monash_dataset()` and `tsk("monash")` cache downloaded files if the new option `mlr3forecast.cache` is set to `TRUE` or a directory.
 * feat: `fcst.auto_adam` gained the `constant` and `loss` parameters, which are passed on to `smooth::adam()`.
-* feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`, `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to `nnet::nnet()`.
 * feat: New learners `fcst.dotm`, `fcst.dstm`, `fcst.otm`, `fcst.stheta`, and `fcst.stm` wrap the theta methods from `forecTheta`.
+* feat: `fcst.elm` and `fcst.mlp` now use numeric and logical task features as exogenous regressors and gained the `xreg.lags` and `xreg.keep` parameters.
+* feat: `fcst.es` and `fcst.msarima` gained the `LASSO` and `RIDGE` losses together with their penalty weight `lambda`.
 * feat: New learner `fcst.esn` wraps `echos::train_esn()` for echo state network forecasts with response and quantile prediction.
 * feat: New learner `fcst.imapa` wraps `tsintermittent::imapa()` for intermittent demand forecasting with temporal aggregation.
+* feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`, `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to `nnet::nnet()`.
 * feat: New learner `fcst.snaive` provides the seasonal naive forecast with the seasonal period taken from the task frequency.
+* feat: `list_monash_datasets()` lists the Monash Forecasting Repository datasets available to `download_monash_dataset()` and `tsk("monash")`, including their download sizes.
+* feat: `tgen("arima")` simulates ARIMA series into a forecast task.
+* feat: `tsk("monash", dataset = ...)` creates a forecast task from a Monash Forecasting Repository dataset.
 * fix: A daily `freq` now derives a seasonal period of `7` (the weekly cycle) instead of the non-integer `365.25`, which blocked seasonal models and made scaled measures return `NaN`. Pass `period` explicitly to keep the annual cycle. Scores and fitted models change for daily tasks.
 * fix: Missing-model errors now use their matching structured error class.
 * fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
 * fix: Forecaster hashes now cover the wrapped graph's structure and the `horizons`.
-* fix: `DirectForecaster` no longer ignores predict parameters changed after training.
 * fix: Learners wrapping the `forecast` package now return correct quantiles close to the median and support extreme quantiles.
+* fix: `as_task_fcst()` coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash `cif_2016` dataset can be converted.
+* fix: `as_task_fcst()` now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.
+* fix: `DirectForecaster` no longer ignores predict parameters changed after training.
+* fix: `download_zenodo_record()` is deprecated in favor of `download_monash_dataset()` and warns on each call.
+* fix: `fcst.adam` and `fcst.auto_adam` gained the `lambda` parameter, the weight of the `LASSO` and `RIDGE` penalties. Previously, these losses always used a weight of 0 and fit like plain `MSE`.
 * fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
 * fix: `fcst.arfima` and `fcst.auto_arima` no longer switch on `parallel` via `set_threads()` during stepwise search, where `forecast::auto.arima()` warned and fit in serial.
-* feat: `fcst.elm` and `fcst.mlp` now use numeric and logical task features as exogenous regressors and gained the `xreg.lags` and `xreg.keep` parameters.
+* fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`, `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, and the `fcst.auto_*` variants now names the target series instead of internal code, so printed models are readable.
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.
 * fix: `fcst.stlm` now raises a configuration error for features without `method = "arima"`.
 * fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.
-* fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
+* fix: `$native_model` now errors on marshaled models instead of returning wrong objects.
+* fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
+* perf: `read_tsf()` builds calendar date indices arithmetically instead of through `ISOdate()`, which makes reading files with many series about 20 times faster.
 * perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
 
 # mlr3forecast 0.2.0
