@@ -70,6 +70,11 @@
   `xreg.keep` parameters.
 - feat: `fcst.es` and `fcst.msarima` gained the `LASSO` and `RIDGE`
   losses together with their penalty weight `lambda`.
+- feat: New `po("fcst.targetscale")` centers and scales the target with
+  each series’ own mean and standard deviation, or median and median
+  absolute deviation with `robust = TRUE`, so global forecasters can
+  learn across series on different scales. Response, standard error, and
+  quantile predictions are inverted back to the original scale.
 - feat: New learner `fcst.esn` wraps
   [`echos::train_esn()`](https://ahaeusser.github.io/echos/reference/train_esn.html)
   for echo state network forecasts with response and quantile

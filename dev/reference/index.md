@@ -252,6 +252,9 @@
 - [`mlr_pipeops_fcst.targetdiff`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.targetdiff.md)
   [`PipeOpTargetTrafoDifference`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.targetdiff.md)
   : Difference the Target Variable
+- [`mlr_pipeops_fcst.targetscale`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.targetscale.md)
+  [`PipeOpTargetTrafoScale`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.targetscale.md)
+  : Scale the Target Variable
 - [`mlr_pipeops_fcst.tsfeats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.tsfeats.md)
   [`PipeOpFcstTsfeats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.tsfeats.md)
   : Time Series Feature Extraction

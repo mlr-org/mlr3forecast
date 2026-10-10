@@ -23,8 +23,8 @@ as well as the following:
 
 - `lambda` :: `numeric(1)` \| `NULL`  
   Box-Cox transformation parameter. `NULL` (default) estimates it from
-  the training data, `0` is the log transformation, any other numeric is
-  used as a fixed value.
+  the training data, `0` is the log transformation, and any other
+  numeric is used as a fixed value.
 
 - `period` :: `character(1)` \| `numeric(1)` \| `NULL`  
   Seasonal period of the series when estimating `lambda`. Default
@@ -72,12 +72,13 @@ seasonality.
 
 This PipeOp must not be placed *inside* a
 [RecursiveForecaster](https://mlr3forecast.mlr-org.com/dev/reference/RecursiveForecaster.md)
-or
+graph and is rejected at construction. Inside a
 [DirectForecaster](https://mlr3forecast.mlr-org.com/dev/reference/DirectForecaster.md)
-graph and is rejected at construction. Use it inside a plain
+graph it works, but with `lambda = NULL` each horizon's model estimates
+its own `lambda` from the rows it is trained on. Use it inside a plain
 [mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
 via `ppl("targettrafo", ...)`, or wrap the forecaster itself with
-`ppl("targettrafo", ...)` so all horizons are inverted together.
+`ppl("targettrafo", ...)` so all horizons share the same `lambda`.
 
 ## References
 
