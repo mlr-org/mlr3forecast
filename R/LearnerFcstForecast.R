@@ -54,9 +54,7 @@ LearnerFcstForecast = R6Class(
         if (is_quantile) {
           error_config("Quantile prediction not supported for in-sample prediction.")
         }
-        response = private$.fitted_response(task)
-        prediction = insert_named(prediction, list(response = response))
-        return(prediction)
+        return(insert_named(prediction, list(response = private$.fitted_response(task))))
       }
 
       args = list(h = task$nrow)
@@ -78,8 +76,7 @@ LearnerFcstForecast = R6Class(
       pred = private$.postprocess(invoke(generics::forecast, self$native_model, .args = args))
 
       if (!is_quantile) {
-        prediction = insert_named(prediction, list(response = as.numeric(pred$mean)))
-        return(prediction)
+        return(insert_named(prediction, list(response = as.numeric(pred$mean))))
       }
 
       insert_named(prediction, list(quantiles = private$.quantiles_from_intervals(pred)))

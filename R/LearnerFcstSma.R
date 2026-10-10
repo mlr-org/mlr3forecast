@@ -60,9 +60,7 @@ LearnerFcstSma = R6Class(
     .predict = function(task) {
       prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
       if (!private$.is_newdata(task)) {
-        response = private$.fitted_response(task)
-        prediction = insert_named(prediction, list(response = response))
-        return(prediction)
+        return(insert_named(prediction, list(response = private$.fitted_response(task))))
       }
       pred = invoke(generics::forecast, self$native_model, h = task$nrow)
       insert_named(prediction, list(response = as.numeric(pred$mean)))
