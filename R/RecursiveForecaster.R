@@ -380,7 +380,7 @@ RecursiveForecaster = R6Class(
       if (is.null(self$model)) {
         return(private$.learner$base_learner(recursive - 1L))
       }
-      assert_has_model(self)
+      assert_unmarshaled(self)
       graph = private$.learner$graph
       on.exit({
         graph$state = NULL
