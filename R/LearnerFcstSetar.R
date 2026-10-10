@@ -80,17 +80,15 @@ LearnerFcstSetar = R6Class(
       }
       fcsts = invoke(generics::forecast, self$native_model, .args = args)$forecast
 
-      # forecasts are stacked series by series, h steps each
+      # stack the forecasts series by series, h steps each, and pick each row's series and step
       rows = (match(dt$.series, series) - 1L) * h + dt$.pos
-      response = unlist(map(fcsts, function(x) as.numeric(x$mean)), use.names = FALSE)[rows]
+      pred = map(set_names(c("mean", "lower", "upper")), function(field) {
+        map_br(fcsts, function(x) as.matrix(x[[field]]))[rows, , drop = FALSE]
+      })
       if (!is_quantile) {
-        return(insert_named(prediction, list(response = response)))
+        return(insert_named(prediction, list(response = as.numeric(pred$mean))))
       }
 
-      stack_bounds = function(bound) {
-        do.call(rbind, map(fcsts, function(x) as.matrix(x[[bound]])))[rows, , drop = FALSE]
-      }
-      pred = list(mean = response, lower = stack_bounds("lower"), upper = stack_bounds("upper"))
       insert_named(prediction, list(quantiles = private$.quantiles_from_intervals(pred)))
     }
   )
