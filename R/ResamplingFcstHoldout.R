@@ -141,7 +141,7 @@ make_split = function(n_obs, ratio, n) {
   }
   list(
     train = seq_len(nr),
-    test = if (n_obs > nr) (nr + 1L):n_obs else integer()
+    test = nr + seq_len(n_obs - nr)
   )
 }
 
