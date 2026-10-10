@@ -95,7 +95,7 @@ PipeOpFcstFourier = R6Class(
       active = task$data(cols = c(key_cols, order_cols))
       ii = full[active, on = c(key_cols, order_cols), which = TRUE]
       feat = as.data.table(fourier_terms(full[["..t"]][ii], period, K))
-      task$select(task$feature_names)$cbind(feat)
+      task$cbind(feat)
     }
   )
 )

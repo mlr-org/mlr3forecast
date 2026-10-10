@@ -75,7 +75,7 @@ PipeOpFcstLags = R6Class(
       }
 
       kept = fcst_drop_incomplete(dt, lag_cols, key_cols)
-      task$select(task$feature_names)$filter(kept[[pk]])$cbind(kept[, c(pk, lag_cols), with = FALSE])
+      task$filter(kept[[pk]])$cbind(kept[, c(pk, lag_cols), with = FALSE])
     },
 
     .predict_task = function(task) {
@@ -99,7 +99,7 @@ PipeOpFcstLags = R6Class(
       active = task$data(cols = c(key_cols, order_cols))
       set(full, j = target, value = NULL)
       active_lags = full[active, on = c(key_cols, order_cols), lag_cols, with = FALSE]
-      task$select(task$feature_names)$cbind(active_lags)
+      task$cbind(active_lags)
     }
   )
 )

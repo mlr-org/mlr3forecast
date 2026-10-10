@@ -87,7 +87,7 @@ PipeOpFcstRolling = R6Class(
       )
       roll_cols = private$.rolling(task, dt)
       kept = fcst_drop_incomplete(dt, roll_cols, task$col_roles$key)
-      task$select(task$feature_names)$filter(kept[[pk]])$cbind(kept[, c(pk, roll_cols), with = FALSE])
+      task$filter(kept[[pk]])$cbind(kept[, c(pk, roll_cols), with = FALSE])
     },
 
     .predict_task = function(task) {
@@ -97,7 +97,7 @@ PipeOpFcstRolling = R6Class(
       roll_cols = private$.rolling(task, full)
       active = task$data(cols = c(key_cols, order_cols))
       active_rolls = full[active, on = c(key_cols, order_cols), roll_cols, with = FALSE]
-      task$select(task$feature_names)$cbind(active_rolls)
+      task$cbind(active_rolls)
     },
 
     .rolling = function(task, dt) {

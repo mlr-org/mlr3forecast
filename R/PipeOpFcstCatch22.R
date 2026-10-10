@@ -67,9 +67,9 @@ PipeOpFcstCatch22 = R6Class(
       self$state = list(features = feats, key_cols = key_cols)
       feat_cols = setdiff(names(feats), key_cols)
       if (length(key_cols) > 0L) {
-        task$select(task$feature_names)$cbind(feats[task$data(cols = key_cols), on = key_cols, feat_cols, with = FALSE])
+        task$cbind(feats[task$data(cols = key_cols), on = key_cols, feat_cols, with = FALSE])
       } else {
-        task$select(task$feature_names)$cbind(feats[rep.int(1L, task$nrow)])
+        task$cbind(feats[rep.int(1L, task$nrow)])
       }
     },
 
@@ -80,9 +80,9 @@ PipeOpFcstCatch22 = R6Class(
       if (length(key_cols) > 0L) {
         keys = task$data(cols = key_cols)
         assert_seen_keys(feats, keys, key_cols)
-        task$select(task$feature_names)$cbind(feats[keys, on = key_cols, feat_cols, with = FALSE])
+        task$cbind(feats[keys, on = key_cols, feat_cols, with = FALSE])
       } else {
-        task$select(task$feature_names)$cbind(feats[rep.int(1L, task$nrow)])
+        task$cbind(feats[rep.int(1L, task$nrow)])
       }
     },
 
