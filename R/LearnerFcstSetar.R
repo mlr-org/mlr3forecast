@@ -7,7 +7,6 @@ LearnerFcstSetar = R6Class(
   private = list(
     .fn = NULL,
 
-    # a keyed task is fitted as one global model across all series, an unkeyed task as a single series
     .train = function(task) {
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
