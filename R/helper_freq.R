@@ -62,7 +62,7 @@ resolve_step = function(freq, order, key = NULL) {
   }
   # pooling the series would mix their anchors, e.g. monthly series dated on the 1st and the 15th look 14 days apart
   series = if (length(key) > 0L) split(order, key, drop = TRUE) else list(order)
-  series = keep(series, function(x) uniqueN(x) > 1L)
+  series = keep(unique(series), function(x) uniqueN(x) > 1L)
   if (length(series) == 0L) {
     return(infer_freq(order))
   }
