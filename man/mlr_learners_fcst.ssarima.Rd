@@ -36,8 +36,7 @@ lrn("fcst.ssarima")
    constant \tab logical \tab FALSE \tab TRUE, FALSE \cr
    arma \tab untyped \tab NULL \tab  \cr
    initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \cr
-   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \cr
-   holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM \cr
    bounds \tab character \tab admissible \tab admissible, usual, none \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
    regressors \tab character \tab use \tab use, select, adapt \cr

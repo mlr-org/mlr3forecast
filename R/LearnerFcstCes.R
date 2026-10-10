@@ -29,12 +29,7 @@ LearnerFcstCes = R6Class(
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
         a = p_uty(default = NULL, tags = "train"),
         b = p_uty(default = NULL, tags = "train"),
-        loss = p_fct(
-          c("likelihood", "MSE", "MAE", "HAM", "MSEh", "TMSE", "GTMSE", "MSCE", "GPL"),
-          default = "likelihood",
-          tags = "train"
-        ),
-        holdout = p_lgl(default = FALSE, tags = "train"),
+        loss = p_fct(c("likelihood", "MSE", "MAE", "HAM"), default = "likelihood", tags = "train"),
         bounds = p_fct(c("admissible", "none"), default = "admissible", tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train"),
         regressors = p_fct(c("use", "select", "adapt"), default = "use", tags = "train")

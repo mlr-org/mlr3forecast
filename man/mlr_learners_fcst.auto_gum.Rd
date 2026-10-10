@@ -35,8 +35,7 @@ lrn("fcst.auto_gum")
    type \tab character \tab additive \tab additive, multiplicative, select \tab - \cr
    initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \tab - \cr
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
-   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, MSEh, TMSE, GTMSE, MSCE, GPL \tab - \cr
-   holdout \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM \tab - \cr
    bounds \tab character \tab usual \tab usual, admissible, none \tab - \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    regressors \tab character \tab use \tab use, select, adapt, integrate \tab - \cr

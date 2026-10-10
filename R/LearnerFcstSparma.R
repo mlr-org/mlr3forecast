@@ -33,12 +33,7 @@ LearnerFcstSparma = R6Class(
           custom_check = crate(function(x) check_list(x, null.ok = TRUE))
         ),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
-        loss = p_fct(
-          c("likelihood", "MSE", "MAE", "HAM", "LASSO", "RIDGE", "MSEh", "TMSE", "GTMSE", "MSCE", "GPL"),
-          default = "likelihood",
-          tags = "train"
-        ),
-        holdout = p_lgl(default = FALSE, tags = "train"),
+        loss = p_fct(c("likelihood", "MSE", "MAE", "HAM"), default = "likelihood", tags = "train"),
         bounds = p_fct(c("none", "usual", "admissible"), default = "none", tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train")
       )

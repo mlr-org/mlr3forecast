@@ -1,6 +1,7 @@
 # mlr3forecast (development version)
 
 * BREAKING CHANGE: `download_zenodo_record()` no longer defaults to the M3 yearly dataset. Both `record_id` and `dataset_name` must be supplied.
+* BREAKING CHANGE: The `smooth` learners no longer offer the multistep losses `MSEh`, `TMSE`, `GTMSE`, `MSCE`, and `GPL` or the `holdout` parameter, which all need a forecast horizon at training time and failed with the learners' horizon of 0. `fcst.sparma` also drops the `LASSO` and `RIDGE` losses, which `smooth::sparma()` does not implement.
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * fix: `as_task_fcst()` coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash `cif_2016` dataset can be converted.
 * fix: `as_task_fcst()` now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.

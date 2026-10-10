@@ -35,8 +35,7 @@ lrn("fcst.sparma")
    constant \tab logical \tab FALSE \tab TRUE, FALSE \cr
    arma \tab untyped \tab NULL \tab  \cr
    initial \tab character \tab backcasting \tab backcasting, optimal, two-stage, complete, gradient \cr
-   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, \link{...} \cr
-   holdout \tab logical \tab FALSE \tab TRUE, FALSE \cr
+   loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM \cr
    bounds \tab character \tab none \tab none, usual, admissible \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
 }

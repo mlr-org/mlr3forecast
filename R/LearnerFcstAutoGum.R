@@ -29,12 +29,7 @@ LearnerFcstAutoGum = R6Class(
         type = p_fct(c("additive", "multiplicative", "select"), default = "additive", tags = "train"),
         initial = p_fct(c("backcasting", "optimal", "two-stage", "complete", "gradient"), default = "backcasting", tags = "train"),
         ic = p_fct(c("AICc", "AIC", "BIC", "BICc"), default = "AICc", tags = "train"),
-        loss = p_fct(
-          c("likelihood", "MSE", "MAE", "HAM", "MSEh", "TMSE", "GTMSE", "MSCE", "GPL"),
-          default = "likelihood",
-          tags = "train"
-        ),
-        holdout = p_lgl(default = FALSE, tags = "train"),
+        loss = p_fct(c("likelihood", "MSE", "MAE", "HAM"), default = "likelihood", tags = "train"),
         bounds = p_fct(c("usual", "admissible", "none"), default = "usual", tags = "train"),
         silent = p_lgl(default = TRUE, tags = "train"),
         regressors = p_fct(c("use", "select", "adapt", "integrate"), default = "use", tags = "train")
