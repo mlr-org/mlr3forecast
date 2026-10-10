@@ -3,6 +3,7 @@ Assimakopoulos
 CRAN
 ESN
 Fiorucci
+SETAR
 Hinnant
 Häußer
 abstol
@@ -30,6 +31,8 @@ rlgt
 rmsse
 rsmp
 seealso
+setarforest
+setartree
 snaive
 sparma
 stheta

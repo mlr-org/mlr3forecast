@@ -23,6 +23,7 @@
 * feat: New learner `fcst.esn` wraps `echos::train_esn()` for echo state network forecasts with response and quantile prediction.
 * feat: New learner `fcst.imapa` wraps `tsintermittent::imapa()` for intermittent demand forecasting with temporal aggregation.
 * feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`, `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to `nnet::nnet()`.
+* feat: New learners `fcst.setarforest` and `fcst.setartree` wrap `setartree::setarforest()` and `setartree::setartree()` for SETAR-Forest and SETAR-Tree forecasts with response and quantile prediction. Both currently fit a single series. `fcst.setarforest` trains sequentially by default and restores the global random number generator state after training.
 * feat: New learner `fcst.snaive` provides the seasonal naive forecast with the seasonal period taken from the `period` hyperparameter, which defaults to the period implied by the task's `freq`.
 * feat: `list_monash_datasets()` lists the Monash Forecasting Repository datasets available to `download_monash_dataset()` and `tsk("monash")`, including their download sizes.
 * feat: `tgen("arima")` simulates ARIMA series into a forecast task.

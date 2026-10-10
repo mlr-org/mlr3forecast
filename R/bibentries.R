@@ -530,6 +530,17 @@ bibentries = c(
     year = "2019",
     doi = "10.1007/s10618-019-00647-x",
     publisher = "Springer"
+  ),
+  godahewa2023setar = bibentry(
+    "article",
+    title = "SETAR-Tree: a novel and accurate tree algorithm for global time series forecasting",
+    author = "Rakshitha Godahewa and Geoffrey I Webb and Daniel Schmidt and Christoph Bergmeir",
+    journal = "Machine Learning",
+    volume = "112",
+    number = "7",
+    pages = "2555--2591",
+    year = "2023",
+    doi = "10.1007/s10994-023-06316-x"
   )
 )
 # nolint end
