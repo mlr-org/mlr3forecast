@@ -38,6 +38,7 @@ lrn("fcst.sparma")
    loss \tab character \tab likelihood \tab likelihood, MSE, MAE, HAM \cr
    bounds \tab character \tab none \tab none, usual, admissible \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \cr
+   period \tab untyped \tab NULL \tab  \cr
 }
 }
 

@@ -105,12 +105,13 @@ Name of the order column.}
 Names of the columns whose combination identifies a series.
 Key columns must be character, integer, factor, or ordered columns.}
 
-\item{freq}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
-Frequency of the time series.
-A \code{seq()}-compatible string gives the calendar step of the time grid, e.g.
+\item{freq}{(\code{character(1)} | \code{NULL})\cr
+Step of the time index, i.e. the spacing between two consecutive observations.
+A \code{seq()}-compatible string for a \code{Date} or \code{POSIXct} order column, e.g.
 \code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.
-A positive number gives the seasonal period (as in \code{\link[stats:ts]{stats::ts()}}) for an integer or
-numeric order column; the grid step is then inferred from the data.}
+If \code{NULL} (default), the step is inferred from the order column, which is required for a numeric or integer
+order column.
+This is \emph{not} the seasonal period, which learners, measures, and pipeops take as their \code{period} hyperparameter.}
 
 \item{id}{(\code{character(1)})\cr
 Id for the new task.

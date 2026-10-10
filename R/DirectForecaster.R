@@ -365,7 +365,7 @@ DirectForecaster = R6Class(
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
       dt = task$data(cols = c(order_cols, key_cols))
-      step = resolve_step(task$freq, dt[[order_cols]])
+      step = resolve_step(task$freq, dt[[order_cols]], dt[, key_cols, with = FALSE])
       origin = if (length(key_cols) > 0L) {
         dt[, list(.origin = max(get(order_cols))), by = key_cols]
       } else {

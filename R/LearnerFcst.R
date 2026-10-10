@@ -17,6 +17,8 @@
 #'
 #' Predefined learners can be found in the [dictionary][mlr3misc::Dictionary] [mlr3::mlr_learners].
 #'
+#' @template section_period
+#'
 #' @template param_id
 #' @template param_param_set
 #' @template param_predict_types
@@ -52,6 +54,13 @@ LearnerFcst = R6Class(
       label = NA_character_,
       man = NA_character_
     ) {
+      # learners that go through `ts()` take a seasonal period, defaulting to the one implied by the task's `freq`
+      if (isTRUE(private$.seasonal)) {
+        param_set = ps_union(list(
+          param_set,
+          ps(period = p_uty(default = NULL, tags = c("train", "period"), custom_check = check_period))
+        ))
+      }
       super$initialize(
         id = id,
         task_type = "fcst",
@@ -75,6 +84,17 @@ LearnerFcst = R6Class(
   ),
 
   private = list(
+    .seasonal = FALSE,
+
+    .as_ts = function(task) {
+      as.ts(task, period = self$param_set$values$period)
+    },
+
+    # `period` is consumed by `.as_ts()`, never forwarded to the wrapped function
+    .train_values = function() {
+      remove_named(self$param_set$get_values(tags = "train"), "period")
+    },
+
     .train = function(task) {
       properties = task$properties
       if ("ordered" %nin% properties) {

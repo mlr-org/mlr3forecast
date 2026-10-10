@@ -36,6 +36,7 @@ lrn("fcst.sma")
    ic \tab character \tab AICc \tab AICc, AIC, BIC, BICc \tab - \cr
    silent \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    fast \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

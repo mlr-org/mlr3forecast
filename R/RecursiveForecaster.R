@@ -460,7 +460,7 @@ RecursiveForecaster = R6Class(
       train_data = train_data[!test_data, on = join_cols]
 
       # test rows must form the gap-free future grid so positional shifts equal true step distance
-      step = resolve_step(self$model$freq, train_data[[order_cols]])
+      step = resolve_step(self$model$freq, train_data[[order_cols]], train_data[, key_cols, with = FALSE])
       if (length(key_cols) > 0L) {
         origin = train_data[, list(.origin = max(get(order_cols))), by = key_cols]
         grid_check = origin[test_data[, c(key_cols, order_cols), with = FALSE], on = key_cols]

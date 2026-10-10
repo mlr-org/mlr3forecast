@@ -1,9 +1,10 @@
 infer_freq = function(order) {
+  order = sort(unique(order))
   if (length(order) < 2L) {
     return(1L)
   }
   if (!inherits(order, c("Date", "POSIXct", "POSIXlt"))) {
-    return(stats::median(diff(sort(order))))
+    return(stats::median(diff(order)))
   }
   secs = max(round(as.numeric(stats::median(diff(order)), units = "secs")), 1)
   if (secs == 604800) {
@@ -43,9 +44,24 @@ infer_freq = function(order) {
   }
 }
 
-# a numeric freq is the seasonal period, not the grid step, so only calendar freqs step the grid
-resolve_step = function(freq, order) {
-  if (is.character(freq)) freq else infer_freq(sort(unique(order)))
+resolve_step = function(freq, order, key = NULL) {
+  if (!is.null(freq)) {
+    return(freq)
+  }
+  # pooling the series would mix their anchors, e.g. monthly series dated on the 1st and the 15th look 14 days apart
+  series = if (length(key) > 0L) split(order, key, drop = TRUE) else list(order)
+  series = keep(series, function(x) uniqueN(x) > 1L)
+  if (length(series) == 0L) {
+    return(infer_freq(order))
+  }
+  steps = unique(map(series, infer_freq))
+  if (length(steps) > 1L) {
+    error_input(
+      "Cannot infer a common step, the series have different steps (%s). Set `freq` explicitly.",
+      str_collapse(map_chr(steps, format))
+    )
+  }
+  steps[[1L]]
 }
 
 calendar_months = function(freq) {
@@ -89,39 +105,82 @@ seq_order = function(origin, freq, n) {
   }
 }
 
-freq_to_period = function(freq) {
-  if (is.null(freq)) {
-    return(1L)
-  }
-  if (!is.character(freq)) {
-    return(freq)
-  }
-  periods = c(
-    secs = 60,
-    mins = 1440,
-    hours = 24,
-    days = 7,
-    DSTdays = 7,
-    weeks = 52.18,
-    months = 12,
-    quarters = 4,
-    years = 1
+unit_seconds = function(x) {
+  # calendar units use their average length, e.g. a month is 365.25 / 12 days
+  secs = c(
+    sec = 1,
+    min = 60,
+    hour = 3600,
+    day = 86400,
+    DSTday = 86400,
+    week = 604800,
+    month = 2629800,
+    quarter = 7889400,
+    year = 31557600
   )
-  parts = strsplit1(freq, " ")
+  parts = strsplit1(x, " ")
   n_parts = length(parts)
   n = if (n_parts == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
-  ii = pmatch(parts[n_parts], names(periods))
-  if (is.na(ii) || is.na(n) || n <= 0) {
-    return(1L)
+  unit = parts[n_parts]
+  if (unit %nin% names(secs)) {
+    unit = sub("s$", "", unit)
   }
-  periods[[ii]] / n
+  if (is.na(n) || n <= 0 || unit %nin% names(secs)) {
+    return(NA_real_)
+  }
+  n * secs[[unit]]
 }
 
-resolve_measure_period = function(period, freq) {
-  if (!is.null(period)) {
+# observations per calendar cycle longer than one step, named by cycle
+common_periods = function(freq) {
+  step = if (test_string(freq)) unit_seconds(freq) else NA_real_
+  if (is.na(step)) {
+    return(numeric())
+  }
+  cycles = c(min = 60, hour = 3600, day = 86400, week = 604800, year = 31557600)
+  periods = cycles / step
+  sort(periods[periods > 1])
+}
+
+default_period = function(freq) {
+  periods = common_periods(freq)
+  ladder = c(if ("min" %chin% names(periods)) "hour", "day", "week", "year")
+  candidates = unname(periods[names(periods) %chin% ladder])
+  if (length(candidates) == 0L) {
+    return(1)
+  }
+  # a cycle of fewer than four observations has no seasonal shape
+  long = candidates[candidates >= 4]
+  if (length(long) > 0L) long[1L] else candidates[length(candidates)]
+}
+
+resolve_period = function(period, freq) {
+  if (is.null(period)) {
+    return(default_period(freq))
+  }
+  if (!is.character(period)) {
     return(period)
   }
-  max(1L, as.integer(round(freq_to_period(freq))))
+  step = if (test_string(freq)) unit_seconds(freq) else NA_real_
+  if (is.na(step)) {
+    error_input(
+      "A character `period` (%s) requires a calendar `freq`, but `freq` is %s.",
+      str_collapse(period, quote = "'"),
+      if (is.null(freq)) "NULL" else format(freq)
+    )
+  }
+  cycles = map_dbl(period, unit_seconds)
+  if (anyNA(cycles)) {
+    error_input(
+      "Unknown `period` %s. Must be a cycle name such as 'year', 'week' or '2 day'.",
+      str_collapse(period[is.na(cycles)], quote = "'")
+    )
+  }
+  cycles / step
+}
+
+resolve_measure_period = function(period, task) {
+  max(1L, as.integer(round(resolve_period(period, task$freq))))
 }
 
 to_tsibble_index = function(order, freq) {

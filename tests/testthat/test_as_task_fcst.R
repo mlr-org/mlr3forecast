@@ -34,6 +34,14 @@ test_that("as_task conversion", {
   expect_no_error(as_task_fcst(x))
 })
 
+test_that("as_task_fcst warns that a non-calendar ts frequency is not kept", {
+  skip_if_not_installed("tsbox")
+  expect_warning({
+    task = as_task_fcst(ts(sin(1:28), frequency = 7))
+  }, "no calendar step")
+  expect_null(task$freq)
+})
+
 test_that("as_task_fcst rejects unused arguments for TaskFcst", {
   expect_error(as_task_fcst(tsk("airpassengers"), typo = TRUE), "unused: typo")
 })

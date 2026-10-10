@@ -47,6 +47,7 @@ lrn("fcst.elm")
    xreg.keep \tab untyped \tab NULL \tab  \tab - \cr
    barebone \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    retrain \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
+   period \tab untyped \tab NULL \tab  \tab - \cr
 }
 }
 

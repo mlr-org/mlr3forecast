@@ -5,6 +5,7 @@ LearnerFcstForecast = R6Class(
   "LearnerFcstForecast",
   inherit = LearnerFcst,
   private = list(
+    .seasonal = TRUE,
     .newdata_arg = "xreg",
     .newdata_as_matrix = TRUE,
     .pkg = "forecast",
@@ -19,7 +20,7 @@ LearnerFcstForecast = R6Class(
 
     .train = function(task) {
       super$.train(task)
-      pv = self$param_set$get_values(tags = "train")
+      pv = private$.train_values()
       parallel_arg = private$.parallel_arg
       multi_core = !is.null(pv$num.cores) && pv$num.cores > 1L
       # auto.arima() only fits in parallel without stepwise search, and warns otherwise
@@ -35,7 +36,7 @@ LearnerFcstForecast = R6Class(
     },
 
     .fit = function(task, pv) {
-      args = set_names(list(as.ts(task)), private$.y_arg)
+      args = set_names(list(private$.as_ts(task)), private$.y_arg)
       if (private$.has_exogenous(task)) {
         args$xreg = as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE))
       }

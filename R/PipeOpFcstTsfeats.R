@@ -13,6 +13,8 @@
 #' * `features` :: `character()`\cr
 #'   Function names from the `tsfeatures` namespace that return numeric feature vectors. Default
 #'   `c("frequency", "stl_features", "entropy", "acf_features")`.
+#' * `period` :: `character(1)` | `numeric(1)` | `NULL`\cr
+#'   Seasonal period passed to the feature functions as the frequency of each series. Default `NULL`.
 #' * `scale` :: `logical(1)`\cr
 #'   If `TRUE`, scale each series to mean 0 and sd 1 before feature extraction. Default `TRUE`.
 #' * `trim` :: `logical(1)`\cr
@@ -25,6 +27,8 @@
 #'   Function from the `future` package used when `parallel = TRUE`. Default [future::multisession()].
 #' * `na.action` :: `function`\cr
 #'   Missing-value handler. Default [stats::na.pass()].
+#'
+#' @template section_period
 #'
 #' @export
 #' @examplesIf requireNamespace("tsfeatures", quietly = TRUE)
@@ -50,6 +54,7 @@ PipeOpFcstTsfeats = R6Class(
           tags = "train",
           custom_check = crate(function(x) check_character(x, any.missing = FALSE, min.len = 1L))
         ),
+        period = p_uty(default = NULL, custom_check = check_period),
         scale = p_lgl(default = TRUE, tags = "train"),
         trim = p_lgl(default = FALSE, tags = "train"),
         trim_amount = p_dbl(lower = 0, default = 0.1, tags = "train", depends = quote(trim == TRUE)), # nolint
@@ -78,16 +83,16 @@ PipeOpFcstTsfeats = R6Class(
       target = task$target_names
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
-      freq = freq_to_period(task$freq)
+      period = resolve_period(self$param_set$values$period, task$freq)
 
       dt = task$data(cols = c(target, order_cols, key_cols))
       setorderv(dt, c(key_cols, order_cols))
       if (length(key_cols) > 0L) {
-        ts_dt = dt[, list(.ts = list(stats::ts(get(target), frequency = freq))), by = key_cols]
+        ts_dt = dt[, list(.ts = list(stats::ts(get(target), frequency = period))), by = key_cols]
         tslist = ts_dt$.ts
         keys = ts_dt[, !".ts"]
       } else {
-        tslist = list(stats::ts(dt[[target]], frequency = freq))
+        tslist = list(stats::ts(dt[[target]], frequency = period))
         keys = NULL
       }
 
