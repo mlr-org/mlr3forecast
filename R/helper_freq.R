@@ -17,7 +17,12 @@ infer_freq = function(order) {
     return(1L)
   }
   if (!inherits(order, c("Date", "POSIXct", "POSIXlt"))) {
-    return(stats::median(diff(order)))
+    # the median of an even number of integer steps is a double, keep integer steps integer
+    step = stats::median(diff(order))
+    if (is.integer(order) && test_integerish(step)) {
+      step = as.integer(step)
+    }
+    return(step)
   }
   secs = max(round(as.numeric(stats::median(diff(order)), units = "secs")), 1)
   day = unit_secs[["day"]]

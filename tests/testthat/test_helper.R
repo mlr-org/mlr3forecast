@@ -25,6 +25,10 @@ test_that("infer_freq honors non-unit spacing for numeric and integer order", {
   expect_equal(infer_freq(1:10), 1)
   # too short to infer
   expect_equal(infer_freq(5L), 1L)
+  # an integer order gets an integer step for odd and even numbers of steps
+  expect_identical(infer_freq(1:30), 1L)
+  expect_identical(infer_freq(1:31), 1L)
+  expect_identical(infer_freq(c(0L, 1L, 3L)), 1.5)
 })
 
 test_that("resolve_step infers the step per series", {
@@ -37,6 +41,8 @@ test_that("resolve_step infers the step per series", {
   expect_error(resolve_step(NULL, c(a, quarterly), key), "different steps")
   # a single observation carries no step
   expect_identical(resolve_step(NULL, c(a, b[1L]), data.table(id = rep(c("a", "b"), c(12L, 1L)))), "1 month")
+  # integer series of different lengths share one integer step
+  expect_identical(resolve_step(NULL, c(1:30, 1:31), data.table(id = rep(c("a", "b"), c(30L, 31L)))), 1L)
 })
 
 test_that("infer_freq detects calendar units", {
