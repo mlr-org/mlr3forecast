@@ -69,7 +69,7 @@ LearnerFcstForecTheta = R6Class(
         }
       }
       if (is_quantile) {
-        level = sort(unique(quantiles_to_levels(private$.quantiles)))
+        level = quantiles_to_levels(private$.quantiles)
         if (length(level) > 0L) {
           args$level = level
         }

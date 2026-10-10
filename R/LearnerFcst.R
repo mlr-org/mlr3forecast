@@ -179,7 +179,7 @@ LearnerFcst = R6Class(
     # upper if p > 0.5, mean at 0.5. `pred$lower`/`$upper` columns must be in ascending-level order.
     .quantiles_from_intervals = function(pred) {
       probs = private$.quantiles
-      levels = sort(unique(quantiles_to_levels(probs)))
+      levels = quantiles_to_levels(probs)
       quantiles = map_bc(probs, function(p) {
         if (p == 0.5) {
           return(as.numeric(pred$mean))
