@@ -151,7 +151,7 @@ roll_feature = function(x, fn, size) {
 }
 
 fcst_rolls = function(x, spec) {
-  hist = head(x, max(length(x) - spec$lag, 0L))
+  hist = head(x, -spec$lag)
   pad = rep.int(NA_real_, length(x) - length(hist))
   pmap(list(fn = spec$fn, size = spec$size), function(fn, size) c(pad, roll_feature(hist, fn, size)))
 }
