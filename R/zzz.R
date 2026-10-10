@@ -121,13 +121,13 @@ register_mlr3pipelines = function(...) {
 }
 
 .onUnload = function(libpath) {
-  walk(names(mlr3forecast_resamplings), function(nm) mlr_resamplings$remove(nm))
-  walk(names(mlr3forecast_tasks), function(nm) mlr_tasks$remove(nm))
-  walk(names(mlr3forecast_task_generators), function(nm) mlr_task_generators$remove(nm))
-  walk(names(mlr3forecast_learners), function(nm) mlr_learners$remove(nm))
-  walk(names(mlr3forecast_measures), function(nm) mlr_measures$remove(nm))
-  walk(names(mlr3forecast_pipeops), function(nm) mlr_pipeops$remove(nm))
-  walk(names(mlr3forecast_graphs), function(nm) mlr_graphs$remove(nm))
+  mlr_resamplings$remove(names(mlr3forecast_resamplings))
+  mlr_tasks$remove(names(mlr3forecast_tasks))
+  mlr_task_generators$remove(names(mlr3forecast_task_generators))
+  mlr_learners$remove(names(mlr3forecast_learners))
+  mlr_measures$remove(names(mlr3forecast_measures))
+  mlr_pipeops$remove(names(mlr3forecast_pipeops))
+  mlr_graphs$remove(names(mlr3forecast_graphs))
 
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   reflections = c(
