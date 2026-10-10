@@ -18,7 +18,7 @@
 * feat: New learners `fcst.dotm`, `fcst.dstm`, `fcst.otm`, `fcst.stheta`, and `fcst.stm` wrap the theta methods from `forecTheta`.
 * feat: `fcst.elm` and `fcst.mlp` now use numeric, integer, and logical task features as exogenous regressors and gained the `xreg.lags` and `xreg.keep` parameters.
 * feat: `fcst.es` and `fcst.msarima` gained the `LASSO` and `RIDGE` losses together with their penalty weight `lambda`.
-* feat: New `po("fcst.targetscale")` centers and scales the target with each series' own mean and standard deviation, or median and median absolute deviation with `robust = TRUE`, so global forecasters can learn across series on different scales. Response and quantile predictions are inverted back to the original scale.
+* feat: New `po("fcst.targetscale")` centers and scales the target with each series' own mean and standard deviation, or median and median absolute deviation with `robust = TRUE`, so global forecasters can learn across series on different scales. Response, standard error, and quantile predictions are inverted back to the original scale.
 * feat: New learner `fcst.esn` wraps `echos::train_esn()` for echo state network forecasts with response and quantile prediction.
 * feat: New learner `fcst.imapa` wraps `tsintermittent::imapa()` for intermittent demand forecasting with temporal aggregation.
 * feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`, `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to `nnet::nnet()`.

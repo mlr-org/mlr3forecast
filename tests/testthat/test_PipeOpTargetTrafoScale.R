@@ -158,6 +158,25 @@ test_that("targetscale inverts keyed quantile predictions with each series' stat
   expect_true(all(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L]))
 })
 
+test_that("targetscale inverts standard errors with each series' scale", {
+  task = make_monthly_panel_task()
+  po = po("fcst.targetscale")
+  po$train(list(task))
+  out_predict = po$predict(list(task))
+  transformed = out_predict$output$data()[[out_predict$output$target_names[1L]]]
+  prediction = PredictionRegr$new(
+    row_ids = task$row_ids,
+    truth = task$truth(),
+    response = transformed,
+    se = rep(1, task$nrow)
+  )
+
+  inverted = out_predict$fun(list(prediction))[[1L]]
+  expect_set_equal(inverted$predict_types, c("response", "se"))
+  stats = po$state$stats
+  expect_equal(inverted$se, stats[task$data(cols = "id"), on = "id"]$scale)
+})
+
 test_that("targetscale errors on key groups not seen during training", {
   task = make_monthly_panel_task()
   train_task = task$clone()$filter(task$row_ids[task$data(cols = "id")$id == "a"])
@@ -222,6 +241,16 @@ test_that("targetscale keeps truth aligned when predict rows are not in time ord
   flrn$train(task, 1:132)
   prediction = flrn$predict(task, rev(133:144))
   expect_equal(prediction$truth, task$truth(prediction$row_ids))
+})
+
+test_that("targetscale works inside a DirectForecaster graph", {
+  task = tsk("airpassengers")
+  graph = ppl("targettrafo", graph = lrn("regr.featureless"), trafo_pipeop = po("fcst.targetscale"))
+  flrn = DirectForecaster$new(graph, lags = 1:3, horizons = 3L)
+  flrn$train(task, 1:132)
+  prediction = flrn$predict(task, 133:135)
+  expect_false(anyNA(prediction$response))
+  expect_true(all(prediction$response > 100))
 })
 
 test_that("targetscale works wrapping DirectForecaster", {

@@ -2,27 +2,35 @@
 #' @name mlr_pipeops_fcst.targetscale
 #'
 #' @description
-#' Centers and scales the target variable, producing the new target `(y - center) / scale`. On keyed (multi-series)
-#' tasks each series is centered and scaled with its own statistics, putting all series on a comparable scale for a
-#' global model. The transformation is affine and monotonic, so no rows are dropped and predictions, including
-#' quantiles, are inverted pointwise back to the original scale. Predicting a series not seen during training is an
-#' error.
+#' Centers and scales the target variable, producing the new target `(y - center) / scale`.
+#' On keyed (multi-series) tasks each series is centered and scaled with its own statistics,
+#' putting all series on a comparable scale for a global model.
+#' The transformation is affine and monotonic,
+#' so no rows are dropped and predictions, including quantiles, are inverted pointwise back to the original scale.
+#' Standard errors are multiplied by the scale.
+#' Predicting a series not seen during training is an error.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTargetTrafo], as well as the following:
 #' * `center` :: `logical(1)`\cr
-#'   Whether to center the target by subtracting its mean (median if `robust`). Default `TRUE`.
+#'   Whether to center the target by subtracting its mean (median if `robust`).
+#'   Default `TRUE`.
 #' * `scale` :: `logical(1)`\cr
-#'   Whether to divide the target by its root-mean-square (median absolute deviation if `robust`), computed after
-#'   centering. Constant series are left unscaled. Default `TRUE`.
+#'   Whether to divide the target by its root-mean-square (median absolute deviation if `robust`),
+#'   computed after centering.
+#'   Constant series are left unscaled.
+#'   Default `TRUE`.
 #' * `robust` :: `logical(1)`\cr
 #'   Whether to center and scale with the median and median absolute deviation instead of the mean and
-#'   root-mean-square. Default `FALSE`.
+#'   root-mean-square.
+#'   Default `FALSE`.
 #'
 #' @section Limitations:
-#' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph and is rejected at
-#' construction. Use it inside a plain [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)`, or wrap the
-#' forecaster itself with `ppl("targettrafo", ...)` so all horizons are inverted together.
+#' This PipeOp must not be placed *inside* a [RecursiveForecaster] graph and is rejected at construction.
+#' Inside a [DirectForecaster] graph it works,
+#' but each horizon's model computes its own statistics from the rows it is trained on.
+#' Use it inside a plain [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)`,
+#' or wrap the forecaster itself with `ppl("targettrafo", ...)` so all horizons share the same statistics.
 #'
 #' @export
 #' @examples
@@ -49,11 +57,10 @@ PipeOpTargetTrafoScale = R6Class(
     #'   otherwise be set during construction. Default `list()`.
     initialize = function(id = "fcst.targetscale", param_vals = list()) {
       param_set = ps(
-        center = p_lgl(tags = c("train", "required")),
-        scale = p_lgl(tags = c("train", "required")),
-        robust = p_lgl(tags = c("train", "required"))
+        center = p_lgl(init = TRUE, tags = c("train", "required")),
+        scale = p_lgl(init = TRUE, tags = c("train", "required")),
+        robust = p_lgl(init = FALSE, tags = c("train", "required"))
       )
-      param_set$set_values(center = TRUE, scale = TRUE, robust = FALSE)
 
       super$initialize(
         id = id,
@@ -107,6 +114,7 @@ PipeOpTargetTrafoScale = R6Class(
 
     .invert = function(prediction, predict_phase_state) {
       response = prediction$data$response
+      se = prediction$data$se
       quantiles = prediction$data$quantiles
       stats = self$state$stats
 
@@ -129,6 +137,9 @@ PipeOpTargetTrafoScale = R6Class(
       if (!is.null(response)) {
         response = response * scale + center
       }
+      if (!is.null(se)) {
+        se = se * scale
+      }
       inverted = NULL
       if (!is.null(quantiles)) {
         # a matrix times a vector recycles column-major, applying each row's scale and center
@@ -149,6 +160,7 @@ PipeOpTargetTrafoScale = R6Class(
         row_ids = prediction$row_ids,
         truth = predict_phase_state$truth,
         response = response,
+        se = se,
         quantiles = inverted,
         weights = prediction$weights,
         extra = prediction$data$extra,

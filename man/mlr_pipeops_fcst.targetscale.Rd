@@ -5,32 +5,40 @@
 \alias{PipeOpTargetTrafoScale}
 \title{Scale the Target Variable}
 \description{
-Centers and scales the target variable, producing the new target \code{(y - center) / scale}. On keyed (multi-series)
-tasks each series is centered and scaled with its own statistics, putting all series on a comparable scale for a
-global model. The transformation is affine and monotonic, so no rows are dropped and predictions, including
-quantiles, are inverted pointwise back to the original scale. Predicting a series not seen during training is an
-error.
+Centers and scales the target variable, producing the new target \code{(y - center) / scale}.
+On keyed (multi-series) tasks each series is centered and scaled with its own statistics,
+putting all series on a comparable scale for a global model.
+The transformation is affine and monotonic,
+so no rows are dropped and predictions, including quantiles, are inverted pointwise back to the original scale.
+Standard errors are multiplied by the scale.
+Predicting a series not seen during training is an error.
 }
 \section{Parameters}{
 
 The parameters are the parameters inherited from \link[mlr3pipelines:PipeOpTargetTrafo]{mlr3pipelines::PipeOpTargetTrafo}, as well as the following:
 \itemize{
 \item \code{center} :: \code{logical(1)}\cr
-Whether to center the target by subtracting its mean (median if \code{robust}). Default \code{TRUE}.
+Whether to center the target by subtracting its mean (median if \code{robust}).
+Default \code{TRUE}.
 \item \code{scale} :: \code{logical(1)}\cr
-Whether to divide the target by its root-mean-square (median absolute deviation if \code{robust}), computed after
-centering. Constant series are left unscaled. Default \code{TRUE}.
+Whether to divide the target by its root-mean-square (median absolute deviation if \code{robust}),
+computed after centering.
+Constant series are left unscaled.
+Default \code{TRUE}.
 \item \code{robust} :: \code{logical(1)}\cr
 Whether to center and scale with the median and median absolute deviation instead of the mean and
-root-mean-square. Default \code{FALSE}.
+root-mean-square.
+Default \code{FALSE}.
 }
 }
 
 \section{Limitations}{
 
-This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} or \link{DirectForecaster} graph and is rejected at
-construction. Use it inside a plain \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)}, or wrap the
-forecaster itself with \code{ppl("targettrafo", ...)} so all horizons are inverted together.
+This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} graph and is rejected at construction.
+Inside a \link{DirectForecaster} graph it works,
+but each horizon's model computes its own statistics from the rows it is trained on.
+Use it inside a plain \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)},
+or wrap the forecaster itself with \code{ppl("targettrafo", ...)} so all horizons share the same statistics.
 }
 
 \examples{
