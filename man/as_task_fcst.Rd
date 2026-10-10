@@ -136,6 +136,8 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 \item \code{tbl_ts}: from tsibble objects.
 The index becomes the order column, where \code{yearweek}, \code{yearmonth}, and \code{yearquarter} indices are converted to
 dates.
+If \code{freq} is \code{NULL}, such an index sets it from the tsibble's interval,
+e.g. \code{"1 month"} for a monthly \code{yearmonth} index.
 The key variables become key columns, and all measured variables other than \code{target} become features.
 }
 }

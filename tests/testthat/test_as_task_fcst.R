@@ -126,6 +126,23 @@ test_that("as_task conversion multi-measure tsibble", {
   expect_data_table(generate_newdata(task, 2L), nrows = 2L)
 })
 
+test_that("as_task conversion tsibble derives freq from a calendar index", {
+  skip_if_not_installed("tsibble")
+
+  make = function(index) tsibble::tsibble(t = index, y = seq_along(index), index = t)
+  dates = function(by) seq(as.Date("2020-01-06"), by = by, length.out = 4L)
+  expect_identical(as_task_fcst(make(tsibble::yearmonth(dates("month"))), target = "y")$freq, "1 month")
+  expect_identical(as_task_fcst(make(tsibble::yearquarter(dates("quarter"))), target = "y")$freq, "1 quarter")
+  expect_identical(as_task_fcst(make(tsibble::yearweek(dates("2 week"))), target = "y")$freq, "2 week")
+  expect_identical(as_task_fcst(make(tsibble::yearmonth(dates("2 month"))), target = "y")$freq, "2 month")
+  expect_identical(as_task_fcst(make(tsibble::yearmonth(dates("month"))), target = "y", freq = "month")$freq, "month")
+  expect_null(as_task_fcst(make(tsibble::yearmonth(dates("month")[1L])), target = "y")$freq)
+  expect_null(as_task_fcst(make(dates("month")), target = "y")$freq)
+
+  task = as_task_fcst(tsibble::as_tsibble(AirPassengers), target = "value")
+  expect_identical(stats::frequency(as.ts(task)), 12)
+})
+
 test_that("as_task conversion tsibble keeps numeric index", {
   skip_if_not_installed("tsibble")
 

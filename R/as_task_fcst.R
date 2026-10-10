@@ -13,6 +13,8 @@
 #' 7. `tbl_ts`: from tsibble objects.
 #'    The index becomes the order column, where `yearweek`, `yearmonth`, and `yearquarter` indices are converted to
 #'    dates.
+#'    If `freq` is `NULL`, such an index sets it from the tsibble's interval,
+#'    e.g. `"1 month"` for a monthly `yearmonth` index.
 #'    The key variables become key columns, and all measured variables other than `target` become features.
 #'
 #' @inheritParams mlr3::as_task_regr
@@ -211,8 +213,16 @@ as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(
   require_namespaces("tsibble")
   order = tsibble::index_var(x)
   key = tsibble::key_vars(x)
+  units = c(yearweek = "week", yearmonth = "month", yearquarter = "quarter")
+  unit = units[class(x[[order]])[1L]]
+  if (!is.na(unit)) {
+    n = unclass(tsibble::interval(x))[[unit]]
+    if (is.null(freq) && n > 0) {
+      freq = sprintf("%g %s", n, unit)
+    }
+  }
   x = as.data.table(tsibble::as_tibble(x))
-  if (inherits(x[[order]], c("yearweek", "yearmonth", "yearquarter"))) {
+  if (!is.na(unit)) {
     set(x, j = order, value = as.Date(x[[order]]))
   }
   as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
