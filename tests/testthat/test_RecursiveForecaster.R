@@ -151,6 +151,23 @@ test_that("RecursiveForecaster works wrapped in a target trafo", {
   expect_numeric(prediction$response, lower = 100, finite = TRUE, any.missing = FALSE)
 })
 
+test_that("RecursiveForecaster returns predictions in the task's row order", {
+  task = tsk("airpassengers")
+  learner = RecursiveForecaster$new(lrn("regr.featureless"), lags = 1:3)
+  learner$train(task, 1:132)
+  prediction = learner$predict(task, rev(133:144))
+  expect_identical(prediction$row_ids, rev(133:144))
+  expect_equal(prediction$truth, task$truth(rev(133:144)))
+
+  dt = data.table(t = rep(1:20, each = 2L), id = rep(c("a", "b"), 20L), y = rep(c(100, 0), 20L) + seq_len(40L))
+  task = as_task_fcst(as_data_backend(dt), target = "y", order = "t", key = "id")
+  test = which(dt$t > 15L)
+  learner$train(task, which(dt$t <= 15L))
+  prediction = learner$predict(task, test)
+  expect_identical(prediction$row_ids, test)
+  expect_equal(prediction$truth, dt$y[test])
+})
+
 test_that("recursive_forecaster helper works", {
   learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   expect_class(learner, "RecursiveForecaster")

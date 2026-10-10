@@ -67,6 +67,22 @@ test_that("PipeOpFcstAvg preserves keys for multi-series tasks", {
   expect_equal(as.character(p$key$key), c("a", "a", "a", "b", "b", "b"))
 })
 
+test_that("PipeOpFcstAvg combines recursive and direct forecasters on a time-major keyed backend", {
+  dt = data.table(t = rep(1:20, each = 2L), id = rep(c("a", "b"), 20L), y = rep(c(100, 0), 20L) + seq_len(40L))
+  task = as_task_fcst(as_data_backend(dt), target = "y", order = "t", key = "id")
+  test = which(dt$t > 15L)
+  graph = gunion(list(
+    po("learner", RecursiveForecaster$new(lrn("regr.featureless"), lags = 1L)),
+    po("learner", DirectForecaster$new(lrn("regr.featureless"), lags = 1L, horizons = 5L))
+  )) %>>%
+    po("fcst.avg")
+  learner = as_learner(graph)
+  learner$train(task, which(dt$t <= 15L))
+  prediction = learner$predict(task, test)
+  expect_identical(prediction$row_ids, test)
+  expect_equal(prediction$truth, dt$y[test])
+})
+
 test_that("PipeOpFcstAvg rejects members with different extra column roles", {
   make_pred = function(key) {
     PredictionFcst$new(

@@ -536,9 +536,9 @@ RecursiveForecaster = R6Class(
         set(combined, i = cids, j = target, value = prediction$response[match(cids, prediction$row_ids)])
       }
 
-      # concatenation is step-major; restore the (key, order)-major row order
-      out = reorder_prediction(do.call(c, preds), active_cids)
-      out_row_ids = task$row_ids[active_cids - n_train]
+      # concatenation is step-major; restore the task's row order
+      out = reorder_prediction(do.call(c, preds), test_cids)
+      out_row_ids = task$row_ids
       out_data = task$data(rows = out_row_ids, cols = c(target, key_cols, order_cols))
       new_data = list(
         row_ids = out_row_ids,

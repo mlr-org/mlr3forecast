@@ -237,6 +237,19 @@ test_that("targetboxcox works wrapping DirectForecaster on a keyed task", {
   expect_equal(nrow(prediction$order), length(split$test))
 })
 
+test_that("targetboxcox keeps truth aligned when predict rows are not in time order", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  flrn = as_learner(ppl(
+    "targettrafo",
+    graph = RecursiveForecaster$new(lrn("regr.featureless"), lags = 1:3),
+    trafo_pipeop = po("fcst.targetboxcox", lambda = 0)
+  ))
+  flrn$train(task, 1:132)
+  prediction = flrn$predict(task, rev(133:144))
+  expect_equal(prediction$truth, task$truth(prediction$row_ids))
+})
+
 test_that("targetboxcox works wrapping DirectForecaster", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")

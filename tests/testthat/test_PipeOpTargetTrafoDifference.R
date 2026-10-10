@@ -162,6 +162,21 @@ test_that("targetdiff works wrapping RecursiveForecaster on a keyed task", {
   expect_false(anyNA(prediction$response))
 })
 
+test_that("targetdiff keeps truth aligned with the rows of a time-major keyed backend", {
+  dt = data.table(t = rep(1:20, each = 2L), id = rep(c("a", "b"), 20L), y = rep(c(100, 0), 20L) + seq_len(40L))
+  task = as_task_fcst(as_data_backend(dt), target = "y", order = "t", key = "id")
+  test = which(dt$t > 15L)
+  flrn = as_learner(ppl(
+    "targettrafo",
+    graph = RecursiveForecaster$new(lrn("regr.featureless"), lags = 1:2),
+    trafo_pipeop = po("fcst.targetdiff")
+  ))
+  flrn$train(task, which(dt$t <= 15L))
+  prediction = flrn$predict(task, test)
+  expect_identical(prediction$row_ids, test)
+  expect_equal(prediction$truth, dt$y[test])
+})
+
 test_that("targetdiff works wrapping DirectForecaster", {
   skip_if_not_installed("rpart")
 

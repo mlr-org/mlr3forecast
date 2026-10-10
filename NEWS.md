@@ -46,6 +46,7 @@
 * fix: `generate_newdata()` keeps an integer time index integer instead of sometimes returning doubles.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
+* fix: `RecursiveForecaster` now returns predictions in the task's row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets `po("fcst.avg")` combine it with `DirectForecaster`.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
 * perf: `read_tsf()` builds calendar date indices arithmetically instead of through `ISOdate()`, which makes reading files with many series about 20 times faster.
 * perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
