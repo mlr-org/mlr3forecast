@@ -1,3 +1,16 @@
+# seconds per freq unit, calendar units use their average length, e.g. a month is 365.25 / 12 days
+unit_secs = c(
+  sec = 1,
+  min = 60,
+  hour = 3600,
+  day = 86400,
+  DSTday = 86400,
+  week = 604800,
+  month = 2629800,
+  quarter = 7889400,
+  year = 31557600
+)
+
 infer_freq = function(order) {
   order = sort(unique(order))
   if (length(order) < 2L) {
@@ -7,19 +20,20 @@ infer_freq = function(order) {
     return(stats::median(diff(order)))
   }
   secs = max(round(as.numeric(stats::median(diff(order)), units = "secs")), 1)
-  long = secs >= 2419200 # at least 28 days
-  if (secs == 604800) {
+  day = unit_secs[["day"]]
+  long = secs >= 28 * day
+  if (secs == unit_secs[["week"]]) {
     "week"
   } else if (long && uniqueN(mday(order)) == 1L) {
     # calendar-anchored data (constant day-of-month) gets calendar units
-    n_months = round(secs / 2629800)
+    n_months = round(secs / unit_secs[["month"]])
     if (n_months == 3L) "quarter" else if (n_months == 12L) "year" else sprintf("%g month", n_months)
-  } else if (long && secs %% 86400 != 0) {
+  } else if (long && secs %% day != 0) {
     # neither calendar-anchored nor whole days (e.g. month-end data), magnitude guess
-    if (secs <= 2678400) "month" else if (secs <= 7948800) "quarter" else "year"
+    if (secs <= 31 * day) "month" else if (secs <= 92 * day) "quarter" else "year"
   } else {
     # fixed-interval data gets exact multiples of the largest unit that divides the step
-    units = c(day = 86400, hour = 3600, min = 60, sec = 1)
+    units = unit_secs[c("day", "hour", "min", "sec")]
     unit = names(units)[secs %% units == 0][1L]
     sprintf("%g %s", secs / units[[unit]], unit)
   }
@@ -87,29 +101,17 @@ seq_order = function(origin, freq, n) {
 }
 
 unit_seconds = function(x) {
-  # calendar units use their average length, e.g. a month is 365.25 / 12 days
-  secs = c(
-    sec = 1,
-    min = 60,
-    hour = 3600,
-    day = 86400,
-    DSTday = 86400,
-    week = 604800,
-    month = 2629800,
-    quarter = 7889400,
-    year = 31557600
-  )
   parts = strsplit1(x, " ")
   n_parts = length(parts)
   n = if (n_parts == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
   unit = parts[n_parts]
-  if (unit %nin% names(secs)) {
+  if (unit %nin% names(unit_secs)) {
     unit = sub("s$", "", unit)
   }
-  if (is.na(n) || n <= 0 || unit %nin% names(secs)) {
+  if (is.na(n) || n <= 0 || unit %nin% names(unit_secs)) {
     return(NA_real_)
   }
-  n * secs[[unit]]
+  n * unit_secs[[unit]]
 }
 
 # observations per calendar cycle longer than one step, named by cycle
@@ -118,7 +120,7 @@ common_periods = function(freq) {
   if (is.na(step)) {
     return(numeric())
   }
-  cycles = c(min = 60, hour = 3600, day = 86400, week = 604800, year = 31557600)
+  cycles = unit_secs[c("min", "hour", "day", "week", "year")]
   periods = cycles / step
   sort(periods[periods > 1])
 }
