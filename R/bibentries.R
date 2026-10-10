@@ -50,6 +50,7 @@ bibentries = c(
     author = "Xiaozhe Wang and Kate Smith and Rob Hyndman",
     journal = "Data Mining and Knowledge Discovery",
     volume = "13",
+    number = "3",
     pages = "335--364",
     year = "2006",
     publisher = "Springer"
@@ -134,8 +135,8 @@ bibentries = c(
     "book",
     title = "The New S Language",
     author = "Richard A Becker and John M Chambers and Allan R Wilks",
-    publisher = "Chapman and Hall/CRC",
-    address = "London",
+    publisher = "Wadsworth & Brooks/Cole",
+    address = "Pacific Grove, CA",
     year = "1988"
   ),
   campbell1977lynx = bibentry(
@@ -200,11 +201,12 @@ bibentries = c(
     url = "https://openforecast.org/adam/"
   ),
   godahewa2021monash = bibentry(
-    "article",
+    "inproceedings",
     title = "Monash time series forecasting archive",
     author = "Rakshitha Godahewa and Christoph Bergmeir and Geoffrey I Webb and Rob J Hyndman and Pablo Montero-Manso",
-    journal = "arXiv preprint arXiv:2105.06643",
-    year = "2021"
+    booktitle = "Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks",
+    year = "2021",
+    url = "https://arxiv.org/abs/2105.06643"
   ),
   croston1972forecasting = bibentry(
     "article",
@@ -220,7 +222,7 @@ bibentries = c(
   shale2006forecasting = bibentry(
     "article",
     title = "Forecasting for intermittent demand: the estimation of an unbiased average",
-    author = "Estelle A Shale and John E Boylan and FR Johnston",
+    author = "Estelle A Shale and John E Boylan and F R Johnston",
     journal = "Journal of the Operational Research Society",
     volume = "57",
     number = "5",

@@ -69,7 +69,7 @@ Croston JD (1972).
 \dQuote{Forecasting and stock control for intermittent demands.}
 \emph{Journal of the Operational Research Society}, \bold{23}(3), 289--303.
 
-Shale EA, Boylan JE, Johnston F (2006).
+Shale EA, Boylan JE, Johnston FR (2006).
 \dQuote{Forecasting for intermittent demand: the estimation of an unbiased average.}
 \emph{Journal of the Operational Research Society}, \bold{57}(5), 588--592.
 

@@ -45,7 +45,7 @@ Campbell MJ, Walker AM (1977).
 
 Becker RA, Chambers JM, Wilks AR (1988).
 \emph{The New S Language}.
-Chapman and Hall/CRC, London.
+Wadsworth & Brooks/Cole, Pacific Grove, CA.
 }
 \seealso{
 \itemize{

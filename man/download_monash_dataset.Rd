@@ -49,5 +49,6 @@ bmr$aggregate(msr("regr.rmse"))[, .(rmse = mean(regr.rmse)), by = learner_id]
 \references{
 Godahewa R, Bergmeir C, Webb GI, Hyndman RJ, Montero-Manso P (2021).
 \dQuote{Monash time series forecasting archive.}
-\emph{arXiv preprint arXiv:2105.06643}.
+In \emph{Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks}.
+\url{https://arxiv.org/abs/2105.06643}.
 }
