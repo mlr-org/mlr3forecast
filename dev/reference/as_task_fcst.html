@@ -16,6 +16,8 @@ tsf: from tsf format data.
 tbl_ts: from tsibble objects.
 The index becomes the order column, where yearweek, yearmonth, and yearquarter indices are converted to
 dates.
+If freq is NULL, such an index sets it from the tsibble's interval,
+e.g. &quot;1 month&quot; for a monthly yearmonth index.
 The key variables become key columns, and all measured variables other than target become features.
 
 "><meta property="og:description" content="Convert object to a TaskFcst.
@@ -29,6 +31,8 @@ tsf: from tsf format data.
 tbl_ts: from tsibble objects.
 The index becomes the order column, where yearweek, yearmonth, and yearquarter indices are converted to
 dates.
+If freq is NULL, such an index sets it from the tsibble's interval,
+e.g. &quot;1 month&quot; for a monthly yearmonth index.
 The key variables become key columns, and all measured variables other than target become features.
 
 "><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
@@ -85,6 +89,8 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 <li><p><code>tbl_ts</code>: from tsibble objects.
 The index becomes the order column, where <code>yearweek</code>, <code>yearmonth</code>, and <code>yearquarter</code> indices are converted to
 dates.
+If <code>freq</code> is <code>NULL</code>, such an index sets it from the tsibble's interval,
+e.g. <code>"1 month"</code> for a monthly <code>yearmonth</code> index.
 The key variables become key columns, and all measured variables other than <code>target</code> become features.</p></li>
 </ol></div>
 

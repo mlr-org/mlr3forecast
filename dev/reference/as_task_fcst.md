@@ -23,8 +23,10 @@ objects:
 
 7.  `tbl_ts`: from tsibble objects. The index becomes the order column,
     where `yearweek`, `yearmonth`, and `yearquarter` indices are
-    converted to dates. The key variables become key columns, and all
-    measured variables other than `target` become features.
+    converted to dates. If `freq` is `NULL`, such an index sets it from
+    the tsibble's interval, e.g. `"1 month"` for a monthly `yearmonth`
+    index. The key variables become key columns, and all measured
+    variables other than `target` become features.
 
 ## Usage
 

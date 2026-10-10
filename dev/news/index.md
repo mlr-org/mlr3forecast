@@ -37,6 +37,10 @@
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   to forecast tasks.
 - feat:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  derives `freq` from a tsibble’s `yearweek`, `yearmonth`, or
+  `yearquarter` index.
+- feat:
   [`default_fallback()`](https://mlr3.mlr-org.com/reference/default_fallback.html)
   support for both forecasters, enabling `resample(encapsulate =)`
   without an explicit fallback.
