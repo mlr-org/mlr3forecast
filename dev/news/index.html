@@ -95,6 +95,7 @@
 <li>fix: <code><a href="../reference/generate_newdata.html">generate_newdata()</a></code> keeps an integer time index integer instead of sometimes returning doubles.</li>
 <li>fix: <code>msr("fcst.wape")</code> now ignores rows with a missing prediction in the denominator too, which previously understated the error.</li>
 <li>fix: <code><a href="../reference/read_tsf.html">read_tsf()</a></code> no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.</li>
+<li>fix: <code>RecursiveForecaster</code> now returns predictions in the task’s row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets <code>po("fcst.avg")</code> combine it with <code>DirectForecaster</code>.</li>
 <li>fix: <code>rsmp("fcst.cv")</code> and <code>rsmp("fcst.holdout")</code> now reject grouped tasks instead of creating invalid time-based splits.</li>
 <li>perf: <code><a href="../reference/read_tsf.html">read_tsf()</a></code> builds calendar date indices arithmetically instead of through <code><a href="https://rdrr.io/r/base/ISOdatetime.html" class="external-link">ISOdate()</a></code>, which makes reading files with many series about 20 times faster.</li>
 <li>perf: <code>RecursiveForecaster</code> now predicts all keys jointly per step instead of row by row, making keyed prediction roughly <code>n_keys</code> times faster.</li>

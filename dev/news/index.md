@@ -161,6 +161,10 @@
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   no longer prints the frequency and horizon of the file, which remain
   available as attributes of the returned object.
+- fix: `RecursiveForecaster` now returns predictions in the task’s row
+  order instead of sorted by key and time, which fixes misaligned truth
+  under target trafos and lets `po("fcst.avg")` combine it with
+  `DirectForecaster`.
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
   tasks instead of creating invalid time-based splits.
 - perf:
