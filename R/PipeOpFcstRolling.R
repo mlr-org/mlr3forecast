@@ -57,7 +57,7 @@ PipeOpFcstRolling = R6Class(
               return(ok)
             }
             finite = x[is.finite(x)]
-            if (length(finite) && !test_integerish(finite)) {
+            if (!test_integerish(finite)) {
               return("Finite window sizes must be whole numbers. Use `Inf` for an expanding window")
             }
             TRUE
