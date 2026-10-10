@@ -16,7 +16,7 @@
 #'   Default is `FALSE`.
 "_PACKAGE"
 
-utils::globalVariables(c(".idx", ".value", ".type", ".key", "..row_id", "R_user_dir"))
+utils::globalVariables(c(".idx", ".value", "..row_id", "R_user_dir"))
 
 mlr3forecast_resamplings = new.env(parent = emptyenv())
 mlr3forecast_tasks = new.env(parent = emptyenv())
