@@ -75,7 +75,7 @@ LearnerFcstStlm = R6Class(
 
     .fit = function(task, pv) {
       method = pv$method %??% "ets"
-      if (task$n_features > 0L && method != "arima") {
+      if (private$.has_exogenous(task) && method != "arima") {
         error_config(
           "`fcst.stlm` supports exogenous features only with `method = \"arima\"` (current method: \"%s\").",
           method

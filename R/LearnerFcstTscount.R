@@ -65,7 +65,7 @@ LearnerFcstTscount = R6Class(
       pv = remove_named(pv, names(model_args))
 
       xreg = NULL
-      if (task$n_features > 0L) {
+      if (private$.has_exogenous(task)) {
         xreg = as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE))
       }
 
@@ -96,7 +96,7 @@ LearnerFcstTscount = R6Class(
 
       model = self$native_model
       newxreg = NULL
-      if (task$n_features > 0L) {
+      if (private$.has_exogenous(task)) {
         newxreg = as_numeric_matrix(ordered_features(task, self))
       }
 
