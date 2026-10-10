@@ -34,6 +34,12 @@ out = po$train(list(task))[[1L]]
 out$head()
 \dontshow{\}) # examplesIf}
 }
+\references{
+Lubba CH, Sethi SS, Knaute P, Schultz SR, Fulcher BD, Jones NS (2019).
+\dQuote{catch22: CAnonical Time-series CHaracteristics.}
+\emph{Data Mining and Knowledge Discovery}, \bold{33}(6), 1821--1852.
+\doi{10.1007/s10618-019-00647-x}.
+}
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{PipeOpFcstCatch22}
 }

@@ -16,6 +16,9 @@
 #' The new columns are named `{target}_catch22_{feature}`. If the target was called `"y"` and the feature is
 #' `"DN_HistogramMode_5"`, the corresponding new column will be called `"y_catch22_DN_HistogramMode_5"`.
 #'
+#' @references
+#' `r format_bib("lubba2019catch22")`
+#'
 #' @export
 #' @examplesIf requireNamespace("Rcatch22", quietly = TRUE)
 #' library(mlr3pipelines)

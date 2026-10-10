@@ -82,6 +82,10 @@ predictions$score()
 \dontshow{\}) # examplesIf}
 }
 \references{
+Box GEP, Jenkins GM (1976).
+\emph{Time Series Analysis: Forecasting and Control}, Revised edition.
+Holden-Day, San Francisco.
+
 Hyndman RJ, Athanasopoulos G (2018).
 \emph{Forecasting: principles and practice}, 2nd edition.
 OTexts, Melbourne, Australia.

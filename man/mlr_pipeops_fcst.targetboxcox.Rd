@@ -80,6 +80,17 @@ flrn$predict(task, split$test)
 }
 \dontshow{\}) # examplesIf}
 }
+\references{
+Box GEP, Cox DR (1964).
+\dQuote{An Analysis of Transformations.}
+\emph{Journal of the Royal Statistical Society: Series B (Methodological)}, \bold{26}(2), 211--252.
+\doi{10.1111/j.2517-6161.1964.tb00553.x}.
+
+Guerrero VM (1993).
+\dQuote{Time-series analysis supported by power transformations.}
+\emph{Journal of Forecasting}, \bold{12}(1), 37--48.
+\doi{10.1002/for.3980120104}.
+}
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTargetTrafo]{mlr3pipelines::PipeOpTargetTrafo}} -> \code{PipeOpTargetTrafoBoxCox}
 }

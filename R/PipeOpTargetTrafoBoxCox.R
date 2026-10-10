@@ -29,6 +29,9 @@
 #'
 #' @template section_period
 #'
+#' @references
+#' `r format_bib("box1964analysis", "guerrero1993time")`
+#'
 #' @section Limitations:
 #' This PipeOp must not be placed *inside* a [RecursiveForecaster] or [DirectForecaster] graph and is rejected at
 #' construction. Use it inside a plain [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)`, or wrap the

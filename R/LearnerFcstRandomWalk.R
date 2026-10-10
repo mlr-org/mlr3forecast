@@ -10,6 +10,9 @@
 #' @templateVar id fcst.random_walk
 #' @template learner
 #'
+#' @references
+#' `r format_bib("hyndman2018fpp")`
+#'
 #' @export
 #' @template seealso_learner
 #' @template example

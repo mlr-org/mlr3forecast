@@ -122,6 +122,28 @@ bibentries = c(
     address = "San Francisco",
     year = "1976"
   ),
+  box1964analysis = bibentry(
+    "article",
+    title = "An Analysis of Transformations",
+    author = "George E P Box and David R Cox",
+    journal = "Journal of the Royal Statistical Society: Series B (Methodological)",
+    volume = "26",
+    number = "2",
+    pages = "211--252",
+    year = "1964",
+    doi = "10.1111/j.2517-6161.1964.tb00553.x"
+  ),
+  guerrero1993time = bibentry(
+    "article",
+    title = "Time-series analysis supported by power transformations",
+    author = "Victor M Guerrero",
+    journal = "Journal of Forecasting",
+    volume = "12",
+    number = "1",
+    pages = "37--48",
+    year = "1993",
+    doi = "10.1002/for.3980120104"
+  ),
   brockwell1991 = bibentry(
     "book",
     title = "Time Series: Theory and Methods",
@@ -459,6 +481,17 @@ bibentries = c(
     year = "2025",
     note = "R package version 0.2-3",
     url = "https://github.com/cbergmeir/Rlgt"
+  ),
+  lubba2019catch22 = bibentry(
+    "article",
+    title = "catch22: CAnonical Time-series CHaracteristics",
+    author = "Carl H Lubba and Sarab S Sethi and Philip Knaute and Simon R Schultz and Ben D Fulcher and Nick S Jones",
+    journal = "Data Mining and Knowledge Discovery",
+    volume = "33",
+    number = "6",
+    pages = "1821--1852",
+    year = "2019",
+    doi = "10.1007/s10618-019-00647-x"
   )
 )
 # nolint end

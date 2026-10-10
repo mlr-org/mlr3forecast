@@ -85,6 +85,11 @@ Ripley BD (1996).
 \emph{Pattern Recognition and Neural Networks}.
 Cambridge University Press.
 \doi{10.1017/cbo9780511812651}.
+
+Hyndman RJ, Athanasopoulos G (2018).
+\emph{Forecasting: principles and practice}, 2nd edition.
+OTexts, Melbourne, Australia.
+\url{https://OTexts.com/fpp2/}.
 }
 \seealso{
 \itemize{
