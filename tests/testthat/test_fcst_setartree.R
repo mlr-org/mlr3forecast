@@ -72,13 +72,13 @@ test_that("keyed prediction rejects unseen keys, gaps, and in-sample rows", {
   newdata = generate_newdata(task, n = 2L)
   expect_error(learner$predict_newdata(newdata, task), "not seen during training")
   newdata = newdata[series != "3"]
-  expect_error(learner$predict_newdata(newdata[-1L], task), "gap-free future grid.*'1'")
+  expect_error(learner$predict_newdata(newdata[-1L], task), "gap-free future grid")
   expect_error(learner$predict(task, 1:3), "not supported")
 })
 
 test_that("each series needs more than lag observations", {
   task = tgen("arima", k = 2L)$generate(8L)
-  expect_error(lrn("fcst.setartree", lag = 8L)$train(task), "too short")
+  expect_error(lrn("fcst.setartree", lag = 8L)$train(task), "more than `lag = 8`")
   expect_error(lrn("fcst.setartree", lag = 8L)$train(tsk("airpassengers"), 1:8), "more than `lag = 8`")
 })
 

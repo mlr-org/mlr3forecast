@@ -23,17 +23,8 @@ LearnerFcstSetar = R6Class(
       ]
 
       lag = pv$lag %??% 10L
-      short = lengths(series$.y) <= lag
-      if (any(short)) {
-        msg = sprintf("%s needs more than `lag = %i` observations per series", self$id, lag)
-        if (length(key_cols) > 0L) {
-          error_input(
-            "%s, but key group(s) %s are too short.",
-            msg,
-            str_collapse(key_labels(series[short], key_cols), quote = "'")
-          )
-        }
-        error_input("%s.", msg)
+      if (any(lengths(series$.y) <= lag)) {
+        error_input("%s needs more than `lag = %i` observations per series.", self$id, lag)
       }
 
       list(
@@ -75,19 +66,9 @@ LearnerFcstSetar = R6Class(
       }
 
       # step position of each row after the end of its series, the rows of a series must be its next steps
-      step = self$model$step
-      dt[, ".pos" := match(get(order_cols), seq_order(get(".origin")[1L], step, .N)), by = ".series"]
-      bad = is.na(dt$.pos) | duplicated(dt[, c(".series", ".pos"), with = FALSE])
-      if (any(bad)) {
-        msg = "Future rows must form the gap-free future grid following the training data"
-        if (length(key_cols) > 0L) {
-          error_input(
-            "%s. Offending key group(s): %s.",
-            msg,
-            str_collapse(key_labels(unique(dt[bad, key_cols, with = FALSE]), key_cols), quote = "'")
-          )
-        }
-        error_input("%s (last training index: %s).", msg, format(keys$.origin))
+      dt[, ".pos" := match(get(order_cols), seq_order(get(".origin")[1L], self$model$step, .N)), by = ".series"]
+      if (anyNA(dt$.pos) || anyDuplicated(dt, by = c(".series", ".pos"))) {
+        error_input("Future rows must form the gap-free future grid following the training data.")
       }
 
       series = sort(unique(dt$.series))
