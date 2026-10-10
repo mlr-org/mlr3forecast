@@ -184,19 +184,17 @@ resolve_measure_period = function(period, task) {
 }
 
 to_tsibble_index = function(order, freq) {
-  if (is.character(freq)) {
-    if (grepl("week", freq, fixed = TRUE)) {
-      return(tsibble::yearweek(order))
-    }
-    if (grepl("month", freq, fixed = TRUE)) {
-      return(tsibble::yearmonth(order))
-    }
-    if (grepl("quarter", freq, fixed = TRUE)) {
-      return(tsibble::yearquarter(order))
-    }
-    if (grepl("year", freq, fixed = TRUE) && inherits(order, c("Date", "POSIXct", "POSIXlt"))) {
-      return(year(order))
-    }
+  if (!is.character(freq)) {
+    order
+  } else if (grepl("week", freq, fixed = TRUE)) {
+    tsibble::yearweek(order)
+  } else if (grepl("month", freq, fixed = TRUE)) {
+    tsibble::yearmonth(order)
+  } else if (grepl("quarter", freq, fixed = TRUE)) {
+    tsibble::yearquarter(order)
+  } else if (grepl("year", freq, fixed = TRUE) && inherits(order, c("Date", "POSIXct", "POSIXlt"))) {
+    year(order)
+  } else {
+    order
   }
-  order
 }
