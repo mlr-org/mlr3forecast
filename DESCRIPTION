@@ -51,6 +51,7 @@ Suggests:
     Rcatch22,
     Rlgt (>= 0.2.3),
     rpart,
+    setartree,
     smooth (>= 4.5.2),
     testthat (>= 3.2.0),
     tidyselect,
@@ -111,6 +112,9 @@ Collate:
     'LearnerFcstProphet.R'
     'LearnerFcstRandomWalk.R'
     'LearnerFcstRlgt.R'
+    'LearnerFcstSetar.R'
+    'LearnerFcstSetarforest.R'
+    'LearnerFcstSetartree.R'
     'LearnerFcstSma.R'
     'LearnerFcstSnaive.R'
     'LearnerFcstSparma.R'

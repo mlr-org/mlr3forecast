@@ -80,3 +80,14 @@ as_numeric_matrix = function(x) {
   }
   x
 }
+
+with_preserved_seed = function(expr) {
+  seed = get0(".Random.seed", globalenv(), mode = "integer", inherits = FALSE)
+  if (is.null(seed)) {
+    stats::runif(1L)
+    seed = get0(".Random.seed", globalenv(), mode = "integer", inherits = FALSE)
+  }
+
+  on.exit(assign(".Random.seed", seed, globalenv()), add = TRUE)
+  force(expr)
+}

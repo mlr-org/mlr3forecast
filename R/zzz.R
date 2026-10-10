@@ -24,7 +24,7 @@ mlr3forecast_task_generators = new.env(parent = emptyenv())
 mlr3forecast_learners = new.env(parent = emptyenv())
 mlr3forecast_measures = new.env(parent = emptyenv())
 mlr3forecast_col_roles = "key"
-mlr3forecast_learner_properties = "exogenous"
+mlr3forecast_learner_properties = c("exogenous", "keys")
 mlr3forecast_task_print_col_roles = c("Key by" = "key")
 mlr3forecast_task_properties = c("ordered", "keys")
 mlr3forecast_pipeops = new.env(parent = emptyenv())

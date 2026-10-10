@@ -109,6 +109,8 @@ Other Learner:
 \code{\link{mlr_learners_fcst.prophet}},
 \code{\link{mlr_learners_fcst.random_walk}},
 \code{\link{mlr_learners_fcst.rlgt}},
+\code{\link{mlr_learners_fcst.setarforest}},
+\code{\link{mlr_learners_fcst.setartree}},
 \code{\link{mlr_learners_fcst.sma}},
 \code{\link{mlr_learners_fcst.snaive}},
 \code{\link{mlr_learners_fcst.sparma}},
@@ -206,6 +208,8 @@ If a learner is in a marshaled state, you call first need to call \verb{$unmarsh
 \item \code{"hotstart_forward"}: The learner supports to hotstart a model forward.
 \item \code{"hotstart_backward"}: The learner supports hotstarting a model backward.
 \item \code{"featureless"}: The learner does not use features.
+\item \code{"exogenous"}: The forecast learner uses task features as exogenous regressors.
+\item \code{"keys"}: The forecast learner supports tasks with keys, i.e. multiple series.
 }}
       \item{\code{packages}}{(\code{character()})\cr
 Set of required packages.

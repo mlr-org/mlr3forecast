@@ -134,6 +134,8 @@ Other Learner:
 \code{\link{mlr_learners_fcst.prophet}},
 \code{\link{mlr_learners_fcst.random_walk}},
 \code{\link{mlr_learners_fcst.rlgt}},
+\code{\link{mlr_learners_fcst.setarforest}},
+\code{\link{mlr_learners_fcst.setartree}},
 \code{\link{mlr_learners_fcst.sma}},
 \code{\link{mlr_learners_fcst.snaive}},
 \code{\link{mlr_learners_fcst.sparma}},
