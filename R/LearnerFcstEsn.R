@@ -124,10 +124,9 @@ LearnerFcstEsn = R6Class(
           function(i) stats::quantile(pred$sim[i, ], probs = probs, names = FALSE),
           numeric(length(probs))
         ),
-        nrow = length(probs),
-        ncol = nrow(pred$sim)
+        ncol = length(probs),
+        byrow = TRUE
       )
-      quantiles = t(quantiles)
       setattr(quantiles, "probs", probs)
       setattr(quantiles, "response", private$.quantile_response)
       insert_named(prediction, list(quantiles = quantiles))
