@@ -77,9 +77,7 @@ as_task_fcst.DataBackend = function(
   cn = x$colnames
   assert_choice(target, cn)
   assert_choice(order, cn)
-  if (length(key) > 0L) {
-    assert_subset(key, cn)
-  }
+  assert_subset(key, cn)
 
   TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
 }
@@ -102,10 +100,7 @@ as_task_fcst.data.frame = function(
   cn = names(x)
   assert_choice(target, cn)
   assert_choice(order, cn)
-  has_key = length(key) > 0L
-  if (has_key) {
-    assert_subset(key, cn)
-  }
+  assert_subset(key, cn)
 
   ii = which(map_lgl(keep(x, is.double), anyInfinite))
   if (length(ii) > 0L) {
@@ -120,18 +115,13 @@ as_task_fcst.data.frame = function(
     error_input("Order column '%s' must not contain missing values.", order)
   }
 
-  if (has_key && some(key, function(col) anyMissing(x[[col]]))) {
+  if (some(key, function(col) anyMissing(x[[col]]))) {
     error_input("Key column(s) %s must not contain missing values.", str_collapse(key, quote = "'"))
   }
 
   x = setorderv(as.data.table(x), c(key, order))
 
-  dup = if (has_key) {
-    anyDuplicated(x, by = c(key, order)) > 0L
-  } else {
-    anyDuplicated(x[[order]]) > 0L
-  }
-  if (dup) {
+  if (anyDuplicated(x, by = c(key, order)) > 0L) {
     error_input("`order` values must be unique for each time series.")
   }
 
