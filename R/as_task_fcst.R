@@ -209,8 +209,8 @@ as_task_fcst.timeSeries = function(x, freq = NULL, id = deparse1(substitute(x)),
 #' @rdname as_task_fcst
 #' @export
 as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
-  force(id)
   require_namespaces("tsibble")
+  force(id)
   order = tsibble::index_var(x)
   key = tsibble::key_vars(x)
   units = c(yearweek = "week", yearmonth = "month", yearquarter = "quarter")
