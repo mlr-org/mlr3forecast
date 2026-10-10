@@ -15,7 +15,7 @@ LearnerFcstForecTheta = R6Class(
       args = list(y = y, h = 1L, level = NULL)
 
       xreg = NULL
-      if ("exogenous" %chin% self$properties && task$n_features > 0L) {
+      if (private$.has_exogenous(task)) {
         xreg = as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE))
         args$xreg = rbind(xreg, rep(0, ncol(xreg)))
       }

@@ -90,6 +90,10 @@ LearnerFcst = R6Class(
       as.ts(task, period = self$param_set$values$period)
     },
 
+    .has_exogenous = function(task) {
+      "exogenous" %chin% self$properties && task$n_features > 0L
+    },
+
     # `period` is consumed by `.as_ts()`, never forwarded to the wrapped function
     .train_values = function() {
       remove_named(self$param_set$get_values(tags = "train"), "period")

@@ -31,10 +31,6 @@ LearnerFcstForecast = R6Class(
       private$.set_context(private$.fit(task, pv), task)
     },
 
-    .has_exogenous = function(task) {
-      "exogenous" %chin% self$properties && task$n_features > 0L
-    },
-
     .fit = function(task, pv) {
       args = set_names(list(private$.as_ts(task)), private$.y_arg)
       if (private$.has_exogenous(task)) {

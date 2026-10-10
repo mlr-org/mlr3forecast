@@ -31,7 +31,7 @@ LearnerFcstSmooth = R6Class(
         return(insert_named(prediction, list(response = response)))
       }
       args = list(h = task$nrow)
-      if ("exogenous" %chin% self$properties && task$n_features > 0L) {
+      if (private$.has_exogenous(task)) {
         args$newdata = as_numeric_matrix(ordered_features(task, self))
       }
       if (is_quantile) {
@@ -50,7 +50,7 @@ LearnerFcstSmooth = R6Class(
 
     .smooth_data = function(task) {
       y = private$.as_ts(task)
-      if ("exogenous" %nin% self$properties || task$n_features == 0L) {
+      if (!private$.has_exogenous(task)) {
         return(y)
       }
       mat = cbind(matrix(y, ncol = 1L), as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE)))
