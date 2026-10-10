@@ -55,7 +55,7 @@ LearnerFcstSetar = R6Class(
         assert_seen_keys(keys, dt, key_cols)
         set(dt, j = ".series", value = keys[dt, on = key_cols, which = TRUE])
       } else {
-        set(dt, j = ".series", value = rep_len(1L, nrow(dt)))
+        set(dt, j = ".series", value = 1L)
       }
       set(dt, j = ".origin", value = keys$.origin[dt$.series])
       if (any(dt[[order_cols]] <= dt$.origin)) {
