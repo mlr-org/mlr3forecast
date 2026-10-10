@@ -90,7 +90,7 @@ TaskGeneratorArima = R6Class(
           y = as.numeric(stats::arima.sim(model, n = n, sd = pv$sd)) + pv$mean
           if (pv$d > 0L) {
             # diffinv() prepends d zeros when integrating, drop them
-            y = diffinv(y, differences = pv$d)[-seq_len(pv$d)]
+            y = stats::diffinv(y, differences = pv$d)[-seq_len(pv$d)]
           }
           data.table(time = time, y = y)
         },
