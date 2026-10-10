@@ -25,7 +25,6 @@ LearnerFcstSetar = R6Class(
 
       list(
         model = private$.fit(series$.y, pv),
-        # forecast() starts from the end of the passed series, so keep the training history
         y = series$.y,
         keys = series[, c(key_cols, ".origin"), with = FALSE],
         key_cols = key_cols,
