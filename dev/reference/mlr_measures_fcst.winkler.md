@@ -65,6 +65,8 @@ task type, as the latter returns nothing:
 Winkler RL (1972). “A Decision-Theoretic Approach to Interval
 Estimation.” *Journal of the American Statistical Association*,
 **67**(337), 187–191.
+[doi:10.1080/01621459.1972.10481224](https://doi.org/10.1080/01621459.1972.10481224)
+.
 
 ## See also
 

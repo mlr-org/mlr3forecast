@@ -43,8 +43,9 @@ the associated sugar function
 ## References
 
 Godahewa R, Bergmeir C, Webb GI, Hyndman RJ, Montero-Manso P (2021).
-“Monash time series forecasting archive.” *arXiv preprint
-arXiv:2105.06643*.
+“Monash time series forecasting archive.” In *Proceedings of the Neural
+Information Processing Systems Track on Datasets and Benchmarks*.
+<https://arxiv.org/abs/2105.06643>.
 
 ## See also
 

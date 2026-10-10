@@ -62,7 +62,8 @@ Empty ParamSet
 ## References
 
 Koenker R, Bassett G (1978). “Regression Quantiles.” *Econometrica*,
-**46**(1), 33–50.
+**46**(1), 33–50. [doi:10.2307/1913643](https://doi.org/10.2307/1913643)
+.
 
 ## See also
 

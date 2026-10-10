@@ -74,7 +74,7 @@ or with the associated sugar function
 Haslett J, Raftery AE (1989). “Space-time Modelling with Long-memory
 Dependence: Assessing Ireland's Wind Power Resource.” *Journal of the
 Royal Statistical Society: Series C (Applied Statistics)*, **38**(1),
-1–21.
+1–50. [doi:10.2307/2347679](https://doi.org/10.2307/2347679) .
 
 Hyndman RJ, Khandakar Y (2008). “Automatic Time Series Forecasting: The
 forecast Package for R.” *Journal of Statistical Software*, **27**(3),

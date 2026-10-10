@@ -53,6 +53,8 @@ or with the associated sugar function
 
 Brockwell PJ, Davis RA (1991). *Time Series: Theory and Methods*, 2nd
 edition. Springer, New York.
+[doi:10.1007/978-1-4419-0320-4](https://doi.org/10.1007/978-1-4419-0320-4)
+.
 
 ## See also
 

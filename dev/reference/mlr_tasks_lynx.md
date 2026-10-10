@@ -15,6 +15,8 @@ from
 
 Brockwell PJ, Davis RA (1991). *Time Series: Theory and Methods*, 2nd
 edition. Springer, New York.
+[doi:10.1007/978-1-4419-0320-4](https://doi.org/10.1007/978-1-4419-0320-4)
+.
 
 ## Dictionary
 
@@ -50,8 +52,8 @@ Mackenzie River Series of Annual Canadian Lynx Trappings for the Years
 Society. Series A (General)*, **140**(4), 411–431.
 [doi:10.2307/2345277](https://doi.org/10.2307/2345277) .
 
-Becker RA, Chambers JM, Wilks AR (1988). *The New S Language*. Chapman
-and Hall/CRC, London.
+Becker RA, Chambers JM, Wilks AR (1988). *The New S Language*. Wadsworth
+& Brooks/Cole, Pacific Grove, CA.
 
 ## See also
 

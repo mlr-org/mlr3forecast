@@ -89,6 +89,8 @@ task type, as the latter returns nothing:
 
 Hyndman RJ, Koehler AB (2006). “Another look at measures of forecast
 accuracy.” *International Journal of Forecasting*, **22**(4), 679–688.
+[doi:10.1016/j.ijforecast.2006.03.001](https://doi.org/10.1016/j.ijforecast.2006.03.001)
+.
 
 ## See also
 

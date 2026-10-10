@@ -79,6 +79,18 @@ graph and is rejected at construction. Use it inside a plain
 via `ppl("targettrafo", ...)`, or wrap the forecaster itself with
 `ppl("targettrafo", ...)` so all horizons are inverted together.
 
+## References
+
+Box GEP, Cox DR (1964). “An Analysis of Transformations.” *Journal of
+the Royal Statistical Society: Series B (Methodological)*, **26**(2),
+211–252.
+[doi:10.1111/j.2517-6161.1964.tb00553.x](https://doi.org/10.1111/j.2517-6161.1964.tb00553.x)
+.
+
+Guerrero VM (1993). “Time-series analysis supported by power
+transformations.” *Journal of Forecasting*, **12**(1), 37–48.
+[doi:10.1002/for.3980120104](https://doi.org/10.1002/for.3980120104) .
+
 ## Super classes
 
 [`mlr3pipelines::PipeOp`](https://mlr3pipelines.mlr-org.com/reference/PipeOp.html)

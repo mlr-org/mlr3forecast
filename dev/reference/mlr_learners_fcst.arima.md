@@ -56,6 +56,9 @@ or with the associated sugar function
 
 ## References
 
+Box GEP, Jenkins GM (1976). *Time Series Analysis: Forecasting and
+Control*, Revised edition. Holden-Day, San Francisco.
+
 Hyndman RJ, Athanasopoulos G (2018). *Forecasting: principles and
 practice*, 2nd edition. OTexts, Melbourne, Australia.
 <https://OTexts.com/fpp2/>.

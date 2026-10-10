@@ -28,6 +28,14 @@ was called `"y"` and the feature is `"DN_HistogramMode_5"`, the
 corresponding new column will be called
 `"y_catch22_DN_HistogramMode_5"`.
 
+## References
+
+Lubba CH, Sethi SS, Knaute P, Schultz SR, Fulcher BD, Jones NS (2019).
+“catch22: CAnonical Time-series CHaracteristics.” *Data Mining and
+Knowledge Discovery*, **33**(6), 1821–1852.
+[doi:10.1007/s10618-019-00647-x](https://doi.org/10.1007/s10618-019-00647-x)
+.
+
 ## Super classes
 
 [`mlr3pipelines::PipeOp`](https://mlr3pipelines.mlr-org.com/reference/PipeOp.html)

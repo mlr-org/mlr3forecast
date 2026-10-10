@@ -42,9 +42,13 @@ or with the associated sugar function
 Assimakopoulos V, Nikolopoulos K (2000). “The theta model: a
 decomposition approach to forecasting.” *International Journal of
 Forecasting*, **16**(4), 521–530.
+[doi:10.1016/S0169-2070(00)00066-2](https://doi.org/10.1016/S0169-2070%2800%2900066-2)
+.
 
 Hyndman RJ, Billah B (2003). “Unmasking the Theta method.”
 *International Journal of Forecasting*, **19**(2), 287–290.
+[doi:10.1016/S0169-2070(01)00143-1](https://doi.org/10.1016/S0169-2070%2801%2900143-1)
+.
 
 ## See also
 

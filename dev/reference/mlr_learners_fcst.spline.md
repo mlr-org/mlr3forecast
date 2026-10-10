@@ -46,6 +46,8 @@ or with the associated sugar function
 Hyndman RJ, King ML, Pitrun I, Billah B (2005). “Local linear forecasts
 using cubic smoothing splines.” *Australian & New Zealand Journal of
 Statistics*, **47**(1), 87–99.
+[doi:10.1111/j.1467-842X.2005.00374.x](https://doi.org/10.1111/j.1467-842X.2005.00374.x)
+.
 
 ## See also
 

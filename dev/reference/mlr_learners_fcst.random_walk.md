@@ -42,6 +42,12 @@ or with the associated sugar function
 | npaths    | integer | 5000    |             | \\\[1, \infty)\\ |
 | period    | untyped | NULL    |             | \-               |
 
+## References
+
+Hyndman RJ, Athanasopoulos G (2018). *Forecasting: principles and
+practice*, 2nd edition. OTexts, Melbourne, Australia.
+<https://OTexts.com/fpp2/>.
+
 ## See also
 
 - Chapter in the [mlr3book](https://mlr3book.mlr-org.com/):

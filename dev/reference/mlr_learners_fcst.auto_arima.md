@@ -91,8 +91,10 @@ forecast Package for R.” *Journal of Statistical Software*, **27**(3),
 .
 
 Wang X, Smith K, Hyndman R (2006). “Characteristic-based clustering for
-time series data.” *Data Mining and Knowledge Discovery*, **13**,
+time series data.” *Data Mining and Knowledge Discovery*, **13**(3),
 335–364.
+[doi:10.1007/s10618-005-0039-x](https://doi.org/10.1007/s10618-005-0039-x)
+.
 
 ## See also
 

@@ -61,14 +61,19 @@ or with the associated sugar function
 Hyndman RJ, Koehler AB, Snyder RD, Grose S (2002). “A state space
 framework for automatic forecasting using exponential smoothing
 methods.” *International Journal of Forecasting*, **18**(3), 439–454.
+[doi:10.1016/S0169-2070(01)00110-8](https://doi.org/10.1016/S0169-2070%2801%2900110-8)
+.
 
 Hyndman RJ, Akram M, Archibald B (2008). “The admissible parameter space
 for exponential smoothing models.” *Annals of the Institute of
 Statistical Mathematics*, **60**(2), 407–426.
+[doi:10.1007/s10463-006-0109-x](https://doi.org/10.1007/s10463-006-0109-x)
+.
 
 Hyndman RJ, Koehler AB, Ord JK, Snyder RD (2008). *Forecasting with
 exponential smoothing: the state space approach*. Springer-Verlag.
-<https://robjhyndman.com/expsmooth/>.
+[doi:10.1007/978-3-540-71918-2](https://doi.org/10.1007/978-3-540-71918-2)
+. <https://robjhyndman.com/expsmooth/>.
 
 ## See also
 

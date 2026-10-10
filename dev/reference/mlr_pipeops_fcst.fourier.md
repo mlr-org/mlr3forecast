@@ -58,6 +58,8 @@ seasonality.
 De Livera AM, Hyndman RJ, Snyder RD (2011). “Forecasting time series
 with complex seasonal patterns using exponential smoothing.” *Journal of
 the American Statistical Association*, **106**(496), 1513–1527.
+[doi:10.1198/jasa.2011.tm09771](https://doi.org/10.1198/jasa.2011.tm09771)
+.
 
 Hyndman RJ, Khandakar Y (2008). “Automatic Time Series Forecasting: The
 forecast Package for R.” *Journal of Statistical Software*, **27**(3),

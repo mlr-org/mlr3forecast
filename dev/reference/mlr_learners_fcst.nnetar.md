@@ -61,6 +61,10 @@ University Press.
 [doi:10.1017/cbo9780511812651](https://doi.org/10.1017/cbo9780511812651)
 .
 
+Hyndman RJ, Athanasopoulos G (2018). *Forecasting: principles and
+practice*, 2nd edition. OTexts, Melbourne, Australia.
+<https://OTexts.com/fpp2/>.
+
 ## See also
 
 - Chapter in the [mlr3book](https://mlr3book.mlr-org.com/):
