@@ -57,14 +57,12 @@ LearnerFcstForecTheta = R6Class(
       if (!is.null(self$model$xreg)) {
         args$xreg = rbind(self$model$xreg, as_numeric_matrix(ordered_features(task, self)))
         n_regressors = length(pv$par_ini) - 3L
-        if (is.null(pv$lower)) {
-          pv$lower = c(-1e10, 0.1, 1, rep(-1e100, n_regressors))
-        } else if (length(pv$lower) == 3L) {
+        pv$lower = pv$lower %??% c(-1e10, 0.1, 1)
+        if (length(pv$lower) == 3L) {
           pv$lower = c(pv$lower, rep(-1e100, n_regressors))
         }
-        if (is.null(pv$upper)) {
-          pv$upper = c(1e10, 0.99, 1e10, rep(1e100, n_regressors))
-        } else if (length(pv$upper) == 3L) {
+        pv$upper = pv$upper %??% c(1e10, 0.99, 1e10)
+        if (length(pv$upper) == 3L) {
           pv$upper = c(pv$upper, rep(1e100, n_regressors))
         }
       }
