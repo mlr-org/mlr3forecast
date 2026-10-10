@@ -54,7 +54,7 @@ LearnerFcstForecTheta = R6Class(
       }
 
       args = list(y = model$y, h = task$nrow, level = NULL)
-      if ("exogenous" %chin% self$properties && !is.null(self$model$xreg)) {
+      if (!is.null(self$model$xreg)) {
         args$xreg = rbind(self$model$xreg, as_numeric_matrix(ordered_features(task, self)))
         n_regressors = length(pv$par_ini) - 3L
         if (is.null(pv$lower)) {
