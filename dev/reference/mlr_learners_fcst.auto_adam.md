@@ -36,9 +36,11 @@ or with the associated sugar function
 | model | untyped | "ZXZ" |  | \- |
 | lags | untyped | \- |  | \- |
 | orders | untyped | list(ar = c(3, 3), i = c(2, 1), ma = c(3, 3), select = TRUE) |  | \- |
+| constant | logical | FALSE | TRUE, FALSE | \- |
 | regressors | character | use | use, select, adapt | \- |
 | occurrence | character | none | none, auto, fixed, general, odds-ratio, inverse-odds-ratio, direct | \- |
 | distribution | untyped | c("dnorm", "dlaplace", "ds", "dgnorm", "dlnorm", "dinvgauss", |  | \- |
+| loss | character | likelihood | likelihood, MSE, MAE, HAM, LASSO, RIDGE, MSEh, TMSE, GTMSE, MSCE, [...](https://rdrr.io/r/base/dots.html) | \- |
 | outliers | character | ignore | ignore, use, select | \- |
 | holdout | logical | FALSE | TRUE, FALSE | \- |
 | persistence | untyped | NULL |  | \- |
@@ -238,7 +240,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 5.89 seconds
+#> Time elapsed: 3.43 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

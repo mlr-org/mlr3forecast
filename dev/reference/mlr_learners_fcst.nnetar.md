@@ -31,20 +31,27 @@ or with the associated sugar function
 
 ## Parameters
 
-|              |         |         |             |                       |
-|--------------|---------|---------|-------------|-----------------------|
-| Id           | Type    | Default | Levels      | Range                 |
-| p            | integer | \-      |             | \\\[0, \infty)\\      |
-| P            | integer | 1       |             | \\\[0, \infty)\\      |
-| size         | integer | NULL    |             | \\\[1, \infty)\\      |
-| repeats      | integer | 20      |             | \\(-\infty, \infty)\\ |
-| lambda       | untyped | NULL    |             | \-                    |
-| scale.inputs | logical | TRUE    | TRUE, FALSE | \-                    |
-| parallel     | logical | FALSE   | TRUE, FALSE | \-                    |
-| num.cores    | integer | 2       |             | \\\[1, \infty)\\      |
-| bootstrap    | logical | FALSE   | TRUE, FALSE | \-                    |
-| npaths       | integer | 1000    |             | \\\[1, \infty)\\      |
-| innov        | untyped | NULL    |             | \-                    |
+|              |         |         |             |                  |
+|--------------|---------|---------|-------------|------------------|
+| Id           | Type    | Default | Levels      | Range            |
+| p            | integer | \-      |             | \\\[0, \infty)\\ |
+| P            | integer | 1       |             | \\\[0, \infty)\\ |
+| size         | integer | NULL    |             | \\\[1, \infty)\\ |
+| repeats      | integer | 20      |             | \\\[1, \infty)\\ |
+| lambda       | untyped | NULL    |             | \-               |
+| scale.inputs | logical | TRUE    | TRUE, FALSE | \-               |
+| parallel     | logical | FALSE   | TRUE, FALSE | \-               |
+| num.cores    | integer | 2       |             | \\\[1, \infty)\\ |
+| decay        | numeric | 0       |             | \\\[0, \infty)\\ |
+| maxit        | integer | 100     |             | \\\[1, \infty)\\ |
+| rang         | numeric | 0.7     |             | \\\[0, \infty)\\ |
+| skip         | logical | FALSE   | TRUE, FALSE | \-               |
+| MaxNWts      | integer | 1000    |             | \\\[1, \infty)\\ |
+| abstol       | numeric | 1e-04   |             | \\\[0, \infty)\\ |
+| reltol       | numeric | 1e-08   |             | \\\[0, \infty)\\ |
+| bootstrap    | logical | FALSE   | TRUE, FALSE | \-               |
+| npaths       | integer | 1000    |             | \\\[1, \infty)\\ |
+| innov        | untyped | NULL    |             | \-               |
 
 ## References
 

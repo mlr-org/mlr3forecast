@@ -72,6 +72,12 @@
 - feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles`
   and `$quantile_response` fields that configure every compatible
   learner in the wrapped graph.
+- feat: `fcst.auto_adam` gained the `constant` and `loss` parameters,
+  which are passed on to
+  [`smooth::adam()`](https://rdrr.io/pkg/smooth/man/adam.html).
+- feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`,
+  `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to
+  [`nnet::nnet()`](https://rdrr.io/pkg/nnet/man/nnet.html).
 - feat: New learners `fcst.dotm`, `fcst.dstm`, `fcst.otm`,
   `fcst.stheta`, and `fcst.stm` wrap the theta methods from
   `forecTheta`.
