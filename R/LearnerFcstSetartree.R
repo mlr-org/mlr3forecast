@@ -7,9 +7,10 @@
 #' SETAR-Tree model, a regression tree whose node splits follow self-exciting threshold autoregressive models,
 #' with pooled linear autoregressive models in its leaves.
 #' The tree depth is controlled by a statistical linearity test and the error reduction of each split.
-#' Multi-step forecasts are produced recursively,
+#' On a task with keys, a single global model is trained on the pooled series, so it learns across series.
+#' Multi-step forecasts are produced recursively for each series,
 #' and quantiles are derived from normal prediction intervals based on the residual standard deviation of each leaf.
-#' In-sample prediction is not supported.
+#' Every series needs more than `lag` observations, and only the future rows after each series can be predicted.
 #' Calls [setartree::setartree()] from package \CRANpkg{setartree}.
 #'
 #' @section Initial parameter values:
@@ -48,7 +49,7 @@ LearnerFcstSetartree = R6Class(
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = unname(mlr_reflections$task_feature_types),
-        properties = "featureless",
+        properties = c("featureless", "keys"),
         packages = c("mlr3forecast", "setartree"),
         label = "SETAR-Tree",
         man = "mlr3forecast::mlr_learners_fcst.setartree"

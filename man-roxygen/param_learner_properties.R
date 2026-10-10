@@ -15,3 +15,5 @@
 #'   * `"hotstart_forward"`: The learner supports to hotstart a model forward.
 #'   * `"hotstart_backward"`: The learner supports hotstarting a model backward.
 #'   * `"featureless"`: The learner does not use features.
+#'   * `"exogenous"`: The forecast learner uses task features as exogenous regressors.
+#'   * `"keys"`: The forecast learner supports tasks with keys, i.e. multiple series.

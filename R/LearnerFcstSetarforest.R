@@ -7,9 +7,10 @@
 #' SETAR-Forest model, a bagged ensemble of SETAR-Trees whose forecasts are averaged.
 #' Each tree is trained on a random subset of the lagged training instances,
 #' and by default with randomly drawn significance, significance divider, and error threshold.
-#' Multi-step forecasts are produced recursively,
+#' On a task with keys, a single global forest is trained on the pooled series, so it learns across series.
+#' Multi-step forecasts are produced recursively for each series,
 #' and quantiles are derived from normal prediction intervals based on the residual standard deviations of the leaves.
-#' In-sample prediction is not supported.
+#' Every series needs more than `lag` observations, and only the future rows after each series can be predicted.
 #' Calls [setartree::setarforest()] from package \CRANpkg{setartree}.
 #'
 #' The forest is deterministic, since [setartree::setarforest()] seeds the training of each tree with its index.
@@ -65,7 +66,7 @@ LearnerFcstSetarforest = R6Class(
         param_set = param_set,
         predict_types = c("response", "quantiles"),
         feature_types = unname(mlr_reflections$task_feature_types),
-        properties = "featureless",
+        properties = c("featureless", "keys"),
         packages = c("mlr3forecast", "setartree"),
         label = "SETAR-Forest",
         man = "mlr3forecast::mlr_learners_fcst.setarforest"

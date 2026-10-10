@@ -42,3 +42,48 @@ test_that("in-sample prediction is not supported", {
   learner$train(task, 1:132)
   expect_error(learner$predict(task, 1:12), "not supported")
 })
+
+test_that("keyed tasks fit one global model across series", {
+  task = tgen("arima", k = 3L)$generate(40L)
+  learner = lrn("fcst.setartree", lag = 4L)
+  learner$train(task)
+  expect_class(learner$native_model, "setartree")
+
+  newdata = generate_newdata(task, n = 3L)
+  pred = learner$predict_newdata(newdata, task)
+  expect_identical(pred$data$col_roles$key, "series")
+
+  dt = task$data(cols = c("series", "time", "y"), ordered = TRUE)
+  y = split(dt$y, dt$series)
+  expected = map(generics::forecast(learner$native_model, newdata = unname(y), h = 3L)$forecast, "mean")
+  expect_equal(pred$response, as.numeric(unlist(expected)))
+
+  # rows of a subset of keys in arbitrary order map back to their own series and step
+  shuffled = newdata[c(9L, 4L, 7L, 5L, 8L, 6L)]
+  pred = learner$predict_newdata(shuffled, task)
+  expect_equal(pred$response, as.numeric(unlist(expected))[c(9L, 4L, 7L, 5L, 8L, 6L)])
+})
+
+test_that("keyed prediction rejects unseen keys, gaps, and in-sample rows", {
+  task = tgen("arima", k = 3L)$generate(40L)
+  learner = lrn("fcst.setartree", lag = 4L)
+  learner$train(task, task$row_ids[task$data(cols = "series")$series != "3"])
+
+  newdata = generate_newdata(task, n = 2L)
+  expect_error(learner$predict_newdata(newdata, task), "not seen during training")
+  newdata = newdata[series != "3"]
+  expect_error(learner$predict_newdata(newdata[-1L], task), "gap-free future grid.*'1'")
+  expect_error(learner$predict(task, 1:3), "not supported")
+})
+
+test_that("each series needs more than lag observations", {
+  task = tgen("arima", k = 2L)$generate(8L)
+  expect_error(lrn("fcst.setartree", lag = 8L)$train(task), "too short")
+  expect_error(lrn("fcst.setartree", lag = 8L)$train(tsk("airpassengers"), 1:8), "more than `lag = 8`")
+})
+
+test_that("resampling works on keyed tasks", {
+  task = tgen("arima", k = 3L)$generate(40L)
+  rr = resample(task, lrn("fcst.setartree", lag = 4L), rsmp("fcst.holdout", ratio = 0.8))
+  expect_number(rr$aggregate(msr("regr.mae")), finite = TRUE)
+})

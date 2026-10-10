@@ -104,7 +104,7 @@ LearnerFcst = R6Class(
       if ("ordered" %nin% properties) {
         error_input("%s learner requires an ordered task.", self$id)
       }
-      if ("keys" %chin% properties) {
+      if ("keys" %chin% properties && "keys" %nin% self$properties) {
         error_input("%s learner does not support tasks with keys.", self$id)
       }
       invisible()

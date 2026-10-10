@@ -13,7 +13,12 @@ test_that("autotest", {
 test_that("paramtest", {
   learner = lrn("fcst.setarforest")
   expect_true(
-    run_paramtest(learner, setartree::setarforest, tag = "train", exclude = c("data", "label", "categorical_covariates"))
+    run_paramtest(
+      learner,
+      setartree::setarforest,
+      tag = "train",
+      exclude = c("data", "label", "categorical_covariates")
+    )
   )
 })
 
@@ -32,6 +37,15 @@ test_that("response and quantile prediction work", {
   quantiles = learner$predict(task, 133:144)$quantiles
   expect_matrix(quantiles, nrows = 12L, ncols = 3L)
   expect_all_true(apply(quantiles, 1L, function(x) !is.unsorted(x)))
+})
+
+test_that("keyed tasks fit one global forest across series", {
+  task = tgen("arima", k = 3L)$generate(40L)
+  learner = lrn("fcst.setarforest", lag = 4L, bagging_freq = 2L)
+  learner$train(task)
+  pred = learner$predict_newdata(generate_newdata(task, n = 3L), task)
+  expect_numeric(pred$response, finite = TRUE, any.missing = FALSE, len = 9L)
+  expect_identical(pred$data$col_roles$key, "series")
 })
 
 test_that("training keeps the global rng state", {
