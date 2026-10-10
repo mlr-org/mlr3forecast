@@ -502,7 +502,7 @@ RecursiveForecaster = R6Class(
       combined = rbindlist(list(train_data, test_data), use.names = TRUE, fill = TRUE)
       n_train = nrow(train_data)
       n_test = nrow(test_data)
-      test_cids = seq.int(n_train + 1L, n_train + n_test)
+      test_cids = n_train + seq_len(n_test)
       if (!is.double(combined[[target]])) {
         set(combined, j = target, value = as.numeric(combined[[target]]))
       }
