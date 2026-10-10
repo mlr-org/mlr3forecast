@@ -82,10 +82,8 @@ and the drift per step for <code>d = 1</code>.</p>
     <h2 id="task-structure">Task structure<a class="anchor" aria-label="anchor" href="#task-structure"></a></h2>
 
 
-<p>The generated <a href="TaskFcst.html">TaskFcst</a> has the target <code>y</code> and the order column <code>time</code>, a regular index starting at <code>start</code> with
-step <code>freq</code>.
-A calendar <code>freq</code> such as <code>"month"</code> yields dates, a numeric <code>freq</code> yields the integers <code>1, ..., n</code> and is stored as
-the frequency of the task.
+<p>The generated <a href="TaskFcst.html">TaskFcst</a> has the target <code>y</code> and the order column <code>time</code>, a regular calendar index starting at
+<code>start</code> with step <code>freq</code>.
 With <code>k &gt; 1</code>, <code>k</code> independent series are stacked into a keyed panel with the key column <code>series</code>, so <code>n</code> is the
 length of each series and the task has <code>n * k</code> rows.</p>
     </div>
@@ -144,14 +142,14 @@ running session (depending on the loaded packages).</p></li>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">generator</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"arima"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span> <span class="op">=</span> <span class="va">generator</span><span class="op">$</span><span class="fu">generate</span><span class="op">(</span><span class="fl">60</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">task</span><span class="op">$</span><span class="fu">head</span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           y</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       &lt;num&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1: 1.580073</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2: 2.033731</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3: 1.528938</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4: 2.331455</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5: 2.177664</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6: 2.020195</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>             y</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>         &lt;num&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1: -0.9097209</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2: -1.6880591</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3: -1.8292988</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4: -0.3899206</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5: -1.3366492</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6: -0.2272970</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># random walk with drift, 3 series</span></span></span>
 <span class="r-in"><span><span class="va">generator</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">tgen</a></span><span class="op">(</span><span class="st">"arima"</span>, ar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="op">)</span>, d <span class="op">=</span> <span class="fl">1L</span>, mean <span class="op">=</span> <span class="fl">0.5</span>, k <span class="op">=</span> <span class="fl">3L</span><span class="op">)</span></span></span>

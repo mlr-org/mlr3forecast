@@ -30,11 +30,12 @@ or with the associated sugar function
 
 ## Parameters
 
-|       |           |         |                   |              |
-|-------|-----------|---------|-------------------|--------------|
-| Id    | Type      | Default | Levels            | Range        |
-| alpha | numeric   | 0.1     |                   | \\\[0, 1\]\\ |
-| type  | character | croston | croston, sba, sbj | \-           |
+|        |           |         |                   |              |
+|--------|-----------|---------|-------------------|--------------|
+| Id     | Type      | Default | Levels            | Range        |
+| alpha  | numeric   | 0.1     |                   | \\\[0, 1\]\\ |
+| type   | character | croston | croston, sba, sbj | \-           |
+| period | untyped   | NULL    |                   | \-           |
 
 ## References
 

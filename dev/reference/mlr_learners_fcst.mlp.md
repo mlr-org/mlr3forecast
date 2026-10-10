@@ -52,6 +52,7 @@ or with the associated sugar function
 | hd.auto.type     | character | set     | set, valid, cv, elm | \-               |
 | hd.max           | integer   | NULL    |                     | \\\[1, \infty)\\ |
 | retrain          | logical   | FALSE   | TRUE, FALSE         | \-               |
+| period           | untyped   | NULL    |                     | \-               |
 
 ## References
 

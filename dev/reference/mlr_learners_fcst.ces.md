@@ -42,6 +42,7 @@ or with the associated sugar function
 | bounds | character | admissible | admissible, none |
 | silent | logical | TRUE | TRUE, FALSE |
 | regressors | character | use | use, select, adapt |
+| period | untyped | NULL |  |
 
 ## References
 

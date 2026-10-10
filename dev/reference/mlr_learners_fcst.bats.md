@@ -45,6 +45,7 @@ or with the associated sugar function
 | bc.lower         | numeric | 0       |             | \\(-\infty, \infty)\\ |
 | bc.upper         | numeric | 1       |             | \\(-\infty, \infty)\\ |
 | biasadj          | logical | FALSE   | TRUE, FALSE | \-                    |
+| period           | untyped | NULL    |             | \-                    |
 
 ## References
 

@@ -40,6 +40,7 @@ or with the associated sugar function
 | ic     | character | AICc    | AICc, AIC, BIC, BICc | \-               |
 | silent | logical   | TRUE    | TRUE, FALSE          | \-               |
 | fast   | logical   | TRUE    | TRUE, FALSE          | \-               |
+| period | untyped   | NULL    |                      | \-               |
 
 ## References
 
@@ -219,7 +220,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.02 seconds
+#> Time elapsed: 0.01 seconds
 #> Model estimated using sma() function: SMA(1)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

@@ -47,6 +47,7 @@ or with the associated sugar function
 | npaths | integer | 5000 |  | \\\[1, \infty)\\ |
 | lambda | untyped | NULL |  | \- |
 | biasadj | logical | FALSE | TRUE, FALSE | \- |
+| period | untyped | NULL |  | \- |
 
 ## References
 

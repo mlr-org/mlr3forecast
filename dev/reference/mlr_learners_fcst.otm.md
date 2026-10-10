@@ -41,6 +41,7 @@ or with the associated sugar function
 | lower      | untyped   | c(-1e+10, 0.1, 1)     |                               |
 | upper      | untyped   | c(1e+10, 0.99, 1e+10) |                               |
 | opt.method | character | Nelder-Mead           | Nelder-Mead, L-BFGS-B, SANN   |
+| period     | untyped   | NULL                  |                               |
 
 ## References
 

@@ -58,6 +58,7 @@ or with the associated sugar function
 | fn         | untyped | \-      | \-               |
 | num        | integer | 100     | \\\[1, \infty)\\ |
 | block_size | integer | NULL    | \\\[1, \infty)\\ |
+| period     | untyped | NULL    | \-               |
 
 ## References
 

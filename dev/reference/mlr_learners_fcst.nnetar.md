@@ -52,6 +52,7 @@ or with the associated sugar function
 | bootstrap    | logical | FALSE   | TRUE, FALSE | \-               |
 | npaths       | integer | 1000    |             | \\\[1, \infty)\\ |
 | innov        | untyped | NULL    |             | \-               |
+| period       | untyped | NULL    |             | \-               |
 
 ## References
 

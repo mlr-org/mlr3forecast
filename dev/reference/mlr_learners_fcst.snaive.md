@@ -1,10 +1,9 @@
 # Seasonal Naive Forecast Learner
 
 Seasonal naive model. Each forecast equals the last observed value from
-the same season, with the seasonal period taken from the task frequency,
-rounded to the nearest integer and bounded below by one. For
-non-seasonal tasks this reduces to the naive (random walk) forecast.
-Calls
+the same season, with the seasonal period `period` rounded to the
+nearest integer and bounded below by one. For non-seasonal tasks this
+reduces to the naive (random walk) forecast. Calls
 [`forecast::rw_model()`](https://pkg.robjhyndman.com/forecast/reference/rw_model.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast)
 with `lag` set to the seasonal period.
@@ -48,6 +47,7 @@ or with the associated sugar function
 | simulate  | logical | FALSE   | TRUE, FALSE | \-               |
 | bootstrap | logical | FALSE   | TRUE, FALSE | \-               |
 | npaths    | integer | 5000    |             | \\\[1, \infty)\\ |
+| period    | untyped | NULL    |             | \-               |
 
 ## References
 

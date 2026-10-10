@@ -69,6 +69,8 @@ every row. For a keyed task each key contributes one feature vector.</p>
 <p>The parameters are the parameters inherited from <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTaskPreproc.html" class="external-link">mlr3pipelines::PipeOpTaskPreproc</a>, as well as:</p><ul><li><p><code>features</code> :: <code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code><br>
 Function names from the <code>tsfeatures</code> namespace that return numeric feature vectors. Default
 <code>c("frequency", "stl_features", "entropy", "acf_features")</code>.</p></li>
+<li><p><code>period</code> :: <code>character(1)</code> | <code>numeric(1)</code> | <code>NULL</code><br>
+Seasonal period passed to the feature functions as the frequency of each series. Default <code>NULL</code>.</p></li>
 <li><p><code>scale</code> :: <code>logical(1)</code><br>
 If <code>TRUE</code>, scale each series to mean 0 and sd 1 before feature extraction. Default <code>TRUE</code>.</p></li>
 <li><p><code>trim</code> :: <code>logical(1)</code><br>
@@ -82,6 +84,20 @@ Function from the <code>future</code> package used when <code>parallel = TRUE</c
 <li><p><code>na.action</code> :: <code>function</code><br>
 Missing-value handler. Default <code><a href="https://rdrr.io/r/stats/na.fail.html" class="external-link">stats::na.pass()</a></code>.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="seasonal-period">Seasonal period<a class="anchor" aria-label="anchor" href="#seasonal-period"></a></h2>
+
+
+<p>The seasonal period is not stored in the task.
+It is set by the <code>period</code> hyperparameter, in observations per cycle.
+Either a positive number such as <code>12</code>, or a cycle name resolved against the task's <code>freq</code> such as <code>"year"</code> or
+<code>"week"</code>.
+The cycle names a calendar <code>freq</code> implies and the periods they resolve to are:</p><table class="table table"><tr><td><code>freq</code></td><td><code>"hour"</code></td><td><code>"day"</code></td><td><code>"week"</code></td><td><code>"year"</code></td></tr><tr><td><code>"min"</code></td><td>60</td><td>1440</td><td>10080</td><td>525960</td></tr><tr><td><code>"hour"</code></td><td></td><td>24</td><td>168</td><td>8766</td></tr><tr><td><code>"day"</code></td><td></td><td></td><td>7</td><td>365.25</td></tr><tr><td><code>"week"</code></td><td></td><td></td><td></td><td>52.18</td></tr><tr><td><code>"month"</code></td><td></td><td></td><td></td><td>12</td></tr><tr><td><code>"quarter"</code></td><td></td><td></td><td></td><td>4</td></tr></table><p>A multiple of a unit divides the period, e.g. <code>"30 min"</code> resolves <code>"day"</code> to <code>48</code>.
+If <code>period</code> is <code>NULL</code> (default), it is the day for sub-daily data (the hour below a minute), the week for daily
+data, and the year for longer steps, skipping a cycle of fewer than four observations for the next longer one.
+This gives e.g. <code>12</code> for monthly, <code>4</code> for quarterly, <code>7</code> for daily, <code>24</code> for hourly, and <code>48</code> for half-hourly data.
+Without a calendar <code>freq</code>, the default is <code>1</code>, i.e. no seasonality.</p>
+    </div>
     <div class="section level2">
     <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
     <p><code><a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">mlr3pipelines::PipeOp</a></code> -&gt; <code><a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTaskPreproc.html" class="external-link">mlr3pipelines::PipeOpTaskPreproc</a></code> -&gt; <code>PipeOpFcstTsfeats</code></p>

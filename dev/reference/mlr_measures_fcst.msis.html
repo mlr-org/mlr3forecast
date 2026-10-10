@@ -77,8 +77,21 @@ $$
 $$
 where \(z\) is the training series, \(m\) is the seasonal period, and \(T\) is the length of
 the training series. For keyed tasks the score is computed per series and averaged.
-If <code>period</code> is <code>NULL</code> (default), the seasonal period is derived from <code>task$freq</code> and rounded to the nearest
-positive integer, falling back to one when the task frequency is unavailable.</p>
+<code>period</code> is the seasonal lag of the naive benchmark, rounded to the nearest positive integer.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="seasonal-period">Seasonal period<a class="anchor" aria-label="anchor" href="#seasonal-period"></a></h2>
+
+
+<p>The seasonal period is not stored in the task.
+It is set by the <code>period</code> hyperparameter, in observations per cycle.
+Either a positive number such as <code>12</code>, or a cycle name resolved against the task's <code>freq</code> such as <code>"year"</code> or
+<code>"week"</code>.
+The cycle names a calendar <code>freq</code> implies and the periods they resolve to are:</p><table class="table table"><tr><td><code>freq</code></td><td><code>"hour"</code></td><td><code>"day"</code></td><td><code>"week"</code></td><td><code>"year"</code></td></tr><tr><td><code>"min"</code></td><td>60</td><td>1440</td><td>10080</td><td>525960</td></tr><tr><td><code>"hour"</code></td><td></td><td>24</td><td>168</td><td>8766</td></tr><tr><td><code>"day"</code></td><td></td><td></td><td>7</td><td>365.25</td></tr><tr><td><code>"week"</code></td><td></td><td></td><td></td><td>52.18</td></tr><tr><td><code>"month"</code></td><td></td><td></td><td></td><td>12</td></tr><tr><td><code>"quarter"</code></td><td></td><td></td><td></td><td>4</td></tr></table><p>A multiple of a unit divides the period, e.g. <code>"30 min"</code> resolves <code>"day"</code> to <code>48</code>.
+If <code>period</code> is <code>NULL</code> (default), it is the day for sub-daily data (the hour below a minute), the week for daily
+data, and the year for longer steps, skipping a cycle of fewer than four observations for the next longer one.
+This gives e.g. <code>12</code> for monthly, <code>4</code> for quarterly, <code>7</code> for daily, <code>24</code> for hourly, and <code>48</code> for half-hourly data.
+Without a calendar <code>freq</code>, the default is <code>1</code>, i.e. no seasonality.</p>
     </div>
     <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
@@ -111,7 +124,7 @@ List them via the key prefix, not the task type, as the latter returns nothing:<
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>alpha</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td></tr><tr><td>period</td><td>integer</td><td>NULL</td><td>\([1, \infty)\)</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Range</td></tr><tr><td>alpha</td><td>numeric</td><td>-</td><td>\([0, 1]\)</td></tr><tr><td>period</td><td>untyped</td><td>NULL</td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Gneiting T, Raftery AE (2007).

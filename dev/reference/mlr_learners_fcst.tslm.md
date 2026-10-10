@@ -6,8 +6,8 @@ from package [forecast](https://CRAN.R-project.org/package=forecast).
 
 If `formula` is not set, the model is fit with the `trend` term of
 [`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
-plus all features. The `season` term is included when the task frequency
-is greater than one.
+plus all features. The `season` term is included when the seasonal
+period is greater than one.
 
 ## Dictionary
 
@@ -41,6 +41,7 @@ or with the associated sugar function
 | formula | untyped | \-      |             |
 | lambda  | untyped | NULL    |             |
 | biasadj | logical | FALSE   | TRUE, FALSE |
+| period  | untyped | NULL    |             |
 
 ## References
 

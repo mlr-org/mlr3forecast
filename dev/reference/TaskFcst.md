@@ -87,8 +87,9 @@ Other Task:
 
 - `freq`:
 
-  (`character(1)` \| `numeric(1)` \| `NULL`)  
-  The frequency of the time series.
+  (`character(1)` \| `NULL`)  
+  The step of the time index, i.e. the spacing between two consecutive
+  observations, or `NULL` if it is inferred from the order column.
 
 - `properties`:
 
@@ -244,14 +245,15 @@ provides an alternative way to construct forecast tasks.
 
 - `freq`:
 
-  (`character(1)` \| `numeric(1)` \| `NULL`)  
-  Frequency of the time series. A
-  [`seq()`](https://rdrr.io/r/base/seq.html)-compatible string gives the
-  calendar step of the time grid, e.g. `"1 month"`, `"day"`,
-  `"3 months"`, `"1 hour"`, `"week"`. A positive number gives the
-  seasonal period (as in
-  [`stats::ts()`](https://rdrr.io/r/stats/ts.html)) for an integer or
-  numeric order column; the grid step is then inferred from the data.
+  (`character(1)` \| `NULL`)  
+  Step of the time index, i.e. the spacing between two consecutive
+  observations. A [`seq()`](https://rdrr.io/r/base/seq.html)-compatible
+  string for a `Date` or `POSIXct` order column, e.g. `"1 month"`,
+  `"day"`, `"3 months"`, `"1 hour"`, `"week"`. If `NULL` (default), the
+  step is inferred from the order column, which is required for a
+  numeric or integer order column. This is *not* the seasonal period,
+  which learners, measures, and pipeops take as their `period`
+  hyperparameter.
 
 - `label`:
 

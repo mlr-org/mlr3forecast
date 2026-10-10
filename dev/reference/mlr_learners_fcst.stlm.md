@@ -53,6 +53,7 @@ or with the associated sugar function
 | lambda | untyped | NULL |  | \- |
 | biasadj | logical | FALSE | TRUE, FALSE | \- |
 | allow.multiplicative.trend | logical | FALSE | TRUE, FALSE | \- |
+| period | untyped | NULL |  | \- |
 
 ## References
 
@@ -363,8 +364,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x561f75519510>
-#> <environment: 0x561f755025e0>
+#> <bytecode: 0x5649464694d8>
+#> <environment: 0x56494646eef0>
 #> 
 #> $lambda
 #> NULL

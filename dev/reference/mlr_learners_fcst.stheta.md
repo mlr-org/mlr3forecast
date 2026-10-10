@@ -36,6 +36,7 @@ or with the associated sugar function
 | Id     | Type      | Default        | Levels                        |
 | s_type | character | multiplicative | multiplicative, additive, stl |
 | s_test | untyped   | "default"      |                               |
+| period | untyped   | NULL           |                               |
 
 ## References
 

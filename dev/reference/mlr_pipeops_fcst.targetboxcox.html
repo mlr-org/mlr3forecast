@@ -81,6 +81,8 @@ error. A negative estimated <code>lambda</code> can make <code><a href="https://
 <p>The parameters are the parameters inherited from <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTargetTrafo.html" class="external-link">mlr3pipelines::PipeOpTargetTrafo</a>, as well as the following:</p><ul><li><p><code>lambda</code> :: <code>numeric(1)</code> | <code>NULL</code><br>
 Box-Cox transformation parameter. <code>NULL</code> (default) estimates it from the training data, <code>0</code> is the log
 transformation, any other numeric is used as a fixed value.</p></li>
+<li><p><code>period</code> :: <code>character(1)</code> | <code>numeric(1)</code> | <code>NULL</code><br>
+Seasonal period of the series when estimating <code>lambda</code>. Default <code>NULL</code>.</p></li>
 <li><p><code>method</code> :: <code>character(1)</code><br>
 Method used to estimate <code>lambda</code> when <code>lambda = NULL</code>, one of <code>"guerrero"</code> (default) or <code>"loglik"</code>. See
 <code><a href="https://pkg.robjhyndman.com/forecast/reference/BoxCox.lambda.html" class="external-link">forecast::BoxCox.lambda()</a></code>.</p></li>
@@ -89,6 +91,20 @@ Lower bound for the estimated <code>lambda</code>. Default <code>-1</code>.</p><
 <li><p><code>upper</code> :: <code>numeric(1)</code><br>
 Upper bound for the estimated <code>lambda</code>. Default <code>2</code>.</p></li>
 </ul></div>
+    <div class="section level2">
+    <h2 id="seasonal-period">Seasonal period<a class="anchor" aria-label="anchor" href="#seasonal-period"></a></h2>
+
+
+<p>The seasonal period is not stored in the task.
+It is set by the <code>period</code> hyperparameter, in observations per cycle.
+Either a positive number such as <code>12</code>, or a cycle name resolved against the task's <code>freq</code> such as <code>"year"</code> or
+<code>"week"</code>.
+The cycle names a calendar <code>freq</code> implies and the periods they resolve to are:</p><table class="table table"><tr><td><code>freq</code></td><td><code>"hour"</code></td><td><code>"day"</code></td><td><code>"week"</code></td><td><code>"year"</code></td></tr><tr><td><code>"min"</code></td><td>60</td><td>1440</td><td>10080</td><td>525960</td></tr><tr><td><code>"hour"</code></td><td></td><td>24</td><td>168</td><td>8766</td></tr><tr><td><code>"day"</code></td><td></td><td></td><td>7</td><td>365.25</td></tr><tr><td><code>"week"</code></td><td></td><td></td><td></td><td>52.18</td></tr><tr><td><code>"month"</code></td><td></td><td></td><td></td><td>12</td></tr><tr><td><code>"quarter"</code></td><td></td><td></td><td></td><td>4</td></tr></table><p>A multiple of a unit divides the period, e.g. <code>"30 min"</code> resolves <code>"day"</code> to <code>48</code>.
+If <code>period</code> is <code>NULL</code> (default), it is the day for sub-daily data (the hour below a minute), the week for daily
+data, and the year for longer steps, skipping a cycle of fewer than four observations for the next longer one.
+This gives e.g. <code>12</code> for monthly, <code>4</code> for quarterly, <code>7</code> for daily, <code>24</code> for hourly, and <code>48</code> for half-hourly data.
+Without a calendar <code>freq</code>, the default is <code>1</code>, i.e. no seasonality.</p>
+    </div>
     <div class="section level2">
     <h2 id="limitations">Limitations<a class="anchor" aria-label="anchor" href="#limitations"></a></h2>
 

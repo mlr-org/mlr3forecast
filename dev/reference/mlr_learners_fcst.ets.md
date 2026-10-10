@@ -54,6 +54,7 @@ or with the associated sugar function
 | simulate | logical | FALSE | TRUE, FALSE | \- |
 | bootstrap | logical | FALSE | TRUE, FALSE | \- |
 | npaths | integer | 5000 |  | \\\[1, \infty)\\ |
+| period | untyped | NULL |  | \- |
 
 ## References
 

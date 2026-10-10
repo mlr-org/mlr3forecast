@@ -42,6 +42,7 @@ or with the associated sugar function
 | bounds | character | usual | usual, admissible, none |
 | silent | logical | TRUE | TRUE, FALSE |
 | regressors | character | use | use, select, adapt |
+| period | untyped | NULL |  |
 
 ## References
 
@@ -228,7 +229,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.67 seconds
+#> Time elapsed: 0.52 seconds
 #> Model estimated using auto.msarima() function: SARIMA(0,1,1)[1](0,1,1)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

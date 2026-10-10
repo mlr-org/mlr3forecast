@@ -53,6 +53,7 @@ or with the associated sugar function
 | xreg.keep        | untyped   | NULL    |                        | \-               |
 | barebone         | logical   | FALSE   | TRUE, FALSE            | \-               |
 | retrain          | logical   | FALSE   | TRUE, FALSE            | \-               |
+| period           | untyped   | NULL    |                        | \-               |
 
 ## References
 

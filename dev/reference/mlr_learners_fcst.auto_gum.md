@@ -43,6 +43,7 @@ or with the associated sugar function
 | bounds | character | usual | usual, admissible, none | \- |
 | silent | logical | TRUE | TRUE, FALSE | \- |
 | regressors | character | use | use, select, adapt, integrate | \- |
+| period | untyped | NULL |  | \- |
 
 ## References
 
@@ -224,7 +225,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 3.02 seconds
+#> Time elapsed: 2.52 seconds
 #> Model estimated using auto.gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

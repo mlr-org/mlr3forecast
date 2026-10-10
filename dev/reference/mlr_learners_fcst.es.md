@@ -48,6 +48,7 @@ or with the associated sugar function
 | bounds | character | usual | usual, admissible, none | \- |
 | silent | logical | TRUE | TRUE, FALSE | \- |
 | regressors | character | use | use, select | \- |
+| period | untyped | NULL |  | \- |
 
 ## References
 
@@ -234,7 +235,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.29 seconds
+#> Time elapsed: 0.2 seconds
 #> Model estimated using es() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

@@ -6,9 +6,9 @@
     }
   };
 </script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Local and Global Trend Forecast Learner — mlr_learners_fcst.rlgt"><meta name="description" content="Bayesian exponential smoothing with a nonlinear global trend (LGT/SGT), Student-t errors, and optional
-heteroscedasticity, fitted via MCMC. The seasonal period is taken from the frequency of the series.
+heteroscedasticity, fitted via MCMC. The seasonal period is taken from period.
 Calls Rlgt::rlgt() from package Rlgt."><meta property="og:description" content="Bayesian exponential smoothing with a nonlinear global trend (LGT/SGT), Student-t errors, and optional
-heteroscedasticity, fitted via MCMC. The seasonal period is taken from the frequency of the series.
+heteroscedasticity, fitted via MCMC. The seasonal period is taken from period.
 Calls Rlgt::rlgt() from package Rlgt."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
@@ -54,7 +54,7 @@ Calls Rlgt::rlgt() from package Rlgt."><meta property="og:image" content="https:
 
     <div class="ref-description section level2">
     <p>Bayesian exponential smoothing with a nonlinear global trend (LGT/SGT), Student-t errors, and optional
-heteroscedasticity, fitted via MCMC. The seasonal period is taken from the frequency of the series.
+heteroscedasticity, fitted via MCMC. The seasonal period is taken from <code>period</code>.
 Calls <code><a href="https://rdrr.io/pkg/Rlgt/man/rlgt.html" class="external-link">Rlgt::rlgt()</a></code> from package <a href="https://CRAN.R-project.org/package=Rlgt" class="external-link"><span class="pkg">Rlgt</span></a>.</p>
     </div>
 
@@ -79,7 +79,7 @@ Calls <code><a href="https://rdrr.io/pkg/Rlgt/man/rlgt.html" class="external-lin
     <div class="section level2">
     <h2 id="parameters">Parameters<a class="anchor" aria-label="anchor" href="#parameters"></a></h2>
 
-<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>seasonality</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>seasonality2</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>seasonality.type</td><td>character</td><td>multiplicative</td><td>multiplicative, generalized</td><td>-</td></tr><tr><td>error.size.method</td><td>character</td><td>std</td><td>std, innov</td><td>-</td></tr><tr><td>level.method</td><td>character</td><td>HW</td><td>HW, seasAvg, HW_sAvg</td><td>-</td></tr><tr><td>method</td><td>character</td><td>Gibbs</td><td>Gibbs, Stan</td><td>-</td></tr><tr><td>homoscedastic</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>control</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>verbose</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>NUM_OF_TRIALS</td><td>integer</td><td>2000</td><td></td><td>\([1, \infty)\)</td></tr></table></div>
+<table class="table table"><tr><td>Id</td><td>Type</td><td>Default</td><td>Levels</td><td>Range</td></tr><tr><td>seasonality</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>seasonality2</td><td>integer</td><td>1</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>seasonality.type</td><td>character</td><td>multiplicative</td><td>multiplicative, generalized</td><td>-</td></tr><tr><td>error.size.method</td><td>character</td><td>std</td><td>std, innov</td><td>-</td></tr><tr><td>level.method</td><td>character</td><td>HW</td><td>HW, seasAvg, HW_sAvg</td><td>-</td></tr><tr><td>method</td><td>character</td><td>Gibbs</td><td>Gibbs, Stan</td><td>-</td></tr><tr><td>homoscedastic</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>control</td><td>untyped</td><td>-</td><td></td><td>-</td></tr><tr><td>verbose</td><td>logical</td><td>FALSE</td><td>TRUE, FALSE</td><td>-</td></tr><tr><td>NUM_OF_TRIALS</td><td>integer</td><td>2000</td><td></td><td>\([1, \infty)\)</td></tr><tr><td>period</td><td>untyped</td><td>NULL</td><td></td><td>-</td></tr></table></div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Smyl S, Bergmeir C, Wibowo E, Ng TW, Long X, Dokumentov A, Schmidt D (2025).
@@ -232,16 +232,16 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $sigma2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5121744</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3647757</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $xi2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3789531</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8622268</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $phi</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4482759</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5172414</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $chi2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 3.882007</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 4.045609</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $chi2.lambda2</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
@@ -250,19 +250,19 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $alpha</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7820933</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5831365</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $beta</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $zeta</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.2510207</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5605499</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $rho</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.03448276</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01724138</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $tau</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.3965517</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.4482759</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $nu</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8.84</span>
@@ -274,34 +274,34 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lt</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 336.3863</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 327.4846</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bt</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $et</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1.179933</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -3.59661</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $log.s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.004679024</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.04263173</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $y.on.l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.003855907</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.04843297</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $L</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $log.s1</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.006582698</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.0009999897</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $w.s</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $l2.log.s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8069818</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.8012621</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $t2.log.s</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01799118</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.01243834</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $s.ix</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7</span>
@@ -313,7 +313,7 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 200</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $mu.hat</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 204.181</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 205.6357</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Gibbs"</span>
@@ -342,7 +342,7 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="co"># Score the predictions</span></span></span>
 <span class="r-in"><span><span class="va">predictions</span><span class="op">$</span><span class="fu">score</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> regr.mse </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1231.424 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 818.2719 </span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>

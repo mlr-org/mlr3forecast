@@ -39,12 +39,10 @@ or with the associated sugar function
 
 The generated
 [TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md)
-has the target `y` and the order column `time`, a regular index starting
-at `start` with step `freq`. A calendar `freq` such as `"month"` yields
-dates, a numeric `freq` yields the integers `1, ..., n` and is stored as
-the frequency of the task. With `k > 1`, `k` independent series are
-stacked into a keyed panel with the key column `series`, so `n` is the
-length of each series and the task has `n * k` rows.
+has the target `y` and the order column `time`, a regular calendar index
+starting at `start` with step `freq`. With `k > 1`, `k` independent
+series are stacked into a keyed panel with the key column `series`, so
+`n` is the length of each series and the task has `n * k` rows.
 
 ## See also
 
@@ -109,14 +107,14 @@ The objects of this class are cloneable with this method.
 generator = tgen("arima")
 task = generator$generate(60)
 task$head()
-#>           y
-#>       <num>
-#> 1: 1.580073
-#> 2: 2.033731
-#> 3: 1.528938
-#> 4: 2.331455
-#> 5: 2.177664
-#> 6: 2.020195
+#>             y
+#>         <num>
+#> 1: -0.9097209
+#> 2: -1.6880591
+#> 3: -1.8292988
+#> 4: -0.3899206
+#> 5: -1.3366492
+#> 6: -0.2272970
 
 # random walk with drift, 3 series
 generator = tgen("arima", ar = numeric(), d = 1L, mean = 0.5, k = 3L)

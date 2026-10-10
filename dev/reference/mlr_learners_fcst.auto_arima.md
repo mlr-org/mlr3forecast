@@ -81,6 +81,7 @@ or with the associated sugar function
 | optim.method | character | BFGS | Nelder-Mead, BFGS, CG, L-BFGS-B, SANN, Brent | \- |
 | optim.control | untyped | list() |  | \- |
 | kappa | numeric | 1e+06 |  | \\(-\infty, \infty)\\ |
+| period | untyped | NULL |  | \- |
 
 ## References
 

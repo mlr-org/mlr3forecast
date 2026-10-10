@@ -44,6 +44,7 @@ or with the associated sugar function
 | loss | character | likelihood | likelihood, MSE, MAE, HAM |
 | bounds | character | none | none, usual, admissible |
 | silent | logical | TRUE | TRUE, FALSE |
+| period | untyped | NULL |  |
 
 ## References
 

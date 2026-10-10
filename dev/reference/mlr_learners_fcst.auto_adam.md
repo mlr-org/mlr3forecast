@@ -53,6 +53,7 @@ or with the associated sugar function
 | silent | logical | TRUE | TRUE, FALSE | \- |
 | parallel | logical | FALSE | TRUE, FALSE | \- |
 | ets | character | conventional | conventional, adam | \- |
+| period | untyped | NULL |  | \- |
 
 ## References
 
@@ -240,7 +241,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 6.04 seconds
+#> Time elapsed: 4.45 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

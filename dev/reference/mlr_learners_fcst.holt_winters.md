@@ -52,6 +52,7 @@ or with the associated sugar function
 | optim.control | untyped | list() |  | \- |
 | lambda | untyped | NULL |  | \- |
 | biasadj | logical | FALSE | TRUE, FALSE | \- |
+| period | untyped | NULL |  | \- |
 
 ## References
 
