@@ -222,11 +222,9 @@ DirectForecaster = R6Class(
         return(get_graph_quantile_field(private$.learner$graph, "quantiles", self$id))
       }
       set_graph_quantile_field(private$.learner$graph, "quantiles", rhs, self$id)
-      if (!is.null(self$model)) {
-        walk(self$model$models, function(m) {
-          set_graph_quantile_field(m$graph, "quantiles", rhs, self$id)
-        })
-      }
+      walk(self$model$models, function(m) {
+        set_graph_quantile_field(m$graph, "quantiles", rhs, self$id)
+      })
     },
 
     #' @field quantile_response (`numeric(1)`)\cr
@@ -236,11 +234,9 @@ DirectForecaster = R6Class(
         return(get_graph_quantile_field(private$.learner$graph, "quantile_response", self$id))
       }
       set_graph_quantile_field(private$.learner$graph, "quantile_response", rhs, self$id)
-      if (!is.null(self$model)) {
-        walk(self$model$models, function(m) {
-          set_graph_quantile_field(m$graph, "quantile_response", rhs, self$id)
-        })
-      }
+      walk(self$model$models, function(m) {
+        set_graph_quantile_field(m$graph, "quantile_response", rhs, self$id)
+      })
     },
 
     #' @field graph_model ([mlr3pipelines::Graph] | named `list()`)\cr
@@ -327,9 +323,7 @@ DirectForecaster = R6Class(
         error_input("Learner '%s' does not support predict type '%s'.", self$id, rhs)
       }
       private$.learner$predict_type = rhs
-      if (!is.null(self$model)) {
-        walk(self$model$models, function(m) m$predict_type = rhs)
-      }
+      walk(self$model$models, function(m) m$predict_type = rhs)
       private$.predict_type = rhs
     }
   ),
