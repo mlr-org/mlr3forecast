@@ -92,10 +92,8 @@ DirectForecaster = R6Class(
         private$.learner$param_set$values = insert_named(private$.learner$param_set$values, param_vals)
       }
 
-      iterative_ids = keep(
-        names(private$.learner$graph$pipeops),
-        function(id) "fcst_iterative" %chin% private$.learner$graph$pipeops[[id]]$properties
-      )
+      pipeops = private$.learner$graph$pipeops
+      iterative_ids = names(keep(pipeops, function(po) "fcst_iterative" %chin% po$properties))
       if (length(iterative_ids) > 0L) {
         error_input(
           "Iterative feature PipeOps (property 'fcst_iterative') are not supported in a DirectForecaster graph (found: %s). Lags are handled internally via `lags`.",
@@ -103,10 +101,7 @@ DirectForecaster = R6Class(
         )
       }
 
-      targetdiff_ids = keep(
-        names(private$.learner$graph$pipeops),
-        function(id) inherits(private$.learner$graph$pipeops[[id]], "PipeOpTargetTrafoDifference")
-      )
+      targetdiff_ids = names(keep(pipeops, inherits, "PipeOpTargetTrafoDifference"))
       if (length(targetdiff_ids) > 0L) {
         error_input(
           "PipeOpTargetTrafoDifference inside a DirectForecaster graph is not supported (found: %s): each horizon is inverted independently against the training tail, which is wrong for horizons >= 2. Wrap the forecaster with ppl(\"targettrafo\") instead.",

@@ -40,16 +40,10 @@ reorder_prediction = function(prediction, row_ids) {
 }
 
 graph_quantile_learners = function(graph) {
-  learners = list()
-  for (po in graph$pipeops) {
-    if (inherits(po, "PipeOpLearner")) {
-      learner = po$learner
-      learners = c(
-        learners,
-        if (inherits(learner, "GraphLearner")) graph_quantile_learners(learner$graph) else list(learner)
-      )
-    }
-  }
+  learners = map(keep(graph$pipeops, inherits, "PipeOpLearner"), function(po) {
+    if (inherits(po$learner, "GraphLearner")) graph_quantile_learners(po$learner$graph) else list(po$learner)
+  })
+  learners = unlist(learners, recursive = FALSE, use.names = FALSE)
   keep(learners, function(learner) "quantiles" %chin% learner$predict_types)
 }
 
