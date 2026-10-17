@@ -21,7 +21,7 @@ test_that("RecursiveForecaster iterative prediction updates lags", {
   prediction = learner$predict(task, split$test)
 
   # predictions should not all be identical since lags update between steps
-  expect_false(length(unique(prediction$response)) == 1L)
+  expect_false(uniqueN(prediction$response) == 1L)
 })
 
 test_that("RecursiveForecaster handles a non-unit integer index without explicit freq", {

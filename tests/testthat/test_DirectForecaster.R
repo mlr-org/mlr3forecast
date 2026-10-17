@@ -28,7 +28,7 @@ test_that("DirectForecaster predictions differ across horizons", {
   learner$train(task, split$train)
   prediction = learner$predict(task, split$test)
 
-  expect_false(length(unique(prediction$response)) == 1L)
+  expect_false(uniqueN(prediction$response) == 1L)
 })
 
 test_that("DirectForecaster works with keyed task", {
