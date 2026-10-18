@@ -70,9 +70,12 @@ test_that("freq can be set and is resolved again when the order or key columns c
   task$freq = NULL
   expect_identical(task$freq, "1 week")
   expect_null(task$extra_args$freq)
-  expect_error({
-    task$freq = "2 week"
-  }, "does not match")
+  expect_error(
+    {
+      task$freq = "2 week"
+    },
+    "does not match"
+  )
   task$freq = "week"
   expect_identical(task$extra_args$freq, "week")
 

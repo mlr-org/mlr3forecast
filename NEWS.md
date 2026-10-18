@@ -55,6 +55,7 @@
 * fix: `fcst.stlm` now raises a configuration error instead of an input error for features without `method = "arima"`.
 * fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.
 * fix: `generate_newdata()` keeps an integer time index integer instead of sometimes returning doubles.
+* fix: `generate_newdata()` and `forecast()` no longer fail or return the wrong number of rows per series when a key column is named `n`, `task`, or `freq`.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * fix: `RecursiveForecaster` now returns predictions in the task's row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets `po("fcst.avg")` combine it with `DirectForecaster`.

@@ -88,6 +88,17 @@ test_that("generate_newdata steps staggered series by their common step", {
   expect_identical(newdata$d, as.Date(c("2021-01-01", "2021-02-01", "2021-01-15", "2021-02-15")))
 })
 
+test_that("generate_newdata is not confused by key columns named like its variables", {
+  for (key in c("n", "task", "freq")) {
+    dt = data.table(t = rep(1:5, 3L), k = rep(1:3, each = 5L), y = as.numeric(1:15))
+    setnames(dt, "k", key)
+    task = as_task_fcst(dt, target = "y", order = "t", key = key)
+    newdata = generate_newdata(task, 4L)
+    expect_identical(newdata$t, rep(6:9, 3L))
+    expect_identical(newdata[[key]], rep(1:3, each = 4L))
+  }
+})
+
 test_that("generate_newdata works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")
