@@ -23,18 +23,9 @@ generate_newdata = function(task, n = 1L) {
   setorderv(dt, c(key_cols, order_cols))
   assert_regular_grid(dt, order_cols, key_cols, task$freq)
 
-  last_rows = if (length(key_cols) > 0L) dt[dt[, .I[.N], by = key_cols]$V1] else dt[.N]
-  step = task$freq
-  newdata = last_rows[rep(seq_len(.N), each = n)]
-
-  if (length(key_cols) > 0L) {
-    anchors = dt[, grid_anchor(get(order_cols), step), by = key_cols]$V1
-    newdata[, (order_cols) := seq_order(get(order_cols)[1L], step, n, anchors[.GRP]), by = key_cols]
-  } else {
-    anchor = grid_anchor(dt[[order_cols]], step)
-    set(newdata, j = order_cols, value = seq_order(last_rows[[order_cols]], step, n, anchor))
-  }
-
+  newdata = dt[, list(extend_order(get(order_cols), task$freq, n)), by = key_cols]
+  setnames(newdata, "V1", order_cols)
+  setcolorder(newdata, cols)
   set(newdata, j = task$target_names, value = NA_real_)
   newdata
 }

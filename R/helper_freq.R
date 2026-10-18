@@ -171,6 +171,10 @@ seq_order = function(origin, freq, n, anchor = NA_integer_) {
   }
 }
 
+extend_order = function(order, freq, n) {
+  seq_order(order[length(order)], freq, n, grid_anchor(order, freq))
+}
+
 grid_steps = function(order, series, freq) {
   first = match(series, series)
   m = calendar_months(freq)
