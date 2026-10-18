@@ -225,7 +225,8 @@ Creates a new instance of this
 - `id`:
 
   (`character(1)` \| `NULL`)  
-  Identifier, default `NULL` (auto-generated).
+  Identifier, default `NULL`, which uses the id of `learner` with the
+  suffix `".recursive"`.
 
 - `param_vals`:
 

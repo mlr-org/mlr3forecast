@@ -364,8 +364,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x5617a11c94e0>
-#> <environment: 0x5617a11c0088>
+#> <bytecode: 0x5631a0f62e38>
+#> <environment: 0x5631a0f68700>
 #> 
 #> $lambda
 #> NULL
@@ -421,6 +421,9 @@ print(learner$model)
 #> 
 #> $step
 #> [1] "month"
+#> 
+#> $anchor
+#> [1] 1
 #> 
 
 # Importance method

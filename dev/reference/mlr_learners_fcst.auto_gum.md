@@ -225,7 +225,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 2.88 seconds
+#> Time elapsed: 2.86 seconds
 #> Model estimated using auto.gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
@@ -248,6 +248,9 @@ print(learner$model)
 #> 
 #> $step
 #> [1] "month"
+#> 
+#> $anchor
+#> [1] 1
 #> 
 
 # Importance method

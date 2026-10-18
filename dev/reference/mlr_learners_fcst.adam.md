@@ -239,7 +239,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.29 seconds
+#> Time elapsed: 0.3 seconds
 #> Model estimated using adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Gamma
@@ -266,6 +266,9 @@ print(learner$model)
 #> 
 #> $step
 #> [1] "month"
+#> 
+#> $anchor
+#> [1] 1
 #> 
 
 # Importance method

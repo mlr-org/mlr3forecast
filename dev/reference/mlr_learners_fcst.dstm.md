@@ -263,6 +263,9 @@ print(learner$model)
 #> $step
 #> [1] "month"
 #> 
+#> $anchor
+#> [1] 1
+#> 
 #> $xreg
 #> NULL
 #> 

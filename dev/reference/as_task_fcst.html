@@ -10,6 +10,8 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 TaskFcst: ensure the identity
 data.frame() and mlr3::DataBackend: provides an alternative to the constructor of TaskFcst.
 ts: from base R time series objects (univariate and multivariate).
+A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
+Any other frequency has no calendar step, so the series gets an integer index column as order instead.
 zoo and xts: from zoo/xts time series objects.
 timeSeries: from Rmetrics timeSeries objects.
 tsf: from tsf format data.
@@ -17,7 +19,7 @@ tbl_ts: from tsibble objects.
 The index becomes the order column, where yearweek, yearmonth, and yearquarter indices are converted to
 dates.
 If freq is NULL, such an index sets it from the tsibble's interval,
-e.g. &quot;1 month&quot; for a monthly yearmonth index.
+e.g. &quot;1 month&quot; for a monthly yearmonth index, while other indices infer it like TaskFcst.
 The key variables become key columns, and all measured variables other than target become features.
 
 "><meta property="og:description" content="Convert object to a TaskFcst.
@@ -25,6 +27,8 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 TaskFcst: ensure the identity
 data.frame() and mlr3::DataBackend: provides an alternative to the constructor of TaskFcst.
 ts: from base R time series objects (univariate and multivariate).
+A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
+Any other frequency has no calendar step, so the series gets an integer index column as order instead.
 zoo and xts: from zoo/xts time series objects.
 timeSeries: from Rmetrics timeSeries objects.
 tsf: from tsf format data.
@@ -32,7 +36,7 @@ tbl_ts: from tsibble objects.
 The index becomes the order column, where yearweek, yearmonth, and yearquarter indices are converted to
 dates.
 If freq is NULL, such an index sets it from the tsibble's interval,
-e.g. &quot;1 month&quot; for a monthly yearmonth index.
+e.g. &quot;1 month&quot; for a monthly yearmonth index, while other indices infer it like TaskFcst.
 The key variables become key columns, and all measured variables other than target become features.
 
 "><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
@@ -82,7 +86,9 @@ The key variables become key columns, and all measured variables other than targ
     <p>Convert object to a <a href="TaskFcst.html">TaskFcst</a>.
 This is a S3 generic. mlr3forecast ships with methods for the following objects:</p><ol><li><p><a href="TaskFcst.html">TaskFcst</a>: ensure the identity</p></li>
 <li><p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> and <a href="https://mlr3.mlr-org.com/reference/DataBackend.html" class="external-link">mlr3::DataBackend</a>: provides an alternative to the constructor of <a href="TaskFcst.html">TaskFcst</a>.</p></li>
-<li><p><code>ts</code>: from base R time series objects (univariate and multivariate).</p></li>
+<li><p><code>ts</code>: from base R time series objects (univariate and multivariate).
+A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
+Any other frequency has no calendar step, so the series gets an integer <code>index</code> column as order instead.</p></li>
 <li><p><code>zoo</code> and <code>xts</code>: from zoo/xts time series objects.</p></li>
 <li><p><code>timeSeries</code>: from Rmetrics timeSeries objects.</p></li>
 <li><p><code>tsf</code>: from tsf format data.</p></li>
@@ -90,7 +96,7 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 The index becomes the order column, where <code>yearweek</code>, <code>yearmonth</code>, and <code>yearquarter</code> indices are converted to
 dates.
 If <code>freq</code> is <code>NULL</code>, such an index sets it from the tsibble's interval,
-e.g. <code>"1 month"</code> for a monthly <code>yearmonth</code> index.
+e.g. <code>"1 month"</code> for a monthly <code>yearmonth</code> index, while other indices infer it like <a href="TaskFcst.html">TaskFcst</a>.
 The key variables become key columns, and all measured variables other than <code>target</code> become features.</p></li>
 </ol></div>
 
@@ -213,12 +219,21 @@ Key columns must be character, integer, factor, or ordered columns.</p></dd>
 
 
 <dt id="arg-freq">freq<a class="anchor" aria-label="anchor" href="#arg-freq"></a></dt>
-<dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
+<dd><p>(<code>character(1)</code> | <code>numeric(1)</code> | <code>NULL</code>)<br>
 Step of the time index, i.e. the spacing between two consecutive observations.
 A <code><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq()</a></code>-compatible string for a <code>Date</code> or <code>POSIXct</code> order column, e.g.
-<code>"1 month"</code>, <code>"day"</code>, <code>"3 months"</code>, <code>"1 hour"</code>, <code>"week"</code>.
-If <code>NULL</code> (default), the step is inferred from the order column, which is required for a numeric or integer
-order column.
+<code>"1 month"</code>, <code>"day"</code>, <code>"3 months"</code>, <code>"1 hour"</code>, <code>"week"</code>,
+and a positive number for a numeric or integer order column.
+A given <code>freq</code> must match the order column, i.e. every observation must be a whole number of steps after the
+first observation of its series, gaps allowed, and at least two consecutive observations of a series must be one
+step apart.
+If <code>NULL</code> (default), the step is inferred on construction and must be the same for all series.
+For a numeric or integer order column, it is the greatest common divisor of the gaps of whole-number values,
+else the median gap, and <code>1</code> if no series has two observations.
+For a <code>Date</code> or <code>POSIXct</code> order column, it is inferred from the typical gap, e.g. <code>"1 month"</code> for monthly or
+month-end data and <code>"1 DSTday"</code> for daily local clock times in a time zone with daylight saving time.
+An error is raised if the step cannot be inferred, i.e. for series with different steps, observations off the
+inferred grid, or a <code>Date</code> or <code>POSIXct</code> order column without a series of two observations.
 This is <em>not</em> the seasonal period, which learners, measures, and pipeops take as their <code>period</code> hyperparameter.</p></dd>
 
 

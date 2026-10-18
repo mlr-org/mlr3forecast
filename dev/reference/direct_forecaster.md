@@ -51,7 +51,8 @@ direct_forecaster(
 - id:
 
   (`character(1)` \| `NULL`)  
-  Identifier, default `NULL` (auto-generated from the learner id).
+  Identifier, default `NULL`, which uses the id of `learner` with the
+  suffix `".direct"`.
 
 - param_vals:
 

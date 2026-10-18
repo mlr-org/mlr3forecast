@@ -14,6 +14,10 @@ objects:
     [TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md).
 
 3.  `ts`: from base R time series objects (univariate and multivariate).
+    A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly,
+    quarterly, monthly, weekly, or daily step. Any other frequency has
+    no calendar step, so the series gets an integer `index` column as
+    order instead.
 
 4.  `zoo` and `xts`: from zoo/xts time series objects.
 
@@ -25,8 +29,10 @@ objects:
     where `yearweek`, `yearmonth`, and `yearquarter` indices are
     converted to dates. If `freq` is `NULL`, such an index sets it from
     the tsibble's interval, e.g. `"1 month"` for a monthly `yearmonth`
-    index. The key variables become key columns, and all measured
-    variables other than `target` become features.
+    index, while other indices infer it like
+    [TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md).
+    The key variables become key columns, and all measured variables
+    other than `target` become features.
 
 ## Usage
 
@@ -148,15 +154,27 @@ as_task_fcst(
 
 - freq:
 
-  (`character(1)` \| `NULL`)  
+  (`character(1)` \| `numeric(1)` \| `NULL`)  
   Step of the time index, i.e. the spacing between two consecutive
   observations. A [`seq()`](https://rdrr.io/r/base/seq.html)-compatible
   string for a `Date` or `POSIXct` order column, e.g. `"1 month"`,
-  `"day"`, `"3 months"`, `"1 hour"`, `"week"`. If `NULL` (default), the
-  step is inferred from the order column, which is required for a
-  numeric or integer order column. This is *not* the seasonal period,
-  which learners, measures, and pipeops take as their `period`
-  hyperparameter.
+  `"day"`, `"3 months"`, `"1 hour"`, `"week"`, and a positive number for
+  a numeric or integer order column. A given `freq` must match the order
+  column, i.e. every observation must be a whole number of steps after
+  the first observation of its series, gaps allowed, and at least two
+  consecutive observations of a series must be one step apart. If `NULL`
+  (default), the step is inferred on construction and must be the same
+  for all series. For a numeric or integer order column, it is the
+  greatest common divisor of the gaps of whole-number values, else the
+  median gap, and `1` if no series has two observations. For a `Date` or
+  `POSIXct` order column, it is inferred from the typical gap, e.g.
+  `"1 month"` for monthly or month-end data and `"1 DSTday"` for daily
+  local clock times in a time zone with daylight saving time. An error
+  is raised if the step cannot be inferred, i.e. for series with
+  different steps, observations off the inferred grid, or a `Date` or
+  `POSIXct` order column without a series of two observations. This is
+  *not* the seasonal period, which learners, measures, and pipeops take
+  as their `period` hyperparameter.
 
 - id:
 

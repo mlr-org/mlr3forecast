@@ -10,18 +10,54 @@
   [`smooth::sparma()`](https://rdrr.io/pkg/smooth/man/sparma.html) does
   not implement.
 - BREAKING CHANGE: `freq` is now only the step of the time index, a
-  calendar string such as `"month"` or `NULL` to infer it. A numeric
-  `freq` used to set the seasonal period and is now an error, set the
-  new `period` hyperparameter instead.
-- BREAKING CHANGE: `as.ts.TaskFcst()` takes `period` instead of `freq`,
-  and
+  calendar string such as `"month"` for a `Date` or `POSIXct` order
+  column, a number for a numeric or integer one, or `NULL` to infer it.
+  A numeric `freq` used to set the seasonal period and now errors on a
+  `Date` or `POSIXct` order column, set the new `period` hyperparameter
+  instead.
+- BREAKING CHANGE: `as.ts.TaskFcst()` takes `period` instead of `freq`.
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
-  warns that the frequency of a `ts` without a calendar step is not
-  kept.
+  gives a `ts` without a calendar step, e.g. of frequency 7 or 260, an
+  integer `index` column as order instead of made-up timestamps, and
+  warns that its frequency is not kept.
+- BREAKING CHANGE: `DirectForecaster` and `RecursiveForecaster` now
+  default to the id of the wrapped learner with the suffix `.direct` or
+  `.recursive`, instead of reusing the id of the wrapped learner or
+  graph, so a forecaster and the learner it wraps no longer share an id
+  in benchmarks.
 - BREAKING CHANGE:
   [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   no longer defaults to the M3 yearly dataset. Both `record_id` and
   `dataset_name` must be supplied.
+- BREAKING CHANGE:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  and `TaskFcst$new()` infer `freq` on construction if it is not given,
+  so `task$freq` is never `NULL` and the default seasonal `period` no
+  longer depends on whether `freq` was set. If the step cannot be
+  inferred, i.e. for series with different steps, an irregular order
+  column, or a `Date` or `POSIXct` order column without a series of two
+  observations, construction errors and asks for `freq`. The step no
+  longer changes when rows are filtered, e.g. a task filtered to a
+  single row no longer forecasts daily dates. A numeric or integer order
+  column always gets a step, the greatest common divisor of the gaps for
+  whole numbers and `1` for single observations, and series with
+  different steps are an error.
+- BREAKING CHANGE:
+  [`partition()`](https://mlr3.mlr-org.com/reference/partition.html) on
+  a forecast task now orders a three-way split chronologically as
+  training, validation, and test set, so the test set is the most recent
+  data and follows the rows used for fitting and validation. Previously,
+  the validation set came after the test set, so a `RecursiveForecaster`
+  with this predefined validation set failed to predict the test set.
+- BREAKING CHANGE: `po("fcst.targetboxcox")`, `po("fcst.targetdiff")`,
+  and `po("fcst.targetscale")` now take and return a `TaskFcst` instead
+  of any `TaskRegr`, so a `GraphLearner` built around them with
+  `ppl("targettrafo")` is a forecast learner and can be benchmarked
+  against the classical forecast learners. In turn, it can no longer
+  share a
+  [`benchmark()`](https://mlr3.mlr-org.com/reference/benchmark.html)
+  call with plain regression learners or graphs, unless these are
+  created with `GraphLearner$new(graph, task_type = "fcst")`.
 - feat: The `smooth` learners gained the `"gradient"` level of
   `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the
   `smoother` parameter. This raises the required `smooth` version to
@@ -36,6 +72,12 @@
   now converts objects returned by
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   to forecast tasks.
+- feat:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  and `TaskFcst$new()` check a given `freq` against the order column and
+  error if an observation is off its grid, if it is finer than the
+  spacing of the data (e.g. `"day"` on monthly data), or if it is
+  sub-daily on a `Date` column.
 - feat:
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   derives `freq` from a tsibble’s `yearweek`, `yearmonth`, or
@@ -100,6 +142,15 @@
 - feat: `tgen("arima")` simulates ARIMA series into a forecast task.
 - feat: `tsk("monash", dataset = ...)` creates a forecast task from a
   Monash Forecasting Repository dataset.
+- fix:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  and `TaskFcst$new()` now infer a month-end series as monthly (likewise
+  quarterly and yearly) and daily local clock times in a time zone with
+  daylight saving time as `"1 DSTday"`, instead of leaving `freq` unset.
+  [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md),
+  [`forecast()`](https://generics.r-lib.org/reference/forecast.html),
+  and the forecasters keep a month-end series on month ends, e.g. April
+  30 is followed by May 31 instead of May 30.
 - fix: A daily `freq` now derives a seasonal period of `7` (the weekly
   cycle) instead of the non-integer `365.25`, which blocked seasonal
   models and made scaled measures return `NaN`. Pass `period` explicitly
@@ -130,6 +181,9 @@
 - fix: `DirectForecaster` and `RecursiveForecaster` now error in
   `$native_model` on marshaled models instead of returning wrong
   objects.
+- fix: `DirectForecaster` and `RecursiveForecaster` now set `$man` to
+  their own help pages, so `$help()` no longer opens the `GraphLearner`
+  page.
 - fix:
   [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   is deprecated in favor of
