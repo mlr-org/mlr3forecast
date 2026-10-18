@@ -121,7 +121,8 @@ test_that("default_period picks the shortest cycle worth modelling", {
   expect_equal(default_period("month"), 12)
   expect_equal(default_period("1 month"), 12)
   expect_equal(default_period("quarter"), 4)
-  expect_equal(default_period("week"), 52.17857, tolerance = 1e-5)
+  expect_equal(default_period("week"), 52)
+  expect_equal(default_period("2 week"), 26)
   expect_equal(default_period("day"), 7)
   expect_equal(default_period("hour"), 24)
   expect_equal(default_period("year"), 1)
@@ -130,7 +131,7 @@ test_that("default_period picks the shortest cycle worth modelling", {
   expect_equal(default_period("min"), 1440)
   # a cycle too short to carry a seasonal shape is skipped for the next one up
   expect_equal(default_period("12 hour"), 14)
-  expect_equal(default_period("2 day"), 182.625)
+  expect_equal(default_period("2 day"), 183)
   # below a minute the hour is the natural cycle
   expect_equal(default_period("sec"), 3600)
 })

@@ -46,6 +46,8 @@ A multiple of a unit divides the period, e.g. \code{"30 min"} resolves \code{"da
 If \code{period} is \code{NULL} (default), it is the day for sub-daily data (the hour below a minute), the week for daily
 data, and the year for longer steps, skipping a cycle of fewer than four observations for the next longer one.
 This gives e.g. \code{12} for monthly, \code{4} for quarterly, \code{7} for daily, \code{24} for hourly, and \code{48} for half-hourly data.
+The default is rounded to a whole number, as most seasonal models require one, e.g. \code{52} for weekly data.
+Set \code{period = "year"} for the exact \code{52.18}, e.g. for \link{PipeOpFcstFourier} or \code{fcst.tbats}.
 Without a calendar \code{freq}, the default is \code{1}, i.e. no seasonality.
 }
 

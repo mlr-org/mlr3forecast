@@ -280,7 +280,7 @@ default_period = function(freq) {
   }
   # a cycle of fewer than four observations has no seasonal shape
   long = candidates[candidates >= 4]
-  if (length(long) > 0L) long[1L] else candidates[length(candidates)]
+  round(if (length(long) > 0L) long[1L] else candidates[length(candidates)])
 }
 
 resolve_period = function(period, freq) {
