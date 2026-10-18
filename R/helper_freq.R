@@ -131,12 +131,17 @@ is_month_end = function(parts) {
 }
 
 # a calendar grid is anchored on the month end if every observation is one, else on the largest day-of-month
+anchor_days = function(parts, series, eom = is_month_end(parts)) {
+  by_series = data.table(series = series, day = parts$day, other = as.integer(!eom))
+  by_series = by_series[, lapply(.SD, max), by = "series"]
+  fifelse(by_series$other == 0L, 31L, by_series$day)[series]
+}
+
 grid_anchor = function(order, freq) {
   if (is.na(calendar_months(freq))) {
     return(NA_integer_)
   }
-  parts = civil_parts(order)
-  if (all(is_month_end(parts))) 31L else max(parts$day)
+  anchor_days(civil_parts(order), 1L)
 }
 
 keeps_local_clock = function(order) {
@@ -180,9 +185,7 @@ grid_steps = function(order, series, freq) {
     months = parts$year * 12L + parts$month
     months = months - months[first]
     eom = is_month_end(parts)
-    by_series = data.table(series = series, day = parts$day, other = as.integer(!eom))
-    by_series = by_series[, lapply(.SD, max), by = "series"]
-    anchor = fifelse(by_series$other == 0L, 31L, by_series$day)[series]
+    anchor = anchor_days(parts, series, eom)
     steps = months / m
     on_grid = on_clock & (parts$day == anchor | eom) & months %% m == 0L
   } else if (is_dst_day) {
