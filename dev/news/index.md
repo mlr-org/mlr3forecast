@@ -151,6 +151,10 @@
   [`forecast()`](https://generics.r-lib.org/reference/forecast.html),
   and the forecasters keep a month-end series on month ends, e.g. April
   30 is followed by May 31 instead of May 30.
+- fix: The default seasonal `period` is now rounded to a whole number,
+  e.g. `52` instead of `52.18` for a weekly `freq`, so that `fcst.stlm`,
+  `fcst.theta`, and other learners requiring an integer period no longer
+  drop the seasonality. Set `period = "year"` to keep the exact cycle.
 - fix: A daily `freq` now derives a seasonal period of `7` (the weekly
   cycle) instead of the non-integer `365.25`, which blocked seasonal
   models and made scaled measures return `NaN`. Pass `period` explicitly

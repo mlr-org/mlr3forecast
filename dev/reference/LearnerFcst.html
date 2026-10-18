@@ -106,6 +106,8 @@ The cycle names a calendar <code>freq</code> implies and the periods they resolv
 If <code>period</code> is <code>NULL</code> (default), it is the day for sub-daily data (the hour below a minute), the week for daily
 data, and the year for longer steps, skipping a cycle of fewer than four observations for the next longer one.
 This gives e.g. <code>12</code> for monthly, <code>4</code> for quarterly, <code>7</code> for daily, <code>24</code> for hourly, and <code>48</code> for half-hourly data.
+The default is rounded to a whole number, as most seasonal models require one, e.g. <code>52</code> for weekly data.
+Set <code>period = "year"</code> for the exact <code>52.18</code>, e.g. for <a href="mlr_pipeops_fcst.fourier.html">PipeOpFcstFourier</a> or <code>fcst.tbats</code>.
 Without a calendar <code>freq</code>, the default is <code>1</code>, i.e. no seasonality.</p>
     </div>
     <div class="section level2">

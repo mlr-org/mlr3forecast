@@ -50,7 +50,10 @@ sub-daily data (the hour below a minute), the week for daily data, and
 the year for longer steps, skipping a cycle of fewer than four
 observations for the next longer one. This gives e.g. `12` for monthly,
 `4` for quarterly, `7` for daily, `24` for hourly, and `48` for
-half-hourly data. Without a calendar `freq`, the default is `1`, i.e. no
+half-hourly data. The default is rounded to a whole number, as most
+seasonal models require one, e.g. `52` for weekly data. Set
+`period = "year"` for the exact `52.18`, e.g. for PipeOpFcstFourier or
+`fcst.tbats`. Without a calendar `freq`, the default is `1`, i.e. no
 seasonality.
 
 ## References
