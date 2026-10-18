@@ -131,7 +131,7 @@ DirectForecaster = R6Class(
           )
         ),
         packages = c("mlr3forecast", private$.learner$packages),
-        man = private$.learner$man
+        man = "mlr3forecast::DirectForecaster"
       )
       private$.param_set = ParamSetCollection$new(list(
         private$.fcst_param_set,

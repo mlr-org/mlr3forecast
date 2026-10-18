@@ -122,7 +122,7 @@ RecursiveForecaster = R6Class(
         # GraphLearner advertises hotstart support it does not implement, so it must not be re-advertised
         properties = setdiff(private$.learner$properties, c("hotstart_backward", "hotstart_forward")),
         packages = c("mlr3forecast", private$.learner$packages),
-        man = private$.learner$man
+        man = "mlr3forecast::RecursiveForecaster"
       )
       private$.predict_type = private$.learner$predict_type
       if (!is.null(predict_type)) self$predict_type = predict_type
