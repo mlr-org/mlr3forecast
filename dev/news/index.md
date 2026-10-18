@@ -72,6 +72,9 @@
   now converts objects returned by
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   to forecast tasks.
+- feat: `TaskFcst$freq` can be set, checked against the order column, or
+  set to `NULL` to infer it, and it is resolved again when the order or
+  key columns change instead of keeping the step of the old columns.
 - feat:
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   and `TaskFcst$new()` check a given `freq` against the order column and

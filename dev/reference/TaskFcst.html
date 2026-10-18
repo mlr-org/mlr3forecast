@@ -108,8 +108,9 @@ first.</p>
     <p></p><div class="r6-active-bindings"><dl><dt><code>freq</code></dt>
 <dd><p>(<code>character(1)</code> | <code>numeric(1)</code>)<br>
 The step of the time index, i.e. the spacing between two consecutive observations.
-Set on construction, either as given or inferred from the order column.
-A calendar string for a <code>Date</code> or <code>POSIXct</code> order column and a number for a numeric or integer one.</p></dd>
+A calendar string for a <code>Date</code> or <code>POSIXct</code> order column and a number for a numeric or integer one.
+Assign a step to set it, which is checked against the order column, or <code>NULL</code> to infer it.
+The step is resolved again when the order or key columns change.</p></dd>
 
 
     <dt><code>properties</code></dt>
