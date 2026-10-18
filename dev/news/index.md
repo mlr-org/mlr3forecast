@@ -225,6 +225,11 @@
   [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
   keeps an integer time index integer instead of sometimes returning
   doubles.
+- fix:
+  [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
+  and [`forecast()`](https://generics.r-lib.org/reference/forecast.html)
+  no longer fail or return the wrong number of rows per series when a
+  key column is named `n`, `task`, or `freq`.
 - fix: `msr("fcst.wape")` now ignores rows with a missing prediction in
   the denominator too, which previously understated the error.
 - fix:
