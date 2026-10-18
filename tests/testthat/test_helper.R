@@ -31,6 +31,7 @@ test_that("infer_freq honors non-unit spacing for numeric and integer order", {
   expect_identical(infer_freq(c(0L, 1L, 3L)), 1L)
   expect_identical(infer_freq(c(0L, 4L, 6L, 12L)), 2L)
   expect_identical(infer_freq(c(0, 4, 6)), 2)
+  expect_identical(infer_freq(c(0, 2, 4.000000001, 6)), 2)
 })
 
 test_that("infer_task_freq infers one step for all series", {

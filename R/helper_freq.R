@@ -60,7 +60,7 @@ numeric_step = function(order) {
     return(stats::median(gaps))
   }
   gcd = function(a, b) if (b == 0) a else gcd(b, a %% b)
-  step = Reduce(gcd, unique(gaps))
+  step = Reduce(gcd, unique(round(gaps)))
   if (is.integer(order)) as.integer(step) else step
 }
 
