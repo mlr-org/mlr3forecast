@@ -131,9 +131,8 @@ is_month_end = function(parts) {
 }
 
 anchor_days = function(parts, series, eom = is_month_end(parts)) {
-  day = NULL
   dt = data.table(series = series, day = parts$day, eom = eom)
-  dt[, "anchor" := if (all(eom)) 31L else max(day), by = "series"]$anchor
+  dt[, "anchor" := if (all(get("eom"))) 31L else max(get("day")), by = "series"]$anchor
 }
 
 grid_anchor = function(order, freq) {
