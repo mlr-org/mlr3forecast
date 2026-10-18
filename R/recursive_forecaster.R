@@ -14,7 +14,7 @@
 #'   The lag values to use for creating lag features. If provided, `learner` is wrapped with
 #'   `po("fcst.lags", lags = lags)`. If `NULL`, `learner` must be a [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
 #' @param id (`character(1)` | `NULL`)\cr
-#'   Identifier, default `NULL` (auto-generated).
+#'   Identifier, default `NULL`, which uses the id of `learner` with the suffix `".recursive"`.
 #' @param param_vals (named `list()`)\cr
 #'   List of hyperparameter settings.
 #' @param predict_type (`character(1)` | `NULL`)\cr

@@ -26,7 +26,7 @@ Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector o
 per horizon.}
 
 \item{id}{(\code{character(1)} | \code{NULL})\cr
-Identifier, default \code{NULL} (auto-generated from the learner id).}
+Identifier, default \code{NULL}, which uses the id of \code{learner} with the suffix \code{".direct"}.}
 
 \item{param_vals}{(named \code{list()})\cr
 Hyperparameter values applied to every horizon model. Per-horizon hyperparameters are not currently supported.}

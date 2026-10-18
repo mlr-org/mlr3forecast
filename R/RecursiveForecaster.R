@@ -68,7 +68,7 @@ RecursiveForecaster = R6Class(
     #'   `po("fcst.lags", lags = lags)`. If `NULL`, `learner` must be a [mlr3pipelines::Graph] or
     #'   [mlr3pipelines::PipeOp].
     #' @param id (`character(1)` | `NULL`)\cr
-    #'   Identifier, default `NULL` (auto-generated).
+    #'   Identifier, default `NULL`, which uses the id of `learner` with the suffix `".recursive"`.
     #' @param param_vals (named `list()`)\cr
     #'   List of hyperparameter settings.
     #' @param predict_type (`character(1)` | `NULL`)\cr
@@ -114,8 +114,9 @@ RecursiveForecaster = R6Class(
         )
       }
 
+      default_id = if (inherits(learner, "Learner")) learner$id else private$.learner$id
       super$initialize(
-        id = id %??% private$.learner$id,
+        id = id %??% paste0(default_id, ".recursive"),
         task_type = "fcst",
         predict_types = private$.learner$predict_types,
         feature_types = private$.learner$feature_types,

@@ -15,7 +15,7 @@
 #'   Either a single integer `H` (expanded to `1:H`) or an integer vector of specific horizons. One model is trained
 #'   per horizon.
 #' @param id (`character(1)` | `NULL`)\cr
-#'   Identifier, default `NULL` (auto-generated from the learner id).
+#'   Identifier, default `NULL`, which uses the id of `learner` with the suffix `".direct"`.
 #' @param param_vals (named `list()`)\cr
 #'   Hyperparameter values applied to every horizon model. Per-horizon hyperparameters are not currently supported.
 #' @param predict_type (`character(1)` | `NULL`)\cr

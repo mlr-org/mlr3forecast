@@ -139,7 +139,7 @@ One model is trained per horizon. At predict time each test row is routed to the
 matching its step-distance from the end of training, so with specific horizons (e.g.
 \code{c(2L, 4L, 6L)}) the test set may only contain rows at those exact steps ahead.}
       \item{\code{id}}{(\code{character(1)} | \code{NULL})\cr
-Identifier, default \code{NULL} (auto-generated from the learner id).}
+Identifier, default \code{NULL}, which uses the id of \code{learner} with the suffix \code{".direct"}.}
       \item{\code{param_vals}}{(named \code{list()})\cr
 Hyperparameter values applied to every horizon model. Per-horizon hyperparameters are not
 currently supported.}

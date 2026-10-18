@@ -43,7 +43,7 @@ DirectForecaster = R6Class(
     #'   matching its step-distance from the end of training, so with specific horizons (e.g.
     #'   `c(2L, 4L, 6L)`) the test set may only contain rows at those exact steps ahead.
     #' @param id (`character(1)` | `NULL`)\cr
-    #'   Identifier, default `NULL` (auto-generated from the learner id).
+    #'   Identifier, default `NULL`, which uses the id of `learner` with the suffix `".direct"`.
     #' @param param_vals (named `list()`)\cr
     #'   Hyperparameter values applied to every horizon model. Per-horizon hyperparameters are not
     #'   currently supported.
@@ -109,8 +109,9 @@ DirectForecaster = R6Class(
         )
       }
 
+      default_id = if (inherits(learner, "Learner")) learner$id else private$.learner$id
       super$initialize(
-        id = id %??% private$.learner$id,
+        id = id %??% paste0(default_id, ".direct"),
         task_type = "fcst",
         predict_types = private$.learner$predict_types,
         feature_types = private$.learner$feature_types,

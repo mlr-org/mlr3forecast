@@ -179,7 +179,7 @@ The lag values to use for creating lag features. If provided, \code{learner} is 
 \code{po("fcst.lags", lags = lags)}. If \code{NULL}, \code{learner} must be a \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or
 \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.}
       \item{\code{id}}{(\code{character(1)} | \code{NULL})\cr
-Identifier, default \code{NULL} (auto-generated).}
+Identifier, default \code{NULL}, which uses the id of \code{learner} with the suffix \code{".recursive"}.}
       \item{\code{param_vals}}{(named \code{list()})\cr
 List of hyperparameter settings.}
       \item{\code{predict_type}}{(\code{character(1)} | \code{NULL})\cr
