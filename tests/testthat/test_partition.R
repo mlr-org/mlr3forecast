@@ -18,6 +18,8 @@ test_that("partition three way split", {
   expect_disjunct(li$train, li$test)
   expect_disjunct(li$train, li$validation)
   expect_disjunct(li$test, li$validation)
+  expect_true(max(li$train) < min(li$validation))
+  expect_true(max(li$validation) < min(li$test))
 })
 
 test_that("partition preserves temporal order", {

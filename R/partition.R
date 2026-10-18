@@ -10,19 +10,14 @@ partition.TaskFcst = function(task, ratio = 0.67) {
     error_input("Sum of `ratio` must be smaller than 1.")
   }
 
-  if (length(ratio) == 1L) {
-    ratio[2L] = 1 - ratio
-  } else {
-    ratio[3L] = 1 - (ratio[1L] + ratio[2L])
-  }
-
+  valid_ratio = if (length(ratio) == 2L) 1 - sum(ratio) else 0
   r1 = rsmp("fcst.holdout", ratio = ratio[1L])$instantiate(task)
   task$row_roles$use = r1$test_set(1L)
-  r2 = rsmp("fcst.holdout", ratio = ratio[2L] / (1 - ratio[1L]))$instantiate(task)
+  r2 = rsmp("fcst.holdout", ratio = valid_ratio / (1 - ratio[1L]))$instantiate(task)
 
   list(
     train = r1$train_set(1L),
-    test = r2$train_set(1L),
-    validation = r2$test_set(1L)
+    test = r2$test_set(1L),
+    validation = r2$train_set(1L)
   )
 }
