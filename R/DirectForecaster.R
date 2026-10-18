@@ -352,12 +352,13 @@ DirectForecaster = R6Class(
       order_cols = task$col_roles$order
       key_cols = task$col_roles$key
       dt = task$data(cols = c(order_cols, key_cols))
-      step = resolve_step(task$freq, dt[[order_cols]], dt[, key_cols, with = FALSE])
+      step = task$freq
       origin = if (length(key_cols) > 0L) {
-        dt[, list(.origin = max(get(order_cols))), by = key_cols]
+        dt[, list(.origin = max(get(order_cols)), .anchor = grid_anchor(get(order_cols), step)), by = key_cols]
       } else {
         max(dt[[order_cols]])
       }
+      anchor = if (length(key_cols) > 0L) NA_integer_ else grid_anchor(dt[[order_cols]], step)
 
       # last max(lags) rows per key hold all the history predict's lag features can reach
       cols = unique(c(task$target_names, task$feature_names, key_cols, order_cols))
@@ -374,6 +375,7 @@ DirectForecaster = R6Class(
         list(
           models = models,
           origin = origin,
+          anchor = anchor,
           freq = task$freq,
           step = step,
           train_tail = train_tail,
@@ -401,11 +403,11 @@ DirectForecaster = R6Class(
       if (length(key_cols) > 0L) {
         ord = origin[ord, on = key_cols]
         ord[,
-          ".step" := match(get(order_cols), seq_order(get(".origin")[1L], step, max_h)),
+          ".step" := match(get(order_cols), seq_order(get(".origin")[1L], step, max_h, get(".anchor")[1L])),
           by = key_cols
         ]
       } else {
-        grid = seq_order(origin, step, max_h)
+        grid = seq_order(origin, step, max_h, self$model$anchor)
         set(ord, j = ".step", value = match(ord[[order_cols]], grid))
       }
 
@@ -432,7 +434,7 @@ DirectForecaster = R6Class(
       # lags resolve from training history and positional shifts equal true step distance
       if (length(key_cols) > 0L) {
         skeleton = ord[,
-          set_names(list(seq_order(get(".origin")[1L], step, max(get(".step")))), order_cols),
+          set_names(list(seq_order(get(".origin")[1L], step, max(get(".step")), get(".anchor")[1L])), order_cols),
           by = key_cols
         ]
       } else {
@@ -485,9 +487,7 @@ print.direct_forecaster_model = function(x, ...) {
   cat_cli({
     cli::cli_text("<direct_forecaster_model>")
     cli::cli_li("Target: {x$target}")
-    if (!is.null(x$freq)) {
-      cli::cli_li("Frequency: {x$freq}")
-    }
+    cli::cli_li("Frequency: {x$freq}")
     cli::cli_li("Horizon models: {length(x$models)}")
   })
   invisible(x)

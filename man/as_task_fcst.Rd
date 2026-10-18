@@ -105,12 +105,21 @@ Name of the order column.}
 Names of the columns whose combination identifies a series.
 Key columns must be character, integer, factor, or ordered columns.}
 
-\item{freq}{(\code{character(1)} | \code{NULL})\cr
+\item{freq}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Step of the time index, i.e. the spacing between two consecutive observations.
 A \code{seq()}-compatible string for a \code{Date} or \code{POSIXct} order column, e.g.
-\code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.
-If \code{NULL} (default), the step is inferred from the order column, which is required for a numeric or integer
-order column.
+\code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"},
+and a positive number for a numeric or integer order column.
+A given \code{freq} must match the order column, i.e. every observation must be a whole number of steps after the
+first observation of its series, gaps allowed, and at least two consecutive observations of a series must be one
+step apart.
+If \code{NULL} (default), the step is inferred on construction and must be the same for all series.
+For a numeric or integer order column, it is the greatest common divisor of the gaps of whole-number values,
+else the median gap, and \code{1} if no series has two observations.
+For a \code{Date} or \code{POSIXct} order column, it is inferred from the typical gap, e.g. \code{"1 month"} for monthly or
+month-end data and \code{"1 DSTday"} for daily local clock times in a time zone with daylight saving time.
+An error is raised if the step cannot be inferred, i.e. for series with different steps, observations off the
+inferred grid, or a \code{Date} or \code{POSIXct} order column without a series of two observations.
 This is \emph{not} the seasonal period, which learners, measures, and pipeops take as their \code{period} hyperparameter.}
 
 \item{id}{(\code{character(1)})\cr
@@ -130,6 +139,8 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 \item \link{TaskFcst}: ensure the identity
 \item \code{\link[=data.frame]{data.frame()}} and \link[mlr3:DataBackend]{mlr3::DataBackend}: provides an alternative to the constructor of \link{TaskFcst}.
 \item \code{ts}: from base R time series objects (univariate and multivariate).
+A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
+Any other frequency has no calendar step, so the series gets an integer \code{index} column as order instead.
 \item \code{zoo} and \code{xts}: from zoo/xts time series objects.
 \item \code{timeSeries}: from Rmetrics timeSeries objects.
 \item \code{tsf}: from tsf format data.
@@ -137,7 +148,7 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 The index becomes the order column, where \code{yearweek}, \code{yearmonth}, and \code{yearquarter} indices are converted to
 dates.
 If \code{freq} is \code{NULL}, such an index sets it from the tsibble's interval,
-e.g. \code{"1 month"} for a monthly \code{yearmonth} index.
+e.g. \code{"1 month"} for a monthly \code{yearmonth} index, while other indices infer it like \link{TaskFcst}.
 The key variables become key columns, and all measured variables other than \code{target} become features.
 }
 }

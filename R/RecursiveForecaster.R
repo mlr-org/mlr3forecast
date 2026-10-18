@@ -460,9 +460,12 @@ RecursiveForecaster = R6Class(
       train_data = train_data[!test_data, on = join_cols]
 
       # test rows must form the gap-free future grid so positional shifts equal true step distance
-      step = resolve_step(self$model$freq, train_data[[order_cols]], train_data[, key_cols, with = FALSE])
+      step = self$model$freq
       if (length(key_cols) > 0L) {
-        origin = train_data[, list(.origin = max(get(order_cols))), by = key_cols]
+        origin = train_data[,
+          list(.origin = max(get(order_cols)), .anchor = grid_anchor(get(order_cols), step)),
+          by = key_cols
+        ]
         grid_check = origin[test_data[, c(key_cols, order_cols), with = FALSE], on = key_cols]
         if (anyNA(grid_check$.origin)) {
           error_input(
@@ -472,7 +475,7 @@ RecursiveForecaster = R6Class(
         }
         grid_ok = grid_check[,
           list(.ok = {
-            expected = seq_order(get(".origin")[1L], step, .N)
+            expected = seq_order(get(".origin")[1L], step, .N, get(".anchor")[1L])
             !anyNA(expected) && all(sort(get(order_cols)) == expected)
           }),
           by = key_cols
@@ -489,7 +492,7 @@ RecursiveForecaster = R6Class(
           error_input("No training rows remain before the test set.")
         }
         origin = max(train_data[[order_cols]])
-        expected = seq_order(origin, step, nrow(test_data))
+        expected = seq_order(origin, step, nrow(test_data), grid_anchor(train_data[[order_cols]], step))
         if (anyNA(expected) || !all(sort(test_data[[order_cols]]) == expected)) {
           error_input(
             "Test rows must form the gap-free future grid following the training data (origin %s, step %s).",
@@ -562,9 +565,7 @@ print.recursive_forecaster_model = function(x, ...) {
   cat_cli({
     cli::cli_text("<recursive_forecaster_model>")
     cli::cli_li("Target: {x$target}")
-    if (!is.null(x$freq)) {
-      cli::cli_li("Frequency: {x$freq}")
-    }
+    cli::cli_li("Frequency: {x$freq}")
     cli::cli_li("Training rows: {nrow(x$train_data)}")
   })
   invisible(x)

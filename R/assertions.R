@@ -37,15 +37,22 @@ assert_fcst_prediction_col_roles = function(col_roles, extra) {
 }
 
 # nolint next: object_name_linter.
-check_freq = function(x, null.ok = FALSE) {
+check_freq = function(x, null.ok = FALSE, numeric.ok = FALSE) {
   if (null.ok && is.null(x)) {
     return(TRUE)
   }
-  if (test_number(x)) {
+  is_number = test_number(x)
+  if (is_number && !numeric.ok) {
     return("Must be a calendar string, not a number. Set the seasonal period via the `period` hyperparameter")
   }
+  if (is_number && is.finite(x) && x > 0) {
+    return(TRUE)
+  }
+  if (is_number) {
+    return("Must be a positive number")
+  }
   if (!test_string(x)) {
-    return(sprintf("Must be a string%s", if (null.ok) " (or NULL)" else ""))
+    return(sprintf("Must be a string%s%s", if (numeric.ok) " or a number" else "", if (null.ok) " (or NULL)" else ""))
   }
   units = str_collapse(names(unit_secs), sep = "|")
   if (!grepl(sprintf("^([1-9][0-9]* )?(%s)s?$", units), x)) {
@@ -91,17 +98,7 @@ assert_regular_grid = function(dt, order_cols, key_cols, freq) {
   invisible(dt)
 }
 
-test_regular_grid = function(order, freq = NULL) {
-  o = sort(order)
-  n = length(o)
-  if (n < 2L) {
-    return(TRUE)
-  }
-  if (inherits(o, c("Date", "POSIXct", "POSIXlt"))) {
-    step = resolve_step(freq, o)
-    expected = c(o[1L], seq_order(o[1L], step, n - 1L))
-    return(!anyNA(expected) && all(o == expected))
-  }
-  d = diff(o)
-  d[1L] != 0 && all(d == d[1L])
+test_regular_grid = function(order, freq) {
+  steps = grid_steps(sort(order), rep.int(1L, length(order)), freq)
+  !anyNA(steps) && all(steps == seq_along0(steps))
 }

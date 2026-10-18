@@ -1,9 +1,9 @@
 #' Generate new data for a forecast task
 #'
 #' @details
-#' Future dates are extrapolated by stepping the order column. For calendar `freq` (`month`/`quarter`/`year`), the
-#' origin's day-of-month is carried forward and clamped to each target month's last valid day. Other freqs use
-#' [base::seq()]. Month-end is not inferred, so use a first-of-month or period-style index for genuine month-end series.
+#' Future dates are extrapolated by stepping the order column. For calendar `freq` (`month`/`quarter`/`year`), each
+#' series' day-of-month is carried forward and clamped to each target month's last valid day, where a series of month
+#' ends stays on month ends. Other freqs use [base::seq()].
 #'
 #' @param task [TaskFcst]\cr
 #'   Task.
@@ -24,13 +24,15 @@ generate_newdata = function(task, n = 1L) {
   assert_regular_grid(dt, order_cols, key_cols, task$freq)
 
   last_rows = if (length(key_cols) > 0L) dt[dt[, .I[.N], by = key_cols]$V1] else dt[.N]
-  step = resolve_step(task$freq, dt[[order_cols]], dt[, key_cols, with = FALSE])
+  step = task$freq
   newdata = last_rows[rep(seq_len(.N), each = n)]
 
   if (length(key_cols) > 0L) {
-    newdata[, (order_cols) := seq_order(get(order_cols)[1L], step, n), by = key_cols]
+    anchors = dt[, grid_anchor(get(order_cols), step), by = key_cols]$V1
+    newdata[, (order_cols) := seq_order(get(order_cols)[1L], step, n, anchors[.GRP]), by = key_cols]
   } else {
-    set(newdata, j = order_cols, value = seq_order(last_rows[[order_cols]], step, n))
+    anchor = grid_anchor(dt[[order_cols]], step)
+    set(newdata, j = order_cols, value = seq_order(last_rows[[order_cols]], step, n, anchor))
   }
 
   set(newdata, j = task$target_names, value = NA_real_)

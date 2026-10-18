@@ -11,6 +11,45 @@ test_that("calendar-string freq requires a Date or POSIXct order column", {
   expect_class(as_task_fcst(dd, target = "y", order = "d", freq = "month"), "TaskFcst")
 })
 
+test_that("freq is inferred from the order column at construction", {
+  dt = data.table(d = seq(as.Date("2020-01-01"), by = "month", length.out = 24L), y = as.numeric(1:24))
+  task = as_task_fcst(dt, target = "y", order = "d")
+  expect_identical(task$freq, "1 month")
+  expect_identical(task$extra_args$freq, "1 month")
+  expect_identical(stats::frequency(as.ts(task)), 12)
+  # the step does not depend on the rows in use
+  task$filter(1L)
+  expect_identical(generate_newdata(task, 1L)$d, as.Date("2020-02-01"))
+
+  month_end = data.table(d = seq(as.Date("2020-02-01"), by = "month", length.out = 24L) - 1L, y = 1)
+  expect_identical(as_task_fcst(month_end, target = "y", order = "d")$freq, "1 month")
+
+  # an error if not all observations are on the inferred grid, or the series have different steps
+  irregular = data.table(d = as.Date(c("2020-01-03", "2020-02-05", "2020-03-02", "2020-04-06")), y = 1)
+  expect_error(as_task_fcst(irregular, target = "y", order = "d"), "irregular")
+  mixed = data.table(
+    id = rep(c("a", "b"), each = 6L),
+    d = c(
+      seq(as.Date("2020-01-01"), by = "month", length.out = 6L),
+      seq(as.Date("2020-01-01"), by = "week", length.out = 6L)
+    ),
+    y = 1
+  )
+  expect_error(as_task_fcst(mixed, target = "y", order = "d", key = "id"), "different steps")
+})
+
+test_that("a given freq is checked against the order column", {
+  dt = data.table(d = seq(as.Date("2020-01-01"), by = "month", length.out = 24L), y = as.numeric(1:24))
+  expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "2 month"), "does not match")
+  expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "day"), "is finer than")
+  expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "hour"), "sub-daily")
+  # gaps are allowed
+  expect_identical(as_task_fcst(dt[-(5:7)], target = "y", order = "d", freq = "month")$freq, "month")
+  # a month-end series starting on a clamped day is on the monthly grid
+  month_end = data.table(d = seq(as.Date("2020-03-01"), by = "month", length.out = 24L) - 1L, y = 1)
+  expect_identical(as_task_fcst(month_end, target = "y", order = "d", freq = "month")$freq, "month")
+})
+
 test_that("view includes key and order columns", {
   skip_if_not_installed("tsibbledata")
   skip_if_not_installed("tsibble")
@@ -197,15 +236,27 @@ test_that("key columns may not contain missing values", {
   expect_class(task, "TaskFcst")
 })
 
-test_that("print omits frequency when NULL", {
+test_that("print shows the frequency", {
   task = as_task_fcst(data.table(idx = 1:5, y = rnorm(5)), target = "y", order = "idx")
   out = capture.output(print(task))
-  expect_no_match(out, "Frequency")
+  expect_match(out, "Frequency: 1", all = FALSE)
 })
 
-test_that("a numeric freq is rejected in favor of the period hyperparameter", {
+test_that("a numeric order column always has a numeric freq", {
   dt = data.table(i = 1:12, y = as.numeric(1:12))
-  expect_error(as_task_fcst(dt, target = "y", order = "i", freq = 12), "not a number")
+  expect_identical(as_task_fcst(dt, target = "y", order = "i")$freq, 1L)
+  expect_identical(as_task_fcst(dt[1L], target = "y", order = "i")$freq, 1L)
+  expect_identical(as_task_fcst(dt, target = "y", order = "i", freq = 1)$freq, 1L)
+  # gaps are allowed, the step is the greatest common divisor of the gaps
+  expect_identical(as_task_fcst(dt[c(1, 2, 4, 7)], target = "y", order = "i")$freq, 1L)
+  expect_identical(as_task_fcst(dt[c(1, 3, 7)], target = "y", order = "i")$freq, 2L)
+  expect_identical(as_task_fcst(data.table(i = seq(0, 5, by = 0.5), y = 1), target = "y", order = "i")$freq, 0.5)
+  # a numeric freq is the step, not the seasonal period
+  expect_error(as_task_fcst(dt, target = "y", order = "i", freq = 12), "does not match")
+  dd = data.table(d = seq(as.Date("2020-01-01"), by = "month", length.out = 12L), y = 1)
+  expect_error(as_task_fcst(dd, target = "y", order = "d", freq = 12), "numeric `freq`")
+  mixed = data.table(id = rep(c("a", "b"), each = 6L), i = c(1:6, seq(0L, 50L, by = 10L)), y = 1)
+  expect_error(as_task_fcst(mixed, target = "y", order = "i", key = "id"), "different steps")
 })
 
 test_that("as.ts works", {

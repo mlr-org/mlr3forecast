@@ -1,13 +1,15 @@
 # mlr3forecast (development version)
 
 * BREAKING CHANGE: The `smooth` learners no longer offer the multistep losses `MSEh`, `TMSE`, `GTMSE`, `MSCE`, and `GPL` or the `holdout` parameter, which all need a forecast horizon at training time and failed with the learners' horizon of 0. `fcst.sparma` also drops the `LASSO` and `RIDGE` losses, which `smooth::sparma()` does not implement.
-* BREAKING CHANGE: `freq` is now only the step of the time index, a calendar string such as `"month"` or `NULL` to infer it. A numeric `freq` used to set the seasonal period and is now an error, set the new `period` hyperparameter instead.
-* BREAKING CHANGE: `as.ts.TaskFcst()` takes `period` instead of `freq`, and `as_task_fcst()` warns that the frequency of a `ts` without a calendar step is not kept.
+* BREAKING CHANGE: `freq` is now only the step of the time index, a calendar string such as `"month"` for a `Date` or `POSIXct` order column, a number for a numeric or integer one, or `NULL` to infer it. A numeric `freq` used to set the seasonal period and now errors on a `Date` or `POSIXct` order column, set the new `period` hyperparameter instead.
+* BREAKING CHANGE: `as.ts.TaskFcst()` takes `period` instead of `freq`. `as_task_fcst()` gives a `ts` without a calendar step, e.g. of frequency 7 or 260, an integer `index` column as order instead of made-up timestamps, and warns that its frequency is not kept.
 * BREAKING CHANGE: `download_zenodo_record()` no longer defaults to the M3 yearly dataset. Both `record_id` and `dataset_name` must be supplied.
+* BREAKING CHANGE: `as_task_fcst()` and `TaskFcst$new()` infer `freq` on construction if it is not given, so `task$freq` is never `NULL` and the default seasonal `period` no longer depends on whether `freq` was set. If the step cannot be inferred, i.e. for series with different steps, an irregular order column, or a `Date` or `POSIXct` order column without a series of two observations, construction errors and asks for `freq`. The step no longer changes when rows are filtered, e.g. a task filtered to a single row no longer forecasts daily dates. A numeric or integer order column always gets a step, the greatest common divisor of the gaps for whole numbers and `1` for single observations, and series with different steps are an error.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
 * feat: The forecast learners that fit on a `ts`, `po("fcst.targetboxcox")`, and `po("fcst.tsfeats")` gained a `period` hyperparameter that defaults to the seasonal period implied by the task's `freq`.
 * feat: `period` hyperparameters accept a cycle name resolved against `freq`, e.g. `period = "year"` on hourly data means `8766`.
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
+* feat: `as_task_fcst()` and `TaskFcst$new()` check a given `freq` against the order column and error if an observation is off its grid, if it is finer than the spacing of the data (e.g. `"day"` on monthly data), or if it is sub-daily on a `Date` column.
 * feat: `as_task_fcst()` derives `freq` from a tsibble's `yearweek`, `yearmonth`, or `yearquarter` index.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.
@@ -27,6 +29,7 @@
 * feat: `list_monash_datasets()` lists the Monash Forecasting Repository datasets available to `download_monash_dataset()` and `tsk("monash")`, including their download sizes.
 * feat: `tgen("arima")` simulates ARIMA series into a forecast task.
 * feat: `tsk("monash", dataset = ...)` creates a forecast task from a Monash Forecasting Repository dataset.
+* fix: `as_task_fcst()` and `TaskFcst$new()` now infer a month-end series as monthly (likewise quarterly and yearly) and daily local clock times in a time zone with daylight saving time as `"1 DSTday"`, instead of leaving `freq` unset. `generate_newdata()`, `forecast()`, and the forecasters keep a month-end series on month ends, e.g. April 30 is followed by May 31 instead of May 30.
 * fix: A daily `freq` now derives a seasonal period of `7` (the weekly cycle) instead of the non-integer `365.25`, which blocked seasonal models and made scaled measures return `NaN`. Pass `period` explicitly to keep the annual cycle. Scores and fitted models change for daily tasks.
 * fix: The "no model stored" error is now a learner error instead of an input error.
 * fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.

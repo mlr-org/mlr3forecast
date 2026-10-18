@@ -71,9 +71,10 @@ Other Task:
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
-    \item{\code{freq}}{(\code{character(1)} | \code{NULL})\cr
-The step of the time index, i.e. the spacing between two consecutive observations,
-or \code{NULL} if it is inferred from the order column.}
+    \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)})\cr
+The step of the time index, i.e. the spacing between two consecutive observations.
+Set on construction, either as given or inferred from the order column.
+A calendar string for a \code{Date} or \code{POSIXct} order column and a number for a numeric or integer one.}
 
     \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.
@@ -177,12 +178,21 @@ Name of the order column.}
       \item{\code{key}}{(\code{character()})\cr
 Names of the columns whose combination identifies a series.
 Key columns must be character, integer, factor, or ordered columns.}
-      \item{\code{freq}}{(\code{character(1)} | \code{NULL})\cr
+      \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)} | \code{NULL})\cr
 Step of the time index, i.e. the spacing between two consecutive observations.
 A \code{seq()}-compatible string for a \code{Date} or \code{POSIXct} order column, e.g.
-\code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"}.
-If \code{NULL} (default), the step is inferred from the order column, which is required for a numeric or integer
-order column.
+\code{"1 month"}, \code{"day"}, \code{"3 months"}, \code{"1 hour"}, \code{"week"},
+and a positive number for a numeric or integer order column.
+A given \code{freq} must match the order column, i.e. every observation must be a whole number of steps after the
+first observation of its series, gaps allowed, and at least two consecutive observations of a series must be one
+step apart.
+If \code{NULL} (default), the step is inferred on construction and must be the same for all series.
+For a numeric or integer order column, it is the greatest common divisor of the gaps of whole-number values,
+else the median gap, and \code{1} if no series has two observations.
+For a \code{Date} or \code{POSIXct} order column, it is inferred from the typical gap, e.g. \code{"1 month"} for monthly or
+month-end data and \code{"1 DSTday"} for daily local clock times in a time zone with daylight saving time.
+An error is raised if the step cannot be inferred, i.e. for series with different steps, observations off the
+inferred grid, or a \code{Date} or \code{POSIXct} order column without a series of two observations.
 This is \emph{not} the seasonal period, which learners, measures, and pipeops take as their \code{period} hyperparameter.}
       \item{\code{label}}{(\code{character(1)})\cr
 Label for the new instance.}

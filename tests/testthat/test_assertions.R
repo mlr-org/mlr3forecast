@@ -24,6 +24,14 @@ test_that("assert_freq accepts valid inputs", {
   expect_identical(assert_freq("12 hours"), "12 hours")
 })
 
+test_that("assert_freq accepts a positive number only with numeric.ok", {
+  expect_identical(assert_freq(2L, numeric.ok = TRUE), 2L)
+  expect_identical(assert_freq(0.5, numeric.ok = TRUE), 0.5)
+  expect_error(assert_freq(0, numeric.ok = TRUE), "positive")
+  expect_error(assert_freq(-1, numeric.ok = TRUE), "positive")
+  expect_error(assert_freq(Inf, numeric.ok = TRUE), "positive")
+})
+
 test_that("assert_freq rejects invalid inputs", {
   expect_error(assert_freq(NULL), "Must be a string")
   # a number is the seasonal period, which is not part of the task

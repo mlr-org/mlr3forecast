@@ -42,7 +42,12 @@ test_that("as_task_fcst warns that a non-calendar ts frequency is not kept", {
     },
     "no calendar step"
   )
-  expect_null(task$freq)
+  expect_identical(task$freq, 1L)
+  expect_identical(task$col_roles$order, "index")
+  expect_identical(task$data(cols = "index")$index, 1:28)
+  task = suppressWarnings(as_task_fcst(EuStockMarkets))
+  expect_identical(task$col_roles$key, "id")
+  expect_identical(task$nrow, length(EuStockMarkets))
 })
 
 test_that("as_task_fcst rejects unused arguments for TaskFcst", {
@@ -136,8 +141,10 @@ test_that("as_task conversion tsibble derives freq from a calendar index", {
   expect_identical(as_task_fcst(make(tsibble::yearweek(dates("2 week"))), target = "y")$freq, "2 week")
   expect_identical(as_task_fcst(make(tsibble::yearmonth(dates("2 month"))), target = "y")$freq, "2 month")
   expect_identical(as_task_fcst(make(tsibble::yearmonth(dates("month"))), target = "y", freq = "month")$freq, "month")
-  expect_null(as_task_fcst(make(tsibble::yearmonth(dates("month")[1L])), target = "y")$freq)
-  expect_null(as_task_fcst(make(dates("month")), target = "y")$freq)
+  single = make(tsibble::yearmonth(dates("month")[1L]))
+  expect_error(as_task_fcst(single, target = "y"), "at least two")
+  expect_identical(as_task_fcst(single, target = "y", freq = "month")$freq, "month")
+  expect_identical(as_task_fcst(make(dates("month")), target = "y")$freq, "1 month")
 
   task = as_task_fcst(tsibble::as_tsibble(AirPassengers), target = "value")
   expect_identical(stats::frequency(as.ts(task)), 12)

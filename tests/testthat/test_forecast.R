@@ -34,7 +34,7 @@ test_that("a tsf with frequency but no timestamp uses an integer step", {
   task = as_task_fcst(read_tsf(file))
   # without a real timestamp the calendar frequency must not be carried over, else seq_order would
   # do date arithmetic on the bare integer index (giving e.g. 365, 730, 1096 instead of 5, 6, 7)
-  expect_null(task$freq)
+  expect_identical(task$freq, 1L)
   newdata = generate_newdata(task, n = 3L)
   expect_equal(as.numeric(newdata[[task$col_roles$order]]), c(5, 6, 7))
 })
@@ -50,10 +50,24 @@ test_that("generate_newdata works with Date order", {
 
 test_that("generate_newdata clamps day-of-month without overflow", {
   month_end = as.Date(c("2020-01-31", "2020-02-29", "2020-03-31", "2020-04-30"))
-  task = as_task_fcst(data.table(month = month_end, y = 1:4), target = "y", order = "month", freq = "month")
-  newdata = generate_newdata(task, n = 3L)
-  # origin Apr-30 is carried forward on the 30th (no eom snap, no month overflow)
-  expect_identical(newdata$month, as.Date(c("2020-05-30", "2020-06-30", "2020-07-30")))
+  task = as_task_fcst(data.table(month = month_end, y = 1:4), target = "y", order = "month")
+  expect_identical(task$freq, "1 month")
+  # a series of month ends stays on month ends
+  expect_identical(generate_newdata(task, n = 3L)$month, as.Date(c("2020-05-31", "2020-06-30", "2020-07-31")))
+  quarter_end = as.Date(c("2020-06-30", "2020-09-30"))
+  task = as_task_fcst(data.table(month = quarter_end, y = 1:2), target = "y", order = "month", freq = "quarter")
+  expect_identical(generate_newdata(task, n = 2L)$month, as.Date(c("2020-12-31", "2021-03-31")))
+  # a series on the 30th is clamped in February only
+  on_30th = as.Date(c("2020-01-30", "2020-02-29", "2020-03-30", "2020-04-30"))
+  task = as_task_fcst(data.table(month = on_30th, y = 1:4), target = "y", order = "month")
+  expect_identical(generate_newdata(task, n = 3L)$month, as.Date(c("2020-05-30", "2020-06-30", "2020-07-30")))
+})
+
+test_that("generate_newdata keeps the local clock time across daylight saving time", {
+  d = seq(as.POSIXct("2024-03-20", tz = "Europe/Berlin"), by = "DSTday", length.out = 20L)
+  task = as_task_fcst(data.table(d = d, y = as.numeric(1:20)), target = "y", order = "d")
+  expect_identical(task$freq, "1 DSTday")
+  expect_identical(format(generate_newdata(task, 2L)$d), c("2024-04-09", "2024-04-10"))
 })
 
 test_that("generate_newdata preserves mid-month day-of-month", {

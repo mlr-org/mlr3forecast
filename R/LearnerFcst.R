@@ -126,11 +126,13 @@ LearnerFcst = R6Class(
 
     .set_context = function(model, task) {
       order_vals = task$data(cols = task$col_roles$order)[[1L]]
+      step = task$freq
       list(
         model = model,
         row_ids = task$row_ids[order(order_vals)],
         max_index = max(order_vals),
-        step = resolve_step(task$freq, order_vals)
+        step = step,
+        anchor = grid_anchor(order_vals, step)
       )
     },
 
@@ -145,7 +147,7 @@ LearnerFcst = R6Class(
           error_input("Future rows must be passed in chronological order.")
         }
         # forecasts pair with the rows positionally, so the rows must be exactly the next h steps
-        expected = seq_order(max_index, self$model$step, length(order_vals))
+        expected = seq_order(max_index, self$model$step, length(order_vals), self$model$anchor %??% NA_integer_)
         if (anyNA(expected) || !all(order_vals == expected)) {
           error_input(
             "Future rows must form the gap-free future grid following the training data (last training index: %s).",

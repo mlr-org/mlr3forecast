@@ -20,7 +20,7 @@ A \code{\link[data.table:data.table]{data.table::data.table()}} with \code{n} ne
 Generate new data for a forecast task
 }
 \details{
-Future dates are extrapolated by stepping the order column. For calendar \code{freq} (\code{month}/\code{quarter}/\code{year}), the
-origin's day-of-month is carried forward and clamped to each target month's last valid day. Other freqs use
-\code{\link[base:seq]{base::seq()}}. Month-end is not inferred, so use a first-of-month or period-style index for genuine month-end series.
+Future dates are extrapolated by stepping the order column. For calendar \code{freq} (\code{month}/\code{quarter}/\code{year}), each
+series' day-of-month is carried forward and clamped to each target month's last valid day, where a series of month
+ends stays on month ends. Other freqs use \code{\link[base:seq]{base::seq()}}.
 }

@@ -14,6 +14,7 @@ test_that("infer_freq preserves non-unit spacing", {
   expect_equal(step(172800), 172800)
   expect_equal(step(1209600), 1209600)
   expect_equal(step(2592000), 2592000) # fixed 30-day, not calendar month
+  expect_equal(step(100000), 100000)
 })
 
 test_that("infer_freq honors non-unit spacing for numeric and integer order", {
@@ -23,37 +24,63 @@ test_that("infer_freq honors non-unit spacing for numeric and integer order", {
   expect_equal(infer_freq(c(6L, 0L, 2L, 4L)), 2)
   # step-1 index keeps the historical default
   expect_equal(infer_freq(1:10), 1)
-  # too short to infer
-  expect_equal(infer_freq(5L), 1L)
   # an integer order gets an integer step for odd and even numbers of steps
   expect_identical(infer_freq(1:30), 1L)
   expect_identical(infer_freq(1:31), 1L)
-  expect_identical(infer_freq(c(0L, 1L, 3L)), 1.5)
+  # whole numbers get the greatest common divisor of their gaps
+  expect_identical(infer_freq(c(0L, 1L, 3L)), 1L)
+  expect_identical(infer_freq(c(0L, 4L, 6L, 12L)), 2L)
+  expect_identical(infer_freq(c(0, 4, 6)), 2)
 })
 
-test_that("resolve_step infers the step per series", {
+test_that("infer_task_freq infers one step for all series", {
   a = seq(as.Date("2020-01-01"), by = "month", length.out = 12L)
   b = seq(as.Date("2020-01-15"), by = "month", length.out = 12L)
-  key = data.table(id = rep(c("a", "b"), each = 12L))
-  expect_identical(resolve_step(NULL, c(a, b), key), "1 month")
-  expect_identical(resolve_step("month", c(a, b), key), "month")
+  series = rep(1:2, each = 12L)
+  expect_identical(infer_task_freq(c(a, b), series), "1 month")
   quarterly = seq(as.Date("2020-01-01"), by = "quarter", length.out = 12L)
-  expect_error(resolve_step(NULL, c(a, quarterly), key), "different steps")
+  expect_error(infer_task_freq(c(a, quarterly), series), "different steps")
   # a single observation carries no step
-  expect_identical(resolve_step(NULL, c(a, b[1L]), data.table(id = rep(c("a", "b"), c(12L, 1L)))), "1 month")
-  # integer series of different lengths share one integer step
-  expect_identical(resolve_step(NULL, c(1:30, 1:31), data.table(id = rep(c("a", "b"), c(30L, 31L)))), 1L)
+  expect_identical(infer_task_freq(c(a, b[1L]), rep(1:2, c(12L, 1L))), "1 month")
+  expect_error(infer_task_freq(a[1L], 1L), "at least two observations")
+  expect_identical(infer_task_freq(5L, 1L), 1L)
+  expect_identical(infer_task_freq(c(1:30, 1:31), rep(1:2, c(30L, 31L))), 1L)
+  expect_error(infer_task_freq(as.Date(c("2020-01-03", "2020-02-05", "2020-03-02")), rep(1L, 3L)), "irregular")
+})
+
+test_that("grid_steps counts steps from each series' first observation", {
+  d = as.Date(c("2020-01-31", "2020-02-29", "2020-04-30", "2020-05-15", "2021-02-28", "2021-03-28"))
+  expect_identical(grid_steps(d, c(1L, 1L, 1L, 1L, 2L, 2L), "month"), c(0, 1, 3, NA, 0, 1))
+  t = seq(as.POSIXct("2024-03-30", tz = "Europe/Berlin"), by = "DSTday", length.out = 3L)
+  expect_identical(grid_steps(t, rep(1L, 3L), "DSTday"), c(0, 1, 2))
+  expect_identical(grid_steps(t, rep(1L, 3L), "day"), c(0, 1, NA))
+  expect_identical(grid_steps(as.Date("2020-01-01") + c(0, 14, 42), rep(1L, 3L), "2 week"), c(0, 1, 3))
 })
 
 test_that("infer_freq detects calendar units", {
-  expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "week", length.out = 10L)), "week")
+  expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "week", length.out = 10L)), "1 week")
+  expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "2 week", length.out = 10L)), "2 week")
   expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "month", length.out = 24L)), "1 month")
   expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "2 month", length.out = 12L)), "2 month")
   expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "quarter", length.out = 12L)), "quarter")
   expect_equal(infer_freq(seq(as.Date("2020-01-01"), by = "6 month", length.out = 10L)), "6 month")
   expect_equal(infer_freq(seq(as.Date("2000-01-01"), by = "year", length.out = 10L)), "year")
   month_end = as.Date(c("2020-01-31", "2020-02-29", "2020-03-31", "2020-04-30", "2020-05-31"))
-  expect_equal(infer_freq(month_end), "month")
+  expect_equal(infer_freq(month_end), "1 month")
+  expect_equal(infer_freq(seq(as.Date("2020-02-01"), by = "month", length.out = 24L) - 1L), "1 month")
+  expect_equal(infer_freq(seq(as.Date("2020-04-01"), by = "quarter", length.out = 8L) - 1L), "quarter")
+  # a day clamped to the end of a shorter month
+  expect_equal(infer_freq(as.Date(c("2020-01-30", "2020-02-29", "2020-03-30", "2020-04-30"))), "1 month")
+})
+
+test_that("infer_freq keeps the local clock time across daylight saving time", {
+  dst = function(by) seq(as.POSIXct("2024-03-20", tz = "Europe/Berlin"), by = by, length.out = 30L)
+  expect_identical(infer_freq(dst("DSTday")), "1 DSTday")
+  expect_identical(infer_freq(dst("7 DSTday")), "7 DSTday")
+  expect_identical(infer_freq(dst("hour")), "1 hour")
+  # 24 hour steps that drift on the clock, and time zones without daylight saving time keep fixed days
+  expect_identical(infer_freq(as.POSIXct("2024-03-20", tz = "Europe/Berlin") + 86400 * 0:29), "1 day")
+  expect_identical(infer_freq(seq(as.POSIXct("2024-03-20", tz = "UTC"), by = "day", length.out = 30L)), "1 day")
 })
 
 test_that("to_tsibble_index maps calendar units and passes through the rest", {
@@ -123,7 +150,7 @@ test_that("resolve_period counts steps per named cycle and passes numerics throu
   expect_equal(resolve_period(12, NULL), 12)
   expect_equal(resolve_period(c(24, 168), "hour"), c(24, 168))
   expect_equal(resolve_period(NULL, NULL), 1)
-  expect_error(resolve_period("year", NULL), "requires a calendar `freq`")
+  expect_error(resolve_period("year", 1L), "requires a calendar `freq`")
   expect_error(resolve_period("fortnight", "day"), "Unknown `period`")
   expect_error(resolve_period("", "day"), "Unknown `period`")
 })
