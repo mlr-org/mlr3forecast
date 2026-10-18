@@ -147,7 +147,7 @@ LearnerFcst = R6Class(
           error_input("Future rows must be passed in chronological order.")
         }
         # forecasts pair with the rows positionally, so the rows must be exactly the next h steps
-        expected = seq_order(max_index, self$model$step, length(order_vals), self$model$anchor %??% NA_integer_)
+        expected = seq_order(max_index, self$model$step, length(order_vals), self$model$anchor)
         if (anyNA(expected) || !all(order_vals == expected)) {
           error_input(
             "Future rows must form the gap-free future grid following the training data (last training index: %s).",
