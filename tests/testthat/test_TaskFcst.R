@@ -15,7 +15,7 @@ test_that("freq is inferred from the order column at construction", {
   dt = data.table(d = seq(as.Date("2020-01-01"), by = "month", length.out = 24L), y = as.numeric(1:24))
   task = as_task_fcst(dt, target = "y", order = "d")
   expect_identical(task$freq, "1 month")
-  expect_identical(task$extra_args$freq, "1 month")
+  expect_null(task$extra_args$freq)
   expect_identical(stats::frequency(as.ts(task)), 12)
   # the step does not depend on the rows in use
   task$filter(1L)
@@ -48,6 +48,38 @@ test_that("a given freq is checked against the order column", {
   # a month-end series starting on a clamped day is on the monthly grid
   month_end = data.table(d = seq(as.Date("2020-03-01"), by = "month", length.out = 24L) - 1L, y = 1)
   expect_identical(as_task_fcst(month_end, target = "y", order = "d", freq = "month")$freq, "month")
+})
+
+test_that("freq can be set and is resolved again when the order or key columns change", {
+  dt = data.table(
+    d = seq(as.Date("2020-01-01"), by = "month", length.out = 24L),
+    w = seq(as.Date("2020-01-06"), by = "week", length.out = 24L),
+    i = 1:24,
+    y = as.numeric(1:24)
+  )
+  task = as_task_fcst(dt, target = "y", order = "d")
+  task$col_roles$order = "w"
+  expect_identical(task$freq, "1 week")
+  task$col_roles$order = "i"
+  expect_identical(task$freq, 1L)
+
+  task = as_task_fcst(dt, target = "y", order = "d", freq = "month")
+  expect_identical(task$extra_args$freq, "month")
+  task$col_roles$order = "w"
+  expect_error(task$freq, "does not match")
+  task$freq = NULL
+  expect_identical(task$freq, "1 week")
+  expect_null(task$extra_args$freq)
+  expect_error({
+    task$freq = "2 week"
+  }, "does not match")
+  task$freq = "week"
+  expect_identical(task$extra_args$freq, "week")
+
+  # a new backend, as in predict_newdata(), keeps the step
+  task = as_task_fcst(dt, target = "y", order = "d")
+  task$backend = as_data_backend(dt[24L])
+  expect_identical(task$freq, "1 month")
 })
 
 test_that("view includes key and order columns", {

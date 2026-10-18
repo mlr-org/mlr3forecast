@@ -12,6 +12,7 @@
 * feat: The forecast learners that fit on a `ts`, `po("fcst.targetboxcox")`, and `po("fcst.tsfeats")` gained a `period` hyperparameter that defaults to the seasonal period implied by the task's `freq`.
 * feat: `period` hyperparameters accept a cycle name resolved against `freq`, e.g. `period = "year"` on hourly data means `8766`.
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
+* feat: `TaskFcst$freq` can be set, checked against the order column, or set to `NULL` to infer it, and it is resolved again when the order or key columns change instead of keeping the step of the old columns.
 * feat: `as_task_fcst()` and `TaskFcst$new()` check a given `freq` against the order column and error if an observation is off its grid, if it is finer than the spacing of the data (e.g. `"day"` on monthly data), or if it is sub-daily on a `Date` column.
 * feat: `as_task_fcst()` derives `freq` from a tsibble's `yearweek`, `yearmonth`, or `yearquarter` index.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.

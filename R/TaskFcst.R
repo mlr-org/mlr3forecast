@@ -65,7 +65,7 @@ TaskFcst = R6Class(
     ) {
       assert_string(order)
       assert_character(key, any.missing = FALSE)
-      private$.freq = assert_freq(freq, null.ok = TRUE, numeric.ok = TRUE)
+      assert_freq(freq, null.ok = TRUE, numeric.ok = TRUE)
 
       super$initialize(id = id, backend = backend, target = target, label = label, extra_args = extra_args)
       self$task_type = "fcst"
@@ -74,8 +74,8 @@ TaskFcst = R6Class(
       col_roles$key = key
       col_roles$feature = setdiff(col_roles$feature, c(order, key))
       self$col_roles = col_roles
-      private$.freq = task_resolve_freq(self, private$.freq)
-      self$extra_args = insert_named(self$extra_args, list(order = order, key = key, freq = private$.freq))
+      self$extra_args = insert_named(self$extra_args, list(order = order, key = key))
+      self$freq = freq
     },
 
     #' @description
@@ -135,11 +135,22 @@ TaskFcst = R6Class(
   active = list(
     #' @field freq (`character(1)` | `numeric(1)`)\cr
     #' The step of the time index, i.e. the spacing between two consecutive observations.
-    #' Set on construction, either as given or inferred from the order column.
     #' A calendar string for a `Date` or `POSIXct` order column and a number for a numeric or integer one.
+    #' Assign a step to set it, which is checked against the order column, or `NULL` to infer it.
+    #' The step is resolved again when the order or key columns change.
     freq = function(rhs) {
-      assert_ro_binding(rhs)
-      private$.freq
+      roles = self$col_roles[c("order", "key")]
+      if (missing(rhs)) {
+        if (!identical(private$.freq_roles, roles)) {
+          private$.freq = task_resolve_freq(self, self$extra_args$freq)
+          private$.freq_roles = roles
+        }
+        return(private$.freq)
+      }
+      assert_freq(rhs, null.ok = TRUE, numeric.ok = TRUE)
+      private$.freq = task_resolve_freq(self, rhs)
+      private$.freq_roles = roles
+      self$extra_args$freq = if (!is.null(rhs)) private$.freq
     },
 
     #' @field properties (`character()`)\cr
@@ -200,7 +211,8 @@ TaskFcst = R6Class(
   ),
 
   private = list(
-    .freq = NULL
+    .freq = NULL,
+    .freq_roles = NULL
   )
 )
 
@@ -220,35 +232,6 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     order_type = fget_keys(task$col_info, order_cols, "type", key = "id")
     if (order_type %nin% c("Date", "POSIXct", "integer", "numeric")) {
       error_input("Order column '%s' must be a Date, POSIXct, numeric or integer column.", order_cols)
-    }
-
-    if (test_string(task$freq) && order_type %nin% c("Date", "POSIXct")) {
-      error_input(
-        paste0(
-          "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
-          "Use `freq = NULL` to infer the step of a numeric or integer order column."
-        ),
-        task$freq,
-        order_cols
-      )
-    }
-
-    freq = task$freq
-    if (test_number(freq) && order_type %chin% c("Date", "POSIXct")) {
-      error_input(
-        paste0(
-          "A numeric `freq` (%s) requires a numeric or integer order column, but '%s' is a %s. ",
-          "Use a calendar string such as \"month\" for the step, ",
-          "and the `period` hyperparameter for the seasonal period."
-        ),
-        format(freq),
-        order_cols,
-        order_type
-      )
-    }
-
-    if (test_string(freq) && order_type == "Date" && unit_seconds(freq) < unit_secs[["day"]]) {
-      error_input("A sub-daily `freq` (\"%s\") requires a POSIXct order column, but '%s' is a Date.", freq, order_cols)
     }
 
     if (task$missings(cols = order_cols) > 0L) {

@@ -73,8 +73,9 @@ Other Task:
   \describe{
     \item{\code{freq}}{(\code{character(1)} | \code{numeric(1)})\cr
 The step of the time index, i.e. the spacing between two consecutive observations.
-Set on construction, either as given or inferred from the order column.
-A calendar string for a \code{Date} or \code{POSIXct} order column and a number for a numeric or integer one.}
+A calendar string for a \code{Date} or \code{POSIXct} order column and a number for a numeric or integer one.
+Assign a step to set it, which is checked against the order column, or \code{NULL} to infer it.
+The step is resolved again when the order or key columns change.}
 
     \item{\code{properties}}{(\code{character()})\cr
 Set of task properties.

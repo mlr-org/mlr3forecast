@@ -212,6 +212,33 @@ task_resolve_freq = function(task, freq) {
   if (is.null(freq)) {
     return(infer_task_freq(order, series))
   }
+  order_type = fget_keys(task$col_info, order_col, "type", key = "id")
+  is_date = order_type %chin% c("Date", "POSIXct")
+  if (is.character(freq) && !is_date) {
+    error_input(
+      paste0(
+        "A calendar `freq` (\"%s\") requires a Date or POSIXct order column, but '%s' is not. ",
+        "Use `freq = NULL` to infer the step of a numeric or integer order column."
+      ),
+      freq,
+      order_col
+    )
+  }
+  if (is.numeric(freq) && is_date) {
+    error_input(
+      paste0(
+        "A numeric `freq` (%s) requires a numeric or integer order column, but '%s' is a %s. ",
+        "Use a calendar string such as \"month\" for the step, ",
+        "and the `period` hyperparameter for the seasonal period."
+      ),
+      format(freq),
+      order_col,
+      order_type
+    )
+  }
+  if (is.character(freq) && order_type == "Date" && unit_seconds(freq) < unit_secs[["day"]]) {
+    error_input("A sub-daily `freq` (\"%s\") requires a POSIXct order column, but '%s' is a Date.", freq, order_col)
+  }
   if (is.integer(order) && test_count(freq, positive = TRUE)) {
     freq = as.integer(freq)
   }
