@@ -226,6 +226,9 @@
   `type`, since
   [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits
   `"BSM"` for seasonal series and `"trend"` otherwise.
+- fix: `fcst.tslm` now errors on features named `trend` or `season`
+  unless `formula` is set, instead of silently using them as its
+  built-in terms.
 - fix:
   [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
   keeps an integer time index integer instead of sometimes returning

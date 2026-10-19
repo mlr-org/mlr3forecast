@@ -7,7 +7,10 @@ from package [forecast](https://CRAN.R-project.org/package=forecast).
 If `formula` is not set, the model is fit with the `trend` term of
 [`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
 plus all features. The `season` term is included when the seasonal
-period is greater than one.
+period is greater than one. Since
+[`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
+reserves the names `trend` and `season` for these terms, a task with a
+feature of either name requires `formula`.
 
 ## Dictionary
 
