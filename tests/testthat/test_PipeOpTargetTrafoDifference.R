@@ -208,4 +208,5 @@ test_that("fcst.targetdiff round-trips on columns named like its variables", {
   }
   expect_round_trip(make_named_task(target = "target"))
   expect_round_trip(make_named_task(key = "lag"))
+  expect_round_trip(make_named_task(key = "V1"))
 })
