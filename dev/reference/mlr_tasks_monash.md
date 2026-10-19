@@ -2,7 +2,7 @@
 
 Downloads a dataset from the Monash Forecasting Repository and converts
 it to a forecast task. Datasets without timestamps, e.g. `"m3_other"`,
-get an integer `index` column as order and no frequency.
+get an integer `index` column as order and a `freq` of `1`.
 
 ## Format
 
