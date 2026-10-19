@@ -157,6 +157,24 @@ test_that("integer keys are structural-only by default", {
   expect_integer(task$key$key)
 })
 
+test_that("a task needs exactly one order column", {
+  dt = data.table(d = seq(as.Date("2020-01-01"), by = "day", length.out = 5L), i = 1:5, y = rnorm(5L))
+  task = as_task_fcst(dt, target = "y", order = "d")
+  expect_error(
+    {
+      task$col_roles$order = character()
+    },
+    "exactly one column with role 'order'"
+  )
+  expect_error(
+    {
+      task$col_roles$order = c("d", "i")
+    },
+    "exactly one column with role 'order'"
+  )
+  expect_identical(task$col_roles$order, "d")
+})
+
 test_that("a column may not be both order and key", {
   dt = data.table(idx = rep(1:5, 2L), store = rep(c(1L, 2L), each = 5L), y = rnorm(10L))
   expect_error(

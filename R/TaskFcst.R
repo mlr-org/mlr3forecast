@@ -220,8 +220,9 @@ TaskFcst = R6Class(
 task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
   order_cols = new_roles[["order"]]
   target_cols = new_roles[["target"]]
-  if (length(order_cols) > 1L) {
-    error_input("There may only be up to one column with role 'order'.")
+  # parent constructors set roles before the order column exists
+  if (length(order_cols) > 1L || (length(order_cols) == 0L && task$task_type == "fcst")) {
+    error_input("There must be exactly one column with role 'order'.")
   }
 
   if (length(order_cols) > 0L) {
