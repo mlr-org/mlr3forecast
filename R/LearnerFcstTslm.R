@@ -9,6 +9,8 @@
 #'
 #' If `formula` is not set, the model is fit with the `trend` term of [forecast::tslm()] plus all features.
 #' The `season` term is included when the seasonal period is greater than one.
+#' Since [forecast::tslm()] reserves the names `trend` and `season` for these terms,
+#' a task with a feature of either name requires `formula`.
 #'
 #' @templateVar id fcst.tslm
 #' @template learner
@@ -52,6 +54,19 @@ LearnerFcstTslm = R6Class(
     .fit = function(task, pv) {
       y = private$.as_ts(task)
       if (is.null(pv$formula)) {
+        # tslm() takes a column named trend or season as that term instead of building its own
+        reserved = intersect(task$feature_names, c("trend", "season"))
+        if (length(reserved) > 0L) {
+          error_input(
+            paste0(
+              "%s learner reserves the names 'trend' and 'season' for its built-in terms, ",
+              "but Task '%s' has feature(s) %s. Rename them or set `formula`."
+            ),
+            self$id,
+            task$id,
+            str_collapse(reserved, quote = "'")
+          )
+        }
         rhs = c("trend", if (stats::frequency(y) > 1) "season", task$feature_names)
         pv$formula = task$formula(rhs = rhs)
       }

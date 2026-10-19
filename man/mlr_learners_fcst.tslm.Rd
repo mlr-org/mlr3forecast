@@ -10,6 +10,8 @@ Calls \code{\link[forecast:tslm]{forecast::tslm()}} from package \CRANpkg{foreca
 
 If \code{formula} is not set, the model is fit with the \code{trend} term of \code{\link[forecast:tslm]{forecast::tslm()}} plus all features.
 The \code{season} term is included when the seasonal period is greater than one.
+Since \code{\link[forecast:tslm]{forecast::tslm()}} reserves the names \code{trend} and \code{season} for these terms,
+a task with a feature of either name requires \code{formula}.
 }
 \section{Dictionary}{
 

@@ -32,6 +32,17 @@ test_that("tslm default formula handles non-seasonal tasks", {
   expect_numeric(learner$predict(task, split$test)$response, any.missing = FALSE, len = length(split$test))
 })
 
+test_that("tslm default formula rejects features named like its built-in terms", {
+  for (name in c("trend", "season")) {
+    dt = setnames(data.table(time = 1:48, y = as.numeric(1:48), x = rep(c(0, 1), 24L)), "x", name)
+    task = as_task_fcst(dt, target = "y", order = "time")
+    learner = lrn("fcst.tslm", period = 12L)
+    expect_error(learner$train(task), name, class = "Mlr3ErrorInput")
+    learner$param_set$set_values(formula = as.formula(sprintf("y ~ %s", name)))
+    expect_no_error(learner$train(task))
+  }
+})
+
 test_that("tslm accepts a user formula referencing the target name", {
   withr::local_seed(1)
   dt = data.table(time = 1:48, passengers = as.numeric(1:48) + rnorm(48), x = rnorm(48))
