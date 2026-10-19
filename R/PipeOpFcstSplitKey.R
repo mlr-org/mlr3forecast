@@ -56,7 +56,7 @@ PipeOpFcstSplitKey = R6Class(
       keys = key_table(groups, task$col_roles$key)
       self$state = list(keys = keys)
       groups = groups[keys, on = task$col_roles$key]
-      rows = set_names(groups$.rows, keys$.label)
+      rows = set_names(groups$..rows, keys$..label)
       list(as.Multiplicity(imap(rows, function(rows, label) private$.subtask(task, rows, label))))
     },
 
@@ -75,7 +75,7 @@ PipeOpFcstSplitKey = R6Class(
       }
       # downstream per-series states are matched by name, so realign to the training keys
       groups = groups[keys, on = key_cols]
-      rows = set_names(groups$.rows, keys$.label)
+      rows = set_names(groups$..rows, keys$..label)
       list(as.Multiplicity(imap(rows, function(rows, label) private$.subtask(task, rows, label))))
     },
 
@@ -88,7 +88,7 @@ PipeOpFcstSplitKey = R6Class(
       dt = task$data(cols = c(key_cols, col_roles$order))
       set(dt, j = "..row_id", value = task$row_ids)
       setorderv(dt, c(key_cols, col_roles$order))
-      dt[, list(.rows = list(..row_id)), by = key_cols]
+      dt[, list(..rows = list(..row_id)), by = key_cols]
     },
 
     .subtask = function(task, rows, label) {

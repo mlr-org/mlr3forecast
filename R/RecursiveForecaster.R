@@ -464,26 +464,26 @@ RecursiveForecaster = R6Class(
       step = self$model$freq
       if (length(key_cols) > 0L) {
         origin = train_data[,
-          list(.origin = max(order_cols), .anchor = grid_anchor(order_cols, step)),
+          list(..origin = max(order_cols), ..anchor = grid_anchor(order_cols, step)),
           by = key_cols,
           env = list(order_cols = order_cols, step = I(step))
         ]
         grid_check = origin[test_data[, c(key_cols, order_cols), with = FALSE], on = key_cols]
-        if (anyNA(grid_check$.origin)) {
+        if (anyNA(grid_check$..origin)) {
           error_input(
             "No training rows remain before the test set for %i key group(s).",
-            uniqueN(grid_check[is.na(grid_check$.origin), key_cols, with = FALSE])
+            uniqueN(grid_check[is.na(grid_check$..origin), key_cols, with = FALSE])
           )
         }
         grid_ok = grid_check[,
-          list(.ok = {
-            expected = seq_order(get(".origin")[1L], step, .N, get(".anchor")[1L])
+          list(..ok = {
+            expected = seq_order(get("..origin")[1L], step, .N, get("..anchor")[1L])
             !anyNA(expected) && all(sort(order_cols) == expected)
           }),
           by = key_cols,
           env = list(order_cols = order_cols, step = I(step))
         ]
-        bad = grid_ok[!grid_ok$.ok]
+        bad = grid_ok[!grid_ok$..ok]
         if (nrow(bad) > 0L) {
           error_input(
             "Test rows must form the gap-free future grid following the training data. Offending key group(s): %s.",

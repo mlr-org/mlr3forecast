@@ -147,13 +147,13 @@ PipeOpTargetTrafoDifference = R6Class(
         ]
         order_cols = setdiff(names(predict_phase_state$layout), c(key_cols, "..row_id"))
         setorderv(dt, c(key_cols, order_cols))
-        xis = tails[, list(.xi = list(target)), by = key_cols, env = list(target = target)]
-        groups = dt[, list(.pos = list(..pos)), by = key_cols]
+        xis = tails[, list(..xi = list(target)), by = key_cols, env = list(target = target)]
+        groups = dt[, list(..pos = list(..pos)), by = key_cols]
         groups = xis[groups, on = key_cols]
         inverted = numeric(length(prediction$response))
         for (i in seq_row(groups)) {
-          jj = groups$.pos[[i]]
-          inverted[jj] = tail(stats::diffinv(prediction$response[jj], lag = lag, xi = groups$.xi[[i]]), -lag)
+          jj = groups$..pos[[i]]
+          inverted[jj] = tail(stats::diffinv(prediction$response[jj], lag = lag, xi = groups$..xi[[i]]), -lag)
         }
       }
       PredictionFcst$new(

@@ -22,7 +22,7 @@ test_that("autoplot.TaskFcst colours one line per series for keyed tasks", {
   expect_s3_class(p, "ggplot")
   expect_subset("colour", names(p$mapping))
   n_series = uniqueN(task$data(cols = task$col_roles$key))
-  expect_equal(nlevels(p$data$.key), n_series)
+  expect_equal(nlevels(p$data$..key), n_series)
   vdiffr::expect_doppelganger("taskfcst_keyed", p)
 })
 
@@ -109,7 +109,7 @@ test_that("autoplot.PredictionFcst draws interval ribbons for quantile forecasts
   g = ggplot2::autoplot(p)
   expect_s3_class(g, "ggplot")
   expect_s3_class(g$layers[[1L]]$geom, "GeomRibbon")
-  expect_setequal(g$layers[[1L]]$data$.level, c(80, 90))
+  expect_setequal(g$layers[[1L]]$data$..level, c(80, 90))
   vdiffr::expect_doppelganger("predictionfcst_quantiles", g)
 })
 
@@ -147,7 +147,7 @@ test_that("autoplot.PredictionFcst overlays history for united local-model predi
   # the united prediction carries the generic key column, the history labels are derived from the task keys
   g = ggplot2::autoplot(p, task = task)
   expect_s3_class(g, "ggplot")
-  expect_equal(levels(g$data$.key), c("a", "b"))
+  expect_equal(levels(g$data$..key), c("a", "b"))
   expect_equal(nrow(g$data), task$nrow + 2L + 6L)
 })
 
@@ -160,8 +160,8 @@ test_that("autoplot.PredictionFcst matches history to deduplicated key labels", 
 
   g = ggplot2::autoplot(p, task = task)
   expect_s3_class(g, "ggplot")
-  expect_equal(levels(g$data$.key), c("x:y:z", "x:y:z.1"))
-  expect_false(anyNA(g$data$.key))
+  expect_equal(levels(g$data$..key), c("x:y:z", "x:y:z.1"))
+  expect_false(anyNA(g$data$..key))
   expect_equal(nrow(g$data), task$nrow + 2L + 6L)
 })
 

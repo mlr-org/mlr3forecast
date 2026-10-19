@@ -89,12 +89,12 @@ PipeOpFcstTsfeats = R6Class(
       setorderv(dt, c(key_cols, order_cols))
       if (length(key_cols) > 0L) {
         ts_dt = dt[,
-          list(.ts = list(stats::ts(target, frequency = period))),
+          list(..ts = list(stats::ts(target, frequency = period))),
           by = key_cols,
           env = list(target = target, period = period)
         ]
-        tslist = ts_dt$.ts
-        keys = ts_dt[, !".ts"]
+        tslist = ts_dt$..ts
+        keys = ts_dt[, !"..ts"]
       } else {
         tslist = list(stats::ts(dt[[target]], frequency = period))
         keys = NULL

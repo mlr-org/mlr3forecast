@@ -4,7 +4,7 @@ test_that("PipeOpFcstSplitKey splits a keyed task into per-series tasks", {
   out = po_split$train(list(task))[[1L]]
   expect_class(out, "Multiplicity")
   expect_names(names(out), identical.to = c("a", "b"))
-  expect_equal(po_split$state$keys$.label, c("a", "b"))
+  expect_equal(po_split$state$keys$..label, c("a", "b"))
 
   for (sub in out) {
     expect_r6_class(sub, "TaskFcst")

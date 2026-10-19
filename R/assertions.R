@@ -83,11 +83,11 @@ assert_period = makeAssertionFunction(check_period)
 assert_regular_grid = function(dt, order_cols, key_cols, freq) {
   if (length(key_cols) > 0L) {
     ok = dt[,
-      list(.ok = test_regular_grid(order_cols, freq)),
+      list(..ok = test_regular_grid(order_cols, freq)),
       by = key_cols,
       env = list(order_cols = order_cols, freq = I(freq))
     ]
-    bad = ok[!ok$.ok]
+    bad = ok[!ok$..ok]
     if (nrow(bad) > 0L) {
       error_input(
         "Cannot extend an irregular series into the future. Offending key group(s): %s. Use a regular order index (e.g. integer steps) or fill the gaps first.",

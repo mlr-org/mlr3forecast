@@ -63,16 +63,16 @@ PipeOpFcstFeasts = R6Class(
       key_cols = task$col_roles$key
 
       dt = task$data(cols = c(target, order_cols, key_cols))
-      setnames(dt, target, ".value")
-      set(dt, j = ".idx", value = to_tsibble_index(dt[[order_cols]], task$freq))
-      cols = c(".value", ".idx", key_cols)
+      setnames(dt, target, "..value")
+      set(dt, j = "..idx", value = to_tsibble_index(dt[[order_cols]], task$freq))
+      cols = c("..value", "..idx", key_cols)
       tsbl = if (length(key_cols) > 0L) {
-        tsibble::build_tsibble(dt[, cols, with = FALSE], key = tidyselect::all_of(key_cols), index = .idx)
+        tsibble::build_tsibble(dt[, cols, with = FALSE], key = tidyselect::all_of(key_cols), index = ..idx)
       } else {
-        tsibble::build_tsibble(dt[, cols, with = FALSE], index = .idx)
+        tsibble::build_tsibble(dt[, cols, with = FALSE], index = ..idx)
       }
       features = self$param_set$get_values(tags = "train")$features %??% list(feasts::feat_acf, feasts::feat_stl)
-      feats = setDT(invoke(fabletools::features, tsbl, .value, features = features))
+      feats = setDT(invoke(fabletools::features, tsbl, ..value, features = features))
       feat_cols = setdiff(names(feats), key_cols)
       setnames(feats, feat_cols, paste0(target, "_feasts_", feat_cols))
 

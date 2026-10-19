@@ -356,7 +356,7 @@ DirectForecaster = R6Class(
       step = task$freq
       origin = if (length(key_cols) > 0L) {
         dt[,
-          list(.origin = max(order_cols), .anchor = grid_anchor(order_cols, step)),
+          list(..origin = max(order_cols), ..anchor = grid_anchor(order_cols, step)),
           by = key_cols,
           env = list(order_cols = order_cols, step = I(step))
         ]
@@ -407,16 +407,16 @@ DirectForecaster = R6Class(
       if (length(key_cols) > 0L) {
         ord = origin[ord, on = key_cols]
         ord[,
-          ".step" := match(order_cols, seq_order(get(".origin")[1L], step, max_h, get(".anchor")[1L])),
+          "..step" := match(order_cols, seq_order(get("..origin")[1L], step, max_h, get("..anchor")[1L])),
           by = key_cols,
           env = list(order_cols = order_cols, step = I(step), max_h = max_h)
         ]
       } else {
         grid = seq_order(origin, step, max_h, self$model$anchor)
-        set(ord, j = ".step", value = match(ord[[order_cols]], grid))
+        set(ord, j = "..step", value = match(ord[[order_cols]], grid))
       }
 
-      steps = ord$.step
+      steps = ord$..step
       if (anyNA(steps)) {
         error_input("%i test row(s) are beyond the trained horizon (max %i steps).", sum(is.na(steps)), max_h)
       }
@@ -439,7 +439,7 @@ DirectForecaster = R6Class(
       # lags resolve from training history and positional shifts equal true step distance
       if (length(key_cols) > 0L) {
         skeleton = ord[,
-          set_names(list(seq_order(get(".origin")[1L], step, max(get(".step")), get(".anchor")[1L])), order_cols),
+          set_names(list(seq_order(get("..origin")[1L], step, max(get("..step")), get("..anchor")[1L])), order_cols),
           by = key_cols,
           env = list(step = I(step), order_cols = I(order_cols))
         ]

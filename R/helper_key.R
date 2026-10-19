@@ -2,12 +2,12 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   key_cols = task$col_roles$key
   key_data = task$data(rows = prediction$row_ids, cols = key_cols)
   set(key_data, j = "..row_id", value = prediction$row_ids)
-  groups = key_data[, list(.rows = list(..row_id)), by = key_cols]
+  groups = key_data[, list(..rows = list(..row_id)), by = key_cols]
 
   if (!is.null(train_set)) {
     train_key_data = task$data(rows = train_set, cols = key_cols)
     set(train_key_data, j = "..row_id", value = train_set)
-    train_groups = train_key_data[, list(.train_rows = list(..row_id)), by = key_cols]
+    train_groups = train_key_data[, list(..train_rows = list(..row_id)), by = key_cols]
     missing = groups[!train_groups, on = key_cols]
     if (nrow(missing) > 0L) {
       error_input(
@@ -19,8 +19,8 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   }
 
   scores = map_dbl(seq_row(groups), function(i) {
-    pred = prediction$clone()$filter(groups$.rows[[i]])
-    score_fn(pred, task, train_set = groups$.train_rows[[i]], ...)
+    pred = prediction$clone()$filter(groups$..rows[[i]])
+    score_fn(pred, task, train_set = groups$..train_rows[[i]], ...)
   })
   mean(scores, na.rm = TRUE)
 }
@@ -33,7 +33,7 @@ key_table = function(dt, cols) {
   keys = unique(dt[, cols, with = FALSE])
   # sort so the deduplicated labels depend only on the key set
   setorderv(keys, cols)
-  set(keys, j = ".label", value = make.unique(key_labels(keys, cols)))
+  set(keys, j = "..label", value = make.unique(key_labels(keys, cols)))
   keys
 }
 

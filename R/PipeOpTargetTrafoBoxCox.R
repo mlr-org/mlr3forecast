@@ -164,10 +164,10 @@ PipeOpTargetTrafoBoxCox = R6Class(
           on = "..row_id"
         ]
         dt = lambdas[dt, on = key_cols]
-        groups = dt[, list(.pos = list(..pos), lambda = lambda[1L]), by = key_cols]
+        groups = dt[, list(..pos = list(..pos), lambda = lambda[1L]), by = key_cols]
         inverted_values = quantiles
         for (i in seq_row(groups)) {
-          jj = groups$.pos[[i]]
+          jj = groups$..pos[[i]]
           lambda = groups$lambda[[i]]
           if (!is.null(response)) {
             response[jj] = as.numeric(forecast::InvBoxCox(response[jj], lambda = lambda))
