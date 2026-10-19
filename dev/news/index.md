@@ -241,6 +241,7 @@
   `DirectForecaster`.
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
   tasks instead of creating invalid time-based splits.
+- fix: `TaskFcst` now errors if the order column role is removed.
 - perf:
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   builds calendar date indices arithmetically instead of through
