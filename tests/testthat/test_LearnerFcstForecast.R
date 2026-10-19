@@ -60,6 +60,15 @@ test_that("quantiles near the median and in the far tails map to the right level
   expect_equal(unname(q[1L, 1L]), fc$mean[1L] + qnorm(0.00001) * sd, tolerance = 1e-6)
 })
 
+test_that("quantiles 0 and 1 are rejected", {
+  task = tsk("airpassengers")
+  for (quantiles in list(c(0, 0.5), c(0.5, 1))) {
+    learner = quantile_learner(quantiles)
+    learner$train(task, 1:132)
+    expect_error(learner$predict(task, 133L), "Quantiles 0 and 1 are not supported")
+  }
+})
+
 test_that("quantile prediction with only the median works", {
   task = tsk("airpassengers")
   learner = quantile_learner(0.5)

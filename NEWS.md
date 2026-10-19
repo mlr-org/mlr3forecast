@@ -40,7 +40,7 @@
 * fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
 * fix: Forecaster hashes now cover the wrapped graph's structure and, for `DirectForecaster`, the `horizons`.
-* fix: Learners wrapping the `forecast` package now return correct quantiles close to the median and support extreme quantiles.
+* fix: Learners wrapping the `forecast` package now return correct quantiles close to the median and support extreme quantiles. Quantiles 0 and 1 raise an error.
 * fix: Columns named like internal variables, e.g. a target column named `target` or a key column named `step`, no longer break the forecasters, pipeops, resamplings, and `generate_newdata()`.
 * fix: `as_task_fcst()` coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash `cif_2016` dataset can be converted.
 * fix: `as_task_fcst()` now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.

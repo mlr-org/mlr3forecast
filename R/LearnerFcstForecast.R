@@ -15,7 +15,12 @@ LearnerFcstForecast = R6Class(
 
     .postprocess = function(pred) pred,
     # pass fractions, since forecast rescales levels that are all below 1
-    .adjust_level = function(level) level / 100,
+    .adjust_level = function(level) {
+      if (any(level >= 100)) {
+        error_config("Quantiles 0 and 1 are not supported by %s.", self$id)
+      }
+      level / 100
+    },
     .adjust_predict_args = function(args, is_quantile) args,
 
     .train = function(task) {
