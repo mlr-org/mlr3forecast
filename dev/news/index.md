@@ -173,7 +173,8 @@
 - fix: Forecaster hashes now cover the wrapped graph’s structure and,
   for `DirectForecaster`, the `horizons`.
 - fix: Learners wrapping the `forecast` package now return correct
-  quantiles close to the median and support extreme quantiles.
+  quantiles close to the median and support extreme quantiles. Quantiles
+  0 and 1 raise an error.
 - fix: Columns named like internal variables, e.g. a target column named
   `target` or a key column named `step`, no longer break the
   forecasters, pipeops, resamplings, and
