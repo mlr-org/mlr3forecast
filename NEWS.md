@@ -52,10 +52,11 @@
 * fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
 * fix: `fcst.arfima` and `fcst.auto_arima` no longer switch on `parallel` via `set_threads()` during stepwise search, where `forecast::auto.arima()` warned and fit in serial.
 * fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`, `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`, `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series instead of internal code, so printed models are readable.
+* fix: `fcst.prophet` now raises an input error naming the feature if prophet reserves its name, e.g. `holidays` or `ds`.
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.
 * fix: `fcst.stlm` now raises a configuration error instead of an input error for features without `method = "arima"`.
 * fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.
-* fix: `fcst.tslm` now errors on features named `trend` or `season` unless `formula` is set, instead of silently using them as its built-in terms.
+* fix: `fcst.tslm` now errors on a target or features named `trend` or `season` unless `formula` is set, instead of silently confusing them with its built-in terms.
 * fix: `generate_newdata()` keeps an integer time index integer instead of sometimes returning doubles.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.

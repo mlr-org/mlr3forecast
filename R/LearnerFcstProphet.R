@@ -82,7 +82,10 @@ LearnerFcstProphet = R6Class(
         dt = cbind(dt, features)
         m = invoke(prophet::prophet, df = NULL, .args = pv)
         for (nm in setdiff(feature_names, c("cap", "floor"))) {
-          m = prophet::add_regressor(m, nm)
+          # prophet reserves names such as ds, y, trend, and holidays for its own columns
+          m = tryCatch(prophet::add_regressor(m, nm), error = function(e) {
+            error_input("%s learner cannot use feature '%s' as a regressor: %s", self$id, nm, conditionMessage(e))
+          })
         }
         m = prophet::fit.prophet(m, dt)
       } else {

@@ -35,3 +35,9 @@ test_that("logistic growth uses cap and floor features", {
   task_without_cap = as_task_fcst(dt[, !"cap"], target = "y", order = "month", freq = "month")
   expect_error(learner$clone(deep = TRUE)$train(task_without_cap), "requires a task feature")
 })
+
+test_that("prophet rejects features with names reserved by prophet", {
+  dt = data.table(time = 1:48, y = as.numeric(1:48), holidays = cos(1:48))
+  task = as_task_fcst(dt, target = "y", order = "time")
+  expect_error(lrn("fcst.prophet")$train(task), "'holidays'", class = "Mlr3ErrorInput")
+})
