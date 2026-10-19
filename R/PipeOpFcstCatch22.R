@@ -60,7 +60,11 @@ PipeOpFcstCatch22 = R6Class(
       dt = task$data(cols = c(target, order_cols, key_cols))
       setorderv(dt, c(key_cols, order_cols))
       feats = if (length(key_cols) > 0L) {
-        dt[, private$.catch22(target, catch24), by = key_cols, env = list(target = target, catch24 = catch24)]
+        dt[,
+          catch22(target, catch24),
+          by = key_cols,
+          env = list(catch22 = private$.catch22, target = target, catch24 = catch24)
+        ]
       } else {
         setDT(private$.catch22(dt[[target]], catch24))
       }

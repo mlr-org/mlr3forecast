@@ -52,4 +52,5 @@ test_that("PipeOpFcstCatch22 is not confused by columns named like its variables
   expected = feats(make_named_task())
   expect_same_values(feats(make_named_task(target = "target")), expected)
   expect_same_values(feats(make_named_task(key = "catch24")), expected)
+  expect_same_values(feats(make_named_task(key = "private")), expected)
 })
