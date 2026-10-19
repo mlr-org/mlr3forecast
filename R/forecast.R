@@ -25,11 +25,10 @@ generate_newdata = function(task, n = 1L) {
   assert_regular_grid(dt, order_cols, key_cols, freq)
 
   newdata = dt[,
-    list(extend_order(order_cols, freq, n)),
+    list(order_cols = extend_order(order_cols, freq, n)),
     by = key_cols,
     env = list(order_cols = order_cols, freq = I(freq), n = n)
   ]
-  setnames(newdata, "V1", order_cols)
   setcolorder(newdata, cols)
   set(newdata, j = task$target_names, value = NA_real_)
   newdata
