@@ -96,7 +96,9 @@ make_colon_key_panel_task = function(n = 12L) {
 # keyed task whose columns can be named like variables that the package uses inside data.table calls
 make_named_task = function(target = "y", key = "id", order = "t", feature = NULL) {
   data = data.table(t = rep(1:30, 2L), id = rep(1:2, each = 30L), y = c(1:30, 101:130) + sin(1:60))
-  if (!is.null(feature)) set(data, j = feature, value = cos(1:60))
+  if (!is.null(feature)) {
+    set(data, j = feature, value = cos(1:60))
+  }
   setnames(data, c("t", "id", "y"), c(order, key, target))
   as_task_fcst(data, target = target, order = order, key = key)
 }

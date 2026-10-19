@@ -86,7 +86,8 @@ forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
     }
     overlay_cols = setdiff(names(newdata), by_cols)
     if (length(overlay_cols) > 0L) {
-      generated[newdata,
+      generated[
+        newdata,
         on = by_cols,
         (overlay_cols) := mget(paste0("i.", overlay_cols)),
         env = list(overlay_cols = I(overlay_cols))
