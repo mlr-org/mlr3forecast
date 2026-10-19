@@ -164,13 +164,15 @@ test_that("a task needs exactly one order column", {
     {
       task$col_roles$order = character()
     },
-    "exactly one column with role 'order'"
+    "exactly one column with role 'order'",
+    class = "Mlr3ErrorInput"
   )
   expect_error(
     {
       task$col_roles$order = c("d", "i")
     },
-    "exactly one column with role 'order'"
+    "exactly one column with role 'order'",
+    class = "Mlr3ErrorInput"
   )
   expect_identical(task$col_roles$order, "d")
 })
