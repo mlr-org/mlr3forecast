@@ -174,6 +174,10 @@
   for `DirectForecaster`, the `horizons`.
 - fix: Learners wrapping the `forecast` package now return correct
   quantiles close to the median and support extreme quantiles.
+- fix: Columns named like internal variables, e.g. a target column named
+  `target` or a key column named `step`, no longer break the
+  forecasters, pipeops, resamplings, and
+  [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md).
 - fix:
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   coerces whole-number numeric attributes of tsf data to integer key
@@ -225,11 +229,6 @@
   [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
   keeps an integer time index integer instead of sometimes returning
   doubles.
-- fix:
-  [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
-  and [`forecast()`](https://generics.r-lib.org/reference/forecast.html)
-  no longer fail or return the wrong number of rows per series when a
-  key column is named `n`, `task`, or `freq`.
 - fix: `msr("fcst.wape")` now ignores rows with a missing prediction in
   the denominator too, which previously understated the error.
 - fix:
