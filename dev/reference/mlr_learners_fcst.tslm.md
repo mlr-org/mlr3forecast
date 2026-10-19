@@ -10,7 +10,7 @@ plus all features. The `season` term is included when the seasonal
 period is greater than one. Since
 [`forecast::tslm()`](https://pkg.robjhyndman.com/forecast/reference/tslm.html)
 reserves the names `trend` and `season` for these terms, a task with a
-feature of either name requires `formula`.
+target or feature of either name requires `formula`.
 
 ## Dictionary
 

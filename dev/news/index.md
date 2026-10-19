@@ -217,6 +217,8 @@
   `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`,
   `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series
   instead of internal code, so printed models are readable.
+- fix: `fcst.prophet` now raises an input error naming the feature if
+  prophet reserves its name, e.g. `holidays` or `ds`.
 - fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and
   `allow.multiplicative.trend` can be set without setting `method`
   first.
@@ -226,9 +228,9 @@
   `type`, since
   [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits
   `"BSM"` for seasonal series and `"trend"` otherwise.
-- fix: `fcst.tslm` now errors on features named `trend` or `season`
-  unless `formula` is set, instead of silently using them as its
-  built-in terms.
+- fix: `fcst.tslm` now errors on a target or features named `trend` or
+  `season` unless `formula` is set, instead of silently confusing them
+  with its built-in terms.
 - fix:
   [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
   keeps an integer time index integer instead of sometimes returning
