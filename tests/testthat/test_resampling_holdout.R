@@ -115,3 +115,14 @@ test_that("fcst.holdout repeated instantiation", {
   expect_false(identical(train_set_1, resampling$train_set(1L)))
   expect_false(identical(test_set_1, resampling$test_set(1L)))
 })
+
+test_that("fcst.holdout is not confused by key columns named like its variables", {
+  splits = function(task) {
+    resampling = rsmp("fcst.holdout", ratio = 0.8)$instantiate(task)
+    list(resampling$train_set(1L), resampling$test_set(1L))
+  }
+  expected = splits(make_named_task())
+  for (key in c("ratio", "n")) {
+    expect_identical(splits(make_named_task(key = key)), expected)
+  }
+})

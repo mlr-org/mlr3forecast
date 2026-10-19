@@ -164,3 +164,10 @@ test_that("autoplot.PredictionFcst matches history to deduplicated key labels", 
   expect_false(anyNA(g$data$.key))
   expect_equal(nrow(g$data), task$nrow + 2L + 6L)
 })
+
+test_that("autoplot.PredictionFcst bridges one row per series when the order column is named key", {
+  skip_if_not_installed("rpart")
+  task = make_named_task(order = "key")
+  g = ggplot2::autoplot(fcst_prediction(task, h = 3L), task = task)
+  expect_equal(nrow(g$data), task$nrow + 2L + 2L * 3L)
+})

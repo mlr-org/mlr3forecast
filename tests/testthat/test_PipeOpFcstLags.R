@@ -55,3 +55,13 @@ test_that("PipeOpFcstLags errors when the whole series is too short for the lags
   task = tsk("airpassengers")$clone()$filter(1:3)
   expect_snapshot(po("fcst.lags", lags = 1:5)$train(list(task)), error = TRUE)
 })
+
+test_that("PipeOpFcstLags is not confused by columns named like its variables", {
+  lag_data = function(task) {
+    op = po("fcst.lags", lags = 1:2)
+    list(op$train(list(task))[[1L]]$data(), op$predict(list(task))[[1L]]$data())
+  }
+  expected = lag_data(make_named_task())
+  expect_same_values(lag_data(make_named_task(target = "target")), expected)
+  expect_same_values(lag_data(make_named_task(key = "lags")), expected)
+})

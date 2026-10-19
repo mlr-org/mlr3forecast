@@ -90,11 +90,12 @@ read_tsf = function(file) {
     if (has_date) {
       by_freq = tsf_to_seq(freq)
       dt[,
-        (date_col) := {
-          origin = get(date_col)[1L]
+        date_col := {
+          origin = date_col[1L]
           c(origin, seq_order(origin, by_freq, .N - 1L))
         },
-        by = cn
+        by = cn,
+        env = list(date_col = date_col, by_freq = I(by_freq))
       ]
     }
     setattr(dt, "frequency", freq)

@@ -162,3 +162,14 @@ test_that("fcst.cv with various parameter combinations", {
   expect_identical(resampling$train_set(4L), 1:29)
   expect_identical(resampling$test_set(4L), 30L)
 })
+
+test_that("fcst.cv is not confused by key columns named like its variables", {
+  splits = function(task) {
+    resampling = rsmp("fcst.cv", folds = 3L, horizon = 3L, window_size = 10L, fixed_window = TRUE)$instantiate(task)
+    map(seq_len(resampling$iters), function(i) list(resampling$train_set(i), resampling$test_set(i)))
+  }
+  expected = splits(make_named_task())
+  for (key in c("folds", "horizon", "window_size", "step_size", "fixed_window")) {
+    expect_identical(splits(make_named_task(key = key)), expected)
+  }
+})

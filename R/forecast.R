@@ -21,10 +21,14 @@ generate_newdata = function(task, n = 1L) {
   cols = c(order_cols, key_cols)
   dt = task$data(cols = cols)
   setorderv(dt, c(key_cols, order_cols))
-  assert_regular_grid(dt, order_cols, key_cols, task$freq)
+  freq = task$freq
+  assert_regular_grid(dt, order_cols, key_cols, freq)
 
-  freq = task$freq # nolint: object_usage_linter.
-  newdata = dt[, list(extend_order(get(order_cols), ..freq, ..n)), by = key_cols]
+  newdata = dt[,
+    list(extend_order(order_cols, freq, n)),
+    by = key_cols,
+    env = list(order_cols = order_cols, freq = I(freq), n = n)
+  ]
   setnames(newdata, "V1", order_cols)
   setcolorder(newdata, cols)
   set(newdata, j = task$target_names, value = NA_real_)
@@ -82,7 +86,11 @@ forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
     }
     overlay_cols = setdiff(names(newdata), by_cols)
     if (length(overlay_cols) > 0L) {
-      generated[newdata, on = by_cols, (overlay_cols) := mget(paste0("i.", overlay_cols))]
+      generated[newdata,
+        on = by_cols,
+        (overlay_cols) := mget(paste0("i.", overlay_cols)),
+        env = list(overlay_cols = I(overlay_cols))
+      ]
     }
   }
   object$predict_newdata(generated, task)

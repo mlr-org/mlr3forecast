@@ -82,7 +82,7 @@ PipeOpTargetTrafoScale = R6Class(
         return(scale_stats(task$data(cols = target)[[1L]], pv))
       }
       dt = task$data(cols = c(key_cols, target))
-      stats = dt[, scale_stats(get(target), pv), by = key_cols]
+      stats = dt[, scale_stats(target, pv), by = key_cols, env = list(target = target, pv = I(pv))]
       list(key_cols = key_cols, stats = stats)
     },
 

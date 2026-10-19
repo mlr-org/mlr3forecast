@@ -70,9 +70,9 @@ PipeOpTargetTrafoDifference = R6Class(
       }
       dt = task$data(cols = c(key_cols, task$col_roles$order, task$target_names))
       setorderv(dt, c(key_cols, task$col_roles$order))
-      tails = dt[, tail(.SD, lag), by = key_cols, .SDcols = task$target_names]
+      tails = dt[, tail(.SD, lag), by = key_cols, .SDcols = task$target_names, env = list(lag = lag)]
       # series shorter than lag cannot anchor the inversion and are treated as unseen at predict
-      tails = tails[, if (.N == lag) .SD, by = key_cols]
+      tails = tails[, if (.N == lag) .SD, by = key_cols, env = list(lag = lag)]
       list(key_cols = key_cols, tails = tails)
     },
 
@@ -100,13 +100,15 @@ PipeOpTargetTrafoDifference = R6Class(
 
       pk = task$backend$primary_key
       dt = task$backend$data(rows = task$row_ids, cols = c(pk, target, key_cols, order_cols))
-      if (length(order_cols) > 0L && any(dt[, is.unsorted(get(order_cols)), by = key_cols]$V1)) {
+      unsorted = length(order_cols) > 0L &&
+        any(dt[, is.unsorted(order_cols), by = key_cols, env = list(order_cols = order_cols)]$V1)
+      if (unsorted) {
         error_input("%s requires each series to be ordered by the order column.", self$id)
       }
       diff_col = paste0(target, ".diff")
       setorderv(dt, c(key_cols, order_cols))
       if (phase == "train") {
-        dt[, (diff_col) := get(target) - shift(get(target), lag), by = key_cols]
+        dt[, (diff_col) := target - shift(target, lag), by = key_cols, env = list(target = target, lag = lag)]
         kept = fcst_drop_incomplete(dt, diff_col, key_cols)
         task$filter(kept[[pk]])$cbind(kept[, c(pk, diff_col), with = FALSE])
       } else {
@@ -114,8 +116,8 @@ PipeOpTargetTrafoDifference = R6Class(
         assert_seen_keys(tails, dt, key_cols)
         # tail pseudo-rows carry NA pk and precede each series' predict rows after the sort above
         aug = rbind(tails, dt, fill = TRUE)
-        aug[, (diff_col) := get(target) - shift(get(target), lag), by = key_cols]
-        out = aug[!is.na(get(pk))]
+        aug[, (diff_col) := target - shift(target, lag), by = key_cols, env = list(target = target, lag = lag)]
+        out = aug[!is.na(pk), env = list(pk = pk)]
         task$cbind(out[, c(pk, diff_col), with = FALSE])
       }
       convert_task(task, target = diff_col, drop_original_target = TRUE)
@@ -145,7 +147,7 @@ PipeOpTargetTrafoDifference = R6Class(
         ]
         order_cols = setdiff(names(predict_phase_state$layout), c(key_cols, "..row_id"))
         setorderv(dt, c(key_cols, order_cols))
-        xis = tails[, list(.xi = list(get(target))), by = key_cols]
+        xis = tails[, list(.xi = list(target)), by = key_cols, env = list(target = target)]
         groups = dt[, list(.pos = list(..pos)), by = key_cols]
         groups = xis[groups, on = key_cols]
         inverted = numeric(length(prediction$response))

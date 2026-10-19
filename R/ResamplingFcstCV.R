@@ -167,7 +167,16 @@ ResamplingFcstCV = R6Class(
           test_ids = map(train_end, function(i) row_id[(i + 1L):(i + horizon)])
           list(train_ids = train_ids, test_ids = test_ids, fold = seq_len(folds))
         },
-        by = key_cols
+        by = key_cols,
+        env = list(
+          window_size = window_size,
+          horizon = horizon,
+          step_size = step_size,
+          folds = folds,
+          fixed_window = fixed_window,
+          self = self,
+          task = task
+        )
       ]
       merged = splits[,
         list(

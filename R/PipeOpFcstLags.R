@@ -69,7 +69,7 @@ PipeOpFcstLags = R6Class(
       lag_cols = sprintf("%s_lag_%i", target, lags)
       setorderv(dt, c(key_cols, order_cols))
       if (length(key_cols) > 0L) {
-        dt[, (lag_cols) := shift(get(target), lags), by = key_cols]
+        dt[, (lag_cols) := shift(target, lags), by = key_cols, env = list(target = target, lags = lags)]
       } else {
         set(dt, j = lag_cols, value = shift(dt[[target]], lags))
       }
@@ -91,7 +91,7 @@ PipeOpFcstLags = R6Class(
       lag_cols = sprintf("%s_lag_%i", target, lags)
       setorderv(full, c(key_cols, order_cols))
       if (length(key_cols) > 0L) {
-        full[, (lag_cols) := shift(get(target), lags), by = key_cols]
+        full[, (lag_cols) := shift(target, lags), by = key_cols, env = list(target = target, lags = lags)]
       } else {
         set(full, j = lag_cols, value = shift(full[[target]], lags))
       }

@@ -269,3 +269,19 @@ test_that("targetscale works wrapping DirectForecaster", {
   # inversion keeps the forecast time index so $order/autoplot/fcstavg work downstream
   expect_equal(nrow(prediction$order), length(split$test))
 })
+
+test_that("fcst.targetscale round-trips on columns named like its variables", {
+  expect_round_trip = function(task) {
+    op = po("fcst.targetscale")
+    op$train(list(task))
+    out_predict = op$predict(list(task))
+    prediction = PredictionRegr$new(
+      row_ids = task$row_ids,
+      truth = task$truth(),
+      response = out_predict$output$data()[[out_predict$output$target_names[1L]]]
+    )
+    expect_equal(out_predict$fun(list(prediction))[[1L]]$response, as.numeric(task$truth()))
+  }
+  expect_round_trip(make_named_task(target = "target"))
+  expect_round_trip(make_named_task(key = "pv"))
+})

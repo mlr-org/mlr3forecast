@@ -45,3 +45,11 @@ test_that("PipeOpFcstCatch22 predict reuses cached features", {
   expect_true("passengers_catch22_CO_f1ecac" %in% out$feature_names)
   expect_equal(out$nrow, task$nrow)
 })
+
+test_that("PipeOpFcstCatch22 is not confused by columns named like its variables", {
+  skip_if_not_installed("Rcatch22")
+  feats = function(task) po("fcst.catch22")$train(list(task))[[1L]]$data()
+  expected = feats(make_named_task())
+  expect_same_values(feats(make_named_task(target = "target")), expected)
+  expect_same_values(feats(make_named_task(key = "catch24")), expected)
+})

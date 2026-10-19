@@ -441,3 +441,16 @@ test_that("DirectForecaster clone_graph controls whether the wrapped graph is sh
   expect_null(graph$state$regr.rpart)
   expect_length(learner$model$models, 2L)
 })
+
+test_that("DirectForecaster is not confused by columns named like its variables", {
+  skip_if_not_installed("rpart")
+  predict_response = function(task) {
+    split = partition(task, ratio = 0.9)
+    learner = direct_forecaster(lrn("regr.rpart"), lags = 1:2, horizons = 3L)
+    learner$train(task, split$train)$predict(task, split$test)$response
+  }
+  expected = predict_response(make_named_task(feature = "x"))
+  for (args in list(list(target = "target"), list(key = "step"), list(key = "max_h"), list(feature = "max_lag"))) {
+    expect_equal(predict_response(do.call(make_named_task, insert_named(list(feature = "x"), args))), expected)
+  }
+})

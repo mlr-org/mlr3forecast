@@ -93,6 +93,19 @@ make_colon_key_panel_task = function(n = 12L) {
   TaskFcst$new("panel", as_data_backend(data), target = "y", order = "date", key = c("key1", "key2"), freq = "day")
 }
 
+# keyed task whose columns can be named like variables that the package uses inside data.table calls
+make_named_task = function(target = "y", key = "id", order = "t", feature = NULL) {
+  data = data.table(t = rep(1:30, 2L), id = rep(1:2, each = 30L), y = c(1:30, 101:130) + sin(1:60))
+  if (!is.null(feature)) set(data, j = feature, value = cos(1:60))
+  setnames(data, c("t", "id", "y"), c(order, key, target))
+  as_task_fcst(data, target = target, order = order, key = key)
+}
+
+expect_same_values = function(object, expected) {
+  strip = function(x) if (is.data.frame(x)) unname(as.list(x)) else map(x, strip)
+  expect_identical(strip(object), strip(expected))
+}
+
 fcst_prediction = function(task = tsk("airpassengers"), h = 12L) {
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
   learner$train(task)

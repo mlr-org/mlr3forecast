@@ -193,3 +193,19 @@ test_that("targetdiff works wrapping DirectForecaster", {
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
 })
+
+test_that("fcst.targetdiff round-trips on columns named like its variables", {
+  expect_round_trip = function(task) {
+    op = po("fcst.targetdiff")
+    op$train(list(task))
+    out_predict = op$predict(list(task))
+    prediction = PredictionRegr$new(
+      row_ids = task$row_ids,
+      truth = task$truth(),
+      response = out_predict$output$data()[[out_predict$output$target_names[1L]]]
+    )
+    expect_equal(out_predict$fun(list(prediction))[[1L]]$response, as.numeric(task$truth()))
+  }
+  expect_round_trip(make_named_task(target = "target"))
+  expect_round_trip(make_named_task(key = "lag"))
+})

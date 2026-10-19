@@ -36,3 +36,11 @@ test_that("PipeOpFcstTsfeats predict reuses cached features", {
   expect_true("passengers_tsf_entropy" %in% out$feature_names)
   expect_equal(out$nrow, task$nrow)
 })
+
+test_that("PipeOpFcstTsfeats is not confused by columns named like its variables", {
+  skip_if_not_installed("tsfeatures")
+  feats = function(task) po("fcst.tsfeats", features = "entropy")$train(list(task))[[1L]]$data()
+  expected = feats(make_named_task())
+  expect_same_values(feats(make_named_task(target = "target")), expected)
+  expect_same_values(feats(make_named_task(key = "period")), expected)
+})

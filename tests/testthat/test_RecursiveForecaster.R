@@ -465,3 +465,16 @@ test_that("RecursiveForecaster joint per-step prediction matches per-key predict
   uneven = learner$predict(task, uneven_ids)
   expect_identical(uneven$response, full$response[match(uneven$row_ids, full$row_ids)])
 })
+
+test_that("RecursiveForecaster is not confused by columns named like its variables", {
+  skip_if_not_installed("rpart")
+  predict_response = function(task) {
+    split = partition(task, ratio = 0.9)
+    learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:2)
+    learner$train(task, split$train)$predict(task, split$test)$response
+  }
+  expected = predict_response(make_named_task())
+  for (args in list(list(target = "target"), list(key = "step"), list(order = "step"))) {
+    expect_equal(predict_response(do.call(make_named_task, args)), expected)
+  }
+})

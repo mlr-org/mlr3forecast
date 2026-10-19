@@ -41,6 +41,7 @@
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
 * fix: Forecaster hashes now cover the wrapped graph's structure and, for `DirectForecaster`, the `horizons`.
 * fix: Learners wrapping the `forecast` package now return correct quantiles close to the median and support extreme quantiles.
+* fix: Columns named like internal variables, e.g. a target column named `target` or a key column named `step`, no longer break the forecasters, pipeops, resamplings, and `generate_newdata()`.
 * fix: `as_task_fcst()` coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash `cif_2016` dataset can be converted.
 * fix: `as_task_fcst()` now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
@@ -55,7 +56,6 @@
 * fix: `fcst.stlm` now raises a configuration error instead of an input error for features without `method = "arima"`.
 * fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.
 * fix: `generate_newdata()` keeps an integer time index integer instead of sometimes returning doubles.
-* fix: `generate_newdata()` and `forecast()` no longer fail or return the wrong number of rows per series when a key column is named `n`, `task`, or `freq`.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * fix: `RecursiveForecaster` now returns predictions in the task's row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets `po("fcst.avg")` combine it with `DirectForecaster`.
