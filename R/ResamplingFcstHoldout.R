@@ -89,32 +89,32 @@ ResamplingFcstHoldout = R6Class(
       key_cols = col_roles$key
       has_key = length(key_cols) > 0L
       dt = task$backend$data(rows = ids, cols = c(task$backend$primary_key, order_cols, key_cols))
-      setnames(dt, task$backend$primary_key, "row_id")
+      setnames(dt, task$backend$primary_key, "..row_id")
 
       if (!has_key) {
         setorderv(dt, order_cols)
         ids = make_split(nrow(dt), ratio, n)
-        return(list(
-          train = dt[ids$train, "row_id"][[1L]],
-          test = dt[ids$test, "row_id"][[1L]]
-        ))
+        row_id = dt$..row_id
+        return(list(train = row_id[ids$train], test = row_id[ids$test]))
       }
 
       setorderv(dt, c(key_cols, order_cols))
       splits = dt[,
         {
+          row_id = .SD$..row_id
           ids = make_split(.N, ratio, n)
           list(
-            train = list(row_id[ids$train]),
-            test = list(row_id[ids$test])
+            ..train = list(row_id[ids$train]),
+            ..test = list(row_id[ids$test])
           )
         },
         by = key_cols,
+        .SDcols = "..row_id",
         env = list(ratio = ratio, n = n)
       ]
       list(
-        train = unlist(splits$train, use.names = FALSE),
-        test = unlist(splits$test, use.names = FALSE)
+        train = unlist(splits$..train, use.names = FALSE),
+        test = unlist(splits$..test, use.names = FALSE)
       )
     },
 

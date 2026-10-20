@@ -100,12 +100,12 @@ ResamplingFcstCV = R6Class(
         rows = ids,
         cols = c(task$backend$primary_key, order_cols, key_cols)
       )
-      setnames(dt, task$backend$primary_key, "row_id")
+      setnames(dt, task$backend$primary_key, "..row_id")
 
       if (!has_key) {
         setorderv(dt, order_cols)
         n = nrow(dt)
-        row_id = dt$row_id
+        row_id = dt$..row_id
         if (window_size + horizon > n) {
           error_input(
             "Resampling '%s': `window_size + horizon` (%i) exceeds the number of observations (%i) in Task '%s'.",
@@ -138,6 +138,7 @@ ResamplingFcstCV = R6Class(
       setorderv(dt, c(key_cols, order_cols))
       splits = dt[,
         {
+          row_id = .SD$..row_id
           n_group = .N
           if (window_size + horizon > n_group) {
             error_input(
@@ -165,9 +166,10 @@ ResamplingFcstCV = R6Class(
             train_ids = map(train_end, function(i) row_id[1L:i])
           }
           test_ids = map(train_end, function(i) row_id[(i + 1L):(i + horizon)])
-          list(train_ids = train_ids, test_ids = test_ids, fold = seq_len(folds))
+          list(..train_ids = train_ids, ..test_ids = test_ids, ..fold = seq_len(folds))
         },
         by = key_cols,
+        .SDcols = "..row_id",
         env = list(
           window_size = window_size,
           horizon = horizon,
@@ -180,12 +182,13 @@ ResamplingFcstCV = R6Class(
       ]
       merged = splits[,
         list(
-          train = list(unlist(train_ids, use.names = FALSE)),
-          test = list(unlist(test_ids, use.names = FALSE))
+          ..train = list(unlist(.SD$..train_ids, use.names = FALSE)),
+          ..test = list(unlist(.SD$..test_ids, use.names = FALSE))
         ),
-        by = fold
+        by = "..fold",
+        .SDcols = c("..train_ids", "..test_ids")
       ]
-      list(train = merged$train, test = merged$test)
+      list(train = merged$..train, test = merged$..test)
     },
 
     .get_train = function(i) {

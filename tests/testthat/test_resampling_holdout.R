@@ -122,7 +122,8 @@ test_that("fcst.holdout is not confused by key columns named like its variables"
     list(resampling$train_set(1L), resampling$test_set(1L))
   }
   expected = splits(make_named_task())
-  for (key in c("ratio", "n")) {
+  for (key in c("ratio", "n", "train", "test", "row_id")) {
     expect_identical(splits(make_named_task(key = key)), expected)
   }
+  expect_identical(splits(make_named_task(order = "row_id")), expected)
 })

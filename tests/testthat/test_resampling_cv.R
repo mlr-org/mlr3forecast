@@ -169,7 +169,9 @@ test_that("fcst.cv is not confused by key columns named like its variables", {
     map(seq_len(resampling$iters), function(i) list(resampling$train_set(i), resampling$test_set(i)))
   }
   expected = splits(make_named_task())
-  for (key in c("folds", "horizon", "window_size", "step_size", "fixed_window")) {
+  keys = c("folds", "horizon", "window_size", "step_size", "fixed_window", "train_ids", "test_ids", "fold", "row_id")
+  for (key in keys) {
     expect_identical(splits(make_named_task(key = key)), expected)
   }
+  expect_identical(splits(make_named_task(order = "row_id")), expected)
 })
