@@ -30,7 +30,7 @@ LearnerFcstTslm = R6Class(
     initialize = function() {
       param_set = ps(
         formula = p_uty(tags = "train", custom_check = check_formula),
-        lambda = p_uty(default = NULL, tags = c("train", "predict")),
+        lambda = p_uty(default = NULL, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict"))
       )
 

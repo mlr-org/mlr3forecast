@@ -25,7 +25,7 @@ LearnerFcstSpline = R6Class(
     initialize = function() {
       param_set = ps(
         method = p_fct(c("gcv", "mle"), default = "gcv", tags = "train"),
-        lambda = p_uty(default = NULL, tags = c("train", "predict")),
+        lambda = p_uty(default = NULL, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),

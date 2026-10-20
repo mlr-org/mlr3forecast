@@ -33,7 +33,7 @@ LearnerFcstArfima = R6Class(
           custom_check = crate(function(x) check_numeric(x, len = 2L))
         ),
         estim = p_fct(default = "mle", levels = c("mle", "ls"), tags = "train"),
-        lambda = p_uty(default = NULL, tags = c("train", "predict")),
+        lambda = p_uty(default = NULL, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),

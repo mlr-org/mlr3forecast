@@ -47,7 +47,7 @@ LearnerFcstStlm = R6Class(
           custom_check = check_string,
           depends = quote(method == "ets")
         ),
-        lambda = p_uty(default = NULL, tags = c("train", "predict")),
+        lambda = p_uty(default = NULL, tags = "train"),
         biasadj = p_lgl(default = FALSE, tags = c("train", "predict")),
         allow.multiplicative.trend = p_lgl(
           default = FALSE,

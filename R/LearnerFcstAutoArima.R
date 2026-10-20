@@ -63,7 +63,7 @@ LearnerFcstAutoArima = R6Class(
           special_vals = list(NULL),
           tags = c("train", "threads")
         ),
-        lambda = p_uty(default = NULL, tags = c("train", "predict")),
+        lambda = p_uty(default = NULL, tags = "train"),
         simulate = p_lgl(default = FALSE, tags = "predict"),
         bootstrap = p_lgl(default = FALSE, tags = "predict"),
         npaths = p_int(1L, default = 5000L, tags = "predict"),
