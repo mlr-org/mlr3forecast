@@ -204,6 +204,11 @@
 - fix: `fcst.adam` gained the `lambda` parameter, the weight of the
   `LASSO` and `RIDGE` penalties. Previously, these losses always used a
   weight of 0 and fit like plain `MSE`.
+- fix: `fcst.arfima`, `fcst.arima`, `fcst.auto_arima`, `fcst.ets`,
+  `fcst.mean`, `fcst.nnetar`, `fcst.random_walk`, `fcst.snaive`,
+  `fcst.spline`, `fcst.stlm`, `fcst.theta`, and `fcst.tslm` now only use
+  `lambda` for training, so `lambda = "auto"` no longer breaks
+  prediction.
 - fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare
   dependencies for parameters that only affect exhaustive search or
   bootstrap prediction.
@@ -245,6 +250,9 @@
   order instead of sorted by key and time, which fixes misaligned truth
   under target trafos and lets `po("fcst.avg")` combine it with
   `DirectForecaster`.
+- fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` no longer return
+  wrong splits or fail for key or order columns named like internal
+  columns, e.g. `train`, `fold`, or `row_id`.
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
   tasks instead of creating invalid time-based splits.
 - fix: `TaskFcst` now errors if the order column role is removed.
