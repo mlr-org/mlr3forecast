@@ -24,7 +24,13 @@ LearnerFcstAutoCes = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        seasonality = p_fct(c("none", "simple", "partial", "full"), default = "none", tags = "train"),
+        seasonality = p_uty(
+          default = c("none", "simple", "partial", "full"),
+          tags = "train",
+          custom_check = crate(function(x) {
+            check_subset(x, choices = c("none", "simple", "partial", "full"), empty.ok = FALSE)
+          })
+        ),
         lags = p_uty(tags = "train", custom_check = check_numeric),
         initial = p_fct(
           c("backcasting", "optimal", "two-stage", "complete", "gradient"),

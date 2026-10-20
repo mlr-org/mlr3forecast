@@ -52,6 +52,7 @@
 * fix: `fcst.arfima`, `fcst.arima`, `fcst.auto_arima`, `fcst.ets`, `fcst.mean`, `fcst.nnetar`, `fcst.random_walk`, `fcst.snaive`, `fcst.spline`, `fcst.stlm`, `fcst.theta`, and `fcst.tslm` now only use `lambda` for training, so `lambda = "auto"` no longer breaks prediction.
 * fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
 * fix: `fcst.arfima` and `fcst.auto_arima` no longer switch on `parallel` via `set_threads()` during stepwise search, where `forecast::auto.arima()` warned and fit in serial.
+* fix: `fcst.auto_ces` now accepts several values for `seasonality`, the candidate models to select from, and defaults to all four like `smooth::auto.ces()`. Previously, setting it fit a single fixed model.
 * fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`, `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`, `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series instead of internal code, so printed models are readable.
 * fix: `fcst.prophet` now raises an input error naming the feature if prophet reserves its name, e.g. `holidays` or `ds`.
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.
