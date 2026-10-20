@@ -33,7 +33,7 @@ or with the associated sugar function
 |  |  |  |  |
 |----|----|----|----|
 | Id | Type | Default | Levels |
-| seasonality | character | none | none, simple, partial, full |
+| seasonality | untyped | c("none", "simple", "partial", "full") |  |
 | lags | untyped | \- |  |
 | initial | character | backcasting | backcasting, optimal, two-stage, complete, gradient |
 | ic | character | AICc | AICc, AIC, BIC, BICc |
@@ -228,7 +228,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.14 seconds
+#> Time elapsed: 0.19 seconds
 #> Model estimated using auto.ces() function: CES(partial)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

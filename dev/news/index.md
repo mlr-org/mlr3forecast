@@ -218,6 +218,10 @@
   during stepwise search, where
   [`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
   warned and fit in serial.
+- fix: `fcst.auto_ces` now accepts several values for `seasonality`, the
+  candidate models to select from, and defaults to all four like
+  [`smooth::auto.ces()`](https://rdrr.io/pkg/smooth/man/ces.html).
+  Previously, setting it fit a single fixed model.
 - fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`,
   `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`,
   `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series
