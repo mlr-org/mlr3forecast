@@ -159,10 +159,8 @@ PipeOpTargetTrafoBoxCox = R6Class(
       } else {
         key_cols = self$state$key_cols
         # recover each prediction row's series and invert it with that series' lambda
-        dt = predict_phase_state$layout[
-          data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids)),
-          on = "..row_id"
-        ]
+        ids = data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids))
+        dt = predict_phase_state$layout[ids, on = "..row_id"]
         dt = lambdas[dt, on = key_cols]
         groups = dt[, list(..pos = list(..pos), lambda = lambda[1L]), by = key_cols]
         inverted_values = quantiles

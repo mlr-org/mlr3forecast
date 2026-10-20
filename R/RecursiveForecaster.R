@@ -468,7 +468,8 @@ RecursiveForecaster = R6Class(
           by = key_cols,
           env = list(order_cols = order_cols, step = I(step))
         ]
-        grid_check = origin[test_data[, c(key_cols, order_cols), with = FALSE], on = key_cols]
+        test_keys = test_data[, c(key_cols, order_cols), with = FALSE]
+        grid_check = origin[test_keys, on = key_cols]
         if (anyNA(grid_check$..origin)) {
           error_input(
             "No training rows remain before the test set for %i key group(s).",

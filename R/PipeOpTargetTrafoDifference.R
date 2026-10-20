@@ -147,10 +147,8 @@ PipeOpTargetTrafoDifference = R6Class(
         key_cols = self$state$key_cols
         target = setdiff(names(tails), key_cols)
         # regroup prediction rows by series and invert each against its own tail
-        dt = predict_phase_state$layout[
-          data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids)),
-          on = "..row_id"
-        ]
+        ids = data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids))
+        dt = predict_phase_state$layout[ids, on = "..row_id"]
         order_cols = setdiff(names(predict_phase_state$layout), c(key_cols, "..row_id"))
         setorderv(dt, c(key_cols, order_cols))
         xis = tails[, list(..xi = list(target)), by = key_cols, env = list(target = target)]

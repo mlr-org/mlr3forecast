@@ -79,7 +79,8 @@ PipeOpFcstFeasts = R6Class(
       self$state = list(features = feats, key_cols = key_cols)
       feat_cols = setdiff(names(feats), key_cols)
       if (length(key_cols) > 0L) {
-        task$cbind(feats[task$data(cols = key_cols), on = key_cols, feat_cols, with = FALSE])
+        keys = task$data(cols = key_cols)
+        task$cbind(feats[keys, on = key_cols, feat_cols, with = FALSE])
       } else {
         task$cbind(feats[rep.int(1L, task$nrow)])
       }
