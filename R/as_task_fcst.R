@@ -8,6 +8,8 @@
 #' 2. [data.frame()] and [mlr3::DataBackend]: provides an alternative to the constructor of [TaskFcst].
 #' 3. `ts`: from base R time series objects (univariate and multivariate).
 #'    A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
+#'    Weekly and daily series step whole weeks or days from their start period, counted from January 1 of the start
+#'    year, so e.g. week 3 of 2000 is followed by 2000-01-22 and a weekly series does not restart on each January 1.
 #'    Any other frequency has no calendar step, so the series gets an integer `index` column as order instead.
 #' 4. `zoo` and `xts`: from zoo/xts time series objects.
 #'    A `zoo` object with a plain numeric index keeps it as a numeric `index` column as order.
@@ -193,6 +195,15 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
     )
     return(task_fcst_from_ts_index(x, id = id, label = label, ...))
   }
+  if (ts_freq %in% c(52, 365.25)) {
+    # tsbox maps these to fractional-year times off the weekly or daily grid, so step whole units from the start
+    unit = if (ts_freq == 52) "week" else "day"
+    t0 = stats::tsp(x)[1L]
+    year = floor(t0)
+    first = seq(as.Date(sprintf("%04d-01-01", year)), by = unit, length.out = round((t0 - year) * ts_freq) + 1L)
+    time = seq(first[length(first)], by = unit, length.out = NROW(x))
+    return(task_fcst_from_ts_index(x, index = time, order = "time", freq = freq, id = id, label = label, ...))
+  }
   task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
 }
 
@@ -236,17 +247,18 @@ as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(
   as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 
-task_fcst_from_ts_index = function(x, id, label, index = NULL, freq = NULL, ...) {
+task_fcst_from_ts_index = function(x, id, label, index = NULL, order = "index", freq = NULL, ...) {
   m = as.matrix(x)
   n = nrow(m)
   is_multi = ncol(m) > 1L
   dt = data.table(index = rep(index %??% seq_len(n), ncol(m)), value = as.numeric(m))
+  setnames(dt, "index", order)
   if (is_multi) {
     set(dt, j = "id", value = rep(colnames(m), each = n))
   }
   dt = dt[!is.na(dt$value)]
   key = if (is_multi) "id" else character()
-  as_task_fcst(x = dt, target = "value", order = "index", key = key, freq = freq, id = id, label = label, ...)
+  as_task_fcst(x = dt, target = "value", order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 
 task_fcst_from_tsbox = function(x, freq, id, label, ...) {

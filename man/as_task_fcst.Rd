@@ -140,6 +140,8 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 \item \code{\link[=data.frame]{data.frame()}} and \link[mlr3:DataBackend]{mlr3::DataBackend}: provides an alternative to the constructor of \link{TaskFcst}.
 \item \code{ts}: from base R time series objects (univariate and multivariate).
 A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
+Weekly and daily series step whole weeks or days from their start period, counted from January 1 of the start
+year, so e.g. week 3 of 2000 is followed by 2000-01-22 and a weekly series does not restart on each January 1.
 Any other frequency has no calendar step, so the series gets an integer \code{index} column as order instead.
 \item \code{zoo} and \code{xts}: from zoo/xts time series objects.
 A \code{zoo} object with a plain numeric index keeps it as a numeric \code{index} column as order.

@@ -50,6 +50,19 @@ test_that("as_task_fcst warns that a non-calendar ts frequency is not kept", {
   expect_identical(task$nrow, length(EuStockMarkets))
 })
 
+test_that("as_task_fcst steps weekly and daily ts from their start period", {
+  task = as_task_fcst(ts(c(1, 2, 3), start = c(2000, 3), frequency = 52))
+  expect_identical(task$freq, "week")
+  expect_equal(task$data(cols = "time")$time, as.Date(c("2000-01-15", "2000-01-22", "2000-01-29")))
+  task = as_task_fcst(ts(c(1, 2, 3), start = c(2000, 3), frequency = 365.25))
+  expect_identical(task$freq, "day")
+  expect_equal(task$data(cols = "time")$time, as.Date(c("2000-01-03", "2000-01-04", "2000-01-05")))
+  x = ts(cbind(a = c(1, 2, 3), b = c(4, 5, 6)), start = c(2010, 52), frequency = 52)
+  task = as_task_fcst(x)
+  expect_identical(task$col_roles$key, "id")
+  expect_equal(unique(task$data(cols = "time")$time), as.Date(c("2010-12-24", "2010-12-31", "2011-01-07")))
+})
+
 test_that("as_task_fcst keeps the numeric index of a zoo object", {
   skip_if_not_installed("zoo")
   task = as_task_fcst(zoo::zoo(c(1, 2, 3, 4, 5), c(2, 4, 6, 8, 10)))
