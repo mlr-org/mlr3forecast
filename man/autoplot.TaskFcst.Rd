@@ -25,7 +25,7 @@ Additional argument, passed down to the underlying \code{geom} or plot functions
 Generates plots for \link{TaskFcst}.
 }
 \examples{
-\dontshow{if (requireNamespace("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("ggplot2", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 task = tsk("airpassengers")
 ggplot2::autoplot(task)
 \dontshow{\}) # examplesIf}

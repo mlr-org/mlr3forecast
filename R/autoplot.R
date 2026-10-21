@@ -12,7 +12,7 @@
 #' @return [ggplot2::ggplot()] object.
 #'
 #' @exportS3Method ggplot2::autoplot
-#' @examplesIf requireNamespace("ggplot2", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("ggplot2", quietly = TRUE)
 #' task = tsk("airpassengers")
 #' ggplot2::autoplot(task)
 autoplot.TaskFcst = function(object, theme = ggplot2::theme_minimal(), facets = FALSE, ...) {
@@ -70,7 +70,7 @@ plot.TaskFcst = function(x, ...) {
 #' @return [ggplot2::ggplot()] object.
 #'
 #' @exportS3Method ggplot2::autoplot
-#' @examplesIf requireNamespace("forecast", quietly = TRUE) && requireNamespace("ggplot2", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces(c("forecast", "ggplot2"), quietly = TRUE)
 #' task = tsk("airpassengers")
 #' learner = lrn("fcst.auto_arima")$train(task)
 #' p = forecast(learner, task, h = 12)

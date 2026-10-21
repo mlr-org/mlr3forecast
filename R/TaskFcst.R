@@ -31,7 +31,7 @@
 #'
 #' @template seealso_task
 #' @export
-#' @examplesIf requireNamespace("tsbox", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("tsbox", quietly = TRUE)
 #' library(data.table)
 #' airpassengers = tsbox::ts_dt(AirPassengers)
 #' setnames(airpassengers, c("month", "passengers"))

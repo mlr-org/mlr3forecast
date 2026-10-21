@@ -32,7 +32,7 @@ All input arguments are cloned and have no references in common with the returne
 \link[mlr3pipelines:Graph]{Graph}.
 }
 \examples{
-\dontshow{if (requireNamespace("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 library(data.table)
 dt = CJ(

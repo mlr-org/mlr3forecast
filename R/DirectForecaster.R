@@ -9,7 +9,7 @@
 #' `"fcst_iterative"`, e.g. [PipeOpFcstLags], [PipeOpFcstRolling]), which are rejected at construction.
 #'
 #' @export
-#' @examplesIf requireNamespace("rpart", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("rpart", quietly = TRUE)
 #' \donttest{
 #' library(mlr3pipelines)
 #'

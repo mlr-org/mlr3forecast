@@ -24,7 +24,7 @@
 #'   Whether to clone the graph, default `TRUE`.
 #' @return [DirectForecaster].
 #' @export
-#' @examplesIf requireNamespace("rpart", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("rpart", quietly = TRUE)
 #' library(mlr3pipelines)
 #'
 #' task = tsk("airpassengers")

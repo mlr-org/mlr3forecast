@@ -51,7 +51,7 @@ measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accur
 }
 
 \examples{
-\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 
 task = tsk("airpassengers")

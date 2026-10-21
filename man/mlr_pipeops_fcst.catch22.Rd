@@ -26,7 +26,7 @@ The new columns are named \verb{\{target\}_catch22_\{feature\}}. If the target w
 }
 
 \examples{
-\dontshow{if (requireNamespace("Rcatch22", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("Rcatch22", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 task = tsk("airpassengers")
 po = po("fcst.catch22")

@@ -21,7 +21,7 @@
 #'   global forecasters such as [RecursiveForecaster].
 #' @return [Graph][mlr3pipelines::Graph]
 #' @export
-#' @examplesIf requireNamespace("forecast", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("forecast", quietly = TRUE)
 #' library(mlr3pipelines)
 #' library(data.table)
 #' dt = CJ(

@@ -48,7 +48,7 @@ A direct forecaster trains a separate regression model per forecast horizon, so 
 another (no error accumulation). For the recursive strategy (a single iterated model) see \code{\link[=recursive_forecaster]{recursive_forecaster()}}.
 }
 \examples{
-\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 
 task = tsk("airpassengers")

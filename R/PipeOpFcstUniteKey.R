@@ -17,7 +17,7 @@
 #'   Name of the rebuilt series-identity column in the prediction's `extra` slot. Default `"key"`.
 #'
 #' @export
-#' @examplesIf requireNamespace("forecast", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("forecast", quietly = TRUE)
 #' library(mlr3pipelines)
 #' library(data.table)
 #' dt = CJ(

@@ -41,7 +41,7 @@
 #' measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.
 #'
 #' @export
-#' @examplesIf requireNamespace("rpart", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("rpart", quietly = TRUE)
 #' library(mlr3pipelines)
 #'
 #' task = tsk("airpassengers")

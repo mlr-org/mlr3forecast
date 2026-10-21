@@ -45,7 +45,7 @@ prediction back as a lag/rolling feature for the next step. For the direct strat
 \code{\link[=direct_forecaster]{direct_forecaster()}}.
 }
 \examples{
-\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 
 task = tsk("airpassengers")

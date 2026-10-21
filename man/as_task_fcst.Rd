@@ -153,7 +153,7 @@ The key variables become key columns, and all measured variables other than \cod
 }
 }
 \examples{
-\dontshow{if (requireNamespace("tsbox", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("tsbox", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(data.table)
 airpassengers = tsbox::ts_dt(AirPassengers)
 setnames(airpassengers, c("month", "passengers"))

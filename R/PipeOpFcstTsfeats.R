@@ -31,7 +31,7 @@
 #' @template section_period
 #'
 #' @export
-#' @examplesIf requireNamespace("tsfeatures", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("tsfeatures", quietly = TRUE)
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")
 #' po = po("fcst.tsfeats", features = c("entropy", "acf_features"))

@@ -24,7 +24,7 @@ A list of \CRANpkg{feasts} feature functions (e.g. \link[feasts:feat_acf]{feasts
 }
 
 \examples{
-\dontshow{if (requireNamespace("feasts", quietly = TRUE) && requireNamespace("fabletools", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("feasts", "fabletools"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 task = tsk("airpassengers")
 po = po("fcst.feasts", features = list(feasts::feat_acf))

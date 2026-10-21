@@ -30,7 +30,7 @@
 #'
 #' @template seealso_learner
 #' @export
-#' @examplesIf requireNamespace("forecast", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("forecast", quietly = TRUE)
 #' # get all forecast learners from mlr_learners:
 #' lrns = mlr_learners$mget(mlr_learners$keys("^fcst"))
 #' names(lrns)

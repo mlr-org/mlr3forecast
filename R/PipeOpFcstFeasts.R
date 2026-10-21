@@ -17,7 +17,7 @@
 #'   [fabletools::feature_set()]. Default `list(feasts::feat_acf, feasts::feat_stl)`.
 #'
 #' @export
-#' @examplesIf requireNamespace("feasts", quietly = TRUE) && requireNamespace("fabletools", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces(c("feasts", "fabletools"), quietly = TRUE)
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")
 #' po = po("fcst.feasts", features = list(feasts::feat_acf))

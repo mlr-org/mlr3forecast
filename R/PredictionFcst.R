@@ -17,7 +17,7 @@
 #' Package \CRANpkg{mlr3viz} for some generic visualizations.
 #'
 #' @export
-#' @examplesIf requireNamespace("forecast", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("forecast", quietly = TRUE)
 #' task = tsk("airpassengers")
 #' learner = lrn("fcst.auto_arima")$train(task)
 #' p = forecast(learner, task, h = 12)

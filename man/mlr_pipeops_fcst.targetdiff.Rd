@@ -31,7 +31,7 @@ Quantile predictions cannot be inverted and are rejected.
 }
 
 \examples{
-\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
 library(mlr3pipelines)
 task = tsk("airpassengers")

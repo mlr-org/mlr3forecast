@@ -19,7 +19,7 @@ The parameters are the parameters inherited from \link[mlr3pipelines:PipeOpRegrA
 }
 
 \examples{
-\dontshow{if (requireNamespace("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 task = tsk("airpassengers")
 graph = gunion(list(

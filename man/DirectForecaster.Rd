@@ -12,7 +12,7 @@ Lag features are managed internally via \code{lags}. Do not add iterative featur
 \code{"fcst_iterative"}, e.g. \link{PipeOpFcstLags}, \link{PipeOpFcstRolling}), which are rejected at construction.
 }
 \examples{
-\dontshow{if (requireNamespace("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
 library(mlr3pipelines)
 

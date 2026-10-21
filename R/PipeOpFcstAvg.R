@@ -14,7 +14,7 @@
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpRegrAvg].
 #'
 #' @export
-#' @examplesIf requireNamespace("forecast", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("forecast", quietly = TRUE)
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")
 #' graph = gunion(list(

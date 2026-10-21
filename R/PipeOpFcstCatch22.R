@@ -20,7 +20,7 @@
 #' `r format_bib("lubba2019catch22")`
 #'
 #' @export
-#' @examplesIf requireNamespace("Rcatch22", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces("Rcatch22", quietly = TRUE)
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")
 #' po = po("fcst.catch22")

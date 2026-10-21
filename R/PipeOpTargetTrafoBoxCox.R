@@ -47,7 +47,7 @@
 #' or wrap the forecaster itself with `ppl("targettrafo", ...)` so all horizons share the same `lambda`.
 #'
 #' @export
-#' @examplesIf requireNamespace("rpart", quietly = TRUE) && requireNamespace("forecast", quietly = TRUE)
+#' @examplesIf mlr3misc::require_namespaces(c("rpart", "forecast"), quietly = TRUE)
 #' \donttest{
 #' library(mlr3pipelines)
 #' task = tsk("airpassengers")

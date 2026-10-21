@@ -20,7 +20,7 @@ This PipeOp has no parameters.
 }
 
 \examples{
-\dontshow{if (requireNamespace("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 library(mlr3pipelines)
 library(data.table)
 dt = CJ(

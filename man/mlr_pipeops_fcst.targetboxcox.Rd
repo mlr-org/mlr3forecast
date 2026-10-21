@@ -77,7 +77,7 @@ or wrap the forecaster itself with \code{ppl("targettrafo", ...)} so all horizon
 }
 
 \examples{
-\dontshow{if (requireNamespace("rpart", quietly = TRUE) && requireNamespace("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces(c("rpart", "forecast"), quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
 library(mlr3pipelines)
 task = tsk("airpassengers")

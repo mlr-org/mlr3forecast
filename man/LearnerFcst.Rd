@@ -50,7 +50,7 @@ Without a calendar \code{freq}, the default is \code{1}, i.e. no seasonality.
 }
 
 \examples{
-\dontshow{if (requireNamespace("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 # get all forecast learners from mlr_learners:
 lrns = mlr_learners$mget(mlr_learners$keys("^fcst"))
 names(lrns)

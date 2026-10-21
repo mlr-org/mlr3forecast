@@ -17,7 +17,7 @@ The \code{task_type} is kept as \code{"regr"} so that regression measures remain
 regression.
 }
 \examples{
-\dontshow{if (requireNamespace("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
+\dontshow{if (mlr3misc::require_namespaces("forecast", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 task = tsk("airpassengers")
 learner = lrn("fcst.auto_arima")$train(task)
 p = forecast(learner, task, h = 12)
