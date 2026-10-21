@@ -87,7 +87,7 @@ LearnerFcstArfima = R6Class(
         id = "fcst.arfima",
         param_set = param_set,
         predict_types = c("response", "quantiles"),
-        feature_types = c("logical", "integer", "numeric"),
+        feature_types = unname(mlr_reflections$task_feature_types),
         # not "exogenous": arfima() accepts xreg at train, but forecast.fracdiff() has no
         # xreg argument, so future regressors would be silently ignored at predict
         properties = c("featureless", "missings"),

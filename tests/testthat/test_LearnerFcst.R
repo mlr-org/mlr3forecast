@@ -137,3 +137,12 @@ test_that("learners without a ts backend have no period hyperparameter", {
   expect_false("period" %in% lrn("fcst.prophet")$param_set$ids())
   expect_true("period" %in% lrn("fcst.ets")$param_set$ids())
 })
+
+test_that("learners without exogenous support accept all feature types", {
+  for (key in mlr_learners$keys("^fcst\\.")) {
+    learner = lrn(key)
+    if ("exogenous" %nin% learner$properties) {
+      expect_set_equal(learner$feature_types, mlr_reflections$task_feature_types, info = key)
+    }
+  }
+})

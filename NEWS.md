@@ -51,6 +51,7 @@
 * fix: `download_zenodo_record()` is deprecated in favor of `download_monash_dataset()` and warns on each call.
 * fix: `fcst.adam` gained the `lambda` parameter, the weight of the `LASSO` and `RIDGE` penalties. Previously, these losses always used a weight of 0 and fit like plain `MSE`.
 * fix: `fcst.arfima`, `fcst.arima`, `fcst.auto_arima`, `fcst.ets`, `fcst.mean`, `fcst.nnetar`, `fcst.random_walk`, `fcst.snaive`, `fcst.spline`, `fcst.stlm`, `fcst.theta`, and `fcst.tslm` now only use `lambda` for training, so `lambda = "auto"` no longer breaks prediction.
+* fix: `fcst.arfima`, `fcst.croston`, `fcst.dstm`, `fcst.random_walk`, `fcst.spline`, `fcst.stheta`, `fcst.stm`, and `fcst.theta` now accept tasks with features of any type, like the other learners without exogenous support, since they ignore features anyway. Previously, they rejected tasks with, e.g., factor or character features.
 * fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare dependencies for parameters that only affect exhaustive search or bootstrap prediction.
 * fix: `fcst.arfima` and `fcst.auto_arima` no longer switch on `parallel` via `set_threads()` during stepwise search, where `forecast::auto.arima()` warned and fit in serial.
 * fix: `fcst.auto_ces` now accepts several values for `seasonality`, the candidate models to select from, and defaults to all four like `smooth::auto.ces()`. Previously, setting it fit a single fixed model.
