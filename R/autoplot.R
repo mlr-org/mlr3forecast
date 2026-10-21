@@ -84,9 +84,7 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
 
   fc = as.data.table(object)
 
-  # recover the order (time index) and key column names from the prediction's extra roles; the
-  # task's column names are not authoritative here since a prediction united from local
-  # per-series models carries a reconstructed generic key column instead of the task keys
+  # take the columns from the prediction, since united local-model predictions carry their own key column
   roles = object$col_roles
   if (length(roles$order) == 0L) {
     error_input("Cannot determine the time index of the prediction.")
@@ -94,7 +92,7 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
   order = roles$order
   key = roles$key
 
-  ylab = if (!is.null(task)) task$col_roles$target else "response"
+  target = task$col_roles$target
 
   # forecast region
   data = fc[, c(order, key, "response"), with = FALSE]
@@ -137,7 +135,6 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
   }
 
   if (!is.null(task)) {
-    target = task$col_roles$target
     key_cols = task$col_roles$key
     hist = task$data(cols = c(target, order, key_cols))
     setnames(hist, target, "..value")
@@ -200,7 +197,7 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
         )
     }
   }
-  p + ribbon_layer + ggplot2::geom_line(...) + ggplot2::ylab(ylab) + theme
+  p + ribbon_layer + ggplot2::geom_line(...) + ggplot2::ylab(target %??% "response") + theme
 }
 
 # pair symmetric quantile columns (p, 1 - p) into central prediction intervals, long over levels
@@ -219,11 +216,11 @@ fcst_quantile_ribbon = function(object, fc, order, key) {
   if (!any(keep)) {
     return()
   }
-  map_dtr(which(keep), function(i) {
+  pmap_dtr(list(ii[keep], jj[keep]), function(lower, upper) {
     out = fc[, c(order, key), with = FALSE]
-    set(out, j = "..lower", value = quantiles[, ii[i]])
-    set(out, j = "..upper", value = quantiles[, jj[i]])
-    set(out, j = "..level", value = round(100 * (probs[jj[i]] - probs[ii[i]])))
+    set(out, j = "..lower", value = quantiles[, lower])
+    set(out, j = "..upper", value = quantiles[, upper])
+    set(out, j = "..level", value = round(100 * (probs[upper] - probs[lower])))
     out
   })
 }
