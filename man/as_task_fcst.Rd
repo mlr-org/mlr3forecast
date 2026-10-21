@@ -141,7 +141,9 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 \item \code{ts}: from base R time series objects (univariate and multivariate).
 A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
 Weekly and daily series step whole weeks or days from their start period, counted from January 1 of the start
-year, so e.g. week 3 of 2000 is followed by 2000-01-22 and a weekly series does not restart on each January 1.
+year, so e.g. week 3 of 2000 is followed by 2000-01-22.
+Since a year has about 52.18 weeks, weekly dates drift from the fractional-year time stamps of the \code{ts} object
+by about 1.25 days per year, and the conversion warns once they are a day or more apart.
 Any other frequency has no calendar step, so the series gets an integer \code{index} column as order instead.
 \item \code{zoo} and \code{xts}: from zoo/xts time series objects.
 A \code{zoo} object with a plain numeric index keeps it as a numeric \code{index} column as order.

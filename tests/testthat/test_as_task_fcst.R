@@ -58,9 +58,25 @@ test_that("as_task_fcst steps weekly and daily ts from their start period", {
   expect_identical(task$freq, "day")
   expect_equal(task$data(cols = "time")$time, as.Date(c("2000-01-03", "2000-01-04", "2000-01-05")))
   x = ts(cbind(a = c(1, 2, 3), b = c(4, 5, 6)), start = c(2010, 52), frequency = 52)
-  task = as_task_fcst(x)
+  expect_warning(
+    {
+      task = as_task_fcst(x)
+    },
+    "drift"
+  )
   expect_identical(task$col_roles$key, "id")
   expect_equal(unique(task$data(cols = "time")$time), as.Date(c("2010-12-24", "2010-12-31", "2011-01-07")))
+})
+
+test_that("as_task_fcst warns once weekly ts dates drift from the ts time", {
+  expect_warning(
+    {
+      task = as_task_fcst(ts(as.numeric(1:106), start = c(2000, 1), frequency = 52))
+    },
+    "drift up to 3 day\\(s\\)"
+  )
+  expect_equal(task$data(cols = "time")$time[106L], as.Date("2002-01-05"))
+  expect_no_warning(as_task_fcst(ts(as.numeric(1:368), start = c(2000, 1), frequency = 365.25)))
 })
 
 test_that("as_task_fcst keeps the numeric index of a zoo object", {

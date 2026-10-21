@@ -9,7 +9,9 @@
 #' 3. `ts`: from base R time series objects (univariate and multivariate).
 #'    A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
 #'    Weekly and daily series step whole weeks or days from their start period, counted from January 1 of the start
-#'    year, so e.g. week 3 of 2000 is followed by 2000-01-22 and a weekly series does not restart on each January 1.
+#'    year, so e.g. week 3 of 2000 is followed by 2000-01-22.
+#'    Since a year has about 52.18 weeks, weekly dates drift from the fractional-year time stamps of the `ts` object
+#'    by about 1.25 days per year, and the conversion warns once they are a day or more apart.
 #'    Any other frequency has no calendar step, so the series gets an integer `index` column as order instead.
 #' 4. `zoo` and `xts`: from zoo/xts time series objects.
 #'    A `zoo` object with a plain numeric index keeps it as a numeric `index` column as order.
@@ -196,12 +198,7 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
     return(task_fcst_from_ts_index(x, id = id, label = label, ...))
   }
   if (ts_freq %in% c(52, 365.25)) {
-    # tsbox maps these to fractional-year times off the weekly or daily grid, so step whole units from the start
-    unit = if (ts_freq == 52) "week" else "day"
-    t0 = stats::tsp(x)[1L]
-    year = floor(t0)
-    first = seq(as.Date(sprintf("%04d-01-01", year)), by = unit, length.out = round((t0 - year) * ts_freq) + 1L)
-    time = seq(first[length(first)], by = unit, length.out = NROW(x))
+    time = ts_step_dates(x, ts_freq)
     return(task_fcst_from_ts_index(x, index = time, order = "time", freq = freq, id = id, label = label, ...))
   }
   task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
@@ -259,6 +256,33 @@ task_fcst_from_ts_index = function(x, id, label, index = NULL, order = "index", 
   dt = dt[!is.na(dt$value)]
   key = if (is_multi) "id" else character()
   as_task_fcst(x = dt, target = "value", order = order, key = key, freq = freq, id = id, label = label, ...)
+}
+
+# tsbox gives fractional-year times off the weekly or daily grid
+ts_step_dates = function(x, ts_freq) {
+  unit = if (ts_freq == 52) "week" else "day"
+  jan1 = function(year) as.Date(sprintf("%04d-01-01", year))
+  t0 = stats::tsp(x)[1L]
+  year = floor(t0)
+  first = seq(jan1(year), by = unit, length.out = round((t0 - year) * ts_freq) + 1L)
+  dates = seq(first[length(first)], by = unit, length.out = NROW(x))
+
+  # daily dates stay within a day of the ts time, as 365.25 averages out over the leap year cycle
+  if (unit == "week") {
+    time = as.numeric(stats::time(x))
+    # the epsilons guard against float error just below a whole year or day
+    years = floor(time + 1e-8)
+    start = jan1(years)
+    ts_dates = start + floor((time - years) * as.numeric(jan1(years + 1) - start) + 1e-6)
+    drift = max(abs(as.numeric(dates - ts_dates)))
+    if (drift >= 1) {
+      warning_input(
+        "Weekly dates drift up to %i day(s) from the ts time, as 52 weeks fall short of a year.",
+        as.integer(drift)
+      )
+    }
+  }
+  dates
 }
 
 task_fcst_from_tsbox = function(x, freq, id, label, ...) {
