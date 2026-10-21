@@ -218,7 +218,7 @@ fetch_zenodo_file = function(record_id, file, path) {
 get_cache_dir = function() {
   cache = getOption("mlr3forecast.cache", FALSE)
   if (isFALSE(cache)) {
-    return(NULL)
+    return()
   }
   if (isTRUE(cache)) {
     cache = R_user_dir("mlr3forecast", "cache")
