@@ -205,10 +205,6 @@ ResamplingFcstCV = R6Class(
         train = pmap(map(instances, "train"), c),
         test = pmap(map(instances, "test"), c)
       )
-    },
-
-    deep_clone = function(name, value) {
-      switch(name, instance = copy(value), .param_set = value$clone(deep = TRUE), value)
     }
   )
 )
