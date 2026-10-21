@@ -4,24 +4,6 @@ walk(
   local = environment()
 )
 
-generate_data = function(learner, N) {
-  generate_feature = function(type) {
-    switch(
-      type,
-      logical = sample(rep_len(c(TRUE, FALSE), N)),
-      integer = sample(rep_len(1:3, N)),
-      numeric = runif(N),
-      character = sample(rep_len(letters[1:2], N)),
-      factor = sample(factor(rep_len(c("f1", "f2"), N), levels = c("f1", "f2"))),
-      ordered = sample(ordered(rep_len(c("o1", "o2"), N), levels = c("o1", "o2"))),
-      POSIXct = Sys.time() - runif(N, min = 0, max = 10 * 365 * 24 * 60 * 60),
-      Date = Sys.Date() - runif(N, min = 0, max = 10 * 365)
-    )
-  }
-  types = unique(learner$feature_types)
-  do.call(data.table, set_names(map(types, generate_feature), types))
-}
-
 generate_tasks.LearnerFcst = function(learner, N = 20L) {
   target = rnorm(N)
   data = cbind(
@@ -30,7 +12,6 @@ generate_tasks.LearnerFcst = function(learner, N = 20L) {
   )
   tasks = list()
   task = TaskFcst$new("proto", as_data_backend(data), target = "target", order = "date", freq = "day")
-  task$col_roles$feature = setdiff(task$col_roles$feature, "date")
   tasks[[1L]] = task
 
   # generate sanity task
