@@ -40,13 +40,7 @@ as_prediction.PredictionDataFcst = function(x, check = FALSE, ...) {
 #' @export
 check_prediction_data.PredictionDataFcst = function(pdata, ..., train_task = NULL) {
   pdata = check_prediction_data(as_pdata_regr(pdata), ...)
-  if (is.null(pdata$col_roles)) {
-    pdata$col_roles = if (is.null(train_task)) {
-      empty_fcst_prediction_col_roles()
-    } else {
-      fcst_prediction_col_roles(train_task, pdata$extra)
-    }
-  }
+  pdata$col_roles = pdata$col_roles %??% fcst_prediction_col_roles(train_task, pdata$extra)
   pdata$col_roles = assert_fcst_prediction_col_roles(pdata$col_roles, pdata$extra)
   as_pdata_fcst(pdata)
 }

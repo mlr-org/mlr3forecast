@@ -70,13 +70,7 @@ PredictionFcst = R6Class(
       col_roles = NULL,
       raw = NULL
     ) {
-      if (is.null(col_roles)) {
-        col_roles = if (is.null(task)) {
-          empty_fcst_prediction_col_roles()
-        } else {
-          fcst_prediction_col_roles(task, extra)
-        }
-      }
+      col_roles = col_roles %??% fcst_prediction_col_roles(task, extra)
       pdata = set_class(
         compact(list(
           row_ids = row_ids,
