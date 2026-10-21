@@ -37,7 +37,7 @@ LearnerFcstTscount = R6Class(
         external = p_uty(
           default = FALSE,
           tags = c("train", "model"),
-          custom_check = crate(function(x) check_logical(x))
+          custom_check = check_logical
         ),
         link = p_fct(c("identity", "log"), default = "identity", tags = "train"),
         distr = p_fct(c("poisson", "nbinom"), default = "poisson", tags = "train"),
