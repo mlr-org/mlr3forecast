@@ -13,6 +13,10 @@ per series instead of one global model pooled across series.
 The per-series tasks carry no key columns, so classical univariate learners (e.g.
 \code{lrn("fcst.ets")}) compose as well. The key groups observed during training are stored in the
 \verb{$state} and the task must contain exactly the same key groups at predict time.
+
+Each per-series task gets an in-memory backend holding only the rows of its series.
+PipeOps that read history beyond the task rows, such as \code{\link[=mlr_pipeops_fcst.lags]{po("fcst.lags")}} at predict time,
+therefore see the history of their own series only.
 }
 \section{Parameters}{
 

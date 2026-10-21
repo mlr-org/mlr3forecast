@@ -11,6 +11,10 @@
 #' `lrn("fcst.ets")`) compose as well. The key groups observed during training are stored in the
 #' `$state` and the task must contain exactly the same key groups at predict time.
 #'
+#' Each per-series task gets an in-memory backend holding only the rows of its series.
+#' PipeOps that read history beyond the task rows, such as [`po("fcst.lags")`][mlr_pipeops_fcst.lags] at predict time,
+#' therefore see the history of their own series only.
+#'
 #' @section Parameters:
 #' This PipeOp has no parameters.
 #'
@@ -56,8 +60,7 @@ PipeOpFcstSplitKey = R6Class(
       keys = key_table(groups, task$col_roles$key)
       self$state = list(keys = keys)
       groups = groups[keys, on = task$col_roles$key]
-      rows = set_names(groups$..rows, keys$..label)
-      list(as.Multiplicity(imap(rows, function(rows, label) private$.subtask(task, rows, label))))
+      list(as.Multiplicity(private$.subtasks(task, groups, keys$..label)))
     },
 
     .predict = function(inputs) {
@@ -75,8 +78,7 @@ PipeOpFcstSplitKey = R6Class(
       }
       # downstream per-series states are matched by name, so realign to the training keys
       groups = groups[keys, on = key_cols]
-      rows = set_names(groups$..rows, keys$..label)
-      list(as.Multiplicity(imap(rows, function(rows, label) private$.subtask(task, rows, label))))
+      list(as.Multiplicity(private$.subtasks(task, groups, keys$..label)))
     },
 
     .split_rows = function(task) {
@@ -91,8 +93,29 @@ PipeOpFcstSplitKey = R6Class(
       dt[, list(..rows = list(..row_id)), by = c(key_cols)]
     },
 
-    .subtask = function(task, rows, label) {
+    .subtasks = function(task, groups, labels) {
+      # restrict each backend to its series, so pipeops reading history beyond the task rows, e.g. fcst.lags at
+      # predict time, cannot mix series once the key role is gone
+      backend = task$backend
+      pk = backend$primary_key
+      key_cols = task$col_roles$key
+      all_rows = backend$data(rows = backend$rownames, cols = c(pk, key_cols))
+      all_rows = all_rows[,
+        list(..backend_rows = list(pk)),
+        by = key_cols,
+        env = list(pk = pk, key_cols = I(key_cols))
+      ]
+      groups = all_rows[groups, on = key_cols]
+      subtasks = pmap(list(groups$..rows, groups$..backend_rows, labels), function(rows, backend_rows, label) {
+        data = backend$data(rows = backend_rows, cols = backend$colnames)
+        private$.subtask(task, rows, as_data_backend(data, primary_key = pk), label)
+      })
+      set_names(subtasks, labels)
+    },
+
+    .subtask = function(task, rows, backend, label) {
       subtask = task$clone()
+      subtask$backend = backend
       subtask$id = sprintf("%s.%s", task$id, label)
       # filter keeps the given row order, so each sub-task is chronological
       subtask$filter(rows)

@@ -110,6 +110,24 @@ test_that("splitkey/unitekey graph works with resample", {
   expect_number(rr$aggregate(msr("regr.rmse")), finite = TRUE)
 })
 
+test_that("splitkey subtasks only hold the history of their own series", {
+  # series a is 1, 2, ... and b is 1001, 1002, ..., so each feature must stay within its series
+  shared = data.table(id = rep(c("a", "b"), each = 6L), t = rep(1:6, 2L), y = c(1:6, 1001:1006) + 0)
+  interleaved = copy(shared)[, t := c(seq(1L, 11L, 2L), seq(2L, 12L, 2L))]
+  ops = list(po("fcst.lags", lags = 1L), po("fcst.rolling", window_sizes = 2L, funs = "mean"))
+  expected = list(c(4, 5, 1004, 1005), c(3.5, 4.5, 1003.5, 1004.5))
+  for (data in list(shared, interleaved)) {
+    task = as_task_fcst(data, target = "y", order = "t", key = "id")
+    for (i in seq_along(ops)) {
+      graph = po("fcst.splitkey") %>>% ops[[i]]$clone()
+      graph$train(task$clone()$filter(c(1:4, 7:10)))
+      out = graph$predict(task$clone()$filter(c(5:6, 11:12)))[[1L]]
+      feature = setdiff(out$a$feature_names, task$feature_names)
+      expect_equal(c(out$a$data()[[feature]], out$b$data()[[feature]]), expected[[i]])
+    }
+  }
+})
+
 test_that("classical learners fit local models through splitkey", {
   skip_if_not_installed("forecast")
   # monthly panel, ets warns about the non-integer seasonal period of daily data

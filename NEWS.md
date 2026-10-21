@@ -69,6 +69,7 @@
 * fix: `generate_newdata()` keeps an integer time index integer instead of sometimes returning doubles.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
 * fix: `po("fcst.fourier")` now computes its terms from the timestamps instead of the row positions, so the seasonal phase no longer shifts at predict time or between series.
+* fix: `po("fcst.splitkey")` and thus `ppl("fcst.local")` now give each per-series task a backend holding only the rows of its series, so `po("fcst.lags")` and `po("fcst.rolling")` no longer mix series at predict time. Previously, they failed for series sharing timestamps and silently took features from other series for interleaved timestamps.
 * fix: `po("fcst.targetdiff")` no longer errors on quantile predictions, but inverts their response and drops the quantiles, like the target trafos of `mlr3pipelines`.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * fix: `RecursiveForecaster` now returns predictions in the task's row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets `po("fcst.avg")` combine it with `DirectForecaster`.
