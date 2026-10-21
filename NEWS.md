@@ -61,6 +61,7 @@
 * fix: `fcst.tslm` now errors on a target or features named `trend` or `season` unless `formula` is set, instead of silently confusing them with its built-in terms.
 * fix: `generate_newdata()` keeps an integer time index integer instead of sometimes returning doubles.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
+* fix: `po("fcst.fourier")` now computes its terms from the timestamps instead of the row positions, so the seasonal phase no longer shifts at predict time or between series.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * fix: `RecursiveForecaster` now returns predictions in the task's row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets `po("fcst.avg")` combine it with `DirectForecaster`.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` no longer return wrong splits or fail for key or order columns named like internal columns, e.g. `train`, `fold`, or `row_id`.

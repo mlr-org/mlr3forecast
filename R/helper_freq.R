@@ -206,6 +206,19 @@ grid_steps = function(order, series, freq) {
   replace(round(steps), !on_grid, NA_real_)
 }
 
+epoch_steps = function(order, freq) {
+  if (!inherits(order, c("Date", "POSIXct"))) {
+    return(as.numeric(order) / freq)
+  }
+  parts = civil_parts(order)
+  m = calendar_months(freq)
+  if (!is.na(m)) {
+    return((parts$year * 12L + parts$month - 1L) / m + 1L)
+  }
+  secs = days_from_civil(parts$year, parts$month, parts$day) * unit_secs[["day"]] + parts$clock
+  secs / unit_seconds(freq)
+}
+
 task_resolve_freq = function(task, freq) {
   order_col = task$col_roles$order
   key_cols = task$col_roles$key

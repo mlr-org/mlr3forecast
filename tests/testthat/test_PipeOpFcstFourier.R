@@ -61,6 +61,28 @@ test_that("PipeOpFcstFourier keeps phase across train/predict split", {
   expect_equal(apply(ours, 1L, sort), apply(ref, 1L, sort))
 })
 
+test_that("PipeOpFcstFourier keeps phase on a predict backend without the training history", {
+  skip_if_not_installed("forecast")
+  task = tsk("airpassengers")
+  po = po("fcst.fourier", period = 12, K = 2L)
+  po$train(list(task$clone()$filter(1:100)))
+  newdata = as_task_fcst(task$data(rows = 101:103, cols = c("month", "passengers")), target = "passengers",
+    order = "month", freq = "month")
+  pred = po$predict(list(newdata))[[1L]]
+  ours = as.matrix(pred$data(cols = c("S1_12", "C1_12", "S2_12", "C2_12")))
+  ref = forecast::fourier(stats::ts(task$truth()[1:100], frequency = 12), K = 2, h = 3)
+  expect_equal(apply(ours, 1L, sort), apply(ref, 1L, sort))
+})
+
+test_that("PipeOpFcstFourier gives the same terms for the same date across series", {
+  d = seq(as.Date("2000-01-01"), by = "month", length.out = 24L)
+  dt = data.table(id = rep(c("a", "b"), c(24L, 21L)), d = c(d, d[4:24]), y = as.numeric(1:45))
+  task = as_task_fcst(dt, target = "y", order = "d", key = "id")
+  out = po("fcst.fourier", period = 12, K = 2L)$train(list(task))[[1L]]
+  feats = out$data(cols = c("id", "d", "S1_12", "C1_12", "S2_12", "C2_12"))
+  expect_equal(feats[id == "a" & d >= as.Date("2000-04-01"), -"id"], feats[id == "b", -"id"], ignore_attr = TRUE)
+})
+
 test_that("PipeOpFcstFourier works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")

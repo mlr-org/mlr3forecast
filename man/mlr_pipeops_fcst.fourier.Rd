@@ -6,9 +6,9 @@
 \title{Create Fourier Features for Seasonality}
 \description{
 Creates pairs of Fourier (harmonic) terms \code{sin(2 * pi * k * t / period)} and \code{cos(2 * pi * k * t / period)} as new
-feature columns, for \verb{k = 1, ..., K} harmonics per seasonal \code{period}, where \code{t} is the per-series time position. They
-encode seasonality as a flexible alternative to seasonal lags, in particular for long or non-integer periods and
-multiple seasonalities at once.
+feature columns, for \verb{k = 1, ..., K} harmonics per seasonal \code{period}, where \code{t} counts steps of the task's \code{freq}
+since a fixed origin. They encode seasonality as a flexible alternative to seasonal lags, in particular for long or
+non-integer periods and multiple seasonalities at once.
 }
 \section{Parameters}{
 

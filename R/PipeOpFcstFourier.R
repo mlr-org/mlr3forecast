@@ -3,9 +3,9 @@
 #'
 #' @description
 #' Creates pairs of Fourier (harmonic) terms `sin(2 * pi * k * t / period)` and `cos(2 * pi * k * t / period)` as new
-#' feature columns, for `k = 1, ..., K` harmonics per seasonal `period`, where `t` is the per-series time position. They
-#' encode seasonality as a flexible alternative to seasonal lags, in particular for long or non-integer periods and
-#' multiple seasonalities at once.
+#' feature columns, for `k = 1, ..., K` harmonics per seasonal `period`, where `t` counts steps of the task's `freq`
+#' since a fixed origin. They encode seasonality as a flexible alternative to seasonal lags, in particular for long or
+#' non-integer periods and multiple seasonalities at once.
 #'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreprocSimple], as well as the following
@@ -69,10 +69,6 @@ PipeOpFcstFourier = R6Class(
 
     .transform = function(task) {
       pv = self$param_set$get_values(tags = "train")
-      col_roles = task$col_roles
-      key_cols = col_roles$key
-      order_cols = col_roles$order
-
       period = resolve_period(pv$period, task$freq)
       K = pv$K
       if (length(K) == 1L) {
@@ -85,22 +81,13 @@ PipeOpFcstFourier = R6Class(
         error_input("`K` must not be greater than `period / 2`. Set a smaller `K` or a larger `period`.")
       }
 
-      full = task$backend$data(rows = task$backend$rownames, cols = c(key_cols, order_cols))
-      setorderv(full, c(key_cols, order_cols))
-      if (length(key_cols) > 0L) {
-        set(full, j = "..t", value = rowidv(full, cols = key_cols))
-      } else {
-        set(full, j = "..t", value = seq_row(full))
-      }
-      active = task$data(cols = c(key_cols, order_cols))
-      ii = full[active, on = c(key_cols, order_cols), which = TRUE]
-      feat = as.data.table(fourier_terms(full[["..t"]][ii], period, K))
-      task$cbind(feat)
+      times = epoch_steps(task$data(cols = task$col_roles$order)[[1L]], task$freq)
+      task$cbind(as.data.table(fourier_terms(times, period, K)))
     }
   )
 )
 
-# port of forecast:::fourier(), evaluating Fourier terms at the given integer time positions.
+# port of forecast:::fourier(), evaluating Fourier terms at the given time positions.
 fourier_terms = function(times, period, K) {
   k = sequence(K)
   per = rep(period, K)
@@ -108,6 +95,8 @@ fourier_terms = function(times, period, K) {
   labels = paste(paste0(c("S", "C"), rep(k, each = 2L)), rep(round(per), each = 2L), sep = "_")
   # remove equivalent harmonics arising from overlapping seasonal periods
   dup = duplicated(p)
+  k = k[!dup]
+  per = per[!dup]
   p = p[!dup]
   labels = labels[!rep(dup, each = 2L)]
   # sine terms that are identically zero (2 * p integer) are dropped
@@ -117,12 +106,13 @@ fourier_terms = function(times, period, K) {
   X = matrix(NA_real_, nrow = length(times), ncol = sum(keep), dimnames = list(NULL, labels[keep]))
   jj = 0L
   for (j in seq_along(p)) {
+    phase = (k[j] * times) %% per[j] / per[j]
     if (keep_sin[j]) {
       jj = jj + 1L
-      X[, jj] = sinpi(2 * p[j] * times)
+      X[, jj] = sinpi(2 * phase)
     }
     jj = jj + 1L
-    X[, jj] = cospi(2 * p[j] * times)
+    X[, jj] = cospi(2 * phase)
   }
   X
 }
