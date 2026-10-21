@@ -6,7 +6,6 @@ LearnerFcstForecTheta = R6Class(
   inherit = LearnerFcst,
   private = list(
     .seasonal = TRUE,
-    .fn = NULL,
 
     .train = function(task) {
       super$.train(task)

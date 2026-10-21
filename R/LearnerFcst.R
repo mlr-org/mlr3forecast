@@ -85,6 +85,8 @@ LearnerFcst = R6Class(
 
   private = list(
     .seasonal = FALSE,
+    .fn = NULL,
+    .y_arg = "y",
 
     .as_ts = function(task) {
       as.ts(task, period = self$param_set$values$period)

@@ -9,8 +9,6 @@ LearnerFcstForecast = R6Class(
     .newdata_arg = "xreg",
     .newdata_as_matrix = TRUE,
     .pkg = "forecast",
-    .fn = NULL,
-    .y_arg = "y",
     .parallel_arg = NULL,
 
     .postprocess = function(pred) pred,
