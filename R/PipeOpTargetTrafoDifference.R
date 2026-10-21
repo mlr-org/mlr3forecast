@@ -88,7 +88,7 @@ PipeOpTargetTrafoDifference = R6Class(
       order_cols = task$col_roles$order
 
       if (length(key_cols) == 0L) {
-        if (length(order_cols) > 0L && is.unsorted(task$data(cols = order_cols)[[1L]])) {
+        if (is.unsorted(task$data(cols = order_cols)[[1L]])) {
           error_input("%s requires the task to be ordered by its order column.", self$id)
         }
         x = task$data(cols = target)[[1L]]
@@ -105,14 +105,13 @@ PipeOpTargetTrafoDifference = R6Class(
 
       pk = task$backend$primary_key
       dt = task$backend$data(rows = task$row_ids, cols = c(pk, target, key_cols, order_cols))
-      unsorted = length(order_cols) > 0L &&
-        any(
-          dt[,
-            list(..unsorted = is.unsorted(order_cols)),
-            by = key_cols,
-            env = list(order_cols = order_cols, key_cols = I(key_cols))
-          ]$..unsorted
-        )
+      unsorted = any(
+        dt[,
+          list(..unsorted = is.unsorted(order_cols)),
+          by = key_cols,
+          env = list(order_cols = order_cols, key_cols = I(key_cols))
+        ]$..unsorted
+      )
       if (unsorted) {
         error_input("%s requires each series to be ordered by the order column.", self$id)
       }
