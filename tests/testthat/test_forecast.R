@@ -215,6 +215,10 @@ test_that("forecast() validates newdata alignment", {
   set(newdata, j = "temp", value = 100)
   expect_error(forecast(flrn, task, h = 3L, newdata = newdata), "do not match the generated future grid")
 
+  expect_error(forecast(flrn, task, h = 3L), "must supply the future values of the feature\\(s\\) 'temp'")
+  newdata = CJ(date = seq(as.Date("2026-01-01"), by = "month", length.out = 3L), id = factor(c("a", "b")))
+  expect_error(forecast(flrn, task, h = 3L, newdata = newdata), "'temp'")
+
   # a partial overlay covering only some future rows is still allowed
   newdata = data.table(date = as.Date("2026-01-01"), id = factor(c("a", "b")), temp = c(100, 200))
   pred = forecast(flrn, task, h = 3L, newdata = newdata)

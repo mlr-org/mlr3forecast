@@ -54,6 +54,7 @@ generate_newdata = function(task, n = 1L) {
 #'   columns for keyed tasks), and every row must match a row of the generated future grid.
 #'   Columns other than those are overlaid onto the generated skeleton, while skeleton rows
 #'   without a match keep `NA`.
+#'   Required if `task` has features, and must then contain every feature column.
 #' @param ... (any)\cr
 #'   Must be empty.
 #' @return [mlr3::Prediction].
@@ -92,6 +93,10 @@ forecast.Learner = function(object, task, h = 12L, newdata = NULL, ...) {
         env = list(overlay_cols = I(overlay_cols))
       ]
     }
+  }
+  miss = setdiff(task$feature_names, names(generated))
+  if (length(miss) > 0L) {
+    error_input("`newdata` must supply the future values of the feature(s) %s.", str_collapse(miss, quote = "'"))
   }
   object$predict_newdata(generated, task)
 }
