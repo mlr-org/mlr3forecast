@@ -154,7 +154,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   x[, (key) := map_if(.SD, test_integerish, as.integer), .SDcols = key]
 
   freq = attr(x, "frequency")
-  freq = if (has_order && !is.null(freq)) tsf_to_seq(freq) else NULL
+  freq = if (has_order && !is.null(freq)) tsf_frequencies[[freq]] else NULL
 
   as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }

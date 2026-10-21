@@ -88,7 +88,7 @@ read_tsf = function(file) {
   set(dt, j = "value", value = as.numeric(dt$value))
   if (has_freq) {
     if (has_date) {
-      by_freq = tsf_to_seq(freq)
+      by_freq = tsf_frequencies[[freq]]
       dt[,
         date_col := {
           origin = date_col[1L]
@@ -283,7 +283,3 @@ tsf_low_frequencies = c(
 )
 
 tsf_frequencies = c(tsf_high_frequencies, tsf_low_frequencies)
-
-tsf_to_seq = function(x) {
-  tsf_frequencies[[x]]
-}
