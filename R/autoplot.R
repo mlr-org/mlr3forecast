@@ -160,11 +160,11 @@ fcst_quantile_ribbon = function(object, fc, order, key) {
   if (!any(keep)) {
     return()
   }
-  ribbon = pmap_dtr(list(lower[keep], upper[keep]), function(lower, upper) {
+  ribbon = pmap_dtr(list(lower[keep], upper[keep]), function(lo, hi) {
     out = fc[, c(order, key), with = FALSE]
-    set(out, j = "..lower", value = quantiles[, lower])
-    set(out, j = "..upper", value = quantiles[, upper])
-    set(out, j = "..level", value = round(100 * (probs[upper] - probs[lower])))
+    set(out, j = "..lower", value = quantiles[, lo])
+    set(out, j = "..upper", value = quantiles[, hi])
+    set(out, j = "..level", value = round(100 * (probs[hi] - probs[lo])))
     out
   })
   # draw wider intervals first so narrower ones shade on top
