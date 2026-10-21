@@ -1,3 +1,6 @@
+# Vendored from mlr3 (R/helper_data_table.R), which does not export these helpers.
+# Keep this file in sync with upstream instead of editing it here.
+
 # extract values from a single column `j` of a data table where the `key` column matches `i`
 # tries to avoid the overhead of data.table for small tables
 # i must be a single value, use fget_keys for multiple values
@@ -31,8 +34,10 @@ fget_keys = function(tab, i, j, key) {
   }
 }
 
+# nolint next
 ijoin = function(tab, .__i__, .__j__, .__key__, nomatch = NULL, mult = "all") {
   if (!is.list(.__i__)) {
+    # nolint next
     .__i__ = list(.__i__)
   }
   tab[.__i__, .__j__, with = FALSE, nomatch = nomatch, on = .__key__, mult = mult]
@@ -42,6 +47,6 @@ ijoin = function(tab, .__i__, .__j__, .__key__, nomatch = NULL, mult = "all") {
 # replaces values in x with values in y
 ujoin = function(x, y, key) {
   cn = setdiff(intersect(names(x), names(y)), key)
-  expr = parse(text = paste0("`:=`(", str_collapse(sprintf("%1$s=i.%1$s", cn), sep = ","), ")"))
+  expr = parse(text = paste0("`:=`(", paste0(sprintf("%1$s=i.%1$s", cn), collapse = ","), ")"))
   x[y, eval(expr), on = key][]
 }
