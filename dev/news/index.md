@@ -251,10 +251,6 @@
   candidate models to select from, and defaults to all four like
   [`smooth::auto.ces()`](https://rdrr.io/pkg/smooth/man/ces.html).
   Previously, setting it fit a single fixed model.
-- fix: `fcst.dotm`, `fcst.dstm`, `fcst.otm`, `fcst.stheta`, and
-  `fcst.stm` now predict a single step of a seasonal series, for which
-  `forecTheta` returned an empty forecast, and no longer warn about
-  non-intersecting series on every training.
 - fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`,
   `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`,
   `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series
@@ -287,6 +283,12 @@
 - fix: `po("fcst.fourier")` now computes its terms from the timestamps
   instead of the row positions, so the seasonal phase no longer shifts
   at predict time or between series.
+- fix: `po("fcst.splitkey")` and thus `ppl("fcst.local")` now give each
+  per-series task a backend holding only the rows of its series, so
+  `po("fcst.lags")` and `po("fcst.rolling")` no longer mix series at
+  predict time. Previously, they failed for series sharing timestamps
+  and silently took features from other series for interleaved
+  timestamps.
 - fix: `po("fcst.targetdiff")` no longer errors on quantile predictions,
   but inverts their response and drops the quantiles, like the target
   trafos of `mlr3pipelines`.
