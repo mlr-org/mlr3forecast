@@ -174,8 +174,7 @@ DirectForecaster = R6Class(
     #' @return Named `list()` of named `numeric()`, one element per horizon (`h1`, `h2`, ...).
     importance = function() {
       assert_has_model(self)
-      importance = map(self$model$models, function(glrn) glrn$importance())
-      set_names(importance, paste0("h", self$horizons))
+      private$.per_horizon(function(glrn) glrn$importance())
     },
 
     #' @description
@@ -183,8 +182,7 @@ DirectForecaster = R6Class(
     #' @return Named `list()` of `character()`, one element per horizon (`h1`, `h2`, ...).
     selected_features = function() {
       assert_has_model(self)
-      features = map(self$model$models, function(glrn) glrn$selected_features())
-      set_names(features, paste0("h", self$horizons))
+      private$.per_horizon(function(glrn) glrn$selected_features())
     },
 
     #' @description
@@ -192,8 +190,7 @@ DirectForecaster = R6Class(
     #' @return Named `list()` of `numeric(1)`, one element per horizon (`h1`, `h2`, ...).
     oob_error = function() {
       assert_has_model(self)
-      errors = map(self$model$models, function(glrn) glrn$oob_error())
-      set_names(errors, paste0("h", self$horizons))
+      private$.per_horizon(function(glrn) glrn$oob_error())
     }
   ),
 
@@ -242,8 +239,7 @@ DirectForecaster = R6Class(
         return(private$.learner$graph)
       }
       assert_unmarshaled(self)
-      graphs = map(self$model$models, function(glrn) glrn$graph_model)
-      set_names(graphs, paste0("h", self$horizons))
+      private$.per_horizon(function(glrn) glrn$graph_model)
     },
 
     #' @field native_model (named `list()`)\cr
@@ -254,8 +250,7 @@ DirectForecaster = R6Class(
         return()
       }
       assert_unmarshaled(self)
-      models = map(self$model$models, function(glrn) glrn$base_learner()$model)
-      set_names(models, paste0("h", self$horizons))
+      private$.per_horizon(function(glrn) glrn$base_learner()$model)
     },
 
     #' @field lags (`integer()`)\cr
@@ -473,6 +468,10 @@ DirectForecaster = R6Class(
       }
       out$data = insert_named(out$data, new_data)
       out
+    },
+
+    .per_horizon = function(fn) {
+      set_names(map(self$model$models, fn), paste0("h", self$horizons))
     },
 
     .predict_horizons = function(task, models, row_ids, ii) {
