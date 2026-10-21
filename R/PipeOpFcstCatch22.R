@@ -61,12 +61,12 @@ PipeOpFcstCatch22 = R6Class(
       setorderv(dt, c(key_cols, order_cols))
       feats = if (length(key_cols) > 0L) {
         dt[,
-          catch22(target, catch24),
+          catch22_features(target, catch24),
           by = key_cols,
-          env = list(catch22 = private$.catch22, target = target, catch24 = catch24)
+          env = list(target = target, catch24 = catch24)
         ]
       } else {
-        setDT(private$.catch22(dt[[target]], catch24))
+        setDT(catch22_features(dt[[target]], catch24))
       }
       feat_cols = setdiff(names(feats), key_cols)
       setnames(feats, feat_cols, paste0(target, "_catch22_", feat_cols))
@@ -92,22 +92,22 @@ PipeOpFcstCatch22 = R6Class(
       } else {
         task$cbind(feats[rep.int(1L, task$nrow)])
       }
-    },
-
-    .catch22 = function(x, catch24) {
-      # muffle Rcatch22's once-per-session notice about CO_f1ecac's return type
-      res = withCallingHandlers(
-        invoke(Rcatch22::catch22_all, as.numeric(x), catch24 = catch24),
-        warning = function(w) {
-          if (grepl("CO_f1ecac", conditionMessage(w), fixed = TRUE)) {
-            invokeRestart("muffleWarning")
-          }
-        }
-      )
-      as.list(set_names(res$values, res$names))
     }
   )
 )
+
+catch22_features = function(x, catch24) {
+  # muffle Rcatch22's once-per-session notice about CO_f1ecac's return type
+  res = withCallingHandlers(
+    invoke(Rcatch22::catch22_all, as.numeric(x), catch24 = catch24),
+    warning = function(w) {
+      if (grepl("CO_f1ecac", conditionMessage(w), fixed = TRUE)) {
+        invokeRestart("muffleWarning")
+      }
+    }
+  )
+  as.list(set_names(res$values, res$names))
+}
 
 #' @include zzz.R
 register_po("fcst.catch22", PipeOpFcstCatch22)
