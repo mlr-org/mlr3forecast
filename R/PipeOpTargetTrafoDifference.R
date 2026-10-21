@@ -134,10 +134,6 @@ PipeOpTargetTrafoDifference = R6Class(
     },
 
     .invert = function(prediction, predict_phase_state) {
-      if (!is.null(prediction$data$quantiles)) {
-        error_input("%s does not support inverting quantile predictions.", self$id)
-      }
-
       lag = self$param_set$get_values(tags = "train")$lag
       tails = self$state$tails
       if (is.null(tails)) {
