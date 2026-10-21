@@ -139,6 +139,8 @@ Other Learner:
 [`mlr3::LearnerRegr`](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
 -\>
 [`LearnerFcst`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+-\>
+[`LearnerFcstSmooth`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcstSmooth.md)
 -\> `LearnerFcstSma`
 
 ## Methods
