@@ -140,7 +140,7 @@ Other Learner:
 }
 \concept{Learner}
 \section{Super classes}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerFcst]{LearnerFcst}} -> \code{LearnerFcstSma}
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3:LearnerRegr]{mlr3::LearnerRegr}} -> \code{\link[mlr3forecast:LearnerFcst]{LearnerFcst}} -> \code{\link[mlr3forecast:LearnerFcstSmooth]{LearnerFcstSmooth}} -> \code{LearnerFcstSma}
 }
 \section{Methods}{
 \subsection{Public methods}{

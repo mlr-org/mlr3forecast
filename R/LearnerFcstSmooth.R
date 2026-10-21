@@ -8,12 +8,13 @@ LearnerFcstSmooth = R6Class(
     .seasonal = TRUE,
     .fn = NULL,
     .y_arg = "y",
+    .train_args = list(),
 
     .train = function(task) {
       super$.train(task)
       pv = private$.train_values()
       fn = getExportedValue("smooth", private$.fn)
-      model = invoke(fn, private$.smooth_data(task), .args = pv)
+      model = invoke(fn, private$.smooth_data(task), .args = insert_named(private$.train_args, pv))
       private$.set_context(private$.tidy_model(model, task), task)
     },
 

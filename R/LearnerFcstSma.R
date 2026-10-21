@@ -1,4 +1,4 @@
-#' @include LearnerFcst.R
+#' @include LearnerFcstSmooth.R
 #' @title Simple Moving Average Forecast Learner
 #'
 #' @name mlr_learners_fcst.sma
@@ -20,7 +20,7 @@
 #' @template example
 LearnerFcstSma = R6Class(
   "LearnerFcstSma",
-  inherit = LearnerFcst,
+  inherit = LearnerFcstSmooth,
   public = list(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
@@ -46,25 +46,9 @@ LearnerFcstSma = R6Class(
   ),
 
   private = list(
-    .seasonal = TRUE,
     .fn = "sma",
-    .y_arg = "y",
-
-    .train = function(task) {
-      super$.train(task)
-      pv = private$.train_values()
-      model = invoke(smooth::sma, y = private$.as_ts(task), h = 0L, .args = pv)
-      private$.set_context(private$.tidy_model(model, task), task)
-    },
-
-    .predict = function(task) {
-      prediction = list(extra = as.list(task$data(cols = task$col_roles$order)))
-      if (!private$.is_newdata(task)) {
-        return(insert_named(prediction, list(response = private$.fitted_response(task))))
-      }
-      pred = invoke(generics::forecast, self$native_model, h = task$nrow)
-      insert_named(prediction, list(response = as.numeric(pred$mean)))
-    }
+    # unlike es() and adam(), sma() forecasts 10 steps during fitting by default
+    .train_args = list(h = 0L)
   )
 )
 
