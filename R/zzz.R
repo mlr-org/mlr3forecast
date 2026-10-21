@@ -52,7 +52,6 @@ register_po = register_item(mlr3forecast_pipeops, "pipeop")
 register_graph = register_item(mlr3forecast_graphs, "graph")
 
 register_mlr3 = function(...) {
-  # add reflections
   mlr_reflections = utils::getFromNamespace("mlr_reflections", ns = "mlr3")
   mlr_reflections$task_types = mlr_reflections$task_types[!"fcst"]
   # fmt: skip
@@ -65,7 +64,6 @@ register_mlr3 = function(...) {
     mlr_reflections$learner_properties$regr,
     mlr3forecast_learner_properties
   )
-  # remove regr roles that should have no effect or expect setting
   mlr_reflections$task_col_roles$fcst = union(mlr_reflections$task_col_roles$regr, mlr3forecast_col_roles)
   mlr_reflections$task_properties$fcst = union(mlr_reflections$task_properties$regr, mlr3forecast_task_properties)
   mlr_reflections$measure_properties$fcst = mlr_reflections$measure_properties$regr
@@ -76,23 +74,18 @@ register_mlr3 = function(...) {
   )
   mlr_reflections$loaded_packages = union(mlr_reflections$loaded_packages, "mlr3forecast")
 
-  # add resamplings
   mlr_resamplings = utils::getFromNamespace("mlr_resamplings", ns = "mlr3")
   iwalk(as.list(mlr3forecast_resamplings), function(resampling, id) mlr_resamplings$add(id, resampling))
 
-  # add tasks
   mlr_tasks = utils::getFromNamespace("mlr_tasks", ns = "mlr3")
   iwalk(as.list(mlr3forecast_tasks), function(task, id) mlr_tasks$add(id, task))
 
-  # add task generators
   mlr_task_generators = utils::getFromNamespace("mlr_task_generators", ns = "mlr3")
   iwalk(as.list(mlr3forecast_task_generators), function(generator, id) mlr_task_generators$add(id, generator))
 
-  # add learners
   mlr_learners = utils::getFromNamespace("mlr_learners", ns = "mlr3")
   iwalk(as.list(mlr3forecast_learners), function(learner, id) mlr_learners$add(id, learner))
 
-  # add measures
   mlr_measures = utils::getFromNamespace("mlr_measures", ns = "mlr3")
   iwalk(as.list(mlr3forecast_measures), function(measure, id) mlr_measures$add(id, measure))
 }

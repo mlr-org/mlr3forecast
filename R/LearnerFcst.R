@@ -110,7 +110,6 @@ LearnerFcst = R6Class(
       invisible()
     },
 
-    # tidy printed output with real series name and fn.
     .tidy_model = function(model, task) {
       if (!is.null(model$series)) {
         model$series = task$target_names

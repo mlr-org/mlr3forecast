@@ -94,7 +94,7 @@ PredictionFcst = R6Class(
       self$man = "mlr3forecast::PredictionFcst"
       self$data = pdata
       predict_types = intersect(names(mlr_reflections$learner_predict_types[["regr"]]), names(pdata))
-      # response is in saved in quantiles matrix
+      # quantile predictions carry the response in the quantiles matrix
       if ("quantiles" %chin% predict_types) {
         predict_types = union(predict_types, "response")
       }
