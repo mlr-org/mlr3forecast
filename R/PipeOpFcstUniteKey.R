@@ -76,7 +76,7 @@ PipeOpFcstUniteKey = R6Class(
         error_input("%s requires a named multiplicity, as created by po(\"fcst.splitkey\").", self$id)
       }
       pdatas = map(inputs, "data")
-      pdata = if (length(pdatas) == 1L) pdatas[[1L]] else invoke(c, .args = unname(pdatas))
+      pdata = invoke(c, .args = unname(pdatas))
       extra = as.list(pdata$extra)
       if (length(pdata$col_roles$key) == 0L) {
         key = self$param_set$get_values(tags = "predict")$key
@@ -91,11 +91,8 @@ PipeOpFcstUniteKey = R6Class(
           )
         }
         # rebuild the series identity dropped by fcst.splitkey from the multiplicity names
-        counts = map_int(pdatas, function(x) length(x$row_ids))
-        extra[[key]] = factor(rep(labels, counts), levels = labels)
+        extra[[key]] = factor(rep(labels, lengths(map(pdatas, "row_ids"))), levels = labels)
         pdata$extra = extra
-        # predictions serialized before col_roles existed carry none
-        pdata$col_roles = pdata$col_roles %??% empty_fcst_prediction_col_roles()
         pdata$col_roles$key = key
       }
       list(as_prediction(pdata, check = FALSE))
