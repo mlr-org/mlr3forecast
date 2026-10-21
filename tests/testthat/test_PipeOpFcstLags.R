@@ -64,4 +64,5 @@ test_that("PipeOpFcstLags is not confused by columns named like its variables", 
   expected = lag_data(make_named_task())
   expect_same_values(lag_data(make_named_task(target = "target")), expected)
   expect_same_values(lag_data(make_named_task(key = "lags")), expected)
+  expect_same_values(lag_data(make_named_task(key = "key_cols")), expected)
 })

@@ -83,7 +83,7 @@ read_tsf = function(file) {
   }
 
   value = NULL
-  dt = dt[, list(value = strsplit1(value, ",")), by = cn]
+  dt = dt[, list(value = strsplit1(value, ",")), by = c(cn)]
   dt["?", "value" := NA_character_, on = "value"]
   set(dt, j = "value", value = as.numeric(dt$value))
   if (has_freq) {
@@ -95,7 +95,7 @@ read_tsf = function(file) {
           c(origin, seq_order(origin, by_freq, .N - 1L))
         },
         by = cn,
-        env = list(date_col = date_col, by_freq = I(by_freq))
+        env = list(date_col = date_col, by_freq = I(by_freq), cn = I(cn))
       ]
     }
     setattr(dt, "frequency", freq)

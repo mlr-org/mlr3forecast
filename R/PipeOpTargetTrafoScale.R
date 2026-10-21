@@ -82,7 +82,12 @@ PipeOpTargetTrafoScale = R6Class(
         return(scale_stats(task$data(cols = target)[[1L]], pv))
       }
       dt = task$data(cols = c(key_cols, target))
-      stats = dt[, scale_stats(target, pv), by = key_cols, env = list(target = target, pv = I(pv))]
+      # reserved names, so a key or target named `center` or `scale` cannot collide with the statistics
+      stats = dt[,
+        set_names(scale_stats(target, pv), c("..center", "..scale")),
+        by = key_cols,
+        env = list(target = target, pv = I(pv), key_cols = I(key_cols))
+      ]
       list(key_cols = key_cols, stats = stats)
     },
 
@@ -102,7 +107,7 @@ PipeOpTargetTrafoScale = R6Class(
           assert_seen_keys(stats, dt, key_cols)
         }
         dt = stats[dt, on = key_cols]
-        set(dt, j = new_col, value = (dt[[target]] - dt$center) / dt$scale)
+        set(dt, j = new_col, value = (dt[[target]] - dt$..center) / dt$..scale)
         task$cbind(dt[, c(pk, new_col), with = FALSE])
       }
       convert_task(task, target = new_col, drop_original_target = TRUE)
@@ -128,8 +133,8 @@ PipeOpTargetTrafoScale = R6Class(
         dt = predict_phase_state$layout[ids, on = "..row_id"]
         dt = stats[dt, on = key_cols]
         setorderv(dt, "..pos")
-        center = dt$center
-        scale = dt$scale
+        center = dt$..center
+        scale = dt$..scale
       }
 
       if (!is.null(response)) {

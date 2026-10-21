@@ -91,7 +91,7 @@ PipeOpFcstTsfeats = R6Class(
         ts_dt = dt[,
           list(..ts = list(stats::ts(target, frequency = period))),
           by = key_cols,
-          env = list(target = target, period = period)
+          env = list(target = target, period = period, key_cols = I(key_cols))
         ]
         tslist = ts_dt$..ts
         keys = ts_dt[, !"..ts"]

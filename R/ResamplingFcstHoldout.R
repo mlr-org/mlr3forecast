@@ -110,7 +110,7 @@ ResamplingFcstHoldout = R6Class(
         },
         by = key_cols,
         .SDcols = "..row_id",
-        env = list(ratio = ratio, n = n)
+        env = list(ratio = ratio, n = n, key_cols = I(key_cols))
       ]
       list(
         train = unlist(splits$..train, use.names = FALSE),

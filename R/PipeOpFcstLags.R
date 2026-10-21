@@ -82,7 +82,11 @@ PipeOpFcstLags = R6Class(
       set(dt, j = target, value = as.numeric(dt[[target]]))
       lag_cols = sprintf("%s_lag_%i", target, lags)
       setorderv(dt, c(key_cols, task$col_roles$order))
-      dt[, (lag_cols) := shift(target, lags), by = key_cols, env = list(target = target, lags = lags)]
+      dt[,
+        (lag_cols) := shift(target, lags),
+        by = key_cols,
+        env = list(target = target, lags = lags, key_cols = I(key_cols))
+      ]
       lag_cols
     }
   )

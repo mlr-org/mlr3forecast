@@ -450,7 +450,11 @@ test_that("DirectForecaster is not confused by columns named like its variables"
     learner$train(task, split$train)$predict(task, split$test)$response
   }
   expected = predict_response(make_named_task(feature = "x"))
-  for (args in list(list(target = "target"), list(key = "step"), list(key = "max_h"), list(feature = "max_lag"))) {
+  cases = list(
+    list(target = "target"), list(key = "step"), list(key = "max_h"), list(feature = "max_lag"),
+    list(key = "key_cols"), list(order = "key_cols")
+  )
+  for (args in cases) {
     expect_equal(predict_response(do.call(make_named_task, insert_named(list(feature = "x"), args))), expected)
   }
 })

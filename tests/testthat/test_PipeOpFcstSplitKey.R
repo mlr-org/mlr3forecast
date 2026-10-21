@@ -59,6 +59,13 @@ test_that("PipeOpFcstSplitKey disambiguates multi-column key labels containing t
   expect_equal(pred[[1L]]$data(cols = "y")[[1L]], seq_len(12L))
 })
 
+test_that("PipeOpFcstSplitKey labels keys named like arguments of paste()", {
+  for (key in c("sep", "collapse")) {
+    out = po("fcst.splitkey")$train(list(make_named_task(key = key)))[[1L]]
+    expect_names(names(out), identical.to = c("1", "2"))
+  }
+})
+
 test_that("PipeOpFcstSplitKey errors on tasks without keys", {
   expect_snapshot(po("fcst.splitkey")$train(list(tsk("airpassengers"))), error = TRUE)
 })

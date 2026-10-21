@@ -89,7 +89,7 @@ test_that("generate_newdata steps staggered series by their common step", {
 })
 
 test_that("generate_newdata is not confused by key columns named like its variables", {
-  for (key in c("n", "task", "freq", "V1")) {
+  for (key in c("n", "task", "freq", "V1", "key_cols")) {
     dt = data.table(t = rep(1:5, 3L), k = rep(1:3, each = 5L), y = as.numeric(1:15))
     setnames(dt, "k", key)
     task = as_task_fcst(dt, target = "y", order = "t", key = key)

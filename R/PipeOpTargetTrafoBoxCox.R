@@ -111,7 +111,12 @@ PipeOpTargetTrafoBoxCox = R6Class(
       }
       dt = task$data(cols = c(key_cols, task$col_roles$order, target))
       setorderv(dt, c(key_cols, task$col_roles$order))
-      lambdas = dt[, list(lambda = estimate_lambda(target)), by = key_cols, env = list(target = target)]
+      # reserved name, so a key or target named `lambda` cannot collide with the estimates
+      lambdas = dt[,
+        list(..lambda = estimate_lambda(target)),
+        by = key_cols,
+        env = list(target = target, key_cols = I(key_cols))
+      ]
       list(key_cols = key_cols, lambdas = lambdas)
     },
 
@@ -132,7 +137,11 @@ PipeOpTargetTrafoBoxCox = R6Class(
         }
         dt = lambdas[dt, on = key_cols]
         # BoxCox only supports a scalar lambda, so transform each series with its own value
-        dt[, (bc_col) := as.numeric(forecast::BoxCox(target, lambda[1L])), by = key_cols, env = list(target = target)]
+        dt[,
+          (bc_col) := as.numeric(forecast::BoxCox(target, ..lambda[1L])),
+          by = key_cols,
+          env = list(target = target, key_cols = I(key_cols))
+        ]
         task$cbind(dt[, c(pk, bc_col), with = FALSE])
       }
       convert_task(task, target = bc_col, drop_original_target = TRUE)
@@ -162,11 +171,11 @@ PipeOpTargetTrafoBoxCox = R6Class(
         ids = data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids))
         dt = predict_phase_state$layout[ids, on = "..row_id"]
         dt = lambdas[dt, on = key_cols]
-        groups = dt[, list(..pos = list(..pos), lambda = lambda[1L]), by = key_cols]
+        groups = dt[, list(..pos = list(..pos), ..lambda = ..lambda[1L]), by = c(key_cols)]
         inverted_values = quantiles
         for (i in seq_row(groups)) {
           jj = groups$..pos[[i]]
-          lambda = groups$lambda[[i]]
+          lambda = groups$..lambda[[i]]
           if (!is.null(response)) {
             response[jj] = as.numeric(forecast::InvBoxCox(response[jj], lambda = lambda))
           }

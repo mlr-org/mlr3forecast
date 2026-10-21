@@ -88,7 +88,7 @@ PipeOpFcstSplitKey = R6Class(
       dt = task$data(cols = c(key_cols, col_roles$order))
       set(dt, j = "..row_id", value = task$row_ids)
       setorderv(dt, c(key_cols, col_roles$order))
-      dt[, list(..rows = list(..row_id)), by = key_cols]
+      dt[, list(..rows = list(..row_id)), by = c(key_cols)]
     },
 
     .subtask = function(task, rows, label) {

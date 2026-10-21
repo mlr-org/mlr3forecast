@@ -85,7 +85,7 @@ assert_regular_grid = function(dt, order_cols, key_cols, freq) {
     ok = dt[,
       list(..ok = test_regular_grid(order_cols, freq)),
       by = key_cols,
-      env = list(order_cols = order_cols, freq = I(freq))
+      env = list(order_cols = order_cols, freq = I(freq), key_cols = I(key_cols))
     ]
     bad = ok[!ok$..ok]
     if (nrow(bad) > 0L) {

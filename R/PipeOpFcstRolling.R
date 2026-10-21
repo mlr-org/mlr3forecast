@@ -119,7 +119,7 @@ PipeOpFcstRolling = R6Class(
       dt[,
         (roll_spec$cols) := roll_features(target, roll_spec),
         by = key_cols,
-        env = list(target = target, roll_spec = I(roll_spec))
+        env = list(target = target, roll_spec = I(roll_spec), key_cols = I(key_cols))
       ]
       roll_spec$cols
     }

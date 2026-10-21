@@ -103,10 +103,10 @@ test_that("targetscale computes separate statistics per series", {
   dt = task$data(cols = c("id", "y"))
   for (series in c("a", "b")) {
     y = dt[list(series), "y", on = "id"][[1L]]
-    expect_equal(stats[list(series), "center", on = "id"][[1L]], mean(y))
-    expect_equal(stats[list(series), "scale", on = "id"][[1L]], sd(y))
+    expect_equal(stats[list(series), "..center", on = "id"][[1L]], mean(y))
+    expect_equal(stats[list(series), "..scale", on = "id"][[1L]], sd(y))
   }
-  expect_false(isTRUE(all.equal(stats$center[1L], stats$center[2L])))
+  expect_false(isTRUE(all.equal(stats$..center[1L], stats$..center[2L])))
 })
 
 test_that("targetscale round-trips on a keyed task", {
@@ -174,7 +174,7 @@ test_that("targetscale inverts standard errors with each series' scale", {
   inverted = out_predict$fun(list(prediction))[[1L]]
   expect_set_equal(inverted$predict_types, c("response", "se"))
   stats = po$state$stats
-  expect_equal(inverted$se, stats[task$data(cols = "id"), on = "id"]$scale)
+  expect_equal(inverted$se, stats[task$data(cols = "id"), on = "id"]$..scale)
 })
 
 test_that("targetscale errors on key groups not seen during training", {
@@ -284,4 +284,8 @@ test_that("fcst.targetscale round-trips on columns named like its variables", {
   }
   expect_round_trip(make_named_task(target = "target"))
   expect_round_trip(make_named_task(key = "pv"))
+  for (name in c("center", "scale")) {
+    expect_round_trip(make_named_task(target = name))
+    expect_round_trip(make_named_task(key = name))
+  }
 })

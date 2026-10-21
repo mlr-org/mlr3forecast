@@ -63,7 +63,7 @@ PipeOpFcstCatch22 = R6Class(
         dt[,
           catch22_features(target, catch24),
           by = key_cols,
-          env = list(target = target, catch24 = catch24)
+          env = list(target = target, catch24 = catch24, key_cols = I(key_cols))
         ]
       } else {
         setDT(catch22_features(dt[[target]], catch24))

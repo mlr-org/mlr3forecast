@@ -27,7 +27,7 @@ generate_newdata = function(task, n = 1L) {
   newdata = dt[,
     list(order_cols = extend_order(order_cols, freq, n)),
     by = key_cols,
-    env = list(order_cols = order_cols, freq = I(freq), n = n)
+    env = list(order_cols = order_cols, freq = I(freq), n = n, key_cols = I(key_cols))
   ]
   setcolorder(newdata, cols)
   set(newdata, j = task$target_names, value = NA_real_)

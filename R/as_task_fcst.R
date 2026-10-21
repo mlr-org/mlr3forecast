@@ -148,7 +148,7 @@ as_task_fcst.tsf = function(x, id = deparse1(substitute(x)), label = NA_characte
   setattr(x, "class", setdiff(class(x), "tsf"))
   if (!has_order) {
     order = "index"
-    x[, (order) := seq_len(.N), by = cn]
+    x[, (order) := seq_len(.N), by = c(cn)]
   }
   key = setdiff(cn, order)
   x[, (key) := map_if(.SD, test_integerish, as.integer), .SDcols = key]

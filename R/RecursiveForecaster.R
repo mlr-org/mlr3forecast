@@ -466,7 +466,7 @@ RecursiveForecaster = R6Class(
         origin = train_data[,
           list(..origin = max(order_cols), ..anchor = grid_anchor(order_cols, step)),
           by = key_cols,
-          env = list(order_cols = order_cols, step = I(step))
+          env = list(order_cols = order_cols, step = I(step), key_cols = I(key_cols))
         ]
         test_keys = test_data[, c(key_cols, order_cols), with = FALSE]
         grid_check = origin[test_keys, on = key_cols]
@@ -482,7 +482,7 @@ RecursiveForecaster = R6Class(
             !anyNA(expected) && all(sort(order_cols) == expected)
           }),
           by = key_cols,
-          env = list(order_cols = order_cols, step = I(step))
+          env = list(order_cols = order_cols, step = I(step), key_cols = I(key_cols))
         ]
         bad = grid_ok[!grid_ok$..ok]
         if (nrow(bad) > 0L) {

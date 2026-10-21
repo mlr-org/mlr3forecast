@@ -353,7 +353,7 @@ DirectForecaster = R6Class(
         dt[,
           list(..origin = max(order_cols), ..anchor = grid_anchor(order_cols, step)),
           by = key_cols,
-          env = list(order_cols = order_cols, step = I(step))
+          env = list(order_cols = order_cols, step = I(step), key_cols = I(key_cols))
         ]
       } else {
         max(dt[[order_cols]])
@@ -366,7 +366,7 @@ DirectForecaster = R6Class(
       setorderv(tail_dt, c(key_cols, order_cols))
       max_lag = max(lags)
       train_tail = if (length(key_cols) > 0L) {
-        tail_dt[, tail(.SD, max_lag), by = key_cols, env = list(max_lag = max_lag)]
+        tail_dt[, tail(.SD, max_lag), by = key_cols, env = list(max_lag = max_lag, key_cols = I(key_cols))]
       } else {
         tail(tail_dt, max_lag)
       }
@@ -404,7 +404,7 @@ DirectForecaster = R6Class(
         ord[,
           "..step" := match(order_cols, seq_order(get("..origin")[1L], step, max_h, get("..anchor")[1L])),
           by = key_cols,
-          env = list(order_cols = order_cols, step = I(step), max_h = max_h)
+          env = list(order_cols = order_cols, step = I(step), max_h = max_h, key_cols = I(key_cols))
         ]
       } else {
         grid = seq_order(origin, step, max_h, self$model$anchor)
@@ -436,7 +436,7 @@ DirectForecaster = R6Class(
         skeleton = ord[,
           set_names(list(seq_order(get("..origin")[1L], step, max(get("..step")), get("..anchor")[1L])), order_cols),
           by = key_cols,
-          env = list(step = I(step), order_cols = I(order_cols))
+          env = list(step = I(step), order_cols = I(order_cols), key_cols = I(key_cols))
         ]
       } else {
         skeleton = setnames(data.table(grid[seq_len(max(steps))]), order_cols)

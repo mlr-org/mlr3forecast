@@ -177,7 +177,8 @@ ResamplingFcstCV = R6Class(
           folds = folds,
           fixed_window = fixed_window,
           self = self,
-          task = task
+          task = task,
+          key_cols = I(key_cols)
         )
       ]
       merged = splits[,

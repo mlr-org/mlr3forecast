@@ -2,12 +2,12 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
   key_cols = task$col_roles$key
   key_data = task$data(rows = prediction$row_ids, cols = key_cols)
   set(key_data, j = "..row_id", value = prediction$row_ids)
-  groups = key_data[, list(..rows = list(..row_id)), by = key_cols]
+  groups = key_data[, list(..rows = list(..row_id)), by = c(key_cols)]
 
   if (!is.null(train_set)) {
     train_key_data = task$data(rows = train_set, cols = key_cols)
     set(train_key_data, j = "..row_id", value = train_set)
-    train_groups = train_key_data[, list(..train_rows = list(..row_id)), by = key_cols]
+    train_groups = train_key_data[, list(..train_rows = list(..row_id)), by = c(key_cols)]
     missing = groups[!train_groups, on = key_cols]
     if (nrow(missing) > 0L) {
       error_input(
@@ -26,7 +26,8 @@ score_grouped = function(score_fn, prediction, task, train_set = NULL, ...) {
 }
 
 key_labels = function(dt, cols = names(dt)) {
-  do.call(paste, c(dt[, cols, with = FALSE], sep = ":"))
+  # unnamed, so a key named like an argument of paste(), e.g. `sep`, is not matched to it
+  do.call(paste, c(unname(as.list(dt[, cols, with = FALSE])), sep = ":"))
 }
 
 key_table = function(dt, cols) {

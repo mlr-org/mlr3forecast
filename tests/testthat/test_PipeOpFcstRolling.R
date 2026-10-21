@@ -81,4 +81,5 @@ test_that("PipeOpFcstRolling is not confused by columns named like its variables
   expected = roll_data(make_named_task())
   expect_same_values(roll_data(make_named_task(target = "target")), expected)
   expect_same_values(roll_data(make_named_task(key = "roll_spec")), expected)
+  expect_same_values(roll_data(make_named_task(key = "key_cols")), expected)
 })

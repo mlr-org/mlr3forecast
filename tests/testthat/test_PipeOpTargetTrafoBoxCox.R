@@ -147,8 +147,8 @@ test_that("targetboxcox estimates a separate lambda per series", {
   expect_data_table(lambdas, nrows = 2L)
   dt = task$data(cols = c("id", "y"))
   expected = sapply(split(dt$y, dt$id), function(y) forecast::BoxCox.lambda(stats::ts(y, frequency = 12)))
-  expect_equal(lambdas[list("a"), "lambda", on = "id"][[1L]], expected[["a"]])
-  expect_equal(lambdas[list("b"), "lambda", on = "id"][[1L]], expected[["b"]])
+  expect_equal(lambdas[list("a"), "..lambda", on = "id"][[1L]], expected[["a"]])
+  expect_equal(lambdas[list("b"), "..lambda", on = "id"][[1L]], expected[["b"]])
   expect_false(isTRUE(all.equal(expected[["a"]], expected[["b"]])))
 })
 
@@ -293,4 +293,6 @@ test_that("fcst.targetboxcox round-trips on columns named like its variables", {
     expect_equal(out_predict$fun(list(prediction))[[1L]]$response, as.numeric(task$truth()))
   }
   expect_round_trip(make_named_task(target = "target"))
+  expect_round_trip(make_named_task(target = "lambda"))
+  expect_round_trip(make_named_task(key = "lambda"))
 })
