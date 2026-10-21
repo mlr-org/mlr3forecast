@@ -90,7 +90,7 @@
 <li>fix: Exogenous learners from <code>smooth</code> no longer advertise support for missing feature values.</li>
 <li>fix: Forecaster hashes now cover the wrapped graph’s structure and, for <code>DirectForecaster</code>, the <code>horizons</code>.</li>
 <li>fix: Learners wrapping the <code>forecast</code> package now return correct quantiles close to the median and support extreme quantiles. Quantiles 0 and 1 raise an error.</li>
-<li>fix: Columns named like internal variables, e.g. a target column named <code>target</code> or a key column named <code>step</code>, no longer break the forecasters, pipeops, resamplings, and <code><a href="../reference/generate_newdata.html">generate_newdata()</a></code>.</li>
+<li>fix: Columns named like internal variables, e.g. a target column named <code>target</code>, <code>center</code>, or <code>lambda</code>, or a key column named <code>step</code>, <code>key_cols</code>, or <code>sep</code>, no longer break the forecasters, pipeops, resamplings, <code><a href="../reference/generate_newdata.html">generate_newdata()</a></code>, and <code><a href="../reference/read_tsf.html">read_tsf()</a></code>.</li>
 <li>fix: <code><a href="../reference/as_task_fcst.html">as_task_fcst()</a></code> coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash <code>cif_2016</code> dataset can be converted.</li>
 <li>fix: <code><a href="../reference/as_task_fcst.html">as_task_fcst()</a></code> now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.</li>
 <li>fix: <code><a href="https://ggplot2.tidyverse.org/reference/autoplot.html" class="external-link">autoplot()</a></code> of a backtest prediction now connects the forecast to the last observation before it instead of the last observation of the task.</li>
@@ -112,6 +112,7 @@
 <li>fix: <code><a href="../reference/generate_newdata.html">generate_newdata()</a></code> keeps an integer time index integer instead of sometimes returning doubles.</li>
 <li>fix: <code>msr("fcst.wape")</code> now ignores rows with a missing prediction in the denominator too, which previously understated the error.</li>
 <li>fix: <code>po("fcst.fourier")</code> now computes its terms from the timestamps instead of the row positions, so the seasonal phase no longer shifts at predict time or between series.</li>
+<li>fix: <code>po("fcst.targetdiff")</code> no longer errors on quantile predictions, but inverts their response and drops the quantiles, like the target trafos of <code>mlr3pipelines</code>.</li>
 <li>fix: <code><a href="../reference/read_tsf.html">read_tsf()</a></code> no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.</li>
 <li>fix: <code>RecursiveForecaster</code> now returns predictions in the task’s row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets <code>po("fcst.avg")</code> combine it with <code>DirectForecaster</code>.</li>
 <li>fix: <code>rsmp("fcst.cv")</code> and <code>rsmp("fcst.holdout")</code> no longer return wrong splits or fail for key or order columns named like internal columns, e.g. <code>train</code>, <code>fold</code>, or <code>row_id</code>.</li>

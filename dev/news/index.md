@@ -176,9 +176,12 @@
   quantiles close to the median and support extreme quantiles. Quantiles
   0 and 1 raise an error.
 - fix: Columns named like internal variables, e.g. a target column named
-  `target` or a key column named `step`, no longer break the
-  forecasters, pipeops, resamplings, and
-  [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md).
+  `target`, `center`, or `lambda`, or a key column named `step`,
+  `key_cols`, or `sep`, no longer break the forecasters, pipeops,
+  resamplings,
+  [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md),
+  and
+  [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md).
 - fix:
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   coerces whole-number numeric attributes of tsf data to integer key
@@ -253,6 +256,9 @@
 - fix: `po("fcst.fourier")` now computes its terms from the timestamps
   instead of the row positions, so the seasonal phase no longer shifts
   at predict time or between series.
+- fix: `po("fcst.targetdiff")` no longer errors on quantile predictions,
+  but inverts their response and drops the quantiles, like the target
+  trafos of `mlr3pipelines`.
 - fix:
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   no longer prints the frequency and horizon of the file, which remain
