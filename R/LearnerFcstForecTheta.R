@@ -11,11 +11,12 @@ LearnerFcstForecTheta = R6Class(
       super$.train(task)
       pv = private$.train_values()
       y = private$.as_ts(task)
-      args = list(y = y, h = 1L, level = NULL)
+      # a seasonal forecTheta fit returns an empty forecast for h = 1, so fit with a two-step placeholder
+      args = list(y = y, h = 2L, level = NULL)
 
       xreg = private$.xreg(task)
       if (!is.null(xreg)) {
-        args$xreg = rbind(xreg, rep(0, ncol(xreg)))
+        args$xreg = rbind(xreg, matrix(0, 2L, ncol(xreg)))
       }
 
       fn = getExportedValue("forecTheta", private$.fn)
@@ -51,9 +52,13 @@ LearnerFcstForecTheta = R6Class(
         pv$lambda = model$lambda
       }
 
-      args = list(y = model$y, h = task$nrow, level = NULL)
+      # same h = 1 limitation as in train, so forecast at least two steps and trim
+      n = task$nrow
+      h = max(n, 2L)
+      args = list(y = model$y, h = h, level = NULL)
       if (!is.null(self$model$xreg)) {
-        args$xreg = rbind(self$model$xreg, private$.newxreg(task))
+        newxreg = private$.newxreg(task)
+        args$xreg = rbind(self$model$xreg, newxreg, matrix(0, h - n, ncol(newxreg)))
         n_regressors = length(pv$par_ini) - 3L
         pv$lower = pv$lower %??% c(-1e10, 0.1, 1)
         if (length(pv$lower) == 3L) {
@@ -73,9 +78,13 @@ LearnerFcstForecTheta = R6Class(
 
       fn = getExportedValue("forecTheta", private$.fn)
       pred = invoke(fn, .args = insert_named(args, pv))
+      keep = seq_len(n)
       if (!is_quantile) {
-        return(insert_named(prediction, list(response = as.numeric(pred$mean))))
+        return(insert_named(prediction, list(response = as.numeric(pred$mean)[keep])))
       }
+      pred$mean = as.numeric(pred$mean)[keep]
+      pred$lower = as.matrix(pred$lower)[keep, , drop = FALSE]
+      pred$upper = as.matrix(pred$upper)[keep, , drop = FALSE]
       insert_named(prediction, list(quantiles = private$.quantiles_from_intervals(pred)))
     }
   )

@@ -50,7 +50,8 @@ LearnerFcstStheta = R6Class(
     .train = function(task) {
       super$.train(task)
       pv = private$.train_values()
-      model = invoke(forecTheta::stheta, y = private$.as_ts(task), h = 1L, .args = pv)
+      # a seasonal forecTheta fit returns an empty forecast for h = 1, so fit with a two-step placeholder
+      model = invoke(forecTheta::stheta, y = private$.as_ts(task), h = 2L, .args = pv)
       context = private$.set_context(model, task)
       context$params = pv
       context
@@ -67,13 +68,13 @@ LearnerFcstStheta = R6Class(
       pred = invoke(
         forecTheta::stm,
         y = model$y,
-        h = task$nrow,
+        h = max(task$nrow, 2L), # same h = 1 limitation as in train, so forecast at least two steps and trim
         level = NULL,
         par_ini = c(model$par[1L] / 2, model$par[2L]),
         estimation = FALSE,
         .args = pv
       )
-      insert_named(prediction, list(response = as.numeric(pred$mean)))
+      insert_named(prediction, list(response = as.numeric(pred$mean)[seq_len(task$nrow)]))
     }
   )
 )

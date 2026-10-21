@@ -40,6 +40,18 @@ make_date_major_panel_task = function(n = 10L) {
   TaskFcst$new("panel", as_data_backend(data), target = "y", order = "date", key = "id", freq = "day")
 }
 
+# seasonal monthly task on which forecTheta returns an empty forecast for h = 1
+make_forec_theta_task = function(n = 98L) {
+  withr::local_seed(1L)
+  t = seq_len(n)
+  data = data.table(
+    date = seq(as.Date("2010-01-01"), by = "month", length.out = n),
+    y = 50 + 10 * sin(2 * pi * t / 12) + rnorm(n) + 0.2 * t,
+    x = rnorm(n)
+  )
+  as_task_fcst(data, target = "y", order = "date", freq = "month")
+}
+
 # keyed monthly task with one multiplicative- and one additive-seasonal series (distinct Box-Cox lambdas)
 make_monthly_panel_task = function(n = 36L) {
   months = seq(as.Date("2020-01-01"), by = "month", length.out = n)
