@@ -116,15 +116,11 @@ PipeOpFcstRolling = R6Class(
       )
 
       setorderv(dt, c(key_cols, order_cols))
-      if (length(key_cols) > 0L) {
-        dt[,
-          (roll_spec$cols) := fcst_rolls(target, roll_spec),
-          by = key_cols,
-          env = list(target = target, roll_spec = I(roll_spec))
-        ]
-      } else {
-        set(dt, j = roll_spec$cols, value = fcst_rolls(dt[[target]], roll_spec))
-      }
+      dt[,
+        (roll_spec$cols) := fcst_rolls(target, roll_spec),
+        by = key_cols,
+        env = list(target = target, roll_spec = I(roll_spec))
+      ]
       roll_spec$cols
     }
   )

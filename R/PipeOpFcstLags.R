@@ -56,50 +56,34 @@ PipeOpFcstLags = R6Class(
 
   private = list(
     .train_task = function(task) {
-      pv = self$param_set$get_values(tags = "train")
-      lags = pv$lags
-      target = task$target_names
-      col_roles = task$col_roles
-      key_cols = col_roles$key
-      order_cols = col_roles$order
-
       pk = task$backend$primary_key
-      dt = task$backend$data(rows = task$row_ids, cols = c(pk, target, key_cols, order_cols))
-      set(dt, j = target, value = as.numeric(dt[[target]]))
-      lag_cols = sprintf("%s_lag_%i", target, lags)
-      setorderv(dt, c(key_cols, order_cols))
-      if (length(key_cols) > 0L) {
-        dt[, (lag_cols) := shift(target, lags), by = key_cols, env = list(target = target, lags = lags)]
-      } else {
-        set(dt, j = lag_cols, value = shift(dt[[target]], lags))
-      }
-
-      kept = fcst_drop_incomplete(dt, lag_cols, key_cols)
+      dt = task$backend$data(
+        rows = task$row_ids,
+        cols = c(pk, task$target_names, task$col_roles$key, task$col_roles$order)
+      )
+      lag_cols = private$.lags(task, dt, self$param_set$get_values(tags = "train")$lags)
+      kept = fcst_drop_incomplete(dt, lag_cols, task$col_roles$key)
       task$filter(kept[[pk]])$cbind(kept[, c(pk, lag_cols), with = FALSE])
     },
 
     .predict_task = function(task) {
-      pv = self$param_set$get_values(tags = "predict")
-      lags = pv$lags
-      target = task$target_names
-      col_roles = task$col_roles
-      key_cols = col_roles$key
-      order_cols = col_roles$order
-
-      full = task$backend$data(rows = task$backend$rownames, cols = c(target, key_cols, order_cols))
-      set(full, j = target, value = as.numeric(full[[target]]))
-      lag_cols = sprintf("%s_lag_%i", target, lags)
-      setorderv(full, c(key_cols, order_cols))
-      if (length(key_cols) > 0L) {
-        full[, (lag_cols) := shift(target, lags), by = key_cols, env = list(target = target, lags = lags)]
-      } else {
-        set(full, j = lag_cols, value = shift(full[[target]], lags))
-      }
-
+      key_cols = task$col_roles$key
+      order_cols = task$col_roles$order
+      full = task$backend$data(rows = task$backend$rownames, cols = c(task$target_names, key_cols, order_cols))
+      lag_cols = private$.lags(task, full, self$param_set$get_values(tags = "predict")$lags)
       active = task$data(cols = c(key_cols, order_cols))
-      set(full, j = target, value = NULL)
       active_lags = full[active, on = c(key_cols, order_cols), lag_cols, with = FALSE]
       task$cbind(active_lags)
+    },
+
+    .lags = function(task, dt, lags) {
+      target = task$target_names
+      key_cols = task$col_roles$key
+      set(dt, j = target, value = as.numeric(dt[[target]]))
+      lag_cols = sprintf("%s_lag_%i", target, lags)
+      setorderv(dt, c(key_cols, task$col_roles$order))
+      dt[, (lag_cols) := shift(target, lags), by = key_cols, env = list(target = target, lags = lags)]
+      lag_cols
     }
   )
 )
