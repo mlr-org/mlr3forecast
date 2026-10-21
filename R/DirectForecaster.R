@@ -88,7 +88,7 @@ DirectForecaster = R6Class(
       graph = as_graph(learner)
 
       private$.learner = GraphLearner$new(graph, task_type = "regr", clone_graph = clone_graph)
-      if (length(param_vals)) {
+      if (length(param_vals) > 0L) {
         private$.learner$param_set$values = insert_named(private$.learner$param_set$values, param_vals)
       }
 

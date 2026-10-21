@@ -92,7 +92,7 @@ RecursiveForecaster = R6Class(
       }
 
       private$.learner = GraphLearner$new(graph, task_type = "regr", clone_graph = clone_graph)
-      if (length(param_vals)) {
+      if (length(param_vals) > 0L) {
         private$.learner$param_set$values = insert_named(private$.learner$param_set$values, param_vals)
       }
 
@@ -358,7 +358,7 @@ RecursiveForecaster = R6Class(
         }),
         recursive = FALSE
       )
-      if (length(scores)) scores else named_list()
+      if (length(scores) > 0L) scores else named_list()
     },
 
     .extract_internal_tuned_values = function() {
@@ -371,7 +371,7 @@ RecursiveForecaster = R6Class(
         }),
         recursive = FALSE
       )
-      if (length(values)) values else named_list()
+      if (length(values) > 0L) values else named_list()
     },
 
     .base_learner = function(recursive = Inf) {
