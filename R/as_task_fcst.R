@@ -10,6 +10,7 @@
 #'    A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
 #'    Any other frequency has no calendar step, so the series gets an integer `index` column as order instead.
 #' 4. `zoo` and `xts`: from zoo/xts time series objects.
+#'    A `zoo` object with a plain numeric index keeps it as a numeric `index` column as order.
 #' 5. `timeSeries`: from Rmetrics timeSeries objects.
 #' 6. `tsf`: from tsf format data.
 #' 7. `tbl_ts`: from tsibble objects.
@@ -199,6 +200,10 @@ as_task_fcst.ts = function(x, freq = NULL, id = deparse1(substitute(x)), label =
 #' @export
 as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label = NA_character_, ...) {
   force(id)
+  index = zoo::index(x)
+  if (is.numeric(index) && !is.object(index)) {
+    return(task_fcst_from_ts_index(zoo::coredata(x), index = index, freq = freq, id = id, label = label, ...))
+  }
   task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
 }
 
@@ -231,17 +236,17 @@ as_task_fcst.tbl_ts = function(x, target, freq = NULL, id = deparse1(substitute(
   as_task_fcst(x = x, target = target, order = order, key = key, freq = freq, id = id, label = label, ...)
 }
 
-task_fcst_from_ts_index = function(x, id, label, ...) {
+task_fcst_from_ts_index = function(x, id, label, index = NULL, freq = NULL, ...) {
   m = as.matrix(x)
   n = nrow(m)
   is_multi = ncol(m) > 1L
-  dt = data.table(index = rep(seq_len(n), ncol(m)), value = as.numeric(m))
+  dt = data.table(index = rep(index %??% seq_len(n), ncol(m)), value = as.numeric(m))
   if (is_multi) {
     set(dt, j = "id", value = rep(colnames(m), each = n))
   }
   dt = dt[!is.na(dt$value)]
   key = if (is_multi) "id" else character()
-  as_task_fcst(x = dt, target = "value", order = "index", key = key, id = id, label = label, ...)
+  as_task_fcst(x = dt, target = "value", order = "index", key = key, freq = freq, id = id, label = label, ...)
 }
 
 task_fcst_from_tsbox = function(x, freq, id, label, ...) {

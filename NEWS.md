@@ -44,6 +44,7 @@
 * fix: Columns named like internal variables, e.g. a target column named `target`, `center`, or `lambda`, or a key column named `step`, `key_cols`, or `sep`, no longer break the forecasters, pipeops, resamplings, `generate_newdata()`, and `read_tsf()`.
 * fix: `as_task_fcst()` coerces whole-number numeric attributes of tsf data to integer key columns, so datasets such as the Monash `cif_2016` dataset can be converted.
 * fix: `as_task_fcst()` now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.
+* fix: `as_task_fcst()` now converts `zoo` objects with a plain numeric index, keeping it as a numeric `index` order column, instead of failing with an error from `xts`.
 * fix: `autoplot()` of a backtest prediction now connects the forecast to the last observation before it instead of the last observation of the task.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
 * fix: `DirectForecaster` and `RecursiveForecaster` now error in `$native_model` on marshaled models instead of returning wrong objects.

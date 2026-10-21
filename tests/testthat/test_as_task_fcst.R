@@ -50,6 +50,18 @@ test_that("as_task_fcst warns that a non-calendar ts frequency is not kept", {
   expect_identical(task$nrow, length(EuStockMarkets))
 })
 
+test_that("as_task_fcst keeps the numeric index of a zoo object", {
+  skip_if_not_installed("zoo")
+  task = as_task_fcst(zoo::zoo(c(1, 2, 3, 4, 5), c(2, 4, 6, 8, 10)))
+  expect_identical(task$col_roles$order, "index")
+  expect_identical(task$data(cols = "index")$index, c(2, 4, 6, 8, 10))
+  expect_identical(task$freq, 2)
+  x = zoo::zoo(cbind(a = c(1, 2, 3), b = c(NA, 2, 3)), 1:3)
+  task = as_task_fcst(x)
+  expect_identical(task$col_roles$key, "id")
+  expect_identical(task$nrow, 5L)
+})
+
 test_that("as_task_fcst rejects unused arguments for TaskFcst", {
   expect_error(as_task_fcst(tsk("airpassengers"), typo = TRUE), "unused: typo")
 })

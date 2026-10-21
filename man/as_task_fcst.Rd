@@ -142,6 +142,7 @@ This is a S3 generic. mlr3forecast ships with methods for the following objects:
 A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
 Any other frequency has no calendar step, so the series gets an integer \code{index} column as order instead.
 \item \code{zoo} and \code{xts}: from zoo/xts time series objects.
+A \code{zoo} object with a plain numeric index keeps it as a numeric \code{index} column as order.
 \item \code{timeSeries}: from Rmetrics timeSeries objects.
 \item \code{tsf}: from tsf format data.
 \item \code{tbl_ts}: from tsibble objects.
