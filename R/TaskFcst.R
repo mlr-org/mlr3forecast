@@ -198,11 +198,7 @@ TaskFcst = R6Class(
       }
 
       data = self$backend$data(private$.row_roles$use, c(self$backend$primary_key, key_cols))
-      if (length(key_cols) == 1L) {
-        setnames(data, c("row_id", "key"))[]
-      } else {
-        setnames(data, c("row_id", key_cols))[]
-      }
+      setnames(data, c("row_id", if (length(key_cols) == 1L) "key" else key_cols))[]
     }
   ),
 
