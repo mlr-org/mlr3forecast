@@ -2,10 +2,10 @@
 
 Creates pairs of Fourier (harmonic) terms `sin(2 * pi * k * t / period)`
 and `cos(2 * pi * k * t / period)` as new feature columns, for
-`k = 1, ..., K` harmonics per seasonal `period`, where `t` is the
-per-series time position. They encode seasonality as a flexible
-alternative to seasonal lags, in particular for long or non-integer
-periods and multiple seasonalities at once.
+`k = 1, ..., K` harmonics per seasonal `period`, where `t` counts steps
+of the task's `freq` since a fixed origin. They encode seasonality as a
+flexible alternative to seasonal lags, in particular for long or
+non-integer periods and multiple seasonalities at once.
 
 ## Parameters
 

@@ -188,6 +188,10 @@
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   now converts tsibbles with several measured variables, keeping the
   non-target ones as features and numeric indices as numbers.
+- fix:
+  [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
+  of a backtest prediction now connects the forecast to the last
+  observation before it instead of the last observation of the task.
 - fix: `DirectForecaster` no longer ignores predict parameters changed
   after training.
 - fix: `DirectForecaster` and `RecursiveForecaster` now error in
@@ -246,6 +250,9 @@
   doubles.
 - fix: `msr("fcst.wape")` now ignores rows with a missing prediction in
   the denominator too, which previously understated the error.
+- fix: `po("fcst.fourier")` now computes its terms from the timestamps
+  instead of the row positions, so the seasonal phase no longer shifts
+  at predict time or between series.
 - fix:
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   no longer prints the frequency and horizon of the file, which remain
