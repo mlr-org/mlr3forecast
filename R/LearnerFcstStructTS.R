@@ -30,9 +30,21 @@ LearnerFcstStructTS = R6Class(
     initialize = function() {
       param_set = ps(
         type = p_fct(c("level", "trend", "BSM"), tags = "train"),
-        init = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
-        fixed = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
-        optim.control = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_list),
+        init = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
+        fixed = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
+        optim.control = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_list(x, null.ok = TRUE))
+        ),
         lambda = p_uty(default = NULL, tags = "predict"),
         biasadj = p_lgl(default = FALSE, tags = "predict")
       )

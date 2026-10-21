@@ -35,7 +35,11 @@ LearnerFcstHoltWinters = R6Class(
         start.periods = p_int(2L, default = 2L, tags = "train"),
         l.start = p_dbl(default = NULL, special_vals = list(NULL), tags = "train"),
         b.start = p_dbl(default = NULL, special_vals = list(NULL), tags = "train"),
-        s.start = p_uty(default = NULL, special_vals = list(NULL), tags = "train", custom_check = check_numeric),
+        s.start = p_uty(
+          default = NULL,
+          tags = "train",
+          custom_check = crate(function(x) check_numeric(x, null.ok = TRUE))
+        ),
         optim.start = p_uty(
           default = c(alpha = 0.3, beta = 0.1, gamma = 0.1),
           tags = "train",
