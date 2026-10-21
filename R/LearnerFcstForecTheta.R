@@ -13,9 +13,8 @@ LearnerFcstForecTheta = R6Class(
       y = private$.as_ts(task)
       args = list(y = y, h = 1L, level = NULL)
 
-      xreg = NULL
-      if (private$.has_exogenous(task)) {
-        xreg = as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE))
+      xreg = private$.xreg(task)
+      if (!is.null(xreg)) {
         args$xreg = rbind(xreg, rep(0, ncol(xreg)))
       }
 
@@ -54,7 +53,7 @@ LearnerFcstForecTheta = R6Class(
 
       args = list(y = model$y, h = task$nrow, level = NULL)
       if (!is.null(self$model$xreg)) {
-        args$xreg = rbind(self$model$xreg, as_numeric_matrix(ordered_features(task, self)))
+        args$xreg = rbind(self$model$xreg, private$.newxreg(task))
         n_regressors = length(pv$par_ini) - 3L
         pv$lower = pv$lower %??% c(-1e10, 0.1, 1)
         if (length(pv$lower) == 3L) {

@@ -9,10 +9,8 @@ LearnerFcstNnfor = R6Class(
 
     .train = function(task) {
       context = super$.train(task)
-      if (private$.has_exogenous(task)) {
-        # nnfor's forecast() needs xreg for the training period plus the horizon, but the fitted model does not keep it
-        context$xreg = as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE))
-      }
+      # nnfor's forecast() needs xreg for the training period plus the horizon, but the fitted model does not keep it
+      context$xreg = private$.xreg(task)
       context
     },
 

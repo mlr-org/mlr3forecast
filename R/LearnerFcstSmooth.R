@@ -30,9 +30,7 @@ LearnerFcstSmooth = R6Class(
         return(insert_named(prediction, list(response = response)))
       }
       args = list(h = task$nrow)
-      if (private$.has_exogenous(task)) {
-        args$newdata = as_numeric_matrix(ordered_features(task, self))
-      }
+      args$newdata = private$.newxreg(task)
       if (is_quantile) {
         # smooth takes central-interval levels as fractions, ascending
         level = quantiles_to_levels(private$.quantiles) / 100
@@ -52,7 +50,7 @@ LearnerFcstSmooth = R6Class(
       if (!private$.has_exogenous(task)) {
         return(y)
       }
-      mat = cbind(matrix(y, ncol = 1L), as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE)))
+      mat = cbind(matrix(y, ncol = 1L), private$.xreg(task))
       colnames(mat)[1L] = task$target_names
       stats::ts(mat, start = stats::start(y), frequency = stats::frequency(y))
     }

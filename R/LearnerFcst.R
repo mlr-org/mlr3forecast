@@ -96,6 +96,18 @@ LearnerFcst = R6Class(
       "exogenous" %chin% self$properties && task$n_features > 0L
     },
 
+    .xreg = function(task) {
+      if (private$.has_exogenous(task)) {
+        as_numeric_matrix(task$data(cols = task$feature_names, ordered = TRUE))
+      }
+    },
+
+    .newxreg = function(task) {
+      if (private$.has_exogenous(task)) {
+        as_numeric_matrix(ordered_features(task, self))
+      }
+    },
+
     # `period` is consumed by `.as_ts()`, never forwarded to the wrapped function
     .train_values = function() {
       remove_named(self$param_set$get_values(tags = "train"), "period")
