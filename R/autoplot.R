@@ -36,7 +36,7 @@ autoplot.TaskFcst = function(object, theme = ggplot2::theme_minimal(), facets = 
         data,
         ggplot2::aes(x = .data[[order]], y = .data[[target]], colour = .data[["..key"]])
       ) +
-        ggplot2::labs(colour = paste(key, collapse = "/"))
+        ggplot2::labs(colour = str_collapse(key, sep = "/"))
     }
   }
   p + ggplot2::geom_line(...) + theme
@@ -190,7 +190,7 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
           linetype = .data[["..type"]]
         )
       ) +
-        ggplot2::labs(colour = paste(key, collapse = "/"), linetype = NULL) +
+        ggplot2::labs(colour = str_collapse(key, sep = "/"), linetype = NULL) +
         ggplot2::guides(
           colour = ggplot2::guide_legend(order = 1L),
           linetype = ggplot2::guide_legend(order = 2L)
