@@ -108,7 +108,7 @@ PipeOpFcstSplitKey = R6Class(
       ]
       groups = all_rows[groups, on = key_cols]
       subtasks = pmap(list(groups$..rows, groups$..backend_rows, groups$..label), function(rows, backend_rows, label) {
-        subtask = task$clone()
+        subtask = task$clone(deep = TRUE)
         subtask$backend = as_data_backend(backend$data(rows = backend_rows, cols = backend$colnames), primary_key = pk)
         subtask$id = sprintf("%s.%s", task$id, label)
         # filter keeps the given row order, so each sub-task is chronological
