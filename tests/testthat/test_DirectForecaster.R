@@ -56,6 +56,14 @@ test_that("DirectForecaster errors when test extends past trained horizons", {
   expect_error(learner$predict(task, split$test), "beyond the trained horizon")
 })
 
+test_that("DirectForecaster errors on key groups without training rows", {
+  dt = data.table(id = factor(rep(c("a", "b"), each = 20L)), t = rep(1:20, 2L), y = as.numeric(1:40))
+  task = as_task_fcst(dt, target = "y", order = "t", key = "id")
+  learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:2, horizons = 2)
+  learner$train(task, 1:18)
+  expect_error(learner$predict(task, c(19:20, 39:40)), "No training rows for key group\\(s\\) 'b'")
+})
+
 test_that("DirectForecaster scalar horizon expands to 1:H", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 5)
   expect_equal(learner$horizons, 1:5)

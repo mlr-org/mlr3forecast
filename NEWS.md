@@ -47,6 +47,7 @@
 * fix: `as_task_fcst()` now converts `zoo` objects with a plain numeric index, keeping it as a numeric `index` order column, instead of failing with an error from `xts`.
 * fix: `autoplot()` of a backtest prediction now connects the forecast to the last observation before it instead of the last observation of the task.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
+* fix: `DirectForecaster` now raises an input error naming the key groups without training rows when predicting them, instead of failing inside `seq()`.
 * fix: `DirectForecaster` and `RecursiveForecaster` now error in `$native_model` on marshaled models instead of returning wrong objects.
 * fix: `DirectForecaster` and `RecursiveForecaster` now set `$man` to their own help pages, so `$help()` no longer opens the `GraphLearner` page.
 * fix: `download_zenodo_record()` is deprecated in favor of `download_monash_dataset()` and warns on each call.
