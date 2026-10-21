@@ -112,10 +112,6 @@ TaskFcst = R6Class(
       cols = union(cols, order_cols)
 
       data = self$data(rows, cols)
-      if (ncol(data) == 0L) {
-        return(data)
-      }
-
       if (ordered) {
         setorderv(data, order_cols)
       }
