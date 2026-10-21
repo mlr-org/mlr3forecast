@@ -23,23 +23,20 @@ autoplot.TaskFcst = function(object, theme = ggplot2::theme_minimal(), facets = 
   target = col_roles$target
   key = col_roles$key
   data = object$data(cols = c(target, order, key))
-
-  if (length(key) == 0L) {
-    p = ggplot2::ggplot(data, ggplot2::aes(x = .data[[order]], y = .data[[target]]))
-  } else {
-    data[, "..key" := interaction(.SD, sep = "/", drop = TRUE), .SDcols = key]
-    if (facets) {
-      p = ggplot2::ggplot(data, ggplot2::aes(x = .data[[order]], y = .data[[target]])) +
-        ggplot2::facet_wrap(ggplot2::vars(.data[["..key"]]), scales = "free_y")
-    } else {
-      p = ggplot2::ggplot(
-        data,
-        ggplot2::aes(x = .data[[order]], y = .data[[target]], colour = .data[["..key"]])
-      ) +
-        ggplot2::labs(colour = str_collapse(key, sep = "/"))
-    }
+  if (length(key) > 0L) {
+    set(data, j = "..key", value = fcst_plot_key(data, key))
   }
-  p + ggplot2::geom_line(...) + theme
+
+  mapping = if (length(key) > 0L && !facets) {
+    list(ggplot2::aes(colour = .data[["..key"]]), ggplot2::labs(colour = str_collapse(key, sep = "/")))
+  }
+  facet = if (length(key) > 0L && facets) ggplot2::facet_wrap(ggplot2::vars(.data[["..key"]]), scales = "free_y")
+
+  ggplot2::ggplot(data, ggplot2::aes(x = .data[[order]], y = .data[[target]])) +
+    mapping +
+    facet +
+    ggplot2::geom_line(...) +
+    theme
 }
 
 #' @export
@@ -82,57 +79,18 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
   }
   .data = NULL
 
-  fc = as.data.table(object)
-
   # take the columns from the prediction, since united local-model predictions carry their own key column
-  roles = object$col_roles
-  if (length(roles$order) == 0L) {
+  order = object$col_roles$order
+  key = object$col_roles$key
+  if (length(order) == 0L) {
     error_input("Cannot determine the time index of the prediction.")
   }
-  order = roles$order
-  key = roles$key
-
   target = task$col_roles$target
 
-  # forecast region
+  fc = as.data.table(object)
   data = fc[, c(order, key, "response"), with = FALSE]
   setnames(data, "response", "..value")
-  set(data, j = "..type", value = fctr("forecast", levels = c("history", "forecast")))
-
-  ribbon = fcst_quantile_ribbon(object, fc, order, key)
-  ribbon_layer = NULL
-  if (!is.null(ribbon)) {
-    # draw wider intervals first so narrower ones shade on top
-    setorderv(ribbon, "..level", order = -1L)
-    if (length(key) > 0L) {
-      ribbon[, "..key" := interaction(.SD, sep = "/", drop = TRUE), .SDcols = key]
-      group = paste(ribbon$..level, ribbon$..key)
-    } else {
-      group = ribbon$..level
-    }
-    set(ribbon, j = "..group", value = fctr(group))
-    ribbon_layer = list(
-      ggplot2::geom_ribbon(
-        data = ribbon,
-        ggplot2::aes(
-          x = .data[[order]],
-          ymin = .data[["..lower"]],
-          ymax = .data[["..upper"]],
-          group = .data[["..group"]],
-          fill = .data[["..level"]]
-        ),
-        alpha = 0.4,
-        inherit.aes = FALSE
-      ),
-      ggplot2::scale_fill_gradientn(
-        colours = c("grey55", "grey80"),
-        breaks = sort(unique(ribbon$..level)),
-        # untitled guides sort by hash, which varies between sessions, so pin the order everywhere
-        guide = ggplot2::guide_legend(order = 3L),
-        name = "level"
-      )
-    )
-  }
+  parts = list(forecast = data)
 
   if (!is.null(task)) {
     key_cols = task$col_roles$key
@@ -148,81 +106,99 @@ autoplot.PredictionFcst = function(object, task = NULL, theme = ggplot2::theme_m
       set(hist, j = key, value = labels)
       set(hist, j = setdiff(key_cols, key), value = NULL)
     }
-    set(hist, j = "..type", value = fctr("history", levels = c("history", "forecast")))
     # bridge the last observation before each series' forecast into the forecast group for line continuity
     setorderv(hist, c(key, order))
-    if (length(key) > 0L) {
-      starts = data[, list(..start = min(.SD[[1L]])), by = c(key), .SDcols = order]
-      ii = which(hist[[order]] < starts[hist, on = key, "..start"][[1L]])
-      bridge = unique(hist[ii], by = key, fromLast = TRUE)
-    } else {
-      ii = which(hist[[order]] < min(data[[order]]))
-      bridge = hist[ii][.N]
-    }
-    set(bridge, j = "..type", value = fctr("forecast", levels = c("history", "forecast")))
-    data = rbindlist(list(hist, bridge, data), use.names = TRUE, fill = TRUE)
+    starts = data[, list(..start = min(.SD[[1L]])), by = c(key), .SDcols = order]
+    start = if (length(key) > 0L) starts[hist, on = key, "..start"][[1L]] else starts[["..start"]]
+    ii = which(hist[[order]] < start)
+    bridge = hist[ii, .SD[.N], by = c(key)]
+    parts = list(history = hist, forecast = rbindlist(list(bridge, data), fill = TRUE))
   }
 
-  if (length(key) == 0L) {
-    p = ggplot2::ggplot(
-      data,
-      ggplot2::aes(x = .data[[order]], y = .data[["..value"]], colour = .data[["..type"]])
-    ) +
-      ggplot2::labs(colour = NULL) +
-      ggplot2::guides(colour = ggplot2::guide_legend(order = 1L))
-  } else {
-    data[, "..key" := interaction(.SD, sep = "/", drop = TRUE), .SDcols = key]
-    if (facets) {
-      p = ggplot2::ggplot(
-        data,
-        ggplot2::aes(x = .data[[order]], y = .data[["..value"]], colour = .data[["..type"]])
-      ) +
-        ggplot2::facet_wrap(ggplot2::vars(.data[["..key"]]), scales = "free_y") +
-        ggplot2::labs(colour = NULL) +
-        ggplot2::guides(colour = ggplot2::guide_legend(order = 1L))
-    } else {
-      p = ggplot2::ggplot(
-        data,
-        ggplot2::aes(
-          x = .data[[order]],
-          y = .data[["..value"]],
-          colour = .data[["..key"]],
-          linetype = .data[["..type"]]
-        )
-      ) +
-        ggplot2::labs(colour = str_collapse(key, sep = "/"), linetype = NULL) +
-        ggplot2::guides(
-          colour = ggplot2::guide_legend(order = 1L),
-          linetype = ggplot2::guide_legend(order = 2L)
-        )
-    }
+  data = rbindlist(parts, fill = TRUE, idcol = "..type")
+  set(data, j = "..type", value = fctr(data[["..type"]], levels = c("history", "forecast")))
+  if (length(key) > 0L) {
+    set(data, j = "..key", value = fcst_plot_key(data, key))
   }
-  p + ribbon_layer + ggplot2::geom_line(...) + ggplot2::ylab(target %??% "response") + theme
+
+  mapping = if (length(key) > 0L && !facets) {
+    list(
+      ggplot2::aes(colour = .data[["..key"]], linetype = .data[["..type"]]),
+      ggplot2::labs(colour = str_collapse(key, sep = "/"), linetype = NULL),
+      ggplot2::guides(colour = ggplot2::guide_legend(order = 1L), linetype = ggplot2::guide_legend(order = 2L))
+    )
+  } else {
+    list(
+      ggplot2::aes(colour = .data[["..type"]]),
+      ggplot2::labs(colour = NULL),
+      ggplot2::guides(colour = ggplot2::guide_legend(order = 1L))
+    )
+  }
+  facet = if (length(key) > 0L && facets) ggplot2::facet_wrap(ggplot2::vars(.data[["..key"]]), scales = "free_y")
+
+  ggplot2::ggplot(data, ggplot2::aes(x = .data[[order]], y = .data[["..value"]])) +
+    mapping +
+    facet +
+    fcst_quantile_ribbon(object, fc, order, key) +
+    ggplot2::geom_line(...) +
+    ggplot2::ylab(target %??% "response") +
+    theme
 }
 
-# pair symmetric quantile columns (p, 1 - p) into central prediction intervals, long over levels
+# draw symmetric quantile pairs (p, 1 - p) as central prediction interval ribbons
 fcst_quantile_ribbon = function(object, fc, order, key) {
+  .data = NULL
   quantiles = object$data$quantiles
   if (is.null(quantiles)) {
     return()
   }
+  # parse the column names, since the `probs` attribute does not survive filtering
   probs = as.numeric(sub("^q", "", colnames(quantiles)))
-  ii = which(probs < 0.5)
-  jj = map_int(probs[ii], function(p) {
-    j = which(abs(probs - (1 - p)) < sqrt(.Machine$double.eps))
-    if (length(j) == 1L) j else NA_integer_
-  })
-  keep = !is.na(jj)
+  lower = which(probs < 0.5)
+  upper = match(round(1 - probs[lower], 10L), round(probs, 10L))
+  keep = !is.na(upper)
   if (!any(keep)) {
     return()
   }
-  pmap_dtr(list(ii[keep], jj[keep]), function(lower, upper) {
+  ribbon = pmap_dtr(list(lower[keep], upper[keep]), function(lower, upper) {
     out = fc[, c(order, key), with = FALSE]
     set(out, j = "..lower", value = quantiles[, lower])
     set(out, j = "..upper", value = quantiles[, upper])
     set(out, j = "..level", value = round(100 * (probs[upper] - probs[lower])))
     out
   })
+  # draw wider intervals first so narrower ones shade on top
+  setorderv(ribbon, "..level", order = -1L)
+  if (length(key) > 0L) {
+    set(ribbon, j = "..key", value = fcst_plot_key(ribbon, key))
+  }
+  ribbon[, "..group" := .GRP, by = c("..level", key)]
+
+  list(
+    ggplot2::geom_ribbon(
+      data = ribbon,
+      ggplot2::aes(
+        x = .data[[order]],
+        ymin = .data[["..lower"]],
+        ymax = .data[["..upper"]],
+        group = .data[["..group"]],
+        fill = .data[["..level"]]
+      ),
+      alpha = 0.4,
+      inherit.aes = FALSE
+    ),
+    ggplot2::scale_fill_gradientn(
+      colours = c("grey55", "grey80"),
+      breaks = sort(unique(ribbon[["..level"]])),
+      # untitled guides sort by hash, which varies between sessions, so pin the order everywhere
+      guide = ggplot2::guide_legend(order = 3L),
+      name = "level"
+    )
+  )
+}
+
+fcst_plot_key = function(dt, key) {
+  interaction(dt[, key, with = FALSE], sep = "/", drop = TRUE)
 }
 
 #' @export
