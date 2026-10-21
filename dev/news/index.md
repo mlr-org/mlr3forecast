@@ -216,6 +216,11 @@
   `fcst.spline`, `fcst.stlm`, `fcst.theta`, and `fcst.tslm` now only use
   `lambda` for training, so `lambda = "auto"` no longer breaks
   prediction.
+- fix: `fcst.arfima`, `fcst.croston`, `fcst.dstm`, `fcst.random_walk`,
+  `fcst.spline`, `fcst.stheta`, `fcst.stm`, and `fcst.theta` now accept
+  tasks with features of any type, like the other learners without
+  exogenous support, since they ignore features anyway. Previously, they
+  rejected tasks with, e.g., factor or character features.
 - fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare
   dependencies for parameters that only affect exhaustive search or
   bootstrap prediction.

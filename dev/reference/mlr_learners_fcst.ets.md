@@ -43,8 +43,8 @@ or with the associated sugar function
 | additive.only | logical | FALSE | TRUE, FALSE | \- |
 | lambda | untyped | NULL |  | \- |
 | biasadj | logical | FALSE | TRUE, FALSE | \- |
-| lower | untyped | c(rep.int(1e-04, 3), 0.8) |  | \- |
-| upper | untyped | c(rep.int(0.9999, 3), 0.98) |  | \- |
+| lower | untyped | c(rep.int(1e-04, 3L), 0.8) |  | \- |
+| upper | untyped | c(rep.int(0.9999, 3L), 0.98) |  | \- |
 | opt.crit | character | lik | lik, amse, mse, sigma, mae | \- |
 | nmse | integer | 3 |  | \\\[1, 30\]\\ |
 | bounds | character | both | both, usual, admissible | \- |
