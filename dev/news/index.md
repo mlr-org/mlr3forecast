@@ -289,6 +289,12 @@
   predict time. Previously, they failed for series sharing timestamps
   and silently took features from other series for interleaved
   timestamps.
+- fix: `po("fcst.splitkey")` and thus `ppl("fcst.local")` now split the
+  internal validation task by series too, so each per-series learner
+  validates on the rows of its own series only. Previously, every series
+  received the full validation task, so validation scores and early
+  stopping mixed series, and `RecursiveForecaster` appended the
+  validation rows of other series to its recursion history.
 - fix: `po("fcst.targetdiff")` no longer errors on quantile predictions,
   but inverts their response and drops the quantiles, like the target
   trafos of `mlr3pipelines`.
