@@ -172,3 +172,14 @@ test_that("autoplot.PredictionFcst bridges one row per series when the order col
   g = ggplot2::autoplot(fcst_prediction(task, h = 3L), task = task)
   expect_equal(nrow(g$data), task$nrow + 2L + 2L * 3L)
 })
+
+test_that("autoplot.PredictionFcst bridges a backtest from the last observation before the forecast", {
+  skip_if_not_installed("ggplot2")
+  skip_if_not_installed("rpart")
+  task = tsk("airpassengers")
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)$train(task, 1:132)
+  g = ggplot2::autoplot(learner$predict(task, 133:144), task = task)
+  forecast = g$data[g$data$..type == "forecast"]
+  expect_equal(nrow(forecast), 13L)
+  expect_equal(forecast$month[which.min(forecast$month)], as.Date("1959-12-01"))
+})
