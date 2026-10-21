@@ -128,6 +128,16 @@ test_that("splitkey subtasks only hold the history of their own series", {
   }
 })
 
+test_that("splitkey subtasks only validate on their own series", {
+  data = data.table(id = rep(c("a", "b"), each = 6L), t = rep(1:6, 2L), y = c(1:6, 1001:1006) + 0)
+  task = as_task_fcst(data, target = "y", order = "t", key = "id")
+  task$internal_valid_task = 5:6
+  out = po("fcst.splitkey")$train(list(task))[[1L]]
+  expect_equal(out$a$internal_valid_task$truth(), c(5, 6))
+  expect_equal(out$a$internal_valid_task$col_roles$key, character())
+  expect_null(out$b$internal_valid_task)
+})
+
 test_that("classical learners fit local models through splitkey", {
   skip_if_not_installed("forecast")
   # monthly panel, ets warns about the non-integer seasonal period of daily data

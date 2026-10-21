@@ -92,7 +92,10 @@ PipeOpFcstSplitKey = R6Class(
     .split = function(task, groups) {
       key_cols = task$col_roles$key
       # downstream per-series states are matched by name, so realign to the training keys
-      groups = groups[self$state$keys, on = key_cols]
+      groups = groups[self$state$keys, on = key_cols, nomatch = NULL]
+      valid_task = task$internal_valid_task
+      # split the validation task alike, so each series validates on its own rows only
+      valid_subtasks = if (!is.null(valid_task)) private$.split(valid_task, private$.split_rows(valid_task))
       # restrict each backend to its series, so pipeops reading history beyond the task rows, e.g. fcst.lags at
       # predict time, cannot mix series once the key role is gone
       backend = task$backend
@@ -114,6 +117,7 @@ PipeOpFcstSplitKey = R6Class(
         # rejected by the classical learners, so drop both roles
         subtask$set_col_roles(key_cols, remove_from = c("key", "feature"))
         subtask$extra_args$key = character()
+        subtask$internal_valid_task = valid_subtasks[[label]]
         subtask
       })
       set_names(subtasks, groups$..label)
