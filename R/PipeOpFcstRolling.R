@@ -117,7 +117,7 @@ PipeOpFcstRolling = R6Class(
 
       setorderv(dt, c(key_cols, order_cols))
       dt[,
-        (roll_spec$cols) := fcst_rolls(target, roll_spec),
+        (roll_spec$cols) := roll_features(target, roll_spec),
         by = key_cols,
         env = list(target = target, roll_spec = I(roll_spec))
       ]
@@ -150,7 +150,7 @@ roll_feature = function(x, fn, size) {
   }
 }
 
-fcst_rolls = function(x, spec) {
+roll_features = function(x, spec) {
   hist = head(x, -spec$lag)
   pad = rep.int(NA_real_, length(x) - length(hist))
   pmap(list(fn = spec$fn, size = spec$size), function(fn, size) c(pad, roll_feature(hist, fn, size)))
