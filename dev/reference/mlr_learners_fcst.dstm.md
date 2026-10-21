@@ -225,7 +225,6 @@ ids = partition(task)
 
 # Train the learner on the training ids
 learner$train(task, row_ids = ids$train)
-#> Warning: non-intersecting series
 
 # Print the model
 print(learner$model)
@@ -251,7 +250,8 @@ print(learner$model)
 #> alpha  0.82
 #> 
 #> Forecasting points
-#> numeric(0)
+#>        Jan      Feb
+#> 9 309.2690 307.6625
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25

@@ -46,7 +46,8 @@ forecast(object, task, h = 12L, newdata = NULL, ...)
   column (and any key columns for keyed tasks), and every row must match
   a row of the generated future grid. Columns other than those are
   overlaid onto the generated skeleton, while skeleton rows without a
-  match keep `NA`.
+  match keep `NA`. Required if `task` has features, and must then
+  contain every feature column.
 
 - ...:
 

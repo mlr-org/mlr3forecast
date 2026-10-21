@@ -90,7 +90,8 @@ Forecast horizon — number of future time steps per key.</p></dd>
 Optional exogenous features for future rows. Must contain the order column (and any key
 columns for keyed tasks), and every row must match a row of the generated future grid.
 Columns other than those are overlaid onto the generated skeleton, while skeleton rows
-without a match keep <code>NA</code>.</p></dd>
+without a match keep <code>NA</code>.
+Required if <code>task</code> has features, and must then contain every feature column.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

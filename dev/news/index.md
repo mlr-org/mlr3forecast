@@ -192,11 +192,28 @@
   now converts tsibbles with several measured variables, keeping the
   non-target ones as features and numeric indices as numbers.
 - fix:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  now converts `ts` objects of frequency 52 and 365.25 to tasks with a
+  weekly or daily `Date` order column, stepping whole weeks or days from
+  the start period. Previously, these conversions always failed because
+  the series were mapped to fractional-year timestamps off the weekly or
+  daily grid. Since 52 weeks fall short of a year, weekly dates drift
+  from the `ts` time by about 1.25 days per year, and the conversion
+  warns once they are a day or more apart.
+- fix:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  now converts `zoo` objects with a plain numeric index, keeping it as a
+  numeric `index` order column, instead of failing with an error from
+  `xts`.
+- fix:
   [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
   of a backtest prediction now connects the forecast to the last
   observation before it instead of the last observation of the task.
 - fix: `DirectForecaster` no longer ignores predict parameters changed
   after training.
+- fix: `DirectForecaster` now raises an input error naming the key
+  groups without training rows when predicting them, instead of failing
+  inside [`seq()`](https://rdrr.io/r/base/seq.html).
 - fix: `DirectForecaster` and `RecursiveForecaster` now error in
   `$native_model` on marshaled models instead of returning wrong
   objects.
@@ -234,6 +251,10 @@
   candidate models to select from, and defaults to all four like
   [`smooth::auto.ces()`](https://rdrr.io/pkg/smooth/man/ces.html).
   Previously, setting it fit a single fixed model.
+- fix: `fcst.dotm`, `fcst.dstm`, `fcst.otm`, `fcst.stheta`, and
+  `fcst.stm` now predict a single step of a seasonal series, for which
+  `forecTheta` returned an empty forecast, and no longer warn about
+  non-intersecting series on every training.
 - fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`,
   `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`,
   `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series
@@ -252,6 +273,11 @@
 - fix: `fcst.tslm` now errors on a target or features named `trend` or
   `season` unless `formula` is set, instead of silently confusing them
   with its built-in terms.
+- fix:
+  [`forecast()`](https://generics.r-lib.org/reference/forecast.html) now
+  raises an input error naming the missing features if `newdata` does
+  not supply every feature of `task`, instead of failing on an assertion
+  inside `$predict_newdata()`.
 - fix:
   [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
   keeps an integer time index integer instead of sometimes returning
