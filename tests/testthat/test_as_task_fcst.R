@@ -17,7 +17,7 @@ test_that("as_task conversion", {
   # ts object
   expect_no_error(as_task_fcst(load_dataset("AirPassengers", "datasets")))
   # mts object
-  expect_no_error(as_task_fcst(load_dataset("EuStockMarkets", "datasets")))
+  expect_warning(as_task_fcst(load_dataset("EuStockMarkets", "datasets")), "no calendar step")
   # zoo object
   expect_no_error(as_task_fcst(zoo::zoo(rnorm(50L), seq(as.Date("2020-01-01"), by = "month", length.out = 50L))))
   x = zoo::zoo(
