@@ -83,8 +83,11 @@ LearnerFcstForecTheta = R6Class(
         return(insert_named(prediction, list(response = as.numeric(pred$mean)[keep])))
       }
       pred$mean = as.numeric(pred$mean)[keep]
-      pred$lower = as.matrix(pred$lower)[keep, , drop = FALSE]
-      pred$upper = as.matrix(pred$upper)[keep, , drop = FALSE]
+      # without a level, i.e. for the median only, there are no bounds to trim
+      if (!is.null(args$level)) {
+        pred$lower = as.matrix(pred$lower)[keep, , drop = FALSE]
+        pred$upper = as.matrix(pred$upper)[keep, , drop = FALSE]
+      }
       insert_named(prediction, list(quantiles = private$.quantiles_from_intervals(pred)))
     }
   )

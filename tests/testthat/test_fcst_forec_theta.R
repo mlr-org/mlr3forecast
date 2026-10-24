@@ -43,6 +43,16 @@ test_that("optimized theta learners support quantiles", {
   expect_all_true(apply(quantiles, 1L, function(x) !is.unsorted(x)))
 })
 
+test_that("theta learners predict the median as the only quantile", {
+  task = tsk("airpassengers")$filter(1:132)
+  learner = lrn("fcst.stm", predict_type = "quantiles", quantiles = 0.5, quantile_response = 0.5)
+  learner$train(task)
+  newdata = generate_newdata(task, n = 2L)
+  prediction = learner$predict_newdata(newdata)
+  learner$predict_type = "response"
+  expect_equal(prediction$quantiles[, 1L], learner$predict_newdata(newdata)$response, ignore_attr = TRUE)
+})
+
 test_that("dotm and otm support exogenous features", {
   set.seed(1L)
   data = data.table(
