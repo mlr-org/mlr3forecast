@@ -323,6 +323,19 @@ test_that("as.ts works", {
   expect_error(as.ts(task, freq = 4), "no longer takes `freq`")
 })
 
+test_that("as.ts keeps the calendar start of yearly, quarterly, and monthly tasks", {
+  expect_equal(as.ts(tsk("airpassengers")), AirPassengers)
+  expect_equal(stats::tsp(as.ts(tsk("lynx"))), stats::tsp(lynx))
+  quarterly = as_task_fcst(
+    data.table(d = seq(as.Date("2001-07-01"), by = "quarter", length.out = 6L), y = as.numeric(1:6)),
+    target = "y",
+    order = "d"
+  )
+  expect_identical(stats::start(as.ts(quarterly)), c(2001, 3))
+  # without a yearly cycle the calendar has no position to map to
+  expect_identical(stats::start(as.ts(tsk("airpassengers"), period = 6)), c(1, 1))
+})
+
 test_that("as.ts derives the default period from freq and accepts an explicit one", {
   daily = as_task_fcst(
     data.table(d = seq(as.Date("2020-01-01"), by = "day", length.out = 40L), y = as.numeric(1:40)),

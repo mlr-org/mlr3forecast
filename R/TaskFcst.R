@@ -277,6 +277,14 @@ as.ts.TaskFcst = function(x, ..., period = NULL) {
   if (length(x$col_roles$key) > 0L) {
     error_input("Cannot coerce a multi-series (keyed) task to a single ts object.")
   }
-  y = x$data(cols = x$target_names, ordered = TRUE)[[1L]]
-  stats::ts(y, frequency = resolve_period(period, x$freq))
+  dt = x$data(cols = c(x$col_roles$order, x$target_names), ordered = TRUE)
+  frequency = resolve_period(period, x$freq)
+  start = 1
+  months = calendar_months(x$freq)
+  # a calendar cycle of one year places the series on the calendar, e.g. monthly data starting in January 1949
+  if (nrow(dt) > 0L && !is.na(months) && 12L %% months == 0L && frequency == 12L %/% months) {
+    first = civil_parts(dt[[1L]][1L])
+    start = c(first$year, (first$month - 1L) %/% months + 1L)
+  }
+  stats::ts(dt[[2L]], start = start, frequency = frequency)
 }
