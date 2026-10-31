@@ -6,6 +6,14 @@ seasonal period is taken from `period`. Calls
 [`Rlgt::rlgt()`](https://rdrr.io/pkg/Rlgt/man/rlgt.html) from package
 [Rlgt](https://CRAN.R-project.org/package=Rlgt).
 
+With `method = "Gibbs"`, a `seasonality` above 1 overrides `period`.
+
+## Initial parameter values
+
+- `method`: Set to `"Gibbs"`, the upstream default, so that
+  `seasonality` and `homoscedastic` can be set without setting `method`
+  first.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)
@@ -40,7 +48,7 @@ or with the associated sugar function
 | seasonality.type | character | multiplicative | multiplicative, generalized | \- |
 | error.size.method | character | std | std, innov | \- |
 | level.method | character | HW | HW, seasAvg, HW_sAvg | \- |
-| method | character | Gibbs | Gibbs, Stan | \- |
+| method | character | \- | Gibbs, Stan | \- |
 | homoscedastic | logical | FALSE | TRUE, FALSE | \- |
 | control | untyped | \- |  | \- |
 | verbose | logical | FALSE | TRUE, FALSE | \- |
@@ -210,7 +218,7 @@ print(learner)
 #> 
 #> ── <LearnerFcstRlgt> (fcst.rlgt): Local and Global Trend ───────────────────────
 #> • Model: -
-#> • Parameters: list()
+#> • Parameters: method=Gibbs
 #> • Packages: mlr3, mlr3forecast, and Rlgt
 #> • Predict Types: [response] and quantiles
 #> • Feature Types: logical, integer, and numeric

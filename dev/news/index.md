@@ -269,6 +269,14 @@
   instead of internal code, so printed models are readable.
 - fix: `fcst.prophet` now raises an input error naming the feature if
   prophet reserves its name, e.g. `holidays` or `ds`.
+- fix: `fcst.rlgt` now errors on exogenous features unless
+  `method = "Stan"`, as the default Gibbs sampler silently ignored them,
+  only accepts `seasonality2`, `seasonality.type`, `error.size.method`,
+  `level.method`, `verbose`, and `NUM_OF_TRIALS` with `method = "Stan"`,
+  and only accepts `seasonality` and `homoscedastic` with
+  `method = "Gibbs"`, which `method` is now initialized to. Previously,
+  Stan silently replaced `seasonality` with `period` and ignored
+  `homoscedastic`.
 - fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and
   `allow.multiplicative.trend` can be set without setting `method`
   first.
