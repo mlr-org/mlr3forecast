@@ -194,6 +194,18 @@ test_that("MeasureWinkler works", {
   expect_equal(unname(pred$score(measure)), 210)
 })
 
+test_that("interval measures match quantiles whose level is not exactly 1 - alpha / 2", {
+  task = tsk("airpassengers")
+  quantiles = make_quantiles(c(5, 15), c(15, 25), probs = c(0.07, 0.93))
+  pred = PredictionRegr$new(truth = c(10, 30), response = c(0, 0), quantiles = quantiles, row_ids = 1:2)
+  expect_equal(unname(pred$score(msr("fcst.coverage", alpha = 0.14))), 0.5)
+  expect_equal(unname(pred$score(msr("fcst.winkler", alpha = 0.14))), 10 + 2 / 0.14 * 5 / 2)
+  expect_number(unname(pred$score(msr("fcst.msis", alpha = 0.14), task = task, train_set = 3:120)))
+  expect_error(pred$score(msr("fcst.winkler", alpha = 0.1)), "not among the predicted quantiles")
+  expect_error(pred$score(msr("fcst.coverage", alpha = 0)), "strictly between 0 and 1")
+  expect_error(pred$score(msr("fcst.winkler", alpha = 1)), "strictly between 0 and 1")
+})
+
 test_that("MeasurePinball works", {
   measure = msr("fcst.pinball")
   truth = c(10, 20, 30, 40, 50)

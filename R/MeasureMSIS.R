@@ -71,15 +71,11 @@ MeasureMSIS = R6Class(
     .score_ungrouped = function(prediction, task, train_set, probs, ...) {
       pv = self$param_set$get_values()
       alpha = pv$alpha
-      lower_prob = alpha / 2
-      upper_prob = 1 - alpha / 2
-      assert_choice(lower_prob, probs)
-      assert_choice(upper_prob, probs)
+      bounds = interval_bounds(prediction$data$quantiles, probs, alpha)
 
       truth = prediction$truth
-      quantiles = prediction$data$quantiles
-      lt = quantiles[, which(probs == lower_prob)]
-      ut = quantiles[, which(probs == upper_prob)]
+      lt = bounds$lower
+      ut = bounds$upper
       interval_score = (ut - lt) + (2 / alpha) * (pmax(lt - truth, 0) + pmax(truth - ut, 0))
 
       train = task$data(rows = train_set, cols = task$target_names, ordered = TRUE)[[1L]]

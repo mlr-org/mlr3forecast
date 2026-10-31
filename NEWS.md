@@ -68,6 +68,7 @@
 * fix: `fcst.tslm` now errors on a target or features named `trend` or `season` unless `formula` is set, instead of silently confusing them with its built-in terms.
 * fix: `forecast()` now raises an input error naming the missing features if `newdata` does not supply every feature of `task`, instead of failing on an assertion inside `$predict_newdata()`.
 * fix: `generate_newdata()` keeps an integer time index integer instead of sometimes returning doubles.
+* fix: `msr("fcst.coverage")`, `msr("fcst.msis")`, and `msr("fcst.winkler")` no longer fail for an `alpha` like `0.14`, whose bound `1 - alpha / 2` misses the predicted quantile by floating point error, and reject `alpha` of 0 or 1.
 * fix: `msr("fcst.wape")` now ignores rows with a missing prediction in the denominator too, which previously understated the error.
 * fix: `po("fcst.fourier")` now computes its terms from the timestamps instead of the row positions, so the seasonal phase no longer shifts at predict time or between series.
 * fix: `po("fcst.splitkey")` and thus `ppl("fcst.local")` now give each per-series task a backend holding only the rows of its series, so `po("fcst.lags")` and `po("fcst.rolling")` no longer mix series at predict time. Previously, they failed for series sharing timestamps and silently took features from other series for interleaved timestamps.

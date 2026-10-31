@@ -54,16 +54,12 @@ MeasureWinkler = R6Class(
   private = list(
     .score = function(prediction, ...) {
       alpha = self$param_set$get_values()$alpha
-      lower_prob = alpha / 2
-      upper_prob = 1 - alpha / 2
-
-      probs = attr(prediction$data$quantiles, "probs")
-      assert_choice(lower_prob, probs)
-      assert_choice(upper_prob, probs)
+      quantiles = prediction$data$quantiles
+      bounds = interval_bounds(quantiles, attr(quantiles, "probs"), alpha)
 
       truth = prediction$truth
-      lt = prediction$data$quantiles[, which(probs == lower_prob)]
-      ut = prediction$data$quantiles[, which(probs == upper_prob)]
+      lt = bounds$lower
+      ut = bounds$upper
 
       width = ut - lt
       score = width + (2 / alpha) * (pmax(lt - truth, 0) + pmax(truth - ut, 0))

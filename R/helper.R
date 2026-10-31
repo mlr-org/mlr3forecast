@@ -3,6 +3,20 @@ quantiles_to_levels = function(x) {
   sort(unique(round(abs(1 - 2 * x) * 100, 6)))
 }
 
+interval_bounds = function(quantiles, probs, alpha) {
+  if (alpha <= 0 || alpha >= 1) {
+    error_config("`alpha` must lie strictly between 0 and 1, but is %s.", alpha)
+  }
+  index = function(p) {
+    i = which(abs(probs - p) < sqrt(.Machine$double.eps))
+    if (length(i) != 1L) {
+      error_input("Quantile %s is not among the predicted quantiles {%s}.", p, str_collapse(probs))
+    }
+    i
+  }
+  list(lower = quantiles[, index(alpha / 2)], upper = quantiles[, index(1 - alpha / 2)])
+}
+
 strsplit1 = function(x, pattern) {
   strsplit(x, pattern, fixed = TRUE)[[1L]]
 }
