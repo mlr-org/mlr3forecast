@@ -62,6 +62,7 @@
 * fix: `fcst.auto_ces` now accepts several values for `seasonality`, the candidate models to select from, and defaults to all four like `smooth::auto.ces()`. Previously, setting it fit a single fixed model.
 * fix: The model call stored by `fcst.ces`, `fcst.es`, `fcst.gum`, `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`, `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series instead of internal code, so printed models are readable.
 * fix: `fcst.prophet` now raises an input error naming the feature if prophet reserves its name, e.g. `holidays` or `ds`.
+* fix: `fcst.rlgt` now errors on exogenous features unless `method = "Stan"`, as the default Gibbs sampler silently ignored them, only accepts `seasonality2`, `seasonality.type`, `error.size.method`, `level.method`, `verbose`, and `NUM_OF_TRIALS` with `method = "Stan"`, and only accepts `seasonality` and `homoscedastic` with `method = "Gibbs"`, which `method` is now initialized to. Previously, Stan silently replaced `seasonality` with `period` and ignored `homoscedastic`.
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.
 * fix: `fcst.stlm` now raises a configuration error instead of an input error for features without `method = "arima"`.
 * fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.

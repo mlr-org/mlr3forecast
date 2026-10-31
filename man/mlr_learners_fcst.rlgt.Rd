@@ -8,7 +8,17 @@
 Bayesian exponential smoothing with a nonlinear global trend (LGT/SGT), Student-t errors, and optional
 heteroscedasticity, fitted via MCMC. The seasonal period is taken from \code{period}.
 Calls \code{\link[Rlgt:rlgt]{Rlgt::rlgt()}} from package \CRANpkg{Rlgt}.
+
+With \code{method = "Gibbs"}, a \code{seasonality} above 1 overrides \code{period}.
 }
+\section{Initial parameter values}{
+
+\itemize{
+\item \code{method}: Set to \code{"Gibbs"}, the upstream default, so that \code{seasonality} and \code{homoscedastic} can be set without
+setting \code{method} first.
+}
+}
+
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{mlr3::Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners} or with the associated sugar function \code{\link[mlr3:lrn]{mlr3::lrn()}}:
@@ -36,7 +46,7 @@ lrn("fcst.rlgt")
    seasonality.type \tab character \tab multiplicative \tab multiplicative, generalized \tab - \cr
    error.size.method \tab character \tab std \tab std, innov \tab - \cr
    level.method \tab character \tab HW \tab HW, seasAvg, HW_sAvg \tab - \cr
-   method \tab character \tab Gibbs \tab Gibbs, Stan \tab - \cr
+   method \tab character \tab - \tab Gibbs, Stan \tab - \cr
    homoscedastic \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    control \tab untyped \tab - \tab  \tab - \cr
    verbose \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr

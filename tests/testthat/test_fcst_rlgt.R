@@ -60,3 +60,30 @@ test_that("quantile prediction widens with multiple levels", {
   expect_all_true(qs[, 1L] < qs[, 2L])
   expect_all_true(qs[, 4L] < qs[, 5L])
 })
+
+test_that("Gibbs sampling rejects features and Stan-only parameters", {
+  dt = data.table(time = 1:30, y = as.numeric(1:30), x = as.numeric(30:1))
+  task = as_task_fcst(dt, target = "y", order = "time")
+  expect_error(lrn("fcst.rlgt")$train(task), class = "Mlr3ErrorConfig")
+  expect_error(lrn("fcst.rlgt", method = "Gibbs")$train(task), class = "Mlr3ErrorConfig")
+  expect_error(lrn("fcst.rlgt", level.method = "seasAvg"), "Stan")
+  expect_error(lrn("fcst.rlgt", method = "Gibbs", NUM_OF_TRIALS = 100L), "Stan")
+  expect_error(lrn("fcst.rlgt", verbose = TRUE), "Stan")
+  expect_error(lrn("fcst.rlgt", method = "Stan", seasonality = 12L), "Gibbs")
+  expect_error(lrn("fcst.rlgt", method = "Stan", homoscedastic = TRUE), "Gibbs")
+})
+
+test_that("Stan sampling uses exogenous features", {
+  skip_on_cran()
+  withr::local_seed(1)
+  dt = data.table(time = 1:40, x = rnorm(40L, 10))
+  dt[, y := 50 + 3 * x + rnorm(40L)]
+  task = as_task_fcst(dt, target = "y", order = "time")
+  control = Rlgt::rlgt.control(NUM_OF_ITER = 500L, MAX_NUM_OF_REPEATS = 1L, NUM_OF_CHAINS = 1L, NUM_OF_CORES = 1L)
+  learner = lrn("fcst.rlgt", method = "Stan", NUM_OF_TRIALS = 200L, control = control)
+  utils::capture.output(suppressWarnings(learner$train(task, 1:35)))
+  newdata = dt[36:40]
+  pred = withr::with_seed(1, learner$predict_newdata(newdata, task)$response)
+  pred_shifted = withr::with_seed(1, learner$predict_newdata(newdata[, x := x + 10], task)$response)
+  expect_gt(mean(pred_shifted - pred), 10)
+})

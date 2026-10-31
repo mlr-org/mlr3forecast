@@ -8,6 +8,12 @@
 #' heteroscedasticity, fitted via MCMC. The seasonal period is taken from `period`.
 #' Calls [Rlgt::rlgt()] from package \CRANpkg{Rlgt}.
 #'
+#' With `method = "Gibbs"`, a `seasonality` above 1 overrides `period`.
+#'
+#' @section Initial parameter values:
+#' * `method`: Set to `"Gibbs"`, the upstream default, so that `seasonality` and `homoscedastic` can be set without
+#'   setting `method` first.
+#'
 #' @templateVar id fcst.rlgt
 #' @template learner
 #'
@@ -25,16 +31,31 @@ LearnerFcstRlgt = R6Class(
     #' Creates a new instance of this [R6][R6::R6Class] class.
     initialize = function() {
       param_set = ps(
-        seasonality = p_int(1L, default = 1L, tags = "train"),
-        seasonality2 = p_int(1L, default = 1L, tags = "train"),
-        seasonality.type = p_fct(c("multiplicative", "generalized"), default = "multiplicative", tags = "train"),
-        error.size.method = p_fct(c("std", "innov"), default = "std", tags = "train"),
-        level.method = p_fct(c("HW", "seasAvg", "HW_sAvg"), default = "HW", tags = "train"),
-        method = p_fct(c("Gibbs", "Stan"), default = "Gibbs", tags = "train"),
-        homoscedastic = p_lgl(default = FALSE, tags = "train"),
+        seasonality = p_int(1L, default = 1L, tags = "train", depends = quote(method == "Gibbs")),
+        seasonality2 = p_int(1L, default = 1L, tags = "train", depends = quote(method == "Stan")),
+        seasonality.type = p_fct(
+          c("multiplicative", "generalized"),
+          default = "multiplicative",
+          tags = "train",
+          depends = quote(method == "Stan")
+        ),
+        error.size.method = p_fct(
+          c("std", "innov"),
+          default = "std",
+          tags = "train",
+          depends = quote(method == "Stan")
+        ),
+        level.method = p_fct(
+          c("HW", "seasAvg", "HW_sAvg"),
+          default = "HW",
+          tags = "train",
+          depends = quote(method == "Stan")
+        ),
+        method = p_fct(c("Gibbs", "Stan"), tags = "train", init = "Gibbs"),
+        homoscedastic = p_lgl(default = FALSE, tags = "train", depends = quote(method == "Gibbs")),
         control = p_uty(tags = "train", custom_check = check_list),
-        verbose = p_lgl(default = FALSE, tags = "train"),
-        NUM_OF_TRIALS = p_int(1L, default = 2000L, tags = "predict")
+        verbose = p_lgl(default = FALSE, tags = "train", depends = quote(method == "Stan")),
+        NUM_OF_TRIALS = p_int(1L, default = 2000L, tags = "predict", depends = quote(method == "Stan"))
       )
 
       super$initialize(
@@ -53,6 +74,17 @@ LearnerFcstRlgt = R6Class(
   private = list(
     .pkg = "Rlgt",
     .fn = "rlgt",
+
+    .fit = function(task, pv) {
+      method = pv$method %??% "Gibbs"
+      if (private$.has_exogenous(task) && method != "Stan") {
+        error_config(
+          "`fcst.rlgt` supports exogenous features only with `method = \"Stan\"` (current method: \"%s\").",
+          method
+        )
+      }
+      super$.fit(task, pv)
+    },
 
     .fitted = function() {
       error_config("In-sample prediction is not supported for %s.", self$id)
