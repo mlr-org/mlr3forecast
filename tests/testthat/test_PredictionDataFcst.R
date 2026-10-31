@@ -52,6 +52,21 @@ test_that("filter_prediction_data.PredictionDataFcst keeps class and filters ext
   expect_identical(filtered$col_roles, pdata$col_roles)
 })
 
+test_that("filter_prediction_data.PredictionDataFcst preserves quantile metadata", {
+  prediction = PredictionFcst$new(
+    row_ids = 1:3,
+    truth = c(1, 2, 3),
+    quantiles = make_quantiles(c(0, 1, 2), c(2, 3, 4))
+  )
+  quantiles = prediction$data$quantiles
+  for (rows in list(1:2, 2L, integer())) {
+    filtered = filter_prediction_data(prediction$data, rows)
+    expect_identical(attr(filtered$quantiles, "probs"), attr(quantiles, "probs"))
+    expect_identical(attr(filtered$quantiles, "response"), attr(quantiles, "response"))
+    expect_identical(unname(as_prediction(filtered)$response), unname(prediction$response[rows]))
+  }
+})
+
 test_that("is_missing_prediction_data.PredictionDataFcst flags NA responses", {
   p = PredictionFcst$new(row_ids = 1:3, truth = c(1, 2, 3), response = c(1, NA, 3))
   expect_equal(is_missing_prediction_data(p$data), 2L)

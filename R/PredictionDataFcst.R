@@ -69,7 +69,12 @@ c.PredictionDataFcst = function(..., keep_duplicates = TRUE) {
 
 #' @export
 filter_prediction_data.PredictionDataFcst = function(pdata, row_ids, ...) {
+  quantiles = pdata$quantiles
   pdata = filter_prediction_data(as_pdata_regr(pdata), row_ids, ...)
+  if (!is.null(quantiles)) {
+    setattr(pdata$quantiles, "probs", attr(quantiles, "probs"))
+    setattr(pdata$quantiles, "response", attr(quantiles, "response"))
+  }
   as_pdata_fcst(pdata)
 }
 

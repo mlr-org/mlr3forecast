@@ -235,6 +235,20 @@ test_that("MeasurePinball works", {
   expect_equal(unname(pred$score(measure)), 0.1)
 })
 
+test_that("quantile measures score filtered forecast predictions", {
+  task = as_task_fcst(data.table(t = 1:6, y = 1:6), target = "y", order = "t")
+  prediction = PredictionFcst$new(
+    row_ids = 4:6,
+    truth = task$truth(4:6),
+    quantiles = make_quantiles(c(3, 7, 4), c(5, 8, 5))
+  )
+  prediction$filter(c(4L, 6L))
+  expect_equal(unname(prediction$score(msr("fcst.pinball"))), 0.5375)
+  expect_equal(unname(prediction$score(msr("fcst.coverage"))), 0.5)
+  expect_equal(unname(prediction$score(msr("fcst.winkler"))), 21.5)
+  expect_equal(unname(prediction$score(msr("fcst.msis"), task = task, train_set = 1:3)), 21.5)
+})
+
 test_that("MeasureMASE works", {
   measure = msr("fcst.mase")
   task = tsk("airpassengers")
