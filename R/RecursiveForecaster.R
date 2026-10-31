@@ -248,7 +248,7 @@ RecursiveForecaster = R6Class(
         return()
       }
       assert_unmarshaled(self)
-      self$base_learner()$model
+      self$base_learner()$native_model
     },
 
     #' @field lags (`integer()` | `NULL`)\cr

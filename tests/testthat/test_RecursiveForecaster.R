@@ -212,6 +212,11 @@ test_that("RecursiveForecaster native_model supports custom learner node ids", {
   expect_identical(learner$native_model, learner$model$graph_state$tree$model)
 })
 
+test_that("RecursiveForecaster native_model returns the native model of the base learner", {
+  learner = recursive_forecaster(make_native_model_stub_learner(), lags = 1:3)$train(tsk("airpassengers"))
+  expect_class(learner$native_model, "regr_native_model_stub_fit")
+})
+
 test_that("RecursiveForecaster propagates quantiles to every learner in an ensemble graph", {
   ensemble = gunion(list(
     po("learner", lrn("regr.featureless"), id = "a"),

@@ -53,6 +53,7 @@
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
 * fix: `DirectForecaster` now raises an input error naming the key groups without training rows when predicting them, instead of failing inside `seq()`.
 * fix: `DirectForecaster` and `RecursiveForecaster` now error in `$native_model` on marshaled models instead of returning wrong objects.
+* fix: `DirectForecaster` and `RecursiveForecaster` now return the `$native_model` of the wrapped learner in `$native_model` instead of its `$model`, so learners whose `$model` wraps the fitted object, e.g. `lrn("regr.ranger")`, yield that object itself.
 * fix: `DirectForecaster` and `RecursiveForecaster` now set `$man` to their own help pages, so `$help()` no longer opens the `GraphLearner` page.
 * fix: `download_zenodo_record()` is deprecated in favor of `download_monash_dataset()` and warns on each call.
 * fix: `fcst.adam` gained the `lambda` parameter, the weight of the `LASSO` and `RIDGE` penalties. Previously, these losses always used a weight of 0 and fit like plain `MSE`.
@@ -78,7 +79,7 @@
 * fix: `po("fcst.targetdiff")` no longer errors on quantile predictions, but inverts their response and drops the quantiles, like the target trafos of `mlr3pipelines`.
 * fix: `PredictionFcst` now keeps the empty `row_ids`, `truth`, and `response` of a prediction for zero rows. Previously, such a prediction lost all its predict types.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
-* fix: `RecursiveForecaster$native_model` now returns the fitted model when the learner node has a custom id.
+* fix: `RecursiveForecaster$native_model` now returns the fitted model when the learner node has a custom id. For a nested base learner, such as an `AutoTuner` or a `GraphLearner`, it now returns the innermost fitted model instead of the model of the wrapper, like `DirectForecaster`.
 * fix: `RecursiveForecaster` now returns predictions in the task's row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets `po("fcst.avg")` combine it with `DirectForecaster`.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` no longer return wrong splits or fail for key or order columns named like internal columns, e.g. `train`, `fold`, or `row_id`.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.

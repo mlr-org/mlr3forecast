@@ -244,6 +244,33 @@ make_property_stub_learner = function() {
   )$new()
 }
 
+# regr learner whose $model wraps the fit and that exposes the fit via $native_model
+make_native_model_stub_learner = function() {
+  R6Class(
+    "LearnerRegrNativeModelStub",
+    inherit = LearnerRegr,
+    public = list(
+      initialize = function() {
+        super$initialize(
+          id = "regr.native_model_stub",
+          feature_types = c("logical", "integer", "numeric"),
+          predict_types = "response"
+        )
+      }
+    ),
+    active = list(
+      native_model = function(rhs) {
+        assert_ro_binding(rhs)
+        self$model$fit
+      }
+    ),
+    private = list(
+      .train = function(task) list(fit = set_class(list(mean = mean(task$truth())), "regr_native_model_stub_fit")),
+      .predict = function(task) list(response = rep(self$model$fit$mean, task$nrow))
+    )
+  )$new()
+}
+
 # regr learner with a marshalable model, modeled on mlr3's classif.debug
 make_marshal_stub_learner = function() {
   R6Class(

@@ -296,6 +296,14 @@ test_that("DirectForecaster native_model returns one fitted model per horizon", 
   expect_class(nm$h1, "rpart")
 })
 
+test_that("DirectForecaster native_model returns the native model of the base learner", {
+  learner = direct_forecaster(make_native_model_stub_learner(), lags = 1:3, horizons = 1:2)
+  learner$train(tsk("airpassengers"))
+  nm = learner$native_model
+  expect_class(nm$h1, "regr_native_model_stub_fit")
+  expect_class(nm$h2, "regr_native_model_stub_fit")
+})
+
 test_that("DirectForecaster model prints a compact summary", {
   task = tsk("airpassengers")
   learner = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = 3L)$train(task)

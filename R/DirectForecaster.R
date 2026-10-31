@@ -250,7 +250,7 @@ DirectForecaster = R6Class(
         return()
       }
       assert_unmarshaled(self)
-      private$.per_horizon(function(glrn) glrn$base_learner()$model)
+      private$.per_horizon(function(glrn) glrn$base_learner()$native_model)
     },
 
     #' @field lags (`integer()`)\cr
