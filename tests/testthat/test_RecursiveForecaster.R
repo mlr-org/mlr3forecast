@@ -205,6 +205,13 @@ test_that("RecursiveForecaster native_model returns the base learner model", {
   expect_class(learner$native_model, "rpart")
 })
 
+test_that("RecursiveForecaster native_model supports custom learner node ids", {
+  graph = po("fcst.lags", lags = 1:3) %>>% po("learner", lrn("regr.rpart"), id = "tree")
+  learner = RecursiveForecaster$new(graph)$train(tsk("airpassengers"))
+  expect_class(learner$native_model, "rpart")
+  expect_identical(learner$native_model, learner$model$graph_state$tree$model)
+})
+
 test_that("RecursiveForecaster propagates quantiles to every learner in an ensemble graph", {
   ensemble = gunion(list(
     po("learner", lrn("regr.featureless"), id = "a"),
