@@ -47,6 +47,7 @@
 * fix: `as_task_fcst()` now converts tsibbles with several measured variables, keeping the non-target ones as features and numeric indices as numbers.
 * fix: `as_task_fcst()` now converts `ts` objects of frequency 52 and 365.25 to tasks with a weekly or daily `Date` order column, stepping whole weeks or days from the start period. Previously, these conversions always failed because the series were mapped to fractional-year timestamps off the weekly or daily grid. Since 52 weeks fall short of a year, weekly dates drift from the `ts` time by about 1.25 days per year, and the conversion warns once they are a day or more apart.
 * fix: `as_task_fcst()` now converts `zoo` objects with a plain numeric index, keeping it as a numeric `index` order column, instead of failing with an error from `xts`.
+* fix: `as_task_fcst()` and `TaskFcst$new()` now error if an order or key column uses a reserved prediction column name, i.e. `row_ids`, `truth`, `response`, `se`, `distr`, `weights`, or a quantile name such as `q0.5`. Previously, such a task failed only at prediction time or broke `as.data.table()` of its predictions.
 * fix: `autoplot()` of a backtest prediction now connects the forecast to the last observation before it instead of the last observation of the task.
 * fix: `DirectForecaster` no longer ignores predict parameters changed after training.
 * fix: `DirectForecaster` now raises an input error naming the key groups without training rows when predicting them, instead of failing inside `seq()`.

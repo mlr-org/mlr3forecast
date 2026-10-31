@@ -233,6 +233,17 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
   }
 
   key_cols = new_roles[["key"]]
+  cols =c(order_cols, key_cols)
+  reserved = cols[
+    cols %chin% c("row_ids", "truth", "response", "se", "distr", "weights") | grepl("^q[0-9.]+(e[-+]?[0-9]+)?$", cols)
+  ]
+  if (length(reserved) > 0L) {
+    error_input(
+      "Order and key column(s) %s may not use reserved prediction column names, rename them.",
+      str_collapse(reserved, quote = "'")
+    )
+  }
+
   if (length(key_cols) > 0L) {
     if (any(key_cols %chin% order_cols)) {
       error_input(

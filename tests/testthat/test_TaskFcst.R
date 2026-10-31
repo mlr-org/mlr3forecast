@@ -200,6 +200,27 @@ test_that("a key column may not be the target", {
   )
 })
 
+test_that("order and key columns may not use reserved prediction column names", {
+  dt = data.table(response = 1:6, q1 = rep(c("a", "b"), each = 3L), y = rnorm(6L))
+  expect_error(
+    as_task_fcst(dt, target = "y", order = "response"),
+    "'response'",
+    class = "Mlr3ErrorInput"
+  )
+
+  setnames(dt, "response", "idx")
+  expect_error(
+    as_task_fcst(dt, target = "y", order = "idx", key = "q1"),
+    "'q1'",
+    class = "Mlr3ErrorInput"
+  )
+
+  setnames(dt, "q1", "store")
+  dt[, truth := store]
+  task = as_task_fcst(dt, target = "y", order = "idx", key = "store")
+  expect_error(task$set_col_roles("truth", add_to = "key"), "'truth'", class = "Mlr3ErrorInput")
+})
+
 test_that("numeric key columns are rejected", {
   data = data.frame(
     date = rep(as.Date("2025-01-01") + 0:2, 2L),
