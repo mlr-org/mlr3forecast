@@ -10,7 +10,7 @@ interval_bounds = function(quantiles, probs, alpha) {
   index = function(p) {
     i = which(abs(probs - p) < sqrt(.Machine$double.eps))
     if (length(i) != 1L) {
-      error_input("Quantile %s is not among the predicted quantiles {%s}.", p, str_collapse(probs))
+      error_input("Quantile %s is not among the predicted quantiles (%s).", p, str_collapse(probs))
     }
     i
   }

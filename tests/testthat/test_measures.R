@@ -201,7 +201,11 @@ test_that("interval measures match quantiles whose level is not exactly 1 - alph
   expect_equal(unname(pred$score(msr("fcst.coverage", alpha = 0.14))), 0.5)
   expect_equal(unname(pred$score(msr("fcst.winkler", alpha = 0.14))), 10 + 2 / 0.14 * 5 / 2)
   expect_number(unname(pred$score(msr("fcst.msis", alpha = 0.14), task = task, train_set = 3:120)))
-  expect_error(pred$score(msr("fcst.winkler", alpha = 0.1)), "not among the predicted quantiles")
+  expect_error(
+    pred$score(msr("fcst.winkler", alpha = 0.1)),
+    "not among the predicted quantiles (0.07, 0.93)",
+    fixed = TRUE
+  )
   expect_error(pred$score(msr("fcst.coverage", alpha = 0)), "strictly between 0 and 1")
   expect_error(pred$score(msr("fcst.winkler", alpha = 1)), "strictly between 0 and 1")
 })
