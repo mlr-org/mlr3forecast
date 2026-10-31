@@ -330,6 +330,8 @@
 - fix: `po("fcst.targetdiff")` no longer errors on quantile predictions,
   but inverts their response and drops the quantiles, like the target
   trafos of `mlr3pipelines`.
+- fix: `PredictionFcst$filter()` now preserves quantile metadata for
+  scoring and reconstruction.
 - fix: `PredictionFcst` now keeps the empty `row_ids`, `truth`, and
   `response` of a prediction for zero rows. Previously, such a
   prediction lost all its predict types.
