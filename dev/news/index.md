@@ -211,6 +211,10 @@
   `xts`.
 - fix:
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  now keeps the time zone of `zoo` and `xts` objects with a `POSIXct`
+  index.
+- fix:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   and `TaskFcst$new()` now error if an order or key column uses a
   reserved prediction column name, i.e. `row_ids`, `truth`, `response`,
   `se`, `distr`, `weights`, or a quantile name such as `q0.5`.
@@ -322,6 +326,9 @@
 - fix: `po("fcst.targetdiff")` no longer errors on quantile predictions,
   but inverts their response and drops the quantiles, like the target
   trafos of `mlr3pipelines`.
+- fix: `PredictionFcst` now keeps the empty `row_ids`, `truth`, and
+  `response` of a prediction for zero rows. Previously, such a
+  prediction lost all its predict types.
 - fix:
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   no longer prints the frequency and horizon of the file, which remain
