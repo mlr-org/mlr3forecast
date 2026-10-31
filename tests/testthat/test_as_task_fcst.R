@@ -89,6 +89,8 @@ test_that("as_task_fcst keeps the numeric index of a zoo object", {
   task = as_task_fcst(x)
   expect_identical(task$col_roles$key, "id")
   expect_identical(task$nrow, 5L)
+  task = as_task_fcst(zoo::zoo(matrix(c(1, 2, 3, 4, 5, 6), 3L), 1:3))
+  expect_setequal(as.character(task$data(cols = "id")$id), c("Series 1", "Series 2"))
 })
 
 test_that("as_task_fcst rejects unused arguments for TaskFcst", {

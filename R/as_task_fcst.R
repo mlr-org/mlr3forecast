@@ -248,10 +248,10 @@ task_fcst_from_ts_index = function(x, id, label, index = NULL, order = "index", 
   m = as.matrix(x)
   n = nrow(m)
   is_multi = ncol(m) > 1L
-  dt = data.table(index = rep(index %??% seq_len(n), ncol(m)), value = as.numeric(m))
+  dt = data.table(index = rep(index %??% seq_row(m), ncol(m)), value = as.numeric(m))
   setnames(dt, "index", order)
   if (is_multi) {
-    set(dt, j = "id", value = rep(colnames(m), each = n))
+    set(dt, j = "id", value = rep(colnames(m) %??% paste("Series", seq_col(m)), each = n))
   }
   dt = dt[!is.na(dt$value)]
   key = if (is_multi) "id" else character()
