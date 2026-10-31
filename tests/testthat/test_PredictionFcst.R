@@ -51,6 +51,15 @@ test_that("PredictionFcst$order and $key are NULL without extra data", {
   expect_null(p$key)
 })
 
+test_that("empty PredictionFcst keeps its zero-length fields", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.mean")$train(task, 1:100)
+  p = learner$predict(task, integer())
+  expect_equal(p$predict_types, "response")
+  expect_integer(p$row_ids, len = 0L)
+  expect_numeric(p$response, len = 0L)
+})
+
 test_that("PredictionFcst derives response from quantiles", {
   quantiles = matrix(1:9, nrow = 3L, dimnames = list(NULL, c("q0.1", "q0.5", "q0.9")))
   setattr(quantiles, "probs", c(0.1, 0.5, 0.9))

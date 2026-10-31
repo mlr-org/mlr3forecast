@@ -72,18 +72,21 @@ PredictionFcst = R6Class(
     ) {
       col_roles = col_roles %??% fcst_prediction_col_roles(task, extra)
       pdata = set_class(
-        compact(list(
-          row_ids = row_ids,
-          truth = truth,
-          response = response,
-          se = se,
-          quantiles = quantiles,
-          distr = distr,
-          weights = weights,
-          extra = extra,
-          col_roles = col_roles,
-          raw = raw
-        )),
+        discard(
+          list(
+            row_ids = row_ids,
+            truth = truth,
+            response = response,
+            se = se,
+            quantiles = quantiles,
+            distr = distr,
+            weights = weights,
+            extra = extra,
+            col_roles = col_roles,
+            raw = raw
+          ),
+          is.null
+        ),
         c("PredictionDataFcst", "PredictionData")
       )
 
