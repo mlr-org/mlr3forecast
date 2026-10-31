@@ -212,7 +212,7 @@ as_task_fcst.zoo = function(x, freq = NULL, id = deparse1(substitute(x)), label 
   if (is.numeric(index) && !is.object(index)) {
     return(task_fcst_from_ts_index(zoo::coredata(x), index = index, freq = freq, id = id, label = label, ...))
   }
-  task_fcst_from_tsbox(x, freq = freq, id = id, label = label, ...)
+  task_fcst_from_tsbox(x, freq = freq, id = id, label = label, tz = attr(index, "tzone"), ...)
 }
 
 #' @rdname as_task_fcst
@@ -285,9 +285,12 @@ ts_step_dates = function(x, ts_freq) {
   dates
 }
 
-task_fcst_from_tsbox = function(x, freq, id, label, ...) {
+task_fcst_from_tsbox = function(x, freq, id, label, tz = NULL, ...) {
   require_namespaces("tsbox")
   x = tsbox::ts_dt(x)
+  if (inherits(x$time, "POSIXct")) {
+    setattr(x$time, "tzone", tz)
+  }
   is_multi = "id" %chin% names(x)
   as_task_fcst(
     x = x,

@@ -93,6 +93,18 @@ test_that("as_task_fcst keeps the numeric index of a zoo object", {
   expect_setequal(as.character(task$data(cols = "id")$id), c("Series 1", "Series 2"))
 })
 
+test_that("as_task_fcst keeps the time zone of a zoo or xts object", {
+  skip_if_not_installed("zoo")
+  skip_if_not_installed("xts")
+  withr::local_timezone("Europe/Berlin")
+  time = seq(as.POSIXct("2020-03-01", tz = "America/New_York"), by = "DSTday", length.out = 20L)
+  task = as_task_fcst(zoo::zoo(as.numeric(1:20), time))
+  expect_identical(task$freq, "1 DSTday")
+  expect_identical(attr(task$data(cols = "time")$time, "tzone"), "America/New_York")
+  time = as.POSIXct(seq(as.Date("2020-01-01"), by = "month", length.out = 12L), tz = "UTC")
+  expect_identical(as_task_fcst(xts::xts(as.numeric(1:12), time))$freq, "1 month")
+})
+
 test_that("as_task_fcst rejects unused arguments for TaskFcst", {
   expect_error(as_task_fcst(tsk("airpassengers"), typo = TRUE), "unused: typo")
 })
