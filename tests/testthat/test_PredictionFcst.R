@@ -52,6 +52,7 @@ test_that("PredictionFcst$order and $key are NULL without extra data", {
 })
 
 test_that("empty PredictionFcst keeps its zero-length fields", {
+  skip_if_not_installed("forecast")
   task = tsk("airpassengers")
   learner = lrn("fcst.mean")$train(task, 1:100)
   p = learner$predict(task, integer())
