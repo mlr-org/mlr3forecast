@@ -145,6 +145,10 @@
 - feat: `tgen("arima")` simulates ARIMA series into a forecast task.
 - feat: `tsk("monash", dataset = ...)` creates a forecast task from a
   Monash Forecasting Repository dataset.
+- fix: `as.ts.TaskFcst()` now keeps the calendar start of yearly,
+  quarterly, and monthly tasks with a yearly seasonal period,
+  e.g. January 1949 for `tsk("airpassengers")`. Previously, the series
+  always started at time 1.
 - fix:
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   and `TaskFcst$new()` now infer a month-end series as monthly (likewise
@@ -205,6 +209,14 @@
   now converts `zoo` objects with a plain numeric index, keeping it as a
   numeric `index` order column, instead of failing with an error from
   `xts`.
+- fix:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  and `TaskFcst$new()` now error if an order or key column uses a
+  reserved prediction column name, i.e. `row_ids`, `truth`, `response`,
+  `se`, `distr`, `weights`, or a quantile name such as `q0.5`.
+  Previously, such a task failed only at prediction time or broke
+  [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
+  of its predictions.
 - fix:
   [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
   of a backtest prediction now connects the forecast to the last
