@@ -508,8 +508,7 @@ RecursiveForecaster = R6Class(
 
       combined = rbindlist(list(train_data, test_data), use.names = TRUE, fill = TRUE)
       n_train = nrow(train_data)
-      n_test = nrow(test_data)
-      test_cids = n_train + seq_len(n_test)
+      test_cids = n_train + seq_row(test_data)
       if (!is.double(combined[[target]])) {
         set(combined, j = target, value = as.numeric(combined[[target]]))
       }
@@ -532,7 +531,7 @@ RecursiveForecaster = R6Class(
       active_cids = ord[["..row_id"]]
 
       # step s of a key depends only on its history and earlier steps, so keys predict jointly per step
-      steps = if (length(key_cols) > 0L) rowidv(ord, cols = key_cols) else seq_len(n_test)
+      steps = if (length(key_cols) > 0L) rowidv(ord, cols = key_cols) else seq_row(ord)
       step_cids = split(active_cids, steps)
       preds = vector("list", length(step_cids))
       for (s in seq_along(step_cids)) {
