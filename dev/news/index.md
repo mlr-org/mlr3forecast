@@ -290,6 +290,10 @@
   [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
   keeps an integer time index integer instead of sometimes returning
   doubles.
+- fix: `msr("fcst.coverage")`, `msr("fcst.msis")`, and
+  `msr("fcst.winkler")` no longer fail for an `alpha` like `0.14`, whose
+  bound `1 - alpha / 2` misses the predicted quantile by floating point
+  error, and reject `alpha` of 0 or 1.
 - fix: `msr("fcst.wape")` now ignores rows with a missing prediction in
   the denominator too, which previously understated the error.
 - fix: `po("fcst.fourier")` now computes its terms from the timestamps
