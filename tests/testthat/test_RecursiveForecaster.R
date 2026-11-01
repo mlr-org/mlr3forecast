@@ -487,7 +487,11 @@ test_that("RecursiveForecaster is not confused by columns named like its variabl
   }
   expected = predict_response(make_named_task())
   cases = list(
-    list(target = "target"), list(key = "step"), list(order = "step"), list(key = "key_cols"), list(order = "key_cols")
+    list(target = "target"),
+    list(key = "step"),
+    list(order = "step"),
+    list(key = "key_cols"),
+    list(order = "key_cols")
   )
   for (args in cases) {
     expect_equal(predict_response(do.call(make_named_task, args)), expected)

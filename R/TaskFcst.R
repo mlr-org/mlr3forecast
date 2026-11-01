@@ -233,7 +233,7 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
   }
 
   key_cols = new_roles[["key"]]
-  cols =c(order_cols, key_cols)
+  cols = c(order_cols, key_cols)
   reserved = cols[
     cols %chin% c("row_ids", "truth", "response", "se", "distr", "weights") | grepl("^q[0-9.]+(e[-+]?[0-9]+)?$", cols)
   ]

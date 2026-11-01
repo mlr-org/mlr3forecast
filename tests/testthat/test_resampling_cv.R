@@ -170,7 +170,15 @@ test_that("fcst.cv is not confused by key columns named like its variables", {
   }
   expected = splits(make_named_task())
   keys = c(
-    "folds", "horizon", "window_size", "step_size", "fixed_window", "train_ids", "test_ids", "fold", "row_id",
+    "folds",
+    "horizon",
+    "window_size",
+    "step_size",
+    "fixed_window",
+    "train_ids",
+    "test_ids",
+    "fold",
+    "row_id",
     "key_cols"
   )
   for (key in keys) {
