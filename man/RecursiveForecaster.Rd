@@ -106,6 +106,7 @@ The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
 \subsection{Public methods}{
   \itemize{
     \item \href{#method-RecursiveForecaster-initialize}{\code{RecursiveForecaster$new()}}
+    \item \href{#method-RecursiveForecaster-predict_newdata_fast}{\code{RecursiveForecaster$predict_newdata_fast()}}
     \item \href{#method-RecursiveForecaster-print}{\code{RecursiveForecaster$print()}}
     \item \href{#method-RecursiveForecaster-clone}{\code{RecursiveForecaster$clone()}}
   }
@@ -127,7 +128,6 @@ The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
   <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="marshal"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-marshal'><code>mlr3pipelines::GraphLearner$marshal()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="oob_error"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-oob_error'><code>mlr3pipelines::GraphLearner$oob_error()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="plot"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-plot'><code>mlr3pipelines::GraphLearner$plot()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="predict_newdata_fast"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-predict_newdata_fast'><code>mlr3pipelines::GraphLearner$predict_newdata_fast()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="selected_features"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-selected_features'><code>mlr3pipelines::GraphLearner$selected_features()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="unmarshal"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-unmarshal'><code>mlr3pipelines::GraphLearner$unmarshal()</code></a></span></li>
 </ul>
@@ -166,6 +166,27 @@ List of hyperparameter settings.}
 The predict type, default \code{NULL}.}
       \item{\code{clone_graph}}{(\code{logical(1)})\cr
 Whether to clone the graph, default \code{TRUE}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RecursiveForecaster-predict_newdata_fast"></a>}}
+\if{latex}{\out{\hypertarget{method-RecursiveForecaster-predict_newdata_fast}{}}}
+\subsection{\code{RecursiveForecaster$predict_newdata_fast()}}{
+  Not supported, as the inherited method of \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} handles only regression and
+classification. Use \verb{$predict_newdata()} or \code{\link[=forecast]{forecast()}} instead.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{RecursiveForecaster$predict_newdata_fast(newdata, task = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{newdata}}{(ignored).}
+      \item{\code{task}}{(ignored).}
     }
     \if{html}{\out{</div>}}
   }

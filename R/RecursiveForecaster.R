@@ -125,6 +125,18 @@ RecursiveForecaster = R6Class(
     },
 
     #' @description
+    #' Not supported, as the inherited method of [mlr3pipelines::GraphLearner] handles only regression and
+    #' classification. Use `$predict_newdata()` or [forecast()] instead.
+    #' @param newdata (ignored).
+    #' @param task (ignored).
+    predict_newdata_fast = function(newdata, task = NULL) {
+      error_input(
+        "Learner '%s' does not support predict_newdata_fast(). Use predict_newdata() or forecast() instead.",
+        self$id
+      )
+    },
+
+    #' @description
     #' Printer.
     #' @param ... (ignored).
     print = function(...) {

@@ -438,6 +438,12 @@ test_that("RecursiveForecaster native_model errors while marshaled", {
   expect_class(learner$native_model, "regr_marshal_stub_model")
 })
 
+test_that("RecursiveForecaster rejects predict_newdata_fast", {
+  task = tsk("airpassengers")
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)$train(task)
+  expect_error(learner$predict_newdata_fast(task$data(rows = 1:3)), "forecast()", fixed = TRUE)
+})
+
 test_that("RecursiveForecaster marshals models trained with 0.2.0", {
   learner = RecursiveForecaster$new(make_marshal_stub_learner(), lags = 1:3)$train(tsk("airpassengers"))
   learner$state$model$graph_state = unclass(learner$model$graph_state)
