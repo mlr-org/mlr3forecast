@@ -39,7 +39,7 @@ lrn("fcst.bagged")
 \tabular{llll}{
    Id \tab Type \tab Default \tab Range \cr
    fn \tab untyped \tab - \tab - \cr
-   num \tab integer \tab 100 \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   num \tab integer \tab - \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    block_size \tab integer \tab NULL \tab \eqn{[1, \infty)}{[1, Inf)} \cr
    period \tab untyped \tab NULL \tab - \cr
 }

@@ -33,7 +33,7 @@ LearnerFcstBaggedModel = R6Class(
     initialize = function() {
       param_set = ps(
         fn = p_uty(tags = c("train", "bagged"), custom_check = check_function),
-        num = p_int(1L, default = 100L, tags = c("train", "mbb")),
+        num = p_int(1L, init = 100L, tags = c("train", "mbb")),
         block_size = p_int(1L, default = NULL, special_vals = list(NULL), tags = c("train", "mbb"))
       )
 
@@ -54,9 +54,7 @@ LearnerFcstBaggedModel = R6Class(
     .fit = function(task, pv) {
       ps = self$param_set
       y = private$.as_ts(task)
-      pv_mbb = ps$get_values(tags = c("train", "mbb"))
-      pv_mbb$num = pv_mbb$num %??% 100L
-      bootstrapped_series = invoke(forecast::bld.mbb.bootstrap, x = y, .args = pv_mbb)
+      bootstrapped_series = invoke(forecast::bld.mbb.bootstrap, x = y, .args = ps$get_values(tags = c("train", "mbb")))
       invoke(
         forecast::baggedModel,
         y = y,
