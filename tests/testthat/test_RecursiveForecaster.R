@@ -296,7 +296,7 @@ test_that("RecursiveForecaster supports validation", {
   learner = recursive_forecaster(make_property_stub_learner(), lags = 1:3)
   set_validate(learner, validate = 0.2)
   expect_identical(learner$validate, 0.2)
-  expect_identical(get_private(learner)$.learner$validate, "predefined")
+  expect_identical(learner$graph$pipeops$regr.stub$validate, "predefined")
 
   learner$train(task)
   expect_named(learner$internal_valid_scores, "regr.stub.mse")
@@ -309,7 +309,7 @@ test_that("RecursiveForecaster supports validation", {
 
   set_validate(learner, validate = NULL)
   expect_null(learner$validate)
-  expect_null(get_private(learner)$.learner$validate)
+  expect_null(learner$graph$pipeops$regr.stub$validate)
   learner$train(task)
   expect_null(learner$internal_valid_scores)
 })

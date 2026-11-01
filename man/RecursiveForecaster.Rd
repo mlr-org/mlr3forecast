@@ -4,8 +4,8 @@
 \alias{RecursiveForecaster}
 \title{Recursive Forecast Learner}
 \description{
-A \link[mlr3:Learner]{mlr3::Learner} for iterative one-step-ahead forecasting: a single model is fit, then applied recursively,
-feeding each prediction back as a lag/rolling feature for the next step.
+A \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} for iterative one-step-ahead forecasting: a single model is fit, then applied
+recursively, feeding each prediction back as a lag/rolling feature for the next step.
 
 Can be constructed in two ways:
 \itemize{
@@ -14,6 +14,9 @@ Can be constructed in two ways:
 \item \strong{Graph}: \code{RecursiveForecaster$new(graph)} -- takes an arbitrary
 \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
 }
+
+All fields and methods of \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} are available, e.g. \verb{$graph}, \verb{$graph_model},
+\verb{$base_learner()}, \verb{$importance()}, \verb{$validate}, and \verb{$internal_valid_scores}.
 }
 \section{Target transformations}{
 
@@ -67,14 +70,14 @@ flrn$train(task, split$train)
 flrn$predict(task, split$test)
 \dontshow{\}) # examplesIf}
 }
-\section{Super class}{
-\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{RecursiveForecaster}
+\section{Super classes}{
+\code{\link[mlr3:Learner]{mlr3::Learner}} -> \code{\link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner}} -> \code{RecursiveForecaster}
 }
 \section{Active bindings}{
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
     \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-The base regression learner.}
+The base regression learner, trained after \verb{$train()}.}
 
     \item{\code{quantiles}}{(\code{numeric()})\cr
 Numeric vector of probabilities to be used while predicting quantiles.
@@ -93,36 +96,12 @@ The quantile to be used as response.}
     \item{\code{native_model}}{(any)\cr
 The fitted model.}
 
-    \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
-The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
-
-    \item{\code{param_set}}{(\link[paradox:ParamSet]{paradox::ParamSet})\cr
-Set of hyperparameters.}
-
-    \item{\code{hash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this object.}
-
-    \item{\code{phash}}{(\code{character(1)})\cr
-Hash (unique identifier) for this partial object, excluding some components which are
-varied systematically during tuning (parameter values).}
-
-    \item{\code{marshaled}}{(\code{logical(1)})\cr
-Whether the learner's model is currently in marshaled form.}
-
     \item{\code{validate}}{(\code{numeric(1)} | \code{"predefined"} | \code{"test"} | \code{NULL})\cr
 How to construct the internal validation data. Use \code{\link[mlr3:set_validate]{mlr3::set_validate()}} to also configure
 the wrapped graph.}
 
-    \item{\code{internal_valid_scores}}{(named \code{list()} | \code{NULL})\cr
-The internal validation scores extracted from the wrapped graph, or \code{NULL} if no validation
-was done.}
-
-    \item{\code{internal_tuned_values}}{(named \code{list()} | \code{NULL})\cr
-The internally tuned values extracted from the wrapped graph, or \code{NULL} if no internal
-tuning was done.}
-
-    \item{\code{predict_type}}{(\code{character(1)})\cr
-Stores the currently active predict type.}
+    \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
+The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
   }
   \if{html}{\out{</div>}}
 }
@@ -131,17 +110,11 @@ Stores the currently active predict type.}
   \itemize{
     \item \href{#method-RecursiveForecaster-initialize}{\code{RecursiveForecaster$new()}}
     \item \href{#method-RecursiveForecaster-print}{\code{RecursiveForecaster$print()}}
-    \item \href{#method-RecursiveForecaster-marshal}{\code{RecursiveForecaster$marshal()}}
-    \item \href{#method-RecursiveForecaster-unmarshal}{\code{RecursiveForecaster$unmarshal()}}
-    \item \href{#method-RecursiveForecaster-importance}{\code{RecursiveForecaster$importance()}}
-    \item \href{#method-RecursiveForecaster-selected_features}{\code{RecursiveForecaster$selected_features()}}
-    \item \href{#method-RecursiveForecaster-oob_error}{\code{RecursiveForecaster$oob_error()}}
     \item \href{#method-RecursiveForecaster-clone}{\code{RecursiveForecaster$clone()}}
   }
 }
 \if{html}{\out{<details><summary>Inherited methods</summary>
 <ul>
-  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href='../../mlr3/html/Learner.html#method-Learner-base_learner'><code>mlr3::Learner$base_learner()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href='../../mlr3/html/Learner.html#method-Learner-configure'><code>mlr3::Learner$configure()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href='../../mlr3/html/Learner.html#method-Learner-encapsulate'><code>mlr3::Learner$encapsulate()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href='../../mlr3/html/Learner.html#method-Learner-format'><code>mlr3::Learner$format()</code></a></span></li>
@@ -150,6 +123,16 @@ Stores the currently active predict type.}
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href='../../mlr3/html/Learner.html#method-Learner-predict_newdata'><code>mlr3::Learner$predict_newdata()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="base_learner"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-base_learner'><code>mlr3pipelines::GraphLearner$base_learner()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="ids"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-ids'><code>mlr3pipelines::GraphLearner$ids()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="importance"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-importance'><code>mlr3pipelines::GraphLearner$importance()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="loglik"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-loglik'><code>mlr3pipelines::GraphLearner$loglik()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="marshal"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-marshal'><code>mlr3pipelines::GraphLearner$marshal()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="oob_error"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-oob_error'><code>mlr3pipelines::GraphLearner$oob_error()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="plot"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-plot'><code>mlr3pipelines::GraphLearner$plot()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="predict_newdata_fast"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-predict_newdata_fast'><code>mlr3pipelines::GraphLearner$predict_newdata_fast()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="selected_features"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-selected_features'><code>mlr3pipelines::GraphLearner$selected_features()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="unmarshal"><a href='../../mlr3pipelines/html/GraphLearner.html#method-GraphLearner-unmarshal'><code>mlr3pipelines::GraphLearner$unmarshal()</code></a></span></li>
 </ul>
 </details>}}
 \if{html}{\out{<hr>}}
@@ -207,91 +190,6 @@ Whether to clone the graph, default \code{TRUE}.}
       \item{\code{...}}{(ignored).}
     }
     \if{html}{\out{</div>}}
-  }
-}
-
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-RecursiveForecaster-marshal"></a>}}
-\if{latex}{\out{\hypertarget{method-RecursiveForecaster-marshal}{}}}
-\subsection{\code{RecursiveForecaster$marshal()}}{
-  Marshal the learner's model.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{RecursiveForecaster$marshal(...)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{...}}{(any)\cr
-Additional arguments passed to \code{\link[mlr3:marshal_model]{mlr3::marshal_model()}}.}
-    }
-    \if{html}{\out{</div>}}
-  }
-}
-
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-RecursiveForecaster-unmarshal"></a>}}
-\if{latex}{\out{\hypertarget{method-RecursiveForecaster-unmarshal}{}}}
-\subsection{\code{RecursiveForecaster$unmarshal()}}{
-  Unmarshal the learner's model.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{RecursiveForecaster$unmarshal(...)}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Arguments}{
-    \if{html}{\out{<div class="arguments">}}
-    \describe{
-      \item{\code{...}}{(any)\cr
-Additional arguments passed to \code{\link[mlr3:unmarshal_model]{mlr3::unmarshal_model()}}.}
-    }
-    \if{html}{\out{</div>}}
-  }
-}
-
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-RecursiveForecaster-importance"></a>}}
-\if{latex}{\out{\hypertarget{method-RecursiveForecaster-importance}{}}}
-\subsection{\code{RecursiveForecaster$importance()}}{
-  The importance scores of the base learner, if it supports them.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{RecursiveForecaster$importance()}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    Named \code{numeric()}.
-  }
-}
-
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-RecursiveForecaster-selected_features"></a>}}
-\if{latex}{\out{\hypertarget{method-RecursiveForecaster-selected_features}{}}}
-\subsection{\code{RecursiveForecaster$selected_features()}}{
-  The selected features of the base learner, if it supports them.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{RecursiveForecaster$selected_features()}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    \code{character()}.
-  }
-}
-
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-RecursiveForecaster-oob_error"></a>}}
-\if{latex}{\out{\hypertarget{method-RecursiveForecaster-oob_error}{}}}
-\subsection{\code{RecursiveForecaster$oob_error()}}{
-  The out-of-bag error of the base learner, if it supports it.
-  \subsection{Usage}{
-    \if{html}{\out{<div class="r">}}
-    \preformatted{RecursiveForecaster$oob_error()}
-    \if{html}{\out{</div>}}
-  }
-  \subsection{Returns}{
-    \code{numeric(1)}.
   }
 }
 

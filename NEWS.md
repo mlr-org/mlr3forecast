@@ -19,6 +19,7 @@
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
+* feat: `RecursiveForecaster` is now a `GraphLearner` and exposes its fields and methods, e.g. `$graph`, `$pipeops`, and `$base_learner()`. Its `$learner` field returns the trained base learner after `$train()`, and `set_validate()` uses the `GraphLearner` method.
 * feat: `download_monash_dataset()` downloads Monash Forecasting Repository datasets by dataset ID from pinned Zenodo records and sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
 * feat: `download_monash_dataset()` and `tsk("monash")` cache downloaded files if the new option `mlr3forecast.cache` is set to `TRUE` or a directory.
 * feat: `fcst.auto_adam` gained the `constant`, `loss`, and `lambda` parameters, which are passed on to `smooth::auto.adam()`.
