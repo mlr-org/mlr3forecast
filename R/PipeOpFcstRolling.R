@@ -43,14 +43,14 @@ PipeOpFcstRolling = R6Class(
       param_set = ps(
         funs = p_uty(
           init = "mean",
-          tags = c("train", "predict"),
+          tags = "train",
           custom_check = crate(function(x) {
             check_subset(x, choices = c("mean", "median", "sd", "min", "max", "sum"), empty.ok = FALSE)
           })
         ),
         window_sizes = p_uty(
           init = 3L,
-          tags = c("train", "predict"),
+          tags = "train",
           custom_check = crate(function(x) {
             ok = check_numeric(x, lower = 1, any.missing = FALSE, min.len = 1L)
             if (!isTRUE(ok)) {
@@ -63,7 +63,7 @@ PipeOpFcstRolling = R6Class(
             TRUE
           })
         ),
-        lag = p_int(1L, init = 1L, tags = c("train", "predict"))
+        lag = p_int(1L, init = 1L, tags = "train")
       )
 
       super$initialize(

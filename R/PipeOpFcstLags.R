@@ -37,7 +37,7 @@ PipeOpFcstLags = R6Class(
       param_set = ps(
         lags = p_uty(
           init = 1L,
-          tags = c("train", "predict"),
+          tags = "train",
           custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
         )
       )
@@ -70,7 +70,7 @@ PipeOpFcstLags = R6Class(
       key_cols = task$col_roles$key
       order_cols = task$col_roles$order
       full = task$backend$data(rows = task$backend$rownames, cols = c(task$target_names, key_cols, order_cols))
-      lag_cols = private$.lags(task, full, self$param_set$get_values(tags = "predict")$lags)
+      lag_cols = private$.lags(task, full, self$param_set$get_values(tags = "train")$lags)
       active = task$data(cols = c(key_cols, order_cols))
       active_lags = full[active, on = c(key_cols, order_cols), lag_cols, with = FALSE]
       task$cbind(active_lags)

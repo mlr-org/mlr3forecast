@@ -44,12 +44,12 @@ PipeOpFcstFourier = R6Class(
     initialize = function(id = "fcst.fourier", param_vals = list()) {
       param_set = ps(
         period = p_uty(
-          tags = c("train", "predict"),
+          tags = "train",
           custom_check = crate(function(x) check_period(x, multiple = TRUE))
         ),
         K = p_uty(
           init = 1L,
-          tags = c("train", "predict"),
+          tags = "train",
           custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
         )
       )
