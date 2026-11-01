@@ -20,8 +20,8 @@ Passed to \code{\link[mlr3pipelines:set_validate.GraphLearner]{mlr3pipelines::se
 \link{RecursiveForecaster}, invisibly.
 }
 \description{
-Sets the \verb{$validate} field of the forecaster, which controls \emph{how} the validation data is constructed
-(see \link[mlr3:Learner]{mlr3::Learner}), and configures the wrapped graph so its base learner uses it via
-\code{\link[mlr3pipelines:set_validate.GraphLearner]{mlr3pipelines::set_validate.GraphLearner()}}.
+Sets the \verb{$validate} field of the forecaster, which controls \emph{how} the validation data is constructed,
+and configures the wrapped graph so its base learner uses it via \code{\link[mlr3pipelines:set_validate.GraphLearner]{mlr3pipelines::set_validate.GraphLearner()}}.
+See \link[mlr3:Learner]{mlr3::Learner} for the meaning of \code{validate}.
 Errors if no learner in the graph supports validation.
 }

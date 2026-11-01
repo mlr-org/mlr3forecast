@@ -1,23 +1,23 @@
 #' @title Recursive Forecast Learner
 #'
 #' @description
-#' A [mlr3pipelines::GraphLearner] for iterative one-step-ahead forecasting: a single model is fit, then applied
-#' recursively, feeding each prediction back as a lag/rolling feature for the next step.
+#' A [mlr3pipelines::GraphLearner] for iterative one-step-ahead forecasting: a single model is fit,
+#' then applied recursively, feeding each prediction back as a lag/rolling feature for the next step.
 #'
 #' Can be constructed in two ways:
 #' * **Simple**: `RecursiveForecaster$new(learner, lags = 1:3)` -- internally builds
 #'   `po("fcst.lags", lags = lags) %>>% learner`.
-#' * **Graph**: `RecursiveForecaster$new(graph)` -- takes an arbitrary
-#'   [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
+#' * **Graph**: `RecursiveForecaster$new(graph)` -- takes an arbitrary [mlr3pipelines::Graph] or
+#'   [mlr3pipelines::PipeOp].
 #'
 #' All fields and methods of [mlr3pipelines::GraphLearner] are available, e.g. `$graph`, `$graph_model`,
 #' `$base_learner()`, `$importance()`, `$validate`, and `$internal_valid_scores`.
 #'
 #' @section Target transformations:
 #' A target transformation (e.g. [mlr_pipeops_fcst.targetdiff], [mlr3pipelines::PipeOpTargetMutate])
-#' must *wrap* the forecaster, not be placed *inside* its graph. Wrap it with
-#' [mlr3pipelines::ppl]`("targettrafo")` so the whole series is transformed once up front, the
-#' recursion runs entirely on the transformed scale, and predictions are inverted once at the end:
+#' must *wrap* the forecaster, not be placed *inside* its graph.
+#' Wrap it with [mlr3pipelines::ppl]`("targettrafo")` so the whole series is transformed once up front,
+#' the recursion runs entirely on the transformed scale, and predictions are inverted once at the end:
 #'
 #' ```r
 #' flrn = as_learner(ppl("targettrafo",
@@ -28,20 +28,22 @@
 #' flrn$predict(task, split$test)  # predictions are on the original scale
 #' ```
 #'
-#' Placing a [mlr3pipelines::PipeOpTargetTrafo] *inside* the graph is not supported and is rejected
-#' at construction.
+#' Placing a [mlr3pipelines::PipeOpTargetTrafo] *inside* the graph is not supported and is rejected at construction.
 #'
 #' @section Prediction uncertainty:
 #' Only the point forecast is fed back between steps, so `se`/`distr` uncertainty does not accumulate across horizons
-#' and intervals are too narrow for `h > 1`. For calibrated multi-step intervals, prefer [DirectForecaster].
+#' and intervals are too narrow for `h > 1`.
+#' For calibrated multi-step intervals, prefer [DirectForecaster].
 #'
 #' @section Validation and internal tuning:
-#' If the wrapped graph contains a learner with the `"validation"` property, the forecaster supports
-#' validation and internal tuning as well. Configure it with [set_validate.RecursiveForecaster()], which sets the
-#' forecaster's `$validate` field and routes the validation data to the graph's base learner.
-#' A numeric ratio is split chronologically per key (via [`partition()`][mlr3::partition]), so the
-#' validation set is always the most recent fraction of each series. Note that the validation scores
-#' measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.
+#' If the wrapped graph contains a learner with the `"validation"` property,
+#' the forecaster supports validation and internal tuning as well.
+#' Configure it with [set_validate.RecursiveForecaster()], which sets the forecaster's `$validate` field
+#' and routes the validation data to the graph's base learner.
+#' A numeric ratio is split chronologically per key (via [`partition()`][mlr3::partition]),
+#' so the validation set is always the most recent fraction of each series.
+#' Note that the validation scores measure one-step-ahead (teacher-forced) accuracy,
+#' not recursive multi-step accuracy.
 #'
 #' @export
 #' @examplesIf mlr3misc::require_namespaces("rpart", quietly = TRUE)
@@ -67,9 +69,9 @@ RecursiveForecaster = R6Class(
     #' @param learner ([mlr3::Learner] | [mlr3pipelines::Graph] | [mlr3pipelines::PipeOp])\cr
     #'   A regression learner (when `lags` is provided) or a graph/PipeOp.
     #' @param lags (`integer()` | `NULL`)\cr
-    #'   The lag values to use for creating lag features. If provided, `learner` is wrapped with
-    #'   `po("fcst.lags", lags = lags)`. If `NULL`, `learner` must be a [mlr3pipelines::Graph] or
-    #'   [mlr3pipelines::PipeOp].
+    #'   The lag values to use for creating lag features.
+    #'   If provided, `learner` is wrapped with `po("fcst.lags", lags = lags)`.
+    #'   If `NULL`, `learner` must be a [mlr3pipelines::Graph] or [mlr3pipelines::PipeOp].
     #' @param id (`character(1)` | `NULL`)\cr
     #'   Identifier, default `NULL`, which uses the id of `learner` with the suffix `".recursive"`.
     #' @param param_vals (named `list()`)\cr
@@ -127,8 +129,8 @@ RecursiveForecaster = R6Class(
     },
 
     #' @description
-    #' Not supported, as the inherited method of [mlr3pipelines::GraphLearner] handles only regression and
-    #' classification. Use `$predict_newdata()` or [forecast()] instead.
+    #' Not supported, the inherited [mlr3pipelines::GraphLearner] method handles only regression and classification.
+    #' Use `$predict_newdata()` or [forecast()] instead.
     #' @param newdata (ignored).
     #' @param task (ignored).
     predict_newdata_fast = function(newdata, task = NULL) {
@@ -187,8 +189,9 @@ RecursiveForecaster = R6Class(
     },
 
     #' @field graph_model ([mlr3pipelines::Graph])\cr
-    #' [mlr3pipelines::Graph] that is being wrapped. This [mlr3pipelines::Graph] contains a trained state after
-    #' `$train()`. Read-only.
+    #' [mlr3pipelines::Graph] that is being wrapped.
+    #' This [mlr3pipelines::Graph] contains a trained state after `$train()`.
+    #' Read-only.
     graph_model = function(rhs) {
       assert_ro_binding(rhs)
       if (is.null(self$model) || private$.untrained) {
@@ -438,9 +441,9 @@ unmarshal_model.recursive_forecaster_model_marshaled = function(model, inplace =
 #' @title Configure Validation for a RecursiveForecaster
 #'
 #' @description
-#' Sets the `$validate` field of the forecaster, which controls *how* the validation data is constructed
-#' (see [mlr3::Learner]), and configures the wrapped graph so its base learner uses it via
-#' [mlr3pipelines::set_validate.GraphLearner()].
+#' Sets the `$validate` field of the forecaster, which controls *how* the validation data is constructed,
+#' and configures the wrapped graph so its base learner uses it via [mlr3pipelines::set_validate.GraphLearner()].
+#' See [mlr3::Learner] for the meaning of `validate`.
 #' Errors if no learner in the graph supports validation.
 #'
 #' @param learner ([RecursiveForecaster])\cr

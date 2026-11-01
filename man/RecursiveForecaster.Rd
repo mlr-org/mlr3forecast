@@ -4,15 +4,15 @@
 \alias{RecursiveForecaster}
 \title{Recursive Forecast Learner}
 \description{
-A \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} for iterative one-step-ahead forecasting: a single model is fit, then applied
-recursively, feeding each prediction back as a lag/rolling feature for the next step.
+A \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} for iterative one-step-ahead forecasting: a single model is fit,
+then applied recursively, feeding each prediction back as a lag/rolling feature for the next step.
 
 Can be constructed in two ways:
 \itemize{
 \item \strong{Simple}: \code{RecursiveForecaster$new(learner, lags = 1:3)} -- internally builds
 \code{po("fcst.lags", lags = lags) \%>>\% learner}.
-\item \strong{Graph}: \code{RecursiveForecaster$new(graph)} -- takes an arbitrary
-\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
+\item \strong{Graph}: \code{RecursiveForecaster$new(graph)} -- takes an arbitrary \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or
+\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.
 }
 
 All fields and methods of \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} are available, e.g. \verb{$graph}, \verb{$graph_model},
@@ -21,9 +21,9 @@ All fields and methods of \link[mlr3pipelines:GraphLearner]{mlr3pipelines::Graph
 \section{Target transformations}{
 
 A target transformation (e.g. \link{mlr_pipeops_fcst.targetdiff}, \link[mlr3pipelines:PipeOpTargetMutate]{mlr3pipelines::PipeOpTargetMutate})
-must \emph{wrap} the forecaster, not be placed \emph{inside} its graph. Wrap it with
-\link[mlr3pipelines:ppl]{mlr3pipelines::ppl}\code{("targettrafo")} so the whole series is transformed once up front, the
-recursion runs entirely on the transformed scale, and predictions are inverted once at the end:
+must \emph{wrap} the forecaster, not be placed \emph{inside} its graph.
+Wrap it with \link[mlr3pipelines:ppl]{mlr3pipelines::ppl}\code{("targettrafo")} so the whole series is transformed once up front,
+the recursion runs entirely on the transformed scale, and predictions are inverted once at the end:
 
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{flrn = as_learner(ppl("targettrafo",
   graph = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:12),
@@ -33,24 +33,26 @@ flrn$train(task, split$train)
 flrn$predict(task, split$test)  # predictions are on the original scale
 }\if{html}{\out{</div>}}
 
-Placing a \link[mlr3pipelines:PipeOpTargetTrafo]{mlr3pipelines::PipeOpTargetTrafo} \emph{inside} the graph is not supported and is rejected
-at construction.
+Placing a \link[mlr3pipelines:PipeOpTargetTrafo]{mlr3pipelines::PipeOpTargetTrafo} \emph{inside} the graph is not supported and is rejected at construction.
 }
 
 \section{Prediction uncertainty}{
 
 Only the point forecast is fed back between steps, so \code{se}/\code{distr} uncertainty does not accumulate across horizons
-and intervals are too narrow for \code{h > 1}. For calibrated multi-step intervals, prefer \link{DirectForecaster}.
+and intervals are too narrow for \code{h > 1}.
+For calibrated multi-step intervals, prefer \link{DirectForecaster}.
 }
 
 \section{Validation and internal tuning}{
 
-If the wrapped graph contains a learner with the \code{"validation"} property, the forecaster supports
-validation and internal tuning as well. Configure it with \code{\link[=set_validate.RecursiveForecaster]{set_validate.RecursiveForecaster()}}, which sets the
-forecaster's \verb{$validate} field and routes the validation data to the graph's base learner.
-A numeric ratio is split chronologically per key (via \code{\link[mlr3:partition]{partition()}}), so the
-validation set is always the most recent fraction of each series. Note that the validation scores
-measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.
+If the wrapped graph contains a learner with the \code{"validation"} property,
+the forecaster supports validation and internal tuning as well.
+Configure it with \code{\link[=set_validate.RecursiveForecaster]{set_validate.RecursiveForecaster()}}, which sets the forecaster's \verb{$validate} field
+and routes the validation data to the graph's base learner.
+A numeric ratio is split chronologically per key (via \code{\link[mlr3:partition]{partition()}}),
+so the validation set is always the most recent fraction of each series.
+Note that the validation scores measure one-step-ahead (teacher-forced) accuracy,
+not recursive multi-step accuracy.
 }
 
 \examples{
@@ -91,8 +93,9 @@ Set to \code{NULL} to reset both \verb{$quantiles} and \verb{$quantile_response}
 The quantile to be used as response.}
 
     \item{\code{graph_model}}{(\link[mlr3pipelines:Graph]{mlr3pipelines::Graph})\cr
-\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} that is being wrapped. This \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} contains a trained state after
-\verb{$train()}. Read-only.}
+\link[mlr3pipelines:Graph]{mlr3pipelines::Graph} that is being wrapped.
+This \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} contains a trained state after \verb{$train()}.
+Read-only.}
 
     \item{\code{native_model}}{(any)\cr
 The fitted model.}
@@ -155,9 +158,9 @@ The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
       \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner} | \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp})\cr
 A regression learner (when \code{lags} is provided) or a graph/PipeOp.}
       \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
-The lag values to use for creating lag features. If provided, \code{learner} is wrapped with
-\code{po("fcst.lags", lags = lags)}. If \code{NULL}, \code{learner} must be a \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or
-\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.}
+The lag values to use for creating lag features.
+If provided, \code{learner} is wrapped with \code{po("fcst.lags", lags = lags)}.
+If \code{NULL}, \code{learner} must be a \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}.}
       \item{\code{id}}{(\code{character(1)} | \code{NULL})\cr
 Identifier, default \code{NULL}, which uses the id of \code{learner} with the suffix \code{".recursive"}.}
       \item{\code{param_vals}}{(named \code{list()})\cr
@@ -175,8 +178,8 @@ Whether to clone the graph, default \code{TRUE}.}
 \if{html}{\out{<a id="method-RecursiveForecaster-predict_newdata_fast"></a>}}
 \if{latex}{\out{\hypertarget{method-RecursiveForecaster-predict_newdata_fast}{}}}
 \subsection{\code{RecursiveForecaster$predict_newdata_fast()}}{
-  Not supported, as the inherited method of \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} handles only regression and
-classification. Use \verb{$predict_newdata()} or \code{\link[=forecast]{forecast()}} instead.
+  Not supported, the inherited \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} method handles only regression and classification.
+Use \verb{$predict_newdata()} or \code{\link[=forecast]{forecast()}} instead.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{RecursiveForecaster$predict_newdata_fast(newdata, task = NULL)}
