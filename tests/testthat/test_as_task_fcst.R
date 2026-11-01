@@ -52,10 +52,10 @@ test_that("as_task_fcst warns that a non-calendar ts frequency is not kept", {
 
 test_that("as_task_fcst steps weekly and daily ts from their start period", {
   task = as_task_fcst(ts(c(1, 2, 3), start = c(2000, 3), frequency = 52))
-  expect_identical(task$freq, "week")
+  expect_identical(task$freq, "1 week")
   expect_equal(task$data(cols = "time")$time, as.Date(c("2000-01-15", "2000-01-22", "2000-01-29")))
   task = as_task_fcst(ts(c(1, 2, 3), start = c(2000, 3), frequency = 365.25))
-  expect_identical(task$freq, "day")
+  expect_identical(task$freq, "1 day")
   expect_equal(task$data(cols = "time")$time, as.Date(c("2000-01-03", "2000-01-04", "2000-01-05")))
   x = ts(cbind(a = c(1, 2, 3), b = c(4, 5, 6)), start = c(2010, 52), frequency = 52)
   expect_warning(
@@ -195,10 +195,10 @@ test_that("as_task conversion tsibble derives freq from a calendar index", {
   expect_identical(as_task_fcst(make(tsibble::yearquarter(dates("quarter"))), target = "y")$freq, "1 quarter")
   expect_identical(as_task_fcst(make(tsibble::yearweek(dates("2 week"))), target = "y")$freq, "2 week")
   expect_identical(as_task_fcst(make(tsibble::yearmonth(dates("2 month"))), target = "y")$freq, "2 month")
-  expect_identical(as_task_fcst(make(tsibble::yearmonth(dates("month"))), target = "y", freq = "month")$freq, "month")
+  expect_identical(as_task_fcst(make(tsibble::yearmonth(dates("month"))), target = "y", freq = "month")$freq, "1 month")
   single = make(tsibble::yearmonth(dates("month")[1L]))
   expect_error(as_task_fcst(single, target = "y"), "at least two")
-  expect_identical(as_task_fcst(single, target = "y", freq = "month")$freq, "month")
+  expect_identical(as_task_fcst(single, target = "y", freq = "month")$freq, "1 month")
   expect_identical(as_task_fcst(make(dates("month")), target = "y")$freq, "1 month")
 
   task = as_task_fcst(tsibble::as_tsibble(AirPassengers), target = "value")

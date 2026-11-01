@@ -133,6 +133,7 @@ TaskFcst = R6Class(
     #' The step of the time index, i.e. the spacing between two consecutive observations.
     #' A calendar string for a `Date` or `POSIXct` order column and a number for a numeric or integer one.
     #' Assign a step to set it, which is checked against the order column, or `NULL` to infer it.
+    #' A calendar step is stored as `"<n> <unit>"`, e.g. `"1 month"` for `"month"` or `"months"`.
     #' The step is resolved again when the order or key columns change.
     freq = function(rhs) {
       roles = self$col_roles[c("order", "key")]

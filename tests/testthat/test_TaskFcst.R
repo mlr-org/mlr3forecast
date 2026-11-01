@@ -44,10 +44,10 @@ test_that("a given freq is checked against the order column", {
   expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "day"), "is finer than")
   expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "hour"), "sub-daily")
   # gaps are allowed
-  expect_identical(as_task_fcst(dt[-(5:7)], target = "y", order = "d", freq = "month")$freq, "month")
+  expect_identical(as_task_fcst(dt[-(5:7)], target = "y", order = "d", freq = "month")$freq, "1 month")
   # a month-end series starting on a clamped day is on the monthly grid
   month_end = data.table(d = seq(as.Date("2020-03-01"), by = "month", length.out = 24L) - 1L, y = 1)
-  expect_identical(as_task_fcst(month_end, target = "y", order = "d", freq = "month")$freq, "month")
+  expect_identical(as_task_fcst(month_end, target = "y", order = "d", freq = "month")$freq, "1 month")
 })
 
 test_that("freq can be set and is resolved again when the order or key columns change", {
@@ -64,7 +64,7 @@ test_that("freq can be set and is resolved again when the order or key columns c
   expect_identical(task$freq, 1L)
 
   task = as_task_fcst(dt, target = "y", order = "d", freq = "month")
-  expect_identical(task$extra_args$freq, "month")
+  expect_identical(task$extra_args$freq, "1 month")
   task$col_roles$order = "w"
   expect_error(task$freq, "does not match")
   task$freq = NULL
@@ -77,7 +77,7 @@ test_that("freq can be set and is resolved again when the order or key columns c
     "does not match"
   )
   task$freq = "week"
-  expect_identical(task$extra_args$freq, "week")
+  expect_identical(task$extra_args$freq, "1 week")
 
   # a new backend, as in predict_newdata(), keeps the step
   task = as_task_fcst(dt, target = "y", order = "d")
@@ -367,7 +367,7 @@ test_that("as.ts derives the default period from freq and accepts an explicit on
   expect_identical(stats::frequency(as.ts(daily)), 7)
   expect_identical(stats::frequency(as.ts(daily, period = 365)), 365)
   expect_identical(stats::frequency(as.ts(daily, period = "year")), 365.25)
-  expect_error(as.ts(daily, period = c(7, 365)), "positive number")
+  expect_error(as.ts(daily, period = c(7, 365)), "at least 1")
 
   # an integer index has no calendar cycle to derive or resolve a period from
   task = as_task_fcst(data.table(i = 1:24, y = as.numeric(1:24)), target = "y", order = "i")

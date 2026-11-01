@@ -75,6 +75,7 @@ Other Task:
 The step of the time index, i.e. the spacing between two consecutive observations.
 A calendar string for a \code{Date} or \code{POSIXct} order column and a number for a numeric or integer one.
 Assign a step to set it, which is checked against the order column, or \code{NULL} to infer it.
+A calendar step is stored as \code{"<n> <unit>"}, e.g. \code{"1 month"} for \code{"month"} or \code{"months"}.
 The step is resolved again when the order or key columns change.}
 
     \item{\code{properties}}{(\code{character()})\cr
@@ -187,6 +188,7 @@ and a positive number for a numeric or integer order column.
 A given \code{freq} must match the order column, i.e. every observation must be a whole number of steps after the
 first observation of its series, gaps allowed, and at least two consecutive observations of a series must be one
 step apart.
+The step is stored as \code{"<n> <unit>"}, e.g. \code{"1 month"} for \code{"month"} or \code{"months"}.
 If \code{NULL} (default), the step is inferred on construction and must be the same for all series.
 For a numeric or integer order column, it is the greatest common divisor of the gaps of whole-number values,
 else the median gap, and \code{1} if no series has two observations.

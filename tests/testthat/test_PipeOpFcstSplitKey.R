@@ -12,7 +12,7 @@ test_that("PipeOpFcstSplitKey splits a keyed task into per-series tasks", {
     expect_equal(sub$col_roles$key, character())
     expect_false("id" %in% sub$feature_names)
     expect_equal(sub$col_roles$order, "date")
-    expect_equal(sub$freq, "day")
+    expect_equal(sub$freq, "1 day")
     expect_subset(sub$row_ids, task$row_ids)
     # the date-major fixture stores rows interleaved, the sub-tasks must be chronological
     expect_false(is.unsorted(sub$data(cols = "date")[[1L]], strictly = TRUE))

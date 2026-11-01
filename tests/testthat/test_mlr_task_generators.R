@@ -15,6 +15,6 @@ test_that("fcst task generators are registered", {
     expect_identical(task$target_names, "y")
     expect_identical(task$col_roles$order, "time")
     expect_identical(task$col_roles$key, character())
-    expect_identical(task$freq, "month")
+    expect_identical(task$freq, "1 month")
   }
 })

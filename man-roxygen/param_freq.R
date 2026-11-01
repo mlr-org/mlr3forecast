@@ -6,6 +6,7 @@
 #'   A given `freq` must match the order column, i.e. every observation must be a whole number of steps after the
 #'   first observation of its series, gaps allowed, and at least two consecutive observations of a series must be one
 #'   step apart.
+#'   The step is stored as `"<n> <unit>"`, e.g. `"1 month"` for `"month"` or `"months"`.
 #'   If `NULL` (default), the step is inferred on construction and must be the same for all series.
 #'   For a numeric or integer order column, it is the greatest common divisor of the gaps of whole-number values,
 #'   else the median gap, and `1` if no series has two observations.

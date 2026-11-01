@@ -288,7 +288,16 @@ task_resolve_freq = function(task, freq) {
       n_coarse
     )
   }
-  freq
+  canonical_freq(freq)
+}
+
+canonical_freq = function(freq) {
+  if (!is.character(freq)) {
+    return(freq)
+  }
+  parts = strsplit1(freq, " ")
+  n = if (length(parts) == 2L) as.integer(parts[1L]) else 1L
+  sprintf("%i %s", n, sub("s$", "", parts[length(parts)]))
 }
 
 unit_seconds = function(x) {
