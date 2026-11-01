@@ -43,6 +43,7 @@ test_that("a given freq is checked against the order column", {
   expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "2 month"), "does not match")
   expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "day"), "is finer than")
   expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "hour"), "sub-daily")
+  expect_error(as_task_fcst(dt, target = "y", order = "d", freq = "DSTday"), "sub-daily or DST")
   # gaps are allowed
   expect_identical(as_task_fcst(dt[-(5:7)], target = "y", order = "d", freq = "month")$freq, "1 month")
   # a month-end series starting on a clamped day is on the monthly grid

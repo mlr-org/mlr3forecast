@@ -13,7 +13,7 @@
 * feat: `period` hyperparameters accept a cycle name resolved against `freq`, e.g. `period = "year"` on hourly data means `8766`, and reject values below 1, as a period of 1 means no seasonality.
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * feat: `TaskFcst$freq` can be set, checked against the order column, or set to `NULL` to infer it, and it is resolved again when the order or key columns change instead of keeping the step of the old columns. A calendar step is stored as `"<n> <unit>"`, e.g. `"1 month"` for `freq = "month"`, so equal steps compare equal.
-* feat: `as_task_fcst()` and `TaskFcst$new()` check a given `freq` against the order column and error if an observation is off its grid, if it is finer than the spacing of the data (e.g. `"day"` on monthly data), or if it is sub-daily on a `Date` column.
+* feat: `as_task_fcst()` and `TaskFcst$new()` check a given `freq` against the order column and error if an observation is off its grid, if it is finer than the spacing of the data (e.g. `"day"` on monthly data), or if it is sub-daily or a DST step on a `Date` column.
 * feat: `as_task_fcst()` derives `freq` from a tsibble's `yearweek`, `yearmonth`, or `yearquarter` index.
 * feat: `default_fallback()` support for both forecasters, enabling `resample(encapsulate =)` without an explicit fallback.
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.

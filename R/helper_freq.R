@@ -253,8 +253,13 @@ task_resolve_freq = function(task, freq) {
       order_type
     )
   }
-  if (is.character(freq) && order_type == "Date" && unit_seconds(freq) < unit_secs[["day"]]) {
-    error_input("A sub-daily `freq` (\"%s\") requires a POSIXct order column, but '%s' is a Date.", freq, order_col)
+  is_clock = unit_seconds(freq) < unit_secs[["day"]] || grepl("DSTday", freq, fixed = TRUE)
+  if (is.character(freq) && order_type == "Date" && is_clock) {
+    error_input(
+      "A sub-daily or DST `freq` (\"%s\") requires a POSIXct order column, but '%s' is a Date.",
+      freq,
+      order_col
+    )
   }
   if (is.integer(order) && test_count(freq, positive = TRUE)) {
     freq = as.integer(freq)
