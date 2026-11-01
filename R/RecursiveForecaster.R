@@ -37,9 +37,8 @@
 #'
 #' @section Validation and internal tuning:
 #' If the wrapped graph contains a learner with the `"validation"` property, the forecaster supports
-#' validation and internal tuning as well. Configure it with [mlr3::set_validate()], which sets the
+#' validation and internal tuning as well. Configure it with [set_validate.RecursiveForecaster()], which sets the
 #' forecaster's `$validate` field and routes the validation data to the graph's base learner.
-#' The `ids`, `args_all`, and `args` arguments are forwarded to [mlr3pipelines::set_validate.GraphLearner()].
 #' A numeric ratio is split chronologically per key (via [`partition()`][mlr3::partition]), so the
 #' validation set is always the most recent fraction of each series. Note that the validation scores
 #' measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.
@@ -436,9 +435,26 @@ unmarshal_model.recursive_forecaster_model_marshaled = function(model, inplace =
   set_class(m, c("recursive_forecaster_model", "list"))
 }
 
-# set_validate.GraphLearner() resets `validate` in an exit handler, which errors without validation support
+#' @title Configure Validation for a RecursiveForecaster
+#'
+#' @description
+#' Sets the `$validate` field of the forecaster, which controls *how* the validation data is constructed
+#' (see [mlr3::Learner]), and configures the wrapped graph so its base learner uses it via
+#' [mlr3pipelines::set_validate.GraphLearner()].
+#' Errors if no learner in the graph supports validation.
+#'
+#' @param learner ([RecursiveForecaster])\cr
+#'   The forecaster to configure.
+#' @param validate (`numeric(1)` | `"predefined"` | `"test"` | `NULL`)\cr
+#'   How to construct the internal validation data.
+#' @param ... (any)\cr
+#'   Passed to [mlr3pipelines::set_validate.GraphLearner()], e.g. `ids`, `args_all`, and `args`.
+#'
+#' @return [RecursiveForecaster], invisibly.
+#'
 #' @export
 set_validate.RecursiveForecaster = function(learner, validate, ...) {
+  # set_validate.GraphLearner() resets `validate` in an exit handler, which errors without validation support
   if ("validation" %nin% learner$properties) {
     error_input("Learner '%s' does not support validation.", learner$id)
   }
