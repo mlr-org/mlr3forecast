@@ -67,7 +67,8 @@
   hyperparameter that defaults to the seasonal period implied by the
   task’s `freq`.
 - feat: `period` hyperparameters accept a cycle name resolved against
-  `freq`, e.g. `period = "year"` on hourly data means `8766`.
+  `freq`, e.g. `period = "year"` on hourly data means `8766`, and reject
+  values below 1, as a period of 1 means no seasonality.
 - feat: [`as_task()`](https://mlr3.mlr-org.com/reference/as_task.html)
   now converts objects returned by
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)

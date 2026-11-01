@@ -19,7 +19,8 @@ as well as the following parameters:
   name(s) such as `"year"` resolved against the task's frequency. May be
   non-integer and may contain multiple periods for multiple
   seasonalities. If `NULL` (default), the default derived from the
-  task's `freq` is used.
+  task's `freq` is used, which requires a calendar `freq` shorter than a
+  year.
 
 - `K` :: [`integer()`](https://rdrr.io/r/base/integer.html)  
   Number of Fourier harmonics per `period`. Either a single value
@@ -29,10 +30,10 @@ as well as the following parameters:
 ## Seasonal period
 
 The seasonal period is not stored in the task. It is set by the `period`
-hyperparameter, in observations per cycle. Either a positive number such
-as `12`, or a cycle name resolved against the task's `freq` such as
-`"year"` or `"week"`. The cycle names a calendar `freq` implies and the
-periods they resolve to are:
+hyperparameter, in observations per cycle. Either a number of at least 1
+such as `12`, where 1 means no seasonality, or a cycle name resolved
+against the task's `freq` such as `"year"` or `"week"`. The cycle names
+a calendar `freq` implies and the periods they resolve to are:
 
 |             |          |         |          |          |
 |-------------|----------|---------|----------|----------|
