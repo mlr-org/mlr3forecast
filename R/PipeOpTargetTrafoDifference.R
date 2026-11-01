@@ -19,7 +19,7 @@
 #' construction. Use it inside a plain [mlr3pipelines::GraphLearner] via `ppl("targettrafo", ...)`, or wrap the
 #' forecaster itself with `ppl("targettrafo", ...)` so all horizons are inverted together.
 #'
-#' Quantile predictions cannot be inverted and are rejected.
+#' Quantile predictions cannot be inverted and are dropped, only the response is inverted.
 #'
 #' @export
 #' @examplesIf mlr3misc::require_namespaces("rpart", quietly = TRUE)

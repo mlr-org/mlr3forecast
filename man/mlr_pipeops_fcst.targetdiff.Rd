@@ -27,7 +27,7 @@ This PipeOp must not be placed \emph{inside} a \link{RecursiveForecaster} or \li
 construction. Use it inside a plain \link[mlr3pipelines:GraphLearner]{mlr3pipelines::GraphLearner} via \code{ppl("targettrafo", ...)}, or wrap the
 forecaster itself with \code{ppl("targettrafo", ...)} so all horizons are inverted together.
 
-Quantile predictions cannot be inverted and are rejected.
+Quantile predictions cannot be inverted and are dropped, only the response is inverted.
 }
 
 \examples{
