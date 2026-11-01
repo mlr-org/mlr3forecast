@@ -118,8 +118,7 @@ RecursiveForecaster = R6Class(
         predict_type = predict_type,
         clone_graph = clone_graph
       )
-      # GraphLearner advertises hotstart support it does not implement, so it must not be re-advertised, and
-      # it takes "exogenous" from the fcst task type, which the forecasters do not advertise
+      # GraphLearner advertises hotstart it does not implement, and "exogenous" comes with the fcst task type
       self$properties = setdiff(self$properties, c("exogenous", "hotstart_backward", "hotstart_forward"))
       self$packages = c("mlr3forecast", self$packages)
       self$man = "mlr3forecast::RecursiveForecaster"
@@ -143,7 +142,7 @@ RecursiveForecaster = R6Class(
     #' Use `$base_learner()` for a copy holding the trained model.
     learner = function(rhs) {
       assert_ro_binding(rhs)
-      # base_learner() reads $graph_model, which is a trained clone, but the field is the live learner of the graph
+      # base_learner() reads $graph_model, a trained clone, so make it read the live graph
       private$.untrained = TRUE
       on.exit({
         private$.untrained = FALSE
@@ -214,7 +213,7 @@ RecursiveForecaster = R6Class(
     .untrained = FALSE,
 
     deep_clone = function(name, value) {
-      # GraphLearner's deep_clone does not clone the train task of the state like Learner's does
+      # GraphLearner's deep_clone skips the train task that Learner's clones
       if (name == "state" && !is.null(value$train_task)) {
         value$train_task = value$train_task$clone(deep = TRUE)
       }
@@ -422,8 +421,7 @@ unmarshal_model.recursive_forecaster_model_marshaled = function(model, inplace =
   set_class(m, c("recursive_forecaster_model", "list"))
 }
 
-# set_validate.GraphLearner() restores the previous `validate` in an exit handler, which errors itself on a graph
-# without validation support, so check the property before handing over
+# set_validate.GraphLearner() resets `validate` in an exit handler, which errors without validation support
 #' @export
 set_validate.RecursiveForecaster = function(learner, validate, ...) {
   if ("validation" %nin% learner$properties) {
