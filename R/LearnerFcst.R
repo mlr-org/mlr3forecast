@@ -58,7 +58,7 @@ LearnerFcst = R6Class(
       if (isTRUE(private$.seasonal)) {
         param_set = ps_union(list(
           param_set,
-          ps(period = p_uty(default = NULL, tags = c("train", "period"), custom_check = check_period))
+          ps(period = p_uty(default = NULL, tags = "train", custom_check = check_period))
         ))
       }
       super$initialize(
