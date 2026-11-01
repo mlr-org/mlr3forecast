@@ -39,6 +39,7 @@
 #' If the wrapped graph contains a learner with the `"validation"` property, the forecaster supports
 #' validation and internal tuning as well. Configure it with [mlr3::set_validate()], which sets the
 #' forecaster's `$validate` field and routes the validation data to the graph's base learner.
+#' The `ids`, `args_all`, and `args` arguments are forwarded to [mlr3pipelines::set_validate.GraphLearner()].
 #' A numeric ratio is split chronologically per key (via [`partition()`][mlr3::partition]), so the
 #' validation set is always the most recent fraction of each series. Note that the validation scores
 #' measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.
@@ -109,15 +110,17 @@ RecursiveForecaster = R6Class(
         )
       }
 
-      default_id = if (inherits(learner, "Learner")) learner$id else paste(graph$ids(sorted = TRUE), collapse = ".")
       super$initialize(
         graph,
-        id = id %??% paste0(default_id, ".recursive"),
+        id = id,
         param_vals = param_vals,
         task_type = "fcst",
         predict_type = predict_type,
         clone_graph = clone_graph
       )
+      if (is.null(id)) {
+        self$id = paste0(if (inherits(learner, "Learner")) learner$id else self$id, ".recursive")
+      }
       # GraphLearner advertises hotstart it does not implement, and "exogenous" comes with the fcst task type
       self$properties = setdiff(self$properties, c("exogenous", "hotstart_backward", "hotstart_forward"))
       self$packages = c("mlr3forecast", self$packages)

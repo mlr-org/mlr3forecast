@@ -48,6 +48,7 @@ and intervals are too narrow for \code{h > 1}. For calibrated multi-step interva
 If the wrapped graph contains a learner with the \code{"validation"} property, the forecaster supports
 validation and internal tuning as well. Configure it with \code{\link[mlr3:set_validate]{mlr3::set_validate()}}, which sets the
 forecaster's \verb{$validate} field and routes the validation data to the graph's base learner.
+The \code{ids}, \code{args_all}, and \code{args} arguments are forwarded to \code{\link[mlr3pipelines:set_validate.GraphLearner]{mlr3pipelines::set_validate.GraphLearner()}}.
 A numeric ratio is split chronologically per key (via \code{\link[mlr3:partition]{partition()}}), so the
 validation set is always the most recent fraction of each series. Note that the validation scores
 measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.
