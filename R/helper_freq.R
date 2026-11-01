@@ -242,7 +242,7 @@ task_resolve_freq = function(task, freq) {
   series = if (length(key_cols) > 0L) rleidv(dt, key_cols) else rep.int(1L, nrow(dt))
 
   if (is.null(freq)) {
-    return(infer_task_freq(order, series))
+    return(canonical_freq(infer_task_freq(order, series)))
   }
 
   order_type = fget_keys(task$col_info, order_col, "type", key = "id")

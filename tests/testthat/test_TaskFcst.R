@@ -24,6 +24,12 @@ test_that("freq is inferred from the order column at construction", {
   month_end = data.table(d = seq(as.Date("2020-02-01"), by = "month", length.out = 24L) - 1L, y = 1)
   expect_identical(as_task_fcst(month_end, target = "y", order = "d")$freq, "1 month")
 
+  # an inferred step is stored like an explicit one
+  quarterly = data.table(d = seq(as.Date("2020-01-01"), by = "quarter", length.out = 12L), y = 1)
+  expect_identical(as_task_fcst(quarterly, target = "y", order = "d")$freq, "1 quarter")
+  yearly = data.table(d = seq(as.Date("2020-01-01"), by = "year", length.out = 6L), y = 1)
+  expect_identical(as_task_fcst(yearly, target = "y", order = "d")$freq, "1 year")
+
   # an error if not all observations are on the inferred grid, or the series have different steps
   irregular = data.table(d = as.Date(c("2020-01-03", "2020-02-05", "2020-03-02", "2020-04-06")), y = 1)
   expect_error(as_task_fcst(irregular, target = "y", order = "d"), "irregular")
