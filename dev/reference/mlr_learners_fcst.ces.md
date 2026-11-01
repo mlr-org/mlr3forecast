@@ -229,7 +229,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.02 seconds
+#> Time elapsed: 0.03 seconds
 #> Model estimated using ces() function: CES(none)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
@@ -254,7 +254,7 @@ print(learner$model)
 #> [1] "1956-12-01"
 #> 
 #> $step
-#> [1] "month"
+#> [1] "1 month"
 #> 
 #> $anchor
 #> [1] 1

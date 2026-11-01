@@ -75,13 +75,15 @@
   to forecast tasks.
 - feat: `TaskFcst$freq` can be set, checked against the order column, or
   set to `NULL` to infer it, and it is resolved again when the order or
-  key columns change instead of keeping the step of the old columns.
+  key columns change instead of keeping the step of the old columns. A
+  calendar step is stored as `"<n> <unit>"`, e.g. `"1 month"` for
+  `freq = "month"`, so equal steps compare equal.
 - feat:
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   and `TaskFcst$new()` check a given `freq` against the order column and
   error if an observation is off its grid, if it is finer than the
   spacing of the data (e.g. `"day"` on monthly data), or if it is
-  sub-daily on a `Date` column.
+  sub-daily or a DST step on a `Date` column.
 - feat:
   [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
   derives `freq` from a tsibble’s `yearweek`, `yearmonth`, or

@@ -229,7 +229,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.4 seconds
+#> Time elapsed: 0.49 seconds
 #> Model estimated using auto.msarima() function: SARIMA(0,1,1)[1](0,1,1)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
@@ -255,7 +255,7 @@ print(learner$model)
 #> [1] "1956-12-01"
 #> 
 #> $step
-#> [1] "month"
+#> [1] "1 month"
 #> 
 #> $anchor
 #> [1] 1

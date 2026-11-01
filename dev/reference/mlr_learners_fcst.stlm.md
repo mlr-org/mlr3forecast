@@ -364,8 +364,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x6507452b2370>
-#> <environment: 0x65074486fd68>
+#> <bytecode: 0x5a11a6c2ca28>
+#> <environment: 0x5a11a6c32440>
 #> 
 #> $lambda
 #> NULL
@@ -420,7 +420,7 @@ print(learner$model)
 #> [1] "1956-12-01"
 #> 
 #> $step
-#> [1] "month"
+#> [1] "1 month"
 #> 
 #> $anchor
 #> [1] 1

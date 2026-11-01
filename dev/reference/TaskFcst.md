@@ -91,8 +91,10 @@ Other Task:
   The step of the time index, i.e. the spacing between two consecutive
   observations. A calendar string for a `Date` or `POSIXct` order column
   and a number for a numeric or integer one. Assign a step to set it,
-  which is checked against the order column, or `NULL` to infer it. The
-  step is resolved again when the order or key columns change.
+  which is checked against the order column, or `NULL` to infer it. A
+  calendar step is stored as `"<n> <unit>"`, e.g. `"1 month"` for
+  `"month"` or `"months"`. The step is resolved again when the order or
+  key columns change.
 
 - `properties`:
 
@@ -256,19 +258,20 @@ provides an alternative way to construct forecast tasks.
   a numeric or integer order column. A given `freq` must match the order
   column, i.e. every observation must be a whole number of steps after
   the first observation of its series, gaps allowed, and at least two
-  consecutive observations of a series must be one step apart. If `NULL`
-  (default), the step is inferred on construction and must be the same
-  for all series. For a numeric or integer order column, it is the
-  greatest common divisor of the gaps of whole-number values, else the
-  median gap, and `1` if no series has two observations. For a `Date` or
-  `POSIXct` order column, it is inferred from the typical gap, e.g.
-  `"1 month"` for monthly or month-end data and `"1 DSTday"` for daily
-  local clock times in a time zone with daylight saving time. An error
-  is raised if the step cannot be inferred, i.e. for series with
-  different steps, observations off the inferred grid, or a `Date` or
-  `POSIXct` order column without a series of two observations. This is
-  *not* the seasonal period, which learners, measures, and pipeops take
-  as their `period` hyperparameter.
+  consecutive observations of a series must be one step apart. The step
+  is stored as `"<n> <unit>"`, e.g. `"1 month"` for `"month"` or
+  `"months"`. If `NULL` (default), the step is inferred on construction
+  and must be the same for all series. For a numeric or integer order
+  column, it is the greatest common divisor of the gaps of whole-number
+  values, else the median gap, and `1` if no series has two
+  observations. For a `Date` or `POSIXct` order column, it is inferred
+  from the typical gap, e.g. `"1 month"` for monthly or month-end data
+  and `"1 DSTday"` for daily local clock times in a time zone with
+  daylight saving time. An error is raised if the step cannot be
+  inferred, i.e. for series with different steps, observations off the
+  inferred grid, or a `Date` or `POSIXct` order column without a series
+  of two observations. This is *not* the seasonal period, which
+  learners, measures, and pipeops take as their `period` hyperparameter.
 
 - `label`:
 

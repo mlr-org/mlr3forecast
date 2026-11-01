@@ -258,7 +258,7 @@ print(learner$model)
 #> [1] "1956-12-01"
 #> 
 #> $step
-#> [1] "month"
+#> [1] "1 month"
 #> 
 #> $anchor
 #> [1] 1

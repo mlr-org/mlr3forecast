@@ -242,6 +242,7 @@ and a positive number for a numeric or integer order column.
 A given <code>freq</code> must match the order column, i.e. every observation must be a whole number of steps after the
 first observation of its series, gaps allowed, and at least two consecutive observations of a series must be one
 step apart.
+The step is stored as <code>"&lt;n&gt; &lt;unit&gt;"</code>, e.g. <code>"1 month"</code> for <code>"month"</code> or <code>"months"</code>.
 If <code>NULL</code> (default), the step is inferred on construction and must be the same for all series.
 For a numeric or integer order column, it is the greatest common divisor of the gaps of whole-number values,
 else the median gap, and <code>1</code> if no series has two observations.
@@ -279,7 +280,7 @@ Label for the new instance.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Target: passengers</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Properties: ordered</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> • Order by: month</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> • Frequency: month</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> • Frequency: 1 month</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
