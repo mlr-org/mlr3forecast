@@ -10,7 +10,7 @@
 * BREAKING CHANGE: `po("fcst.targetboxcox")`, `po("fcst.targetdiff")`, and `po("fcst.targetscale")` now take and return a `TaskFcst` instead of any `TaskRegr`, so a `GraphLearner` built around them with `ppl("targettrafo")` is a forecast learner and can be benchmarked against the classical forecast learners. In turn, it can no longer share a `benchmark()` call with plain regression learners or graphs, unless these are created with `GraphLearner$new(graph, task_type = "fcst")`.
 * feat: The `smooth` learners gained the `"gradient"` level of `initial`, and `fcst.adam`, `fcst.auto_adam` and `fcst.es` gained the `smoother` parameter. This raises the required `smooth` version to 4.5.2.
 * feat: The forecast learners that fit on a `ts`, `po("fcst.targetboxcox")`, and `po("fcst.tsfeats")` gained a `period` hyperparameter that defaults to the seasonal period implied by the task's `freq`.
-* feat: `period` hyperparameters accept a cycle name resolved against `freq`, e.g. `period = "year"` on hourly data means `8766`.
+* feat: `period` hyperparameters accept a cycle name resolved against `freq`, e.g. `period = "year"` on hourly data means `8766`, and reject values below 1, as a period of 1 means no seasonality.
 * feat: `as_task()` now converts objects returned by `read_tsf()` to forecast tasks.
 * feat: `TaskFcst$freq` can be set, checked against the order column, or set to `NULL` to infer it, and it is resolved again when the order or key columns change instead of keeping the step of the old columns.
 * feat: `as_task_fcst()` and `TaskFcst$new()` check a given `freq` against the order column and error if an observation is off its grid, if it is finer than the spacing of the data (e.g. `"day"` on monthly data), or if it is sub-daily on a `Date` column.

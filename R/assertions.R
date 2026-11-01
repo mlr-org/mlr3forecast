@@ -68,13 +68,13 @@ check_period = function(x, multiple = FALSE) {
   if (is.null(x) || test_character(x, min.len = 1L, max.len = max_len, any.missing = FALSE)) {
     return(TRUE)
   }
-  if (test_numeric(x, min.len = 1L, max.len = max_len, any.missing = FALSE, finite = TRUE) && all(x > 0)) {
+  if (test_numeric(x, min.len = 1L, max.len = max_len, any.missing = FALSE, finite = TRUE) && all(x >= 1)) {
     return(TRUE)
   }
   if (multiple) {
-    "Must be a vector of positive numbers or cycle names (e.g. 'year'), or NULL"
+    "Must be a vector of numbers of at least 1 or cycle names (e.g. 'year'), or NULL"
   } else {
-    "Must be a positive number or a cycle name (e.g. 'year'), or NULL"
+    "Must be a number of at least 1 or a cycle name (e.g. 'year'), or NULL"
   }
 }
 

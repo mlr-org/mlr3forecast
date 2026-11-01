@@ -1,8 +1,8 @@
 #' @section Seasonal period:
 #' The seasonal period is not stored in the task.
 #' It is set by the `period` hyperparameter, in observations per cycle.
-#' Either a positive number such as `12`, or a cycle name resolved against the task's `freq` such as `"year"` or
-#' `"week"`.
+#' Either a number of at least 1 such as `12`, where 1 means no seasonality,
+#' or a cycle name resolved against the task's `freq` such as `"year"` or `"week"`.
 #' The cycle names a calendar `freq` implies and the periods they resolve to are:
 #'
 #' | `freq`      | `"hour"` | `"day"` | `"week"` | `"year"` |

@@ -24,8 +24,8 @@ training series.
 
 The seasonal period is not stored in the task.
 It is set by the \code{period} hyperparameter, in observations per cycle.
-Either a positive number such as \code{12}, or a cycle name resolved against the task's \code{freq} such as \code{"year"} or
-\code{"week"}.
+Either a number of at least 1 such as \code{12}, where 1 means no seasonality,
+or a cycle name resolved against the task's \code{freq} such as \code{"year"} or \code{"week"}.
 The cycle names a calendar \code{freq} implies and the periods they resolve to are:\tabular{lllll}{
    \code{freq} \tab \code{"hour"} \tab \code{"day"} \tab \code{"week"} \tab \code{"year"} \cr
    \code{"min"} \tab 60 \tab 1440 \tab 10080 \tab 525960 \cr
