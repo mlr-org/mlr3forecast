@@ -159,7 +159,11 @@ RecursiveForecaster = R6Class(
     learner = function(rhs) {
       assert_ro_binding(rhs)
       # base_learner() returns a trained clone, the live learner is held by the learner PipeOp
-      detect(self$graph$pipeops, function(po) inherits(po, "PipeOpLearner"))$learner
+      po = detect(self$graph$pipeops, function(po) inherits(po, "PipeOpLearner"))
+      if (is.null(po)) {
+        error_config("No base learner found in Graph %s.", self$id)
+      }
+      po$learner$base_learner()
     },
 
     #' @field quantiles (`numeric()`)\cr

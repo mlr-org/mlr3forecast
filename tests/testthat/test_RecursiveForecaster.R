@@ -212,6 +212,17 @@ test_that("RecursiveForecaster learner is the live untrained base learner", {
   expect_class(learner$base_learner()$model, "rpart")
 })
 
+test_that("RecursiveForecaster learner unwraps a nested GraphLearner", {
+  inner = lrn("regr.rpart")
+  learner = RecursiveForecaster$new(as_learner(po("scale") %>>% inner), lags = 1:3)
+  expect_identical(learner$learner, learner$graph$pipeops[[2L]]$learner$graph$pipeops$regr.rpart$learner)
+  expect_class(learner$learner, "LearnerRegrRpart")
+  learner$train(tsk("airpassengers"))
+  expect_null(learner$learner$model)
+  expect_class(learner$base_learner()$model, "rpart")
+  expect_error(RecursiveForecaster$new(po("fcst.lags", lags = 1L) %>>% po("nop"))$learner, "No base learner")
+})
+
 test_that("RecursiveForecaster native_model returns the base learner model", {
   task = tsk("airpassengers")
   learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
