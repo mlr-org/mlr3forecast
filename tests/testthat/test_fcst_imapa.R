@@ -39,6 +39,16 @@ test_that("forecasts match a direct imapa call", {
   expect_equal(response, as.numeric(expected))
 })
 
+test_that("predictions use the settings from training", {
+  task = intermittent_task()
+  learner = lrn("fcst.imapa", comb = "median", maximumAL = 5L)
+  learner$train(task, 1:100)
+  newdata = generate_newdata(task$clone()$filter(1:100), n = 6L)
+  response = learner$predict_newdata(newdata)$response
+  learner$param_set$values$comb = "mean"
+  expect_identical(learner$predict_newdata(newdata)$response, response)
+})
+
 test_that("in-sample prediction returns fitted demand rates", {
   task = intermittent_task()
   learner = lrn("fcst.imapa")

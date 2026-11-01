@@ -64,8 +64,9 @@ LearnerFcstImapa = R6Class(
       y = as.numeric(task$data(cols = task$target_names, ordered = TRUE)[[1L]])
       # imapa() drops the forecast matrix to a vector for h = 1 and errors, so fit with a two-step placeholder
       model = invoke(tsintermittent::imapa, data = y, h = 2L, outplot = 0L, .args = pv)
-      # the re-run at predict time needs the training series alongside the fitted parameters
+      # the re-run at predict time needs the training series and settings alongside the fitted parameters
       model$data = y
+      model$pv = pv
       private$.set_context(model, task)
     },
 
@@ -80,7 +81,7 @@ LearnerFcstImapa = R6Class(
         return(as.numeric(frc))
       }
       frc = frc[model$summary[6L, ] == 1, , drop = FALSE]
-      comb = self$param_set$values$comb %??% "mean"
+      comb = model$pv$comb %??% "mean"
       as.numeric(if (comb == "median") apply(frc, 2L, stats::median) else colMeans(frc))
     },
 
@@ -92,7 +93,6 @@ LearnerFcstImapa = R6Class(
       }
 
       # model.fit fixes the per-level models and parameters; the combination settings must be passed again
-      pv = self$param_set$get_values(tags = "train")
       model = self$native_model
       pred = invoke(
         tsintermittent::imapa,
@@ -100,7 +100,7 @@ LearnerFcstImapa = R6Class(
         h = max(task$nrow, 2L), # same h = 1 limitation as in train; the forecast is flat, so trimming is exact
         model.fit = model$model.fit,
         outplot = 0L,
-        .args = pv
+        .args = model$pv
       )
       insert_named(prediction, list(response = private$.combine(pred, pred$frc.out)[seq_len(task$nrow)]))
     }
