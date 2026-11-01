@@ -226,11 +226,14 @@ task_resolve_freq = function(task, freq) {
   setorderv(dt, c(key_cols, order_col))
   order = dt[[order_col]]
   series = if (length(key_cols) > 0L) rleidv(dt, key_cols) else rep.int(1L, nrow(dt))
+
   if (is.null(freq)) {
     return(infer_task_freq(order, series))
   }
+
   order_type = fget_keys(task$col_info, order_col, "type", key = "id")
   is_date = order_type %chin% c("Date", "POSIXct")
+
   if (is.character(freq) && !is_date) {
     error_input(
       paste0(
@@ -241,6 +244,7 @@ task_resolve_freq = function(task, freq) {
       order_col
     )
   }
+
   if (is.numeric(freq) && is_date) {
     error_input(
       paste0(
@@ -253,6 +257,7 @@ task_resolve_freq = function(task, freq) {
       order_type
     )
   }
+
   is_clock = unit_seconds(freq) < unit_secs[["day"]] || grepl("DSTday", freq, fixed = TRUE)
   if (is.character(freq) && order_type == "Date" && is_clock) {
     error_input(
@@ -261,6 +266,7 @@ task_resolve_freq = function(task, freq) {
       order_col
     )
   }
+
   if (is.integer(order) && test_count(freq, positive = TRUE)) {
     freq = as.integer(freq)
   }
@@ -279,6 +285,7 @@ task_resolve_freq = function(task, freq) {
       n_off
     )
   }
+
   later = steps > 0
   gaps = steps[later] - shift(steps)[later]
   n_coarse = length(setdiff(series[later], series[later][gaps == 1]))
@@ -293,6 +300,7 @@ task_resolve_freq = function(task, freq) {
       n_coarse
     )
   }
+
   canonical_freq(freq)
 }
 
