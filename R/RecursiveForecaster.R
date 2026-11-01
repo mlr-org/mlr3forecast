@@ -158,12 +158,8 @@ RecursiveForecaster = R6Class(
     #' Use `$base_learner()` for a copy holding the trained model.
     learner = function(rhs) {
       assert_ro_binding(rhs)
-      # base_learner() reads $graph_model, a trained clone, so make it read the live graph
-      private$.untrained = TRUE
-      on.exit({
-        private$.untrained = FALSE
-      })
-      self$base_learner()
+      # base_learner() returns a trained clone, the live learner is held by the learner PipeOp
+      detect(self$graph$pipeops, function(po) inherits(po, "PipeOpLearner"))$learner
     },
 
     #' @field quantiles (`numeric()`)\cr
@@ -194,7 +190,7 @@ RecursiveForecaster = R6Class(
     #' Read-only.
     graph_model = function(rhs) {
       assert_ro_binding(rhs)
-      if (is.null(self$model) || private$.untrained) {
+      if (is.null(self$model)) {
         return(self$graph)
       }
       assert_unmarshaled(self)
@@ -227,8 +223,6 @@ RecursiveForecaster = R6Class(
   ),
 
   private = list(
-    .untrained = FALSE,
-
     deep_clone = function(name, value) {
       # GraphLearner's deep_clone skips the train task that Learner's clones
       if (name == "state" && !is.null(value$train_task)) {
