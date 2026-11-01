@@ -280,6 +280,8 @@
   `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`,
   `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series
   instead of internal code, so printed models are readable.
+- fix: `fcst.imapa` now forecasts with the settings used at training, so
+  changing `comb` after training no longer alters the prediction.
 - fix: `fcst.prophet` now raises an input error naming the feature if
   prophet reserves its name, e.g. `holidays` or `ds`.
 - fix: `fcst.rlgt` now errors on exogenous features unless

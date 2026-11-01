@@ -56,7 +56,7 @@ or with the associated sugar function
 |------------|---------|---------|------------------|
 | Id         | Type    | Default | Range            |
 | fn         | untyped | \-      | \-               |
-| num        | integer | 100     | \\\[1, \infty)\\ |
+| num        | integer | \-      | \\\[1, \infty)\\ |
 | block_size | integer | NULL    | \\\[1, \infty)\\ |
 | period     | untyped | NULL    | \-               |
 
@@ -224,7 +224,7 @@ print(learner)
 #> 
 #> ── <LearnerFcstBaggedModel> (fcst.bagged): Bagged Model ────────────────────────
 #> • Model: -
-#> • Parameters: list()
+#> • Parameters: num=100
 #> • Packages: mlr3, mlr3forecast, and forecast
 #> • Predict Types: [response]
 #> • Feature Types: logical, integer, numeric, character, factor, ordered,

@@ -30,7 +30,8 @@ graph and is rejected at construction. Use it inside a plain
 via `ppl("targettrafo", ...)`, or wrap the forecaster itself with
 `ppl("targettrafo", ...)` so all horizons are inverted together.
 
-Quantile predictions cannot be inverted and are rejected.
+Quantile predictions cannot be inverted and are dropped, only the
+response is inverted.
 
 ## Super classes
 
