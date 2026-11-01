@@ -77,7 +77,8 @@ flrn$predict(task, split$test)
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
     \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-The base regression learner, trained after \verb{$train()}.}
+The untrained base regression learner of the graph.
+Use \verb{$base_learner()} for a copy holding the trained model.}
 
     \item{\code{quantiles}}{(\code{numeric()})\cr
 Numeric vector of probabilities to be used while predicting quantiles.
@@ -95,10 +96,6 @@ The quantile to be used as response.}
 
     \item{\code{native_model}}{(any)\cr
 The fitted model.}
-
-    \item{\code{validate}}{(\code{numeric(1)} | \code{"predefined"} | \code{"test"} | \code{NULL})\cr
-How to construct the internal validation data. Use \code{\link[mlr3:set_validate]{mlr3::set_validate()}} to also configure
-the wrapped graph.}
 
     \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
 The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}

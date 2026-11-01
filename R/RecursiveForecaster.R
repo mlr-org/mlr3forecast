@@ -118,8 +118,9 @@ RecursiveForecaster = R6Class(
         predict_type = predict_type,
         clone_graph = clone_graph
       )
-      # GraphLearner advertises hotstart support it does not implement, so it must not be re-advertised
-      self$properties = setdiff(self$properties, c("hotstart_backward", "hotstart_forward"))
+      # GraphLearner advertises hotstart support it does not implement, so it must not be re-advertised, and
+      # it takes "exogenous" from the fcst task type, which the forecasters do not advertise
+      self$properties = setdiff(self$properties, c("exogenous", "hotstart_backward", "hotstart_forward"))
       self$packages = c("mlr3forecast", self$packages)
       self$man = "mlr3forecast::RecursiveForecaster"
     },
@@ -138,9 +139,15 @@ RecursiveForecaster = R6Class(
 
   active = list(
     #' @field learner ([mlr3::Learner])\cr
-    #' The base regression learner, trained after `$train()`.
+    #' The untrained base regression learner of the graph.
+    #' Use `$base_learner()` for a copy holding the trained model.
     learner = function(rhs) {
       assert_ro_binding(rhs)
+      # base_learner() reads $graph_model, which is a trained clone, but the field is the live learner of the graph
+      private$.untrained = TRUE
+      on.exit({
+        private$.untrained = FALSE
+      })
       self$base_learner()
     },
 
@@ -171,7 +178,7 @@ RecursiveForecaster = R6Class(
     #' `$train()`. Read-only.
     graph_model = function(rhs) {
       assert_ro_binding(rhs)
-      if (is.null(self$model)) {
+      if (is.null(self$model) || private$.untrained) {
         return(self$graph)
       }
       assert_unmarshaled(self)
@@ -191,20 +198,6 @@ RecursiveForecaster = R6Class(
       self$base_learner()$native_model
     },
 
-    #' @field validate (`numeric(1)` | `"predefined"` | `"test"` | `NULL`)\cr
-    #' How to construct the internal validation data. Use [mlr3::set_validate()] to also configure
-    #' the wrapped graph.
-    validate = function(rhs) {
-      if (!missing(rhs)) {
-        # unlike GraphLearner, allow resetting to NULL so set_validate() can restore the previous state
-        if (!is.null(rhs) && !private$.can_validate) {
-          error_input("None of the PipeOps in the graph of Learner '%s' supports validation.", self$id)
-        }
-        private$.validate = assert_validate(rhs)
-      }
-      private$.validate
-    },
-
     #' @field lags (`integer()` | `NULL`)\cr
     #' The lags used, or `NULL` if no [PipeOpFcstLags] is in the graph.
     lags = function(rhs) {
@@ -218,6 +211,16 @@ RecursiveForecaster = R6Class(
   ),
 
   private = list(
+    .untrained = FALSE,
+
+    deep_clone = function(name, value) {
+      # GraphLearner's deep_clone does not clone the train task of the state like Learner's does
+      if (name == "state" && !is.null(value$train_task)) {
+        value$train_task = value$train_task$clone(deep = TRUE)
+      }
+      super$deep_clone(name, value)
+    },
+
     .train = function(task) {
       graph_state = super$.train(task)
 
@@ -393,7 +396,12 @@ print.recursive_forecaster_model = function(x, ...) {
 #' @export
 #' @method marshal_model recursive_forecaster_model
 marshal_model.recursive_forecaster_model = function(model, inplace = FALSE, ...) {
-  marshaled = marshal_model(model$graph_state, inplace = inplace, ...)
+  graph_state = model$graph_state
+  # models trained with mlr3forecast 0.2.0 store the graph state without its class
+  if (!inherits(graph_state, "graph_learner_model")) {
+    graph_state = set_class(graph_state, c("graph_learner_model", class(graph_state)))
+  }
+  marshaled = marshal_model(graph_state, inplace = inplace, ...)
   if (!is_marshaled_model(marshaled)) {
     return(model)
   }
@@ -412,6 +420,16 @@ unmarshal_model.recursive_forecaster_model_marshaled = function(model, inplace =
   m = model$marshaled
   m$graph_state = unmarshal_model(m$graph_state, inplace = inplace, ...)
   set_class(m, c("recursive_forecaster_model", "list"))
+}
+
+# set_validate.GraphLearner() restores the previous `validate` in an exit handler, which errors itself on a graph
+# without validation support, so check the property before handing over
+#' @export
+set_validate.RecursiveForecaster = function(learner, validate, ...) {
+  if ("validation" %nin% learner$properties) {
+    error_input("Learner '%s' does not support validation.", learner$id)
+  }
+  NextMethod()
 }
 
 #' @export

@@ -195,6 +195,21 @@ test_that("RecursiveForecaster deep clone isolates the inner learner", {
   clone$param_set$set_values(regr.rpart.cp = 0.5)
   expect_null(learner$param_set$values$regr.rpart.cp)
   expect_equal(clone$param_set$values$regr.rpart.cp, 0.5)
+
+  learner$train(tsk("airpassengers"))
+  clone = learner$clone(deep = TRUE)
+  expect_false(identical(clone$state$train_task, learner$state$train_task))
+  expect_equal(clone$state$train_task$nrow, learner$state$train_task$nrow)
+})
+
+test_that("RecursiveForecaster learner is the live untrained base learner", {
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+  base = learner$graph$pipeops$regr.rpart$learner
+  expect_identical(learner$learner, base)
+  learner$train(tsk("airpassengers"))
+  expect_identical(learner$learner, base)
+  expect_null(learner$learner$model)
+  expect_class(learner$base_learner()$model, "rpart")
 })
 
 test_that("RecursiveForecaster native_model returns the base learner model", {
@@ -271,7 +286,7 @@ test_that("non-iterative graphs still attach the time index to the prediction", 
 
 test_that("RecursiveForecaster keeps supported wrapped-learner properties", {
   learner = recursive_forecaster(make_property_stub_learner(), lags = 1:3)
-  expect_disjunct(learner$properties, c("hotstart_backward", "hotstart_forward"))
+  expect_disjunct(learner$properties, c("exogenous", "hotstart_backward", "hotstart_forward"))
   expect_subset(
     c("importance", "internal_tuning", "missings", "oob_error", "selected_features", "validation"),
     learner$properties
@@ -283,6 +298,7 @@ test_that("RecursiveForecaster keeps supported wrapped-learner properties", {
     c("hotstart_backward", "hotstart_forward", "internal_tuning", "validation")
   )
   expect_error(set_validate(learner, validate = 0.2), "validation")
+  expect_error(set_validate(learner, validate = NULL), "validation")
   expect_error(
     {
       learner$validate = 0.2
@@ -419,6 +435,16 @@ test_that("RecursiveForecaster native_model errors while marshaled", {
   expect_error(learner$oob_error(), "unmarshal")
 
   learner$unmarshal()
+  expect_class(learner$native_model, "regr_marshal_stub_model")
+})
+
+test_that("RecursiveForecaster marshals models trained with 0.2.0", {
+  learner = RecursiveForecaster$new(make_marshal_stub_learner(), lags = 1:3)$train(tsk("airpassengers"))
+  learner$state$model$graph_state = unclass(learner$model$graph_state)
+  learner$marshal()
+  expect_true(learner$marshaled)
+  learner$unmarshal()
+  expect_class(learner$model$graph_state, "graph_learner_model")
   expect_class(learner$native_model, "regr_marshal_stub_model")
 })
 
