@@ -13,7 +13,8 @@
 #' * `period` :: `character()` | `numeric()` | `NULL`\cr
 #'   Seasonal period(s), in number of observations per cycle, or cycle name(s) such as `"year"` resolved against the
 #'   task's frequency. May be non-integer and may contain multiple periods for multiple seasonalities. If `NULL`
-#'   (default), the default derived from the task's `freq` is used.
+#'   (default), the default derived from the task's `freq` is used, which requires a calendar `freq` shorter than a
+#'   year.
 #' * `K` :: `integer()`\cr
 #'   Number of Fourier harmonics per `period`. Either a single value recycled to all periods, or one value per period.
 #'   Each `K` must satisfy `2 * K <= period`. Default `1L`.
@@ -70,6 +71,15 @@ PipeOpFcstFourier = R6Class(
     .transform = function(task) {
       pv = self$param_set$get_values(tags = "train")
       period = resolve_period(pv$period, task$freq)
+      if (is.null(pv$period) && identical(period, 1)) {
+        error_input(
+          paste0(
+            "`period` must be set, the task's `freq` (%s) implies no seasonal cycle. ",
+            "Set `period` to the number of observations per cycle."
+          ),
+          format(task$freq)
+        )
+      }
       K = pv$K
       if (length(K) == 1L) {
         K = rep(K, length(period))

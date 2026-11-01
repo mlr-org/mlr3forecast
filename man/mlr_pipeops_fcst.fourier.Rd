@@ -18,7 +18,8 @@ parameters:
 \item \code{period} :: \code{character()} | \code{numeric()} | \code{NULL}\cr
 Seasonal period(s), in number of observations per cycle, or cycle name(s) such as \code{"year"} resolved against the
 task's frequency. May be non-integer and may contain multiple periods for multiple seasonalities. If \code{NULL}
-(default), the default derived from the task's \code{freq} is used.
+(default), the default derived from the task's \code{freq} is used, which requires a calendar \code{freq} shorter than a
+year.
 \item \code{K} :: \code{integer()}\cr
 Number of Fourier harmonics per \code{period}. Either a single value recycled to all periods, or one value per period.
 Each \code{K} must satisfy \code{2 * K <= period}. Default \code{1L}.

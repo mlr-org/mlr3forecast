@@ -49,6 +49,18 @@ test_that("PipeOpFcstFourier errors when K exceeds period/2", {
   expect_snapshot(po("fcst.fourier", period = 4, K = 3L)$train(list(tsk("airpassengers"))), error = TRUE)
 })
 
+test_that("PipeOpFcstFourier requires period without a seasonal default", {
+  task = as_task_fcst(data.table(i = 1:24, y = sin(1:24)), target = "y", order = "i")
+  expect_error(po("fcst.fourier")$train(list(task)), "implies no seasonal cycle")
+  expect_setequal(names(po("fcst.fourier", period = 12)$train(list(task))[[1L]]$data()), c("y", "S1_12", "C1_12"))
+  yearly = as_task_fcst(
+    data.table(d = seq(as.Date("2000-01-01"), by = "year", length.out = 24L), y = 1),
+    target = "y",
+    order = "d"
+  )
+  expect_error(po("fcst.fourier")$train(list(yearly)), "implies no seasonal cycle")
+})
+
 test_that("PipeOpFcstFourier keeps phase across train/predict split", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")
@@ -66,8 +78,12 @@ test_that("PipeOpFcstFourier keeps phase on a predict backend without the traini
   task = tsk("airpassengers")
   po = po("fcst.fourier", period = 12, K = 2L)
   po$train(list(task$clone()$filter(1:100)))
-  newdata = as_task_fcst(task$data(rows = 101:103, cols = c("month", "passengers")), target = "passengers",
-    order = "month", freq = "month")
+  newdata = as_task_fcst(
+    task$data(rows = 101:103, cols = c("month", "passengers")),
+    target = "passengers",
+    order = "month",
+    freq = "month"
+  )
   pred = po$predict(list(newdata))[[1L]]
   ours = as.matrix(pred$data(cols = c("S1_12", "C1_12", "S2_12", "C2_12")))
   ref = forecast::fourier(stats::ts(task$truth()[1:100], frequency = 12), K = 2, h = 3)
