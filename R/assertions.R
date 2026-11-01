@@ -54,8 +54,7 @@ check_freq = function(x, null.ok = FALSE, numeric.ok = FALSE) {
   if (!test_string(x)) {
     return(sprintf("Must be a string%s%s", if (numeric.ok) " or a number" else "", if (null.ok) " (or NULL)" else ""))
   }
-  units = str_collapse(names(unit_secs), sep = "|")
-  if (!grepl(sprintf("^([1-9][0-9]* )?(%s)s?$", units), x)) {
+  if (is.null(parse_freq(x))) {
     return("Must be a seq()-compatible string (e.g. '1 month', 'day')")
   }
   TRUE

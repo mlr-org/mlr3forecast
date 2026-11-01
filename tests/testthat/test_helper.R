@@ -170,6 +170,18 @@ test_that("resolve_measure_period returns an integer lag", {
   expect_identical(resolve_measure_period("year", tsk("airpassengers")), 12L)
 })
 
+test_that("parse_freq splits a calendar step and rejects everything else", {
+  expect_identical(parse_freq("month"), list(n = 1L, unit = "month"))
+  expect_identical(parse_freq("3 months"), list(n = 3L, unit = "month"))
+  expect_identical(parse_freq("30 mins"), list(n = 30L, unit = "min"))
+  expect_null(parse_freq("0 day"))
+  expect_null(parse_freq("1.5 day"))
+  expect_null(parse_freq("1  day"))
+  expect_null(parse_freq("fortnight"))
+  expect_null(parse_freq(12))
+  expect_null(parse_freq(NULL))
+})
+
 test_that("calendar_months maps overflow-prone freqs and returns NA otherwise", {
   expect_identical(calendar_months("month"), 1L)
   expect_identical(calendar_months("2 month"), 2L)

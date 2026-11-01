@@ -11,6 +11,22 @@ unit_secs = c(
   year = 31557600
 )
 
+parse_freq = function(x) {
+  if (!test_string(x, min.chars = 1L)) {
+    return(NULL)
+  }
+  parts = strsplit1(x, " ")
+  n_parts = length(parts)
+  if (n_parts > 2L || (n_parts == 2L && !grepl("^[1-9][0-9]*$", parts[1L]))) {
+    return(NULL)
+  }
+  unit = sub("s$", "", parts[n_parts])
+  if (unit %nin% names(unit_secs)) {
+    return(NULL)
+  }
+  list(n = if (n_parts == 2L) as.integer(parts[1L]) else 1L, unit = unit)
+}
+
 infer_freq = function(order) {
   order = sort(unique(order))
   if (!inherits(order, c("Date", "POSIXct"))) {
@@ -94,14 +110,12 @@ infer_task_freq = function(order, series) {
 }
 
 calendar_months = function(freq) {
-  if (!is.character(freq)) {
+  parsed = parse_freq(freq)
+  if (is.null(parsed)) {
     return(NA_integer_)
   }
-  parts = strsplit1(freq, " ")
-  n = if (length(parts) == 2L) suppressWarnings(as.integer(parts[1L])) else 1L
-  unit = sub("s$", "", parts[length(parts)])
-  per = switch(unit, month = 1L, quarter = 3L, year = 12L, NA_integer_)
-  if (is.na(per) || is.na(n)) NA_integer_ else n * per
+  per = switch(parsed$unit, month = 1L, quarter = 3L, year = 12L, NA_integer_)
+  parsed$n * per
 }
 
 # days since 1970-01-01 without strptime (Hinnant's days_from_civil)
@@ -305,26 +319,19 @@ task_resolve_freq = function(task, freq) {
 }
 
 canonical_freq = function(freq) {
-  if (!is.character(freq)) {
+  parsed = parse_freq(freq)
+  if (is.null(parsed)) {
     return(freq)
   }
-  parts = strsplit1(freq, " ")
-  n = if (length(parts) == 2L) as.integer(parts[1L]) else 1L
-  sprintf("%i %s", n, sub("s$", "", parts[length(parts)]))
+  sprintf("%i %s", parsed$n, parsed$unit)
 }
 
 unit_seconds = function(x) {
-  if (!test_string(x, min.chars = 1L)) {
+  parsed = parse_freq(x)
+  if (is.null(parsed)) {
     return(NA_real_)
   }
-  parts = strsplit1(x, " ")
-  n_parts = length(parts)
-  n = if (n_parts == 2L) suppressWarnings(as.numeric(parts[1L])) else 1
-  unit = sub("s$", "", parts[n_parts])
-  if (is.na(n) || n <= 0 || unit %nin% names(unit_secs)) {
-    return(NA_real_)
-  }
-  n * unit_secs[[unit]]
+  parsed$n * unit_secs[[parsed$unit]]
 }
 
 # observations per calendar cycle longer than one step, named by cycle
