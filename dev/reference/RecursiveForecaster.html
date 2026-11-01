@@ -5,23 +5,27 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Recursive Forecast Learner — RecursiveForecaster"><meta name="description" content="A mlr3::Learner for iterative one-step-ahead forecasting: a single model is fit, then applied recursively,
-feeding each prediction back as a lag/rolling feature for the next step.
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Recursive Forecast Learner — RecursiveForecaster"><meta name="description" content="A mlr3pipelines::GraphLearner for iterative one-step-ahead forecasting: a single model is fit,
+then applied recursively, feeding each prediction back as a lag/rolling feature for the next step.
 Can be constructed in two ways:
 Simple: RecursiveForecaster$new(learner, lags = 1:3) – internally builds
 po(&quot;fcst.lags&quot;, lags = lags) %&amp;gt;&amp;gt;% learner.
-Graph: RecursiveForecaster$new(graph) – takes an arbitrary
-mlr3pipelines::Graph or mlr3pipelines::PipeOp.
+Graph: RecursiveForecaster$new(graph) – takes an arbitrary mlr3pipelines::Graph or
+mlr3pipelines::PipeOp.
 
-"><meta property="og:description" content="A mlr3::Learner for iterative one-step-ahead forecasting: a single model is fit, then applied recursively,
-feeding each prediction back as a lag/rolling feature for the next step.
+
+All fields and methods of mlr3pipelines::GraphLearner are available, e.g. $graph, $graph_model,
+$base_learner(), $importance(), $validate, and $internal_valid_scores."><meta property="og:description" content="A mlr3pipelines::GraphLearner for iterative one-step-ahead forecasting: a single model is fit,
+then applied recursively, feeding each prediction back as a lag/rolling feature for the next step.
 Can be constructed in two ways:
 Simple: RecursiveForecaster$new(learner, lags = 1:3) – internally builds
 po(&quot;fcst.lags&quot;, lags = lags) %&amp;gt;&amp;gt;% learner.
-Graph: RecursiveForecaster$new(graph) – takes an arbitrary
-mlr3pipelines::Graph or mlr3pipelines::PipeOp.
+Graph: RecursiveForecaster$new(graph) – takes an arbitrary mlr3pipelines::Graph or
+mlr3pipelines::PipeOp.
 
-"><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+
+All fields and methods of mlr3pipelines::GraphLearner are available, e.g. $graph, $graph_model,
+$base_learner(), $importance(), $validate, and $internal_valid_scores."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -65,13 +69,15 @@ mlr3pipelines::Graph or mlr3pipelines::PipeOp.
     </div>
 
     <div class="ref-description section level2">
-    <p>A <a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a> for iterative one-step-ahead forecasting: a single model is fit, then applied recursively,
-feeding each prediction back as a lag/rolling feature for the next step.</p>
+    <p>A <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a> for iterative one-step-ahead forecasting: a single model is fit,
+then applied recursively, feeding each prediction back as a lag/rolling feature for the next step.</p>
 <p>Can be constructed in two ways:</p><ul><li><p><strong>Simple</strong>: <code>RecursiveForecaster$new(learner, lags = 1:3)</code> – internally builds
 <code>po("fcst.lags", lags = lags) %&gt;&gt;% learner</code>.</p></li>
-<li><p><strong>Graph</strong>: <code>RecursiveForecaster$new(graph)</code> – takes an arbitrary
-<a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">mlr3pipelines::PipeOp</a>.</p></li>
-</ul></div>
+<li><p><strong>Graph</strong>: <code>RecursiveForecaster$new(graph)</code> – takes an arbitrary <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or
+<a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">mlr3pipelines::PipeOp</a>.</p></li>
+</ul><p>All fields and methods of <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a> are available, e.g. <code>$graph</code>, <code>$graph_model</code>,
+<code>$base_learner()</code>, <code>$importance()</code>, <code>$validate</code>, and <code>$internal_valid_scores</code>.</p>
+    </div>
 
 
     <div class="section level2">
@@ -79,45 +85,48 @@ feeding each prediction back as a lag/rolling feature for the next step.</p>
 
 
 <p>A target transformation (e.g. <a href="mlr_pipeops_fcst.targetdiff.html">mlr_pipeops_fcst.targetdiff</a>, <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_pipeops_targetmutate.html" class="external-link">mlr3pipelines::PipeOpTargetMutate</a>)
-must <em>wrap</em> the forecaster, not be placed <em>inside</em> its graph. Wrap it with
-<a href="https://mlr3pipelines.mlr-org.com/reference/ppl.html" class="external-link">mlr3pipelines::ppl</a><code>("targettrafo")</code> so the whole series is transformed once up front, the
-recursion runs entirely on the transformed scale, and predictions are inverted once at the end:</p>
+must <em>wrap</em> the forecaster, not be placed <em>inside</em> its graph.
+Wrap it with <a href="https://mlr3pipelines.mlr-org.com/reference/ppl.html" class="external-link">mlr3pipelines::ppl</a><code>("targettrafo")</code> so the whole series is transformed once up front,
+the recursion runs entirely on the transformed scale, and predictions are inverted once at the end:</p>
 <p></p><div class="sourceCode r"><pre><code><span><span class="va">flrn</span> <span class="op">=</span> <span class="fu"><a href="https://mlr3.mlr-org.com/reference/as_learner.html" class="external-link">as_learner</a></span><span class="op">(</span><span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/ppl.html" class="external-link">ppl</a></span><span class="op">(</span><span class="st">"targettrafo"</span>,</span>
 <span>  graph <span class="op">=</span> <span class="va"><a href="../reference/RecursiveForecaster.html">RecursiveForecaster</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="fu"><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">lrn</a></span><span class="op">(</span><span class="st">"regr.rpart"</span><span class="op">)</span>, lags <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">12</span><span class="op">)</span>,</span>
 <span>  trafo_pipeop <span class="op">=</span> <span class="fu"><a href="https://mlr3pipelines.mlr-org.com/reference/po.html" class="external-link">po</a></span><span class="op">(</span><span class="st">"fcst.targetdiff"</span>, lag <span class="op">=</span> <span class="fl">1L</span><span class="op">)</span></span>
 <span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">flrn</span><span class="op">$</span><span class="fu">train</span><span class="op">(</span><span class="va">task</span>, <span class="va">split</span><span class="op">$</span><span class="va">train</span><span class="op">)</span></span>
 <span><span class="va">flrn</span><span class="op">$</span><span class="fu">predict</span><span class="op">(</span><span class="va">task</span>, <span class="va">split</span><span class="op">$</span><span class="va">test</span><span class="op">)</span>  <span class="co"># predictions are on the original scale</span></span></code></pre><p></p></div>
-<p>Placing a <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTargetTrafo.html" class="external-link">mlr3pipelines::PipeOpTargetTrafo</a> <em>inside</em> the graph is not supported and is rejected
-at construction.</p>
+<p>Placing a <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTargetTrafo.html" class="external-link">mlr3pipelines::PipeOpTargetTrafo</a> <em>inside</em> the graph is not supported and is rejected at construction.</p>
     </div>
     <div class="section level2">
     <h2 id="prediction-uncertainty">Prediction uncertainty<a class="anchor" aria-label="anchor" href="#prediction-uncertainty"></a></h2>
 
 
 <p>Only the point forecast is fed back between steps, so <code>se</code>/<code>distr</code> uncertainty does not accumulate across horizons
-and intervals are too narrow for <code>h &gt; 1</code>. For calibrated multi-step intervals, prefer <a href="DirectForecaster.html">DirectForecaster</a>.</p>
+and intervals are too narrow for <code>h &gt; 1</code>.
+For calibrated multi-step intervals, prefer <a href="DirectForecaster.html">DirectForecaster</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="validation-and-internal-tuning">Validation and internal tuning<a class="anchor" aria-label="anchor" href="#validation-and-internal-tuning"></a></h2>
 
 
-<p>If the wrapped graph contains a learner with the <code>"validation"</code> property, the forecaster supports
-validation and internal tuning as well. Configure it with <code><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">mlr3::set_validate()</a></code>, which sets the
-forecaster's <code>$validate</code> field and routes the validation data to the graph's base learner.
-A numeric ratio is split chronologically per key (via <code><a href="https://mlr3.mlr-org.com/reference/partition.html" class="external-link">partition()</a></code>), so the
-validation set is always the most recent fraction of each series. Note that the validation scores
-measure one-step-ahead (teacher-forced) accuracy, not recursive multi-step accuracy.</p>
+<p>If the wrapped graph contains a learner with the <code>"validation"</code> property,
+the forecaster supports validation and internal tuning as well.
+Configure it with <code><a href="set_validate.RecursiveForecaster.html">set_validate.RecursiveForecaster()</a></code>, which sets the forecaster's <code>$validate</code> field
+and routes the validation data to the graph's base learner.
+A numeric ratio is split chronologically per key (via <code><a href="https://mlr3.mlr-org.com/reference/partition.html" class="external-link">partition()</a></code>),
+so the validation set is always the most recent fraction of each series.
+Note that the validation scores measure one-step-ahead (teacher-forced) accuracy,
+not recursive multi-step accuracy.</p>
     </div>
     <div class="section level2">
-    <h2 id="super-class">Super class<a class="anchor" aria-label="anchor" href="#super-class"></a></h2>
-    <p><code><a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a></code> -&gt; <code>RecursiveForecaster</code></p>
+    <h2 id="super-classes">Super classes<a class="anchor" aria-label="anchor" href="#super-classes"></a></h2>
+    <p><code><a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a></code> -&gt; <code><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a></code> -&gt; <code>RecursiveForecaster</code></p>
     </div>
     <div class="section level2">
     <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
     <p></p><div class="r6-active-bindings"><dl><dt><code>learner</code></dt>
 <dd><p>(<a href="https://mlr3.mlr-org.com/reference/Learner.html" class="external-link">mlr3::Learner</a>)<br>
-The base regression learner.</p></dd>
+The untrained base regression learner of the graph.
+Use <code>$base_learner()</code> for a copy holding the trained model.</p></dd>
 
 
     <dt><code>quantiles</code></dt>
@@ -135,8 +144,9 @@ The quantile to be used as response.</p></dd>
 
 
     <dt><code>graph_model</code></dt>
-<dd><p>(<a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a>)<br><a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> that is being wrapped. This <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> contains a trained state after
-<code>$train()</code>. Read-only.</p></dd>
+<dd><p>(<a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a>)<br><a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> that is being wrapped.
+This <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> contains a trained state after <code>$train()</code>.
+Read-only.</p></dd>
 
 
     <dt><code>native_model</code></dt>
@@ -149,50 +159,6 @@ The fitted model.</p></dd>
 The lags used, or <code>NULL</code> if no <a href="mlr_pipeops_fcst.lags.html">PipeOpFcstLags</a> is in the graph.</p></dd>
 
 
-    <dt><code>param_set</code></dt>
-<dd><p>(<a href="https://paradox.mlr-org.com/reference/ParamSet.html" class="external-link">paradox::ParamSet</a>)<br>
-Set of hyperparameters.</p></dd>
-
-
-    <dt><code>hash</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this object.</p></dd>
-
-
-    <dt><code>phash</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Hash (unique identifier) for this partial object, excluding some components which are
-varied systematically during tuning (parameter values).</p></dd>
-
-
-    <dt><code>marshaled</code></dt>
-<dd><p>(<code>logical(1)</code>)<br>
-Whether the learner's model is currently in marshaled form.</p></dd>
-
-
-    <dt><code>validate</code></dt>
-<dd><p>(<code>numeric(1)</code> | <code>"predefined"</code> | <code>"test"</code> | <code>NULL</code>)<br>
-How to construct the internal validation data. Use <code><a href="https://mlr3.mlr-org.com/reference/mlr_sugar.html" class="external-link">mlr3::set_validate()</a></code> to also configure
-the wrapped graph.</p></dd>
-
-
-    <dt><code>internal_valid_scores</code></dt>
-<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)<br>
-The internal validation scores extracted from the wrapped graph, or <code>NULL</code> if no validation
-was done.</p></dd>
-
-
-    <dt><code>internal_tuned_values</code></dt>
-<dd><p>(named <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> | <code>NULL</code>)<br>
-The internally tuned values extracted from the wrapped graph, or <code>NULL</code> if no internal
-tuning was done.</p></dd>
-
-
-    <dt><code>predict_type</code></dt>
-<dd><p>(<code>character(1)</code>)<br>
-Stores the currently active predict type.</p></dd>
-
-
 </dl><p></p></div>
     </div>
     <div class="section level2">
@@ -201,15 +167,10 @@ Stores the currently active predict type.</p></dd>
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 <p></p><ul><li><p><a href="#method-RecursiveForecaster-initialize"><code>RecursiveForecaster$new()</code></a></p></li>
+<li><p><a href="#method-RecursiveForecaster-predict_newdata_fast"><code>RecursiveForecaster$predict_newdata_fast()</code></a></p></li>
 <li><p><a href="#method-RecursiveForecaster-print"><code>RecursiveForecaster$print()</code></a></p></li>
-<li><p><a href="#method-RecursiveForecaster-marshal"><code>RecursiveForecaster$marshal()</code></a></p></li>
-<li><p><a href="#method-RecursiveForecaster-unmarshal"><code>RecursiveForecaster$unmarshal()</code></a></p></li>
-<li><p><a href="#method-RecursiveForecaster-importance"><code>RecursiveForecaster$importance()</code></a></p></li>
-<li><p><a href="#method-RecursiveForecaster-selected_features"><code>RecursiveForecaster$selected_features()</code></a></p></li>
-<li><p><a href="#method-RecursiveForecaster-oob_error"><code>RecursiveForecaster$oob_error()</code></a></p></li>
 <li><p><a href="#method-RecursiveForecaster-clone"><code>RecursiveForecaster$clone()</code></a></p></li>
-</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="base_learner"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-base_learner"><code>mlr3::Learner$base_learner()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-configure"><code>mlr3::Learner$configure()</code></a></span></li>
+</ul></div><p><details><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="configure"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-configure"><code>mlr3::Learner$configure()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="encapsulate"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-encapsulate"><code>mlr3::Learner$encapsulate()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="format"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-format"><code>mlr3::Learner$format()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="help"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-help"><code>mlr3::Learner$help()</code></a></span></li>
@@ -217,6 +178,15 @@ Stores the currently active predict type.</p></dd>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="predict_newdata"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-predict_newdata"><code>mlr3::Learner$predict_newdata()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-reset"><code>mlr3::Learner$reset()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href="https://mlr3.mlr-org.com/reference/Learner.html#method-train"><code>mlr3::Learner$train()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="base_learner"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-base_learner"><code>mlr3pipelines::GraphLearner$base_learner()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="ids"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-ids"><code>mlr3pipelines::GraphLearner$ids()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="importance"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-importance"><code>mlr3pipelines::GraphLearner$importance()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="loglik"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-loglik"><code>mlr3pipelines::GraphLearner$loglik()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="marshal"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-marshal"><code>mlr3pipelines::GraphLearner$marshal()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="oob_error"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-oob_error"><code>mlr3pipelines::GraphLearner$oob_error()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="plot"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-plot"><code>mlr3pipelines::GraphLearner$plot()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="selected_features"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-selected_features"><code>mlr3pipelines::GraphLearner$selected_features()</code></a></span></li>
+  <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="GraphLearner" data-id="unmarshal"><a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-unmarshal"><code>mlr3pipelines::GraphLearner$unmarshal()</code></a></span></li>
 </ul></details></p><hr><a id="method-RecursiveForecaster-initialize"></a><div class="section">
 <h3 id="recursiveforecaster-new-"><code>RecursiveForecaster$new()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-new-"></a></h3>
 <p>Creates a new instance of this <a href="https://r6.r-lib.org/reference/R6Class.html" class="external-link">R6</a> class.</p><div class="section">
@@ -237,9 +207,9 @@ A regression learner (when <code>lags</code> is provided) or a graph/PipeOp.</p>
 
       <dt><code>lags</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
-The lag values to use for creating lag features. If provided, <code>learner</code> is wrapped with
-<code>po("fcst.lags", lags = lags)</code>. If <code>NULL</code>, <code>learner</code> must be a <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or
-<a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">mlr3pipelines::PipeOp</a>.</p></dd>
+The lag values to use for creating lag features.
+If provided, <code>learner</code> is wrapped with <code>po("fcst.lags", lags = lags)</code>.
+If <code>NULL</code>, <code>learner</code> must be a <a href="https://mlr3pipelines.mlr-org.com/reference/Graph.html" class="external-link">mlr3pipelines::Graph</a> or <a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">mlr3pipelines::PipeOp</a>.</p></dd>
 
       <dt><code>id</code></dt>
 <dd><p>(<code>character(1)</code> | <code>NULL</code>)<br>
@@ -263,13 +233,33 @@ Whether to clone the graph, default <code>TRUE</code>.</p></dd>
 
 </div>
 
+<p></p><hr><a id="method-RecursiveForecaster-predict_newdata_fast"></a><div class="section">
+<h3 id="recursiveforecaster-predict-newdata-fast-"><code>RecursiveForecaster$predict_newdata_fast()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-predict-newdata-fast-"></a></h3>
+<p>Not supported, the inherited <a href="https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html" class="external-link">mlr3pipelines::GraphLearner</a> method handles only regression and classification.
+Use <code>$predict_newdata()</code> or <code><a href="https://generics.r-lib.org/reference/forecast.html" class="external-link">forecast()</a></code> instead.</p><div class="section">
+<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">RecursiveForecaster</span><span class="op">$</span><span class="fu">predict_newdata_fast</span><span class="op">(</span><span class="va">newdata</span>, task <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>newdata</code></dt>
+<dd><p>(ignored).</p></dd>
+
+      <dt><code>task</code></dt>
+<dd><p>(ignored).</p></dd>
+
+
+</dl><p></p></div>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-RecursiveForecaster-print"></a><div class="section">
 <h3 id="recursiveforecaster-print-"><code>RecursiveForecaster$print()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-print-"></a></h3>
 <p>Printer.</p><div class="section">
-<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">RecursiveForecaster</span><span class="op">$</span><span class="fu">print</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>...</code></dt>
 <dd><p>(ignored).</p></dd>
 
@@ -279,83 +269,13 @@ Whether to clone the graph, default <code>TRUE</code>.</p></dd>
 
 </div>
 
-<p></p><hr><a id="method-RecursiveForecaster-marshal"></a><div class="section">
-<h3 id="recursiveforecaster-marshal-"><code>RecursiveForecaster$marshal()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-marshal-"></a></h3>
-<p>Marshal the learner's model.</p><div class="section">
-<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">RecursiveForecaster</span><span class="op">$</span><span class="fu">marshal</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>...</code></dt>
-<dd><p>(any)<br>
-Additional arguments passed to <code><a href="https://mlr3.mlr-org.com/reference/marshaling.html" class="external-link">mlr3::marshal_model()</a></code>.</p></dd>
-
-
-</dl><p></p></div>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-RecursiveForecaster-unmarshal"></a><div class="section">
-<h3 id="recursiveforecaster-unmarshal-"><code>RecursiveForecaster$unmarshal()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-unmarshal-"></a></h3>
-<p>Unmarshal the learner's model.</p><div class="section">
-<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">RecursiveForecaster</span><span class="op">$</span><span class="fu">unmarshal</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
-<p></p><div class="arguments"><dl><dt><code>...</code></dt>
-<dd><p>(any)<br>
-Additional arguments passed to <code><a href="https://mlr3.mlr-org.com/reference/marshaling.html" class="external-link">mlr3::unmarshal_model()</a></code>.</p></dd>
-
-
-</dl><p></p></div>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-RecursiveForecaster-importance"></a><div class="section">
-<h3 id="recursiveforecaster-importance-"><code>RecursiveForecaster$importance()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-importance-"></a></h3>
-<p>The importance scores of the base learner, if it supports them.</p><div class="section">
-<h4 id="usage-4">Usage<a class="anchor" aria-label="anchor" href="#usage-4"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">RecursiveForecaster</span><span class="op">$</span><span class="fu">importance</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
-<p>Named <code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-RecursiveForecaster-selected_features"></a><div class="section">
-<h3 id="recursiveforecaster-selected-features-"><code>RecursiveForecaster$selected_features()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-selected-features-"></a></h3>
-<p>The selected features of the base learner, if it supports them.</p><div class="section">
-<h4 id="usage-5">Usage<a class="anchor" aria-label="anchor" href="#usage-5"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">RecursiveForecaster</span><span class="op">$</span><span class="fu">selected_features</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-1">Returns<a class="anchor" aria-label="anchor" href="#returns-1"></a></h4>
-<p><code><a href="https://rdrr.io/r/base/character.html" class="external-link">character()</a></code>.</p>
-</div>
-
-</div>
-
-<p></p><hr><a id="method-RecursiveForecaster-oob_error"></a><div class="section">
-<h3 id="recursiveforecaster-oob-error-"><code>RecursiveForecaster$oob_error()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-oob-error-"></a></h3>
-<p>The out-of-bag error of the base learner, if it supports it.</p><div class="section">
-<h4 id="usage-6">Usage<a class="anchor" aria-label="anchor" href="#usage-6"></a></h4>
-<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">RecursiveForecaster</span><span class="op">$</span><span class="fu">oob_error</span><span class="op">(</span><span class="op">)</span></span></code></pre></div><p></p></div>
-</div><p></p><div class="section">
-<h4 id="returns-2">Returns<a class="anchor" aria-label="anchor" href="#returns-2"></a></h4>
-<p><code>numeric(1)</code>.</p>
-</div>
-
-</div>
-
 <p></p><hr><a id="method-RecursiveForecaster-clone"></a><div class="section">
 <h3 id="recursiveforecaster-clone-"><code>RecursiveForecaster$clone()</code><a class="anchor" aria-label="anchor" href="#recursiveforecaster-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-7">Usage<a class="anchor" aria-label="anchor" href="#usage-7"></a></h4>
+<h4 id="usage-3">Usage<a class="anchor" aria-label="anchor" href="#usage-3"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">RecursiveForecaster</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-4">Arguments<a class="anchor" aria-label="anchor" href="#arguments-4"></a></h4>
+<h4 id="arguments-3">Arguments<a class="anchor" aria-label="anchor" href="#arguments-3"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 

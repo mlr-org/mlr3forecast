@@ -145,6 +145,8 @@
   lists the Monash Forecasting Repository datasets available to
   [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
   and `tsk("monash")`, including their download sizes.
+- feat: `RecursiveForecaster` is now a `GraphLearner` and exposes its
+  fields and methods, e.g. `$graph`, `$pipeops`, and `$base_learner()`.
 - feat: `tgen("arima")` simulates ARIMA series into a forecast task.
 - feat: `tsk("monash", dataset = ...)` creates a forecast task from a
   Monash Forecasting Repository dataset.

@@ -1,7 +1,8 @@
 # Recursive Forecast Learner
 
-A [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html) for
-iterative one-step-ahead forecasting: a single model is fit, then
+A
+[mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
+for iterative one-step-ahead forecasting: a single model is fit, then
 applied recursively, feeding each prediction back as a lag/rolling
 feature for the next step.
 
@@ -14,6 +15,11 @@ Can be constructed in two ways:
   [mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
   or
   [mlr3pipelines::PipeOp](https://mlr3pipelines.mlr-org.com/reference/PipeOp.html).
+
+All fields and methods of
+[mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
+are available, e.g. `$graph`, `$graph_model`, `$base_learner()`,
+`$importance()`, `$validate`, and `$internal_valid_scores`.
 
 ## Target transformations
 
@@ -50,7 +56,7 @@ narrow for `h > 1`. For calibrated multi-step intervals, prefer
 If the wrapped graph contains a learner with the `"validation"`
 property, the forecaster supports validation and internal tuning as
 well. Configure it with
-[`mlr3::set_validate()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html),
+[`set_validate.RecursiveForecaster()`](https://mlr3forecast.mlr-org.com/dev/reference/set_validate.RecursiveForecaster.md),
 which sets the forecaster's `$validate` field and routes the validation
 data to the graph's base learner. A numeric ratio is split
 chronologically per key (via
@@ -59,17 +65,19 @@ the validation set is always the most recent fraction of each series.
 Note that the validation scores measure one-step-ahead (teacher-forced)
 accuracy, not recursive multi-step accuracy.
 
-## Super class
+## Super classes
 
 [`mlr3::Learner`](https://mlr3.mlr-org.com/reference/Learner.html) -\>
-`RecursiveForecaster`
+[`mlr3pipelines::GraphLearner`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
+-\> `RecursiveForecaster`
 
 ## Active bindings
 
 - `learner`:
 
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
-  The base regression learner.
+  The untrained base regression learner of the graph. Use
+  `$base_learner()` for a copy holding the trained model.
 
 - `quantiles`:
 
@@ -106,75 +114,20 @@ accuracy, not recursive multi-step accuracy.
   [PipeOpFcstLags](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.lags.md)
   is in the graph.
 
-- `param_set`:
-
-  ([paradox::ParamSet](https://paradox.mlr-org.com/reference/ParamSet.html))  
-  Set of hyperparameters.
-
-- `hash`:
-
-  (`character(1)`)  
-  Hash (unique identifier) for this object.
-
-- `phash`:
-
-  (`character(1)`)  
-  Hash (unique identifier) for this partial object, excluding some
-  components which are varied systematically during tuning (parameter
-  values).
-
-- `marshaled`:
-
-  (`logical(1)`)  
-  Whether the learner's model is currently in marshaled form.
-
-- `validate`:
-
-  (`numeric(1)` \| `"predefined"` \| `"test"` \| `NULL`)  
-  How to construct the internal validation data. Use
-  [`mlr3::set_validate()`](https://mlr3.mlr-org.com/reference/mlr_sugar.html)
-  to also configure the wrapped graph.
-
-- `internal_valid_scores`:
-
-  (named [`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
-  The internal validation scores extracted from the wrapped graph, or
-  `NULL` if no validation was done.
-
-- `internal_tuned_values`:
-
-  (named [`list()`](https://rdrr.io/r/base/list.html) \| `NULL`)  
-  The internally tuned values extracted from the wrapped graph, or
-  `NULL` if no internal tuning was done.
-
-- `predict_type`:
-
-  (`character(1)`)  
-  Stores the currently active predict type.
-
 ## Methods
 
 ### Public methods
 
 - [`RecursiveForecaster$new()`](#method-RecursiveForecaster-initialize)
 
+- [`RecursiveForecaster$predict_newdata_fast()`](#method-RecursiveForecaster-predict_newdata_fast)
+
 - [`RecursiveForecaster$print()`](#method-RecursiveForecaster-print)
-
-- [`RecursiveForecaster$marshal()`](#method-RecursiveForecaster-marshal)
-
-- [`RecursiveForecaster$unmarshal()`](#method-RecursiveForecaster-unmarshal)
-
-- [`RecursiveForecaster$importance()`](#method-RecursiveForecaster-importance)
-
-- [`RecursiveForecaster$selected_features()`](#method-RecursiveForecaster-selected_features)
-
-- [`RecursiveForecaster$oob_error()`](#method-RecursiveForecaster-oob_error)
 
 - [`RecursiveForecaster$clone()`](#method-RecursiveForecaster-clone)
 
 Inherited methods
 
-- [`mlr3::Learner$base_learner()`](https://mlr3.mlr-org.com/reference/Learner.html#method-base_learner)
 - [`mlr3::Learner$configure()`](https://mlr3.mlr-org.com/reference/Learner.html#method-configure)
 - [`mlr3::Learner$encapsulate()`](https://mlr3.mlr-org.com/reference/Learner.html#method-encapsulate)
 - [`mlr3::Learner$format()`](https://mlr3.mlr-org.com/reference/Learner.html#method-format)
@@ -183,6 +136,15 @@ Inherited methods
 - [`mlr3::Learner$predict_newdata()`](https://mlr3.mlr-org.com/reference/Learner.html#method-predict_newdata)
 - [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
+- [`mlr3pipelines::GraphLearner$base_learner()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-base_learner)
+- [`mlr3pipelines::GraphLearner$ids()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-ids)
+- [`mlr3pipelines::GraphLearner$importance()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-importance)
+- [`mlr3pipelines::GraphLearner$loglik()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-loglik)
+- [`mlr3pipelines::GraphLearner$marshal()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-marshal)
+- [`mlr3pipelines::GraphLearner$oob_error()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-oob_error)
+- [`mlr3pipelines::GraphLearner$plot()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-plot)
+- [`mlr3pipelines::GraphLearner$selected_features()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-selected_features)
+- [`mlr3pipelines::GraphLearner$unmarshal()`](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html#method-unmarshal)
 
 ------------------------------------------------------------------------
 
@@ -245,6 +207,31 @@ Creates a new instance of this
 
 ------------------------------------------------------------------------
 
+### `RecursiveForecaster$predict_newdata_fast()`
+
+Not supported, the inherited
+[mlr3pipelines::GraphLearner](https://mlr3pipelines.mlr-org.com/reference/mlr_learners_graph.html)
+method handles only regression and classification. Use
+`$predict_newdata()` or
+[`forecast()`](https://generics.r-lib.org/reference/forecast.html)
+instead.
+
+#### Usage
+
+    RecursiveForecaster$predict_newdata_fast(newdata, task = NULL)
+
+#### Arguments
+
+- `newdata`:
+
+  (ignored).
+
+- `task`:
+
+  (ignored).
+
+------------------------------------------------------------------------
+
 ### `RecursiveForecaster$print()`
 
 Printer.
@@ -258,84 +245,6 @@ Printer.
 - `...`:
 
   (ignored).
-
-------------------------------------------------------------------------
-
-### `RecursiveForecaster$marshal()`
-
-Marshal the learner's model.
-
-#### Usage
-
-    RecursiveForecaster$marshal(...)
-
-#### Arguments
-
-- `...`:
-
-  (any)  
-  Additional arguments passed to
-  [`mlr3::marshal_model()`](https://mlr3.mlr-org.com/reference/marshaling.html).
-
-------------------------------------------------------------------------
-
-### `RecursiveForecaster$unmarshal()`
-
-Unmarshal the learner's model.
-
-#### Usage
-
-    RecursiveForecaster$unmarshal(...)
-
-#### Arguments
-
-- `...`:
-
-  (any)  
-  Additional arguments passed to
-  [`mlr3::unmarshal_model()`](https://mlr3.mlr-org.com/reference/marshaling.html).
-
-------------------------------------------------------------------------
-
-### `RecursiveForecaster$importance()`
-
-The importance scores of the base learner, if it supports them.
-
-#### Usage
-
-    RecursiveForecaster$importance()
-
-#### Returns
-
-Named [`numeric()`](https://rdrr.io/r/base/numeric.html).
-
-------------------------------------------------------------------------
-
-### `RecursiveForecaster$selected_features()`
-
-The selected features of the base learner, if it supports them.
-
-#### Usage
-
-    RecursiveForecaster$selected_features()
-
-#### Returns
-
-[`character()`](https://rdrr.io/r/base/character.html).
-
-------------------------------------------------------------------------
-
-### `RecursiveForecaster$oob_error()`
-
-The out-of-bag error of the base learner, if it supports it.
-
-#### Usage
-
-    RecursiveForecaster$oob_error()
-
-#### Returns
-
-`numeric(1)`.
 
 ------------------------------------------------------------------------
 
