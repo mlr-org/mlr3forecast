@@ -230,6 +230,9 @@
   [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
   of a backtest prediction now connects the forecast to the last
   observation before it instead of the last observation of the task.
+- fix: `DirectForecaster`, `po("fcst.lags")`, and `po("fcst.rolling")`
+  now reject duplicate `lags` or `window_sizes` when they are set.
+  Previously, training failed with an unclear data.table error.
 - fix: `DirectForecaster` no longer ignores predict parameters changed
   after training.
 - fix: `DirectForecaster` now raises an input error naming the key
