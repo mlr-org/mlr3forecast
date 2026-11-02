@@ -8,6 +8,10 @@ test_that("PipeOpFcstLags rejects non-positive lags", {
   expect_snapshot(po("fcst.lags", lags = c(1L, -1L)), error = TRUE, variant = snapshot_variant)
 })
 
+test_that("PipeOpFcstLags rejects duplicate lags", {
+  expect_error(po("fcst.lags", lags = c(1L, 1L)), "duplicated")
+})
+
 test_that("PipeOpFcstLags aligns train features on date-major keyed task", {
   task = make_date_major_panel_task()
   out = po("fcst.lags", lags = 1L)$train(list(task))[[1L]]

@@ -285,6 +285,10 @@ test_that("DirectForecaster clone has independent lags", {
   expect_equal(learner$lags, 1:3)
 })
 
+test_that("DirectForecaster rejects duplicate lags", {
+  expect_error(DirectForecaster$new(lrn("regr.featureless"), lags = c(1L, 1L), horizons = 1L), "duplicated")
+})
+
 test_that("DirectForecaster native_model returns one fitted model per horizon", {
   task = tsk("airpassengers")
   learner = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = c(1L, 3L, 6L))

@@ -77,7 +77,9 @@ DirectForecaster = R6Class(
       private$.fcst_param_set = ps(
         lags = p_uty(
           tags = "train",
-          custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
+          custom_check = crate(function(x) {
+            check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L, unique = TRUE)
+          })
         )
       )
       private$.fcst_param_set$set_values(lags = lags)

@@ -52,7 +52,7 @@ PipeOpFcstRolling = R6Class(
           init = 3L,
           tags = "train",
           custom_check = crate(function(x) {
-            ok = check_numeric(x, lower = 1, any.missing = FALSE, min.len = 1L)
+            ok = check_numeric(x, lower = 1, any.missing = FALSE, min.len = 1L, unique = TRUE)
             if (!isTRUE(ok)) {
               return(ok)
             }

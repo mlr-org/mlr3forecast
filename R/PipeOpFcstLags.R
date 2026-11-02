@@ -38,7 +38,9 @@ PipeOpFcstLags = R6Class(
         lags = p_uty(
           init = 1L,
           tags = "train",
-          custom_check = crate(function(x) check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L))
+          custom_check = crate(function(x) {
+            check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L, unique = TRUE)
+          })
         )
       )
 

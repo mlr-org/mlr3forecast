@@ -76,6 +76,10 @@ test_that("PipeOpFcstRolling rejects non-integer finite window sizes", {
   expect_snapshot(po("fcst.rolling", window_sizes = 2.5), error = TRUE, variant = snapshot_variant)
 })
 
+test_that("PipeOpFcstRolling rejects duplicate window sizes", {
+  expect_error(po("fcst.rolling", window_sizes = c(3L, 3L)), "duplicated")
+})
+
 test_that("PipeOpFcstRolling is not confused by columns named like its variables", {
   roll_data = function(task) po("fcst.rolling", funs = "mean", window_sizes = 3L)$train(list(task))[[1L]]$data()
   expected = roll_data(make_named_task())
