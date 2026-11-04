@@ -410,12 +410,7 @@ print.recursive_forecaster_model = function(x, ...) {
 #' @export
 #' @method marshal_model recursive_forecaster_model
 marshal_model.recursive_forecaster_model = function(model, inplace = FALSE, ...) {
-  graph_state = model$graph_state
-  # models trained with mlr3forecast 0.2.0 store the graph state without its class
-  if (!inherits(graph_state, "graph_learner_model")) {
-    graph_state = set_class(graph_state, c("graph_learner_model", class(graph_state)))
-  }
-  marshaled = marshal_model(graph_state, inplace = inplace, ...)
+  marshaled = marshal_model(model$graph_state, inplace = inplace, ...)
   if (!is_marshaled_model(marshaled)) {
     return(model)
   }
