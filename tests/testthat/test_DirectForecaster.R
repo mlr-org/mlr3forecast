@@ -305,6 +305,12 @@ test_that("DirectForecaster deep clone does not share trained models", {
   expect_prediction(clone$predict(task, 131:132))
 })
 
+test_that("DirectForecaster rejects predict_newdata_fast", {
+  task = tsk("airpassengers")
+  learner = DirectForecaster$new(lrn("regr.featureless"), lags = 1:3, horizons = 2L)$train(task)
+  expect_error(learner$predict_newdata_fast(task$data(rows = 1:3)), "forecast()", fixed = TRUE)
+})
+
 test_that("DirectForecaster rejects duplicate lags", {
   expect_error(DirectForecaster$new(lrn("regr.featureless"), lags = c(1L, 1L), horizons = 1L), "duplicated")
 })

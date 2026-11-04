@@ -86,6 +86,7 @@ Stores the currently active predict type.}
   \itemize{
     \item \href{#method-DirectForecaster-initialize}{\code{DirectForecaster$new()}}
     \item \href{#method-DirectForecaster-print}{\code{DirectForecaster$print()}}
+    \item \href{#method-DirectForecaster-predict_newdata_fast}{\code{DirectForecaster$predict_newdata_fast()}}
     \item \href{#method-DirectForecaster-marshal}{\code{DirectForecaster$marshal()}}
     \item \href{#method-DirectForecaster-unmarshal}{\code{DirectForecaster$unmarshal()}}
     \item \href{#method-DirectForecaster-importance}{\code{DirectForecaster$importance()}}
@@ -166,6 +167,26 @@ Whether to clone the graph, default \code{TRUE}.}
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{...}}{(ignored).}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-DirectForecaster-predict_newdata_fast"></a>}}
+\if{latex}{\out{\hypertarget{method-DirectForecaster-predict_newdata_fast}{}}}
+\subsection{\code{DirectForecaster$predict_newdata_fast()}}{
+  Not supported, use \verb{$predict_newdata()} or \code{\link[=forecast]{forecast()}} instead.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{DirectForecaster$predict_newdata_fast(newdata, task = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{newdata}}{(ignored).}
+      \item{\code{task}}{(ignored).}
     }
     \if{html}{\out{</div>}}
   }

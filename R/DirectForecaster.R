@@ -154,6 +154,17 @@ DirectForecaster = R6Class(
     },
 
     #' @description
+    #' Not supported, use `$predict_newdata()` or [forecast()] instead.
+    #' @param newdata (ignored).
+    #' @param task (ignored).
+    predict_newdata_fast = function(newdata, task = NULL) {
+      error_input(
+        "Learner '%s' does not support predict_newdata_fast(). Use predict_newdata() or forecast() instead.",
+        self$id
+      )
+    },
+
+    #' @description
     #' Marshal the learner's model.
     #' @param ... (any)\cr
     #'   Additional arguments passed to [`mlr3::marshal_model()`].
