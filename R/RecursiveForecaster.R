@@ -90,7 +90,7 @@ RecursiveForecaster = R6Class(
     ) {
       if (!is.null(lags)) {
         learner = assert_learner(as_learner(learner), task_type = "regr")
-        lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
+        lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, min.len = 1L, unique = TRUE, coerce = TRUE)
         graph = po("fcst.lags", lags = lags) %>>% learner
       } else {
         graph = as_graph(learner)

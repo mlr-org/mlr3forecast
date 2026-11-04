@@ -95,6 +95,11 @@ test_that("RecursiveForecaster warns without iterative PipeOps", {
   expect_warning(RecursiveForecaster$new(graph), "recursive")
 })
 
+test_that("RecursiveForecaster requires nonempty unique lags", {
+  expect_error(RecursiveForecaster$new(lrn("regr.featureless"), lags = integer()), "Assertion on 'lags'")
+  expect_error(RecursiveForecaster$new(lrn("regr.featureless"), lags = c(1L, 1L)), "Assertion on 'lags'")
+})
+
 test_that("RecursiveForecaster does not truncate predictions fed back into integer targets", {
   skip_if_not_installed("withr")
 
