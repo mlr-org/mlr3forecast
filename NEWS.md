@@ -20,6 +20,7 @@
 * feat: `DirectForecaster` and `direct_forecaster()` gained the `clone_graph` argument, matching `RecursiveForecaster`.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained a read-only `$graph_model` field that exposes their wrapped graph or trained graphs.
 * feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles` and `$quantile_response` fields that configure every compatible learner in the wrapped graph.
+* feat: `DirectForecaster` gained a read-only `$graph` field, and its `$base_learner()` now returns the base learner of the wrapped graph like for `RecursiveForecaster`, instead of the forecaster itself.
 * feat: `download_monash_dataset()` downloads Monash Forecasting Repository datasets by dataset ID from pinned Zenodo records and sets the `"horizon"` attribute from the Monash benchmark horizons for datasets whose tsf file lacks a `@horizon` line.
 * feat: `download_monash_dataset()` and `tsk("monash")` cache downloaded files if the new option `mlr3forecast.cache` is set to `TRUE` or a directory.
 * feat: `fcst.auto_adam` gained the `constant`, `loss`, and `lambda` parameters, which are passed on to `smooth::auto.adam()`.
@@ -95,6 +96,7 @@
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
 * fix: `TaskFcst` now errors if the order column role is removed.
 * perf: `read_tsf()` builds calendar date indices arithmetically instead of through `ISOdate()`, which makes reading files with many series about 20 times faster.
+* perf: `DirectForecaster` now stores one trained graph state per horizon instead of a full `GraphLearner`, which makes trained models about three times smaller.
 * perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
 
 # mlr3forecast 0.2.0

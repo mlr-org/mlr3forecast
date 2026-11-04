@@ -19,6 +19,12 @@
 #' Tune the base values via the PipeOp's parameters, e.g. `fcst.lags.lags`.
 #' Only the last `$lookback` observations of each series are kept for prediction,
 #' or all of them for an expanding window.
+#' At predict time the graph is evaluated with the trained state of each horizon,
+#' so iterative PipeOps must store the settings their predict step needs in their state.
+#'
+#' @section Wrapped learner:
+#' `$graph` is the wrapped graph and `$base_learner()` its base learner, like for [RecursiveForecaster].
+#' Both are the untrained templates shared by all horizons, the trained graph of each horizon is in `$graph_model`.
 #'
 #' @export
 #' @examplesIf mlr3misc::require_namespaces("rpart", quietly = TRUE)
@@ -228,10 +234,18 @@ DirectForecaster = R6Class(
 
   active = list(
     #' @field learner ([mlr3::Learner])\cr
-    #' The base regression learner.
+    #' The untrained base regression learner of the graph, the same as `$base_learner()`.
     learner = function(rhs) {
       assert_ro_binding(rhs)
-      private$.learner$base_learner()
+      self$base_learner()
+    },
+
+    #' @field graph ([mlr3pipelines::Graph])\cr
+    #' The wrapped graph, without the per-horizon shift.
+    #' Read-only.
+    graph = function(rhs) {
+      assert_ro_binding(rhs)
+      private$.learner$graph
     },
 
     #' @field quantiles (`numeric()`)\cr
@@ -245,9 +259,6 @@ DirectForecaster = R6Class(
         return(get_graph_quantile_field(private$.learner$graph, "quantiles", self$id))
       }
       set_graph_quantile_field(private$.learner$graph, "quantiles", rhs, self$id)
-      walk(self$model$models, function(m) {
-        set_graph_quantile_field(m$graph, "quantiles", rhs, self$id)
-      })
     },
 
     #' @field quantile_response (`numeric(1)`)\cr
@@ -257,9 +268,6 @@ DirectForecaster = R6Class(
         return(get_graph_quantile_field(private$.learner$graph, "quantile_response", self$id))
       }
       set_graph_quantile_field(private$.learner$graph, "quantile_response", rhs, self$id)
-      walk(self$model$models, function(m) {
-        set_graph_quantile_field(m$graph, "quantile_response", rhs, self$id)
-      })
     },
 
     #' @field graph_model ([mlr3pipelines::Graph] | named `list()`)\cr
@@ -270,7 +278,6 @@ DirectForecaster = R6Class(
       if (is.null(self$model)) {
         return(private$.learner$graph)
       }
-      assert_unmarshaled(self)
       private$.per_horizon(function(glrn) glrn$graph_model)
     },
 
@@ -281,7 +288,6 @@ DirectForecaster = R6Class(
       if (is.null(self$model)) {
         return()
       }
-      assert_unmarshaled(self)
       private$.per_horizon(function(glrn) glrn$base_learner()$native_model)
     },
 
@@ -343,7 +349,6 @@ DirectForecaster = R6Class(
         error_input("Learner '%s' does not support predict type '%s'.", self$id, rhs)
       }
       private$.learner$predict_type = rhs
-      walk(self$model$models, function(m) m$predict_type = rhs)
       private$.predict_type = rhs
     }
   ),
@@ -353,34 +358,19 @@ DirectForecaster = R6Class(
     .horizons = NULL,
 
     deep_clone = function(name, value) {
-      switch(
-        name,
-        .learner = value$clone(deep = TRUE),
-        state = {
-          value = super$deep_clone(name, value)
-          # Learner's deep_clone keeps the model, so clones would share the trained horizon learners
-          clone_models = function(models) map(models, function(m) m$clone(deep = TRUE))
-          if (inherits(value$model, "direct_forecaster_model")) {
-            value$model$models = clone_models(value$model$models)
-          } else if (inherits(value$model, "direct_forecaster_model_marshaled")) {
-            value$model$marshaled$models = clone_models(value$model$marshaled$models)
-          }
-          value
-        },
-        super$deep_clone(name, value)
-      )
+      if (name == ".learner") value$clone(deep = TRUE) else super$deep_clone(name, value)
     },
 
     .train = function(task) {
       graph = private$.learner$graph
 
-      # the model for horizon h shifts the iterative features by h - 1 steps, so they only use values observed at the
-      # forecast origin
-      models = map(private$.horizons, function(h) {
+      # the graph for horizon h shifts the iterative features by h - 1 steps, so they only use values observed at the
+      # forecast origin, and its iterative PipeOps keep the shifted settings in their state
+      graph_states = map(private$.horizons, function(h) {
         g = graph$clone(deep = TRUE)
         walk(fcst_iterative_pipeops(g), function(po) po$shift(h - 1L))
-        glrn = GraphLearner$new(g, task_type = "regr", clone_graph = FALSE)
-        glrn$train(task)
+        g$train(task)
+        set_class(g$state, c("graph_learner_model", class(g$state)))
       })
 
       # per-key origin and step let predict recover each row's step-distance
@@ -417,7 +407,7 @@ DirectForecaster = R6Class(
 
       set_class(
         list(
-          models = models,
+          graph_states = graph_states,
           origin = origin,
           anchor = anchor,
           freq = step,
@@ -430,16 +420,6 @@ DirectForecaster = R6Class(
     },
 
     .predict = function(task) {
-      models = self$model$models
-      # apply the current predict hyperparameters for this call only, so changing or unsetting one after training
-      # takes effect while the trained models keep the values they were trained with
-      predict_values = private$.learner$param_set$get_values(tags = "predict", check_required = FALSE)
-      trained_values = map(models, function(m) m$param_set$values)
-      on.exit(pwalk(list(models, trained_values), function(m, values) m$param_set$values = values), add = TRUE)
-      walk(models, function(m) {
-        values = m$param_set$values
-        m$param_set$values = insert_named(values[names(values) %nin% m$param_set$ids(tags = "predict")], predict_values)
-      })
       horizons = private$.horizons
       max_h = max(horizons)
       step = self$model$freq
@@ -511,7 +491,7 @@ DirectForecaster = R6Class(
       active = task$data(cols = c(key_cols, order_cols))
       cids = lookup[active, on = c(key_cols, order_cols), "..row_id"][[1L]]
 
-      out = private$.predict_horizons(step_task, models, cids, ii)
+      out = private$.predict_horizons(step_task, cids, ii)
 
       out_data = task$data(cols = c(target, key_cols, order_cols))
       new_data = list(
@@ -528,16 +508,38 @@ DirectForecaster = R6Class(
       out
     },
 
-    .per_horizon = function(fn) {
-      set_names(map(self$model$models, fn), paste0("h", self$horizons))
+    .base_learner = function(recursive = Inf) {
+      # transparent like RecursiveForecaster, so base_learner(1) is the learner of the graph for both forecasters
+      if (recursive <= 0) self else private$.learner$base_learner(recursive)
     },
 
-    .predict_horizons = function(task, models, row_ids, ii) {
+    # a GraphLearner holding the shifted graph and trained state of the i-th horizon
+    .horizon_learner = function(i) {
+      glrn = private$.learner$clone(deep = TRUE)
+      walk(fcst_iterative_pipeops(glrn$graph), function(po) po$shift(private$.horizons[[i]] - 1L))
+      glrn$model = self$model$graph_states[[i]]
+      glrn
+    },
+
+    .per_horizon = function(fn) {
+      assert_unmarshaled(self)
+      out = map(seq_along(private$.horizons), function(i) fn(private$.horizon_learner(i)))
+      set_names(out, paste0("h", private$.horizons))
+    },
+
+    .predict_horizons = function(task, row_ids, ii) {
       task = task$clone()
-      # one batched predict() per horizon model instead of row-by-row
-      preds = imap(split(row_ids, ii), function(ids, h) {
+      # the live graph carries the current predict hyperparameters, and each horizon's state its trained models
+      graph = private$.learner$graph
+      on.exit({
+        graph$state = NULL
+      })
+      graph_states = self$model$graph_states
+      # one batched predict() per horizon instead of row-by-row
+      preds = imap(split(row_ids, ii), function(ids, i) {
         task$row_roles$use = ids
-        models[[as.integer(h)]]$predict(task)
+        graph$state = graph_states[[as.integer(i)]]
+        graph$predict(task)[[1L]]
       })
       # batches come back in model order; restore the caller's row_ids order
       reorder_prediction(do.call(c, preds), row_ids)
@@ -552,7 +554,7 @@ print.direct_forecaster_model = function(x, ...) {
     cli::cli_text("<direct_forecaster_model>")
     cli::cli_li("Target: {x$target}")
     cli::cli_li("Frequency: {x$freq}")
-    cli::cli_li("Horizon models: {length(x$models)}")
+    cli::cli_li("Horizon models: {length(x$graph_states)}")
   })
   invisible(x)
 }
@@ -560,33 +562,15 @@ print.direct_forecaster_model = function(x, ...) {
 #' @export
 #' @method marshal_model direct_forecaster_model
 marshal_model.direct_forecaster_model = function(model, inplace = FALSE, ...) {
-  if (inplace) {
-    model$models = map(model$models, function(m) {
-      m$model = marshal_model(m$model, inplace = TRUE, ...)
-      m
-    })
-    return(set_class(
-      list(marshaled = model, packages = c("mlr3pipelines", "mlr3forecast")),
-      c(paste0(class(model), "_marshaled"), "marshaled")
-    ))
+  graph_states = map(model$graph_states, marshal_model, inplace = inplace, ...)
+  if (!some(graph_states, is_marshaled_model)) {
+    return(model)
   }
-  # we clone the learner without its model
-  marshaled_models = map(model$models, function(m) {
-    learner_model = m$model
-    on.exit(
-      {
-        m$model = learner_model
-      },
-      add = TRUE
-    )
-    m$model = NULL
-    m_clone = m$clone(deep = TRUE)
-    m_clone$model = marshal_model(learner_model, inplace = FALSE, ...)
-    m_clone
-  })
-  model$models = marshaled_models
   set_class(
-    list(marshaled = model, packages = c("mlr3pipelines", "mlr3forecast")),
+    list(
+      marshaled = insert_named(model, list(graph_states = graph_states)),
+      packages = c("mlr3pipelines", "mlr3forecast")
+    ),
     c(paste0(class(model), "_marshaled"), "marshaled")
   )
 }
@@ -594,29 +578,9 @@ marshal_model.direct_forecaster_model = function(model, inplace = FALSE, ...) {
 #' @export
 #' @method unmarshal_model direct_forecaster_model_marshaled
 unmarshal_model.direct_forecaster_model_marshaled = function(model, inplace = FALSE, ...) {
-  m_inner = model$marshaled
-  if (inplace) {
-    m_inner$models = map(m_inner$models, function(m) {
-      m$model = unmarshal_model(m$model, inplace = TRUE, ...)
-      m
-    })
-    return(set_class(m_inner, c("direct_forecaster_model", "list")))
-  }
-  unmarshaled_models = map(m_inner$models, function(m) {
-    prev_model = m$model
-    on.exit(
-      {
-        m$model = prev_model
-      },
-      add = TRUE
-    )
-    m$model = NULL
-    m_clone = m$clone(deep = TRUE)
-    m_clone$model = unmarshal_model(prev_model, inplace = FALSE, ...)
-    m_clone
-  })
-  m_inner$models = unmarshaled_models
-  set_class(m_inner, c("direct_forecaster_model", "list"))
+  m = model$marshaled
+  m$graph_states = map(m$graph_states, unmarshal_model, inplace = inplace, ...)
+  set_class(m, c("direct_forecaster_model", "list"))
 }
 
 #' @export

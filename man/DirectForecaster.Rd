@@ -25,6 +25,14 @@ For example, base lags \code{1:3} become lags \code{h:(h + 2)}, so at prediction
 Tune the base values via the PipeOp's parameters, e.g. \code{fcst.lags.lags}.
 Only the last \verb{$lookback} observations of each series are kept for prediction,
 or all of them for an expanding window.
+At predict time the graph is evaluated with the trained state of each horizon,
+so iterative PipeOps must store the settings their predict step needs in their state.
+}
+
+\section{Wrapped learner}{
+
+\verb{$graph} is the wrapped graph and \verb{$base_learner()} its base learner, like for \link{RecursiveForecaster}.
+Both are the untrained templates shared by all horizons, the trained graph of each horizon is in \verb{$graph_model}.
 }
 
 \examples{
@@ -55,7 +63,11 @@ flrn$predict(task, split$test)
   \if{html}{\out{<div class="r6-active-bindings">}}
   \describe{
     \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner})\cr
-The base regression learner.}
+The untrained base regression learner of the graph, the same as \verb{$base_learner()}.}
+
+    \item{\code{graph}}{(\link[mlr3pipelines:Graph]{mlr3pipelines::Graph})\cr
+The wrapped graph, without the per-horizon shift.
+Read-only.}
 
     \item{\code{quantiles}}{(\code{numeric()})\cr
 Numeric vector of probabilities to be used while predicting quantiles.
