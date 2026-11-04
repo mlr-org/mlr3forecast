@@ -121,6 +121,12 @@ test_that("future predict rejects windows that are not the next h steps", {
   expect_length(prediction$response, length(split$test))
 })
 
+test_that("predict_newdata_fast errors informatively", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.mean")$train(task)
+  expect_error(learner$predict_newdata_fast(task$data(rows = 1:3), task), "forecast()", fixed = TRUE)
+})
+
 test_that("the period hyperparameter sets the frequency of the ts", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")

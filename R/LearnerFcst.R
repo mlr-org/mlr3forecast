@@ -72,6 +72,18 @@ LearnerFcst = R6Class(
         label = label,
         man = man
       )
+    },
+
+    #' @description
+    #' Not supported, the inherited [mlr3::LearnerRegr] method does not provide the time index a forecast needs.
+    #' Use `$predict_newdata()` or [forecast()] instead.
+    #' @param newdata (ignored).
+    #' @param task (ignored).
+    predict_newdata_fast = function(newdata, task = NULL) {
+      error_input(
+        "Learner '%s' does not support predict_newdata_fast(). Use predict_newdata() or forecast() instead.",
+        self$id
+      )
     }
   ),
   active = list(

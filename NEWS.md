@@ -39,6 +39,7 @@
 * fix: The default seasonal `period` is now rounded to a whole number, e.g. `52` instead of `52.18` for a weekly `freq`, so that `fcst.stlm`, `fcst.theta`, and other learners requiring an integer period no longer drop the seasonality. Set `period = "year"` to keep the exact cycle.
 * fix: A daily `freq` now derives a seasonal period of `7` (the weekly cycle) instead of the non-integer `365.25`, which blocked seasonal models and made scaled measures return `NaN`. Pass `period` explicitly to keep the annual cycle. Scores and fitted models change for daily tasks.
 * fix: The "no model stored" error is now a learner error instead of an input error.
+* fix: Forecast learners now raise an input error in `$predict_newdata_fast()` pointing to `$predict_newdata()` and `forecast()`, instead of failing inside `$predict()` with an unrelated error, as the inherited regression method does not pass the time index on.
 * fix: Forecast learners now convert logical exogenous features to numeric values before passing them to the wrapped forecasting packages.
 * fix: Exogenous learners from `smooth` no longer advertise support for missing feature values.
 * fix: Forecaster hashes now cover the wrapped graph's structure and, for `DirectForecaster`, the `horizons`.

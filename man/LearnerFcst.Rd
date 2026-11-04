@@ -141,6 +141,7 @@ The fitted model.}
 \subsection{Public methods}{
   \itemize{
     \item \href{#method-LearnerFcst-initialize}{\code{LearnerFcst$new()}}
+    \item \href{#method-LearnerFcst-predict_newdata_fast}{\code{LearnerFcst$predict_newdata_fast()}}
     \item \href{#method-LearnerFcst-clone}{\code{LearnerFcst$clone()}}
   }
 }
@@ -157,7 +158,6 @@ The fitted model.}
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="reset"><a href='../../mlr3/html/Learner.html#method-Learner-reset'><code>mlr3::Learner$reset()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="selected_features"><a href='../../mlr3/html/Learner.html#method-Learner-selected_features'><code>mlr3::Learner$selected_features()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3" data-topic="Learner" data-id="train"><a href='../../mlr3/html/Learner.html#method-Learner-train'><code>mlr3::Learner$train()</code></a></span></li>
-  <li><span class="pkg-link" data-pkg="mlr3" data-topic="LearnerRegr" data-id="predict_newdata_fast"><a href='../../mlr3/html/LearnerRegr.html#method-LearnerRegr-predict_newdata_fast'><code>mlr3::LearnerRegr$predict_newdata_fast()</code></a></span></li>
 </ul>
 </details>}}
 \if{html}{\out{<hr>}}
@@ -218,6 +218,27 @@ Label for the new instance.}
       \item{\code{man}}{(\code{character(1)})\cr
 String in the format \verb{[pkg]::[topic]} pointing to a manual page for this object.
 The referenced help package can be opened via method \verb{$help()}.}
+    }
+    \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-LearnerFcst-predict_newdata_fast"></a>}}
+\if{latex}{\out{\hypertarget{method-LearnerFcst-predict_newdata_fast}{}}}
+\subsection{\code{LearnerFcst$predict_newdata_fast()}}{
+  Not supported, the inherited \link[mlr3:LearnerRegr]{mlr3::LearnerRegr} method does not provide the time index a forecast needs.
+Use \verb{$predict_newdata()} or \code{\link[=forecast]{forecast()}} instead.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{LearnerFcst$predict_newdata_fast(newdata, task = NULL)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{newdata}}{(ignored).}
+      \item{\code{task}}{(ignored).}
     }
     \if{html}{\out{</div>}}
   }
