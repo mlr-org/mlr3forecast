@@ -2,25 +2,27 @@
 % Please edit documentation in R/forecast.R
 \name{generate_newdata}
 \alias{generate_newdata}
-\title{Generate new data for a forecast task}
+\title{Generate New Data for a Forecast Task}
 \usage{
 generate_newdata(task, n = 1L)
 }
 \arguments{
-\item{task}{\link{TaskFcst}\cr
+\item{task}{(\link{TaskFcst})\cr
 Task.}
 
 \item{n}{(\code{integer(1)})\cr
-Number of new data points to generate. Default \code{1L}.}
+Number of future observations per series.
+Default \code{1L}.}
 }
 \value{
-A \code{\link[data.table:data.table]{data.table::data.table()}} with \code{n} new data points.
+A \code{\link[data.table:data.table]{data.table::data.table()}} with \code{n} rows per series.
 }
 \description{
-Generate new data for a forecast task
+Extends each series by \code{n} time steps, retaining the order and key columns and setting the target to \code{NA}.
 }
 \details{
-Future dates are extrapolated by stepping the order column. For calendar \code{freq} (\code{month}/\code{quarter}/\code{year}), each
-series' day-of-month is carried forward and clamped to each target month's last valid day, where a series of month
-ends stays on month ends. Other freqs use \code{\link[base:seq]{base::seq()}}.
+For monthly, quarterly, or yearly \code{freq}, the day of the month is preserved where possible
+and clamped to the last valid day otherwise.
+Series observed at month ends continue at month ends.
+Other frequencies use \code{\link[base:seq]{base::seq()}}.
 }

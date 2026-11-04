@@ -13,7 +13,7 @@ Springer, New York.
 \doi{10.1007/978-1-4419-0320-4}.
 }
 \description{
-A forecast task for the popular \link[datasets:lynx]{datasets::lynx} data set.
+A forecast task for the \link[datasets:lynx]{datasets::lynx} dataset.
 The task represents the annual numbers of lynx trappings in Canada from 1821 to 1934.
 }
 \section{Dictionary}{

@@ -4,7 +4,7 @@
 #' @format [R6::R6Class] inheriting from [TaskFcst].
 #'
 #' @description
-#' A forecast task for the popular [datasets::AirPassengers] data set.
+#' A forecast task for the [datasets::AirPassengers] dataset.
 #' The task represents the monthly totals of international airline passengers from 1949 to 1960.
 #'
 #' @templateVar id airpassengers

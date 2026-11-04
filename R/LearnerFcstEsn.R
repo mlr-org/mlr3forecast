@@ -1,5 +1,5 @@
 #' @include LearnerFcst.R
-#' @title Echo state network forecast learner
+#' @title Echo State Network Forecast Learner
 #'
 #' @name mlr_learners_fcst.esn
 #'

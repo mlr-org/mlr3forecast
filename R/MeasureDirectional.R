@@ -3,7 +3,7 @@
 #' @name mlr_measures_fcst.mda
 #'
 #' @description
-#' Measure of the proportion of correctly predicted directions between successive observations in forecast tasks.
+#' Measures the proportion of correctly predicted directions between successive observations in forecast tasks.
 #'
 #' @details
 #' \deqn{
@@ -79,7 +79,7 @@ MeasureMDA = R6Class(
 #' @name mlr_measures_fcst.mdv
 #'
 #' @description
-#' Measure of average magnitude‐weighted directional accuracy in forecast tasks.
+#' Measures average magnitude-weighted directional accuracy in forecast tasks.
 #'
 #' @details
 #' \deqn{
@@ -149,7 +149,7 @@ MeasureMDV = R6Class(
 #' @name mlr_measures_fcst.mdpv
 #'
 #' @description
-#' Measure of average percentage‐weighted directional accuracy in forecast tasks.
+#' Measures average percentage-weighted directional accuracy in forecast tasks.
 #'
 #' @details
 #' \deqn{

@@ -2,12 +2,12 @@
 % Please edit documentation in R/TaskFcst_electricity.R
 \name{mlr_tasks_electricity}
 \alias{mlr_tasks_electricity}
-\title{Daily electricity demand for Victoria, Australia Forecast Task}
+\title{Daily Electricity Demand in Victoria Forecast Task}
 \format{
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskFcst}.
 }
 \description{
-A forecast task for the \link[tsibbledata:vic_elec]{tsibbledata::vic_elec} data set.
+A forecast task for the \link[tsibbledata:vic_elec]{tsibbledata::vic_elec} dataset.
 The task represents a daily time series and is ordered by \code{date}.
 }
 \section{Dictionary}{

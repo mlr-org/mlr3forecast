@@ -1,7 +1,7 @@
 #' @title Forecast Learner
 #'
 #' @description
-#' This Learner specializes [mlr3::LearnerRegr] for forecast problems:
+#' This learner specializes [mlr3::LearnerRegr] for forecasting problems:
 #'
 #' * `task_type` is set to `"fcst"`.
 #' * Creates [mlr3::Prediction]s of class [PredictionFcst].

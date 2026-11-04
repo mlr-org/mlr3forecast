@@ -1,10 +1,10 @@
-#' @title Daily electricity demand for Victoria, Australia Forecast Task
+#' @title Daily Electricity Demand in Victoria Forecast Task
 #'
 #' @name mlr_tasks_electricity
 #' @format [R6::R6Class] inheriting from [TaskFcst].
 #'
 #' @description
-#' A forecast task for the [tsibbledata::vic_elec] data set.
+#' A forecast task for the [tsibbledata::vic_elec] dataset.
 #' The task represents a daily time series and is ordered by `date`.
 #'
 #' @templateVar id electricity

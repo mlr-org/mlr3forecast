@@ -1,10 +1,10 @@
 #' @title Convert to a Forecast Task
 #'
 #' @description
-#' Convert object to a [TaskFcst].
-#' This is a S3 generic. mlr3forecast ships with methods for the following objects:
+#' Converts an object to a [TaskFcst].
+#' This S3 generic supports the following objects:
 #'
-#' 1. [TaskFcst]: ensure the identity
+#' 1. [TaskFcst]: returns the object as-is, optionally cloned.
 #' 2. [data.frame()] and [mlr3::DataBackend]: provides an alternative to the constructor of [TaskFcst].
 #' 3. `ts`: from base R time series objects (univariate and multivariate).
 #'    A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.

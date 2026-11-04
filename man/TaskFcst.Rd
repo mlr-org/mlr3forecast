@@ -4,17 +4,18 @@
 \alias{TaskFcst}
 \title{Forecast Task}
 \description{
-This task specializes \link[mlr3:Task]{mlr3::Task}, \link[mlr3:TaskSupervised]{mlr3::TaskSupervised} and \link[mlr3:TaskRegr]{mlr3::TaskRegr} for forecasting problems. The target
-column is assumed to be numeric. The \code{task_type} is set to \code{"fcst"}.
+This task specializes \link[mlr3:TaskRegr]{mlr3::TaskRegr} for forecasting problems.
+The target column must be numeric.
+The \code{task_type} is set to \code{"fcst"}.
 
 It is recommended to use \code{\link[=as_task_fcst]{as_task_fcst()}} for construction.
 Predefined tasks are stored in the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_tasks]{mlr3::mlr_tasks}.
 }
 \section{Series identity and keys}{
 
-A task may have one or more \code{key} columns whose combination identifies each series. The key role drives all
-per-series operations: target lags and rolling windows (\link{PipeOpFcstLags}, \link{PipeOpFcstRolling}) are computed within
-each series, and the future forecast grid is built per series.
+A task may have one or more \code{key} columns whose combination identifies each series.
+Target lags and rolling windows (\link{PipeOpFcstLags}, \link{PipeOpFcstRolling}) are computed within each series.
+The future forecast grid is also built per series.
 
 Key columns are \strong{not} features by default.
 To let a global model specialize per series, add the feature role back:
@@ -22,10 +23,9 @@ To let a global model specialize per series, add the feature role back:
 \if{html}{\out{<div class="sourceCode r">}}\preformatted{task$set_col_roles("series_id", add_to = "feature")
 }\if{html}{\out{</div>}}
 
-For a high-cardinality key, encode it inside the learner graph (e.g. \code{po("encodeimpact")} or \code{po("encodelmer")})
-rather than passing the raw factor to the model. Note that keys are labels regardless of their type: an integer
-key used as a feature is passed to the learner as a number, which is rarely intended -- convert it to a factor
-first.
+Integer keys used as features are treated as numeric values by the learner.
+Convert them to factors to treat them as categories.
+For keys with many levels, consider encoding them in the learner graph, e.g. with \code{po("encodeimpact")}.
 }
 
 \examples{
@@ -92,7 +92,7 @@ The following properties are currently standardized and understood by tasks in \
 \item \code{"keys"}: The task has columns which define the time series \code{"key"}.
 }
 
-Note that above listed properties are calculated from the \verb{$col_roles} and may not be set explicitly.}
+These properties are calculated from \verb{$col_roles} and cannot be set directly.}
 
     \item{\code{order}}{(\code{\link[data.table:data.table]{data.table::data.table()}})\cr
 A table with two columns:
@@ -108,7 +108,7 @@ If the task has a column with designated role \code{"key"}, a table with two or 
 \item key variable(s) (\code{character()} | \code{integer()} | \code{factor()} | \code{ordered()}).
 }
 
-If there is only one key column, it will be named as \code{key}.
+If there is only one key column, it is named \code{key}.
 Returns \code{NULL} if there are no key columns.}
   }
   \if{html}{\out{</div>}}
@@ -211,18 +211,13 @@ via \code{\link[mlr3:convert_task]{mlr3::convert_task()}}.}
 \if{html}{\out{<a id="method-TaskFcst-view"></a>}}
 \if{latex}{\out{\hypertarget{method-TaskFcst-view}{}}}
 \subsection{\code{TaskFcst$view()}}{
-  Returns a slice of the data from the \link[mlr3:DataBackend]{mlr3::DataBackend} as a \code{\link[data.table:data.table]{data.table::data.table()}}.
-Rows default to observations with role \code{"use"}, and columns default to features with roles
-\code{"target"}, \code{"order"}, \code{"key"} or \code{"feature"}. If \code{rows} or \code{cols} are specified which do not
-exist in the \link[mlr3:DataBackend]{mlr3::DataBackend}, an exception is raised.
+  Returns task data as a \code{\link[data.table:data.table]{data.table::data.table()}}, always including the key and order columns first.
+By default, selects rows with role \code{"use"} and columns with roles \code{"target"} or \code{"feature"}.
+Unknown rows or columns raise an error.
 
-The key and order columns are always included, even if \code{cols} omits them.
-Rows and columns are returned in the order specified via the arguments \code{rows} and \code{cols},
-except that the key and order columns come first.
-If \code{rows} is \code{NULL}, rows are returned in the order of \code{task$row_ids}.
-If \code{cols} is \code{NULL}, the column order defaults to \code{c(task$col_roles$key, task$col_roles$order, task$target_names, task$feature_names)}.
-Note that it is recommended to \strong{not} rely on the order of columns, and instead always
-address columns with their respective column name.
+Rows follow \code{rows}, or \code{task$row_ids} if \code{rows} is \code{NULL}, unless \code{ordered = TRUE}.
+After the key and order columns, columns follow \code{cols}, or the target and feature names if \code{cols} is \code{NULL}.
+Access columns by name rather than position.
   \subsection{Usage}{
     \if{html}{\out{<div class="r">}}
     \preformatted{TaskFcst$view(rows = NULL, cols = NULL, ordered = FALSE)}
@@ -236,7 +231,7 @@ Vector or row indices.}
       \item{\code{cols}}{(\code{character()} | \code{NULL})\cr
 Vector of column names.}
       \item{\code{ordered}}{(\code{logical(1)})\cr
-If \code{TRUE}, data is ordered according to the columns with column role \code{"order"} and \code{"key"}.}
+If \code{TRUE}, sorts rows by the key columns and then the order column.}
     }
     \if{html}{\out{</div>}}
   }

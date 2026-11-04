@@ -5,7 +5,7 @@
 \alias{MeasureMDA}
 \title{Mean Directional Accuracy}
 \description{
-Measure of the proportion of correctly predicted directions between successive observations in forecast tasks.
+Measures the proportion of correctly predicted directions between successive observations in forecast tasks.
 }
 \details{
 \deqn{

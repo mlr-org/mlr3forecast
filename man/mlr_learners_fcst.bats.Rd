@@ -5,8 +5,8 @@
 \alias{LearnerFcstBats}
 \title{BATS Forecast Learner}
 \description{
-Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components
-(BATS) model.
+Exponential smoothing state space model with a Box-Cox transformation, ARMA errors, trend,
+and seasonal components (BATS).
 Calls \code{\link[forecast:bats]{forecast::bats()}} from package \CRANpkg{forecast}.
 }
 \section{Dictionary}{

@@ -1,16 +1,17 @@
 #' @title Forecast Task
 #'
 #' @description
-#' This task specializes [mlr3::Task], [mlr3::TaskSupervised] and [mlr3::TaskRegr] for forecasting problems. The target
-#' column is assumed to be numeric. The `task_type` is set to `"fcst"`.
+#' This task specializes [mlr3::TaskRegr] for forecasting problems.
+#' The target column must be numeric.
+#' The `task_type` is set to `"fcst"`.
 #'
 #' It is recommended to use [as_task_fcst()] for construction.
 #' Predefined tasks are stored in the [dictionary][mlr3misc::Dictionary] [mlr3::mlr_tasks].
 #'
 #' @section Series identity and keys:
-#' A task may have one or more `key` columns whose combination identifies each series. The key role drives all
-#' per-series operations: target lags and rolling windows ([PipeOpFcstLags], [PipeOpFcstRolling]) are computed within
-#' each series, and the future forecast grid is built per series.
+#' A task may have one or more `key` columns whose combination identifies each series.
+#' Target lags and rolling windows ([PipeOpFcstLags], [PipeOpFcstRolling]) are computed within each series.
+#' The future forecast grid is also built per series.
 #'
 #' Key columns are **not** features by default.
 #' To let a global model specialize per series, add the feature role back:
@@ -19,10 +20,9 @@
 #' task$set_col_roles("series_id", add_to = "feature")
 #' ```
 #'
-#' For a high-cardinality key, encode it inside the learner graph (e.g. `po("encodeimpact")` or `po("encodelmer")`)
-#' rather than passing the raw factor to the model. Note that keys are labels regardless of their type: an integer
-#' key used as a feature is passed to the learner as a number, which is rarely intended -- convert it to a factor
-#' first.
+#' Integer keys used as features are treated as numeric values by the learner.
+#' Convert them to factors to treat them as categories.
+#' For keys with many levels, consider encoding them in the learner graph, e.g. with `po("encodeimpact")`.
 #'
 #' @template param_id
 #' @template param_backend
@@ -79,22 +79,16 @@ TaskFcst = R6Class(
     },
 
     #' @description
-    #' Returns a slice of the data from the [mlr3::DataBackend] as a [data.table::data.table()].
-    #' Rows default to observations with role `"use"`, and columns default to features with roles
-    #' `"target"`, `"order"`, `"key"` or `"feature"`. If `rows` or `cols` are specified which do not
-    #' exist in the [mlr3::DataBackend], an exception is raised.
+    #' Returns task data as a [data.table::data.table()], always including the key and order columns first.
+    #' By default, selects rows with role `"use"` and columns with roles `"target"` or `"feature"`.
+    #' Unknown rows or columns raise an error.
     #'
-    #' The key and order columns are always included, even if `cols` omits them.
-    #' Rows and columns are returned in the order specified via the arguments `rows` and `cols`,
-    #' except that the key and order columns come first.
-    #' If `rows` is `NULL`, rows are returned in the order of `task$row_ids`.
-    #' If `cols` is `NULL`, the column order defaults to `c(task$col_roles$key, task$col_roles$order,
-    #' task$target_names, task$feature_names)`.
-    #' Note that it is recommended to **not** rely on the order of columns, and instead always
-    #' address columns with their respective column name.
+    #' Rows follow `rows`, or `task$row_ids` if `rows` is `NULL`, unless `ordered = TRUE`.
+    #' After the key and order columns, columns follow `cols`, or the target and feature names if `cols` is `NULL`.
+    #' Access columns by name rather than position.
     #'
     #' @param ordered (`logical(1)`)\cr
-    #'   If `TRUE`, data is ordered according to the columns with column role `"order"` and `"key"`.
+    #'   If `TRUE`, sorts rows by the key columns and then the order column.
     #'
     #' @return A [data.table::data.table()].
     view = function(rows = NULL, cols = NULL, ordered = FALSE) {
@@ -163,7 +157,7 @@ TaskFcst = R6Class(
     #' * `"ordered"`: The task has columns which define the row order (role `"order"`).
     #' * `"keys"`: The task has columns which define the time series `"key"`.
     #'
-    #' Note that above listed properties are calculated from the `$col_roles` and may not be set explicitly.
+    #' These properties are calculated from `$col_roles` and cannot be set directly.
     properties = function(rhs) {
       assert_ro_binding(rhs)
       c(super$properties, if (length(self$col_roles$key) > 0L) "keys")
@@ -188,7 +182,7 @@ TaskFcst = R6Class(
     #' * `row_id` (`integer()`), and
     #' * key variable(s) (`character()` | `integer()` | `factor()` | `ordered()`).
     #'
-    #' If there is only one key column, it will be named as `key`.
+    #' If there is only one key column, it is named `key`.
     #' Returns `NULL` if there are no key columns.
     key = function(rhs) {
       assert_has_backend(self)

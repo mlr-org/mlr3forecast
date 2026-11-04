@@ -5,7 +5,8 @@
 \alias{LearnerFcstEs}
 \title{Exponential Smoothing Forecast Learner}
 \description{
-Exponential smoothing (ETS) model in state-space form. Supports multiple seasonal lags natively
+Exponential smoothing (ETS) model in state-space form.
+Supports multiple seasonal lags
 (e.g. \code{lags = c(1, 24, 168)} for hourly data with daily and weekly cycles).
 Calls \code{\link[smooth:es]{smooth::es()}} from package \CRANpkg{smooth}.
 }

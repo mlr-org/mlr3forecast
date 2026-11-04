@@ -4,7 +4,7 @@
 #' @format [R6::R6Class] inheriting from [TaskFcst].
 #'
 #' @description
-#' A forecast task for the [tsibbledata::aus_livestock] data set.
+#' A forecast task for the [tsibbledata::aus_livestock] dataset.
 #' The task represents a monthly time series and is ordered by `month`.
 #'
 #' @templateVar id livestock

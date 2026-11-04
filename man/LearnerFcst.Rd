@@ -4,7 +4,7 @@
 \alias{LearnerFcst}
 \title{Forecast Learner}
 \description{
-This Learner specializes \link[mlr3:LearnerRegr]{mlr3::LearnerRegr} for forecast problems:
+This learner specializes \link[mlr3:LearnerRegr]{mlr3::LearnerRegr} for forecasting problems:
 \itemize{
 \item \code{task_type} is set to \code{"fcst"}.
 \item Creates \link[mlr3:Prediction]{mlr3::Prediction}s of class \link{PredictionFcst}.

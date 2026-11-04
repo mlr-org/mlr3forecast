@@ -7,7 +7,7 @@
 \link[R6:R6Class]{R6::R6Class} inheriting from \link{TaskFcst}.
 }
 \description{
-A forecast task for the \link[tsibbledata:aus_livestock]{tsibbledata::aus_livestock} data set.
+A forecast task for the \link[tsibbledata:aus_livestock]{tsibbledata::aus_livestock} dataset.
 The task represents a monthly time series and is ordered by \code{month}.
 }
 \section{Dictionary}{

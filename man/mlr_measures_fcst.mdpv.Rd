@@ -5,7 +5,7 @@
 \alias{MeasureMDPV}
 \title{Mean Directional Percentage Value}
 \description{
-Measure of average percentage‐weighted directional accuracy in forecast tasks.
+Measures average percentage-weighted directional accuracy in forecast tasks.
 }
 \details{
 \deqn{

@@ -134,10 +134,10 @@ Label for the new instance.}
 \link{TaskFcst}.
 }
 \description{
-Convert object to a \link{TaskFcst}.
-This is a S3 generic. mlr3forecast ships with methods for the following objects:
+Converts an object to a \link{TaskFcst}.
+This S3 generic supports the following objects:
 \enumerate{
-\item \link{TaskFcst}: ensure the identity
+\item \link{TaskFcst}: returns the object as-is, optionally cloned.
 \item \code{\link[=data.frame]{data.frame()}} and \link[mlr3:DataBackend]{mlr3::DataBackend}: provides an alternative to the constructor of \link{TaskFcst}.
 \item \code{ts}: from base R time series objects (univariate and multivariate).
 A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.

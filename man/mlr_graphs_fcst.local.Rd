@@ -11,8 +11,8 @@ pipeline_fcst_local(graph, key = "key")
 \item{graph}{(any)\cr
 Object coercible to a \link[mlr3pipelines:Graph]{Graph} with \code{\link[mlr3pipelines:as_graph]{mlr3pipelines::as_graph()}}, being wrapped between
 \code{\link[=mlr_pipeops_fcst.splitkey]{po("fcst.splitkey")}} and
-\code{\link[=mlr_pipeops_fcst.unitekey]{po("fcst.unitekey")}}. The graph should return \code{NULL} during
-training and a \link{PredictionFcst} during prediction.}
+\code{\link[=mlr_pipeops_fcst.unitekey]{po("fcst.unitekey")}}.
+The graph should return \code{NULL} during training and a \link{PredictionFcst} during prediction.}
 
 \item{key}{(\code{character(1)})\cr
 Name of the rebuilt series-identity column in the united prediction's \code{extra} slot, default

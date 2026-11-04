@@ -12,7 +12,7 @@ Box GEP, Jenkins GM (1976).
 Holden-Day, San Francisco.
 }
 \description{
-A forecast task for the popular \link[datasets:AirPassengers]{datasets::AirPassengers} data set.
+A forecast task for the \link[datasets:AirPassengers]{datasets::AirPassengers} dataset.
 The task represents the monthly totals of international airline passengers from 1949 to 1960.
 }
 \section{Dictionary}{

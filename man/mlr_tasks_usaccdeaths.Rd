@@ -13,7 +13,7 @@ Springer, New York.
 \doi{10.1007/978-1-4419-0320-4}.
 }
 \description{
-A forecast task for the popular \link[datasets:USAccDeaths]{datasets::USAccDeaths} data set.
+A forecast task for the \link[datasets:USAccDeaths]{datasets::USAccDeaths} dataset.
 The task represents the monthly totals of accidental deaths in the US from 1973 to 1978.
 }
 \section{Dictionary}{

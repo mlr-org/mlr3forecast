@@ -3,7 +3,7 @@
 \name{mlr_learners_fcst.esn}
 \alias{mlr_learners_fcst.esn}
 \alias{LearnerFcstEsn}
-\title{Echo state network forecast learner}
+\title{Echo State Network Forecast Learner}
 \description{
 Fits a univariate echo state network with a randomly initialized recurrent reservoir and a ridge regression readout.
 Quantile predictions are empirical quantiles of the future paths simulated by \code{\link[echos:forecast_esn]{echos::forecast_esn()}}.

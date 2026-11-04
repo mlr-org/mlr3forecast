@@ -4,7 +4,8 @@
 #' @name mlr_learners_fcst.es
 #'
 #' @description
-#' Exponential smoothing (ETS) model in state-space form. Supports multiple seasonal lags natively
+#' Exponential smoothing (ETS) model in state-space form.
+#' Supports multiple seasonal lags
 #' (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
 #' Calls [smooth::es()] from package \CRANpkg{smooth}.
 #'

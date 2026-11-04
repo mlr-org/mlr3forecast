@@ -4,7 +4,7 @@
 #' @format [R6::R6Class] inheriting from [TaskFcst].
 #'
 #' @description
-#' A forecast task for the popular [datasets::USAccDeaths] data set.
+#' A forecast task for the [datasets::USAccDeaths] dataset.
 #' The task represents the monthly totals of accidental deaths in the US from 1973 to 1978.
 #'
 #' @templateVar id usaccdeaths

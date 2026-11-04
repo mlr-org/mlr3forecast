@@ -4,7 +4,7 @@
 #' @format [R6::R6Class] inheriting from [TaskFcst].
 #'
 #' @description
-#' A forecast task for the popular [datasets::lynx] data set.
+#' A forecast task for the [datasets::lynx] dataset.
 #' The task represents the annual numbers of lynx trappings in Canada from 1821 to 1934.
 #'
 #' @templateVar id lynx

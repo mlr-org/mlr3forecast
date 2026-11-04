@@ -5,7 +5,7 @@
 \alias{MeasureMDV}
 \title{Mean Directional Value}
 \description{
-Measure of average magnitude‐weighted directional accuracy in forecast tasks.
+Measures average magnitude-weighted directional accuracy in forecast tasks.
 }
 \details{
 \deqn{
