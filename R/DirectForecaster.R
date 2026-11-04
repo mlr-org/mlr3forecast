@@ -330,6 +330,17 @@ DirectForecaster = R6Class(
         .learner = value$clone(deep = TRUE),
         .fcst_param_set = value$clone(deep = TRUE),
         .param_set = NULL,
+        state = {
+          value = super$deep_clone(name, value)
+          # Learner's deep_clone keeps the model, so clones would share the trained horizon learners
+          clone_models = function(models) map(models, function(m) m$clone(deep = TRUE))
+          if (inherits(value$model, "direct_forecaster_model")) {
+            value$model$models = clone_models(value$model$models)
+          } else if (inherits(value$model, "direct_forecaster_model_marshaled")) {
+            value$model$marshaled$models = clone_models(value$model$marshaled$models)
+          }
+          value
+        },
         super$deep_clone(name, value)
       )
     },

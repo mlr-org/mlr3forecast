@@ -285,6 +285,26 @@ test_that("DirectForecaster clone has independent lags", {
   expect_equal(learner$lags, 1:3)
 })
 
+test_that("DirectForecaster deep clone does not share trained models", {
+  task = tsk("airpassengers")
+  learner = DirectForecaster$new(lrn("regr.featureless"), lags = 1:3, horizons = 2L)
+  learner$train(task, 1:130)
+  clone = learner$clone(deep = TRUE)
+  expect_false(identical(clone$model$models[[1L]], learner$model$models[[1L]]))
+
+  clone$predict_type = "se"
+  clone$param_set$set_values(regr.featureless.robust = TRUE)
+  clone$predict(task, 131:132)
+  expect_identical(learner$model$models[[1L]]$predict_type, "response")
+  expect_false(learner$model$models[[1L]]$param_set$values$regr.featureless.robust)
+
+  learner$marshal()
+  clone = learner$clone(deep = TRUE)
+  expect_false(identical(clone$model$marshaled$models[[1L]], learner$model$marshaled$models[[1L]]))
+  clone$unmarshal()
+  expect_prediction(clone$predict(task, 131:132))
+})
+
 test_that("DirectForecaster rejects duplicate lags", {
   expect_error(DirectForecaster$new(lrn("regr.featureless"), lags = c(1L, 1L), horizons = 1L), "duplicated")
 })
