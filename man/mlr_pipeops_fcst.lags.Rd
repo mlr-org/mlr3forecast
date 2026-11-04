@@ -11,7 +11,8 @@ At train time the first rows of each series have no history for the requested la
 incomplete rows are dropped (the autoregressive-fit convention), so the base learner never sees
 \code{NA} lags. A keyed series shorter than the largest lag is dropped entirely, with a warning.
 
-At predict time lags are computed from the full series history.
+At predict time lags are computed from the full series history,
+using the lags stored in the state at train time.
 
 Like every PipeOp with the \code{"fcst_iterative"} property, it implements \verb{$shift()} and \verb{$lookback},
 which move its features further into the past and report how much history they need.

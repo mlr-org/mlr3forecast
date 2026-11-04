@@ -43,6 +43,15 @@ test_that("PipeOpFcstRolling basic train/predict on airpassengers", {
   expect_true(all(expected %in% pred$feature_names))
 })
 
+test_that("PipeOpFcstRolling predicts with the settings it was trained with", {
+  task = tsk("airpassengers")
+  p = po("fcst.rolling", funs = "mean", window_sizes = 3L)
+  p$train(list(task$clone()))
+  expected = p$predict(list(task$clone()))[[1L]]$data()
+  p$param_set$values = list(funs = "sd", window_sizes = 6L, lag = 2L)
+  expect_identical(p$predict(list(task$clone()))[[1L]]$data(), expected)
+})
+
 test_that("PipeOpFcstRolling works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")

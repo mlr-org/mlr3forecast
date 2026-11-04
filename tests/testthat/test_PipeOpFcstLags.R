@@ -65,6 +65,16 @@ test_that("PipeOpFcstLags computes predict features from full backend", {
   expect_false(anyNA(out$data(cols = lag_cols)))
 })
 
+test_that("PipeOpFcstLags predicts with the lags it was trained with", {
+  task = tsk("airpassengers")
+  p = po("fcst.lags", lags = 1:2)
+  p$train(list(task$clone()))
+  expected = p$predict(list(task$clone()))[[1L]]$data()
+  p$param_set$values$lags = 1:3
+  expect_identical(p$state$lags, 1:2)
+  expect_identical(p$predict(list(task$clone()))[[1L]]$data(), expected)
+})
+
 test_that("PipeOpFcstLags drops the leading rows without complete lags at train", {
   task = tsk("airpassengers")
   out = po("fcst.lags", lags = 1:3)$train(list(task))[[1L]]

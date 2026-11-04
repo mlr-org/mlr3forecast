@@ -11,7 +11,8 @@ Creates rolling-window summary statistics of the target variable as new feature 
 At train time rows whose window has insufficient history are \code{NA} and are dropped, matching
 \link{PipeOpFcstLags}. Predict keeps all rows.
 
-At predict time rolling features are computed from the full series history.
+At predict time rolling features are computed from the full series history,
+using the \code{funs}, \code{window_sizes}, and \code{lag} stored in the state at train time.
 
 Like every PipeOp with the \code{"fcst_iterative"} property, it implements \verb{$shift()} and \verb{$lookback},
 which move its features further into the past and report how much history they need.

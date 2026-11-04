@@ -9,7 +9,8 @@
 #' At train time rows whose window has insufficient history are `NA` and are dropped, matching
 #' [PipeOpFcstLags]. Predict keeps all rows.
 #'
-#' At predict time rolling features are computed from the full series history.
+#' At predict time rolling features are computed from the full series history,
+#' using the `funs`, `window_sizes`, and `lag` stored in the state at train time.
 #'
 #' Like every PipeOp with the `"fcst_iterative"` property, it implements `$shift()` and `$lookback`,
 #' which move its features further into the past and report how much history they need.
@@ -112,7 +113,9 @@ PipeOpFcstRolling = R6Class(
         rows = task$row_ids,
         cols = c(pk, task$target_names, task$col_roles$key, task$col_roles$order)
       )
-      roll_cols = private$.rolling(task, dt)
+      pv = self$param_set$get_values(tags = "train")
+      self$state = pv[c("funs", "window_sizes", "lag")]
+      roll_cols = private$.rolling(task, dt, self$state)
       kept = fcst_drop_incomplete(dt, roll_cols, task$col_roles$key)
       task$filter(kept[[pk]])$cbind(kept[, c(pk, roll_cols), with = FALSE])
     },
@@ -121,18 +124,17 @@ PipeOpFcstRolling = R6Class(
       key_cols = task$col_roles$key
       order_cols = task$col_roles$order
       full = task$backend$data(rows = task$backend$rownames, cols = c(task$target_names, key_cols, order_cols))
-      roll_cols = private$.rolling(task, full)
+      roll_cols = private$.rolling(task, full, self$state)
       active = task$data(cols = c(key_cols, order_cols))
       active_rolls = full[active, on = c(key_cols, order_cols), roll_cols, with = FALSE]
       task$cbind(active_rolls)
     },
 
-    .rolling = function(task, dt) {
+    .rolling = function(task, dt, pv) {
       target = task$target_names
       key_cols = task$col_roles$key
       order_cols = task$col_roles$order
 
-      pv = self$param_set$get_values(tags = "train")
       grid = CJ(fn = pv$funs, size = pv$window_sizes, sorted = FALSE)
       size_lbl = fifelse(is.infinite(grid$size), "expanding", sprintf("%.0f", grid$size))
       roll_spec = list(

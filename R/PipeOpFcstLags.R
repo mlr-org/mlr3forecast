@@ -8,7 +8,8 @@
 #' incomplete rows are dropped (the autoregressive-fit convention), so the base learner never sees
 #' `NA` lags. A keyed series shorter than the largest lag is dropped entirely, with a warning.
 #'
-#' At predict time lags are computed from the full series history.
+#' At predict time lags are computed from the full series history,
+#' using the lags stored in the state at train time.
 #'
 #' Like every PipeOp with the `"fcst_iterative"` property, it implements `$shift()` and `$lookback`,
 #' which move its features further into the past and report how much history they need.
@@ -88,7 +89,9 @@ PipeOpFcstLags = R6Class(
         rows = task$row_ids,
         cols = c(pk, task$target_names, task$col_roles$key, task$col_roles$order)
       )
-      lag_cols = private$.lags(task, dt, self$param_set$get_values(tags = "train")$lags)
+      lags = self$param_set$get_values(tags = "train")$lags
+      self$state = list(lags = lags)
+      lag_cols = private$.lags(task, dt, lags)
       kept = fcst_drop_incomplete(dt, lag_cols, task$col_roles$key)
       task$filter(kept[[pk]])$cbind(kept[, c(pk, lag_cols), with = FALSE])
     },
@@ -97,7 +100,7 @@ PipeOpFcstLags = R6Class(
       key_cols = task$col_roles$key
       order_cols = task$col_roles$order
       full = task$backend$data(rows = task$backend$rownames, cols = c(task$target_names, key_cols, order_cols))
-      lag_cols = private$.lags(task, full, self$param_set$get_values(tags = "train")$lags)
+      lag_cols = private$.lags(task, full, self$state$lags)
       active = task$data(cols = c(key_cols, order_cols))
       active_lags = full[active, on = c(key_cols, order_cols), lag_cols, with = FALSE]
       task$cbind(active_lags)

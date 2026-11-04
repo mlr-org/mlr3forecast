@@ -37,6 +37,15 @@ test_that("RecursiveForecaster handles a non-unit integer index without explicit
   expect_length(prediction$response, length(split$test))
 })
 
+test_that("RecursiveForecaster ignores lags changed after training", {
+  task = tsk("airpassengers")
+  learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+  learner$train(task, 1:130)
+  expected = learner$predict(task, 131:144)
+  learner$param_set$values$fcst.lags.lags = 1:2
+  expect_equal(learner$predict(task, 131:144)$response, expected$response)
+})
+
 test_that("RecursiveForecaster works with keyed task", {
   task = make_date_major_panel_task(30L)
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
