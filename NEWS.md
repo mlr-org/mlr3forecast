@@ -31,6 +31,7 @@
 * feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`, `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to `nnet::nnet()`.
 * feat: New learner `fcst.snaive` provides the seasonal naive forecast with the seasonal period taken from the `period` hyperparameter, which defaults to the period implied by the task's `freq`.
 * feat: `list_monash_datasets()` lists the Monash Forecasting Repository datasets available to `download_monash_dataset()` and `tsk("monash")`, including their download sizes.
+* feat: `po("fcst.lags")` and `po("fcst.rolling")` gained a `$shift(k)` method, which moves their features `k` steps further into the past, and a read-only `$lookback` field, the number of past observations their features need.
 * feat: `RecursiveForecaster` is now a `GraphLearner` and exposes its fields and methods, e.g. `$graph`, `$pipeops`, and `$base_learner()`.
 * feat: `tgen("arima")` simulates ARIMA series into a forecast task.
 * feat: `tsk("monash", dataset = ...)` creates a forecast task from a Monash Forecasting Repository dataset.

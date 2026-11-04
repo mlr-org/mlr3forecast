@@ -2,6 +2,34 @@ test_that("PipeOpFcstRolling declares fcst_iterative property", {
   expect_subset("fcst_iterative", po("fcst.rolling")$properties)
 })
 
+test_that("PipeOpFcstRolling shift adds k to lag", {
+  task = tsk("airpassengers")
+  op = po("fcst.rolling", window_sizes = c(3L, 7L), lag = 2L)
+  expect_invisible(op$shift(0L))
+  expect_identical(op$param_set$values$lag, 2L)
+  op$shift(3L)
+  expect_identical(op$param_set$values$lag, 5L)
+  expected = po("fcst.rolling", window_sizes = c(3L, 7L), lag = 5L)$train(list(task))[[1L]]$data()
+  expect_equal(op$train(list(task))[[1L]]$data(), expected)
+  expect_error(op$shift(-1L))
+})
+
+test_that("PipeOpFcstRolling lookback is exactly the history a row needs", {
+  task = tsk("airpassengers")
+  op = po("fcst.rolling", funs = c("mean", "max"), window_sizes = c(3L, 7L), lag = 2L)
+  expect_identical(op$lookback, 8)
+  expect_error({
+    op$lookback = 1L
+  }, "read-only")
+  expect_identical(po("fcst.rolling", window_sizes = c(3, Inf))$lookback, Inf)
+
+  n = task$nrow
+  full = op$train(list(task))[[1L]]$data()
+  last = op$train(list(task$clone()$filter(seq(n - op$lookback, n))))[[1L]]$data()
+  expect_equal(last, full[nrow(full)])
+  expect_error(op$train(list(task$clone()$filter(seq(n - op$lookback + 1L, n)))), "too short")
+})
+
 test_that("PipeOpFcstRolling basic train/predict on airpassengers", {
   task = tsk("airpassengers")
   po = po("fcst.rolling", funs = c("mean", "sd"), window_sizes = c(3L, 12L), lag = 1L)

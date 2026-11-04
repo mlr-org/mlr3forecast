@@ -12,6 +12,32 @@ test_that("PipeOpFcstLags rejects duplicate lags", {
   expect_error(po("fcst.lags", lags = c(1L, 1L)), "duplicated")
 })
 
+test_that("PipeOpFcstLags shift adds k to every lag", {
+  task = tsk("airpassengers")
+  op = po("fcst.lags", lags = c(1L, 3L))
+  expect_invisible(op$shift(0L))
+  expect_identical(op$param_set$values$lags, c(1L, 3L))
+  op$shift(2L)
+  expect_identical(op$param_set$values$lags, c(3L, 5L))
+  expect_equal(op$train(list(task))[[1L]]$data(), po("fcst.lags", lags = c(3L, 5L))$train(list(task))[[1L]]$data())
+  expect_error(op$shift(-1L))
+})
+
+test_that("PipeOpFcstLags lookback is exactly the history a row needs", {
+  task = tsk("airpassengers")
+  op = po("fcst.lags", lags = c(2L, 5L))
+  expect_identical(op$lookback, 5L)
+  expect_error({
+    op$lookback = 1L
+  }, "read-only")
+
+  n = task$nrow
+  full = op$train(list(task))[[1L]]$data()
+  last = op$train(list(task$clone()$filter(seq(n - op$lookback, n))))[[1L]]$data()
+  expect_equal(last, full[nrow(full)])
+  expect_error(op$train(list(task$clone()$filter(seq(n - op$lookback + 1L, n)))), "too short")
+})
+
 test_that("PipeOpFcstLags aligns train features on date-major keyed task", {
   task = make_date_major_panel_task()
   out = po("fcst.lags", lags = 1L)$train(list(task))[[1L]]

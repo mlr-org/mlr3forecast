@@ -12,6 +12,9 @@ incomplete rows are dropped (the autoregressive-fit convention), so the base lea
 \code{NA} lags. A keyed series shorter than the largest lag is dropped entirely, with a warning.
 
 At predict time lags are computed from the full series history.
+
+Like every PipeOp with the \code{"fcst_iterative"} property, it implements \verb{$shift()} and \verb{$lookback},
+which move its features further into the past and report how much history they need.
 }
 \section{Parameters}{
 
@@ -33,10 +36,20 @@ new_task$head()
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{PipeOpFcstLags}
 }
+\section{Active bindings}{
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{lookback}}{(\code{integer(1)})\cr
+Number of past observations of a series the features need, i.e., the largest lag.
+Read-only.}
+  }
+  \if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
   \itemize{
     \item \href{#method-PipeOpFcstLags-initialize}{\code{PipeOpFcstLags$new()}}
+    \item \href{#method-PipeOpFcstLags-shift}{\code{PipeOpFcstLags$shift()}}
     \item \href{#method-PipeOpFcstLags-clone}{\code{PipeOpFcstLags$clone()}}
   }
 }
@@ -68,6 +81,30 @@ List of hyperparameter settings, overwriting the hyperparameter settings that wo
 otherwise be set during construction. Default \code{list()}.}
     }
     \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-PipeOpFcstLags-shift"></a>}}
+\if{latex}{\out{\hypertarget{method-PipeOpFcstLags-shift}{}}}
+\subsection{\code{PipeOpFcstLags$shift()}}{
+  Shifts the features \code{k} steps further into the past by adding \code{k} to every lag.
+Shifting by \code{h - 1} makes the features for horizon \code{h} use only values observed at the forecast origin.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PipeOpFcstLags$shift(k)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{k}}{(\code{integer(1)})\cr
+Number of steps to shift by.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{self} (invisibly).
   }
 }
 

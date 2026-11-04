@@ -12,6 +12,9 @@ At train time rows whose window has insufficient history are \code{NA} and are d
 \link{PipeOpFcstLags}. Predict keeps all rows.
 
 At predict time rolling features are computed from the full series history.
+
+Like every PipeOp with the \code{"fcst_iterative"} property, it implements \verb{$shift()} and \verb{$lookback},
+which move its features further into the past and report how much history they need.
 }
 \section{Parameters}{
 
@@ -38,10 +41,21 @@ new_task$head()
 \section{Super classes}{
 \code{\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp}} -> \code{\link[mlr3pipelines:PipeOpTaskPreproc]{mlr3pipelines::PipeOpTaskPreproc}} -> \code{PipeOpFcstRolling}
 }
+\section{Active bindings}{
+  \if{html}{\out{<div class="r6-active-bindings">}}
+  \describe{
+    \item{\code{lookback}}{(\code{numeric(1)})\cr
+Number of past observations of a series the features need, i.e., \code{lag + max(window_sizes) - 1}.
+\code{Inf} for an expanding window.
+Read-only.}
+  }
+  \if{html}{\out{</div>}}
+}
 \section{Methods}{
 \subsection{Public methods}{
   \itemize{
     \item \href{#method-PipeOpFcstRolling-initialize}{\code{PipeOpFcstRolling$new()}}
+    \item \href{#method-PipeOpFcstRolling-shift}{\code{PipeOpFcstRolling$shift()}}
     \item \href{#method-PipeOpFcstRolling-clone}{\code{PipeOpFcstRolling$clone()}}
   }
 }
@@ -73,6 +87,30 @@ List of hyperparameter settings, overwriting the hyperparameter settings that wo
 otherwise be set during construction. Default \code{list()}.}
     }
     \if{html}{\out{</div>}}
+  }
+}
+
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-PipeOpFcstRolling-shift"></a>}}
+\if{latex}{\out{\hypertarget{method-PipeOpFcstRolling-shift}{}}}
+\subsection{\code{PipeOpFcstRolling$shift()}}{
+  Shifts the features \code{k} steps further into the past by adding \code{k} to \code{lag}.
+Shifting by \code{h - 1} makes the features for horizon \code{h} use only values observed at the forecast origin.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{PipeOpFcstRolling$shift(k)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{k}}{(\code{integer(1)})\cr
+Number of steps to shift by.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    \code{self} (invisibly).
   }
 }
 

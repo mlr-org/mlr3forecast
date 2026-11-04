@@ -10,6 +10,9 @@
 #'
 #' At predict time lags are computed from the full series history.
 #'
+#' Like every PipeOp with the `"fcst_iterative"` property, it implements `$shift()` and `$lookback`,
+#' which move its features further into the past and report how much history they need.
+#'
 #' @section Parameters:
 #' The parameters are the parameters inherited from [mlr3pipelines::PipeOpTaskPreproc],
 #' as well as the following parameters:
@@ -53,6 +56,28 @@ PipeOpFcstLags = R6Class(
         tags = "fcst"
       )
       self$properties = union(self$properties, "fcst_iterative")
+    },
+
+    #' @description
+    #' Shifts the features `k` steps further into the past by adding `k` to every lag.
+    #' Shifting by `h - 1` makes the features for horizon `h` use only values observed at the forecast origin.
+    #' @param k (`integer(1)`)\cr
+    #'   Number of steps to shift by.
+    #' @return `self` (invisibly).
+    shift = function(k) {
+      k = assert_count(k, coerce = TRUE)
+      self$param_set$values$lags = as.integer(self$param_set$values$lags) + k
+      invisible(self)
+    }
+  ),
+
+  active = list(
+    #' @field lookback (`integer(1)`)\cr
+    #' Number of past observations of a series the features need, i.e., the largest lag.
+    #' Read-only.
+    lookback = function(rhs) {
+      assert_ro_binding(rhs)
+      max(self$param_set$values$lags)
     }
   ),
 
