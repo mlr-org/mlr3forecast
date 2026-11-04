@@ -269,6 +269,11 @@ test_that("RecursiveForecaster propagates quantiles to every learner in an ensem
   expect_equal(learner$quantiles, c(0.25, 0.5, 0.75))
   quantiles = map(graph_quantile_learners(learner$graph_model), "quantiles")
   expect_true(every(quantiles, function(x) identical(x, c(0.25, 0.5, 0.75))))
+
+  pred = learner$predict(task, 142:144)
+  expect_class(pred, "PredictionFcst")
+  expect_false(anyNA(pred$response))
+  expect_identical(pred$data$extra$month, task$data(142:144, "month")$month)
 })
 
 test_that("RecursiveForecaster model prints a compact summary", {

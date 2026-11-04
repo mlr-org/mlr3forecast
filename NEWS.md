@@ -60,6 +60,7 @@
 * fix: `DirectForecaster` no longer ignores predict parameters changed or unset after training. Parameters for training changed after training no longer affect predictions or overwrite the values of the trained horizon models.
 * fix: `DirectForecaster` now deep-clones its trained horizon models. Previously, a clone shared them with the original, so changing `$predict_type`, `$quantiles`, or hyperparameters of the clone, or predicting with it, also changed the original.
 * fix: `DirectForecaster` now raises an input error naming the key groups without training rows when predicting them, instead of failing inside `seq()`.
+* fix: `DirectForecaster` and `RecursiveForecaster` now predict with graphs that return a regression prediction, e.g. ending in `po("regravg")`, and return a forecast prediction. Previously, prediction failed with "unused argument (col_roles = ...)".
 * fix: `DirectForecaster` and `RecursiveForecaster` now error in `$native_model` on marshaled models instead of returning wrong objects.
 * fix: `DirectForecaster` and `RecursiveForecaster` now return the `$native_model` of the wrapped learner in `$native_model` instead of its `$model`, so learners whose `$model` wraps the fitted object, e.g. `lrn("regr.ranger")`, yield that object itself.
 * fix: `DirectForecaster` and `RecursiveForecaster` now set `$man` to their own help pages, so `$help()` no longer opens the `GraphLearner` page.

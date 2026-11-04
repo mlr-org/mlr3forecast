@@ -271,7 +271,7 @@ RecursiveForecaster = R6Class(
 
       iterative_pos = keep(graph$pipeops, function(po) "fcst_iterative" %chin% po$properties)
       if (length(iterative_pos) == 0L) {
-        out = graph$predict(task)[[1L]]
+        out = as_prediction_fcst(graph$predict(task)[[1L]])
         # the inner learner does not set extra, so attach the time index and keys here
         cols = c(self$model$key_cols, self$model$order_cols)
         extra = as.list(task$data(rows = out$data$row_ids, cols = cols))
@@ -370,7 +370,7 @@ RecursiveForecaster = R6Class(
       for (s in seq_along(step_cids)) {
         cids = step_cids[[s]]
         step_task$row_roles$use = cids
-        prediction = graph$predict(step_task)[[1L]]
+        prediction = as_prediction_fcst(graph$predict(step_task)[[1L]])
         preds[[s]] = prediction
         set(combined, i = cids, j = target, value = prediction$response[match(cids, prediction$row_ids)])
       }

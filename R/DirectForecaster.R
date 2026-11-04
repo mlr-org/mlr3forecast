@@ -539,7 +539,7 @@ DirectForecaster = R6Class(
       preds = imap(split(row_ids, ii), function(ids, i) {
         task$row_roles$use = ids
         graph$state = graph_states[[as.integer(i)]]
-        graph$predict(task)[[1L]]
+        as_prediction_fcst(graph$predict(task)[[1L]])
       })
       # batches come back in model order; restore the caller's row_ids order
       reorder_prediction(do.call(c, preds), row_ids)

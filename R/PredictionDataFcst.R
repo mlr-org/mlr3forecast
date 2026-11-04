@@ -6,6 +6,14 @@ as_pdata_fcst = function(pdata) {
   set_class(pdata, c("PredictionDataFcst", "PredictionData"))
 }
 
+# PipeOps such as po("regravg") build a PredictionRegr even on a forecast task
+as_prediction_fcst = function(prediction) {
+  if (inherits(prediction, "PredictionFcst")) {
+    return(prediction)
+  }
+  as_prediction(as_pdata_fcst(prediction$data))
+}
+
 empty_fcst_prediction_col_roles = function() {
   list(order = character(), key = character())
 }
