@@ -513,7 +513,6 @@ DirectForecaster = R6Class(
       if (recursive <= 0) self else private$.learner$base_learner(recursive)
     },
 
-    # a GraphLearner holding the shifted graph and trained state of the i-th horizon
     .horizon_learner = function(i) {
       glrn = private$.learner$clone(deep = TRUE)
       walk(fcst_iterative_pipeops(glrn$graph), function(po) po$shift(private$.horizons[[i]] - 1L))
@@ -535,7 +534,6 @@ DirectForecaster = R6Class(
         graph$state = NULL
       })
       graph_states = self$model$graph_states
-      # one batched predict() per horizon instead of row-by-row
       preds = imap(split(row_ids, ii), function(ids, i) {
         task$row_roles$use = ids
         graph$state = graph_states[[as.integer(i)]]
