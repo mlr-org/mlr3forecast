@@ -411,8 +411,15 @@ DirectForecaster = R6Class(
 
     .predict = function(task) {
       models = self$model$models
-      template_values = private$.learner$param_set$values
-      walk(models, function(m) m$param_set$set_values(.values = template_values))
+      # apply the current predict hyperparameters for this call only, so changing or unsetting one after training
+      # takes effect while the trained models keep the values they were trained with
+      predict_values = private$.learner$param_set$get_values(tags = "predict", check_required = FALSE)
+      trained_values = map(models, function(m) m$param_set$values)
+      on.exit(pwalk(list(models, trained_values), function(m, values) m$param_set$values = values), add = TRUE)
+      walk(models, function(m) {
+        values = m$param_set$values
+        m$param_set$values = insert_named(values[names(values) %nin% m$param_set$ids(tags = "predict")], predict_values)
+      })
       horizons = private$.horizons
       max_h = max(horizons)
       step = self$model$freq
