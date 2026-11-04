@@ -103,6 +103,11 @@ DirectForecaster = R6Class(
       }
       graph = as_graph(learner)
       if (!is.null(lags)) {
+        if ("fcst.lags" %chin% graph$ids()) {
+          error_input(
+            "The graph already contains a PipeOp with id 'fcst.lags', so `lags` cannot add another one. Either drop `lags` or remove that PipeOp from the graph."
+          )
+        }
         graph = po("fcst.lags", lags = lags) %>>% graph
       }
 
@@ -281,7 +286,7 @@ DirectForecaster = R6Class(
     },
 
     #' @field lags (`integer()` | `NULL`)\cr
-    #' The lags of the [PipeOpFcstLags] in the graph, which the model for horizon `h` shifts by `h - 1`,
+    #' The lags of the first [PipeOpFcstLags] in the graph, which the model for horizon `h` shifts by `h - 1`,
     #' or `NULL` if there is none.
     lags = function(rhs) {
       assert_ro_binding(rhs)
@@ -399,8 +404,11 @@ DirectForecaster = R6Class(
       tail_dt = task$data(cols = cols)
       setorderv(tail_dt, c(key_cols, order_cols))
       lookback = max(0, map_dbl(fcst_iterative_pipeops(graph), function(po) po$lookback))
+      # data.table's grouped tail() does not support n = 0
       train_tail = if (is.infinite(lookback)) {
         tail_dt
+      } else if (lookback == 0) {
+        tail_dt[0L]
       } else if (length(key_cols) > 0L) {
         tail_dt[, tail(.SD, lookback), by = key_cols, env = list(lookback = lookback, key_cols = I(key_cols))]
       } else {

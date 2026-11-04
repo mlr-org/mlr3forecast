@@ -234,6 +234,19 @@ test_that("DirectForecaster warns without iterative PipeOps", {
   expect_warning(DirectForecaster$new(lrn("regr.rpart"), horizons = 2L), "fcst_iterative")
 })
 
+test_that("DirectForecaster without iterative PipeOps works on a keyed task", {
+  task = make_date_major_panel_task(10L)
+  learner = suppressWarnings(DirectForecaster$new(lrn("regr.featureless"), horizons = 2L))
+  learner$train(task, 1:16)
+  expect_identical(nrow(learner$model$train_tail), 0L)
+  expect_prediction(learner$predict(task, 17:20))
+})
+
+test_that("DirectForecaster errors if lags would add a second fcst.lags PipeOp", {
+  graph = po("fcst.lags") %>>% lrn("regr.rpart")
+  expect_error(DirectForecaster$new(graph, lags = 1:3, horizons = 2L), "already contains")
+})
+
 test_that("DirectForecaster rejects iterative PipeOps without $shift() and $lookback", {
   bare = PipeOpTaskPreproc$new("bare")
   bare$properties = c(bare$properties, "fcst_iterative")

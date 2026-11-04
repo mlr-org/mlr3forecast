@@ -215,7 +215,7 @@ RecursiveForecaster = R6Class(
     },
 
     #' @field lags (`integer()` | `NULL`)\cr
-    #' The lags used, or `NULL` if no [PipeOpFcstLags] is in the graph.
+    #' The lags of the first [PipeOpFcstLags] in the graph, or `NULL` if there is none.
     lags = function(rhs) {
       assert_ro_binding(rhs)
       lag_po = detect(self$graph$pipeops, function(po) inherits(po, "PipeOpFcstLags"))

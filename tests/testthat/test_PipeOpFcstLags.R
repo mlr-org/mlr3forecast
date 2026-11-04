@@ -27,6 +27,7 @@ test_that("PipeOpFcstLags lookback is exactly the history a row needs", {
   task = tsk("airpassengers")
   op = po("fcst.lags", lags = c(2L, 5L))
   expect_identical(op$lookback, 5L)
+  expect_identical(po("fcst.lags", lags = c(1, 3))$lookback, 3L)
   expect_error({
     op$lookback = 1L
   }, "read-only")

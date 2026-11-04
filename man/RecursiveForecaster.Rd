@@ -101,7 +101,7 @@ Read-only.}
 The fitted model.}
 
     \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
-The lags used, or \code{NULL} if no \link{PipeOpFcstLags} is in the graph.}
+The lags of the first \link{PipeOpFcstLags} in the graph, or \code{NULL} if there is none.}
   }
   \if{html}{\out{</div>}}
 }

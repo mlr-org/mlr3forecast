@@ -77,7 +77,7 @@ PipeOpFcstLags = R6Class(
     #' Read-only.
     lookback = function(rhs) {
       assert_ro_binding(rhs)
-      max(self$param_set$values$lags)
+      as.integer(max(self$param_set$values$lags))
     }
   ),
 

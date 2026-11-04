@@ -75,7 +75,7 @@ The quantile to be used as response.}
 The fitted models.}
 
     \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
-The lags of the \link{PipeOpFcstLags} in the graph, which the model for horizon \code{h} shifts by \code{h - 1},
+The lags of the first \link{PipeOpFcstLags} in the graph, which the model for horizon \code{h} shifts by \code{h - 1},
 or \code{NULL} if there is none.}
 
     \item{\code{horizons}}{(\code{integer()})\cr
