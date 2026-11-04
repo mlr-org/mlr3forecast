@@ -6,7 +6,7 @@
 \usage{
 direct_forecaster(
   learner,
-  lags,
+  lags = NULL,
   horizons,
   id = NULL,
   param_vals = list(),
@@ -16,10 +16,14 @@ direct_forecaster(
 }
 \arguments{
 \item{learner}{(\link[mlr3:Learner]{mlr3::Learner} | \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp})\cr
-A regression learner or a graph/PipeOp (without \link{PipeOpFcstLags}).}
+A regression learner or a graph/PipeOp.
+The model for horizon \code{h} shifts the graph's lag and rolling features \code{h - 1} steps into the past.}
 
-\item{lags}{(\code{integer()})\cr
-The base lag values. Exposed in \verb{$param_set} as \code{lags}, so it can be tuned via \link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}.}
+\item{lags}{(\code{integer()} | \code{NULL})\cr
+The base lag values.
+If provided, \code{po("fcst.lags", lags = lags)} is added in front of \code{learner},
+and its parameter \code{fcst.lags.lags} can be tuned via \link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}.
+If \code{NULL}, the graph should contain its own lag or rolling features.}
 
 \item{horizons}{(\code{integer()})\cr
 Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector of specific horizons. One model is trained
@@ -35,7 +39,8 @@ Hyperparameter values applied to every horizon model. Per-horizon hyperparameter
 The predict type, default \code{NULL}.}
 
 \item{clone_graph}{(\code{logical(1)})\cr
-Whether to clone the graph, default \code{TRUE}.}
+Whether to clone the graph, default \code{TRUE}.
+If \code{lags} is provided, a new graph is built in any case.}
 }
 \value{
 \link{DirectForecaster}.
@@ -58,5 +63,9 @@ split = partition(task, ratio = 0.8)
 flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
+
+# graph: the same graph also works with recursive_forecaster()
+graph = po("fcst.lags", lags = 1:3) \%>>\% po("fcst.rolling", window_sizes = 6L) \%>>\% lrn("regr.rpart")
+flrn = direct_forecaster(graph, horizons = length(split$test))
 \dontshow{\}) # examplesIf}
 }

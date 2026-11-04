@@ -1,12 +1,24 @@
 #' @title Direct Multi-Step Forecast Learner
 #'
 #' @description
-#' Trains a separate model for each forecast horizon. For horizon `h` with base lags `1:p`,
-#' model `h` uses lags `h:(h+p-1)`, so that at prediction time only observed values are needed.
+#' Trains a separate model for each forecast horizon.
 #' Unlike [RecursiveForecaster], predictions do not feed back into subsequent steps (no error accumulation).
 #'
-#' Lag features are managed internally via `lags`. Do not add iterative feature PipeOps (property
-#' `"fcst_iterative"`, e.g. [PipeOpFcstLags], [PipeOpFcstRolling]), which are rejected at construction.
+#' Can be constructed in two ways, like [RecursiveForecaster]:
+#' * **Simple**: `DirectForecaster$new(learner, lags = 1:3, horizons = 12)` -- internally builds
+#'   `po("fcst.lags", lags = lags) %>>% learner`.
+#' * **Graph**: `DirectForecaster$new(graph, horizons = 12)` -- takes a [mlr3pipelines::Graph] or
+#'   [mlr3pipelines::PipeOp] that creates its own lag or rolling features,
+#'   so the same graph works with both forecasters.
+#'
+#' @section Iterative features:
+#' The model for horizon `h` is trained on a copy of the graph in which every PipeOp with the `"fcst_iterative"`
+#' property, e.g. [PipeOpFcstLags] or [PipeOpFcstRolling], is shifted `h - 1` steps into the past via its `$shift()`
+#' method.
+#' For example, base lags `1:3` become lags `h:(h + 2)`, so at prediction time only observed values are needed.
+#' Tune the base values via the PipeOp's parameters, e.g. `fcst.lags.lags`.
+#' Only the last `$lookback` observations of each series are kept for prediction,
+#' or all of them for an expanding window.
 #'
 #' @export
 #' @examplesIf mlr3misc::require_namespaces("rpart", quietly = TRUE)
@@ -21,8 +33,9 @@
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
 #'
-#' # or use the direct_forecaster() helper
-#' flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
+#' # graph: lag and rolling features, shifted per horizon
+#' graph = po("fcst.lags", lags = 1:3) %>>% po("fcst.rolling", window_sizes = 6L) %>>% lrn("regr.rpart")
+#' flrn = DirectForecaster$new(graph, horizons = length(split$test))
 #' flrn$train(task, split$train)
 #' flrn$predict(task, split$test)
 #' }
@@ -33,10 +46,12 @@ DirectForecaster = R6Class(
     #' @description
     #' Creates a new instance of this [R6][R6::R6Class] class.
     #' @param learner ([mlr3::Learner] | [mlr3pipelines::Graph] | [mlr3pipelines::PipeOp])\cr
-    #'   A regression learner or a graph/PipeOp (without [PipeOpFcstLags]).
-    #' @param lags (`integer()`)\cr
-    #'   The base lag values. Exposed in `$param_set` as `lags`, so it can be tuned via
-    #'   [mlr3tuning::AutoTuner].
+    #'   A regression learner or a graph/PipeOp.
+    #' @param lags (`integer()` | `NULL`)\cr
+    #'   The base lag values.
+    #'   If provided, `po("fcst.lags", lags = lags)` is added in front of `learner`,
+    #'   and its parameter `fcst.lags.lags` can be tuned via [mlr3tuning::AutoTuner].
+    #'   If `NULL`, the graph should contain its own lag or rolling features.
     #' @param horizons (`integer()`)\cr
     #'   Either a single integer `H` (expanded to `1:H`) or an integer vector of specific horizons.
     #'   One model is trained per horizon. At predict time each test row is routed to the model
@@ -51,16 +66,25 @@ DirectForecaster = R6Class(
     #'   The predict type, default `NULL`.
     #' @param clone_graph (`logical(1)`)\cr
     #'   Whether to clone the graph, default `TRUE`.
+    #'   If `lags` is provided, a new graph is built in any case.
     initialize = function(
       learner,
-      lags,
+      lags = NULL,
       horizons,
       id = NULL,
       param_vals = list(),
       predict_type = NULL,
       clone_graph = TRUE
     ) {
-      lags = assert_integerish(lags, lower = 1L, any.missing = FALSE, coerce = TRUE)
+      lags = assert_integerish(
+        lags,
+        lower = 1L,
+        any.missing = FALSE,
+        min.len = 1L,
+        unique = TRUE,
+        coerce = TRUE,
+        null.ok = TRUE
+      )
       horizons = assert_integerish(
         horizons,
         lower = 1L,
@@ -74,20 +98,13 @@ DirectForecaster = R6Class(
       }
       private$.horizons = horizons
 
-      private$.fcst_param_set = ps(
-        lags = p_uty(
-          tags = "train",
-          custom_check = crate(function(x) {
-            check_integerish(x, lower = 1L, any.missing = FALSE, min.len = 1L, unique = TRUE)
-          })
-        )
-      )
-      private$.fcst_param_set$set_values(lags = lags)
-
       if (!inherits(learner, c("Graph", "PipeOp"))) {
         learner = assert_learner(as_learner(learner), task_type = "regr")
       }
       graph = as_graph(learner)
+      if (!is.null(lags)) {
+        graph = po("fcst.lags", lags = lags) %>>% graph
+      }
 
       private$.learner = GraphLearner$new(graph, task_type = "regr", clone_graph = clone_graph)
       if (length(param_vals) > 0L) {
@@ -95,11 +112,9 @@ DirectForecaster = R6Class(
       }
 
       pipeops = private$.learner$graph$pipeops
-      iterative_ids = names(keep(pipeops, function(po) "fcst_iterative" %chin% po$properties))
-      if (length(iterative_ids) > 0L) {
-        error_input(
-          "Iterative feature PipeOps (property 'fcst_iterative') are not supported in a DirectForecaster graph (found: %s). Lags are handled internally via `lags`.",
-          str_collapse(iterative_ids, quote = "'")
+      if (length(fcst_iterative_pipeops(private$.learner$graph)) == 0L) {
+        warning_input(
+          "Graph contains no PipeOps with the 'fcst_iterative' property (e.g., PipeOpFcstLags). All horizon models use the same features."
         )
       }
 
@@ -136,10 +151,6 @@ DirectForecaster = R6Class(
         packages = c("mlr3forecast", private$.learner$packages),
         man = "mlr3forecast::DirectForecaster"
       )
-      private$.param_set = ParamSetCollection$new(list(
-        private$.fcst_param_set,
-        private$.learner$param_set
-      ))
       private$.predict_type = private$.learner$predict_type
       if (!is.null(predict_type)) self$predict_type = predict_type
     },
@@ -149,7 +160,10 @@ DirectForecaster = R6Class(
     #' @param ... (ignored).
     print = function(...) {
       super$print()
-      cat_cli(cli::cli_li("Lags: {self$lags}"))
+      lags = self$lags
+      if (!is.null(lags)) {
+        cat_cli(cli::cli_li("Lags: {lags}"))
+      }
       cat_cli(cli::cli_li("Horizons: {self$horizons}"))
     },
 
@@ -266,11 +280,16 @@ DirectForecaster = R6Class(
       private$.per_horizon(function(glrn) glrn$base_learner()$native_model)
     },
 
-    #' @field lags (`integer()`)\cr
-    #' The base lags.
+    #' @field lags (`integer()` | `NULL`)\cr
+    #' The lags of the [PipeOpFcstLags] in the graph, which the model for horizon `h` shifts by `h - 1`,
+    #' or `NULL` if there is none.
     lags = function(rhs) {
       assert_ro_binding(rhs)
-      private$.fcst_param_set$values$lags
+      lag_po = detect(private$.learner$graph$pipeops, function(po) inherits(po, "PipeOpFcstLags"))
+      if (is.null(lag_po)) {
+        return()
+      }
+      lag_po$param_set$values$lags
     },
 
     #' @field horizons (`integer()`)\cr
@@ -282,16 +301,10 @@ DirectForecaster = R6Class(
 
     #' @template field_param_set
     param_set = function(rhs) {
-      if (is.null(private$.param_set)) {
-        private$.param_set = ParamSetCollection$new(list(
-          private$.fcst_param_set,
-          private$.learner$param_set
-        ))
-      }
-      if (!missing(rhs) && !identical(rhs, private$.param_set)) {
+      if (!missing(rhs) && !identical(rhs, private$.learner$param_set)) {
         error_input("param_set is read-only.")
       }
-      private$.param_set
+      private$.learner$param_set
     },
 
     #' @field hash (`character(1)`)\cr
@@ -332,15 +345,12 @@ DirectForecaster = R6Class(
 
   private = list(
     .learner = NULL,
-    .fcst_param_set = NULL,
     .horizons = NULL,
 
     deep_clone = function(name, value) {
       switch(
         name,
         .learner = value$clone(deep = TRUE),
-        .fcst_param_set = value$clone(deep = TRUE),
-        .param_set = NULL,
         state = {
           value = super$deep_clone(name, value)
           # Learner's deep_clone keeps the model, so clones would share the trained horizon learners
@@ -357,13 +367,13 @@ DirectForecaster = R6Class(
     },
 
     .train = function(task) {
-      lags = private$.fcst_param_set$values$lags
-      horizons = private$.horizons
       graph = private$.learner$graph
 
-      models = map(horizons, function(h) {
-        offset_lags = lags + (h - 1L)
-        g = po("fcst.lags", lags = offset_lags) %>>% graph
+      # the model for horizon h shifts the iterative features by h - 1 steps, so they only use values observed at the
+      # forecast origin
+      models = map(private$.horizons, function(h) {
+        g = graph$clone(deep = TRUE)
+        walk(fcst_iterative_pipeops(g), function(po) po$shift(h - 1L))
         glrn = GraphLearner$new(g, task_type = "regr", clone_graph = FALSE)
         glrn$train(task)
       })
@@ -384,15 +394,17 @@ DirectForecaster = R6Class(
       }
       anchor = if (length(key_cols) > 0L) NA_integer_ else grid_anchor(dt[[order_cols]], step)
 
-      # last max(lags) rows per key hold all the history predict's lag features can reach
+      # the lookback before shifting is the history every horizon's features reach back from the forecast origin
       cols = unique(c(task$target_names, task$feature_names, key_cols, order_cols))
       tail_dt = task$data(cols = cols)
       setorderv(tail_dt, c(key_cols, order_cols))
-      max_lag = max(lags)
-      train_tail = if (length(key_cols) > 0L) {
-        tail_dt[, tail(.SD, max_lag), by = key_cols, env = list(max_lag = max_lag, key_cols = I(key_cols))]
+      lookback = max(0, map_dbl(fcst_iterative_pipeops(graph), function(po) po$lookback))
+      train_tail = if (is.infinite(lookback)) {
+        tail_dt
+      } else if (length(key_cols) > 0L) {
+        tail_dt[, tail(.SD, lookback), by = key_cols, env = list(lookback = lookback, key_cols = I(key_cols))]
       } else {
-        tail(tail_dt, max_lag)
+        tail(tail_dt, lookback)
       }
 
       set_class(

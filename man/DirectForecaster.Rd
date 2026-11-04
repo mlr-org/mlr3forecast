@@ -4,13 +4,29 @@
 \alias{DirectForecaster}
 \title{Direct Multi-Step Forecast Learner}
 \description{
-Trains a separate model for each forecast horizon. For horizon \code{h} with base lags \code{1:p},
-model \code{h} uses lags \code{h:(h+p-1)}, so that at prediction time only observed values are needed.
+Trains a separate model for each forecast horizon.
 Unlike \link{RecursiveForecaster}, predictions do not feed back into subsequent steps (no error accumulation).
 
-Lag features are managed internally via \code{lags}. Do not add iterative feature PipeOps (property
-\code{"fcst_iterative"}, e.g. \link{PipeOpFcstLags}, \link{PipeOpFcstRolling}), which are rejected at construction.
+Can be constructed in two ways, like \link{RecursiveForecaster}:
+\itemize{
+\item \strong{Simple}: \code{DirectForecaster$new(learner, lags = 1:3, horizons = 12)} -- internally builds
+\code{po("fcst.lags", lags = lags) \%>>\% learner}.
+\item \strong{Graph}: \code{DirectForecaster$new(graph, horizons = 12)} -- takes a \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} or
+\link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp} that creates its own lag or rolling features,
+so the same graph works with both forecasters.
 }
+}
+\section{Iterative features}{
+
+The model for horizon \code{h} is trained on a copy of the graph in which every PipeOp with the \code{"fcst_iterative"}
+property, e.g. \link{PipeOpFcstLags} or \link{PipeOpFcstRolling}, is shifted \code{h - 1} steps into the past via its \verb{$shift()}
+method.
+For example, base lags \code{1:3} become lags \code{h:(h + 2)}, so at prediction time only observed values are needed.
+Tune the base values via the PipeOp's parameters, e.g. \code{fcst.lags.lags}.
+Only the last \verb{$lookback} observations of each series are kept for prediction,
+or all of them for an expanding window.
+}
+
 \examples{
 \dontshow{if (mlr3misc::require_namespaces("rpart", quietly = TRUE)) withAutoprint(\{ # examplesIf}
 \donttest{
@@ -24,8 +40,9 @@ flrn = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = length(spl
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 
-# or use the direct_forecaster() helper
-flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
+# graph: lag and rolling features, shifted per horizon
+graph = po("fcst.lags", lags = 1:3) \%>>\% po("fcst.rolling", window_sizes = 6L) \%>>\% lrn("regr.rpart")
+flrn = DirectForecaster$new(graph, horizons = length(split$test))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 }
@@ -57,8 +74,9 @@ The quantile to be used as response.}
     \item{\code{native_model}}{(named \code{list()})\cr
 The fitted models.}
 
-    \item{\code{lags}}{(\code{integer()})\cr
-The base lags.}
+    \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
+The lags of the \link{PipeOpFcstLags} in the graph, which the model for horizon \code{h} shifts by \code{h - 1},
+or \code{NULL} if there is none.}
 
     \item{\code{horizons}}{(\code{integer()})\cr
 The forecast horizons.}
@@ -117,7 +135,7 @@ Stores the currently active predict type.}
     \if{html}{\out{<div class="r">}}
     \preformatted{DirectForecaster$new(
   learner,
-  lags,
+  lags = NULL,
   horizons,
   id = NULL,
   param_vals = list(),
@@ -130,10 +148,12 @@ Stores the currently active predict type.}
     \if{html}{\out{<div class="arguments">}}
     \describe{
       \item{\code{learner}}{(\link[mlr3:Learner]{mlr3::Learner} | \link[mlr3pipelines:Graph]{mlr3pipelines::Graph} | \link[mlr3pipelines:PipeOp]{mlr3pipelines::PipeOp})\cr
-A regression learner or a graph/PipeOp (without \link{PipeOpFcstLags}).}
-      \item{\code{lags}}{(\code{integer()})\cr
-The base lag values. Exposed in \verb{$param_set} as \code{lags}, so it can be tuned via
-\link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}.}
+A regression learner or a graph/PipeOp.}
+      \item{\code{lags}}{(\code{integer()} | \code{NULL})\cr
+The base lag values.
+If provided, \code{po("fcst.lags", lags = lags)} is added in front of \code{learner},
+and its parameter \code{fcst.lags.lags} can be tuned via \link[mlr3tuning:AutoTuner]{mlr3tuning::AutoTuner}.
+If \code{NULL}, the graph should contain its own lag or rolling features.}
       \item{\code{horizons}}{(\code{integer()})\cr
 Either a single integer \code{H} (expanded to \code{1:H}) or an integer vector of specific horizons.
 One model is trained per horizon. At predict time each test row is routed to the model
@@ -147,7 +167,8 @@ currently supported.}
       \item{\code{predict_type}}{(\code{character(1)} | \code{NULL})\cr
 The predict type, default \code{NULL}.}
       \item{\code{clone_graph}}{(\code{logical(1)})\cr
-Whether to clone the graph, default \code{TRUE}.}
+Whether to clone the graph, default \code{TRUE}.
+If \code{lags} is provided, a new graph is built in any case.}
     }
     \if{html}{\out{</div>}}
   }

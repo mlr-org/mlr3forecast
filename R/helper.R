@@ -81,6 +81,19 @@ set_graph_quantile_field = function(graph, field, value, id) {
   walk(learners, function(learner) learner[[field]] = value)
 }
 
+# the PipeOps with the "fcst_iterative" property, which must implement $shift() and $lookback
+fcst_iterative_pipeops = function(graph) {
+  pipeops = keep(graph$pipeops, function(po) "fcst_iterative" %chin% po$properties)
+  missing_protocol = names(discard(pipeops, function(po) all(c("shift", "lookback") %chin% names(po))))
+  if (length(missing_protocol) > 0L) {
+    error_input(
+      "PipeOps with the 'fcst_iterative' property must implement $shift() and $lookback, but %s do(es) not.",
+      str_collapse(missing_protocol, quote = "'")
+    )
+  }
+  pipeops
+}
+
 as_numeric_matrix = function(x) {
   x = as.matrix(x)
   if (is.logical(x)) {

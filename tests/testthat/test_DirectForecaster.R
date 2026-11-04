@@ -200,26 +200,60 @@ test_that("DirectForecaster wrapped in a target trafo inverts cumulatively", {
   expect_equal(flrn$predict(task, 56:60)$response, as.numeric(56:60))
 })
 
-test_that("DirectForecaster errors on iterative feature PipeOps inside the graph", {
-  graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
-  expect_snapshot(DirectForecaster$new(graph, lags = 1:3, horizons = 3), error = TRUE)
+test_that("DirectForecaster shifts the iterative PipeOps of the graph per horizon", {
+  task = tsk("airpassengers")
+  graph = po("fcst.lags", lags = 1:3) %>>% po("fcst.rolling", window_sizes = 6L) %>>% lrn("regr.rpart")
+  learner = DirectForecaster$new(graph, horizons = 3L)
+  learner$train(task, 1:132)
 
-  graph = po("fcst.rolling", funs = "mean", window_sizes = 6L) %>>% lrn("regr.rpart")
-  expect_snapshot(DirectForecaster$new(graph, lags = 1:3, horizons = 3), error = TRUE)
+  pipeops = map(learner$model$models, function(m) m$graph$pipeops)
+  expect_equal(map(pipeops, function(p) p$fcst.lags$param_set$values$lags), list(1:3, 2:4, 3:5))
+  expect_equal(map(pipeops, function(p) p$fcst.rolling$param_set$values$lag), list(1L, 2L, 3L))
+  expect_equal(learner$graph_model$h1$pipeops$fcst.lags$param_set$values$lags, 1:3)
+  expect_equal(learner$param_set$values$fcst.lags.lags, 1:3)
+  expect_identical(nrow(learner$model$train_tail), 6L)
+  expect_prediction(learner$predict(task, 133:135))
+})
+
+test_that("DirectForecaster lags argument matches an equivalent graph", {
+  task = tsk("airpassengers")
+  simple = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3L)$train(task, 1:132)
+  graph = DirectForecaster$new(po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart"), horizons = 3L)$train(task, 1:132)
+  expect_equal(graph$predict(task, 133:135)$response, simple$predict(task, 133:135)$response)
+})
+
+test_that("DirectForecaster keeps the full history for an expanding window", {
+  task = tsk("airpassengers")
+  graph = po("fcst.rolling", window_sizes = Inf) %>>% lrn("regr.rpart")
+  learner = DirectForecaster$new(graph, horizons = 2L)$train(task, 1:132)
+  expect_identical(nrow(learner$model$train_tail), 132L)
+  expect_prediction(learner$predict(task, 133:134))
+})
+
+test_that("DirectForecaster warns without iterative PipeOps", {
+  expect_warning(DirectForecaster$new(lrn("regr.rpart"), horizons = 2L), "fcst_iterative")
+})
+
+test_that("DirectForecaster rejects iterative PipeOps without $shift() and $lookback", {
+  bare = PipeOpTaskPreproc$new("bare")
+  bare$properties = c(bare$properties, "fcst_iterative")
+  expect_error(DirectForecaster$new(bare %>>% lrn("regr.rpart"), horizons = 2L), "must implement")
 })
 
 test_that("DirectForecaster active bindings", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:5, horizons = 3)
   expect_equal(learner$lags, 1:5)
   expect_equal(learner$horizons, 1:3)
+  learner = suppressWarnings(DirectForecaster$new(lrn("regr.rpart"), horizons = 3))
+  expect_null(learner$lags)
 })
 
 test_that("DirectForecaster exposes tunable lags in param_set", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
-  expect_subset(c("lags", "regr.rpart.cp"), learner$param_set$ids())
-  expect_equal(learner$param_set$values$lags, 1:3)
+  expect_subset(c("fcst.lags.lags", "regr.rpart.cp"), learner$param_set$ids())
+  expect_equal(learner$param_set$values$fcst.lags.lags, 1:3)
 
-  learner$param_set$values$lags = 1:2
+  learner$param_set$values$fcst.lags.lags = 1:2
   expect_equal(learner$lags, 1:2)
 
   learner$train(tsk("airpassengers"), 1:100)
@@ -280,7 +314,7 @@ test_that("DirectForecaster propagates quantiles to every learner in an ensemble
 test_that("DirectForecaster clone has independent lags", {
   learner = DirectForecaster$new(lrn("regr.rpart"), lags = 1:3, horizons = 3)
   clone = learner$clone(deep = TRUE)
-  clone$param_set$values$lags = 5:7
+  clone$param_set$values$fcst.lags.lags = 5:7
   expect_equal(clone$lags, 5:7)
   expect_equal(learner$lags, 1:3)
 })
@@ -488,19 +522,20 @@ test_that("DirectForecaster predict leaves the hyperparameters of the trained mo
 
 test_that("DirectForecaster clone_graph controls whether the wrapped graph is shared", {
   task = tsk("airpassengers")
-  graph = as_graph(lrn("regr.rpart"))
+  graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
 
-  learner = DirectForecaster$new(graph, lags = 1:3, horizons = 2L)
+  learner = DirectForecaster$new(graph, horizons = 2L)
   learner$param_set$set_values(regr.rpart.cp = 0.5)
   expect_null(graph$param_set$values$regr.rpart.cp)
 
-  learner = direct_forecaster(graph, lags = 1:3, horizons = 2L, clone_graph = FALSE)
+  learner = direct_forecaster(graph, horizons = 2L, clone_graph = FALSE)
   learner$param_set$set_values(regr.rpart.cp = 0.5)
   expect_identical(graph$param_set$values$regr.rpart.cp, 0.5)
 
-  # training must not mutate the shared graph
+  # training must neither train nor shift the shared graph
   learner$train(task, 1:100)
   expect_null(graph$state$regr.rpart)
+  expect_identical(graph$param_set$values$fcst.lags.lags, 1:3)
   expect_length(learner$model$models, 2L)
 })
 
