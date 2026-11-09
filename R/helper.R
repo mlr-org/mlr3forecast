@@ -81,6 +81,49 @@ set_graph_quantile_field = function(graph, field, value, id) {
   walk(learners, function(learner) learner[[field]] = value)
 }
 
+graph_lags = function(graph) {
+  lag_po = detect(graph$pipeops, function(po) inherits(po, "PipeOpFcstLags"))
+  if (is.null(lag_po)) {
+    return()
+  }
+  lag_po$param_set$values$lags
+}
+
+error_predict_newdata_fast = function(learner) {
+  error_input(
+    "Learner '%s' does not support predict_newdata_fast(). Use predict_newdata() or forecast() instead.",
+    learner$id
+  )
+}
+
+# task over the stored history and the future rows, on which the graph computes its features at predict time
+fcst_step_task = function(data, target, order_cols, key_cols, freq, feature_names) {
+  set(data, j = "..row_id", value = seq_row(data))
+  backend = DataBackendDataTable$new(data, "..row_id")
+  task = as_task_fcst(backend, target = target, order = order_cols, key = key_cols, freq = freq)
+  # preserve training feature col_roles so PipeOpTaskPreproc's layout check passes
+  task$col_roles$feature = intersect(feature_names, names(data))
+  task
+}
+
+# replaces the row ids, truth, and index of a prediction on the step task with those of the predicted task
+fcst_finalize_prediction = function(prediction, task, target, order_cols, key_cols) {
+  row_ids = task$row_ids
+  data = task$data(rows = row_ids, cols = c(target, key_cols, order_cols))
+  new_data = list(
+    row_ids = row_ids,
+    truth = data[[target]],
+    extra = as.list(data[, c(key_cols, order_cols), with = FALSE]),
+    col_roles = list(order = order_cols, key = key_cols)
+  )
+  # returning a Prediction bypasses the weights injection of as_prediction_data.list
+  if ("weights_measure" %chin% task$properties) {
+    new_data$weights = task$weights_measure[list(row_id = row_ids), on = "row_id", "weight"][[1L]]
+  }
+  prediction$data = insert_named(prediction$data, new_data)
+  prediction
+}
+
 # the PipeOps with the "fcst_iterative" property, which must implement $shift() and $lookback
 fcst_iterative_pipeops = function(graph) {
   pipeops = keep(graph$pipeops, function(po) "fcst_iterative" %chin% po$properties)

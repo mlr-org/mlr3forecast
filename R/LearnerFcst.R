@@ -80,10 +80,7 @@ LearnerFcst = R6Class(
     #' @param newdata (ignored).
     #' @param task (ignored).
     predict_newdata_fast = function(newdata, task = NULL) {
-      error_input(
-        "Learner '%s' does not support predict_newdata_fast(). Use predict_newdata() or forecast() instead.",
-        self$id
-      )
+      error_predict_newdata_fast(self)
     }
   ),
   active = list(

@@ -134,10 +134,7 @@ RecursiveForecaster = R6Class(
     #' @param newdata (ignored).
     #' @param task (ignored).
     predict_newdata_fast = function(newdata, task = NULL) {
-      error_input(
-        "Learner '%s' does not support predict_newdata_fast(). Use predict_newdata() or forecast() instead.",
-        self$id
-      )
+      error_predict_newdata_fast(self)
     },
 
     #' @description
@@ -233,11 +230,7 @@ RecursiveForecaster = R6Class(
     #' The lags of the first [PipeOpFcstLags] in the graph, or `NULL` if there is none.
     lags = function(rhs) {
       assert_ro_binding(rhs)
-      lag_po = detect(self$graph$pipeops, function(po) inherits(po, "PipeOpFcstLags"))
-      if (is.null(lag_po)) {
-        return()
-      }
-      lag_po$param_set$get_values()$lags
+      graph_lags(self$graph)
     }
   ),
 
@@ -361,18 +354,7 @@ RecursiveForecaster = R6Class(
         set(combined, j = target, value = as.numeric(combined[[target]]))
       }
       set(combined, i = test_cids, j = target, value = NA_real_)
-      set(combined, j = "..row_id", value = seq_row(combined))
-
-      backend = DataBackendDataTable$new(combined, "..row_id")
-      step_task = as_task_fcst(
-        backend,
-        target = target,
-        order = order_cols,
-        key = key_cols,
-        freq = self$model$freq
-      )
-      # preserve training feature col_roles so PipeOpTaskPreproc's layout check passes
-      step_task$col_roles$feature = intersect(self$model$feature_names, names(combined))
+      step_task = fcst_step_task(combined, target, order_cols, key_cols, step, self$model$feature_names)
 
       ord = combined[test_cids, c(key_cols, order_cols, "..row_id"), with = FALSE]
       setorderv(ord, c(key_cols, order_cols))
@@ -392,20 +374,7 @@ RecursiveForecaster = R6Class(
 
       # concatenation is step-major; restore the task's row order
       out = reorder_prediction(do.call(c, preds), test_cids)
-      out_row_ids = task$row_ids
-      out_data = task$data(rows = out_row_ids, cols = c(target, key_cols, order_cols))
-      new_data = list(
-        row_ids = out_row_ids,
-        truth = out_data[[target]],
-        extra = as.list(out_data[, c(key_cols, order_cols), with = FALSE]),
-        col_roles = list(order = order_cols, key = key_cols)
-      )
-      # returning a Prediction bypasses the weights injection of as_prediction_data.list
-      if ("weights_measure" %chin% task$properties) {
-        new_data$weights = task$weights_measure[list(row_id = out_row_ids), on = "row_id", "weight"][[1L]]
-      }
-      out$data = insert_named(out$data, new_data)
-      out
+      fcst_finalize_prediction(out, task, target, order_cols, key_cols)
     }
   )
 )
