@@ -152,7 +152,6 @@ LearnerFcst = R6Class(
       list(
         model = model,
         index = sort(order_vals),
-        max_index = max(order_vals),
         step = step,
         anchor = grid_anchor(order_vals, step)
       )
@@ -163,7 +162,7 @@ LearnerFcst = R6Class(
       if (length(order_vals) == 0L) {
         return(TRUE)
       }
-      max_index = self$model$max_index
+      max_index = last(self$model$index)
       if (all(order_vals > max_index)) {
         if (is.unsorted(order_vals, strictly = TRUE)) {
           error_input("Future rows must be passed in chronological order.")
