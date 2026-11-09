@@ -138,6 +138,12 @@ test_that("targetdiff drops series too short for the lag and rejects them at pre
   expect_error(op$predict(list(task)), "not seen during training")
 })
 
+test_that("targetdiff errors on an unkeyed series not longer than the lag", {
+  task = tsk("airpassengers")$filter(1:12)
+  expect_error(po("fcst.targetdiff", lag = 12L)$train(list(task)), "too short")
+  expect_no_error(po("fcst.targetdiff", lag = 11L)$train(list(task)))
+})
+
 test_that("targetdiff works wrapping DirectForecaster on a keyed task", {
   skip_if_not_installed("rpart")
 

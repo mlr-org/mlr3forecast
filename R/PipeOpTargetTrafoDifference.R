@@ -92,6 +92,9 @@ PipeOpTargetTrafoDifference = R6Class(
           error_input("%s requires the task to be ordered by its order column.", self$id)
         }
         x = task$data(cols = target)[[1L]]
+        if (phase == "train" && length(x) <= lag) {
+          error_input("The series is too short for the requested lags or window sizes.")
+        }
         if (phase == "predict") {
           x = c(self$state$tail, x)
         }
