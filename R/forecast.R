@@ -48,7 +48,8 @@ generate_newdata = function(task, n = 1L) {
 #' @param object ([mlr3::Learner])\cr
 #'   A trained forecast learner.
 #' @param task ([TaskFcst])\cr
-#'   Task whose last observation in each series defines the forecast origin.
+#'   Task whose last observation in each series is the last one `object` was trained on, usually the training task.
+#'   The learner forecasts from the end of its training data, so a task with newer observations requires retraining.
 #'   Its order column, keys, and `freq` define the future time grid.
 #'   Its column types must match those expected by the trained learner.
 #' @param h (`integer(1)`)\cr

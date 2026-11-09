@@ -11,7 +11,8 @@
 A trained forecast learner.}
 
 \item{task}{(\link{TaskFcst})\cr
-Task whose last observation in each series defines the forecast origin.
+Task whose last observation in each series is the last one \code{object} was trained on, usually the training task.
+The learner forecasts from the end of its training data, so a task with newer observations requires retraining.
 Its order column, keys, and \code{freq} define the future time grid.
 Its column types must match those expected by the trained learner.}
 
