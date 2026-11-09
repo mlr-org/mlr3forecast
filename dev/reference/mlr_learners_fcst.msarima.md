@@ -233,7 +233,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.04 seconds
+#> Time elapsed: 0.01 seconds
 #> Model estimated using msarima() function: ARIMA(0,1,1)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal
@@ -270,9 +270,6 @@ print(learner$model)
 #> [86] "1956-02-01" "1956-03-01" "1956-04-01" "1956-05-01" "1956-06-01"
 #> [91] "1956-07-01" "1956-08-01" "1956-09-01" "1956-10-01" "1956-11-01"
 #> [96] "1956-12-01"
-#> 
-#> $max_index
-#> [1] "1956-12-01"
 #> 
 #> $step
 #> [1] "1 month"
