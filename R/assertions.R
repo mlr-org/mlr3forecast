@@ -32,6 +32,9 @@ assert_fcst_prediction_col_roles = function(col_roles, extra) {
     error_learner_predict("Extra column(s) may not have both the 'order' and the 'key' role")
   }
   assert_subset(unlist(col_roles, use.names = FALSE), names(extra), .var.name = "columns in col_roles")
+  if (length(col_roles$key) > 1L && "row_id" %chin% col_roles$key) {
+    error_learner_predict("One of several extra columns with role 'key' may not be named 'row_id'")
+  }
   # canonical element order so downstream comparisons are representation-independent
   list(order = col_roles[["order"]], key = col_roles[["key"]])
 }

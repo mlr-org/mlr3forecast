@@ -56,6 +56,7 @@
 * fix: `as_task_fcst()` now converts `zoo` objects with a plain numeric index, keeping it as a numeric `index` order column, instead of failing with an error from `xts`.
 * fix: `as_task_fcst()` now keeps the time zone of `zoo` and `xts` objects with a `POSIXct` index.
 * fix: `as_task_fcst()` and `TaskFcst$new()` now error if an order or key column uses a reserved prediction column name, i.e. `row_ids`, `truth`, `response`, `se`, `distr`, `weights`, or a quantile name such as `q0.5`. Previously, such a task failed only at prediction time or broke `as.data.table()` of its predictions.
+* fix: `as_task_fcst()` and `TaskFcst$new()` now error if one of several key columns is named `row_id`. Previously, `task$key` failed and `prediction$key` returned that key column in place of the row ids. A single key column named `row_id` remains supported.
 * fix: `autoplot()` of a backtest prediction now connects the forecast to the last observation before it instead of the last observation of the task.
 * fix: `DirectForecaster$predict_newdata_fast()` now raises an input error pointing to `$predict_newdata()` and `forecast()`, like `RecursiveForecaster`, instead of failing with "attempt to apply non-function".
 * fix: `DirectForecaster`, `po("fcst.lags")`, and `po("fcst.rolling")` now reject duplicate `lags`, `funs`, or `window_sizes` when they are set. Previously, training failed with an unclear data.table error.

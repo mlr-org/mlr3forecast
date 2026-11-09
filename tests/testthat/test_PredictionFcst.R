@@ -33,6 +33,19 @@ test_that("PredictionFcst$key returns the series identity for keyed tasks", {
   expect_data_table(p$order, nrows = length(p$row_ids))
 })
 
+test_that("PredictionFcst rejects row_id as one of several key columns", {
+  expect_error(
+    PredictionFcst$new(
+      row_ids = 1:2,
+      truth = c(1, 2),
+      response = c(1, 2),
+      extra = list(date = as.Date("2020-01-01") + 0:1, row_id = c("x", "y"), region = c("n", "n")),
+      col_roles = list(order = "date", key = c("row_id", "region"))
+    ),
+    "'row_id'"
+  )
+})
+
 test_that("PredictionFcst is scored by regression measures", {
   skip_if_not_installed("rpart")
   task = tsk("airpassengers")

@@ -254,6 +254,10 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
       )
     }
 
+    if (length(key_cols) > 1L && "row_id" %chin% key_cols) {
+      error_input("One of several key columns may not be named 'row_id', which `$key` uses for the row ids.")
+    }
+
     key_types = fget_keys(task$col_info, key_cols, "type", key = "id")
     if (any(key_types %nin% c("character", "integer", "factor", "ordered"))) {
       error_input(

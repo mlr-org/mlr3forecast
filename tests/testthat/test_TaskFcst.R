@@ -228,6 +228,19 @@ test_that("order and key columns may not use reserved prediction column names", 
   expect_error(task$set_col_roles("truth", add_to = "key"), "'truth'", class = "Mlr3ErrorInput")
 })
 
+test_that("one of several key columns may not be named row_id", {
+  dt = CJ(row_id = c("x", "y"), region = c("n", "s"), t = 1:6)[, y := as.numeric(.I)]
+  expect_error(
+    as_task_fcst(dt, target = "y", order = "t", key = c("row_id", "region")),
+    "'row_id'",
+    class = "Mlr3ErrorInput"
+  )
+
+  single = as_task_fcst(dt[region == "n"], target = "y", order = "t", key = "row_id")
+  expect_names(names(single$key), identical.to = c("row_id", "key"))
+  expect_identical(single$key$row_id, single$row_ids)
+})
+
 test_that("numeric key columns are rejected", {
   data = data.frame(
     date = rep(as.Date("2025-01-01") + 0:2, 2L),
