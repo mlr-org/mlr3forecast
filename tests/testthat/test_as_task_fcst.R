@@ -232,7 +232,7 @@ test_that("as_task_fcst assertions", {
       target = "value",
       order = "date"
     ),
-    "`order` values must be unique for each time series."
+    "Order column 'date' contains duplicated values within a time series"
   )
 
   # with key col
@@ -259,6 +259,6 @@ test_that("as_task_fcst assertions", {
       order = "date",
       key = "id"
     ),
-    "`order` values must be unique for each time series."
+    "Order column 'date' contains duplicated values within a time series"
   )
 })

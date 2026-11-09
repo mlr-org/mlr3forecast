@@ -130,10 +130,6 @@ as_task_fcst.data.frame = function(
 
   x = setorderv(as.data.table(x), c(key, order))
 
-  if (anyDuplicated(x, by = c(key, order)) > 0L) {
-    error_input("`order` values must be unique for each time series.")
-  }
-
   TaskFcst$new(id = id, backend = x, target = target, order = order, key = key, freq = freq, label = label, ...)
 }
 
