@@ -488,6 +488,21 @@ test_that("RecursiveForecaster provides a default fallback", {
   expect_true(nrow(rr$errors) > 0L)
 })
 
+test_that("RecursiveForecaster fallback predictions combine with regular ones", {
+  task = tsk("airpassengers")
+  base = lrn("regr.debug")
+  base$param_set$set_values(error_train = 1)
+  failing = RecursiveForecaster$new(base, lags = 1:3)
+  failing$encapsulate("evaluate", default_fallback(failing))
+  working = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
+
+  fallback = failing$train(task, 1:130)$predict(task, 131:136)
+  expect_identical(fallback$data$extra$month, task$data(131:136, "month")$month)
+  combined = c(fallback, working$train(task, 1:136)$predict(task, 137:142))
+  expect_class(combined, "PredictionFcst")
+  expect_identical(combined$data$extra$month, task$data(131:142, "month")$month)
+})
+
 test_that("RecursiveForecaster propagates predict parameters changed after training", {
   task = tsk("airpassengers")
   split = partition(task, ratio = 0.9)

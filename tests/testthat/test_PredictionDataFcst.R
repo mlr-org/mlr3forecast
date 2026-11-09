@@ -154,6 +154,15 @@ test_that("col_roles derivation tolerates tasks without forecast role slots", {
   expect_identical(checked$col_roles, list(order = character(), key = character()))
 })
 
+test_that("regression learners predicting a forecast task return the time index and keys", {
+  task = make_date_major_panel_task(10L)
+  prediction = lrn("regr.featureless")$train(task, 1:16)$predict(task, 17:20)
+  expect_class(prediction, "PredictionFcst")
+  expect_identical(prediction$data$col_roles, list(order = "date", key = "id"))
+  expect_identical(prediction$data$extra$date, task$data(17:20, "date")$date)
+  expect_identical(prediction$data$extra$id, task$data(17:20, "id")$id)
+})
+
 test_that("stored col_roles win over roles derived from the task", {
   dt = data.table(
     date = rep.int(seq(as.Date("2025-01-01"), length.out = 5L), 2L),

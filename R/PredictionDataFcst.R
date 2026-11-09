@@ -48,6 +48,14 @@ as_prediction.PredictionDataFcst = function(x, check = FALSE, ...) {
 #' @export
 check_prediction_data.PredictionDataFcst = function(pdata, ..., train_task = NULL) {
   pdata = check_prediction_data(as_pdata_regr(pdata), ...)
+  # learners that do not know forecast tasks, e.g. a regression fallback, return no time index
+  if (is.null(pdata$col_roles) && !is.null(train_task$backend)) {
+    cols = setdiff(c(train_task$col_roles$key, train_task$col_roles$order), names(pdata$extra))
+    if (length(cols) > 0L) {
+      index = train_task$data(rows = pdata$row_ids, cols = cols)
+      pdata$extra = insert_named(as.list(pdata$extra), as.list(index))
+    }
+  }
   pdata$col_roles = pdata$col_roles %??% fcst_prediction_col_roles(train_task, pdata$extra)
   pdata$col_roles = assert_fcst_prediction_col_roles(pdata$col_roles, pdata$extra)
   as_pdata_fcst(pdata)
