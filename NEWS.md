@@ -58,7 +58,7 @@
 * fix: `as_task_fcst()` and `TaskFcst$new()` now error if an order or key column uses a reserved prediction column name, i.e. `row_ids`, `truth`, `response`, `se`, `distr`, `weights`, or a quantile name such as `q0.5`. Previously, such a task failed only at prediction time or broke `as.data.table()` of its predictions.
 * fix: `autoplot()` of a backtest prediction now connects the forecast to the last observation before it instead of the last observation of the task.
 * fix: `DirectForecaster$predict_newdata_fast()` now raises an input error pointing to `$predict_newdata()` and `forecast()`, like `RecursiveForecaster`, instead of failing with "attempt to apply non-function".
-* fix: `DirectForecaster`, `po("fcst.lags")`, and `po("fcst.rolling")` now reject duplicate `lags` or `window_sizes` when they are set. Previously, training failed with an unclear data.table error.
+* fix: `DirectForecaster`, `po("fcst.lags")`, and `po("fcst.rolling")` now reject duplicate `lags`, `funs`, or `window_sizes` when they are set. Previously, training failed with an unclear data.table error.
 * fix: `DirectForecaster` no longer ignores predict parameters changed or unset after training. Parameters for training changed after training no longer affect predictions or overwrite the values of the trained horizon models.
 * fix: `DirectForecaster` now deep-clones its trained horizon models. Previously, a clone shared them with the original, so changing `$predict_type`, `$quantiles`, or hyperparameters of the clone, or predicting with it, also changed the original.
 * fix: `DirectForecaster` now raises an input error naming the key groups without training rows when predicting them, instead of failing inside `seq()`.

@@ -113,8 +113,9 @@ test_that("PipeOpFcstRolling rejects non-integer finite window sizes", {
   expect_snapshot(po("fcst.rolling", window_sizes = 2.5), error = TRUE, variant = snapshot_variant)
 })
 
-test_that("PipeOpFcstRolling rejects duplicate window sizes", {
+test_that("PipeOpFcstRolling rejects duplicate window sizes and functions", {
   expect_error(po("fcst.rolling", window_sizes = c(3L, 3L)), "duplicated")
+  expect_error(po("fcst.rolling", funs = c("mean", "mean")), "duplicated")
 })
 
 test_that("PipeOpFcstRolling is not confused by columns named like its variables", {

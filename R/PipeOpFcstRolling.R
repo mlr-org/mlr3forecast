@@ -49,7 +49,8 @@ PipeOpFcstRolling = R6Class(
           init = "mean",
           tags = "train",
           custom_check = crate(function(x) {
-            check_subset(x, choices = c("mean", "median", "sd", "min", "max", "sum"), empty.ok = FALSE)
+            check_subset(x, choices = c("mean", "median", "sd", "min", "max", "sum"), empty.ok = FALSE) %check&&%
+              check_character(x, unique = TRUE)
           })
         ),
         window_sizes = p_uty(
