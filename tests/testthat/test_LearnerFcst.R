@@ -62,6 +62,18 @@ test_that("training is invariant to backend row order", {
   expect_equal(f_shuffled$response, dat$y[n])
 })
 
+test_that("in-sample predict_newdata returns the fitted values of the given timestamps", {
+  task = tsk("airpassengers")
+  newdata = task$data(rows = 140:144, cols = c("month", "passengers"))
+
+  learner = lrn("fcst.random_walk")$train(task)
+  expect_equal(learner$predict_newdata(newdata, task)$response, as.numeric(task$truth(139:143)))
+
+  learner = lrn("fcst.random_walk")$train(task, 50:144)
+  expect_equal(learner$predict_newdata(newdata, task)$response, as.numeric(task$truth(139:143)))
+  expect_error(learner$predict_newdata(task$data(rows = 10:12, cols = c("month", "passengers")), task), "In-sample")
+})
+
 test_that("in-sample prediction is invariant to backend row order", {
   withr::local_seed(1)
   n = 48L

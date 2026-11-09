@@ -151,7 +151,7 @@ LearnerFcst = R6Class(
       step = task$freq
       list(
         model = model,
-        row_ids = task$row_ids[order(order_vals)],
+        index = sort(order_vals),
         max_index = max(order_vals),
         step = step,
         anchor = grid_anchor(order_vals, step)
@@ -188,7 +188,7 @@ LearnerFcst = R6Class(
     },
 
     .fitted_response = function(task) {
-      ii = match(task$row_ids, self$model$row_ids)
+      ii = match(task$data(cols = task$col_roles$order)[[1L]], self$model$index)
       if (anyNA(ii)) {
         error_input("In-sample prediction is only supported for rows used during training.")
       }
