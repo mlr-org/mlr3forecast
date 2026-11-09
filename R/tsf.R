@@ -29,7 +29,7 @@ read_tsf = function(file) {
   repeat {
     line = readLines(con, n = 1L, warn = FALSE)
     if (length(line) == 0L) {
-      stopf("No @data section found.")
+      error_input("No @data section found.")
     }
     if (startsWith(line, "@data")) {
       break
@@ -59,12 +59,8 @@ read_tsf = function(file) {
     colClasses = c(cc, "character")
   )
 
-  duplicates = unique(dt[duplicated(dt, by = cn), cn, with = FALSE])
-  if (nrow(duplicates) > 0L) {
-    stopf(
-      "Each series must have a unique combination of attribute values, but several series share: %s.",
-      str_collapse(do.call(paste, c(duplicates, sep = ":")), quote = "'", n = 5L)
-    )
+  if (anyDuplicated(dt, by = cn) > 0L) {
+    error_input("Each series must have a unique combination of attribute values.")
   }
 
   date_col = fget_key(metadata, "date", "name", key = "type")
@@ -72,12 +68,12 @@ read_tsf = function(file) {
   has_date = length(date_col) > 0L
 
   if (has_date && !has_freq) {
-    stopf("Frequency is missing: a 'date' attribute requires a @frequency.")
+    error_input("Frequency is missing: a 'date' attribute requires a @frequency.")
   }
 
   if (has_freq) {
     if (freq %nin% names(tsf_frequencies)) {
-      stopf("Invalid frequency %s, must be one of %s.", freq, str_collapse(names(tsf_frequencies), quote = "'"))
+      error_input("Invalid frequency %s, must be one of %s.", freq, str_collapse(names(tsf_frequencies), quote = "'"))
     }
     if (has_date) {
       if (freq %chin% names(tsf_high_frequencies)) {
@@ -86,7 +82,7 @@ read_tsf = function(file) {
         set(dt, j = date_col, value = as.Date(dt[[date_col]], format = "%Y-%m-%d %H-%M-%S"))
       }
       if (anyNA(dt[[date_col]])) {
-        stopf("Incorrect timestamp format. Specify your timestamps as YYYY-mm-dd HH-MM-SS.")
+        error_input("Incorrect timestamp format. Specify your timestamps as YYYY-mm-dd HH-MM-SS.")
       }
     }
   }
@@ -211,15 +207,15 @@ fetch_zenodo_file = function(record_id, file, path) {
   opts = options(timeout = max(600, getOption("timeout")))
   on.exit(options(opts), add = TRUE)
   tryCatch(utils::download.file(url, tf, quiet = TRUE, mode = "wb"), error = function(e) {
-    stopf("Failed to download TSF file from Zenodo with id: %s and name: %s.", record_id, file)
+    error_input("Failed to download TSF file from Zenodo with id: %s and name: %s.", record_id, file)
   })
   files = utils::unzip(tf, exdir = td)
   tsf = files[endsWith(files, ".tsf")]
   if (length(tsf) != 1L) {
-    stopf("Expected exactly one TSF file in the downloaded archive, but found %i.", length(tsf))
+    error_input("Expected exactly one TSF file in the downloaded archive, but found %i.", length(tsf))
   }
   if (!suppressWarnings(file.copy(tsf, path, overwrite = TRUE))) {
-    stopf("Failed to write the TSF file to '%s'. Check that the directory is writable.", path)
+    error_config("Failed to write the TSF file to '%s'. Check that the directory is writable.", path)
   }
   invisible(path)
 }

@@ -67,7 +67,7 @@ test_that("read_tsf rejects series that share all attribute values", {
 
   file = withr::local_tempfile(fileext = ".tsf")
   writeLines(c("@attribute state string", "@frequency monthly", "@data", "NSW:1,2,3", "NSW:4,5,6,7", "VIC:8,9"), file)
-  expect_error(read_tsf(file), "several series share: 'NSW'")
+  expect_error(read_tsf(file), "unique combination", class = "Mlr3ErrorInput")
 })
 
 test_that("read_tsf ignores blank lines in the data section", {
