@@ -196,6 +196,14 @@
   [`forecast()`](https://generics.r-lib.org/reference/forecast.html),
   instead of failing inside `$predict()` with an unrelated error, as the
   inherited regression method does not pass the time index on.
+- fix: Forecast learners now return the median as quantile 0.5 instead
+  of the mean, which differs from it for skewed forecast distributions,
+  e.g. for the default `fcst.adam` or a learner wrapping the `forecast`
+  package with `lambda` and `biasadj = TRUE`. Previously, quantile 0.5,
+  and thus the response for `$quantile_response = 0.5`, could lie
+  outside its neighboring quantiles. `fcst.nnetar` and the learners
+  wrapping `forecTheta` now simulate the median like their other
+  quantiles.
 - fix: Forecast learners now convert logical exogenous features to
   numeric values before passing them to the wrapped forecasting
   packages.
@@ -254,6 +262,12 @@
   [`as.data.table()`](https://rdrr.io/pkg/data.table/man/as.data.table.html)
   of its predictions.
 - fix:
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  and `TaskFcst$new()` now error if one of several key columns is named
+  `row_id`. Previously, `task$key` failed and `prediction$key` returned
+  that key column in place of the row ids. A single key column named
+  `row_id` remains supported.
+- fix:
   [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
   of a backtest prediction now connects the forecast to the last
   observation before it instead of the last observation of the task.
@@ -263,8 +277,8 @@
   like `RecursiveForecaster`, instead of failing with “attempt to apply
   non-function”.
 - fix: `DirectForecaster`, `po("fcst.lags")`, and `po("fcst.rolling")`
-  now reject duplicate `lags` or `window_sizes` when they are set.
-  Previously, training failed with an unclear data.table error.
+  now reject duplicate `lags`, `funs`, or `window_sizes` when they are
+  set. Previously, training failed with an unclear data.table error.
 - fix: `DirectForecaster` no longer ignores predict parameters changed
   or unset after training. Parameters for training changed after
   training no longer affect predictions or overwrite the values of the
@@ -298,6 +312,9 @@
 - fix: `fcst.adam` gained the `lambda` parameter, the weight of the
   `LASSO` and `RIDGE` penalties. Previously, these losses always used a
   weight of 0 and fit like plain `MSE`.
+- fix: `fcst.ar`, `fcst.dstm`, `fcst.esn`, `fcst.imapa`, `fcst.stheta`,
+  and `fcst.stm` now accept tasks with missing feature values, like the
+  other learners that ignore features.
 - fix: `fcst.arfima`, `fcst.arima`, `fcst.auto_arima`, `fcst.ets`,
   `fcst.mean`, `fcst.nnetar`, `fcst.random_walk`, `fcst.snaive`,
   `fcst.spline`, `fcst.stlm`, `fcst.theta`, and `fcst.tslm` now only use
@@ -325,6 +342,10 @@
   `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`,
   `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series
   instead of internal code, so printed models are readable.
+- fix: `fcst.esn` no longer resets the random number generator of the
+  session to `n_seed` on every `$train()` and `$predict()`. Previously,
+  anything random drawn afterwards, e.g. subsampling splits or random
+  search proposals, repeated itself.
 - fix: `fcst.imapa` now forecasts with the settings used at training, so
   changing `comb` after training no longer alters the prediction.
 - fix: `fcst.prophet` now raises an input error naming the feature if
@@ -386,6 +407,17 @@
 - fix: `po("fcst.targetdiff")` no longer errors on quantile predictions,
   but inverts their response and drops the quantiles, like the target
   trafos of `mlr3pipelines`.
+- fix: `po("fcst.targetdiff")` now differences and inverts at predict
+  time with the `lag` stored at train time, so changing `lag` after
+  training no longer breaks prediction.
+- fix: `po("fcst.targetdiff")` now raises an input error at train time
+  for a series without keys that is not longer than `lag`. Previously,
+  the learner behind it failed on an empty task.
+- fix: [`c()`](https://rdrr.io/r/base/c.html) of forecast predictions
+  with `keep_duplicates = FALSE` now preserves quantile metadata.
+  Previously, a quantile prediction with missing values that was
+  completed by a fallback learner lost its response and could not be
+  scored.
 - fix: `PredictionFcst$filter()` now preserves quantile metadata for
   scoring and reconstruction.
 - fix: `PredictionFcst` now keeps the empty `row_ids`, `truth`, and
@@ -413,6 +445,13 @@
   columns, e.g. `train`, `fold`, or `row_id`.
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
   tasks instead of creating invalid time-based splits.
+- fix: `TaskFcst` now errors if the order column has duplicated values
+  within a series, however the task is built. Previously, only
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  on a data frame checked this, so `TaskFcst$new()`,
+  [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
+  on a `DataBackend`, and removing the key role of a task with several
+  series accepted duplicated time points.
 - fix: `TaskFcst` now errors if the order column role is removed.
 - perf: `DirectForecaster` now stores one trained graph state per
   horizon instead of a full `GraphLearner`, which makes trained models

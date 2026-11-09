@@ -217,7 +217,7 @@ print(learner)
 #> • Feature Types: logical, integer, numeric, character, factor, ordered,
 #> POSIXct, and Date
 #> • Encapsulation: none (fallback: -)
-#> • Properties: featureless
+#> • Properties: featureless and missings
 #> • Other settings: use_weights = 'error', predict_raw = 'FALSE'
 
 # Define a Task
