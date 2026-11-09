@@ -90,6 +90,7 @@
 * fix: `po("fcst.splitkey")` and thus `ppl("fcst.local")` now give each per-series task a backend holding only the rows of its series, so `po("fcst.lags")` and `po("fcst.rolling")` no longer mix series at predict time. Previously, they failed for series sharing timestamps and silently took features from other series for interleaved timestamps.
 * fix: `po("fcst.splitkey")` and thus `ppl("fcst.local")` now split the internal validation task by series too, so each per-series learner validates on the rows of its own series only. Previously, every series received the full validation task, so validation scores and early stopping mixed series, and `RecursiveForecaster` appended the validation rows of other series to its recursion history.
 * fix: `po("fcst.targetdiff")` no longer errors on quantile predictions, but inverts their response and drops the quantiles, like the target trafos of `mlr3pipelines`.
+* fix: `c()` of forecast predictions with `keep_duplicates = FALSE` now preserves quantile metadata. Previously, a quantile prediction with missing values that was completed by a fallback learner lost its response and could not be scored.
 * fix: `PredictionFcst$filter()` now preserves quantile metadata for scoring and reconstruction.
 * fix: `PredictionFcst` now keeps the empty `row_ids`, `truth`, and `response` of a prediction for zero rows. Previously, such a prediction lost all its predict types.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.

@@ -36,6 +36,24 @@ test_that("c.PredictionDataFcst rejects different quantile levels", {
   expect_silent(c(p1$data, make_pred(4:6, probs = c(0.1, 0.9))$data))
 })
 
+test_that("c.PredictionDataFcst preserves quantile metadata without duplicates", {
+  make_pred = function(row_ids) {
+    PredictionFcst$new(
+      row_ids = row_ids,
+      truth = c(1, 2, 3),
+      quantiles = make_quantiles(c(0, 1, 2), c(2, 3, 4)),
+      extra = list(date = as.Date("2020-01-01") + row_ids),
+      col_roles = list(order = "date", key = character())
+    )
+  }
+  p1 = make_pred(1:3)
+  combined = c(p1$data, make_pred(3:5)$data, keep_duplicates = FALSE)
+  expect_identical(combined$row_ids, 1:5)
+  expect_identical(attr(combined$quantiles, "probs"), attr(p1$data$quantiles, "probs"))
+  expect_identical(attr(combined$quantiles, "response"), attr(p1$data$quantiles, "response"))
+  expect_number(as_prediction(combined)$score(msr("fcst.pinball")))
+})
+
 test_that("filter_prediction_data.PredictionDataFcst keeps class and filters extra", {
   skip_if_not_installed("rpart")
   task = tsk("airpassengers")

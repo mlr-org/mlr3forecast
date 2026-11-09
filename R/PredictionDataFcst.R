@@ -79,6 +79,11 @@ c.PredictionDataFcst = function(..., keep_duplicates = TRUE) {
     }
   }
   result = invoke(c, .args = c(dots, list(keep_duplicates = keep_duplicates)))
+  # remove once mlr3 > 1.8.0 is required, which keeps the quantile attributes when removing duplicates
+  if (length(quantiles) > 0L) {
+    setattr(result$quantiles, "probs", attr(quantiles[[1L]], "probs"))
+    setattr(result$quantiles, "response", attr(quantiles[[1L]], "response"))
+  }
   result$col_roles = col_roles
   as_pdata_fcst(result)
 }
