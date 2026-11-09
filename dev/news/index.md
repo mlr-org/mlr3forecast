@@ -196,6 +196,11 @@
   [`forecast()`](https://generics.r-lib.org/reference/forecast.html),
   instead of failing inside `$predict()` with an unrelated error, as the
   inherited regression method does not pass the time index on.
+- fix: Forecast learners now match in-sample rows to their fitted values
+  by time point instead of by row id. Previously, `$predict_newdata()`
+  on rows of the training period returned the fitted values of the first
+  training rows, or failed for a learner trained on a subset of the
+  task.
 - fix: Forecast learners now return the median as quantile 0.5 instead
   of the mean, which differs from it for skewed forecast distributions,
   e.g. for the default `fcst.adam` or a learner wrapping the `forecast`
