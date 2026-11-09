@@ -515,6 +515,7 @@ DirectForecaster = R6Class(
 
     .horizon_learner = function(i) {
       glrn = private$.learner$clone(deep = TRUE)
+      glrn$param_set$values = self$state$param_vals
       walk(fcst_iterative_pipeops(glrn$graph), function(po) po$shift(private$.horizons[[i]] - 1L))
       glrn$model = self$model$graph_states[[i]]
       glrn

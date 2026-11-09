@@ -533,6 +533,11 @@ test_that("DirectForecaster ignores training hyperparameters changed after train
 
   learner$param_set$set_values(regr.rpart.cp = 0.5, fcst.lags.lags = 1:5, fcst.rolling.window_sizes = 6L)
   expect_equal(learner$predict(task, 131:132)$response, expected$response)
+
+  values = learner$graph_model$h2$param_set$values
+  expect_identical(values$fcst.lags.lags, 2:4)
+  expect_identical(values$fcst.rolling.window_sizes, 3L)
+  expect_null(values$regr.rpart.cp)
 })
 
 test_that("DirectForecaster exposes its graph and base learner like RecursiveForecaster", {
