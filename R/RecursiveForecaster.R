@@ -166,6 +166,21 @@ RecursiveForecaster = R6Class(
       po$learner$base_learner()
     },
 
+    #' @field parallel_predict (`logical(1)`)\cr
+    #' Always `FALSE`.
+    #' Parallel prediction splits the test rows into chunks,
+    #' but each step of a recursive forecast needs the predictions of all steps before it.
+    #' Setting it to `TRUE` raises an error.
+    parallel_predict = function(rhs) {
+      if (!missing(rhs) && assert_flag(rhs)) {
+        error_input(
+          "Learner '%s' does not support parallel prediction, because each step needs the predictions of the steps before it.",
+          self$id
+        )
+      }
+      FALSE
+    },
+
     #' @field quantiles (`numeric()`)\cr
     #' Numeric vector of probabilities to be used while predicting quantiles.
     #' Elements must be between 0 and 1, not missing and provided in ascending order.

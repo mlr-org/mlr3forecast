@@ -474,6 +474,16 @@ test_that("RecursiveForecaster rejects predict_newdata_fast", {
   expect_error(learner$predict_newdata_fast(task$data(rows = 1:3)), "forecast()", fixed = TRUE)
 })
 
+test_that("RecursiveForecaster rejects parallel prediction", {
+  learner = RecursiveForecaster$new(lrn("regr.featureless"), lags = 1:3)
+  expect_false(learner$parallel_predict)
+  learner$parallel_predict = FALSE
+  expect_error({
+    learner$parallel_predict = TRUE
+  }, "parallel prediction")
+  expect_false(learner$parallel_predict)
+})
+
 test_that("RecursiveForecaster provides a default fallback", {
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)
   fallback = default_fallback(learner)

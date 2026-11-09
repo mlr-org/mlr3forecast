@@ -82,6 +82,12 @@ flrn$predict(task, split$test)
 The untrained base regression learner of the graph.
 Use \verb{$base_learner()} for a copy holding the trained model.}
 
+    \item{\code{parallel_predict}}{(\code{logical(1)})\cr
+Always \code{FALSE}.
+Parallel prediction splits the test rows into chunks,
+but each step of a recursive forecast needs the predictions of all steps before it.
+Setting it to \code{TRUE} raises an error.}
+
     \item{\code{quantiles}}{(\code{numeric()})\cr
 Numeric vector of probabilities to be used while predicting quantiles.
 Elements must be between 0 and 1, not missing and provided in ascending order.

@@ -94,6 +94,7 @@
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * fix: `RecursiveForecaster$native_model` now returns the fitted model when the learner node has a custom id. For a nested base learner, such as an `AutoTuner` or a `GraphLearner`, it now returns the innermost fitted model instead of the model of the wrapper, like `DirectForecaster`.
 * fix: `RecursiveForecaster` now returns predictions in the task's row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets `po("fcst.avg")` combine it with `DirectForecaster`.
+* fix: `RecursiveForecaster` now rejects `$parallel_predict = TRUE` with an informative error, as each step needs the predictions of the steps before it. Previously, prediction failed with an unrelated error about the future grid.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` no longer return wrong splits or fail for key or order columns named like internal columns, e.g. `train`, `fold`, or `row_id`.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
 * fix: `TaskFcst` now errors if the order column role is removed.
