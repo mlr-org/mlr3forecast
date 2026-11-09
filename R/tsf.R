@@ -54,9 +54,18 @@ read_tsf = function(file) {
     header = FALSE,
     na.strings = "?",
     skip = skip,
+    blank.lines.skip = TRUE,
     col.names = c(cn, "value"),
     colClasses = c(cc, "character")
   )
+
+  duplicates = unique(dt[duplicated(dt, by = cn), cn, with = FALSE])
+  if (nrow(duplicates) > 0L) {
+    stopf(
+      "Each series must have a unique combination of attribute values, but several series share: %s.",
+      str_collapse(do.call(paste, c(duplicates, sep = ":")), quote = "'", n = 5L)
+    )
+  }
 
   date_col = fget_key(metadata, "date", "name", key = "type")
   has_freq = length(freq) > 0L

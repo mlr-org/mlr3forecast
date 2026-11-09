@@ -62,6 +62,24 @@ test_that("read_tsf handles frequency without date attribute", {
   expect_equal(attr(dt, "frequency"), "yearly")
 })
 
+test_that("read_tsf rejects series that share all attribute values", {
+  skip_if_not_installed("withr")
+
+  file = withr::local_tempfile(fileext = ".tsf")
+  writeLines(c("@attribute state string", "@frequency monthly", "@data", "NSW:1,2,3", "NSW:4,5,6,7", "VIC:8,9"), file)
+  expect_error(read_tsf(file), "several series share: 'NSW'")
+})
+
+test_that("read_tsf ignores blank lines in the data section", {
+  skip_if_not_installed("withr")
+
+  file = withr::local_tempfile(fileext = ".tsf")
+  writeLines(c("@attribute series_name string", "@frequency monthly", "@data", "", "T1:1,2,3", "", "T2:4,5", ""), file)
+  dt = read_tsf(file)
+  expect_identical(dt$series_name, rep(c("T1", "T2"), c(3L, 2L)))
+  expect_identical(dt$value, as.numeric(1:5))
+})
+
 test_that("read_tsf sets the horizon attribute", {
   skip_if_not_installed("withr")
 

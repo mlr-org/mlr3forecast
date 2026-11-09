@@ -98,6 +98,7 @@
 * fix: `c()` of forecast predictions with `keep_duplicates = FALSE` now preserves quantile metadata. Previously, a quantile prediction with missing values that was completed by a fallback learner lost its response and could not be scored.
 * fix: `PredictionFcst$filter()` now preserves quantile metadata for scoring and reconstruction.
 * fix: `PredictionFcst` now keeps the empty `row_ids`, `truth`, and `response` of a prediction for zero rows. Previously, such a prediction lost all its predict types.
+* fix: `read_tsf()` no longer drops series silently. It now errors if several series share all attribute values, of which it kept only the first, and ignores blank lines in the data section, which made it drop every series before them.
 * fix: `read_tsf()` no longer prints the frequency and horizon of the file, which remain available as attributes of the returned object.
 * fix: `RecursiveForecaster$native_model` now returns the fitted model when the learner node has a custom id. For a nested base learner, such as an `AutoTuner` or a `GraphLearner`, it now returns the innermost fitted model instead of the model of the wrapper, like `DirectForecaster`.
 * fix: `RecursiveForecaster` now returns predictions in the task's row order instead of sorted by key and time, which fixes misaligned truth under target trafos and lets `po("fcst.avg")` combine it with `DirectForecaster`.
