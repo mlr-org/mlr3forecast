@@ -66,7 +66,7 @@ PipeOpTargetTrafoDifference = R6Class(
       key_cols = task$col_roles$key
       if (length(key_cols) == 0L) {
         target = task$data(cols = task$target_names)[[1L]]
-        return(list(tail = tail(target, lag)))
+        return(list(lag = lag, tail = tail(target, lag)))
       }
       dt = task$data(cols = c(key_cols, task$col_roles$order, task$target_names))
       setorderv(dt, c(key_cols, task$col_roles$order))
@@ -78,11 +78,11 @@ PipeOpTargetTrafoDifference = R6Class(
       ]
       # series shorter than lag cannot anchor the inversion and are treated as unseen at predict
       tails = tails[, if (.N == lag) .SD, by = key_cols, env = list(lag = lag, key_cols = I(key_cols))]
-      list(key_cols = key_cols, tails = tails)
+      list(lag = lag, key_cols = key_cols, tails = tails)
     },
 
     .transform = function(task, phase) {
-      lag = self$param_set$get_values(tags = "train")$lag
+      lag = self$state$lag
       target = task$target_names
       key_cols = task$col_roles$key
       order_cols = task$col_roles$order
@@ -146,7 +146,7 @@ PipeOpTargetTrafoDifference = R6Class(
     },
 
     .invert = function(prediction, predict_phase_state) {
-      lag = self$param_set$get_values(tags = "train")$lag
+      lag = self$state$lag
       tails = self$state$tails
       if (is.null(tails)) {
         inverted = stats::diffinv(prediction$response, lag = lag, xi = self$state$tail)

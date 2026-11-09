@@ -36,6 +36,19 @@ test_that("PipeOpTargetTrafoDifference round-trip with lag = 12", {
   expect_equal(inverted$response, as.numeric(task$truth()))
 })
 
+test_that("targetdiff predicts and inverts with the lag it was trained with", {
+  task = tsk("airpassengers")
+  po = po("fcst.targetdiff", lag = 12L)
+  po$train(list(task))
+  expected = po$predict(list(task))$output$data()
+
+  po$param_set$values$lag = 1L
+  out_predict = po$predict(list(task))
+  expect_identical(out_predict$output$data(), expected)
+  prediction = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = expected[[1L]])
+  expect_equal(out_predict$fun(list(prediction))[[1L]]$response, as.numeric(task$truth()))
+})
+
 test_that("targetdiff + fcst.lags + learner trains and predicts inside a graph", {
   skip_if_not_installed("rpart")
 
