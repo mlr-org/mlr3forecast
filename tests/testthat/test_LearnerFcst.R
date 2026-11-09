@@ -144,11 +144,17 @@ test_that("learners without a ts backend have no period hyperparameter", {
   expect_true("period" %in% lrn("fcst.ets")$param_set$ids())
 })
 
-test_that("learners without exogenous support accept all feature types", {
+test_that("learners without exogenous support accept all feature types and missing feature values", {
   for (key in mlr_learners$keys("^fcst\\.")) {
     learner = lrn(key)
     if ("exogenous" %nin% learner$properties) {
       expect_set_equal(learner$feature_types, mlr_reflections$task_feature_types, info = key)
+      expect_subset("missings", learner$properties, info = key)
     }
   }
+
+  dt = data.table(time = 1:30, y = as.numeric(1:30), x = c(NA, 2:30))
+  task = as_task_fcst(dt, target = "y", order = "time")
+  learner = lrn("fcst.ar")$train(task, 1:25)
+  expect_prediction(learner$predict(task, 26:30))
 })
