@@ -96,8 +96,8 @@
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` no longer return wrong splits or fail for key or order columns named like internal columns, e.g. `train`, `fold`, or `row_id`.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
 * fix: `TaskFcst` now errors if the order column role is removed.
-* perf: `read_tsf()` builds calendar date indices arithmetically instead of through `ISOdate()`, which makes reading files with many series about 20 times faster.
 * perf: `DirectForecaster` now stores one trained graph state per horizon instead of a full `GraphLearner`, which makes trained models about three times smaller.
+* perf: `read_tsf()` builds calendar date indices arithmetically instead of through `ISOdate()`, which makes reading files with many series about 20 times faster.
 * perf: `RecursiveForecaster` now predicts all keys jointly per step instead of row by row, making keyed prediction roughly `n_keys` times faster.
 
 # mlr3forecast 0.2.0
