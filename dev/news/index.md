@@ -425,6 +425,12 @@
   prediction lost all its predict types.
 - fix:
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
+  no longer drops series silently. It now errors if several series share
+  all attribute values, of which it kept only the first, and ignores
+  blank lines in the data section, which made it drop every series
+  before them.
+- fix:
+  [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   no longer prints the frequency and horizon of the file, which remain
   available as attributes of the returned object.
 - fix: `RecursiveForecaster$native_model` now returns the fitted model
