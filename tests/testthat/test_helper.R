@@ -100,7 +100,7 @@ test_that("to_tsibble_index maps calendar units and passes through the rest", {
 
 test_that("quantiles_to_levels dedupes floating-point levels", {
   expect_equal(quantiles_to_levels(c(0.05, 0.1, 0.9, 0.95)), c(80, 90))
-  expect_equal(quantiles_to_levels(c(0.05, 0.5, 0.95)), 90)
+  expect_equal(quantiles_to_levels(c(0.05, 0.5, 0.95)), c(0, 90))
 })
 
 test_that("common_periods lists the cycles a frequency implies", {

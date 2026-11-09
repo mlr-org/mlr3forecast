@@ -12,12 +12,13 @@ LearnerFcstForecast = R6Class(
     .parallel_arg = NULL,
 
     .postprocess = function(pred) pred,
-    # pass fractions, since forecast rescales levels that are all below 1
+    # pass fractions, since forecast rescales levels that are all below 1 and above 0,
+    # so the level 0 of the median becomes the smallest positive level
     .adjust_level = function(level) {
       if (any(level >= 100)) {
         error_config("Quantiles 0 and 1 are not supported by %s.", self$id)
       }
-      level / 100
+      pmax(level / 100, .Machine$double.eps)
     },
     .adjust_predict_args = function(args, is_quantile) args,
 
@@ -64,10 +65,7 @@ LearnerFcstForecast = R6Class(
         args[[private$.newdata_arg]] = if (private$.newdata_as_matrix) newdata else as.data.frame(newdata)
       }
       if (is_quantile) {
-        level = private$.adjust_level(quantiles_to_levels(private$.quantiles))
-        if (length(level) > 0L) {
-          args = insert_named(args, list(level = level))
-        }
+        args$level = private$.adjust_level(quantiles_to_levels(private$.quantiles))
       }
       args = private$.adjust_predict_args(args, is_quantile)
       args = insert_named(args, pv)

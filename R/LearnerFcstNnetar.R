@@ -72,7 +72,7 @@ LearnerFcstNnetar = R6Class(
     .parallel_arg = "parallel",
 
     .adjust_predict_args = function(args, is_quantile) {
-      if (is_quantile && any(private$.quantiles != 0.5)) {
+      if (is_quantile) {
         args$PI = TRUE
       }
       args

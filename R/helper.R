@@ -1,5 +1,5 @@
+# central interval levels in percent, where level 0 is the median
 quantiles_to_levels = function(x) {
-  x = x[x != 0.5]
   sort(unique(round(abs(1 - 2 * x) * 100, 6)))
 }
 

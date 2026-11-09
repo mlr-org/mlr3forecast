@@ -70,10 +70,7 @@ LearnerFcstForecTheta = R6Class(
         }
       }
       if (is_quantile) {
-        level = quantiles_to_levels(private$.quantiles)
-        if (length(level) > 0L) {
-          args$level = level
-        }
+        args$level = quantiles_to_levels(private$.quantiles)
       }
 
       fn = getExportedValue("forecTheta", private$.fn)
@@ -82,12 +79,8 @@ LearnerFcstForecTheta = R6Class(
       if (!is_quantile) {
         return(insert_named(prediction, list(response = as.numeric(pred$mean)[keep])))
       }
-      pred$mean = as.numeric(pred$mean)[keep]
-      # without a level, i.e. for the median only, there are no bounds to trim
-      if (!is.null(args$level)) {
-        pred$lower = as.matrix(pred$lower)[keep, , drop = FALSE]
-        pred$upper = as.matrix(pred$upper)[keep, , drop = FALSE]
-      }
+      pred$lower = as.matrix(pred$lower)[keep, , drop = FALSE]
+      pred$upper = as.matrix(pred$upper)[keep, , drop = FALSE]
       insert_named(prediction, list(quantiles = private$.quantiles_from_intervals(pred)))
     }
   )

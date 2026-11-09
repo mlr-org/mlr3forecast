@@ -34,9 +34,7 @@ LearnerFcstSmooth = R6Class(
       if (is_quantile) {
         # smooth takes central-interval levels as fractions, ascending
         level = quantiles_to_levels(private$.quantiles) / 100
-        if (length(level) > 0L) {
-          args = insert_named(args, list(interval = "prediction", level = level))
-        }
+        args = insert_named(args, list(interval = "prediction", level = level))
       }
       pred = invoke(generics::forecast, self$native_model, .args = args)
       if (!is_quantile) {

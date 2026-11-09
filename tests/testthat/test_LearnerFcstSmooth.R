@@ -25,6 +25,23 @@ test_that("smooth learners use exogenous features", {
   }
 })
 
+test_that("quantile 0.5 is the median of a skewed forecast distribution", {
+  withr::local_seed(1)
+  dt = data.table(time = 1:80, y = exp(rnorm(80L, 3, 0.8)))
+  task = as_task_fcst(dt, target = "y", order = "time")
+  learner = lrn("fcst.adam", model = "MNN", distribution = "dlnorm", period = 1L)
+  learner$predict_type = "quantiles"
+  learner$quantiles = c(0.4, 0.45, 0.5, 0.55, 0.6)
+  learner$quantile_response = 0.5
+  learner$train(task)
+  prediction = learner$predict_newdata(generate_newdata(task, n = 2L))
+  expect_all_true(!apply(prediction$quantiles, 1L, is.unsorted))
+
+  fc = generics::forecast(learner$native_model, h = 2L, interval = "prediction", level = 0)
+  expect_equal(prediction$response, as.numeric(fc$lower), ignore_attr = TRUE)
+  expect_all_true(prediction$response < as.numeric(fc$mean))
+})
+
 test_that("native model print does not dump the inlined series", {
   task = tsk("airpassengers")
   learner = lrn("fcst.adam")$train(task)

@@ -60,6 +60,22 @@ test_that("quantiles near the median and in the far tails map to the right level
   expect_equal(unname(q[1L, 1L]), fc$mean[1L] + qnorm(0.00001) * sd, tolerance = 1e-6)
 })
 
+test_that("quantile 0.5 is the median and not the bias-adjusted mean", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.arima", order = c(0L, 1L, 1L), seasonal = c(0L, 1L, 1L), lambda = 0, biasadj = TRUE)
+  learner$predict_type = "quantiles"
+  learner$quantiles = c(0.4, 0.49, 0.5, 0.51, 0.6)
+  learner$quantile_response = 0.5
+  learner$train(task, 1:132)
+  prediction = learner$predict(task, 133:144)
+  expect_all_true(!apply(prediction$quantiles, 1L, is.unsorted))
+
+  median = forecast::forecast(learner$native_model, h = 12L, biasadj = FALSE)$mean
+  expect_equal(prediction$quantiles[, "q0.5"], as.numeric(median), ignore_attr = TRUE)
+  expect_equal(prediction$response, as.numeric(median), ignore_attr = TRUE)
+  expect_all_true(prediction$response < as.numeric(forecast::forecast(learner$native_model, h = 12L)$mean))
+})
+
 test_that("quantiles 0 and 1 are rejected", {
   task = tsk("airpassengers")
   lower = quantile_learner(c(0, 0.5))$train(task, 1:132)

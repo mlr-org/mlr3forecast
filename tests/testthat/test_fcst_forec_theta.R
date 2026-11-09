@@ -48,9 +48,21 @@ test_that("theta learners predict the median as the only quantile", {
   learner = lrn("fcst.stm", predict_type = "quantiles", quantiles = 0.5, quantile_response = 0.5)
   learner$train(task)
   newdata = generate_newdata(task, n = 2L)
-  prediction = learner$predict_newdata(newdata)
+  prediction = with_seed(1L, learner$predict_newdata(newdata))
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  expect_equal(prediction$quantiles[, 1L], with_seed(1L, learner$predict_newdata(newdata))$quantiles[, 2L])
+  # the median is simulated like the other quantiles, so it is only close to the analytic mean
   learner$predict_type = "response"
-  expect_equal(prediction$quantiles[, 1L], learner$predict_newdata(newdata)$response, ignore_attr = TRUE)
+  expect_equal(prediction$response, learner$predict_newdata(newdata)$response, tolerance = 1e-2)
+})
+
+test_that("theta learners return sorted quantiles close to the median", {
+  task = tsk("airpassengers")$filter(1:132)
+  learner = lrn("fcst.dotm", predict_type = "quantiles", quantiles = c(0.49, 0.495, 0.5, 0.505, 0.51))
+  learner$quantile_response = 0.5
+  learner$train(task)
+  quantiles = with_seed(1L, learner$predict_newdata(generate_newdata(task, n = 12L))$quantiles)
+  expect_all_true(!apply(quantiles, 1L, is.unsorted))
 })
 
 test_that("dotm and otm support exogenous features", {
