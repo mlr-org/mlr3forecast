@@ -51,7 +51,6 @@ test_that("theta learners predict the median as the only quantile", {
   prediction = with_seed(1L, learner$predict_newdata(newdata))
   learner$quantiles = c(0.1, 0.5, 0.9)
   expect_equal(prediction$quantiles[, 1L], with_seed(1L, learner$predict_newdata(newdata))$quantiles[, 2L])
-  # the median is simulated like the other quantiles, so it is only close to the analytic mean
   learner$predict_type = "response"
   expect_equal(prediction$response, learner$predict_newdata(newdata)$response, tolerance = 1e-2)
 })

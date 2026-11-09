@@ -199,9 +199,8 @@ LearnerFcst = R6Class(
       as.numeric(stats::fitted(self$native_model))
     },
 
-    # quantile p as one side of the central interval (level 100 * |1 - 2p|), lower if p <= 0.5, upper if p > 0.5.
-    # The median is the level 0 interval and not the mean, which differs from it for skewed forecast distributions.
-    # `pred$lower`/`$upper` columns must be in ascending-level order.
+    # quantile p as one side of the central interval (level 100 * |1 - 2p|), lower if p <= 0.5,
+    # upper if p > 0.5. `pred$lower`/`$upper` columns must be in ascending-level order.
     .quantiles_from_intervals = function(pred) {
       probs = private$.quantiles
       levels = quantiles_to_levels(probs)

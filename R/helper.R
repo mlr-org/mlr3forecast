@@ -1,4 +1,3 @@
-# central interval levels in percent, where level 0 is the median
 quantiles_to_levels = function(x) {
   sort(unique(round(abs(1 - 2 * x) * 100, 6)))
 }
@@ -96,7 +95,6 @@ error_predict_newdata_fast = function(learner) {
   )
 }
 
-# task over the stored history and the future rows, on which the graph computes its features at predict time
 fcst_step_task = function(data, target, order_cols, key_cols, freq, feature_names) {
   set(data, j = "..row_id", value = seq_row(data))
   backend = DataBackendDataTable$new(data, "..row_id")
@@ -106,7 +104,6 @@ fcst_step_task = function(data, target, order_cols, key_cols, freq, feature_name
   task
 }
 
-# replaces the row ids, truth, and index of a prediction on the step task with those of the predicted task
 fcst_finalize_prediction = function(prediction, task, target, order_cols, key_cols) {
   row_ids = task$row_ids
   data = task$data(rows = row_ids, cols = c(target, key_cols, order_cols))

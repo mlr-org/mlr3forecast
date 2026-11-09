@@ -12,8 +12,7 @@ LearnerFcstForecast = R6Class(
     .parallel_arg = NULL,
 
     .postprocess = function(pred) pred,
-    # pass fractions, since forecast rescales levels that are all below 1 and above 0,
-    # so the level 0 of the median becomes the smallest positive level
+    # pass fractions above 0, since forecast only rescales levels that are all between 0 and 1
     .adjust_level = function(level) {
       if (any(level >= 100)) {
         error_config("Quantiles 0 and 1 are not supported by %s.", self$id)
