@@ -55,3 +55,17 @@ test_that("arbitrary quantile probabilities work", {
   expect_matrix(quantiles, nrows = 1L, ncols = 3L)
   expect_false(is.unsorted(as.numeric(quantiles)))
 })
+
+test_that("training and predicting leave the RNG state of the session unchanged", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.esn", n_states = 10L, n_models = 5L, n_initial = 2L, n_diff = 1L)
+  draw = function(seed) {
+    with_seed(seed, {
+      learner$train(task, 1:132)
+      learner$predict(task, 133:135)
+      runif(1L)
+    })
+  }
+  expect_identical(draw(1L), with_seed(1L, runif(1L)))
+  expect_false(draw(1L) == draw(2L))
+})

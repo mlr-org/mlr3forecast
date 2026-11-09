@@ -85,7 +85,8 @@ LearnerFcstEsn = R6Class(
       super$.train(task)
       pv = self$param_set$get_values(tags = "train")
       y = as.numeric(task$data(cols = task$target_names, ordered = TRUE)[[1L]])
-      model = invoke(echos::train_esn, y = y, .args = pv)
+      # echos sets the seed `n_seed`, and invoke() restores the RNG state of the session afterwards
+      model = invoke(echos::train_esn, y = y, .args = pv, .seed = pv$n_seed %??% 42L)
       private$.set_context(model, task)
     },
 
@@ -111,7 +112,14 @@ LearnerFcstEsn = R6Class(
       if (!is_quantile) {
         pv = insert_named(pv, list(n_sim = NULL))
       }
-      pred = invoke(echos::forecast_esn, self$native_model, n_ahead = task$nrow, levels = 80, .args = pv)
+      pred = invoke(
+        echos::forecast_esn,
+        self$native_model,
+        n_ahead = task$nrow,
+        levels = 80,
+        .args = pv,
+        .seed = pv$n_seed %??% 42L
+      )
 
       if (!is_quantile) {
         return(insert_named(prediction, list(response = as.numeric(pred$point))))
