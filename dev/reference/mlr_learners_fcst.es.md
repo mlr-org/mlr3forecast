@@ -1,8 +1,8 @@
 # Exponential Smoothing Forecast Learner
 
 Exponential smoothing (ETS) model in state-space form. Supports multiple
-seasonal lags natively (e.g. `lags = c(1, 24, 168)` for hourly data with
-daily and weekly cycles). Calls
+seasonal lags (e.g. `lags = c(1, 24, 168)` for hourly data with daily
+and weekly cycles). Calls
 [`smooth::es()`](https://rdrr.io/pkg/smooth/man/es.html) from package
 [smooth](https://CRAN.R-project.org/package=smooth).
 
@@ -177,7 +177,7 @@ Inherited methods
 - [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
 - [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
-- [`mlr3::LearnerRegr$predict_newdata_fast()`](https://mlr3.mlr-org.com/reference/LearnerRegr.html#method-predict_newdata_fast)
+- [`LearnerFcst$predict_newdata_fast()`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.html#method-predict_newdata_fast)
 
 ------------------------------------------------------------------------
 
@@ -235,7 +235,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.09 seconds
+#> Time elapsed: 0.16 seconds
 #> Model estimated using es() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

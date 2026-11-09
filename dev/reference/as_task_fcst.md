@@ -1,12 +1,11 @@
 # Convert to a Forecast Task
 
-Convert object to a
+Converts an object to a
 [TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md).
-This is a S3 generic. mlr3forecast ships with methods for the following
-objects:
+This S3 generic supports the following objects:
 
 1.  [TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md):
-    ensure the identity
+    returns the object as-is, optionally cloned.
 
 2.  [`data.frame()`](https://rdrr.io/r/base/data.frame.html) and
     [mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html):

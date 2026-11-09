@@ -2,7 +2,7 @@
 
 A forecast task for the
 [tsibbledata::aus_livestock](https://tsibbledata.tidyverts.org/reference/aus_livestock.html)
-data set. The task represents a monthly time series and is ordered by
+dataset. The task represents a monthly time series and is ordered by
 `month`.
 
 ## Format

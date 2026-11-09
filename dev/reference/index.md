@@ -70,7 +70,7 @@
   : Exponential Smoothing Forecast Learner
 - [`mlr_learners_fcst.esn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md)
   [`LearnerFcstEsn`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.esn.md)
-  : Echo state network forecast learner
+  : Echo State Network Forecast Learner
 - [`mlr_learners_fcst.ets`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md)
   [`LearnerFcstEts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.ets.md)
   : ETS Forecast Learner
@@ -154,7 +154,7 @@
 - [`mlr_tasks_airpassengers`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_airpassengers.md)
   : Air Passengers Forecast Task
 - [`mlr_tasks_electricity`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_electricity.md)
-  : Daily electricity demand for Victoria, Australia Forecast Task
+  : Daily Electricity Demand in Victoria Forecast Task
 - [`mlr_tasks_livestock`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_livestock.md)
   : Australian Livestock Slaughter Forecast Task
 - [`mlr_tasks_lynx`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_tasks_lynx.md)
@@ -284,7 +284,7 @@
 - [`forecast(`*`<Learner>`*`)`](https://mlr3forecast.mlr-org.com/dev/reference/forecast.Learner.md)
   : Forecast from a Trained Learner
 - [`generate_newdata()`](https://mlr3forecast.mlr-org.com/dev/reference/generate_newdata.md)
-  : Generate new data for a forecast task
+  : Generate New Data for a Forecast Task
 - [`partition(`*`<TaskFcst>`*`)`](https://mlr3forecast.mlr-org.com/dev/reference/partition.TaskFcst.md)
   : Manually Partition into Training, Test and Validation Set
 - [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)

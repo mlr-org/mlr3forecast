@@ -181,7 +181,7 @@ Inherited methods
 - [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
 - [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
-- [`mlr3::LearnerRegr$predict_newdata_fast()`](https://mlr3.mlr-org.com/reference/LearnerRegr.html#method-predict_newdata_fast)
+- [`LearnerFcst$predict_newdata_fast()`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.html#method-predict_newdata_fast)
 
 ------------------------------------------------------------------------
 
@@ -245,7 +245,7 @@ print(learner$model)
 #> Univariate lags: (3,4,7,8,10,12)
 #> Deterministic seasonal dummies included.
 #> Forecast combined using the median operator.
-#> MSE: 1.7563.
+#> MSE: 1.5233.
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -272,6 +272,6 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1274.383 
+#> 1415.592 
 # }
 ```

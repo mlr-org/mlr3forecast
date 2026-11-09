@@ -182,7 +182,7 @@ Inherited methods
 - [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
 - [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
-- [`mlr3::LearnerRegr$predict_newdata_fast()`](https://mlr3.mlr-org.com/reference/LearnerRegr.html#method-predict_newdata_fast)
+- [`LearnerFcst$predict_newdata_fast()`](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.html#method-predict_newdata_fast)
 
 ------------------------------------------------------------------------
 
@@ -246,7 +246,7 @@ print(learner$model)
 #> Deterministic seasonal dummies included.
 #> Forecast combined using the median operator.
 #> Output weight estimation using: lasso.
-#> MSE: 74.8733.
+#> MSE: 75.1112.
 #> 
 #> $row_ids
 #>  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25
@@ -273,5 +273,5 @@ predictions = learner$predict(task, row_ids = ids$test)
 # Score the predictions
 predictions$score()
 #> regr.mse 
-#> 1446.717 
+#> 1520.052 
 ```

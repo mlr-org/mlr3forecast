@@ -1,8 +1,8 @@
 # Accidental Deaths in the US Forecast Task
 
-A forecast task for the popular
+A forecast task for the
 [datasets::USAccDeaths](https://rdrr.io/r/datasets/USAccDeaths.html)
-data set. The task represents the monthly totals of accidental deaths in
+dataset. The task represents the monthly totals of accidental deaths in
 the US from 1973 to 1978.
 
 ## Format

@@ -1,6 +1,6 @@
 # Mean Directional Percentage Value
 
-Measure of average percentage‐weighted directional accuracy in forecast
+Measures average percentage-weighted directional accuracy in forecast
 tasks.
 
 ## Details

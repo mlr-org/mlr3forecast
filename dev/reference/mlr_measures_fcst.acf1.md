@@ -1,13 +1,8 @@
 # Autocorrelation at Lag 1
 
-Measures the autocorrelation of the forecast residuals at lag 1. Values
-close to zero indicate that residuals are uncorrelated, while values far
-from zero suggest the model is not capturing all available information.
-
-## Details
-
-Computed as the sample autocorrelation of the residuals at lag 1 using
-[`stats::acf()`](https://rdrr.io/r/stats/acf.html).
+Computes the sample autocorrelation of forecast residuals at lag 1 using
+[`stats::acf()`](https://rdrr.io/r/stats/acf.html). Values close to zero
+indicate little linear dependence between consecutive residuals.
 
 ## Dictionary
 

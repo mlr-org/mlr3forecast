@@ -129,6 +129,14 @@ The untrained base regression learner of the graph.
 Use <code>$base_learner()</code> for a copy holding the trained model.</p></dd>
 
 
+    <dt><code>parallel_predict</code></dt>
+<dd><p>(<code>logical(1)</code>)<br>
+Always <code>FALSE</code>.
+Parallel prediction splits the test rows into chunks,
+but each step of a recursive forecast needs the predictions of all steps before it.
+Setting it to <code>TRUE</code> raises an error.</p></dd>
+
+
     <dt><code>quantiles</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric()</a></code>)<br>
 Numeric vector of probabilities to be used while predicting quantiles.
@@ -156,7 +164,7 @@ The fitted model.</p></dd>
 
     <dt><code>lags</code></dt>
 <dd><p>(<code><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer()</a></code> | <code>NULL</code>)<br>
-The lags used, or <code>NULL</code> if no <a href="mlr_pipeops_fcst.lags.html">PipeOpFcstLags</a> is in the graph.</p></dd>
+The lags of the first <a href="mlr_pipeops_fcst.lags.html">PipeOpFcstLags</a> in the graph, or <code>NULL</code> if there is none.</p></dd>
 
 
 </dl><p></p></div>

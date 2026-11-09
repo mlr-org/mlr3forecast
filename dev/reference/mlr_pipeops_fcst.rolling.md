@@ -12,7 +12,12 @@ are dropped, matching
 Predict keeps all rows.
 
 At predict time rolling features are computed from the full series
-history.
+history, using the `funs`, `window_sizes`, and `lag` stored in the state
+at train time.
+
+Like every PipeOp with the `"fcst_iterative"` property, it implements
+`$shift()` and `$lookback`, which move its features further into the
+past and report how much history they need.
 
 ## Parameters
 
@@ -40,11 +45,22 @@ as well as the following parameters:
 [`mlr3pipelines::PipeOpTaskPreproc`](https://mlr3pipelines.mlr-org.com/reference/PipeOpTaskPreproc.html)
 -\> `PipeOpFcstRolling`
 
+## Active bindings
+
+- `lookback`:
+
+  (`numeric(1)`)  
+  Number of past observations of a series the features need, i.e.,
+  `lag + max(window_sizes) - 1`. `Inf` for an expanding window.
+  Read-only.
+
 ## Methods
 
 ### Public methods
 
 - [`PipeOpFcstRolling$new()`](#method-PipeOpFcstRolling-initialize)
+
+- [`PipeOpFcstRolling$shift()`](#method-PipeOpFcstRolling-shift)
 
 - [`PipeOpFcstRolling$clone()`](#method-PipeOpFcstRolling-clone)
 
@@ -78,6 +94,29 @@ Initializes a new instance of this Class.
   List of hyperparameter settings, overwriting the hyperparameter
   settings that would otherwise be set during construction. Default
   [`list()`](https://rdrr.io/r/base/list.html).
+
+------------------------------------------------------------------------
+
+### `PipeOpFcstRolling$shift()`
+
+Shifts the features `k` steps further into the past by adding `k` to
+`lag`. Shifting by `h - 1` makes the features for horizon `h` use only
+values observed at the forecast origin.
+
+#### Usage
+
+    PipeOpFcstRolling$shift(k)
+
+#### Arguments
+
+- `k`:
+
+  (`integer(1)`)  
+  Number of steps to shift by.
+
+#### Returns
+
+`self` (invisibly).
 
 ------------------------------------------------------------------------
 

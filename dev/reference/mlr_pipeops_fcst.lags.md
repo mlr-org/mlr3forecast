@@ -8,7 +8,12 @@ autoregressive-fit convention), so the base learner never sees `NA`
 lags. A keyed series shorter than the largest lag is dropped entirely,
 with a warning.
 
-At predict time lags are computed from the full series history.
+At predict time lags are computed from the full series history, using
+the lags stored in the state at train time.
+
+Like every PipeOp with the `"fcst_iterative"` property, it implements
+`$shift()` and `$lookback`, which move its features further into the
+past and report how much history they need.
 
 ## Parameters
 
@@ -26,11 +31,21 @@ as well as the following parameters:
 [`mlr3pipelines::PipeOpTaskPreproc`](https://mlr3pipelines.mlr-org.com/reference/PipeOpTaskPreproc.html)
 -\> `PipeOpFcstLags`
 
+## Active bindings
+
+- `lookback`:
+
+  (`integer(1)`)  
+  Number of past observations of a series the features need, i.e., the
+  largest lag. Read-only.
+
 ## Methods
 
 ### Public methods
 
 - [`PipeOpFcstLags$new()`](#method-PipeOpFcstLags-initialize)
+
+- [`PipeOpFcstLags$shift()`](#method-PipeOpFcstLags-shift)
 
 - [`PipeOpFcstLags$clone()`](#method-PipeOpFcstLags-clone)
 
@@ -64,6 +79,29 @@ Initializes a new instance of this Class.
   List of hyperparameter settings, overwriting the hyperparameter
   settings that would otherwise be set during construction. Default
   [`list()`](https://rdrr.io/r/base/list.html).
+
+------------------------------------------------------------------------
+
+### `PipeOpFcstLags$shift()`
+
+Shifts the features `k` steps further into the past by adding `k` to
+every lag. Shifting by `h - 1` makes the features for horizon `h` use
+only values observed at the forecast origin.
+
+#### Usage
+
+    PipeOpFcstLags$shift(k)
+
+#### Arguments
+
+- `k`:
+
+  (`integer(1)`)  
+  Number of steps to shift by.
+
+#### Returns
+
+`self` (invisibly).
 
 ------------------------------------------------------------------------
 

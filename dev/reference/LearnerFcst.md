@@ -1,8 +1,8 @@
 # Forecast Learner
 
-This Learner specializes
+This learner specializes
 [mlr3::LearnerRegr](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
-for forecast problems:
+for forecasting problems:
 
 - `task_type` is set to `"fcst"`.
 
@@ -169,6 +169,8 @@ Other Learner:
 
 - [`LearnerFcst$new()`](#method-LearnerFcst-initialize)
 
+- [`LearnerFcst$predict_newdata_fast()`](#method-LearnerFcst-predict_newdata_fast)
+
 - [`LearnerFcst$clone()`](#method-LearnerFcst-clone)
 
 Inherited methods
@@ -184,7 +186,6 @@ Inherited methods
 - [`mlr3::Learner$reset()`](https://mlr3.mlr-org.com/reference/Learner.html#method-reset)
 - [`mlr3::Learner$selected_features()`](https://mlr3.mlr-org.com/reference/Learner.html#method-selected_features)
 - [`mlr3::Learner$train()`](https://mlr3.mlr-org.com/reference/Learner.html#method-train)
-- [`mlr3::LearnerRegr$predict_newdata_fast()`](https://mlr3.mlr-org.com/reference/LearnerRegr.html#method-predict_newdata_fast)
 
 ------------------------------------------------------------------------
 
@@ -300,6 +301,31 @@ Creates a new instance of this
   String in the format `[pkg]::[topic]` pointing to a manual page for
   this object. The referenced help package can be opened via method
   `$help()`.
+
+------------------------------------------------------------------------
+
+### `LearnerFcst$predict_newdata_fast()`
+
+Not supported, the inherited
+[mlr3::LearnerRegr](https://mlr3.mlr-org.com/reference/LearnerRegr.html)
+method does not provide the time index a forecast needs. Use
+`$predict_newdata()` or
+[`forecast()`](https://generics.r-lib.org/reference/forecast.html)
+instead.
+
+#### Usage
+
+    LearnerFcst$predict_newdata_fast(newdata, task = NULL)
+
+#### Arguments
+
+- `newdata`:
+
+  (ignored).
+
+- `task`:
+
+  (ignored).
 
 ------------------------------------------------------------------------
 

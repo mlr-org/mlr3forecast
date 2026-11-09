@@ -15,7 +15,7 @@ accumulation). For the recursive strategy (a single iterated model) see
 ``` r
 direct_forecaster(
   learner,
-  lags,
+  lags = NULL,
   horizons,
   id = NULL,
   param_vals = list(),
@@ -32,15 +32,18 @@ direct_forecaster(
   [mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
   \|
   [mlr3pipelines::PipeOp](https://mlr3pipelines.mlr-org.com/reference/PipeOp.html))  
-  A regression learner or a graph/PipeOp (without
-  [PipeOpFcstLags](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.lags.md)).
+  A regression learner or a graph/PipeOp. The model for horizon `h`
+  shifts the graph's lag and rolling features `h - 1` steps into the
+  past.
 
 - lags:
 
-  ([`integer()`](https://rdrr.io/r/base/integer.html))  
-  The base lag values. Exposed in `$param_set` as `lags`, so it can be
+  ([`integer()`](https://rdrr.io/r/base/integer.html) \| `NULL`)  
+  The base lag values. If provided, `po("fcst.lags", lags = lags)` is
+  added in front of `learner`, and its parameter `fcst.lags.lags` can be
   tuned via
   [mlr3tuning::AutoTuner](https://mlr3tuning.mlr-org.com/reference/AutoTuner.html).
+  If `NULL`, the graph should contain its own lag or rolling features.
 
 - horizons:
 
@@ -68,7 +71,8 @@ direct_forecaster(
 - clone_graph:
 
   (`logical(1)`)  
-  Whether to clone the graph, default `TRUE`.
+  Whether to clone the graph, default `TRUE`. If `lags` is provided, a
+  new graph is built in any case.
 
 ## Value
 
@@ -96,4 +100,8 @@ flrn$predict(task, split$test)
 #>  1960-10-01     142   461 368.6875
 #>  1960-11-01     143   390 364.9333
 #>  1960-12-01     144   432 362.3571
+
+# graph: the same graph also works with recursive_forecaster()
+graph = po("fcst.lags", lags = 1:3) %>>% po("fcst.rolling", window_sizes = 6L) %>>% lrn("regr.rpart")
+flrn = direct_forecaster(graph, horizons = length(split$test))
 ```

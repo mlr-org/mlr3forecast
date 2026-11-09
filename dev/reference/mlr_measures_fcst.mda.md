@@ -1,6 +1,6 @@
 # Mean Directional Accuracy
 
-Measure of the proportion of correctly predicted directions between
+Measures the proportion of correctly predicted directions between
 successive observations in forecast tasks.
 
 ## Details

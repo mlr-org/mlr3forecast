@@ -1,9 +1,9 @@
 # Annual Canadian Lynx Trappings Forecast Task
 
-A forecast task for the popular
-[datasets::lynx](https://rdrr.io/r/datasets/lynx.html) data set. The
-task represents the annual numbers of lynx trappings in Canada from 1821
-to 1934.
+A forecast task for the
+[datasets::lynx](https://rdrr.io/r/datasets/lynx.html) dataset. The task
+represents the annual numbers of lynx trappings in Canada from 1821 to
+1934.
 
 ## Format
 

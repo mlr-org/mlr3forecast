@@ -9,11 +9,17 @@
 t - lag (exclusive of the current and lag - 1 most recent values) and has size window_size. Use window_size = Inf for an expanding window that grows to include all history up to t - lag.
 At train time rows whose window has insufficient history are NA and are dropped, matching
 PipeOpFcstLags. Predict keeps all rows.
-At predict time rolling features are computed from the full series history."><meta property="og:description" content="Creates rolling-window summary statistics of the target variable as new feature columns. The window ends at position
+At predict time rolling features are computed from the full series history,
+using the funs, window_sizes, and lag stored in the state at train time.
+Like every PipeOp with the &quot;fcst_iterative&quot; property, it implements $shift() and $lookback,
+which move its features further into the past and report how much history they need."><meta property="og:description" content="Creates rolling-window summary statistics of the target variable as new feature columns. The window ends at position
 t - lag (exclusive of the current and lag - 1 most recent values) and has size window_size. Use window_size = Inf for an expanding window that grows to include all history up to t - lag.
 At train time rows whose window has insufficient history are NA and are dropped, matching
 PipeOpFcstLags. Predict keeps all rows.
-At predict time rolling features are computed from the full series history."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
+At predict time rolling features are computed from the full series history,
+using the funs, window_sizes, and lag stored in the state at train time.
+Like every PipeOp with the &quot;fcst_iterative&quot; property, it implements $shift() and $lookback,
+which move its features further into the past and report how much history they need."><meta property="og:image" content="https://mlr3forecast.mlr-org.com/logo.svg"><meta name="robots" content="noindex"></head><body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
@@ -61,7 +67,10 @@ At predict time rolling features are computed from the full series history."><me
 <code>t - lag</code> (exclusive of the current and <code>lag - 1</code> most recent values) and has size <code>window_size</code>. Use <code>window_size = Inf</code> for an expanding window that grows to include all history up to <code>t - lag</code>.</p>
 <p>At train time rows whose window has insufficient history are <code>NA</code> and are dropped, matching
 <a href="mlr_pipeops_fcst.lags.html">PipeOpFcstLags</a>. Predict keeps all rows.</p>
-<p>At predict time rolling features are computed from the full series history.</p>
+<p>At predict time rolling features are computed from the full series history,
+using the <code>funs</code>, <code>window_sizes</code>, and <code>lag</code> stored in the state at train time.</p>
+<p>Like every PipeOp with the <code>"fcst_iterative"</code> property, it implements <code>$shift()</code> and <code>$lookback</code>,
+which move its features further into the past and report how much history they need.</p>
     </div>
 
 
@@ -83,11 +92,23 @@ Minimum lag before the window starts. Must be <code>&gt;= 1</code> to avoid leak
     <p><code><a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html" class="external-link">mlr3pipelines::PipeOp</a></code> -&gt; <code><a href="https://mlr3pipelines.mlr-org.com/reference/PipeOpTaskPreproc.html" class="external-link">mlr3pipelines::PipeOpTaskPreproc</a></code> -&gt; <code>PipeOpFcstRolling</code></p>
     </div>
     <div class="section level2">
+    <h2 id="active-bindings">Active bindings<a class="anchor" aria-label="anchor" href="#active-bindings"></a></h2>
+    <p></p><div class="r6-active-bindings"><dl><dt><code>lookback</code></dt>
+<dd><p>(<code>numeric(1)</code>)<br>
+Number of past observations of a series the features need, i.e., <code>lag + max(window_sizes) - 1</code>.
+<code>Inf</code> for an expanding window.
+Read-only.</p></dd>
+
+
+</dl><p></p></div>
+    </div>
+    <div class="section level2">
     <h2 id="methods">Methods<a class="anchor" aria-label="anchor" href="#methods"></a></h2>
 
 <div class="section">
 <h3 id="public-methods">Public methods<a class="anchor" aria-label="anchor" href="#public-methods"></a></h3>
 <p></p><ul><li><p><a href="#method-PipeOpFcstRolling-initialize"><code>PipeOpFcstRolling$new()</code></a></p></li>
+<li><p><a href="#method-PipeOpFcstRolling-shift"><code>PipeOpFcstRolling$shift()</code></a></p></li>
 <li><p><a href="#method-PipeOpFcstRolling-clone"><code>PipeOpFcstRolling$clone()</code></a></p></li>
 </ul></div><p><details open><summary>Inherited methods</summary><ul><li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="help"><a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html#method-help"><code>mlr3pipelines::PipeOp$help()</code></a></span></li>
   <li><span class="pkg-link" data-pkg="mlr3pipelines" data-topic="PipeOp" data-id="predict"><a href="https://mlr3pipelines.mlr-org.com/reference/PipeOp.html#method-predict"><code>mlr3pipelines::PipeOp$predict()</code></a></span></li>
@@ -115,13 +136,34 @@ otherwise be set during construction. Default <code><a href="https://rdrr.io/r/b
 
 </div>
 
+<p></p><hr><a id="method-PipeOpFcstRolling-shift"></a><div class="section">
+<h3 id="pipeopfcstrolling-shift-"><code>PipeOpFcstRolling$shift()</code><a class="anchor" aria-label="anchor" href="#pipeopfcstrolling-shift-"></a></h3>
+<p>Shifts the features <code>k</code> steps further into the past by adding <code>k</code> to <code>lag</code>.
+Shifting by <code>h - 1</code> makes the features for horizon <code>h</code> use only values observed at the forecast origin.</p><div class="section">
+<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PipeOpFcstRolling</span><span class="op">$</span><span class="fu">shift</span><span class="op">(</span><span class="va">k</span><span class="op">)</span></span></code></pre></div><p></p></div>
+</div><p></p><div class="section">
+<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<p></p><div class="arguments"><dl><dt><code>k</code></dt>
+<dd><p>(<code>integer(1)</code>)<br>
+Number of steps to shift by.</p></dd>
+
+
+</dl><p></p></div>
+</div><p></p><div class="section">
+<h4 id="returns">Returns<a class="anchor" aria-label="anchor" href="#returns"></a></h4>
+<p><code>self</code> (invisibly).</p>
+</div>
+
+</div>
+
 <p></p><hr><a id="method-PipeOpFcstRolling-clone"></a><div class="section">
 <h3 id="pipeopfcstrolling-clone-"><code>PipeOpFcstRolling$clone()</code><a class="anchor" aria-label="anchor" href="#pipeopfcstrolling-clone-"></a></h3>
 <p>The objects of this class are cloneable with this method.</p><div class="section">
-<h4 id="usage-1">Usage<a class="anchor" aria-label="anchor" href="#usage-1"></a></h4>
+<h4 id="usage-2">Usage<a class="anchor" aria-label="anchor" href="#usage-2"></a></h4>
 <p></p><div class="r"><div class="sourceCode"><pre><code><span><span class="va">PipeOpFcstRolling</span><span class="op">$</span><span class="fu">clone</span><span class="op">(</span>deep <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div><p></p></div>
 </div><p></p><div class="section">
-<h4 id="arguments-1">Arguments<a class="anchor" aria-label="anchor" href="#arguments-1"></a></h4>
+<h4 id="arguments-2">Arguments<a class="anchor" aria-label="anchor" href="#arguments-2"></a></h4>
 <p></p><div class="arguments"><dl><dt><code>deep</code></dt>
 <dd><p>Whether to make a deep clone.</p></dd>
 

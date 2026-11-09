@@ -1,11 +1,9 @@
 # Forecast Task
 
 This task specializes
-[mlr3::Task](https://mlr3.mlr-org.com/reference/Task.html),
-[mlr3::TaskSupervised](https://mlr3.mlr-org.com/reference/TaskSupervised.html)
-and [mlr3::TaskRegr](https://mlr3.mlr-org.com/reference/TaskRegr.html)
-for forecasting problems. The target column is assumed to be numeric.
-The `task_type` is set to `"fcst"`.
+[mlr3::TaskRegr](https://mlr3.mlr-org.com/reference/TaskRegr.html) for
+forecasting problems. The target column must be numeric. The `task_type`
+is set to `"fcst"`.
 
 It is recommended to use
 [`as_task_fcst()`](https://mlr3forecast.mlr-org.com/dev/reference/as_task_fcst.md)
@@ -16,11 +14,10 @@ for construction. Predefined tasks are stored in the
 ## Series identity and keys
 
 A task may have one or more `key` columns whose combination identifies
-each series. The key role drives all per-series operations: target lags
-and rolling windows
+each series. Target lags and rolling windows
 ([PipeOpFcstLags](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.lags.md),
 [PipeOpFcstRolling](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.rolling.md))
-are computed within each series, and the future forecast grid is built
+are computed within each series. The future forecast grid is also built
 per series.
 
 Key columns are **not** features by default. To let a global model
@@ -28,11 +25,10 @@ specialize per series, add the feature role back:
 
     task$set_col_roles("series_id", add_to = "feature")
 
-For a high-cardinality key, encode it inside the learner graph (e.g.
-`po("encodeimpact")` or `po("encodelmer")`) rather than passing the raw
-factor to the model. Note that keys are labels regardless of their type:
-an integer key used as a feature is passed to the learner as a number,
-which is rarely intended – convert it to a factor first.
+Integer keys used as features are treated as numeric values by the
+learner. Convert them to factors to treat them as categories. For keys
+with many levels, consider encoding them in the learner graph, e.g. with
+`po("encodeimpact")`.
 
 ## See also
 
@@ -124,8 +120,8 @@ Other Task:
 
   - `"keys"`: The task has columns which define the time series `"key"`.
 
-  Note that above listed properties are calculated from the `$col_roles`
-  and may not be set explicitly.
+  These properties are calculated from `$col_roles` and cannot be set
+  directly.
 
 - `order`:
 
@@ -153,8 +149,8 @@ Other Task:
     [`factor()`](https://rdrr.io/r/base/factor.html) \|
     [`ordered()`](https://rdrr.io/r/base/factor.html)).
 
-  If there is only one key column, it will be named as `key`. Returns
-  `NULL` if there are no key columns.
+  If there is only one key column, it is named `key`. Returns `NULL` if
+  there are no key columns.
 
 ## Methods
 
@@ -289,24 +285,16 @@ provides an alternative way to construct forecast tasks.
 
 ### `TaskFcst$view()`
 
-Returns a slice of the data from the
-[mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html)
-as a
-[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html).
-Rows default to observations with role `"use"`, and columns default to
-features with roles `"target"`, `"order"`, `"key"` or `"feature"`. If
-`rows` or `cols` are specified which do not exist in the
-[mlr3::DataBackend](https://mlr3.mlr-org.com/reference/DataBackend.html),
-an exception is raised.
+Returns task data as a
+[`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html),
+always including the key and order columns first. By default, selects
+rows with role `"use"` and columns with roles `"target"` or `"feature"`.
+Unknown rows or columns raise an error.
 
-The key and order columns are always included, even if `cols` omits
-them. Rows and columns are returned in the order specified via the
-arguments `rows` and `cols`, except that the key and order columns come
-first. If `rows` is `NULL`, rows are returned in the order of
-`task$row_ids`. If `cols` is `NULL`, the column order defaults to
-`c(task$col_roles$key, task$col_roles$order, task$target_names, task$feature_names)`.
-Note that it is recommended to **not** rely on the order of columns, and
-instead always address columns with their respective column name.
+Rows follow `rows`, or `task$row_ids` if `rows` is `NULL`, unless
+`ordered = TRUE`. After the key and order columns, columns follow
+`cols`, or the target and feature names if `cols` is `NULL`. Access
+columns by name rather than position.
 
 #### Usage
 
@@ -328,8 +316,7 @@ instead always address columns with their respective column name.
 - `ordered`:
 
   (`logical(1)`)  
-  If `TRUE`, data is ordered according to the columns with column role
-  `"order"` and `"key"`.
+  If `TRUE`, sorts rows by the key columns and then the order column.
 
 #### Returns
 

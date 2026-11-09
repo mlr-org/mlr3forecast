@@ -1,8 +1,8 @@
-# Daily electricity demand for Victoria, Australia Forecast Task
+# Daily Electricity Demand in Victoria Forecast Task
 
 A forecast task for the
 [tsibbledata::vic_elec](https://tsibbledata.tidyverts.org/reference/vic_elec.html)
-data set. The task represents a daily time series and is ordered by
+dataset. The task represents a daily time series and is ordered by
 `date`.
 
 ## Format

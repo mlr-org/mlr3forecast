@@ -1,17 +1,46 @@
 # Direct Multi-Step Forecast Learner
 
-Trains a separate model for each forecast horizon. For horizon `h` with
-base lags `1:p`, model `h` uses lags `h:(h+p-1)`, so that at prediction
-time only observed values are needed. Unlike
+Trains a separate model for each forecast horizon. Unlike
 [RecursiveForecaster](https://mlr3forecast.mlr-org.com/dev/reference/RecursiveForecaster.md),
 predictions do not feed back into subsequent steps (no error
 accumulation).
 
-Lag features are managed internally via `lags`. Do not add iterative
-feature PipeOps (property `"fcst_iterative"`, e.g.
-[PipeOpFcstLags](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.lags.md),
-[PipeOpFcstRolling](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.rolling.md)),
-which are rejected at construction.
+Can be constructed in two ways, like
+[RecursiveForecaster](https://mlr3forecast.mlr-org.com/dev/reference/RecursiveForecaster.md):
+
+- **Simple**: `DirectForecaster$new(learner, lags = 1:3, horizons = 12)`
+  – internally builds `po("fcst.lags", lags = lags) %>>% learner`.
+
+- **Graph**: `DirectForecaster$new(graph, horizons = 12)` – takes a
+  [mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
+  or
+  [mlr3pipelines::PipeOp](https://mlr3pipelines.mlr-org.com/reference/PipeOp.html)
+  that creates its own lag or rolling features, so the same graph works
+  with both forecasters.
+
+## Iterative features
+
+The model for horizon `h` is trained on a copy of the graph in which
+every PipeOp with the `"fcst_iterative"` property, e.g.
+[PipeOpFcstLags](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.lags.md)
+or
+[PipeOpFcstRolling](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.rolling.md),
+is shifted `h - 1` steps into the past via its `$shift()` method. For
+example, base lags `1:3` become lags `h:(h + 2)`, so at prediction time
+only observed values are needed. Tune the base values via the PipeOp's
+parameters, e.g. `fcst.lags.lags`. Only the last `$lookback`
+observations of each series are kept for prediction, or all of them for
+an expanding window. At predict time the graph is evaluated with the
+trained state of each horizon, so iterative PipeOps must store the
+settings their predict step needs in their state.
+
+## Wrapped learner
+
+`$graph` is the wrapped graph and `$base_learner()` its base learner,
+like for
+[RecursiveForecaster](https://mlr3forecast.mlr-org.com/dev/reference/RecursiveForecaster.md).
+Both are the untrained templates shared by all horizons, the trained
+graph of each horizon is in `$graph_model`.
 
 ## Super class
 
@@ -23,7 +52,13 @@ which are rejected at construction.
 - `learner`:
 
   ([mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html))  
-  The base regression learner.
+  The untrained base regression learner of the graph, the same as
+  `$base_learner()`.
+
+- `graph`:
+
+  ([mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html))  
+  The wrapped graph, without the per-horizon shift. Read-only.
 
 - `quantiles`:
 
@@ -56,8 +91,11 @@ which are rejected at construction.
 
 - `lags`:
 
-  ([`integer()`](https://rdrr.io/r/base/integer.html))  
-  The base lags.
+  ([`integer()`](https://rdrr.io/r/base/integer.html) \| `NULL`)  
+  The lags of the first
+  [PipeOpFcstLags](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.lags.md)
+  in the graph, which the model for horizon `h` shifts by `h - 1`, or
+  `NULL` if there is none.
 
 - `horizons`:
 
@@ -99,6 +137,8 @@ which are rejected at construction.
 
 - [`DirectForecaster$print()`](#method-DirectForecaster-print)
 
+- [`DirectForecaster$predict_newdata_fast()`](#method-DirectForecaster-predict_newdata_fast)
+
 - [`DirectForecaster$marshal()`](#method-DirectForecaster-marshal)
 
 - [`DirectForecaster$unmarshal()`](#method-DirectForecaster-unmarshal)
@@ -134,7 +174,7 @@ Creates a new instance of this
 
     DirectForecaster$new(
       learner,
-      lags,
+      lags = NULL,
       horizons,
       id = NULL,
       param_vals = list(),
@@ -150,15 +190,16 @@ Creates a new instance of this
   [mlr3pipelines::Graph](https://mlr3pipelines.mlr-org.com/reference/Graph.html)
   \|
   [mlr3pipelines::PipeOp](https://mlr3pipelines.mlr-org.com/reference/PipeOp.html))  
-  A regression learner or a graph/PipeOp (without
-  [PipeOpFcstLags](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.lags.md)).
+  A regression learner or a graph/PipeOp.
 
 - `lags`:
 
-  ([`integer()`](https://rdrr.io/r/base/integer.html))  
-  The base lag values. Exposed in `$param_set` as `lags`, so it can be
+  ([`integer()`](https://rdrr.io/r/base/integer.html) \| `NULL`)  
+  The base lag values. If provided, `po("fcst.lags", lags = lags)` is
+  added in front of `learner`, and its parameter `fcst.lags.lags` can be
   tuned via
   [mlr3tuning::AutoTuner](https://mlr3tuning.mlr-org.com/reference/AutoTuner.html).
+  If `NULL`, the graph should contain its own lag or rolling features.
 
 - `horizons`:
 
@@ -190,7 +231,8 @@ Creates a new instance of this
 - `clone_graph`:
 
   (`logical(1)`)  
-  Whether to clone the graph, default `TRUE`.
+  Whether to clone the graph, default `TRUE`. If `lags` is provided, a
+  new graph is built in any case.
 
 ------------------------------------------------------------------------
 
@@ -205,6 +247,28 @@ Printer.
 #### Arguments
 
 - `...`:
+
+  (ignored).
+
+------------------------------------------------------------------------
+
+### `DirectForecaster$predict_newdata_fast()`
+
+Not supported, use `$predict_newdata()` or
+[`forecast()`](https://generics.r-lib.org/reference/forecast.html)
+instead.
+
+#### Usage
+
+    DirectForecaster$predict_newdata_fast(newdata, task = NULL)
+
+#### Arguments
+
+- `newdata`:
+
+  (ignored).
+
+- `task`:
 
   (ignored).
 
@@ -337,8 +401,9 @@ flrn$predict(task, split$test)
 #>  1960-11-01     143   390 364.9333
 #>  1960-12-01     144   432 362.3571
 
-# or use the direct_forecaster() helper
-flrn = direct_forecaster(lrn("regr.rpart"), lags = 1:3, horizons = length(split$test))
+# graph: lag and rolling features, shifted per horizon
+graph = po("fcst.lags", lags = 1:3) %>>% po("fcst.rolling", window_sizes = 6L) %>>% lrn("regr.rpart")
+flrn = DirectForecaster$new(graph, horizons = length(split$test))
 flrn$train(task, split$train)
 flrn$predict(task, split$test)
 #> 
@@ -350,6 +415,6 @@ flrn$predict(task, split$test)
 #>         ---     ---   ---      ---
 #>  1960-10-01     142   461 368.6875
 #>  1960-11-01     143   390 364.9333
-#>  1960-12-01     144   432 362.3571
+#>  1960-12-01     144   432 338.0000
 # }
 ```

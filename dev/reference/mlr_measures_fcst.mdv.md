@@ -1,6 +1,6 @@
 # Mean Directional Value
 
-Measure of average magnitude‐weighted directional accuracy in forecast
+Measures average magnitude-weighted directional accuracy in forecast
 tasks.
 
 ## Details

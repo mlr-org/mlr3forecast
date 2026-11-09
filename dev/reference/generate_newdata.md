@@ -1,6 +1,7 @@
-# Generate new data for a forecast task
+# Generate New Data for a Forecast Task
 
-Generate new data for a forecast task
+Extends each series by `n` time steps, retaining the order and key
+columns and setting the target to `NA`.
 
 ## Usage
 
@@ -12,24 +13,23 @@ generate_newdata(task, n = 1L)
 
 - task:
 
-  [TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md)  
+  ([TaskFcst](https://mlr3forecast.mlr-org.com/dev/reference/TaskFcst.md))  
   Task.
 
 - n:
 
   (`integer(1)`)  
-  Number of new data points to generate. Default `1L`.
+  Number of future observations per series. Default `1L`.
 
 ## Value
 
 A
 [`data.table::data.table()`](https://rdrr.io/pkg/data.table/man/data.table.html)
-with `n` new data points.
+with `n` rows per series.
 
 ## Details
 
-Future dates are extrapolated by stepping the order column. For calendar
-`freq` (`month`/`quarter`/`year`), each series' day-of-month is carried
-forward and clamped to each target month's last valid day, where a
-series of month ends stays on month ends. Other freqs use
-[`base::seq()`](https://rdrr.io/r/base/seq.html).
+For monthly, quarterly, or yearly `freq`, the day of the month is
+preserved where possible and clamped to the last valid day otherwise.
+Series observed at month ends continue at month ends. Other frequencies
+use [`base::seq()`](https://rdrr.io/r/base/seq.html).

@@ -1,9 +1,9 @@
 # Air Passengers Forecast Task
 
-A forecast task for the popular
+A forecast task for the
 [datasets::AirPassengers](https://rdrr.io/r/datasets/AirPassengers.html)
-data set. The task represents the monthly totals of international
-airline passengers from 1949 to 1960.
+dataset. The task represents the monthly totals of international airline
+passengers from 1949 to 1960.
 
 ## Format
 

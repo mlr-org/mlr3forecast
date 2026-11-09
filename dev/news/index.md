@@ -20,6 +20,16 @@
   gives a `ts` without a calendar step, e.g. of frequency 7 or 260, an
   integer `index` column as order instead of made-up timestamps, and
   warns that its frequency is not kept.
+- BREAKING CHANGE: `DirectForecaster` and
+  [`direct_forecaster()`](https://mlr3forecast.mlr-org.com/dev/reference/direct_forecaster.md)
+  now take lag and rolling features from the graph like
+  `RecursiveForecaster`, so the same graph works with both forecasters
+  and `po("fcst.rolling")` can be used with the direct strategy. The
+  model for horizon `h` shifts these features `h - 1` steps into the
+  past via `$shift()`. `lags` is now optional and adds `po("fcst.lags")`
+  in front of the learner, so its tunable parameter is `fcst.lags.lags`
+  instead of `lags`. A graph without lag or rolling features now gives a
+  warning instead of an error for missing `lags`.
 - BREAKING CHANGE: `DirectForecaster` and `RecursiveForecaster` now
   default to the id of the wrapped learner with the suffix `.direct` or
   `.recursive`, instead of reusing the id of the wrapped learner or
@@ -101,6 +111,9 @@
 - feat: `DirectForecaster` and `RecursiveForecaster` gained `$quantiles`
   and `$quantile_response` fields that configure every compatible
   learner in the wrapped graph.
+- feat: `DirectForecaster` gained a read-only `$graph` field, and its
+  `$base_learner()` now returns the base learner of the wrapped graph
+  like for `RecursiveForecaster`, instead of the forecaster itself.
 - feat:
   [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
   downloads Monash Forecasting Repository datasets by dataset ID from
@@ -145,6 +158,10 @@
   lists the Monash Forecasting Repository datasets available to
   [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
   and `tsk("monash")`, including their download sizes.
+- feat: `po("fcst.lags")` and `po("fcst.rolling")` gained a `$shift(k)`
+  method, which moves their features `k` steps further into the past,
+  and a read-only `$lookback` field, the number of past observations
+  their features need.
 - feat: `RecursiveForecaster` is now a `GraphLearner` and exposes its
   fields and methods, e.g. `$graph`, `$pipeops`, and `$base_learner()`.
 - feat: `tgen("arima")` simulates ARIMA series into a forecast task.
@@ -174,6 +191,11 @@
   tasks.
 - fix: The “no model stored” error is now a learner error instead of an
   input error.
+- fix: Forecast learners now raise an input error in
+  `$predict_newdata_fast()` pointing to `$predict_newdata()` and
+  [`forecast()`](https://generics.r-lib.org/reference/forecast.html),
+  instead of failing inside `$predict()` with an unrelated error, as the
+  inherited regression method does not pass the time index on.
 - fix: Forecast learners now convert logical exogenous features to
   numeric values before passing them to the wrapped forecasting
   packages.
@@ -184,6 +206,11 @@
 - fix: Learners wrapping the `forecast` package now return correct
   quantiles close to the median and support extreme quantiles. Quantiles
   0 and 1 raise an error.
+- fix: Predictions of regression learners on a forecast task, e.g. of
+  the `regr.featureless` fallback of a failed forecast learner, now
+  carry the time index and keys. Previously, combining them with regular
+  forecast predictions failed with “different extra column roles”,
+  e.g. in `rr$prediction()` after a single failed resampling iteration.
 - fix: Columns named like internal variables, e.g. a target column named
   `target`, `center`, or `lambda`, or a key column named `step`,
   `key_cols`, or `sep`, no longer break the forecasters, pipeops,
@@ -230,14 +257,29 @@
   [`autoplot()`](https://ggplot2.tidyverse.org/reference/autoplot.html)
   of a backtest prediction now connects the forecast to the last
   observation before it instead of the last observation of the task.
+- fix: `DirectForecaster$predict_newdata_fast()` now raises an input
+  error pointing to `$predict_newdata()` and
+  [`forecast()`](https://generics.r-lib.org/reference/forecast.html),
+  like `RecursiveForecaster`, instead of failing with “attempt to apply
+  non-function”.
 - fix: `DirectForecaster`, `po("fcst.lags")`, and `po("fcst.rolling")`
   now reject duplicate `lags` or `window_sizes` when they are set.
   Previously, training failed with an unclear data.table error.
 - fix: `DirectForecaster` no longer ignores predict parameters changed
-  after training.
+  or unset after training. Parameters for training changed after
+  training no longer affect predictions or overwrite the values of the
+  trained horizon models.
+- fix: `DirectForecaster` now deep-clones its trained horizon models.
+  Previously, a clone shared them with the original, so changing
+  `$predict_type`, `$quantiles`, or hyperparameters of the clone, or
+  predicting with it, also changed the original.
 - fix: `DirectForecaster` now raises an input error naming the key
   groups without training rows when predicting them, instead of failing
   inside [`seq()`](https://rdrr.io/r/base/seq.html).
+- fix: `DirectForecaster` and `RecursiveForecaster` now predict with
+  graphs that return a regression prediction, e.g. ending in
+  `po("regravg")`, and return a forecast prediction. Previously,
+  prediction failed with “unused argument (col_roles = …)”.
 - fix: `DirectForecaster` and `RecursiveForecaster` now error in
   `$native_model` on marshaled models instead of returning wrong
   objects.
@@ -325,6 +367,10 @@
 - fix: `po("fcst.fourier")` now computes its terms from the timestamps
   instead of the row positions, so the seasonal phase no longer shifts
   at predict time or between series.
+- fix: `po("fcst.lags")` and `po("fcst.rolling")` now compute their
+  predict features with the settings stored at train time, so changing
+  their parameters after training, e.g. `fcst.lags.lags` of a trained
+  `RecursiveForecaster`, no longer breaks prediction.
 - fix: `po("fcst.splitkey")` and thus `ppl("fcst.local")` now give each
   per-series task a backend holding only the rows of its series, so
   `po("fcst.lags")` and `po("fcst.rolling")` no longer mix series at
@@ -358,12 +404,19 @@
   order instead of sorted by key and time, which fixes misaligned truth
   under target trafos and lets `po("fcst.avg")` combine it with
   `DirectForecaster`.
+- fix: `RecursiveForecaster` now rejects `$parallel_predict = TRUE` with
+  an informative error, as each step needs the predictions of the steps
+  before it. Previously, prediction failed with an unrelated error about
+  the future grid.
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` no longer return
   wrong splits or fail for key or order columns named like internal
   columns, e.g. `train`, `fold`, or `row_id`.
 - fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped
   tasks instead of creating invalid time-based splits.
 - fix: `TaskFcst` now errors if the order column role is removed.
+- perf: `DirectForecaster` now stores one trained graph state per
+  horizon instead of a full `GraphLearner`, which makes trained models
+  about three times smaller.
 - perf:
   [`read_tsf()`](https://mlr3forecast.mlr-org.com/dev/reference/read_tsf.md)
   builds calendar date indices arithmetically instead of through

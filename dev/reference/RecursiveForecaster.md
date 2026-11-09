@@ -79,6 +79,13 @@ accuracy, not recursive multi-step accuracy.
   The untrained base regression learner of the graph. Use
   `$base_learner()` for a copy holding the trained model.
 
+- `parallel_predict`:
+
+  (`logical(1)`)  
+  Always `FALSE`. Parallel prediction splits the test rows into chunks,
+  but each step of a recursive forecast needs the predictions of all
+  steps before it. Setting it to `TRUE` raises an error.
+
 - `quantiles`:
 
   ([`numeric()`](https://rdrr.io/r/base/numeric.html))  
@@ -110,9 +117,9 @@ accuracy, not recursive multi-step accuracy.
 - `lags`:
 
   ([`integer()`](https://rdrr.io/r/base/integer.html) \| `NULL`)  
-  The lags used, or `NULL` if no
+  The lags of the first
   [PipeOpFcstLags](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.lags.md)
-  is in the graph.
+  in the graph, or `NULL` if there is none.
 
 ## Methods
 

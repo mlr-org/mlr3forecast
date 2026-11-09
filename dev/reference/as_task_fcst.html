@@ -5,9 +5,9 @@
       fontURL: "https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/output/chtml/fonts/woff-v2"
     }
   };
-</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Convert to a Forecast Task — as_task_fcst"><meta name="description" content="Convert object to a TaskFcst.
-This is a S3 generic. mlr3forecast ships with methods for the following objects:
-TaskFcst: ensure the identity
+</script><script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet"><script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Roboto-0.4.10/font.css" rel="stylesheet"><link href="../deps/JetBrains_Mono-0.4.10/font.css" rel="stylesheet"><link href="../deps/Roboto_Slab-0.4.10/font.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet"><link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet"><script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Convert to a Forecast Task — as_task_fcst"><meta name="description" content="Converts an object to a TaskFcst.
+This S3 generic supports the following objects:
+TaskFcst: returns the object as-is, optionally cloned.
 data.frame() and mlr3::DataBackend: provides an alternative to the constructor of TaskFcst.
 ts: from base R time series objects (univariate and multivariate).
 A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
@@ -27,9 +27,9 @@ If freq is NULL, such an index sets it from the tsibble's interval,
 e.g. &quot;1 month&quot; for a monthly yearmonth index, while other indices infer it like TaskFcst.
 The key variables become key columns, and all measured variables other than target become features.
 
-"><meta property="og:description" content="Convert object to a TaskFcst.
-This is a S3 generic. mlr3forecast ships with methods for the following objects:
-TaskFcst: ensure the identity
+"><meta property="og:description" content="Converts an object to a TaskFcst.
+This S3 generic supports the following objects:
+TaskFcst: returns the object as-is, optionally cloned.
 data.frame() and mlr3::DataBackend: provides an alternative to the constructor of TaskFcst.
 ts: from base R time series objects (univariate and multivariate).
 A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
@@ -93,8 +93,8 @@ The key variables become key columns, and all measured variables other than targ
     </div>
 
     <div class="ref-description section level2">
-    <p>Convert object to a <a href="TaskFcst.html">TaskFcst</a>.
-This is a S3 generic. mlr3forecast ships with methods for the following objects:</p><ol><li><p><a href="TaskFcst.html">TaskFcst</a>: ensure the identity</p></li>
+    <p>Converts an object to a <a href="TaskFcst.html">TaskFcst</a>.
+This S3 generic supports the following objects:</p><ol><li><p><a href="TaskFcst.html">TaskFcst</a>: returns the object as-is, optionally cloned.</p></li>
 <li><p><code><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame()</a></code> and <a href="https://mlr3.mlr-org.com/reference/DataBackend.html" class="external-link">mlr3::DataBackend</a>: provides an alternative to the constructor of <a href="TaskFcst.html">TaskFcst</a>.</p></li>
 <li><p><code>ts</code>: from base R time series objects (univariate and multivariate).
 A frequency of 1, 4, 12, 52, or 365.25 is taken as a yearly, quarterly, monthly, weekly, or daily step.
