@@ -271,6 +271,22 @@ test_that("order column may not contain missing values", {
   )
 })
 
+test_that("order values must be unique within each series", {
+  dt = data.table(date = as.Date("2025-01-01") + c(0:4, 2L), y = rnorm(6L))
+  expect_error(
+    TaskFcst$new(id = "t", backend = dt, target = "y", order = "date"),
+    "Order column 'date' contains duplicated values"
+  )
+  expect_error(as_task_fcst(as_data_backend(dt), target = "y", order = "date"), "duplicated values")
+
+  panel = data.table(date = rep(as.Date("2025-01-01") + 0:4, 2L), id = rep(c("a", "b"), each = 5L), y = rnorm(10L))
+  task = as_task_fcst(panel, target = "y", order = "date", key = "id")
+  expect_error({
+    task$col_roles$key = character()
+  }, "duplicated values")
+  expect_identical(task$col_roles$key, "id")
+})
+
 test_that("key columns may not contain missing values", {
   dt = data.table(
     date = rep.int(seq(as.Date("2025-01-01"), length.out = 10L), 2L),

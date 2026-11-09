@@ -271,6 +271,13 @@ task_check_col_roles.TaskFcst = function(task, new_roles, ...) {
     }
   }
 
+  if (length(order_cols) > 0L) {
+    index = task$backend$data(rows = task$row_ids, cols = c(key_cols, order_cols))
+    if (anyDuplicated(index) > 0L) {
+      error_input("Order column '%s' contains duplicated values within a time series.", order_cols)
+    }
+  }
+
   NextMethod()
 }
 

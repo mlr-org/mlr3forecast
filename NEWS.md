@@ -100,6 +100,7 @@
 * fix: `RecursiveForecaster` now rejects `$parallel_predict = TRUE` with an informative error, as each step needs the predictions of the steps before it. Previously, prediction failed with an unrelated error about the future grid.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` no longer return wrong splits or fail for key or order columns named like internal columns, e.g. `train`, `fold`, or `row_id`.
 * fix: `rsmp("fcst.cv")` and `rsmp("fcst.holdout")` now reject grouped tasks instead of creating invalid time-based splits.
+* fix: `TaskFcst` now errors if the order column has duplicated values within a series, however the task is built. Previously, only `as_task_fcst()` on a data frame checked this, so `TaskFcst$new()`, `as_task_fcst()` on a `DataBackend`, and removing the key role of a task with several series accepted duplicated time points.
 * fix: `TaskFcst` now errors if the order column role is removed.
 * perf: `DirectForecaster` now stores one trained graph state per horizon instead of a full `GraphLearner`, which makes trained models about three times smaller.
 * perf: `read_tsf()` builds calendar date indices arithmetically instead of through `ISOdate()`, which makes reading files with many series about 20 times faster.
