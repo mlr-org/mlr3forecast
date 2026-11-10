@@ -5,9 +5,8 @@
 \alias{PipeOpFcstUniteKey}
 \title{Unite Per-Series Forecasts into One Prediction}
 \description{
-Row-binds a \link[mlr3pipelines:Multiplicity]{Multiplicity} of per-series \link{PredictionFcst}s, as
-created downstream of \code{\link[=mlr_pipeops_fcst.splitkey]{po("fcst.splitkey")}}, into a single
-\link{PredictionFcst}.
+Row-binds a \link[mlr3pipelines:Multiplicity]{Multiplicity} of per-series \link{PredictionFcst}s or regression predictions,
+as created downstream of \code{\link[=mlr_pipeops_fcst.splitkey]{po("fcst.splitkey")}}, into a single \link{PredictionFcst}.
 
 The series identity is rebuilt from the multiplicity names in the prediction's \code{extra} slot,
 and its role is stored in \code{col_roles}.

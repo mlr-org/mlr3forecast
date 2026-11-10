@@ -2,9 +2,8 @@
 #' @name mlr_pipeops_fcst.unitekey
 #'
 #' @description
-#' Row-binds a [Multiplicity][mlr3pipelines::Multiplicity] of per-series [PredictionFcst]s, as
-#' created downstream of [`po("fcst.splitkey")`][mlr_pipeops_fcst.splitkey], into a single
-#' [PredictionFcst].
+#' Row-binds a [Multiplicity][mlr3pipelines::Multiplicity] of per-series [PredictionFcst]s or regression predictions,
+#' as created downstream of [`po("fcst.splitkey")`][mlr_pipeops_fcst.splitkey], into a single [PredictionFcst].
 #'
 #' The series identity is rebuilt from the multiplicity names in the prediction's `extra` slot,
 #' and its role is stored in `col_roles`.
@@ -53,7 +52,7 @@ PipeOpFcstUniteKey = R6Class(
         param_set = param_set,
         param_vals = param_vals,
         packages = c("mlr3forecast", "mlr3pipelines"),
-        input = data.table(name = "input", train = "[NULL]", predict = "[PredictionFcst]"),
+        input = data.table(name = "input", train = "[NULL]", predict = "[PredictionRegr]"),
         output = data.table(name = "output", train = "NULL", predict = "PredictionFcst"),
         tags = c("multiplicity", "fcst")
       )
@@ -75,7 +74,7 @@ PipeOpFcstUniteKey = R6Class(
       if (!test_names(labels, type = "unique")) {
         error_input("%s requires a named multiplicity, as created by po(\"fcst.splitkey\").", self$id)
       }
-      pdatas = map(inputs, "data")
+      pdatas = map(inputs, function(prediction) as_prediction_fcst(prediction)$data)
       pdata = invoke(c, .args = unname(pdatas))
       extra = as.list(pdata$extra)
       if (length(pdata$col_roles$key) == 0L) {

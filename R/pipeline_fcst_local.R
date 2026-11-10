@@ -14,7 +14,7 @@
 #'   Object coercible to a [Graph][mlr3pipelines::Graph] with [mlr3pipelines::as_graph()], being wrapped between
 #'   [`po("fcst.splitkey")`][mlr_pipeops_fcst.splitkey] and
 #'   [`po("fcst.unitekey")`][mlr_pipeops_fcst.unitekey].
-#'   The graph should return `NULL` during training and a [PredictionFcst] during prediction.
+#'   The graph should return `NULL` during training and a [PredictionFcst] or regression prediction during prediction.
 #' @param key (`character(1)`)\cr
 #'   Name of the rebuilt series-identity column in the united prediction's `extra` slot, default
 #'   `"key"`. Set it to the task's key column name to get predictions column-compatible with
