@@ -65,10 +65,14 @@ LearnerFcstTscount = R6Class(
       pv = remove_named(pv, names(model_args))
 
       xreg = private$.xreg(task)
+      y = task$data(cols = task$target_names, ordered = TRUE)[[1L]]
+      if (!test_integerish(y, lower = 0)) {
+        error_input("%s learner requires a target of non-negative counts.", self$id)
+      }
 
       model = invoke(
         tscount::tsglm,
-        ts = as.integer(task$data(cols = task$target_names, ordered = TRUE)[[1L]]),
+        ts = as.integer(y),
         model = model_args,
         xreg = xreg,
         .args = pv

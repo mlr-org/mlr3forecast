@@ -85,6 +85,7 @@
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.
 * fix: `fcst.stlm` now raises a configuration error instead of an input error for features without `method = "arima"`.
 * fix: `fcst.struct_ts` no longer declares `"level"` as the default of `type`, since `stats::StructTS()` fits `"BSM"` for seasonal series and `"trend"` otherwise.
+* fix: `fcst.tscount` now raises an input error for a target that is not a non-negative count. Previously, it silently truncated the values.
 * fix: `fcst.tslm` now errors on a target or features named `trend` or `season` unless `formula` is set, instead of silently confusing them with its built-in terms.
 * fix: `forecast()` now raises an input error naming the missing features if `newdata` does not supply every feature of `task`, instead of failing on an assertion inside `$predict_newdata()`.
 * fix: `generate_newdata()` keeps an integer time index integer instead of sometimes returning doubles.

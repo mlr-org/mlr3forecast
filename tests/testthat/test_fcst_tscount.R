@@ -9,6 +9,14 @@ test_that("autotest", {
   }
 })
 
+test_that("a target that is not a count is rejected", {
+  dat = data.table(t = 1:30, y = rep(c(2.9, 3.9, 5.9), 10L))
+  task = as_task_fcst(dat, target = "y", order = "t")
+  expect_error(lrn("fcst.tscount")$train(task), "non-negative counts", class = "Mlr3ErrorInput")
+  dat[, y := y - 10.9]
+  expect_error(lrn("fcst.tscount")$train(as_task_fcst(dat, target = "y", order = "t")), "non-negative counts")
+})
+
 test_that("training reads the count series chronologically", {
   withr::local_seed(2)
   n = 48L
