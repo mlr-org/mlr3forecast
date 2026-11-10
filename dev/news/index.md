@@ -355,6 +355,10 @@
   changing `comb` after training no longer alters the prediction.
 - fix: `fcst.prophet` now raises an input error naming the feature if
   prophet reserves its name, e.g. `holidays` or `ds`.
+- fix: `fcst.prophet` now raises an input error for a feature named `t`,
+  and for one named `cap` or `floor` unless `growth = "logistic"`.
+  Previously, prophet overwrote `t` with its own values and the learner
+  silently ignored `cap` and `floor`.
 - fix: `fcst.rlgt` now errors on exogenous features unless
   `method = "Stan"`, as the default Gibbs sampler silently ignored them,
   only accepts `seasonality2`, `seasonality.type`, `error.size.method`,
@@ -372,6 +376,8 @@
   `type`, since
   [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits
   `"BSM"` for seasonal series and `"trend"` otherwise.
+- fix: `fcst.tscount` now raises an input error for a target that is not
+  a non-negative count. Previously, it silently truncated the values.
 - fix: `fcst.tslm` now errors on a target or features named `trend` or
   `season` unless `formula` is set, instead of silently confusing them
   with its built-in terms.
