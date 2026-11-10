@@ -80,6 +80,7 @@
 * fix: `fcst.esn` no longer resets the random number generator of the session to `n_seed` on every `$train()` and `$predict()`. Previously, anything random drawn afterwards, e.g. subsampling splits or random search proposals, repeated itself.
 * fix: `fcst.imapa` now forecasts with the settings used at training, so changing `comb` after training no longer alters the prediction.
 * fix: `fcst.prophet` now raises an input error naming the feature if prophet reserves its name, e.g. `holidays` or `ds`.
+* fix: `fcst.prophet` now raises an input error for a feature named `t`, and for one named `cap` or `floor` unless `growth = "logistic"`. Previously, prophet overwrote `t` with its own values and the learner silently ignored `cap` and `floor`.
 * fix: `fcst.rlgt` now errors on exogenous features unless `method = "Stan"`, as the default Gibbs sampler silently ignored them, only accepts `seasonality2`, `seasonality.type`, `error.size.method`, `level.method`, `verbose`, and `NUM_OF_TRIALS` with `method = "Stan"`, and only accepts `seasonality` and `homoscedastic` with `method = "Gibbs"`, which `method` is now initialized to. Previously, Stan silently replaced `seasonality` with `period` and ignored `homoscedastic`.
 * fix: `fcst.stlm` initializes `method` to `"ets"`, so `etsmodel` and `allow.multiplicative.trend` can be set without setting `method` first.
 * fix: `fcst.stlm` now raises a configuration error instead of an input error for features without `method = "arima"`.

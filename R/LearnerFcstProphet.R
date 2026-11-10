@@ -77,6 +77,15 @@ LearnerFcstProphet = R6Class(
       if (growth == "logistic" && "cap" %nin% feature_names) {
         error_input("With `growth = \"logistic\"`, `fcst.prophet` requires a task feature named `cap`.")
       }
+      # prophet keeps its scaled time in `t`, and only uses `cap` and `floor` for logistic growth
+      unusable = intersect(feature_names, c("t", if (growth != "logistic") c("cap", "floor")))
+      if (length(unusable) > 0L) {
+        error_input(
+          "%s learner cannot use feature(s) %s as regressors, as prophet uses these names itself. Rename them.",
+          self$id,
+          str_collapse(unusable, quote = "'")
+        )
+      }
       if (length(feature_names) > 0L) {
         features = task$data(cols = feature_names)
         dt = cbind(dt, features)

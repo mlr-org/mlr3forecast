@@ -41,3 +41,11 @@ test_that("prophet rejects features with names reserved by prophet", {
   task = as_task_fcst(dt, target = "y", order = "time")
   expect_error(lrn("fcst.prophet")$train(task), "'holidays'", class = "Mlr3ErrorInput")
 })
+
+test_that("prophet rejects features it would silently ignore or overwrite", {
+  for (name in c("cap", "floor", "t")) {
+    dt = set_names(data.table(1:48, as.numeric(1:48), cos(1:48)), c("time", "y", name))
+    task = as_task_fcst(dt, target = "y", order = "time")
+    expect_error(lrn("fcst.prophet")$train(task), sprintf("'%s'", name), class = "Mlr3ErrorInput")
+  }
+})
