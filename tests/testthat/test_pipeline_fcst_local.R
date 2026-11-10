@@ -34,3 +34,29 @@ test_that("ppl(\"fcst.local\") passes key through to the united prediction", {
   expect_equal(as.character(p$key$key), rep(c("a", "b"), each = 3L))
   expect_true("id" %in% names(as.data.table(p)))
 })
+
+test_that("fcst.local inverts target transformations with each series' own state", {
+  dt = rbind(
+    data.table(id = "a", t = 1:27, y = as.numeric(10:36)),
+    data.table(id = "b", t = 1:27, y = 1000 + 5 * (0:26))
+  )
+  dt[, id := factor(id)]
+  task = as_task_fcst(dt, target = "y", order = "t", key = "id")
+  train = which(dt$t <= 25L)
+  test = which(dt$t > 25L)
+  local = function(trafo) {
+    graph = ppl("targettrafo", graph = lrn("fcst.random_walk"), trafo_pipeop = trafo)
+    learner = as_learner(ppl("fcst.local", graph, key = "id"))
+    learner$train(task, train)$predict(task, test)
+  }
+
+  expect_equal(local(po("fcst.targetscale"))$response, c(34, 34, 1120, 1120))
+  expect_equal(local(po("fcst.targetboxcox", lambda = 0.5))$response, c(34, 34, 1120, 1120))
+  expect_equal(local(po("fcst.targetdiff"))$response, c(35, 36, 1125, 1130))
+
+  log_trafo = po("targetmutate", trafo = function(x) log(x), inverter = function(x) list(response = exp(x$response)))
+  prediction = local(log_trafo)
+  expect_class(prediction, "PredictionFcst")
+  expect_equal(prediction$response, c(34, 34, 1120, 1120))
+  expect_identical(prediction$data$col_roles$key, "id")
+})

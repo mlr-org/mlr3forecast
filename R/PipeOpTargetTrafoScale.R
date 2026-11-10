@@ -114,20 +114,22 @@ PipeOpTargetTrafoScale = R6Class(
     },
 
     .train_invert = function(task) {
-      fcst_invert_state(task)
+      # inside a multiplicity, e.g. in ppl("fcst.local"), `self$state` holds all series again at inversion
+      insert_named(fcst_invert_state(task), list(state = self$state))
     },
 
     .invert = function(prediction, predict_phase_state) {
+      state = predict_phase_state$state
       response = prediction$data$response
       se = prediction$data$se
       quantiles = prediction$data$quantiles
-      stats = self$state$stats
+      stats = state$stats
 
       if (is.null(stats)) {
-        center = self$state$center
-        scale = self$state$scale
+        center = state$center
+        scale = state$scale
       } else {
-        key_cols = self$state$key_cols
+        key_cols = state$key_cols
         # recover each prediction row's series and invert it with that series' statistics
         ids = data.table(..row_id = prediction$row_ids)
         dt = predict_phase_state$layout[ids, on = "..row_id"]

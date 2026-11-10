@@ -148,16 +148,18 @@ PipeOpTargetTrafoBoxCox = R6Class(
     },
 
     .train_invert = function(task) {
-      fcst_invert_state(task)
+      # inside a multiplicity, e.g. in ppl("fcst.local"), `self$state` holds all series again at inversion
+      insert_named(fcst_invert_state(task), list(state = self$state))
     },
 
     .invert = function(prediction, predict_phase_state) {
+      state = predict_phase_state$state
       response = prediction$data$response
       quantiles = prediction$data$quantiles
-      lambdas = self$state$lambdas
+      lambdas = state$lambdas
 
       if (is.null(lambdas)) {
-        lambda = self$state$lambda
+        lambda = state$lambda
         if (!is.null(response)) {
           response = invoke(forecast::InvBoxCox, response, lambda = lambda)
         }
@@ -166,7 +168,7 @@ PipeOpTargetTrafoBoxCox = R6Class(
           inverted_values = invoke(forecast::InvBoxCox, quantiles, lambda = lambda)
         }
       } else {
-        key_cols = self$state$key_cols
+        key_cols = state$key_cols
         # recover each prediction row's series and invert it with that series' lambda
         ids = data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids))
         dt = predict_phase_state$layout[ids, on = "..row_id"]

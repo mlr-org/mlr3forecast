@@ -145,17 +145,19 @@ PipeOpTargetTrafoDifference = R6Class(
     },
 
     .train_invert = function(task) {
-      fcst_invert_state(task)
+      # inside a multiplicity, e.g. in ppl("fcst.local"), `self$state` holds all series again at inversion
+      insert_named(fcst_invert_state(task), list(state = self$state))
     },
 
     .invert = function(prediction, predict_phase_state) {
-      lag = self$state$lag
-      tails = self$state$tails
+      state = predict_phase_state$state
+      lag = state$lag
+      tails = state$tails
       if (is.null(tails)) {
-        inverted = stats::diffinv(prediction$response, lag = lag, xi = self$state$tail)
+        inverted = stats::diffinv(prediction$response, lag = lag, xi = state$tail)
         inverted = inverted[-seq_len(lag)]
       } else {
-        key_cols = self$state$key_cols
+        key_cols = state$key_cols
         target = setdiff(names(tails), key_cols)
         # regroup prediction rows by series and invert each against its own tail
         ids = data.table(..row_id = prediction$row_ids, ..pos = seq_along(prediction$row_ids))
