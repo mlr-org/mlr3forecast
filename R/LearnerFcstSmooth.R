@@ -1,4 +1,4 @@
-#' @title Abstract class for smooth package learner
+#' @title Abstract class for smooth and muse package learners
 #' @keywords internal
 #' @include LearnerFcst.R
 LearnerFcstSmooth = R6Class(
@@ -6,12 +6,15 @@ LearnerFcstSmooth = R6Class(
   inherit = LearnerFcst,
   private = list(
     .seasonal = TRUE,
+    .pkg = "smooth",
+    # smallest central-interval level the package accepts, used in place of 0 for the median
+    .min_level = 0,
     .train_args = list(),
 
     .train = function(task) {
       super$.train(task)
       pv = private$.train_values()
-      fn = getExportedValue("smooth", private$.fn)
+      fn = getExportedValue(private$.pkg, private$.fn)
       model = invoke(fn, private$.smooth_data(task), .args = insert_named(private$.train_args, pv))
       private$.set_context(private$.tidy_model(model, task), task)
     },
@@ -33,7 +36,7 @@ LearnerFcstSmooth = R6Class(
       args$newdata = private$.newxreg(task)
       if (is_quantile) {
         # smooth takes central-interval levels as fractions, ascending
-        level = quantiles_to_levels(private$.quantiles) / 100
+        level = pmax(quantiles_to_levels(private$.quantiles) / 100, private$.min_level)
         args = insert_named(args, list(interval = "prediction", level = level))
       }
       pred = invoke(generics::forecast, self$native_model, .args = args)

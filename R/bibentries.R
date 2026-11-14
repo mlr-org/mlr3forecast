@@ -452,6 +452,40 @@ bibentries = c(
     address = "Cambridge",
     doi = "10.1017/CBO9781107049994"
   ),
+  durbin2012time = bibentry(
+    "book",
+    title = "Time Series Analysis by State Space Methods",
+    author = "James Durbin and Siem Jan Koopman",
+    year = "2012",
+    edition = "2",
+    publisher = "Oxford University Press",
+    address = "Oxford",
+    doi = "10.1093/acprof:oso/9780199641178.001.0001"
+  ),
+  proietti2000comparing = bibentry(
+    "article",
+    title = "Comparing seasonal components for structural time series models",
+    author = "Tommaso Proietti",
+    journal = "International Journal of Forecasting",
+    volume = "16",
+    number = "2",
+    pages = "247--260",
+    year = "2000",
+    doi = "10.1016/S0169-2070(00)00037-6",
+    publisher = "Elsevier"
+  ),
+  sbrana2023rwdar = bibentry(
+    "article",
+    title = "The RWDAR model: A novel state-space approach to forecasting",
+    author = "Giacomo Sbrana and Andrea Silvestrini",
+    journal = "International Journal of Forecasting",
+    volume = "39",
+    number = "2",
+    pages = "922--937",
+    year = "2023",
+    doi = "10.1016/j.ijforecast.2022.03.003",
+    publisher = "Elsevier"
+  ),
   bergmeir2016bagging = bibentry(
     "article",
     title = "Bagging exponential smoothing methods using STL decomposition and Box-Cox transformation",

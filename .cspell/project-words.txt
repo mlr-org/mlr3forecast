@@ -2,6 +2,7 @@ ARMA
 Assimakopoulos
 Babai
 CRAN
+Durbin
 ESN
 Fiorucci
 Hinnant
@@ -18,6 +19,8 @@ forec
 hotstart
 imapa
 innov
+Kalman
+Koopman
 lookback
 mase
 maxit
@@ -28,12 +31,16 @@ newdata
 nnet
 nnetar
 npaths
+Proietti
 regr
 reltol
 rlgt
 rmsse
 rsmp
+RWDAR
+Sbrana
 seealso
+Silvestrini
 snaive
 sparma
 stheta

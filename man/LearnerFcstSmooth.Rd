@@ -2,9 +2,9 @@
 % Please edit documentation in R/LearnerFcstSmooth.R
 \name{LearnerFcstSmooth}
 \alias{LearnerFcstSmooth}
-\title{Abstract class for smooth package learner}
+\title{Abstract class for smooth and muse package learners}
 \description{
-Abstract class for smooth package learner
+Abstract class for smooth and muse package learners
 }
 \keyword{internal}
 \section{Super classes}{

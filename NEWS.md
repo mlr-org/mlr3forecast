@@ -32,6 +32,7 @@
 * feat: New learner `fcst.imapa` wraps `tsintermittent::imapa()` for intermittent demand forecasting with temporal aggregation. It requires `tsintermittent` 2.0 or later.
 * feat: `fcst.mlp` gained the `backend` parameter to train the network with `torch` instead of `neuralnet`. This raises the required `nnfor` version to 0.10.0.
 * feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`, `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to `nnet::nnet()`.
+* feat: New learner `fcst.pts` wraps `muse::pts()` for power / trend / seasonal structural state-space models with response and quantile prediction and exogenous regressors.
 * feat: New learner `fcst.snaive` provides the seasonal naive forecast with the seasonal period taken from the `period` hyperparameter, which defaults to the period implied by the task's `freq`.
 * feat: New learner `fcst.tsb` wraps `tsintermittent::tsb()`, the Teunter-Syntetos-Babai method for intermittent demand, whose forecast decays towards zero for items that stop selling.
 * feat: `list_monash_datasets()` lists the Monash Forecasting Repository datasets available to `download_monash_dataset()` and `tsk("monash")`, including their download sizes.
