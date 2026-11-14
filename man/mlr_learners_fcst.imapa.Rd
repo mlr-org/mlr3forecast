@@ -9,9 +9,6 @@ Intermittent multiple aggregation prediction algorithm (iMAPA).
 The series is temporally aggregated at several levels, Croston, SBA, or SES is selected and fitted at each level,
 and the resulting demand rates are combined into a single forecast.
 Calls \code{\link[tsintermittent:imapa]{tsintermittent::imapa()}} from package \CRANpkg{tsintermittent}.
-
-The wrapped function estimates and forecasts in one call, so prediction re-runs it on the training series with the
-fitted \code{model.fit} object and the requested horizon.
 }
 \section{Dictionary}{
 
@@ -41,6 +38,7 @@ lrn("fcst.imapa")
    comb \tab character \tab mean \tab mean, median \tab - \cr
    init.opt \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
    paral \tab integer \tab 0 \tab  \tab \eqn{[0, 2]}{[0, 2]} \cr
+   cl \tab untyped \tab NULL \tab  \tab - \cr
    na.rm \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
 }
 }

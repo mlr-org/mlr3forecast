@@ -61,7 +61,7 @@ Suggests:
     tsfeatures,
     tsibble,
     tsibbledata,
-    tsintermittent,
+    tsintermittent (>= 2.0),
     vctrs,
     vdiffr (>= 1.0.0),
     withr (>= 3.0.0),

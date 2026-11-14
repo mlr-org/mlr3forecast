@@ -22,7 +22,7 @@ test_that("autotest", {
 test_that("paramtest", {
   learner = lrn("fcst.imapa")
   expect_true(
-    run_paramtest(learner, tsintermittent::imapa, tag = "train", exclude = c("data", "h", "outplot", "model.fit"))
+    run_paramtest(learner, tsintermittent::imapa, tag = "train", exclude = c("data", "h", "outplot", "model.fit", "probs", "qtype"))
   )
 })
 
@@ -66,11 +66,10 @@ test_that("one-step-ahead prediction works", {
   response = learner$predict_newdata(newdata)$response
   expect_numeric(response, any.missing = FALSE, len = 1L)
   y = task$data(rows = 1:100, cols = "demand")[[1L]]
-  expect_equal(response, as.numeric(tsintermittent::imapa(y, h = 2L, outplot = 0L)$frc.out[1L]))
+  expect_equal(response, as.numeric(tsintermittent::imapa(y, h = 1L, outplot = 0L)$frc.out))
 })
 
-test_that("a single usable aggregation level yields a vector forecast", {
-  # tsintermittent issue #2: imapa() returns the full level matrix with NA rows in this case
+test_that("a single usable aggregation level yields a flat forecast", {
   x = c(rep(0, 55), 2, 18)
   data = data.table(demand = x, date = seq(as.Date("2020-01-01"), by = "day", length.out = length(x)))
   task = as_task_fcst(data, target = "demand", order = "date", id = "sparse")
