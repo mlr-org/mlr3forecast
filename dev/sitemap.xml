@@ -54,6 +54,7 @@
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.nnetar.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.otm.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.prophet.html</loc></url>
+<url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.pts.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.rlgt.html</loc></url>
 <url><loc>https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.sma.html</loc></url>

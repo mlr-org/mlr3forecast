@@ -1,6 +1,6 @@
-# Abstract class for smooth package learner
+# Abstract class for smooth and muse package learners
 
-Abstract class for smooth package learner
+Abstract class for smooth and muse package learners
 
 ## Super classes
 

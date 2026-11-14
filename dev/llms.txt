@@ -814,6 +814,9 @@ do.call(c, prediction_local)$score(msr("regr.rmse"))
 - [`mlr_learners_fcst.prophet`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.prophet.md)
   [`LearnerFcstProphet`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.prophet.md)
   : Prophet Forecast Learner
+- [`mlr_learners_fcst.pts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.pts.md)
+  [`LearnerFcstPts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.pts.md)
+  : PTS Forecast Learner
 - [`mlr_learners_fcst.random_walk`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.md)
   [`LearnerFcstRandomWalk`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.random_walk.md)
   : Random Walk Forecast Learner

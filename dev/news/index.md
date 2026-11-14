@@ -154,6 +154,10 @@
 - feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`,
   `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to
   [`nnet::nnet()`](https://rdrr.io/pkg/nnet/man/nnet.html).
+- feat: New learner `fcst.pts` wraps
+  [`muse::pts()`](https://rdrr.io/pkg/muse/man/pts.html) for power /
+  trend / seasonal structural state-space models with response and
+  quantile prediction and exogenous regressors.
 - feat: New learner `fcst.snaive` provides the seasonal naive forecast
   with the seasonal period taken from the `period` hyperparameter, which
   defaults to the period implied by the task’s `freq`.
