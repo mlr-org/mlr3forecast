@@ -1,8 +1,17 @@
 # Neural Network Forecast Learner
 
-Single Layer Neural Network. Calls
+Feed-forward neural network with a single hidden layer and lagged values
+of the series as inputs. Calls
 [`forecast::nnetar()`](https://pkg.robjhyndman.com/forecast/reference/nnetar.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 

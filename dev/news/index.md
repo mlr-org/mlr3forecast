@@ -155,8 +155,8 @@
   `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to
   [`nnet::nnet()`](https://rdrr.io/pkg/nnet/man/nnet.html).
 - feat: New learner `fcst.pts` wraps
-  [`muse::pts()`](https://rdrr.io/pkg/muse/man/pts.html) for power /
-  trend / seasonal structural state-space models with response and
+  [`muse::pts()`](https://rdrr.io/pkg/muse/man/pts.html) for Power /
+  Trend / Seasonal (PTS) structural state-space models with response and
   quantile prediction and exogenous regressors.
 - feat: New learner `fcst.snaive` provides the seasonal naive forecast
   with the seasonal period taken from the `period` hyperparameter, which
@@ -329,19 +329,17 @@
 - fix: `fcst.adam` gained the `lambda` parameter, the weight of the
   `LASSO` and `RIDGE` penalties. Previously, these losses always used a
   weight of 0 and fit like plain `MSE`.
-- fix: `fcst.ar`, `fcst.dstm`, `fcst.esn`, `fcst.imapa`, `fcst.stheta`,
-  and `fcst.stm` now accept tasks with missing feature values, like the
+- fix: `fcst.ar` now accepts tasks with missing feature values, like the
   other learners that ignore features.
 - fix: `fcst.arfima`, `fcst.arima`, `fcst.auto_arima`, `fcst.ets`,
-  `fcst.mean`, `fcst.nnetar`, `fcst.random_walk`, `fcst.snaive`,
-  `fcst.spline`, `fcst.stlm`, `fcst.theta`, and `fcst.tslm` now only use
-  `lambda` for training, so `lambda = "auto"` no longer breaks
-  prediction.
-- fix: `fcst.arfima`, `fcst.croston`, `fcst.dstm`, `fcst.random_walk`,
-  `fcst.spline`, `fcst.stheta`, `fcst.stm`, and `fcst.theta` now accept
-  tasks with features of any type, like the other learners without
-  exogenous support, since they ignore features anyway. Previously, they
-  rejected tasks with, e.g., factor or character features.
+  `fcst.mean`, `fcst.nnetar`, `fcst.random_walk`, `fcst.spline`,
+  `fcst.stlm`, `fcst.theta`, and `fcst.tslm` now only use `lambda` for
+  training, so `lambda = "auto"` no longer breaks prediction.
+- fix: `fcst.arfima`, `fcst.croston`, `fcst.random_walk`, `fcst.spline`,
+  and `fcst.theta` now accept tasks with features of any type, like the
+  other learners without exogenous support, since they ignore features
+  anyway. Previously, they rejected tasks with, e.g., factor or
+  character features.
 - fix: `fcst.arfima`, `fcst.auto_arima`, and `fcst.mean` now declare
   dependencies for parameters that only affect exhaustive search or
   bootstrap prediction.
@@ -359,12 +357,6 @@
   `fcst.msarima`, `fcst.sma`, `fcst.ssarima`, `fcst.auto_ces`,
   `fcst.auto_gum`, and `fcst.auto_ssarima` now names the target series
   instead of internal code, so printed models are readable.
-- fix: `fcst.esn` no longer resets the random number generator of the
-  session to `n_seed` on every `$train()` and `$predict()`. Previously,
-  anything random drawn afterwards, e.g. subsampling splits or random
-  search proposals, repeated itself.
-- fix: `fcst.imapa` now forecasts with the settings used at training, so
-  changing `comb` after training no longer alters the prediction.
 - fix: `fcst.prophet` now raises an input error naming the feature if
   prophet reserves its name, e.g. `holidays` or `ds`.
 - fix: `fcst.prophet` now raises an input error for a feature named `t`,

@@ -73,6 +73,14 @@ Exogenous features require <code>method = "arima"</code>.</p>
 without setting <code>method</code> first.</p></li>
 </ul></div>
     <div class="section level2">
+    <h2 id="custom-mlr-parameters">Custom mlr3 parameters<a class="anchor" aria-label="anchor" href="#custom-mlr-parameters"></a></h2>
+
+
+<ul><li><p><code>period</code>: Seasonal period, a number of at least 1 or a cycle name such as <code>"year"</code>,
+defaulting to the period implied by the task's <code>freq</code>.
+See section <em>Seasonal period</em> of <a href="LearnerFcst.html">LearnerFcst</a> for details.</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
 
 
@@ -370,8 +378,8 @@ for established default tuning spaces.</p></li>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         ...)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> }</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x5e70a1db9650&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5e70984e2e68&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;bytecode: 0x591123c16398&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x5911244c8b70&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $lambda</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>

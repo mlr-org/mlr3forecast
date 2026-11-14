@@ -5,6 +5,14 @@ Optimized theta model. Calls
 from package
 [forecTheta](https://CRAN.R-project.org/package=forecTheta).
 
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)

@@ -1,16 +1,16 @@
 # PTS Forecast Learner
 
-Power / trend / seasonal (PTS) model, a structural state-space model
-with multiple sources of error. The series is decomposed into trend,
-seasonal, and irregular components, optionally after a Box-Cox power
-transformation. The three letters of `model` specify the power (`"Z"` to
-estimate it, or a fixed value such as `"0"`), the trend (`"N"` none,
-`"L"` local linear, `"D"` damped, or `"G"` global), and the seasonal
-component (`"N"` none, `"D"` discrete, or `"T"` trigonometric), with
-`"Z"` selecting automatically. The model is estimated by maximum
-likelihood with the Kalman filter. Calls
+Power / Trend / Seasonal (PTS) structural state-space model. Calls
 [`muse::pts()`](https://rdrr.io/pkg/muse/man/pts.html) from package
 [muse](https://CRAN.R-project.org/package=muse).
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 

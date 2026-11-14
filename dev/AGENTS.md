@@ -134,8 +134,10 @@
   NEWS, etc, but not code
 - Use American english
 - Use the Oxford comma
-- Do not capitalize normal nouns or method names. “Bayesian” is
-  capitalized, “random forest” is not.
+- Write normal nouns and generic method names in lower case (“random
+  forest”, “exponential smoothing”). Capitalize proper names and eponyms
+  (“Bayesian”, “Holt-Winters”), and keep the author’s capitals for
+  coined model names (“Augmented Dynamic Adaptive Model (ADAM)”).
 - Use cspell to check against typos, and add needed words to
   .cspell/project-words.txt if reasonable
 

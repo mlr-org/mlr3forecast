@@ -10,6 +10,14 @@ package stats and forecasts via
 Setting `beta = FALSE` fits a simple exponential smoothing model (no
 trend). Setting `gamma = FALSE` fits a non-seasonal model.
 
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)

@@ -1,8 +1,19 @@
 # Auto ADAM Forecast Learner
 
-Auto Augmented Dynamic Adaptive Model (ADAM) model. Calls
+Augmented Dynamic Adaptive Model (ADAM) with automatic selection of the
+error distribution, and optionally the ARIMA orders. Supports multiple
+seasonal lags (e.g. `lags = c(1, 24, 168)` for hourly data with daily
+and weekly cycles). Calls
 [`smooth::auto.adam()`](https://rdrr.io/pkg/smooth/man/adam.html) from
 package [smooth](https://CRAN.R-project.org/package=smooth).
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 
@@ -243,7 +254,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 3.79 seconds
+#> Time elapsed: 3.81 seconds
 #> Model estimated using auto.adam() function: ETS(MAM)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

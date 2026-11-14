@@ -1,8 +1,18 @@
 # Auto CES Forecast Learner
 
-Auto Complex Exponential Smoothing (CES) model. Calls
-[`smooth::auto.ces()`](https://rdrr.io/pkg/smooth/man/ces.html) from
-package [smooth](https://CRAN.R-project.org/package=smooth).
+Complex Exponential Smoothing (CES) with automatic selection of the
+seasonal component. Supports multiple seasonal lags (e.g.
+`lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
+Calls [`smooth::auto.ces()`](https://rdrr.io/pkg/smooth/man/ces.html)
+from package [smooth](https://CRAN.R-project.org/package=smooth).
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 
@@ -230,7 +240,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.15 seconds
+#> Time elapsed: 0.16 seconds
 #> Model estimated using auto.ces() function: CES(partial)
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

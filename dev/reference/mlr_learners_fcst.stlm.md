@@ -15,6 +15,14 @@ features require `method = "arima"`.
   `allow.multiplicative.trend` can be set without setting `method`
   first.
 
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)
@@ -366,8 +374,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x5e70a1db9650>
-#> <environment: 0x5e70984e2e68>
+#> <bytecode: 0x591123c16398>
+#> <environment: 0x5911244c8b70>
 #> 
 #> $lambda
 #> NULL

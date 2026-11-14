@@ -5,6 +5,14 @@ specifications via an information criterion. Calls
 [`smooth::auto.gum()`](https://rdrr.io/pkg/smooth/man/gum.html) from
 package [smooth](https://CRAN.R-project.org/package=smooth).
 
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
+
 ## Dictionary
 
 This [mlr3::Learner](https://mlr3.mlr-org.com/reference/Learner.html)
@@ -227,7 +235,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 2.4 seconds
+#> Time elapsed: 2.33 seconds
 #> Model estimated using auto.gum() function: GUM(1[1],1[12])
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

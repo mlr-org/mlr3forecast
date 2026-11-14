@@ -2,18 +2,24 @@
 
 Structural time series model fit by maximum likelihood. Three model
 types are supported: local level, local linear trend, and basic
-structural model (level + trend + seasonal). Calls
+structural model (level + trend + seasonal). Point forecasts and
+prediction intervals come from the Kalman filter. Calls
 [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) from
-package stats.
+package stats and forecasts via
+[`forecast::forecast()`](https://generics.r-lib.org/reference/forecast.html).
 
 If `type` is not set,
 [`stats::StructTS()`](https://rdrr.io/r/stats/StructTS.html) fits
 `"BSM"` for seasonal series (frequency \> 1) and `"trend"` otherwise.
 `type = "BSM"` requires a seasonal time series (frequency \> 1).
-Prediction is performed via
-[`forecast::forecast.StructTS()`](https://pkg.robjhyndman.com/forecast/reference/forecast.StructTS.html)
-which yields point forecasts and predictive intervals from the Kalman
-filter.
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 

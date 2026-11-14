@@ -63,6 +63,14 @@ Calls <code><a href="https://rdrr.io/pkg/smooth/man/es.html" class="external-lin
 
 
     <div class="section level2">
+    <h2 id="custom-mlr-parameters">Custom mlr3 parameters<a class="anchor" aria-label="anchor" href="#custom-mlr-parameters"></a></h2>
+
+
+<ul><li><p><code>period</code>: Seasonal period, a number of at least 1 or a cycle name such as <code>"year"</code>,
+defaulting to the period implied by the task's <code>freq</code>.
+See section <em>Seasonal period</em> of <a href="LearnerFcst.html">LearnerFcst</a> for details.</p></li>
+</ul></div>
+    <div class="section level2">
     <h2 id="dictionary">Dictionary<a class="anchor" aria-label="anchor" href="#dictionary"></a></h2>
 
 
@@ -238,7 +246,7 @@ for established default tuning spaces.</p></li>
 <span class="r-in"><span><span class="co"># Print the model</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">learner</span><span class="op">$</span><span class="va">model</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $model</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 0.13 seconds</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Time elapsed: 0.22 seconds</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model estimated using es() function: ETS(MAM)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> With backcasting initialisation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Distribution assumed in the model: Normal</span>

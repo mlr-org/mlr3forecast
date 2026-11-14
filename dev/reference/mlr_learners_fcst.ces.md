@@ -1,8 +1,18 @@
 # CES Forecast Learner
 
-Complex Exponential Smoothing (CES) model. Calls
+Complex Exponential Smoothing (CES) model. Supports multiple seasonal
+lags (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly
+cycles). Calls
 [`smooth::ces()`](https://rdrr.io/pkg/smooth/man/ces.html) from package
 [smooth](https://CRAN.R-project.org/package=smooth).
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 

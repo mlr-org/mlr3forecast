@@ -1,9 +1,17 @@
 # Auto Multiple-Seasonal ARIMA Forecast Learner
 
-Automatic order selection for Multiple-Seasonal ARIMA. Picks `orders`
+Automatic order selection for multiple seasonal ARIMA. Picks `orders`
 minimizing the chosen information criterion. Calls
 [`smooth::auto.msarima()`](https://rdrr.io/pkg/smooth/man/msarima.html)
 from package [smooth](https://CRAN.R-project.org/package=smooth).
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 

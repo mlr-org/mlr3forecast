@@ -1,9 +1,17 @@
 # Auto State-Space ARIMA Forecast Learner
 
-Automatic order selection for State-Space ARIMA. Picks `orders`
+Automatic order selection for state-space ARIMA. Picks `orders`
 minimizing the chosen information criterion. Calls
 [`smooth::auto.ssarima()`](https://rdrr.io/pkg/smooth/man/ssarima.html)
 from package [smooth](https://CRAN.R-project.org/package=smooth).
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 
@@ -233,7 +241,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.77 seconds
+#> Time elapsed: 1.17 seconds
 #> Model estimated using auto.ssarima() function: SSARIMA(0,1,3)[1](0,1,0)[12] with drift
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

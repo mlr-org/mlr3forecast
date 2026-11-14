@@ -1,9 +1,18 @@
 # TBATS Forecast Learner
 
-Exponential smoothing state space model with Box-Cox transformation,
-ARMA errors, Trend and Seasonal components (TBATS) model. Calls
+Exponential smoothing state space model with trigonometric seasonality,
+a Box-Cox transformation, ARMA errors, and trend and seasonal components
+(TBATS). Calls
 [`forecast::tbats()`](https://pkg.robjhyndman.com/forecast/reference/tbats.html)
 from package [forecast](https://CRAN.R-project.org/package=forecast).
+
+## Custom mlr3 parameters
+
+- `period`: Seasonal period, a number of at least 1 or a cycle name such
+  as `"year"`, defaulting to the period implied by the task's `freq`.
+  See section *Seasonal period* of
+  [LearnerFcst](https://mlr3forecast.mlr-org.com/dev/reference/LearnerFcst.md)
+  for details.
 
 ## Dictionary
 
