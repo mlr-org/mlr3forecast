@@ -511,6 +511,18 @@ bibentries = c(
     doi = "10.1016/j.ijpe.2014.06.007",
     publisher = "Elsevier"
   ),
+  teunter2011intermittent = bibentry(
+    "article",
+    title = "Intermittent demand: Linking forecasting to inventory obsolescence",
+    author = "Ruud H Teunter and Aris A Syntetos and M Zied Babai",
+    journal = "European Journal of Operational Research",
+    volume = "214",
+    number = "3",
+    pages = "606--615",
+    year = "2011",
+    doi = "10.1016/j.ejor.2011.05.018",
+    publisher = "Elsevier"
+  ),
   smyl2025rlgt = bibentry(
     "manual",
     title = "Rlgt: Bayesian Exponential Smoothing Models with Trend Modifications",

@@ -1,5 +1,6 @@
 ARMA
 Assimakopoulos
+Babai
 CRAN
 ESN
 Fiorucci
@@ -21,6 +22,7 @@ lookback
 mase
 maxit
 msis
+multistep
 newdata
 nnet
 nnetar
@@ -35,7 +37,9 @@ snaive
 sparma
 stheta
 stlm
+Syntetos
 tbats
+Teunter
 tgen
 tsbox
 tsibble

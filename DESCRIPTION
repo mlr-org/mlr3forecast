@@ -123,6 +123,7 @@ Collate:
     'LearnerFcstStructTS.R'
     'LearnerFcstTbats.R'
     'LearnerFcstTheta.R'
+    'LearnerFcstTsb.R'
     'LearnerFcstTscount.R'
     'LearnerFcstTslm.R'
     'MeasureACF1.R'

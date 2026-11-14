@@ -144,6 +144,7 @@ Other Learner:
 \code{\link{mlr_learners_fcst.struct_ts}},
 \code{\link{mlr_learners_fcst.tbats}},
 \code{\link{mlr_learners_fcst.theta}},
+\code{\link{mlr_learners_fcst.tsb}},
 \code{\link{mlr_learners_fcst.tscount}},
 \code{\link{mlr_learners_fcst.tslm}}
 }
