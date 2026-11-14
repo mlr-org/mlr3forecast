@@ -45,8 +45,8 @@ test_that("asymmetric quantile prediction works", {
   ref = quantile_learner(c(0.1, 0.9))
   ref$train(task, 1:132)
   qref = ref$predict_newdata(generate_newdata(train_task, n = 6L))$data$quantiles
-  expect_equal(q[, "q0.1"], qref[, "q0.1"])
-  expect_equal(q[, "q0.9"], qref[, "q0.9"])
+  expect_identical(q[, "q0.1"], qref[, "q0.1"])
+  expect_identical(q[, "q0.9"], qref[, "q0.9"])
 })
 
 test_that("quantiles near the median and in the far tails map to the right levels", {
@@ -98,12 +98,12 @@ test_that("native model print does not dump the inlined series", {
   target = task$target_names
 
   learner = lrn("fcst.arima")$train(task)
-  expect_equal(learner$native_model$series, target)
+  expect_identical(learner$native_model$series, target)
 
   learner = lrn("fcst.ets")$train(task)
   call = learner$native_model$call
-  expect_equal(call[[1L]], as.name("ets"))
-  expect_equal(call$y, as.name(target))
+  expect_identical(call[[1L]], as.name("ets"))
+  expect_identical(call$y, as.name(target))
 
   for (id in c("fcst.arima", "fcst.ets", "fcst.bats", "fcst.nnetar")) {
     out = capture.output(print(lrn(id)$train(task)$native_model))
@@ -127,8 +127,8 @@ test_that("exogenous predict is robust to reordered predict-task features", {
   learner = lrn("fcst.arima")$train(task, split$train)
 
   reordered = task$clone()
-  reordered$col_roles$feature = rev(task$feature_names)
-  expect_equal(
+  reordered$col_roles$feature = frev(task$feature_names)
+  expect_identical(
     learner$predict(reordered, split$test)$response,
     learner$predict(task, split$test)$response
   )

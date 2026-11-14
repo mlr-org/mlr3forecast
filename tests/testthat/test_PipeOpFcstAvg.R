@@ -22,12 +22,12 @@ test_that("PipeOpFcstAvg keeps PredictionFcst and infers fcst task_type", {
   )) %>>%
     po("fcst.avg")
   glrn = as_learner(graph)
-  expect_equal(glrn$task_type, "fcst")
+  expect_identical(glrn$task_type, "fcst")
 
   glrn$train(task)
   p = forecast(glrn, task, 6L)
   expect_r6_class(p, "PredictionFcst")
-  expect_equal(nrow(p$order), 6L)
+  expect_shape(p$order, nrow = 6L)
 })
 
 test_that("PipeOpFcstAvg response is the row-wise weighted average", {
@@ -44,7 +44,7 @@ test_that("PipeOpFcstAvg response is the row-wise weighted average", {
   p = forecast(as_learner(graph)$train(task), task, 6L)
   p1 = forecast(l1$clone()$train(task), task, 6L)
   p2 = forecast(l2$clone()$train(task), task, 6L)
-  expect_equal(p$response, (p1$response + p2$response) / 2)
+  expect_identical(p$response, (p1$response + p2$response) / 2)
 })
 
 test_that("PipeOpFcstAvg preserves keys for multi-series tasks", {
@@ -63,8 +63,8 @@ test_that("PipeOpFcstAvg preserves keys for multi-series tasks", {
 
   p = as_learner(graph)$train(task)$predict(task, task$row_ids[c(22:24, 46:48)])
   expect_r6_class(p, "PredictionFcst")
-  expect_equal(names(p$key), c("row_id", "key"))
-  expect_equal(as.character(p$key$key), c("a", "a", "a", "b", "b", "b"))
+  expect_identical(names(p$key), c("row_id", "key"))
+  expect_identical(as.character(p$key$key), c("a", "a", "a", "b", "b", "b"))
 })
 
 test_that("PipeOpFcstAvg combines recursive and direct forecasters on a time-major keyed backend", {
@@ -80,7 +80,7 @@ test_that("PipeOpFcstAvg combines recursive and direct forecasters on a time-maj
   learner$train(task, which(dt$t <= 15L))
   prediction = learner$predict(task, test)
   expect_identical(prediction$row_ids, test)
-  expect_equal(prediction$truth, dt$y[test])
+  expect_identical(prediction$truth, dt$y[test])
 })
 
 test_that("PipeOpFcstAvg rejects members with different extra column roles", {
@@ -117,7 +117,7 @@ test_that("PipeOpFcstAvg averages quantile forecasts per level", {
 
   expect_r6_class(p, "PredictionFcst")
   expect_subset("quantiles", p$predict_types)
-  expect_equal(colnames(p$data$quantiles), c("q0.1", "q0.5", "q0.9"))
+  expect_identical(colnames(p$data$quantiles), c("q0.1", "q0.5", "q0.9"))
 
   # equals the per-level average of the two members
   l1 = lrn("fcst.auto_arima", predict_type = "quantiles", quantiles = qs, quantile_response = 0.5)$train(task, 1:132)
@@ -156,7 +156,7 @@ test_that("PipeOpFcstAvg carries the observation measure weights", {
   # response branch
   graph = gunion(list(mk("ets"), mk("theta"))) %>>% po("fcst.avg")
   p = as_learner(graph)$train(task, split$train)$predict(task, split$test)
-  expect_equal(p$weights, expected(p))
+  expect_identical(p$weights, expected(p))
 
   # quantile branch
   graph = gunion(list(
@@ -165,5 +165,5 @@ test_that("PipeOpFcstAvg carries the observation measure weights", {
   )) %>>%
     po("fcst.avg")
   p = as_learner(graph)$train(task, split$train)$predict(task, split$test)
-  expect_equal(p$weights, expected(p))
+  expect_identical(p$weights, expected(p))
 })

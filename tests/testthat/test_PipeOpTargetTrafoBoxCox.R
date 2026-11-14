@@ -4,7 +4,7 @@ test_that("PipeOpTargetTrafoBoxCox round-trip with fixed lambda", {
   po = po("fcst.targetboxcox", lambda = 0.5)
 
   out_train = po$train(list(task))
-  expect_equal(nrow(out_train$output$data()), task$nrow)
+  expect_shape(out_train$output$data(), nrow = task$nrow)
 
   out_predict = po$predict(list(task))
   bc_col = out_predict$output$target_names[1L]
@@ -26,7 +26,7 @@ test_that("PipeOpTargetTrafoBoxCox with lambda = 0 is the log transform", {
 
   out_predict = po$train(list(task))$output
   bc_col = out_predict$target_names[1L]
-  expect_equal(out_predict$data()[[bc_col]], log(as.numeric(task$truth())))
+  expect_identical(out_predict$data()[[bc_col]], log(as.numeric(task$truth())))
 
   prediction = PredictionRegr$new(
     row_ids = task$row_ids,
@@ -98,7 +98,7 @@ test_that("targetboxcox inverts an explicit response instead of the response qua
   )
 
   inverted = po$predict(list(task))$fun(list(prediction))[[1L]]
-  expect_equal(inverted$response, as.numeric(forecast::InvBoxCox(transformed + 5, lambda = 0.5)))
+  expect_identical(inverted$response, as.numeric(forecast::InvBoxCox(transformed + 5, lambda = 0.5)))
   expect_equal(attr(inverted$data$quantiles, "probs"), c(0.25, 0.5, 0.75))
 })
 
@@ -146,9 +146,9 @@ test_that("targetboxcox estimates a separate lambda per series", {
   lambdas = op$state$lambdas
   expect_data_table(lambdas, nrows = 2L)
   dt = task$data(cols = c("id", "y"))
-  expected = sapply(split(dt$y, dt$id), function(y) forecast::BoxCox.lambda(stats::ts(y, frequency = 12)))
-  expect_equal(lambdas[list("a"), "..lambda", on = "id"][[1L]], expected[["a"]])
-  expect_equal(lambdas[list("b"), "..lambda", on = "id"][[1L]], expected[["b"]])
+  expected = map_dbl(split(dt$y, dt$id), function(y) forecast::BoxCox.lambda(stats::ts(y, frequency = 12)))
+  expect_identical(lambdas[list("a"), "..lambda", on = "id"][[1L]], expected[["a"]])
+  expect_identical(lambdas[list("b"), "..lambda", on = "id"][[1L]], expected[["b"]])
   expect_false(isTRUE(all.equal(expected[["a"]], expected[["b"]])))
 })
 
@@ -184,7 +184,7 @@ test_that("targetboxcox handles multi-column key labels containing the separator
   )
 
   inverted = out_predict$fun(list(prediction))[[1L]]
-  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_identical(inverted$response, as.numeric(task$truth()))
 })
 
 test_that("targetboxcox inverts keyed quantile predictions with each series' lambda", {
@@ -234,7 +234,7 @@ test_that("targetboxcox works wrapping DirectForecaster on a keyed task", {
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
-  expect_equal(nrow(prediction$order), length(split$test))
+  expect_shape(prediction$order, nrow = length(split$test))
 })
 
 test_that("targetboxcox keeps truth aligned when predict rows are not in time order", {
@@ -246,8 +246,8 @@ test_that("targetboxcox keeps truth aligned when predict rows are not in time or
     trafo_pipeop = po("fcst.targetboxcox", lambda = 0)
   ))
   flrn$train(task, 1:132)
-  prediction = flrn$predict(task, rev(133:144))
-  expect_equal(prediction$truth, task$truth(prediction$row_ids))
+  prediction = flrn$predict(task, frev(133:144))
+  expect_identical(prediction$truth, task$truth(prediction$row_ids))
 })
 
 test_that("targetboxcox works inside a DirectForecaster graph", {
@@ -276,7 +276,7 @@ test_that("targetboxcox works wrapping DirectForecaster", {
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
   # inversion keeps the forecast time index so $order/autoplot/fcst.avg work downstream
-  expect_equal(nrow(prediction$order), length(split$test))
+  expect_shape(prediction$order, nrow = length(split$test))
 })
 
 test_that("fcst.targetboxcox round-trips on columns named like its variables", {

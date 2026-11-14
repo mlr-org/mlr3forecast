@@ -4,10 +4,10 @@ test_that("PipeOpTargetTrafoScale standardizes with mean and standard deviation"
 
   out_train = po$train(list(task))$output
   y = as.numeric(task$truth())
-  expect_equal(po$state$center, mean(y))
-  expect_equal(po$state$scale, sd(y))
+  expect_identical(po$state$center, mean(y))
+  expect_identical(po$state$scale, sd(y))
   scaled_col = out_train$target_names[1L]
-  expect_equal(out_train$data()[[scaled_col]], (y - mean(y)) / sd(y))
+  expect_identical(out_train$data()[[scaled_col]], (y - mean(y)) / sd(y))
 })
 
 test_that("PipeOpTargetTrafoScale round-trips", {
@@ -23,7 +23,7 @@ test_that("PipeOpTargetTrafoScale round-trips", {
     response = out_predict$output$data()[[scaled_col]]
   )
   inverted = out_predict$fun(list(prediction))[[1L]]
-  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_identical(inverted$response, as.numeric(task$truth()))
 })
 
 test_that("targetscale robust variant uses median and mad", {
@@ -32,10 +32,10 @@ test_that("targetscale robust variant uses median and mad", {
 
   out_train = po$train(list(task))$output
   y = as.numeric(task$truth())
-  expect_equal(po$state$center, median(y))
-  expect_equal(po$state$scale, mad(y))
+  expect_identical(po$state$center, median(y))
+  expect_identical(po$state$scale, mad(y))
   scaled_col = out_train$target_names[1L]
-  expect_equal(out_train$data()[[scaled_col]], (y - median(y)) / mad(y))
+  expect_identical(out_train$data()[[scaled_col]], (y - median(y)) / mad(y))
 })
 
 test_that("targetscale respects center and scale switches", {
@@ -44,15 +44,15 @@ test_that("targetscale respects center and scale switches", {
 
   po_center = po("fcst.targetscale", scale = FALSE)
   out = po_center$train(list(task))$output
-  expect_equal(po_center$state$scale, 1)
-  expect_equal(out$data()[[out$target_names[1L]]], y - mean(y))
+  expect_identical(po_center$state$scale, 1)
+  expect_identical(out$data()[[out$target_names[1L]]], y - mean(y))
 
   po_scale = po("fcst.targetscale", center = FALSE)
   out = po_scale$train(list(task))$output
-  expect_equal(po_scale$state$center, 0)
+  expect_identical(po_scale$state$center, 0)
   # without centering the denominator is the root-mean-square, not the standard deviation
   rms = sqrt(sum(y^2) / (length(y) - 1L))
-  expect_equal(out$data()[[out$target_names[1L]]], y / rms)
+  expect_identical(out$data()[[out$target_names[1L]]], y / rms)
 })
 
 test_that("targetscale leaves constant series unscaled", {
@@ -60,8 +60,8 @@ test_that("targetscale leaves constant series unscaled", {
   task = TaskFcst$new("const", as_data_backend(data), target = "y", order = "idx")
   po = po("fcst.targetscale")
   po$train(list(task))
-  expect_equal(po$state$center, 5)
-  expect_equal(po$state$scale, 1)
+  expect_identical(po$state$center, 5)
+  expect_identical(po$state$scale, 1)
 
   out_predict = po$predict(list(task))
   prediction = PredictionRegr$new(
@@ -70,7 +70,7 @@ test_that("targetscale leaves constant series unscaled", {
     response = out_predict$output$data()[[out_predict$output$target_names[1L]]]
   )
   inverted = out_predict$fun(list(prediction))[[1L]]
-  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_identical(inverted$response, as.numeric(task$truth()))
 })
 
 test_that("targetscale inverts quantile predictions pointwise without crossing", {
@@ -90,7 +90,7 @@ test_that("targetscale inverts quantile predictions pointwise without crossing",
   expect_false(is.null(q))
   expect_equal(attr(q, "probs"), c(0.25, 0.5, 0.75))
   # the response quantile (0.5) is the untouched transformed target -> exact round trip
-  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_identical(inverted$response, as.numeric(task$truth()))
   expect_true(all(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L]))
 })
 
@@ -103,8 +103,8 @@ test_that("targetscale computes separate statistics per series", {
   dt = task$data(cols = c("id", "y"))
   for (series in c("a", "b")) {
     y = dt[list(series), "y", on = "id"][[1L]]
-    expect_equal(stats[list(series), "..center", on = "id"][[1L]], mean(y))
-    expect_equal(stats[list(series), "..scale", on = "id"][[1L]], sd(y))
+    expect_identical(stats[list(series), "..center", on = "id"][[1L]], mean(y))
+    expect_identical(stats[list(series), "..scale", on = "id"][[1L]], sd(y))
   }
   expect_false(isTRUE(all.equal(stats$..center[1L], stats$..center[2L])))
 })
@@ -136,7 +136,7 @@ test_that("targetscale handles multi-column key labels containing the separator"
     response = out_predict$output$data()[[scaled_col]]
   )
   inverted = out_predict$fun(list(prediction))[[1L]]
-  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_identical(inverted$response, as.numeric(task$truth()))
 })
 
 test_that("targetscale inverts keyed quantile predictions with each series' statistics", {
@@ -174,7 +174,7 @@ test_that("targetscale inverts standard errors with each series' scale", {
   inverted = out_predict$fun(list(prediction))[[1L]]
   expect_set_equal(inverted$predict_types, c("response", "se"))
   stats = po$state$stats
-  expect_equal(inverted$se, stats[task$data(cols = "id"), on = "id"]$..scale)
+  expect_identical(inverted$se, stats[task$data(cols = "id"), on = "id"]$..scale)
 })
 
 test_that("targetscale errors on key groups not seen during training", {
@@ -212,7 +212,7 @@ test_that("targetscale works wrapping DirectForecaster on a keyed task", {
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
-  expect_equal(nrow(prediction$order), length(split$test))
+  expect_shape(prediction$order, nrow = length(split$test))
 })
 
 test_that("targetscale works wrapping RecursiveForecaster on a keyed task", {
@@ -228,7 +228,7 @@ test_that("targetscale works wrapping RecursiveForecaster on a keyed task", {
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
-  expect_equal(prediction$truth, task$truth(prediction$row_ids))
+  expect_identical(prediction$truth, task$truth(prediction$row_ids))
 })
 
 test_that("targetscale keeps truth aligned when predict rows are not in time order", {
@@ -239,8 +239,8 @@ test_that("targetscale keeps truth aligned when predict rows are not in time ord
     trafo_pipeop = po("fcst.targetscale")
   ))
   flrn$train(task, 1:132)
-  prediction = flrn$predict(task, rev(133:144))
-  expect_equal(prediction$truth, task$truth(prediction$row_ids))
+  prediction = flrn$predict(task, frev(133:144))
+  expect_identical(prediction$truth, task$truth(prediction$row_ids))
 })
 
 test_that("targetscale works inside a DirectForecaster graph", {
@@ -267,7 +267,7 @@ test_that("targetscale works wrapping DirectForecaster", {
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
   # inversion keeps the forecast time index so $order/autoplot/fcstavg work downstream
-  expect_equal(nrow(prediction$order), length(split$test))
+  expect_shape(prediction$order, nrow = length(split$test))
 })
 
 test_that("fcst.targetscale round-trips on columns named like its variables", {

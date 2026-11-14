@@ -3,7 +3,7 @@ test_that("PipeOpTargetTrafoDifference round-trip with lag = 1", {
   po = po("fcst.targetdiff", lag = 1L)
 
   out_train = po$train(list(task))
-  expect_equal(nrow(out_train$output$data()), task$nrow - 1L)
+  expect_shape(out_train$output$data(), nrow = task$nrow - 1L)
 
   out_predict = po$predict(list(task))
   diff_col = out_predict$output$target_names[1L]
@@ -15,7 +15,7 @@ test_that("PipeOpTargetTrafoDifference round-trip with lag = 1", {
     response = diff_pred
   )
   inverted = out_predict$fun(list(prediction))[[1L]]
-  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_identical(inverted$response, as.numeric(task$truth()))
 })
 
 test_that("PipeOpTargetTrafoDifference round-trip with lag = 12", {
@@ -33,7 +33,7 @@ test_that("PipeOpTargetTrafoDifference round-trip with lag = 12", {
     response = diff_pred
   )
   inverted = out_predict$fun(list(prediction))[[1L]]
-  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_identical(inverted$response, as.numeric(task$truth()))
 })
 
 test_that("targetdiff predicts and inverts with the lag it was trained with", {
@@ -46,7 +46,7 @@ test_that("targetdiff predicts and inverts with the lag it was trained with", {
   out_predict = po$predict(list(task))
   expect_identical(out_predict$output$data(), expected)
   prediction = PredictionRegr$new(row_ids = task$row_ids, truth = task$truth(), response = expected[[1L]])
-  expect_equal(out_predict$fun(list(prediction))[[1L]]$response, as.numeric(task$truth()))
+  expect_identical(out_predict$fun(list(prediction))[[1L]]$response, as.numeric(task$truth()))
 })
 
 test_that("targetdiff + fcst.lags + learner trains and predicts inside a graph", {
@@ -67,7 +67,7 @@ test_that("targetdiff round-trips on a keyed task", {
   for (lag in c(1L, 3L)) {
     op = po("fcst.targetdiff", lag = lag)
     out_train = op$train(list(task))
-    expect_equal(nrow(out_train$output$data()), task$nrow - 2L * lag)
+    expect_shape(out_train$output$data(), nrow = task$nrow - 2L * lag)
 
     out_predict = op$predict(list(task))
     diff_col = out_predict$output$target_names[1L]
@@ -77,7 +77,7 @@ test_that("targetdiff round-trips on a keyed task", {
       response = out_predict$output$data()[[diff_col]]
     )
     inverted = out_predict$fun(list(prediction))[[1L]]
-    expect_equal(inverted$response, as.numeric(task$truth()))
+    expect_identical(inverted$response, as.numeric(task$truth()))
   }
 })
 
@@ -94,7 +94,7 @@ test_that("targetdiff handles multi-column key labels containing the separator",
   )
 
   inverted = out_predict$fun(list(prediction))[[1L]]
-  expect_equal(inverted$response, as.numeric(task$truth()))
+  expect_identical(inverted$response, as.numeric(task$truth()))
 })
 
 test_that("targetdiff differences within each series", {
@@ -112,8 +112,8 @@ test_that("targetdiff stores per-series tails", {
   op$train(list(task))
   tails = op$state$tails
   expect_data_table(tails, nrows = 6L)
-  expect_equal(tails[list("a"), "y", on = "id"][[1L]], 8:10)
-  expect_equal(tails[list("b"), "y", on = "id"][[1L]], 108:110)
+  expect_identical(tails[list("a"), "y", on = "id"][[1L]], 8:10)
+  expect_identical(tails[list("b"), "y", on = "id"][[1L]], 108:110)
 })
 
 test_that("targetdiff errors on key groups not seen during training", {
@@ -133,8 +133,8 @@ test_that("targetdiff drops series too short for the lag and rejects them at pre
   task = TaskFcst$new("panel", as_data_backend(data), target = "y", order = "date", key = "id", freq = "day")
   op = po("fcst.targetdiff", lag = 3L)
   expect_warning(out_train <- op$train(list(task)), "Dropped 1 series")
-  expect_equal(out_train$output$nrow, 7L)
-  expect_equal(as.character(unique(out_train$output$data(cols = "id")$id)), "a")
+  expect_identical(out_train$output$nrow, 7L)
+  expect_identical(as.character(unique(out_train$output$data(cols = "id")$id)), "a")
   expect_error(op$predict(list(task)), "not seen during training")
 })
 
@@ -162,7 +162,7 @@ test_that("targetdiff works wrapping DirectForecaster on a keyed task", {
   expect_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
   expect_false(anyNA(prediction$response))
-  expect_equal(nrow(prediction$key), length(split$test))
+  expect_shape(prediction$key, nrow = length(split$test))
 })
 
 test_that("targetdiff works wrapping RecursiveForecaster on a keyed task", {
@@ -193,7 +193,7 @@ test_that("targetdiff keeps truth aligned with the rows of a time-major keyed ba
   flrn$train(task, which(dt$t <= 15L))
   prediction = flrn$predict(task, test)
   expect_identical(prediction$row_ids, test)
-  expect_equal(prediction$truth, dt$y[test])
+  expect_identical(prediction$truth, dt$y[test])
 })
 
 test_that("targetdiff works wrapping DirectForecaster", {

@@ -19,7 +19,7 @@ test_that("PipeOpFcstLags shift adds k to every lag", {
   expect_identical(op$param_set$values$lags, c(1L, 3L))
   op$shift(2L)
   expect_identical(op$param_set$values$lags, c(3L, 5L))
-  expect_equal(op$train(list(task))[[1L]]$data(), po("fcst.lags", lags = c(3L, 5L))$train(list(task))[[1L]]$data())
+  expect_identical(op$train(list(task))[[1L]]$data(), po("fcst.lags", lags = c(3L, 5L))$train(list(task))[[1L]]$data())
   expect_error(op$shift(-1L))
 })
 
@@ -35,7 +35,7 @@ test_that("PipeOpFcstLags lookback is exactly the history a row needs", {
   n = task$nrow
   full = op$train(list(task))[[1L]]$data()
   last = op$train(list(task$clone()$filter(seq(n - op$lookback, n))))[[1L]]$data()
-  expect_equal(last, full[nrow(full)])
+  expect_identical(last, full[nrow(full)])
   expect_error(op$train(list(task$clone()$filter(seq(n - op$lookback + 1L, n)))), "too short")
 })
 
@@ -49,7 +49,7 @@ test_that("PipeOpFcstLags aligns train features on date-major keyed task", {
   full[, y_lag_1 := shift(y), by = id]
   full = full[!is.na(y_lag_1)]
   expect_equal(res$y_lag_1, full$y_lag_1)
-  expect_equal(res$y, full$y)
+  expect_identical(res$y, full$y)
 })
 
 test_that("PipeOpFcstLags computes predict features from full backend", {
@@ -78,7 +78,7 @@ test_that("PipeOpFcstLags predicts with the lags it was trained with", {
 test_that("PipeOpFcstLags drops the leading rows without complete lags at train", {
   task = tsk("airpassengers")
   out = po("fcst.lags", lags = 1:3)$train(list(task))[[1L]]
-  expect_equal(out$nrow, task$nrow - 3L)
+  expect_identical(out$nrow, task$nrow - 3L)
 })
 
 test_that("PipeOpFcstLags warns and drops a panel series too short for the lags", {
@@ -89,7 +89,7 @@ test_that("PipeOpFcstLags warns and drops a panel series too short for the lags"
   data[, id := as.factor(id)]
   task = as_task_fcst(data, target = "y", order = "date", key = "id", freq = "day")
   expect_snapshot(out <- po("fcst.lags", lags = 1:5)$train(list(task))[[1L]])
-  expect_equal(as.character(unique(out$data(cols = "id")$id)), "a")
+  expect_identical(as.character(unique(out$data(cols = "id")$id)), "a")
 })
 
 test_that("PipeOpFcstLags errors when the whole series is too short for the lags", {

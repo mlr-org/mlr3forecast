@@ -5,7 +5,7 @@ test_that("PredictionFcst is a regression prediction carrying the time index", {
 
   expect_r6_class(p, "PredictionFcst")
   expect_r6_class(p, "PredictionRegr")
-  expect_equal(p$task_type, "regr")
+  expect_identical(p$task_type, "regr")
   expect_data_table(p$order, nrows = 12L)
   expect_named(p$order, c("row_id", "order"))
   expect_null(p$key)
@@ -18,7 +18,7 @@ test_that("as.data.table.PredictionFcst leads with the time index", {
   p = fcst_prediction(task, h = 6L)
   tab = as.data.table(p)
   order = task$col_roles$order
-  expect_equal(names(tab)[1L], order)
+  expect_identical(names(tab)[1L], order)
   expect_lt(match(order, names(tab)), match("response", names(tab)))
 })
 
@@ -69,7 +69,7 @@ test_that("empty PredictionFcst keeps its zero-length fields", {
   task = tsk("airpassengers")
   learner = lrn("fcst.mean")$train(task, 1:100)
   p = learner$predict(task, integer())
-  expect_equal(p$predict_types, "response")
+  expect_identical(p$predict_types, "response")
   expect_integer(p$row_ids, len = 0L)
   expect_numeric(p$response, len = 0L)
 })
@@ -86,8 +86,8 @@ test_that("PredictionFcst derives response from quantiles", {
     extra = list(date = seq(as.Date("2020-01-01"), by = "day", length.out = 3L))
   )
 
-  expect_equal(p$response, p$data$quantiles[, "q0.5"])
-  expect_equal(as.data.table(p)$response, p$data$quantiles[, "q0.5"])
+  expect_identical(p$response, p$data$quantiles[, "q0.5"])
+  expect_identical(as.data.table(p)$response, p$data$quantiles[, "q0.5"])
 })
 
 test_that("PredictionFcst supports integer keys with explicit column roles", {

@@ -22,10 +22,10 @@ test_that("PipeOpFcstUniteKey row-binds per-series predictions and rebuilds the 
 
   out = po_unite$predict(list(Multiplicity(a = p1, b = p2)))[[1L]]
   expect_r6_class(out, "PredictionFcst")
-  expect_equal(out$row_ids, 1:6)
-  expect_equal(out$response, c(1, 2, 3, 10, 20, 30))
-  expect_equal(out$key$key, factor(rep(c("a", "b"), each = 3L)))
-  expect_equal(out$order$order, rep(seq(as.Date("2020-01-01"), by = "day", length.out = 3L), 2L))
+  expect_identical(out$row_ids, 1:6)
+  expect_identical(out$response, c(1, 2, 3, 10, 20, 30))
+  expect_identical(out$key$key, factor(rep(c("a", "b"), each = 3L)))
+  expect_identical(out$order$order, rep(seq(as.Date("2020-01-01"), by = "day", length.out = 3L), 2L))
   expect_identical(out$data$col_roles, list(order = "date", key = "key"))
 })
 
@@ -39,8 +39,8 @@ test_that("PipeOpFcstUniteKey preserves quantile predictions", {
   out = po_unite$predict(list(Multiplicity(a = p1, b = p2)))[[1L]]
   expect_subset("quantiles", out$predict_types)
   expect_equal(unclass(out$data$quantiles), rbind(unclass(q1), unclass(q2)), ignore_attr = TRUE)
-  expect_equal(attr(out$data$quantiles, "probs"), attr(q1, "probs"))
-  expect_equal(out$key$key, factor(rep(c("a", "b"), each = 3L)))
+  expect_identical(attr(out$data$quantiles, "probs"), attr(q1, "probs"))
+  expect_identical(out$key$key, factor(rep(c("a", "b"), each = 3L)))
 })
 
 test_that("PipeOpFcstUniteKey rejects per-series predictions with different quantile levels", {
@@ -58,8 +58,8 @@ test_that("PipeOpFcstUniteKey attaches the key for a single series", {
   po_unite = trained_unitekey("a")
 
   out = po_unite$predict(list(Multiplicity(a = p1)))[[1L]]
-  expect_equal(out$response, c(1, 2, 3))
-  expect_equal(out$key$key, factor(c("a", "a", "a")))
+  expect_identical(out$response, c(1, 2, 3))
+  expect_identical(out$key$key, factor(c("a", "a", "a")))
 })
 
 test_that("PipeOpFcstUniteKey canonicalizes the roles of a prediction without col_roles", {
@@ -70,7 +70,7 @@ test_that("PipeOpFcstUniteKey canonicalizes the roles of a prediction without co
 
   out = po_unite$predict(list(Multiplicity(a = p1)))[[1L]]
   expect_identical(out$data$col_roles, list(order = character(), key = "key"))
-  expect_equal(out$key$key, factor(c("a", "a", "a")))
+  expect_identical(out$key$key, factor(c("a", "a", "a")))
 })
 
 test_that("PipeOpFcstUniteKey errors on unnamed multiplicities", {
@@ -88,8 +88,8 @@ test_that("PipeOpFcstUniteKey names the rebuilt key column via the key parameter
   po_unite$train(list(Multiplicity(a = NULL, b = NULL)))
 
   out = po_unite$predict(list(Multiplicity(a = p1, b = p2)))[[1L]]
-  expect_equal(names(out$data$extra), c("date", "id"))
-  expect_equal(out$key$key, factor(rep(c("a", "b"), each = 3L)))
+  expect_identical(names(out$data$extra), c("date", "id"))
+  expect_identical(out$key$key, factor(rep(c("a", "b"), each = 3L)))
   expect_named(as.data.table(out), c("id", "date", "row_ids", "truth", "response"))
 })
 

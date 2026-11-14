@@ -22,7 +22,7 @@ test_that("autoplot.TaskFcst colours one line per series for keyed tasks", {
   expect_s3_class(p, "ggplot")
   expect_subset("colour", names(p$mapping))
   n_series = uniqueN(task$data(cols = task$col_roles$key))
-  expect_equal(nlevels(p$data$..key), n_series)
+  expect_identical(nlevels(p$data$..key), n_series)
   vdiffr::expect_doppelganger("taskfcst_keyed", p)
 })
 
@@ -147,8 +147,8 @@ test_that("autoplot.PredictionFcst overlays history for united local-model predi
   # the united prediction carries the generic key column, the history labels are derived from the task keys
   g = ggplot2::autoplot(p, task = task)
   expect_s3_class(g, "ggplot")
-  expect_equal(levels(g$data$..key), c("a", "b"))
-  expect_equal(nrow(g$data), task$nrow + 2L + 6L)
+  expect_identical(levels(g$data$..key), c("a", "b"))
+  expect_shape(g$data, nrow = task$nrow + 2L + 6L)
 })
 
 test_that("autoplot.PredictionFcst matches history to deduplicated key labels", {
@@ -160,9 +160,9 @@ test_that("autoplot.PredictionFcst matches history to deduplicated key labels", 
 
   g = ggplot2::autoplot(p, task = task)
   expect_s3_class(g, "ggplot")
-  expect_equal(levels(g$data$..key), c("x:y:z", "x:y:z.1"))
+  expect_identical(levels(g$data$..key), c("x:y:z", "x:y:z.1"))
   expect_false(anyNA(g$data$..key))
-  expect_equal(nrow(g$data), task$nrow + 2L + 6L)
+  expect_shape(g$data, nrow = task$nrow + 2L + 6L)
 })
 
 test_that("autoplot.PredictionFcst bridges one row per series when the order column is named key", {
@@ -170,7 +170,7 @@ test_that("autoplot.PredictionFcst bridges one row per series when the order col
   skip_if_not_installed("rpart")
   task = make_named_task(order = "key")
   g = ggplot2::autoplot(fcst_prediction(task, h = 3L), task = task)
-  expect_equal(nrow(g$data), task$nrow + 2L + 2L * 3L)
+  expect_shape(g$data, nrow = task$nrow + 2L + 2L * 3L)
 })
 
 test_that("autoplot.PredictionFcst bridges a backtest from the last observation before the forecast", {
@@ -180,6 +180,6 @@ test_that("autoplot.PredictionFcst bridges a backtest from the last observation 
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)$train(task, 1:132)
   g = ggplot2::autoplot(learner$predict(task, 133:144), task = task)
   forecast = g$data[g$data$..type == "forecast"]
-  expect_equal(nrow(forecast), 13L)
-  expect_equal(forecast$month[which.min(forecast$month)], as.Date("1959-12-01"))
+  expect_shape(forecast, nrow = 13L)
+  expect_identical(min(forecast$month), as.Date("1959-12-01"))
 })

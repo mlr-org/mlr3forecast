@@ -36,8 +36,8 @@ test_that("quantile probs mapping to the single interval level 50 work", {
   learner$quantile_response = 0.5
   learner$train(task, split$train)
   qs = learner$predict(task, split$test)$quantiles
-  expect_equal(ncol(qs), 3L)
-  expect_equal(nrow(qs), length(split$test))
+  expect_shape(qs, ncol = 3L)
+  expect_shape(qs, nrow = length(split$test))
   expect_all_true(qs[, 1L] <= qs[, 2L])
   expect_all_true(qs[, 2L] <= qs[, 3L])
   expect_all_true(qs[, 3L] - qs[, 1L] > 1)
@@ -54,8 +54,8 @@ test_that("quantile prediction widens with multiple levels", {
   learner$quantile_response = 0.5
   learner$train(task, split$train)
   qs = learner$predict(task, split$test)$quantiles
-  expect_equal(ncol(qs), length(probs))
-  expect_equal(nrow(qs), length(split$test))
+  expect_shape(qs, ncol = length(probs))
+  expect_shape(qs, nrow = length(split$test))
   expect_all_true(apply(qs, 1L, function(x) !is.unsorted(x)))
   expect_all_true(qs[, 1L] < qs[, 2L])
   expect_all_true(qs[, 4L] < qs[, 5L])

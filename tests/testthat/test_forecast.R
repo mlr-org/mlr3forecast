@@ -36,7 +36,7 @@ test_that("a tsf with frequency but no timestamp uses an integer step", {
   # do date arithmetic on the bare integer index (giving e.g. 365, 730, 1096 instead of 5, 6, 7)
   expect_identical(task$freq, 1L)
   newdata = generate_newdata(task, n = 3L)
-  expect_equal(as.numeric(newdata[[task$col_roles$order]]), c(5, 6, 7))
+  expect_identical(as.numeric(newdata[[task$col_roles$order]]), c(5, 6, 7))
 })
 
 test_that("generate_newdata works with Date order", {

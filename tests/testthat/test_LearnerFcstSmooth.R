@@ -46,8 +46,8 @@ test_that("native model print does not dump the inlined series", {
   task = tsk("airpassengers")
   learner = lrn("fcst.adam")$train(task)
   call = learner$native_model$call
-  expect_equal(call[[1L]], as.name("adam"))
-  expect_equal(call$data, as.name(task$target_names))
+  expect_identical(call[[1L]], as.name("adam"))
+  expect_identical(call$data, as.name(task$target_names))
   out = capture.output(print(learner$native_model))
   expect_all_true(nchar(out) < 120L)
 })

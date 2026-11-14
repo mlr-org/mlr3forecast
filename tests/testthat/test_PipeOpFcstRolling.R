@@ -10,7 +10,7 @@ test_that("PipeOpFcstRolling shift adds k to lag", {
   op$shift(3L)
   expect_identical(op$param_set$values$lag, 5L)
   expected = po("fcst.rolling", window_sizes = c(3L, 7L), lag = 5L)$train(list(task))[[1L]]$data()
-  expect_equal(op$train(list(task))[[1L]]$data(), expected)
+  expect_identical(op$train(list(task))[[1L]]$data(), expected)
   expect_error(op$shift(-1L))
 })
 
@@ -26,7 +26,7 @@ test_that("PipeOpFcstRolling lookback is exactly the history a row needs", {
   n = task$nrow
   full = op$train(list(task))[[1L]]$data()
   last = op$train(list(task$clone()$filter(seq(n - op$lookback, n))))[[1L]]$data()
-  expect_equal(last, full[nrow(full)])
+  expect_identical(last, full[nrow(full)])
   expect_error(op$train(list(task$clone()$filter(seq(n - op$lookback + 1L, n)))), "too short")
 })
 
@@ -37,7 +37,7 @@ test_that("PipeOpFcstRolling basic train/predict on airpassengers", {
   out = po$train(list(task))[[1L]]
   expected = c("passengers_roll_mean_3", "passengers_roll_mean_12", "passengers_roll_sd_3", "passengers_roll_sd_12")
   expect_true(all(expected %in% out$feature_names))
-  expect_equal(out$nrow, task$nrow - 12L)
+  expect_identical(out$nrow, task$nrow - 12L)
 
   pred = po$predict(list(task))[[1L]]
   expect_true(all(expected %in% pred$feature_names))
@@ -71,8 +71,8 @@ test_that("PipeOpFcstRolling aligns train features on date-major keyed task", {
   setorderv(full, c("id", "date"))
   full[, y_roll_mean_2 := frollmean(shift(y), 2L), by = id]
   full = full[!is.na(y_roll_mean_2)]
-  expect_equal(res$y_roll_mean_2, full$y_roll_mean_2)
-  expect_equal(res$y, full$y)
+  expect_identical(res$y_roll_mean_2, full$y_roll_mean_2)
+  expect_identical(res$y, full$y)
 })
 
 test_that("PipeOpFcstRolling supports expanding windows via Inf", {

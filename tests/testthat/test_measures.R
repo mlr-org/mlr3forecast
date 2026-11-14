@@ -109,13 +109,13 @@ test_that("MeasureWAPE works", {
   # known value: 100 * sum|e| / sum|y|
   response = c(8, 24, 27)
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
-  expect_equal(unname(pred$score(measure)), 100 * sum(abs(truth - response)) / sum(abs(truth)))
+  expect_identical(unname(pred$score(measure)), 100 * sum(abs(truth - response)) / sum(abs(truth)))
   # large errors relative to small series can exceed 100
   pred = PredictionRegr$new(truth = c(1, 1), response = c(5, 5), row_ids = 1:2)
-  expect_equal(unname(pred$score(measure)), 400)
+  expect_identical(unname(pred$score(measure)), 400)
   # pairs with a missing response are dropped from both sums
   pred = PredictionRegr$new(truth = truth, response = c(8, NA, 27), row_ids = seq_along(truth))
-  expect_equal(unname(pred$score(measure)), 100 * (2 + 3) / (10 + 30))
+  expect_identical(unname(pred$score(measure)), 100 * (2 + 3) / (10 + 30))
 })
 
 test_that("MeasureACF1 works", {
@@ -142,7 +142,7 @@ test_that("MeasureCoverage works", {
     quantiles = quantiles,
     row_ids = seq_along(truth)
   )
-  expect_equal(unname(pred$score(measure)), 1)
+  expect_identical(unname(pred$score(measure)), 1)
   # all outside
   quantiles = make_quantiles(c(11, 21, 31, 41, 51), c(12, 22, 32, 42, 52))
   pred = PredictionRegr$new(
@@ -151,7 +151,7 @@ test_that("MeasureCoverage works", {
     quantiles = quantiles,
     row_ids = seq_along(truth)
   )
-  expect_equal(unname(pred$score(measure)), 0)
+  expect_identical(unname(pred$score(measure)), 0)
   # 3 out of 5 inside
   quantiles = make_quantiles(c(5, 15, 31, 35, 51), c(15, 25, 32, 45, 52))
   pred = PredictionRegr$new(
@@ -164,7 +164,7 @@ test_that("MeasureCoverage works", {
   # on boundary counts as inside
   quantiles = make_quantiles(10, 10)
   pred = PredictionRegr$new(truth = 10, response = 0, quantiles = quantiles, row_ids = 1L)
-  expect_equal(unname(pred$score(measure)), 1)
+  expect_identical(unname(pred$score(measure)), 1)
 })
 
 test_that("MeasureWinkler works", {
@@ -178,20 +178,20 @@ test_that("MeasureWinkler works", {
     quantiles = quantiles,
     row_ids = seq_along(truth)
   )
-  expect_equal(unname(pred$score(measure)), 10)
+  expect_identical(unname(pred$score(measure)), 10)
   # observation below interval: width + penalty
   quantiles = make_quantiles(5, 15)
   pred = PredictionRegr$new(truth = 0, response = 0, quantiles = quantiles, row_ids = 1L)
   # width = 10, penalty = (2/0.05) * (5 - 0) = 200
-  expect_equal(unname(pred$score(measure)), 210)
+  expect_identical(unname(pred$score(measure)), 210)
   # observation above interval: width + penalty
   pred = PredictionRegr$new(truth = 20, response = 0, quantiles = quantiles, row_ids = 1L)
   # width = 10, penalty = (2/0.05) * (20 - 15) = 200
-  expect_equal(unname(pred$score(measure)), 210)
+  expect_identical(unname(pred$score(measure)), 210)
   # missing truth is dropped, not scored as interval width
   quantiles = make_quantiles(c(5, 5), c(15, 15))
   pred = PredictionRegr$new(truth = c(NA, 20), response = c(0, 0), quantiles = quantiles, row_ids = 1:2)
-  expect_equal(unname(pred$score(measure)), 210)
+  expect_identical(unname(pred$score(measure)), 210)
 })
 
 test_that("interval measures match quantiles whose level is not exactly 1 - alpha / 2", {
@@ -199,7 +199,7 @@ test_that("interval measures match quantiles whose level is not exactly 1 - alph
   quantiles = make_quantiles(c(5, 15), c(15, 25), probs = c(0.07, 0.93))
   pred = PredictionRegr$new(truth = c(10, 30), response = c(0, 0), quantiles = quantiles, row_ids = 1:2)
   expect_equal(unname(pred$score(msr("fcst.coverage", alpha = 0.14))), 0.5)
-  expect_equal(unname(pred$score(msr("fcst.winkler", alpha = 0.14))), 10 + 2 / 0.14 * 5 / 2)
+  expect_identical(unname(pred$score(msr("fcst.winkler", alpha = 0.14))), 10 + 2 / 0.14 * 5 / 2)
   expect_number(unname(pred$score(msr("fcst.msis", alpha = 0.14), task = task, train_set = 3:120)))
   expect_error(
     pred$score(msr("fcst.winkler", alpha = 0.1)),
@@ -261,7 +261,7 @@ test_that("MeasureMASE works", {
   expect_number(result, lower = 0)
   # perfect forecast gives 0
   pred = PredictionRegr$new(truth = truth, response = truth, row_ids = test_ids)
-  expect_equal(unname(pred$score(measure, task = task, train_set = train_ids)), 0)
+  expect_identical(unname(pred$score(measure, task = task, train_set = train_ids)), 0)
 })
 
 test_that("keyed scoring handles partially observed key groups", {
@@ -304,7 +304,7 @@ test_that("MeasureRMSSE works", {
   expect_number(result, lower = 0)
   # perfect forecast gives 0
   pred = PredictionRegr$new(truth = truth, response = truth, row_ids = test_ids)
-  expect_equal(unname(pred$score(measure, task = task, train_set = train_ids)), 0)
+  expect_identical(unname(pred$score(measure, task = task, train_set = train_ids)), 0)
 })
 
 test_that("measures match fabletools reference implementation", {
@@ -321,18 +321,18 @@ test_that("measures match fabletools reference implementation", {
 
   # MDA
   expected_mda = fabletools::MDA(resid, truth)
-  expect_equal(unname(pred$score(msr("fcst.mda"), task = task)), expected_mda)
+  expect_identical(unname(pred$score(msr("fcst.mda"), task = task)), expected_mda)
 
   # MDA with custom reward/penalty
   expected_mda_custom = fabletools::MDA(resid, truth, reward = 1, penalty = -1)
-  expect_equal(
+  expect_identical(
     unname(pred$score(msr("fcst.mda", reward = 1, penalty = -1), task = task)),
     expected_mda_custom
   )
 
   # MDV
   expected_mdv = fabletools::MDV(resid, truth)
-  expect_equal(unname(pred$score(msr("fcst.mdv"), task = task)), expected_mdv)
+  expect_identical(unname(pred$score(msr("fcst.mdv"), task = task)), expected_mdv)
 
   # MPE
   expected_mpe = fabletools::MPE(resid, truth)
@@ -340,7 +340,7 @@ test_that("measures match fabletools reference implementation", {
 
   # ACF1
   expected_acf1 = fabletools::ACF1(resid)
-  expect_equal(unname(pred$score(msr("fcst.acf1"), task = task)), expected_acf1)
+  expect_identical(unname(pred$score(msr("fcst.acf1"), task = task)), expected_acf1)
 
   # Winkler
   d = distributional::dist_normal(truth, 2)
@@ -355,7 +355,7 @@ test_that("measures match fabletools reference implementation", {
     row_ids = row_ids
   )
   expected_winkler = fabletools::winkler_score(d, truth, level = 95)
-  expect_equal(unname(pred_q$score(msr("fcst.winkler"))), expected_winkler)
+  expect_identical(unname(pred_q$score(msr("fcst.winkler"))), expected_winkler)
 
   # Pinball
   probs = c(0.1, 0.5, 0.9)
@@ -370,7 +370,7 @@ test_that("measures match fabletools reference implementation", {
     row_ids = row_ids
   )
   expected_pinball = fabletools::quantile_score(d, truth, probs = probs)
-  expect_equal(unname(pred_pinball$score(msr("fcst.pinball"))), expected_pinball)
+  expect_identical(unname(pred_pinball$score(msr("fcst.pinball"))), expected_pinball)
 
   # MASE
   train_ids = 1:120
@@ -381,26 +381,26 @@ test_that("measures match fabletools reference implementation", {
   test_resid = test_truth - test_response
   pred_ts = PredictionRegr$new(truth = test_truth, response = test_response, row_ids = test_ids)
   expected_mase = fabletools::MASE(test_resid, train_data, .period = 12)
-  expect_equal(
+  expect_identical(
     unname(pred_ts$score(msr("fcst.mase"), task = task, train_set = train_ids)),
     expected_mase
   )
   # explicit period overrides task frequency
   expected_mase_1 = fabletools::MASE(test_resid, train_data, .period = 1)
-  expect_equal(
+  expect_identical(
     unname(pred_ts$score(msr("fcst.mase", period = 1L), task = task, train_set = train_ids)),
     expected_mase_1
   )
 
   # RMSSE
   expected_rmsse = fabletools::RMSSE(test_resid, train_data, .period = 12)
-  expect_equal(
+  expect_identical(
     unname(pred_ts$score(msr("fcst.rmsse"), task = task, train_set = train_ids)),
     expected_rmsse
   )
   # explicit period overrides task frequency
   expected_rmsse_1 = fabletools::RMSSE(test_resid, train_data, .period = 1)
-  expect_equal(
+  expect_identical(
     unname(pred_ts$score(msr("fcst.rmsse", period = 1L), task = task, train_set = train_ids)),
     expected_rmsse_1
   )
@@ -424,14 +424,14 @@ test_that("fcst.msis matches greybox::sMIS reference", {
 
   for (m in c(1L, 12L)) {
     scale = mean(abs(diff(train, lag = m)))
-    expect_equal(
+    expect_identical(
       unname(pred$score(msr("fcst.msis", period = m), task = task, train_set = train_ids)),
       greybox::sMIS(truth, lower, upper, scale = scale, level = 0.95)
     )
   }
 
   scale = mean(abs(diff(train, lag = 12L)))
-  expect_equal(
+  expect_identical(
     unname(pred$score(msr("fcst.msis"), task = task, train_set = train_ids)),
     greybox::sMIS(truth, lower, upper, scale = scale, level = 0.95)
   )
@@ -475,7 +475,7 @@ test_that("fcst.msis on a keyed task averages per-series scaled scores", {
     }
   )
 
-  expect_equal(
+  expect_identical(
     unname(pred$score(msr("fcst.msis", period = 12L), task = task, train_set = train_ids)),
     mean(per_key)
   )

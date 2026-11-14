@@ -1,5 +1,5 @@
 test_that("forecast task type has a default measure", {
-  expect_equal(default_measures("fcst")[[1L]]$id, "regr.mse")
+  expect_identical(default_measures("fcst")[[1L]]$id, "regr.mse")
 })
 
 test_that("forecast resampling aggregates with the default measure", {

@@ -14,8 +14,8 @@ test_that("in-sample prediction returns one-step fitted values", {
   learner = lrn("fcst.holt_winters")
   learner$train(task)
   pred = learner$predict(task, 13:144)
-  expect_equal(pred$response, as.numeric(learner$native_model$fitted[, "xhat"]))
+  expect_identical(pred$response, as.numeric(learner$native_model$fitted[, "xhat"]))
   # no fitted values exist before the first complete seasonal cycle
   pred = learner$predict(task)
-  expect_equal(pred$response[1:12], rep(NA_real_, 12L))
+  expect_identical(pred$response[1:12], rep(NA_real_, 12L))
 })

@@ -22,15 +22,15 @@ test_that("forecasts repeat the last season", {
   newdata = generate_newdata(task$clone()$filter(1:132), n = 12L)
   response = learner$predict_newdata(newdata)$response
   y = task$data(cols = task$target_names, ordered = TRUE)[[1L]]
-  expect_equal(response, y[121:132])
-  expect_equal(response, as.numeric(forecast::snaive(as.ts(task$clone()$filter(1:132)), h = 12L)$mean))
+  expect_identical(response, y[121:132])
+  expect_identical(response, as.numeric(forecast::snaive(as.ts(task$clone()$filter(1:132)), h = 12L)$mean))
 })
 
 test_that("weekly forecasts use a 52-week lag", {
   data = data.table(y = as.numeric(1:160), date = seq(as.Date("2020-01-01"), by = "week", length.out = 160L))
   task = as_task_fcst(data, target = "y", order = "date", freq = "week")
   learner = lrn("fcst.snaive")$train(task)
-  expect_equal(learner$predict_newdata(generate_newdata(task, n = 3L))$response, as.numeric(109:111))
+  expect_identical(learner$predict_newdata(generate_newdata(task, n = 3L))$response, as.numeric(109:111))
 })
 
 test_that("the period hyperparameter sets the seasonal lag", {
@@ -38,7 +38,7 @@ test_that("the period hyperparameter sets the seasonal lag", {
   learner = lrn("fcst.snaive", period = 4)$train(task, 1:132)
   response = learner$predict_newdata(generate_newdata(task$clone()$filter(1:132), n = 4L))$response
   y = task$data(cols = task$target_names, ordered = TRUE)[[1L]]
-  expect_equal(response, y[129:132])
+  expect_identical(response, y[129:132])
 })
 
 test_that("quantile prediction works", {

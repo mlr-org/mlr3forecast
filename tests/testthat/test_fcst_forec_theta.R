@@ -17,8 +17,8 @@ test_that("forecasts reuse fitted theta parameters", {
 
   learner = lrn("fcst.stheta")$train(train_task)
   response = learner$predict_newdata(newdata)$response
-  expect_equal(response, as.numeric(forecTheta::stheta(y, h = 12L)$mean))
-  expect_equal(learner$predict(train_task)$response, as.numeric(learner$native_model$fitted))
+  expect_identical(response, as.numeric(forecTheta::stheta(y, h = 12L)$mean))
+  expect_identical(learner$predict(train_task)$response, as.numeric(learner$native_model$fitted))
 })
 
 test_that("theta fitted values return to the original scale", {
@@ -50,7 +50,7 @@ test_that("theta learners predict the median as the only quantile", {
   newdata = generate_newdata(task, n = 2L)
   prediction = with_seed(1L, learner$predict_newdata(newdata))
   learner$quantiles = c(0.1, 0.5, 0.9)
-  expect_equal(prediction$quantiles[, 1L], with_seed(1L, learner$predict_newdata(newdata))$quantiles[, 2L])
+  expect_identical(prediction$quantiles[, 1L], with_seed(1L, learner$predict_newdata(newdata))$quantiles[, 2L])
   learner$predict_type = "response"
   expect_equal(prediction$response, learner$predict_newdata(newdata)$response, tolerance = 1e-2)
 })

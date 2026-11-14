@@ -8,11 +8,11 @@ test_that("ppl(\"fcst.local\") wraps a graph between splitkey and unitekey", {
   expect_subset(c("fcst.splitkey", "fcst.unitekey"), graph$ids())
 
   glrn = as_learner(graph)
-  expect_equal(glrn$task_type, "fcst")
+  expect_identical(glrn$task_type, "fcst")
   p = forecast(glrn$train(task), task, 3L)
   expect_r6_class(p, "PredictionFcst")
-  expect_equal(p$response, rep(c(6, 106), each = 3L))
-  expect_equal(as.character(p$key$key), rep(c("a", "b"), each = 3L))
+  expect_identical(p$response, rep(c(6, 106), each = 3L))
+  expect_identical(as.character(p$key$key), rep(c("a", "b"), each = 3L))
 })
 
 test_that("ppl(\"fcst.local\") composes with classical learners", {
@@ -23,7 +23,7 @@ test_that("ppl(\"fcst.local\") composes with classical learners", {
 
   glrn = as_learner(ppl("fcst.local", lrn("fcst.ets")))$train(task)
   manual = as_learner(po("fcst.splitkey") %>>% lrn("fcst.ets") %>>% po("fcst.unitekey"))$train(task)
-  expect_equal(forecast(glrn, task, 3L)$response, forecast(manual, task, 3L)$response)
+  expect_identical(forecast(glrn, task, 3L)$response, forecast(manual, task, 3L)$response)
 })
 
 test_that("ppl(\"fcst.local\") passes key through to the united prediction", {
@@ -31,7 +31,7 @@ test_that("ppl(\"fcst.local\") passes key through to the united prediction", {
   fg = po("fcst.lags", lags = 1L) %>>% lrn("regr.featureless")
   glrn = as_learner(ppl("fcst.local", recursive_forecaster(fg), key = "id"))
   p = forecast(glrn$train(task), task, 3L)
-  expect_equal(as.character(p$key$key), rep(c("a", "b"), each = 3L))
+  expect_identical(as.character(p$key$key), rep(c("a", "b"), each = 3L))
   expect_true("id" %in% names(as.data.table(p)))
 })
 
@@ -51,9 +51,9 @@ test_that("fcst.local inverts target transformations with each series' own state
     learner$train(task, train)$predict(task, test)
   }
 
-  expect_equal(local(po("fcst.targetscale"))$response, c(34, 34, 1120, 1120))
-  expect_equal(local(po("fcst.targetboxcox", lambda = 0.5))$response, c(34, 34, 1120, 1120))
-  expect_equal(local(po("fcst.targetdiff"))$response, c(35, 36, 1125, 1130))
+  expect_identical(local(po("fcst.targetscale"))$response, c(34, 34, 1120, 1120))
+  expect_identical(local(po("fcst.targetboxcox", lambda = 0.5))$response, c(34, 34, 1120, 1120))
+  expect_identical(local(po("fcst.targetdiff"))$response, c(35, 36, 1125, 1130))
 
   log_trafo = po("targetmutate", trafo = function(x) log(x), inverter = function(x) list(response = exp(x$response)))
   prediction = local(log_trafo)

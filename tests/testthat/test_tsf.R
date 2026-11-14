@@ -21,7 +21,7 @@ test_that("read_tsf preserves high-frequency timestamps", {
     file
   )
   dt = read_tsf(file)
-  expect_equal(
+  expect_identical(
     dt$start_timestamp,
     as.POSIXct("2012-01-01 09:30:00", tz = "UTC") + 3600 * (0:3)
   )
@@ -59,7 +59,7 @@ test_that("read_tsf handles frequency without date attribute", {
   )
   dt = read_tsf(file)
   expect_data_table(dt, nrows = 4, ncols = 2)
-  expect_equal(attr(dt, "frequency"), "yearly")
+  expect_identical(attr(dt, "frequency"), "yearly")
 })
 
 test_that("read_tsf rejects series that share all attribute values", {

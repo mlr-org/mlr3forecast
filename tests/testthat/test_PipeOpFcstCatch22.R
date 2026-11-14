@@ -5,10 +5,10 @@ test_that("PipeOpFcstCatch22 adds features to an unkeyed task", {
 
   out = po$train(list(task))[[1L]]
   new_feats = setdiff(out$feature_names, task$feature_names)
-  expect_equal(length(new_feats), 22L)
+  expect_identical(length(new_feats), 22L)
   expect_true(all(startsWith(new_feats, "passengers_catch22_")))
-  expect_equal(out$nrow, task$nrow)
-  expect_equal(nrow(unique(out$data(cols = new_feats))), 1L)
+  expect_identical(out$nrow, task$nrow)
+  expect_shape(unique(out$data(cols = new_feats)), nrow = 1L)
 })
 
 test_that("PipeOpFcstCatch22 catch24 adds mean and sd", {
@@ -16,7 +16,7 @@ test_that("PipeOpFcstCatch22 catch24 adds mean and sd", {
   task = tsk("airpassengers")
   out = po("fcst.catch22", catch24 = TRUE)$train(list(task))[[1L]]
   new_feats = setdiff(out$feature_names, task$feature_names)
-  expect_equal(length(new_feats), 24L)
+  expect_identical(length(new_feats), 24L)
   expect_subset(c("passengers_catch22_DN_Mean", "passengers_catch22_DN_Spread_Std"), new_feats)
 })
 
@@ -29,10 +29,10 @@ test_that("PipeOpFcstCatch22 broadcasts per-key for keyed tasks", {
   out = po$train(list(task))[[1L]]
   new_feats = setdiff(out$feature_names, task$feature_names)
   expect_true(length(new_feats) > 0L)
-  expect_equal(out$nrow, task$nrow)
+  expect_identical(out$nrow, task$nrow)
 
   n_keys = uniqueN(task$data(cols = task$col_roles$key))
-  expect_equal(nrow(unique(out$data(cols = new_feats))), n_keys)
+  expect_shape(unique(out$data(cols = new_feats)), nrow = n_keys)
 })
 
 test_that("PipeOpFcstCatch22 predict reuses cached features", {
@@ -43,7 +43,7 @@ test_that("PipeOpFcstCatch22 predict reuses cached features", {
   po$train(list(task))
   out = po$predict(list(task))[[1L]]
   expect_true("passengers_catch22_CO_f1ecac" %in% out$feature_names)
-  expect_equal(out$nrow, task$nrow)
+  expect_identical(out$nrow, task$nrow)
 })
 
 test_that("PipeOpFcstCatch22 is not confused by columns named like its variables", {

@@ -65,7 +65,7 @@ test_that("filter_prediction_data.PredictionDataFcst keeps class and filters ext
   keep = pdata$row_ids[1:3]
   filtered = filter_prediction_data(pdata, keep)
   expect_s3_class(filtered, "PredictionDataFcst")
-  expect_equal(filtered$row_ids, keep)
+  expect_identical(filtered$row_ids, keep)
   expect_length(filtered$extra[[1L]], 3L)
   expect_identical(filtered$col_roles, pdata$col_roles)
 })
@@ -87,7 +87,7 @@ test_that("filter_prediction_data.PredictionDataFcst preserves quantile metadata
 
 test_that("is_missing_prediction_data.PredictionDataFcst flags NA responses", {
   p = PredictionFcst$new(row_ids = 1:3, truth = c(1, 2, 3), response = c(1, NA, 3))
-  expect_equal(is_missing_prediction_data(p$data), 2L)
+  expect_identical(is_missing_prediction_data(p$data), 2L)
 })
 
 test_that("c.PredictionDataFcst rejects different column roles", {

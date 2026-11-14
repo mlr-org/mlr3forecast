@@ -43,7 +43,7 @@ test_that("RecursiveForecaster ignores lags changed after training", {
   learner$train(task, 1:130)
   expected = learner$predict(task, 131:144)
   learner$param_set$values$fcst.lags.lags = 1:2
-  expect_equal(learner$predict(task, 131:144)$response, expected$response)
+  expect_identical(learner$predict(task, 131:144)$response, expected$response)
 })
 
 test_that("RecursiveForecaster works with keyed task", {
@@ -116,7 +116,7 @@ test_that("RecursiveForecaster does not truncate predictions fed back into integ
   flrn_dbl = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:3)$train(task_dbl, 1:50)
   expect_no_warning(p_int <- flrn_int$predict(task_int, 51:60))
   p_dbl = flrn_dbl$predict(task_dbl, 51:60)
-  expect_equal(p_int$response, p_dbl$response)
+  expect_identical(p_int$response, p_dbl$response)
 })
 
 test_that("RecursiveForecaster handles predict rows overlapping training rows", {
@@ -169,9 +169,9 @@ test_that("RecursiveForecaster returns predictions in the task's row order", {
   task = tsk("airpassengers")
   learner = RecursiveForecaster$new(lrn("regr.featureless"), lags = 1:3)
   learner$train(task, 1:132)
-  prediction = learner$predict(task, rev(133:144))
-  expect_identical(prediction$row_ids, rev(133:144))
-  expect_equal(prediction$truth, task$truth(rev(133:144)))
+  prediction = learner$predict(task, frev(133:144))
+  expect_identical(prediction$row_ids, frev(133:144))
+  expect_identical(prediction$truth, task$truth(frev(133:144)))
 
   dt = data.table(t = rep(1:20, each = 2L), id = rep(c("a", "b"), 20L), y = rep(c(100, 0), 20L) + seq_len(40L))
   task = as_task_fcst(as_data_backend(dt), target = "y", order = "t", key = "id")
@@ -179,24 +179,24 @@ test_that("RecursiveForecaster returns predictions in the task's row order", {
   learner$train(task, which(dt$t <= 15L))
   prediction = learner$predict(task, test)
   expect_identical(prediction$row_ids, test)
-  expect_equal(prediction$truth, dt$y[test])
+  expect_identical(prediction$truth, dt$y[test])
 })
 
 test_that("recursive_forecaster helper works", {
   learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)
   expect_class(learner, "RecursiveForecaster")
   expect_class(learner, "Learner")
-  expect_equal(learner$lags, 1:3)
+  expect_identical(learner$lags, 1:3)
 
   graph = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
   learner = recursive_forecaster(graph)
   expect_class(learner, "RecursiveForecaster")
-  expect_equal(learner$lags, 1:3)
+  expect_identical(learner$lags, 1:3)
 })
 
 test_that("RecursiveForecaster lags active binding", {
   learner = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:5)
-  expect_equal(learner$lags, 1:5)
+  expect_identical(learner$lags, 1:5)
 
   graph = po("colapply", applicator = as.numeric) %>>% lrn("regr.rpart")
   learner = expect_warning(RecursiveForecaster$new(graph), "recursive")
@@ -213,7 +213,7 @@ test_that("RecursiveForecaster deep clone isolates the inner learner", {
   learner$train(tsk("airpassengers"))
   clone = learner$clone(deep = TRUE)
   expect_false(identical(clone$state$train_task, learner$state$train_task))
-  expect_equal(clone$state$train_task$nrow, learner$state$train_task$nrow)
+  expect_identical(clone$state$train_task$nrow, learner$state$train_task$nrow)
 })
 
 test_that("RecursiveForecaster learner is the live untrained base learner", {
@@ -300,7 +300,7 @@ test_that("RecursiveForecaster attaches measure weights to the prediction", {
   learner = recursive_forecaster(lrn("regr.rpart"), lags = 1:3)$train(task, split$train)
   prediction = learner$predict(task, split$test)
   expected = task$weights_measure[list(row_id = prediction$row_ids), on = "row_id", "weight"][[1L]]
-  expect_equal(prediction$weights, expected)
+  expect_identical(prediction$weights, expected)
 })
 
 test_that("non-iterative graphs still attach the time index to the prediction", {
@@ -311,7 +311,7 @@ test_that("non-iterative graphs still attach the time index to the prediction", 
   prediction = learner$predict(task, split$test)
 
   expect_r6_class(prediction, "PredictionFcst")
-  expect_equal(prediction$order$order, task$data(rows = split$test, cols = "month")[[1L]])
+  expect_identical(prediction$order$order, task$data(rows = split$test, cols = "month")[[1L]])
 })
 
 test_that("RecursiveForecaster keeps supported wrapped-learner properties", {
@@ -571,6 +571,6 @@ test_that("RecursiveForecaster is not confused by columns named like its variabl
     list(order = "key_cols")
   )
   for (args in cases) {
-    expect_equal(predict_response(do.call(make_named_task, args)), expected)
+    expect_identical(predict_response(do.call(make_named_task, args)), expected)
   }
 })

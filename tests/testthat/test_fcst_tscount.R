@@ -27,5 +27,5 @@ test_that("training reads the count series chronologically", {
   # tsglm treats the series as ordered, so a misread backend fits a different model
   m_sorted = lrn("fcst.tscount", past_obs = 1L)$train(sorted)$native_model
   m_shuffled = lrn("fcst.tscount", past_obs = 1L)$train(shuffled)$native_model
-  expect_equal(coef(m_shuffled), coef(m_sorted))
+  expect_identical(coef(m_shuffled), coef(m_sorted))
 })

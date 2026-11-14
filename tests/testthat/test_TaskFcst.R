@@ -382,7 +382,7 @@ test_that("as.ts works", {
 
 test_that("as.ts keeps the calendar start of yearly, quarterly, and monthly tasks", {
   expect_equal(as.ts(tsk("airpassengers")), AirPassengers)
-  expect_equal(stats::tsp(as.ts(tsk("lynx"))), stats::tsp(lynx))
+  expect_identical(stats::tsp(as.ts(tsk("lynx"))), stats::tsp(lynx))
   quarterly = as_task_fcst(
     data.table(d = seq(as.Date("2001-07-01"), by = "quarter", length.out = 6L), y = as.numeric(1:6)),
     target = "y",

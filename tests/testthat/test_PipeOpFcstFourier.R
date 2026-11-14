@@ -9,7 +9,7 @@ test_that("PipeOpFcstFourier basic train/predict on airpassengers", {
   out = po$train(list(task))[[1L]]
   expected = c("S1_12", "C1_12", "S2_12", "C2_12", "S3_12", "C3_12")
   expect_subset(expected, out$feature_names)
-  expect_equal(out$nrow, task$nrow)
+  expect_identical(out$nrow, task$nrow)
 
   pred = po$predict(list(task))[[1L]]
   expect_subset(expected, pred$feature_names)
@@ -104,5 +104,5 @@ test_that("PipeOpFcstFourier works with keyed task", {
   task = tsk("livestock")
   out = po("fcst.fourier", period = 12, K = 2L)$train(list(task))[[1L]]
   expect_true(any(grepl("^S1_12$", out$feature_names)))
-  expect_equal(out$nrow, task$nrow)
+  expect_identical(out$nrow, task$nrow)
 })

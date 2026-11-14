@@ -7,10 +7,10 @@ test_that("in-sample predictions align for training windows not anchored at row 
 
   # naive fitted values are the lagged series, so alignment is directly checkable
   pred_tail = learner$predict(task, 140:144)
-  expect_equal(pred_tail$response, as.numeric(task$truth(139:143)))
+  expect_identical(pred_tail$response, as.numeric(task$truth(139:143)))
 
   pred_mid = learner$predict(task, 60:70)
-  expect_equal(pred_mid$response, as.numeric(task$truth(59:69)))
+  expect_identical(pred_mid$response, as.numeric(task$truth(59:69)))
 })
 
 test_that("in-sample subsets without the last training timestamp are not misrouted", {
@@ -18,7 +18,7 @@ test_that("in-sample subsets without the last training timestamp are not misrout
   learner = lrn("fcst.random_walk")
   learner$train(task, 1:132)
   pred = learner$predict(task, 60:70)
-  expect_equal(pred$response, as.numeric(task$truth(59:69)))
+  expect_identical(pred$response, as.numeric(task$truth(59:69)))
 })
 
 test_that("predict errors on mixed in-sample and future rows", {
@@ -42,7 +42,7 @@ test_that("in-sample routing survives callr encapsulation", {
   learner$encapsulate("callr", lrn("fcst.mean"))
   learner$train(task, 50:144)
   pred = learner$predict(task, 60:70)
-  expect_equal(pred$response, as.numeric(task$truth(59:69)))
+  expect_identical(pred$response, as.numeric(task$truth(59:69)))
 })
 
 test_that("training is invariant to backend row order", {
@@ -58,8 +58,8 @@ test_that("training is invariant to backend row order", {
   # full learner: the naive forecast is the last chronological value
   f_sorted = lrn("fcst.random_walk")$train(sorted)$predict_newdata(generate_newdata(sorted, 1L), sorted)
   f_shuffled = lrn("fcst.random_walk")$train(shuffled)$predict_newdata(generate_newdata(shuffled, 1L), shuffled)
-  expect_equal(f_shuffled$response, f_sorted$response)
-  expect_equal(f_shuffled$response, dat$y[n])
+  expect_identical(f_shuffled$response, f_sorted$response)
+  expect_identical(f_shuffled$response, dat$y[n])
 })
 
 test_that("in-sample predict_newdata returns the fitted values of the given timestamps", {
@@ -67,10 +67,10 @@ test_that("in-sample predict_newdata returns the fitted values of the given time
   newdata = task$data(rows = 140:144, cols = c("month", "passengers"))
 
   learner = lrn("fcst.random_walk")$train(task)
-  expect_equal(learner$predict_newdata(newdata, task)$response, as.numeric(task$truth(139:143)))
+  expect_identical(learner$predict_newdata(newdata, task)$response, as.numeric(task$truth(139:143)))
 
   learner = lrn("fcst.random_walk")$train(task, 50:144)
-  expect_equal(learner$predict_newdata(newdata, task)$response, as.numeric(task$truth(139:143)))
+  expect_identical(learner$predict_newdata(newdata, task)$response, as.numeric(task$truth(139:143)))
   expect_error(learner$predict_newdata(task$data(rows = 10:12, cols = c("month", "passengers")), task), "In-sample")
 })
 
@@ -88,7 +88,7 @@ test_that("in-sample prediction is invariant to backend row order", {
     t = as.numeric(task$data(rows = pred$row_ids, cols = "t")[[1L]])
     data.table(t = t, response = pred$response)[order(t)]
   }
-  expect_equal(insample(shuffled)$response, insample(sorted)$response)
+  expect_identical(insample(shuffled)$response, insample(sorted)$response)
 })
 
 test_that("predict rejects future rows that are not in chronological order", {
@@ -115,7 +115,7 @@ test_that("exogenous features stay aligned with the target under backend reorder
   learner = lrn("fcst.tslm", formula = y ~ x)
   c_sorted = coef(learner$clone()$train(sorted)$native_model)
   c_shuffled = coef(learner$clone()$train(shuffled)$native_model)
-  expect_equal(c_shuffled, c_sorted)
+  expect_identical(c_shuffled, c_sorted)
   expect_equal(unname(c_shuffled[["x"]]), 2, tolerance = 0.05)
 })
 
@@ -142,10 +142,10 @@ test_that("predict_newdata_fast errors informatively", {
 test_that("the period hyperparameter sets the frequency of the ts", {
   skip_if_not_installed("forecast")
   task = tsk("airpassengers")
-  expect_equal(stats::frequency(lrn("fcst.ets")$train(task)$native_model$x), 12)
-  expect_equal(stats::frequency(lrn("fcst.ets", period = 4)$train(task)$native_model$x), 4)
+  expect_identical(stats::frequency(lrn("fcst.ets")$train(task)$native_model$x), 12)
+  expect_identical(stats::frequency(lrn("fcst.ets", period = 4)$train(task)$native_model$x), 4)
   # a cycle name resolves against the task's freq
-  expect_equal(stats::frequency(lrn("fcst.ets", period = "year")$train(task)$native_model$x), 12)
+  expect_identical(stats::frequency(lrn("fcst.ets", period = "year")$train(task)$native_model$x), 12)
   # `period` is consumed here, never forwarded to the wrapped function
   expect_false("period" %in% names(lrn("fcst.ets", period = 4)$param_set$get_values(tags = "predict")))
 })

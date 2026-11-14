@@ -182,7 +182,7 @@ make_property_stub_learner = function() {
         if (is.null(self$model)) {
           stopf("No model stored")
         }
-        set_names(rev(seq_along(self$state$feature_names)), self$state$feature_names)
+        set_names(frev(seq_along(self$state$feature_names)), self$state$feature_names)
       },
 
       selected_features = function() {
