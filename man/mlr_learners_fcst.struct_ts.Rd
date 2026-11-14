@@ -5,13 +5,14 @@
 \alias{LearnerFcstStructTS}
 \title{Structural Time Series Forecast Learner}
 \description{
-Structural time series model fit by maximum likelihood. Three model types are supported: local level, local linear
-trend, and basic structural model (level + trend + seasonal).
-Calls \code{\link[stats:StructTS]{stats::StructTS()}} from package \pkg{stats}.
+Structural time series model fit by maximum likelihood.
+Three model types are supported: local level, local linear trend,
+and basic structural model (level + trend + seasonal).
+Point forecasts and prediction intervals come from the Kalman filter.
+Calls \code{\link[stats:StructTS]{stats::StructTS()}} from package \pkg{stats} and forecasts via \code{\link[forecast:forecast]{forecast::forecast()}}.
 
 If \code{type} is not set, \code{\link[stats:StructTS]{stats::StructTS()}} fits \code{"BSM"} for seasonal series (frequency > 1) and \code{"trend"} otherwise.
-\code{type = "BSM"} requires a seasonal time series (frequency > 1). Prediction is performed via
-\code{\link[forecast:forecast.StructTS]{forecast::forecast.StructTS()}} which yields point forecasts and predictive intervals from the Kalman filter.
+\code{type = "BSM"} requires a seasonal time series (frequency > 1).
 }
 \section{Dictionary}{
 

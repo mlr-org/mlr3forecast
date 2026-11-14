@@ -6,6 +6,7 @@
 \title{Auto CES Forecast Learner}
 \description{
 Complex Exponential Smoothing (CES) with automatic selection of the seasonal component.
+Supports multiple seasonal lags (e.g. \code{lags = c(1, 24, 168)} for hourly data with daily and weekly cycles).
 Calls \code{\link[smooth:auto.ces]{smooth::auto.ces()}} from package \CRANpkg{smooth}.
 }
 \section{Dictionary}{

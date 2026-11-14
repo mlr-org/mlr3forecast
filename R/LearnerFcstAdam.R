@@ -5,6 +5,7 @@
 #'
 #' @description
 #' Augmented Dynamic Adaptive Model (ADAM), which combines ETS and ARIMA components in a single state-space model.
+#' Supports multiple seasonal lags (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
 #' Calls [smooth::adam()] from package \CRANpkg{smooth}.
 #'
 #' @templateVar id fcst.adam

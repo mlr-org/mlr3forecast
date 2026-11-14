@@ -6,6 +6,7 @@
 #' @description
 #' Augmented Dynamic Adaptive Model (ADAM) with automatic selection of the error distribution,
 #' and optionally the ARIMA orders.
+#' Supports multiple seasonal lags (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
 #' Calls [smooth::auto.adam()] from package \CRANpkg{smooth}.
 #'
 #' @templateVar id fcst.auto_adam

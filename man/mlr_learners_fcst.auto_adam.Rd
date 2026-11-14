@@ -7,6 +7,7 @@
 \description{
 Augmented Dynamic Adaptive Model (ADAM) with automatic selection of the error distribution,
 and optionally the ARIMA orders.
+Supports multiple seasonal lags (e.g. \code{lags = c(1, 24, 168)} for hourly data with daily and weekly cycles).
 Calls \code{\link[smooth:auto.adam]{smooth::auto.adam()}} from package \CRANpkg{smooth}.
 }
 \section{Dictionary}{

@@ -4,13 +4,14 @@
 #' @name mlr_learners_fcst.struct_ts
 #'
 #' @description
-#' Structural time series model fit by maximum likelihood. Three model types are supported: local level, local linear
-#' trend, and basic structural model (level + trend + seasonal).
-#' Calls [stats::StructTS()] from package \pkg{stats}.
+#' Structural time series model fit by maximum likelihood.
+#' Three model types are supported: local level, local linear trend,
+#' and basic structural model (level + trend + seasonal).
+#' Point forecasts and prediction intervals come from the Kalman filter.
+#' Calls [stats::StructTS()] from package \pkg{stats} and forecasts via [forecast::forecast()].
 #'
 #' If `type` is not set, [stats::StructTS()] fits `"BSM"` for seasonal series (frequency > 1) and `"trend"` otherwise.
-#' `type = "BSM"` requires a seasonal time series (frequency > 1). Prediction is performed via
-#' [forecast::forecast.StructTS()] which yields point forecasts and predictive intervals from the Kalman filter.
+#' `type = "BSM"` requires a seasonal time series (frequency > 1).
 #'
 #' @templateVar id fcst.struct_ts
 #' @template learner

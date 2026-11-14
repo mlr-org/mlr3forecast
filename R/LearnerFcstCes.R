@@ -5,6 +5,7 @@
 #'
 #' @description
 #' Complex Exponential Smoothing (CES) model.
+#' Supports multiple seasonal lags (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
 #' Calls [smooth::ces()] from package \CRANpkg{smooth}.
 #'
 #' @templateVar id fcst.ces

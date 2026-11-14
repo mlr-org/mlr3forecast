@@ -6,6 +6,7 @@
 \title{ADAM Forecast Learner}
 \description{
 Augmented Dynamic Adaptive Model (ADAM), which combines ETS and ARIMA components in a single state-space model.
+Supports multiple seasonal lags (e.g. \code{lags = c(1, 24, 168)} for hourly data with daily and weekly cycles).
 Calls \code{\link[smooth:adam]{smooth::adam()}} from package \CRANpkg{smooth}.
 }
 \section{Dictionary}{

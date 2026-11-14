@@ -5,6 +5,7 @@
 #'
 #' @description
 #' Complex Exponential Smoothing (CES) with automatic selection of the seasonal component.
+#' Supports multiple seasonal lags (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
 #' Calls [smooth::auto.ces()] from package \CRANpkg{smooth}.
 #'
 #' @templateVar id fcst.auto_ces
