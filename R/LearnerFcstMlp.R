@@ -6,6 +6,8 @@
 #' @description
 #' Automatic time series forecasting with a multilayer perceptron neural network, including automatic input lag
 #' selection, deterministic seasonality handling, and ensemble combination across multiple training repetitions.
+#' The network is trained with \CRANpkg{neuralnet} by default,
+#' or with \CRANpkg{torch} if `backend = "torch"`, which requires the torch package and its libraries.
 #' Calls [nnfor::mlp()] from package \CRANpkg{nnfor}.
 #'
 #' @templateVar id fcst.mlp
@@ -63,6 +65,7 @@ LearnerFcstMlp = R6Class(
         ),
         hd.auto.type = p_fct(c("set", "valid", "cv", "elm"), default = "set", tags = "train"),
         hd.max = p_int(1L, special_vals = list(NULL), default = NULL, tags = "train"),
+        backend = p_fct(c("neuralnet", "torch"), default = "neuralnet", tags = "train"),
         retrain = p_lgl(default = FALSE, tags = "train")
       )
 

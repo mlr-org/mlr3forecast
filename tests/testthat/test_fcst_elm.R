@@ -9,6 +9,12 @@ test_that("autotest", {
   }
 })
 
+test_that("paramtest", {
+  learner = lrn("fcst.elm")
+  exclude = c("y", "outplot", "xreg", "model", "period")
+  expect_true(run_paramtest(learner, nnfor::elm, tag = "train", exclude = exclude))
+})
+
 test_that("elm uses exogenous features", {
   skip_if_not_installed("withr")
 

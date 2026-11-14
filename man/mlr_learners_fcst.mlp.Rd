@@ -7,6 +7,8 @@
 \description{
 Automatic time series forecasting with a multilayer perceptron neural network, including automatic input lag
 selection, deterministic seasonality handling, and ensemble combination across multiple training repetitions.
+The network is trained with \CRANpkg{neuralnet} by default,
+or with \CRANpkg{torch} if \code{backend = "torch"}, which requires the torch package and its libraries.
 Calls \code{\link[nnfor:mlp]{nnfor::mlp()}} from package \CRANpkg{nnfor}.
 }
 \section{Dictionary}{
@@ -45,6 +47,7 @@ lrn("fcst.mlp")
    xreg.keep \tab untyped \tab NULL \tab  \tab - \cr
    hd.auto.type \tab character \tab set \tab set, valid, cv, elm \tab - \cr
    hd.max \tab integer \tab NULL \tab  \tab \eqn{[1, \infty)}{[1, Inf)} \cr
+   backend \tab character \tab neuralnet \tab neuralnet, torch \tab - \cr
    retrain \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    period \tab untyped \tab NULL \tab  \tab - \cr
 }

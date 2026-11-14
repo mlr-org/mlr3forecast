@@ -23,6 +23,7 @@ mase
 maxit
 msis
 multistep
+neuralnet
 newdata
 nnet
 nnetar

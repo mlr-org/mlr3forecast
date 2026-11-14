@@ -47,7 +47,7 @@ Suggests:
     greybox,
     mlr3tuning,
     nnet,
-    nnfor (>= 0.9.9),
+    nnfor (>= 0.10.0),
     prophet (>= 1.1.7),
     Rcatch22,
     Rlgt (>= 0.2.3),
