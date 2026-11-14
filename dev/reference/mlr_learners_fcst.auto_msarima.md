@@ -137,6 +137,7 @@ Other Learner:
 [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.struct_ts.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.theta.md),
+[`mlr_learners_fcst.tsb`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tsb.md),
 [`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tscount.md),
 [`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tslm.md)
 
@@ -229,7 +230,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.43 seconds
+#> Time elapsed: 0.56 seconds
 #> Model estimated using auto.msarima() function: SARIMA(0,1,1)[1](0,1,1)[12]
 #> With backcasting initialisation
 #> Distribution assumed in the model: Normal

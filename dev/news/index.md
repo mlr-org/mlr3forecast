@@ -154,6 +154,10 @@
 - feat: New learner `fcst.snaive` provides the seasonal naive forecast
   with the seasonal period taken from the `period` hyperparameter, which
   defaults to the period implied by the task’s `freq`.
+- feat: New learner `fcst.tsb` wraps
+  [`tsintermittent::tsb()`](https://rdrr.io/pkg/tsintermittent/man/tsb.html),
+  the Teunter-Syntetos-Babai method for intermittent demand, whose
+  forecast decays towards zero for items that stop selling.
 - feat:
   [`list_monash_datasets()`](https://mlr3forecast.mlr-org.com/dev/reference/list_monash_datasets.md)
   lists the Monash Forecasting Repository datasets available to

@@ -148,6 +148,7 @@ Other Learner:
 [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.struct_ts.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.theta.md),
+[`mlr_learners_fcst.tsb`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tsb.md),
 [`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tscount.md),
 [`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tslm.md)
 
@@ -364,8 +365,8 @@ print(learner$model)
 #>     ets(x, model = etsmodel, allow.multiplicative.trend = allow.multiplicative.trend, 
 #>         ...)
 #> }
-#> <bytecode: 0x5afb8f8d1860>
-#> <environment: 0x5afb8f3d2930>
+#> <bytecode: 0x5e4e11c3d6d8>
+#> <environment: 0x5e4e1e31f2b8>
 #> 
 #> $lambda
 #> NULL

@@ -140,6 +140,9 @@
 - [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.theta.md)
   [`LearnerFcstTheta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.theta.md)
   : Theta Forecast Learner
+- [`mlr_learners_fcst.tsb`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tsb.md)
+  [`LearnerFcstTsb`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tsb.md)
+  : TSB Forecast Learner
 - [`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tscount.md)
   [`LearnerFcstTscount`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tscount.md)
   : Count Time Series Forecast Learner

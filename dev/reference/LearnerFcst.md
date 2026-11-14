@@ -147,6 +147,7 @@ Other Learner:
 [`mlr_learners_fcst.struct_ts`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.struct_ts.md),
 [`mlr_learners_fcst.tbats`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tbats.md),
 [`mlr_learners_fcst.theta`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.theta.md),
+[`mlr_learners_fcst.tsb`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tsb.md),
 [`mlr_learners_fcst.tscount`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tscount.md),
 [`mlr_learners_fcst.tslm`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_learners_fcst.tslm.md)
 
@@ -363,7 +364,7 @@ names(lrns)
 #> [34] "fcst.sparma"       "fcst.spline"       "fcst.ssarima"     
 #> [37] "fcst.stheta"       "fcst.stlm"         "fcst.stm"         
 #> [40] "fcst.struct_ts"    "fcst.tbats"        "fcst.theta"       
-#> [43] "fcst.tscount"      "fcst.tslm"        
+#> [43] "fcst.tsb"          "fcst.tscount"      "fcst.tslm"        
 
 # get a specific learner from mlr_learners:
 mlr_learners$get("fcst.ets")
