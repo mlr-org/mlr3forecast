@@ -5,10 +5,6 @@
 #'
 #' @description
 #' Teunter-Syntetos-Babai (TSB) method for intermittent demand.
-#' Like Croston's method, it smooths the size of non-zero demands separately,
-#' but it smooths the probability of a demand occurring in each period instead of the interval between demands.
-#' The probability is updated in every period, so the forecast decays towards zero for items that stop selling.
-#' The smoothing parameters and initial values are optimized unless set.
 #' The multistep costs `"msce"` and `"mace"` are not offered for `cost`, as the forecast horizon is not known at
 #' training time.
 #' Calls [tsintermittent::tsb()] from package \CRANpkg{tsintermittent}.

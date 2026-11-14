@@ -5,13 +5,7 @@
 \alias{LearnerFcstPts}
 \title{PTS Forecast Learner}
 \description{
-Power / Trend / Seasonal (PTS) model, a structural state-space model with multiple sources of error.
-The series is decomposed into trend, seasonal, and irregular components,
-optionally after a Box-Cox power transformation.
-The three letters of \code{model} specify the power (\code{"Z"} to estimate it, or a fixed value such as \code{"0"}),
-the trend (\code{"N"} none, \code{"L"} local linear, \code{"D"} damped, or \code{"G"} global),
-and the seasonal component (\code{"N"} none, \code{"D"} discrete, or \code{"T"} trigonometric), with \code{"Z"} selecting automatically.
-The model is estimated by maximum likelihood with the Kalman filter.
+Power / Trend / Seasonal (PTS) structural state-space model.
 Calls \code{\link[muse:pts]{muse::pts()}} from package \CRANpkg{muse}.
 }
 \section{Dictionary}{
