@@ -88,7 +88,7 @@ test_that("PipeOpFcstUniteKey names the rebuilt key column via the key parameter
   po_unite$train(list(Multiplicity(a = NULL, b = NULL)))
 
   out = po_unite$predict(list(Multiplicity(a = p1, b = p2)))[[1L]]
-  expect_identical(names(out$data$extra), c("date", "id"))
+  expect_named(out$data$extra, c("date", "id"))
   expect_identical(out$key$key, factor(rep(c("a", "b"), each = 3L)))
   expect_named(as.data.table(out), c("id", "date", "row_ids", "truth", "response"))
 })

@@ -93,11 +93,11 @@ test_that("MeasureMPE works", {
   # under-forecasting gives positive MPE
   response = c(8, 16, 24)
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
-  expect_true(unname(pred$score(measure)) > 0)
+  expect_gt(unname(pred$score(measure)), 0)
   # over-forecasting gives negative MPE
   response = c(12, 24, 36)
   pred = PredictionRegr$new(truth = truth, response = response, row_ids = seq_along(truth))
-  expect_true(unname(pred$score(measure)) < 0)
+  expect_lt(unname(pred$score(measure)), 0)
 })
 
 test_that("MeasureWAPE works", {

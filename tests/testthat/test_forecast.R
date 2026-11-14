@@ -45,7 +45,7 @@ test_that("generate_newdata works with Date order", {
   expect_data_table(newdata, nrows = 3L)
   expect_class(newdata$month, "Date")
   # dates should be sequential
-  expect_true(all(diff(newdata$month) > 0L))
+  expect_all_true(diff(newdata$month) > 0L)
 })
 
 test_that("generate_newdata clamps day-of-month without overflow", {

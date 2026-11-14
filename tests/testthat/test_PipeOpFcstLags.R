@@ -62,7 +62,7 @@ test_that("PipeOpFcstLags computes predict features from full backend", {
   out = p$predict(list(test_task))[[1L]]
   lag_cols = sprintf("%s_lag_%i", task$target_names, 1:2)
   expect_subset(lag_cols, out$feature_names)
-  expect_false(anyNA(out$data(cols = lag_cols)))
+  expect_data_table(out$data(cols = lag_cols), any.missing = FALSE)
 })
 
 test_that("PipeOpFcstLags predicts with the lags it was trained with", {

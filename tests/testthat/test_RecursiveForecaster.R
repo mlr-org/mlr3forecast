@@ -277,7 +277,7 @@ test_that("RecursiveForecaster propagates quantiles to every learner in an ensem
 
   pred = learner$predict(task, 142:144)
   expect_class(pred, "PredictionFcst")
-  expect_false(anyNA(pred$response))
+  expect_numeric(pred$response, any.missing = FALSE)
   expect_identical(pred$data$extra$month, task$data(142:144, "month")$month)
 })
 
@@ -495,7 +495,7 @@ test_that("RecursiveForecaster provides a default fallback", {
   rr = resample(task, failing, rsmp("fcst.holdout", ratio = 0.9), encapsulate = "evaluate")
   expect_class(rr, "ResampleResult")
   expect_number(rr$aggregate())
-  expect_true(nrow(rr$errors) > 0L)
+  expect_gt(nrow(rr$errors), 0L)
 })
 
 test_that("RecursiveForecaster fallback predictions combine with regular ones", {

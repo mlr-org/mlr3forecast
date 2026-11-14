@@ -153,7 +153,7 @@ test_that("the period hyperparameter sets the frequency of the ts", {
 test_that("learners without a ts backend have no period hyperparameter", {
   skip_if_not_installed("prophet")
   expect_false("period" %in% lrn("fcst.prophet")$param_set$ids())
-  expect_true("period" %in% lrn("fcst.ets")$param_set$ids())
+  expect_subset("period", lrn("fcst.ets")$param_set$ids())
 })
 
 test_that("learners without exogenous support accept all feature types and missing feature values", {

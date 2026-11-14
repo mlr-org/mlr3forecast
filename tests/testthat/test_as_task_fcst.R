@@ -163,7 +163,7 @@ test_that("as_task conversion keyed tsibble", {
 
   expect_class(task, "TaskFcst")
   expect_identical(task$col_roles$key, "id")
-  expect_true("keys" %in% task$properties)
+  expect_subset("keys", task$properties)
   expect_character(task$data(cols = "id")$id)
 })
 

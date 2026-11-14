@@ -237,7 +237,7 @@ test_that("seq_order clamps days 29-31 instead of overflowing", {
   )
   # no result ever overflows into a later month
   out = seq_order(as.Date("2021-01-31"), "month", 12L)
-  expect_true(all(month(out) == c(2:12, 1L)))
+  expect_identical(month(out), c(2:12, 1L))
 })
 
 test_that("days_from_civil matches ISOdate", {

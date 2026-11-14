@@ -5,8 +5,8 @@ test_that("PipeOpFcstTsfeats adds features to an unkeyed task", {
 
   out = po$train(list(task))[[1L]]
   new_feats = setdiff(out$feature_names, task$feature_names)
-  expect_true(length(new_feats) > 0L)
-  expect_true(all(startsWith(new_feats, "passengers_tsf_")))
+  expect_gt(length(new_feats), 0L)
+  expect_all_true(startsWith(new_feats, "passengers_tsf_"))
   expect_identical(out$nrow, task$nrow)
   expect_shape(unique(out$data(cols = new_feats)), nrow = 1L)
 })
@@ -19,7 +19,7 @@ test_that("PipeOpFcstTsfeats broadcasts per-key for keyed tasks", {
 
   out = po$train(list(task))[[1L]]
   new_feats = setdiff(out$feature_names, task$feature_names)
-  expect_true(length(new_feats) > 0L)
+  expect_gt(length(new_feats), 0L)
   expect_identical(out$nrow, task$nrow)
 
   n_keys = uniqueN(task$data(cols = task$col_roles$key))
@@ -33,7 +33,7 @@ test_that("PipeOpFcstTsfeats predict reuses cached features", {
 
   po$train(list(task))
   out = po$predict(list(task))[[1L]]
-  expect_true("passengers_tsf_entropy" %in% out$feature_names)
+  expect_subset("passengers_tsf_entropy", out$feature_names)
   expect_identical(out$nrow, task$nrow)
 })
 

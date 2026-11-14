@@ -63,7 +63,7 @@ test_that("PipeOpFcstAvg preserves keys for multi-series tasks", {
 
   p = as_learner(graph)$train(task)$predict(task, task$row_ids[c(22:24, 46:48)])
   expect_r6_class(p, "PredictionFcst")
-  expect_identical(names(p$key), c("row_id", "key"))
+  expect_named(p$key, c("row_id", "key"))
   expect_identical(as.character(p$key$key), c("a", "a", "a", "b", "b", "b"))
 })
 

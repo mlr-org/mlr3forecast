@@ -142,12 +142,12 @@ test_that("character keys are structural-only by default", {
   task = as_task_fcst(data, target = "value", order = "date", key = "region")
 
   expect_identical(task$col_roles$key, "region")
-  expect_length(intersect(task$col_roles$key, task$feature_names), 0L)
+  expect_disjoint(task$col_roles$key, task$feature_names)
   expect_character(task$data(cols = "region")$region)
   expect_character(task$key$key)
 
   task$set_col_roles("region", add_to = "feature")
-  expect_true("region" %in% task$feature_names)
+  expect_subset("region", task$feature_names)
 })
 
 test_that("integer keys are structural-only by default", {
@@ -159,7 +159,7 @@ test_that("integer keys are structural-only by default", {
   task = as_task_fcst(data, target = "value", order = "date", key = "store")
 
   expect_identical(task$col_roles$key, "store")
-  expect_length(intersect(task$col_roles$key, task$feature_names), 0L)
+  expect_disjoint(task$col_roles$key, task$feature_names)
   expect_integer(task$data(cols = "store")$store)
   expect_integer(task$key$key)
 })

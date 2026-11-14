@@ -32,7 +32,7 @@ test_that("ppl(\"fcst.local\") passes key through to the united prediction", {
   glrn = as_learner(ppl("fcst.local", recursive_forecaster(fg), key = "id"))
   p = forecast(glrn$train(task), task, 3L)
   expect_identical(as.character(p$key$key), rep(c("a", "b"), each = 3L))
-  expect_true("id" %in% names(as.data.table(p)))
+  expect_subset("id", names(as.data.table(p)))
 })
 
 test_that("fcst.local inverts target transformations with each series' own state", {

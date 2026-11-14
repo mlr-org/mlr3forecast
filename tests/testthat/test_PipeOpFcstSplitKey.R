@@ -41,7 +41,7 @@ test_that("PipeOpFcstSplitKey supports multi-column keys", {
   sub = out$`x:l`
   expect_identical(sub$nrow, 5L)
   expect_false("keys" %in% sub$properties)
-  expect_length(intersect(c("a", "b"), sub$feature_names), 0L)
+  expect_disjoint(c("a", "b"), sub$feature_names)
 })
 
 test_that("PipeOpFcstSplitKey disambiguates multi-column key labels containing the separator", {
@@ -50,12 +50,12 @@ test_that("PipeOpFcstSplitKey disambiguates multi-column key labels containing t
   out = po_split$train(list(task))[[1L]]
 
   expect_length(out, 2L)
-  expect_identical(names(out), c("x:y:z", "x:y:z.1"))
+  expect_named(out, c("x:y:z", "x:y:z.1"))
   expect_equal(out[[1L]]$data(cols = "y")[[1L]], seq_len(12L))
   expect_identical(out[[2L]]$data(cols = "y")[[1L]], 100 + seq_len(12L)^2)
 
   pred = po_split$predict(list(task))[[1L]]
-  expect_identical(names(pred), names(out))
+  expect_named(pred, names(out))
   expect_equal(pred[[1L]]$data(cols = "y")[[1L]], seq_len(12L))
 })
 

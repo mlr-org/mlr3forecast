@@ -53,7 +53,7 @@ test_that("arbitrary quantile probabilities work", {
   newdata = generate_newdata(task$clone()$filter(1:132), n = 1L)
   quantiles = learner$predict_newdata(newdata)$quantiles
   expect_matrix(quantiles, nrows = 1L, ncols = 3L)
-  expect_false(is.unsorted(as.numeric(quantiles)))
+  expect_numeric(as.numeric(quantiles), sorted = TRUE)
 })
 
 test_that("training and predicting leave the RNG state of the session unchanged", {

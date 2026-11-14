@@ -36,11 +36,11 @@ test_that("PipeOpFcstRolling basic train/predict on airpassengers", {
 
   out = po$train(list(task))[[1L]]
   expected = c("passengers_roll_mean_3", "passengers_roll_mean_12", "passengers_roll_sd_3", "passengers_roll_sd_12")
-  expect_true(all(expected %in% out$feature_names))
+  expect_subset(expected, out$feature_names)
   expect_identical(out$nrow, task$nrow - 12L)
 
   pred = po$predict(list(task))[[1L]]
-  expect_true(all(expected %in% pred$feature_names))
+  expect_subset(expected, pred$feature_names)
 })
 
 test_that("PipeOpFcstRolling predicts with the settings it was trained with", {
@@ -58,7 +58,7 @@ test_that("PipeOpFcstRolling works with keyed task", {
   po = po("fcst.rolling", funs = "mean", window_sizes = 3L)
 
   out = po$train(list(task))[[1L]]
-  expect_true(any(grepl("_roll_mean_3$", out$feature_names)))
+  expect_true(any(endsWith(out$feature_names, "_roll_mean_3")))
   expect_lt(out$nrow, task$nrow)
 })
 

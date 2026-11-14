@@ -103,6 +103,6 @@ test_that("PipeOpFcstFourier works with keyed task", {
   skip_if_not_installed("tsibbledata")
   task = tsk("livestock")
   out = po("fcst.fourier", period = 12, K = 2L)$train(list(task))[[1L]]
-  expect_true(any(grepl("^S1_12$", out$feature_names)))
+  expect_subset("S1_12", out$feature_names)
   expect_identical(out$nrow, task$nrow)
 })

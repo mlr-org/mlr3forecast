@@ -161,7 +161,7 @@ test_that("targetdiff works wrapping DirectForecaster on a keyed task", {
   prediction = flrn$predict(task, split$test)
   expect_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
   expect_shape(prediction$key, nrow = length(split$test))
 })
 
@@ -178,7 +178,7 @@ test_that("targetdiff works wrapping RecursiveForecaster on a keyed task", {
   flrn$train(task, split$train)
   prediction = flrn$predict(task, split$test)
   expect_length(prediction$response, length(split$test))
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
 })
 
 test_that("targetdiff keeps truth aligned with the rows of a time-major keyed backend", {
@@ -210,7 +210,7 @@ test_that("targetdiff works wrapping DirectForecaster", {
   prediction = flrn$predict(task, split$test)
   expect_class(prediction, "PredictionRegr")
   expect_length(prediction$response, length(split$test))
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
 })
 
 test_that("fcst.targetdiff round-trips on columns named like its variables", {

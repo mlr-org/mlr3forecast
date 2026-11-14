@@ -91,7 +91,7 @@ test_that("DirectForecaster routes specific (non-contiguous) horizons by step-di
   test_ids = train_ids[length(train_ids)] + c(2L, 4L, 6L)
   prediction = learner$predict(task, test_ids)
   expect_length(prediction$response, 3L)
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
 
   expect_error(
     learner$predict(task, train_ids[length(train_ids)] + 3L),
@@ -284,8 +284,8 @@ test_that("DirectForecaster batched predict aligns response and se with row orde
   pred = flrn$predict(task, test_ids)
   dt = as.data.table(pred)
   expect_identical(dt$row_ids, task$row_ids[match(test_ids, task$row_ids)])
-  expect_false(anyNA(pred$response))
-  expect_false(anyNA(pred$se))
+  expect_numeric(pred$response, any.missing = FALSE)
+  expect_numeric(pred$se, any.missing = FALSE)
 })
 
 test_that("DirectForecaster preserves quantiles probs attribute across horizons", {
@@ -325,7 +325,7 @@ test_that("DirectForecaster propagates quantiles to every learner in an ensemble
 
   pred = learner$predict(task, 142:144)
   expect_class(pred, "PredictionFcst")
-  expect_false(anyNA(pred$response))
+  expect_numeric(pred$response, any.missing = FALSE)
   expect_identical(pred$data$extra$month, task$data(142:144, "month")$month)
 })
 
@@ -502,7 +502,7 @@ test_that("DirectForecaster provides a default fallback", {
   rr = resample(task, failing, rsmp("fcst.holdout", ratio = 0.9), encapsulate = "evaluate")
   expect_class(rr, "ResampleResult")
   expect_number(rr$aggregate())
-  expect_true(nrow(rr$errors) > 0L)
+  expect_gt(nrow(rr$errors), 0L)
 })
 
 test_that("DirectForecaster propagates predict parameters changed after training", {
@@ -550,7 +550,7 @@ test_that("DirectForecaster exposes its graph and base learner like RecursiveFor
   })
   expect_identical(direct$base_learner(0L), direct)
   expect_r6_class(direct$base_learner(), "LearnerRegrRpart")
-  expect_identical(class(direct$base_learner(1L)), class(recursive$base_learner(1L)))
+  expect_s3_class(direct$base_learner(1L), class(recursive$base_learner(1L)), exact = TRUE)
   expect_identical(direct$learner$id, "regr.rpart")
 })
 

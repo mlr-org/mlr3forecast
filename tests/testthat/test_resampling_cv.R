@@ -84,8 +84,8 @@ test_that("fcst.cv keyed task contains all groups per fold", {
     # train/test disjoint
     expect_identical(intersect(train, test), integer())
     # all ids come from valid row ids
-    expect_true(all(train %in% all_ids))
-    expect_true(all(test %in% all_ids))
+    expect_subset(train, all_ids)
+    expect_subset(test, all_ids)
   })
 })
 

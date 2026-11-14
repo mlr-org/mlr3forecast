@@ -91,7 +91,7 @@ test_that("targetscale inverts quantile predictions pointwise without crossing",
   expect_equal(attr(q, "probs"), c(0.25, 0.5, 0.75))
   # the response quantile (0.5) is the untouched transformed target -> exact round trip
   expect_identical(inverted$response, as.numeric(task$truth()))
-  expect_true(all(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L]))
+  expect_all_true(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L])
 })
 
 test_that("targetscale computes separate statistics per series", {
@@ -155,7 +155,7 @@ test_that("targetscale inverts keyed quantile predictions with each series' stat
   expect_equal(attr(q, "probs"), c(0.25, 0.5, 0.75))
   # only inverting each row with its own series' statistics recovers the original scale exactly
   expect_equal(inverted$response, as.numeric(task$truth()))
-  expect_true(all(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L]))
+  expect_all_true(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L])
 })
 
 test_that("targetscale inverts standard errors with each series' scale", {
@@ -211,7 +211,7 @@ test_that("targetscale works wrapping DirectForecaster on a keyed task", {
   prediction = flrn$predict(task, split$test)
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
   expect_shape(prediction$order, nrow = length(split$test))
 })
 
@@ -227,7 +227,7 @@ test_that("targetscale works wrapping RecursiveForecaster on a keyed task", {
   prediction = flrn$predict(task, split$test)
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
   expect_identical(prediction$truth, task$truth(prediction$row_ids))
 })
 
@@ -249,8 +249,8 @@ test_that("targetscale works inside a DirectForecaster graph", {
   flrn = DirectForecaster$new(graph, lags = 1:3, horizons = 3L)
   flrn$train(task, 1:132)
   prediction = flrn$predict(task, 133:135)
-  expect_false(anyNA(prediction$response))
-  expect_true(all(prediction$response > 100))
+  expect_numeric(prediction$response, any.missing = FALSE)
+  expect_all_true(prediction$response > 100)
 })
 
 test_that("targetscale works wrapping DirectForecaster", {
@@ -265,7 +265,7 @@ test_that("targetscale works wrapping DirectForecaster", {
   prediction = flrn$predict(task, split$test)
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
   # inversion keeps the forecast time index so $order/autoplot/fcstavg work downstream
   expect_shape(prediction$order, nrow = length(split$test))
 })

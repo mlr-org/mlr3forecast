@@ -161,7 +161,7 @@ test_that("autoplot.PredictionFcst matches history to deduplicated key labels", 
   g = ggplot2::autoplot(p, task = task)
   expect_s3_class(g, "ggplot")
   expect_identical(levels(g$data$..key), c("x:y:z", "x:y:z.1"))
-  expect_false(anyNA(g$data$..key))
+  expect_factor(g$data$..key, any.missing = FALSE)
   expect_shape(g$data, nrow = task$nrow + 2L + 6L)
 })
 

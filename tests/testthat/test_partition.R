@@ -18,14 +18,14 @@ test_that("partition three way split", {
   expect_disjunct(li$train, li$test)
   expect_disjunct(li$train, li$validation)
   expect_disjunct(li$test, li$validation)
-  expect_true(max(li$train) < min(li$validation))
-  expect_true(max(li$validation) < min(li$test))
+  expect_lt(max(li$train), min(li$validation))
+  expect_lt(max(li$validation), min(li$test))
 })
 
 test_that("partition preserves temporal order", {
   task = tsk("airpassengers")
   li = partition(task, ratio = 0.67)
-  expect_true(max(li$train) < min(li$test))
+  expect_lt(max(li$train), min(li$test))
 })
 
 test_that("partition works with keyed task", {

@@ -30,7 +30,7 @@ test_that("the median quantile equals the point forecast", {
   learner$train(task, 1:132)
   newdata = generate_newdata(task$clone()$filter(1:132), n = 3L)
   quantiles = learner$predict_newdata(newdata)$quantiles
-  expect_true(all(quantiles[, 1L] < quantiles[, 2L] & quantiles[, 2L] < quantiles[, 3L]))
+  expect_all_true(quantiles[, 1L] < quantiles[, 2L] & quantiles[, 2L] < quantiles[, 3L])
   learner$predict_type = "response"
   expect_equal(quantiles[, 2L], learner$predict_newdata(newdata)$response, tolerance = 1e-6)
 })

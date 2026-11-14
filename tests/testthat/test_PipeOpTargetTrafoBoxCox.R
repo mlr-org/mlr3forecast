@@ -76,7 +76,7 @@ test_that("targetboxcox inverts quantile predictions pointwise without crossing"
   # the response quantile (0.5) is the untouched transformed target -> exact round trip
   expect_equal(inverted$response, as.numeric(task$truth()))
   # the monotone Box-Cox map preserves the quantile ordering (no crossing)
-  expect_true(all(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L]))
+  expect_all_true(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L])
 })
 
 test_that("targetboxcox inverts an explicit response instead of the response quantile", {
@@ -123,7 +123,7 @@ test_that("targetboxcox inverts quantile predictions without a response attribut
   expect_equal(inverted$response, as.numeric(task$truth()))
   q = inverted$data$quantiles
   expect_equal(attr(q, "probs"), c(0.25, 0.75))
-  expect_true(all(q[, 1L] <= q[, 2L]))
+  expect_all_true(q[, 1L] <= q[, 2L])
 })
 
 test_that("targetboxcox + fcst.lags + learner trains and predicts inside a graph", {
@@ -205,7 +205,7 @@ test_that("targetboxcox inverts keyed quantile predictions with each series' lam
   expect_equal(attr(q, "probs"), c(0.25, 0.5, 0.75))
   # only inverting each row with its own series' lambda recovers the original scale exactly
   expect_equal(inverted$response, as.numeric(task$truth()))
-  expect_true(all(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L]))
+  expect_all_true(q[, 1L] <= q[, 2L] & q[, 2L] <= q[, 3L])
 })
 
 test_that("targetboxcox errors on key groups not seen during training", {
@@ -233,7 +233,7 @@ test_that("targetboxcox works wrapping DirectForecaster on a keyed task", {
   prediction = flrn$predict(task, split$test)
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
   expect_shape(prediction$order, nrow = length(split$test))
 })
 
@@ -257,8 +257,8 @@ test_that("targetboxcox works inside a DirectForecaster graph", {
   flrn = DirectForecaster$new(graph, lags = 1:3, horizons = 3L)
   flrn$train(task, 1:132)
   prediction = flrn$predict(task, 133:135)
-  expect_false(anyNA(prediction$response))
-  expect_true(all(prediction$response > 100))
+  expect_numeric(prediction$response, any.missing = FALSE)
+  expect_all_true(prediction$response > 100)
 })
 
 test_that("targetboxcox works wrapping DirectForecaster", {
@@ -274,7 +274,7 @@ test_that("targetboxcox works wrapping DirectForecaster", {
   prediction = flrn$predict(task, split$test)
   expect_r6_class(prediction, "PredictionFcst")
   expect_length(prediction$response, length(split$test))
-  expect_false(anyNA(prediction$response))
+  expect_numeric(prediction$response, any.missing = FALSE)
   # inversion keeps the forecast time index so $order/autoplot/fcst.avg work downstream
   expect_shape(prediction$order, nrow = length(split$test))
 })
