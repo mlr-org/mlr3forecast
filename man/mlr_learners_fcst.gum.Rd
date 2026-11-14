@@ -6,7 +6,7 @@
 \title{GUM Forecast Learner}
 \description{
 Generalised Univariate Model (GUM): a single-source-of-error state-space model with a user-defined transition matrix,
-persistence vector and measurement vector. Generalises exponential smoothing beyond the ETS structural template.
+persistence vector and measurement vector. Generalizes exponential smoothing beyond the ETS structural template.
 Calls \code{\link[smooth:gum]{smooth::gum()}} from package \CRANpkg{smooth}.
 }
 \section{Dictionary}{
