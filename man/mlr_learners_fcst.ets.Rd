@@ -5,7 +5,7 @@
 \alias{LearnerFcstEts}
 \title{ETS Forecast Learner}
 \description{
-Exponential Smoothing State Space (ETS) model.
+Exponential smoothing state space (ETS) model.
 Calls \code{\link[forecast:ets]{forecast::ets()}} from package \CRANpkg{forecast}.
 }
 \section{Dictionary}{

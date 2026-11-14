@@ -4,7 +4,7 @@
 #' @name mlr_learners_fcst.ssarima
 #'
 #' @description
-#' State-Space ARIMA model. Supports multiple seasonal lags natively
+#' State-space ARIMA model. Supports multiple seasonal lags natively
 #' (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
 #' Calls [smooth::ssarima()] from package \CRANpkg{smooth}.
 #'

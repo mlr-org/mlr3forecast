@@ -4,7 +4,7 @@
 #' @name mlr_learners_fcst.auto_ssarima
 #'
 #' @description
-#' Automatic order selection for State-Space ARIMA. Picks `orders` minimizing the chosen
+#' Automatic order selection for state-space ARIMA. Picks `orders` minimizing the chosen
 #' information criterion.
 #' Calls [smooth::auto.ssarima()] from package \CRANpkg{smooth}.
 #'

@@ -4,8 +4,8 @@
 #' @name mlr_learners_fcst.tbats
 #'
 #' @description
-#' Exponential smoothing state space model with Box-Cox transformation, ARMA errors, Trend and Seasonal components
-#' (TBATS) model.
+#' Exponential smoothing state space model with trigonometric seasonality, a Box-Cox transformation, ARMA errors,
+#' and trend and seasonal components (TBATS).
 #' Calls [forecast::tbats()] from package \CRANpkg{forecast}.
 #'
 #' @templateVar id fcst.tbats

@@ -4,7 +4,7 @@
 #' @name mlr_learners_fcst.nnetar
 #'
 #' @description
-#' Single Layer Neural Network.
+#' Feed-forward neural network with a single hidden layer and lagged values of the series as inputs.
 #' Calls [forecast::nnetar()] from package \CRANpkg{forecast}.
 #'
 #' @templateVar id fcst.nnetar

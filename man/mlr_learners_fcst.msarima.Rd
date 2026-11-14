@@ -5,7 +5,7 @@
 \alias{LearnerFcstMsarima}
 \title{Multiple-Seasonal ARIMA Forecast Learner}
 \description{
-Multiple-Seasonal ARIMA model in state-space form. Supports multiple seasonal lags natively
+Multiple seasonal ARIMA model in state-space form. Supports multiple seasonal lags natively
 (e.g. \code{lags = c(1, 24, 168)} for hourly data with daily and weekly cycles).
 Calls \code{\link[smooth:msarima]{smooth::msarima()}} from package \CRANpkg{smooth}.
 }

@@ -4,7 +4,7 @@
 #' @name mlr_learners_fcst.auto_ces
 #'
 #' @description
-#' Auto Complex Exponential Smoothing (CES) model.
+#' Complex Exponential Smoothing (CES) with automatic selection of the seasonal component.
 #' Calls [smooth::auto.ces()] from package \CRANpkg{smooth}.
 #'
 #' @templateVar id fcst.auto_ces

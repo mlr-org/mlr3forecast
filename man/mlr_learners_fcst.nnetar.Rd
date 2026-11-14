@@ -5,7 +5,7 @@
 \alias{LearnerFcstNnetar}
 \title{Neural Network Forecast Learner}
 \description{
-Single Layer Neural Network.
+Feed-forward neural network with a single hidden layer and lagged values of the series as inputs.
 Calls \code{\link[forecast:nnetar]{forecast::nnetar()}} from package \CRANpkg{forecast}.
 }
 \section{Dictionary}{

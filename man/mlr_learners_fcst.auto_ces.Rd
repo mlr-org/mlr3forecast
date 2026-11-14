@@ -5,7 +5,7 @@
 \alias{LearnerFcstAutoCes}
 \title{Auto CES Forecast Learner}
 \description{
-Auto Complex Exponential Smoothing (CES) model.
+Complex Exponential Smoothing (CES) with automatic selection of the seasonal component.
 Calls \code{\link[smooth:auto.ces]{smooth::auto.ces()}} from package \CRANpkg{smooth}.
 }
 \section{Dictionary}{
