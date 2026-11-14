@@ -36,6 +36,7 @@ test_that("ppl(\"fcst.local\") passes key through to the united prediction", {
 })
 
 test_that("fcst.local inverts target transformations with each series' own state", {
+  skip_if_not_installed("forecast")
   dt = rbind(
     data.table(id = "a", t = 1:27, y = as.numeric(10:36)),
     data.table(id = "b", t = 1:27, y = 1000 + 5 * (0:26))

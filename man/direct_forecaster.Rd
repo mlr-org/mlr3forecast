@@ -65,7 +65,9 @@ flrn$train(task, split$train)
 flrn$predict(task, split$test)
 
 # graph: the same graph also works with recursive_forecaster()
-graph = po("fcst.lags", lags = 1:3) \%>>\% po("fcst.rolling", window_sizes = 6L) \%>>\% lrn("regr.rpart")
+graph = po("fcst.lags", lags = 1:3) \%>>\%
+  po("fcst.rolling", window_sizes = 6L) \%>>\%
+  lrn("regr.rpart")
 flrn = direct_forecaster(graph, horizons = length(split$test))
 \dontshow{\}) # examplesIf}
 }
