@@ -5,7 +5,8 @@
 \alias{LearnerFcstAutoAdam}
 \title{Auto ADAM Forecast Learner}
 \description{
-Auto Augmented Dynamic Adaptive Model (ADAM) model.
+Augmented Dynamic Adaptive Model (ADAM) with automatic selection of the error distribution,
+and optionally the ARIMA orders.
 Calls \code{\link[smooth:auto.adam]{smooth::auto.adam()}} from package \CRANpkg{smooth}.
 }
 \section{Dictionary}{

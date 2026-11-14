@@ -5,7 +5,7 @@
 \alias{LearnerFcstAdam}
 \title{ADAM Forecast Learner}
 \description{
-Augmented Dynamic Adaptive Model (ADAM) Forecast Learner model.
+Augmented Dynamic Adaptive Model (ADAM), which combines ETS and ARIMA components in a single state-space model.
 Calls \code{\link[smooth:adam]{smooth::adam()}} from package \CRANpkg{smooth}.
 }
 \section{Dictionary}{

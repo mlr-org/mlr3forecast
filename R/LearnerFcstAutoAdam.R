@@ -4,7 +4,8 @@
 #' @name mlr_learners_fcst.auto_adam
 #'
 #' @description
-#' Auto Augmented Dynamic Adaptive Model (ADAM) model.
+#' Augmented Dynamic Adaptive Model (ADAM) with automatic selection of the error distribution,
+#' and optionally the ARIMA orders.
 #' Calls [smooth::auto.adam()] from package \CRANpkg{smooth}.
 #'
 #' @templateVar id fcst.auto_adam
