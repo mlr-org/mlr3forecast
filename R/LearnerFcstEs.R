@@ -9,6 +9,8 @@
 #' (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
 #' Calls [smooth::es()] from package \CRANpkg{smooth}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.es
 #' @template learner
 #'

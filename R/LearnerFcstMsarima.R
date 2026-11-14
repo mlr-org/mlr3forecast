@@ -8,6 +8,8 @@
 #' (e.g. `lags = c(1, 24, 168)` for hourly data with daily and weekly cycles).
 #' Calls [smooth::msarima()] from package \CRANpkg{smooth}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.msarima
 #' @template learner
 #'

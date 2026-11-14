@@ -15,6 +15,8 @@
 #' [forecast::forecast.baggedModel()] are the empirical bootstrap range (not configurable by `level`), so only
 #' `"response"` is offered as a `predict_type`.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.bagged
 #' @template learner
 #'

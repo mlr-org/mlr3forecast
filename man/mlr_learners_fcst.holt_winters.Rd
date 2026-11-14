@@ -12,6 +12,15 @@ Calls \code{\link[stats:HoltWinters]{stats::HoltWinters()}} from package \pkg{st
 Setting \code{beta = FALSE} fits a simple exponential smoothing model (no trend).
 Setting \code{gamma = FALSE} fits a non-seasonal model.
 }
+\section{Custom mlr3 parameters}{
+
+\itemize{
+\item \code{period}: Seasonal period, a number of at least 1 or a cycle name such as \code{"year"},
+defaulting to the period implied by the task's \code{freq}.
+See section \emph{Seasonal period} of \link{LearnerFcst} for details.
+}
+}
+
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{mlr3::Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners} or with the associated sugar function \code{\link[mlr3:lrn]{mlr3::lrn()}}:

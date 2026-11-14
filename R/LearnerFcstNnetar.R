@@ -7,6 +7,8 @@
 #' Feed-forward neural network with a single hidden layer and lagged values of the series as inputs.
 #' Calls [forecast::nnetar()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.nnetar
 #' @template learner
 #'

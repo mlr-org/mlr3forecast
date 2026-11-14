@@ -6,6 +6,8 @@
 #' Dynamic optimized theta model.
 #' Calls [forecTheta::dotm()] from package \CRANpkg{forecTheta}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.dotm
 #' @template learner
 #'

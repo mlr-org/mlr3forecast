@@ -12,6 +12,8 @@
 #' Since [forecast::tslm()] reserves the names `trend` and `season` for these terms,
 #' a task with a target or feature of either name requires `formula`.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.tslm
 #' @template learner
 #'

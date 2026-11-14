@@ -7,6 +7,8 @@
 #' Cubic spline stochastic model.
 #' Calls [forecast::spline_model()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.spline
 #' @template learner
 #'

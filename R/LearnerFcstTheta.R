@@ -7,6 +7,8 @@
 #' Theta model.
 #' Calls [forecast::theta_model()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.theta
 #' @template learner
 #'

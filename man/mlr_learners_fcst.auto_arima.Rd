@@ -11,6 +11,15 @@ Calls \code{\link[forecast:auto.arima]{forecast::auto.arima()}} from package \CR
 Parallel fitting requires \code{stepwise = FALSE}.
 \code{\link[mlr3:set_threads]{mlr3::set_threads()}} then enables \code{parallel} automatically, while with the default stepwise search it has no effect.
 }
+\section{Custom mlr3 parameters}{
+
+\itemize{
+\item \code{period}: Seasonal period, a number of at least 1 or a cycle name such as \code{"year"},
+defaulting to the period implied by the task's \code{freq}.
+See section \emph{Seasonal period} of \link{LearnerFcst} for details.
+}
+}
+
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{mlr3::Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners} or with the associated sugar function \code{\link[mlr3:lrn]{mlr3::lrn()}}:

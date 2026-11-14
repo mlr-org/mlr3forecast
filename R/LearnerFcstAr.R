@@ -7,6 +7,8 @@
 #' Univariate autoregressive model with the order selected by AIC.
 #' Calls [stats::ar()] from package \pkg{stats} and forecasts via [forecast::forecast()].
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.ar
 #' @template learner
 #'

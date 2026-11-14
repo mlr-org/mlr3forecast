@@ -15,6 +15,8 @@
 #' * `method`: Set to `"ets"`, the upstream default, so that `etsmodel` and `allow.multiplicative.trend` can be set
 #'   without setting `method` first.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.stlm
 #' @template learner
 #'

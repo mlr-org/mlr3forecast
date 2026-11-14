@@ -7,6 +7,8 @@
 #' Mean model.
 #' Calls [forecast::mean_model()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.mean
 #' @template learner
 #'

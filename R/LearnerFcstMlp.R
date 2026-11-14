@@ -10,6 +10,8 @@
 #' or with \CRANpkg{torch} if `backend = "torch"`, which requires the torch package and its libraries.
 #' Calls [nnfor::mlp()] from package \CRANpkg{nnfor}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.mlp
 #' @template learner
 #'

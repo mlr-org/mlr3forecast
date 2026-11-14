@@ -12,6 +12,8 @@
 #'
 #' Use [mlr_learners_fcst.random_walk] to choose the lag manually or to add drift.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.snaive
 #' @template learner
 #'

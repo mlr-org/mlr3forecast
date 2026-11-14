@@ -8,6 +8,8 @@
 #' selection, deterministic seasonality handling, and ensemble combination across multiple training repetitions.
 #' Calls [nnfor::elm()] from package \CRANpkg{nnfor}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.elm
 #' @template learner
 #'

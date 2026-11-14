@@ -8,6 +8,8 @@
 #' and seasonal components (BATS).
 #' Calls [forecast::bats()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.bats
 #' @template learner
 #'

@@ -7,6 +7,8 @@
 #' Exponential smoothing state space (ETS) model.
 #' Calls [forecast::ets()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.ets
 #' @template learner
 #'

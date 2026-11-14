@@ -7,6 +7,8 @@
 #' Random walk model.
 #' Calls [forecast::rw_model()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.random_walk
 #' @template learner
 #'

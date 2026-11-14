@@ -16,6 +16,15 @@ returning an object compatible with \code{\link[forecast:forecast]{forecast::for
 \code{\link[forecast:forecast.baggedModel]{forecast::forecast.baggedModel()}} are the empirical bootstrap range (not configurable by \code{level}), so only
 \code{"response"} is offered as a \code{predict_type}.
 }
+\section{Custom mlr3 parameters}{
+
+\itemize{
+\item \code{period}: Seasonal period, a number of at least 1 or a cycle name such as \code{"year"},
+defaulting to the period implied by the task's \code{freq}.
+See section \emph{Seasonal period} of \link{LearnerFcst} for details.
+}
+}
+
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{mlr3::Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners} or with the associated sugar function \code{\link[mlr3:lrn]{mlr3::lrn()}}:

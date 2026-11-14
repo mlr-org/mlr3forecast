@@ -9,6 +9,8 @@
 #' according to the chosen information criterion `ic`.
 #' Calls [smooth::sma()] from package \CRANpkg{smooth}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.sma
 #' @template learner
 #'

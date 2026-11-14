@@ -13,6 +13,8 @@
 #' If `type` is not set, [stats::StructTS()] fits `"BSM"` for seasonal series (frequency > 1) and `"trend"` otherwise.
 #' `type = "BSM"` requires a seasonal time series (frequency > 1).
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.struct_ts
 #' @template learner
 #'

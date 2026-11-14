@@ -10,6 +10,8 @@
 #' Parallel fitting of the ARMA part requires `stepwise = FALSE`.
 #' [mlr3::set_threads()] then enables `parallel` automatically, while with the default stepwise search it has no effect.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.arfima
 #' @template learner
 #'

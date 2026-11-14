@@ -14,6 +14,15 @@ Calls \code{\link[stats:StructTS]{stats::StructTS()}} from package \pkg{stats} a
 If \code{type} is not set, \code{\link[stats:StructTS]{stats::StructTS()}} fits \code{"BSM"} for seasonal series (frequency > 1) and \code{"trend"} otherwise.
 \code{type = "BSM"} requires a seasonal time series (frequency > 1).
 }
+\section{Custom mlr3 parameters}{
+
+\itemize{
+\item \code{period}: Seasonal period, a number of at least 1 or a cycle name such as \code{"year"},
+defaulting to the period implied by the task's \code{freq}.
+See section \emph{Seasonal period} of \link{LearnerFcst} for details.
+}
+}
+
 \section{Dictionary}{
 
 This \link[mlr3:Learner]{mlr3::Learner} can be instantiated via the \link[mlr3misc:Dictionary]{dictionary} \link[mlr3:mlr_learners]{mlr3::mlr_learners} or with the associated sugar function \code{\link[mlr3:lrn]{mlr3::lrn()}}:

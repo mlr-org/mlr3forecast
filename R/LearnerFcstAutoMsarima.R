@@ -8,6 +8,8 @@
 #' information criterion.
 #' Calls [smooth::auto.msarima()] from package \CRANpkg{smooth}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.auto_msarima
 #' @template learner
 #'

@@ -11,6 +11,8 @@
 #' Setting `beta = FALSE` fits a simple exponential smoothing model (no trend).
 #' Setting `gamma = FALSE` fits a non-seasonal model.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.holt_winters
 #' @template learner
 #'

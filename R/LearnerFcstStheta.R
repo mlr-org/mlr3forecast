@@ -6,6 +6,8 @@
 #' Standard theta method.
 #' Calls [forecTheta::stheta()] from package \CRANpkg{forecTheta}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.stheta
 #' @template learner
 #'

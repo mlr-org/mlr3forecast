@@ -8,6 +8,8 @@
 #' specific lags, so `orders = list(ar = c(1, 12), ma = 0)` fits terms at lags 1 and 12 and nothing in between.
 #' Calls [smooth::sparma()] from package \CRANpkg{smooth}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.sparma
 #' @template learner
 #'

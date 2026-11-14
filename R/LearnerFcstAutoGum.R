@@ -7,6 +7,8 @@
 #' Automatic selection over Generalised Univariate Model (GUM) specifications via an information criterion.
 #' Calls [smooth::auto.gum()] from package \CRANpkg{smooth}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.auto_gum
 #' @template learner
 #'

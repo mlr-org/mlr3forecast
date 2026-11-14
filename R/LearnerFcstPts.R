@@ -7,6 +7,8 @@
 #' Power / Trend / Seasonal (PTS) structural state-space model.
 #' Calls [muse::pts()] from package \CRANpkg{muse}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.pts
 #' @template learner
 #'

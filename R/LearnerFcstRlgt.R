@@ -14,6 +14,8 @@
 #' * `method`: Set to `"Gibbs"`, the upstream default, so that `seasonality` and `homoscedastic` can be set without
 #'   setting `method` first.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.rlgt
 #' @template learner
 #'

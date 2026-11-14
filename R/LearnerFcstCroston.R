@@ -7,6 +7,8 @@
 #' Croston model.
 #' Calls [forecast::croston_model()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.croston
 #' @template learner
 #'

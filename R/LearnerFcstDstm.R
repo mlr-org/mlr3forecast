@@ -6,6 +6,8 @@
 #' Dynamic standard theta model.
 #' Calls [forecTheta::dstm()] from package \CRANpkg{forecTheta}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.dstm
 #' @template learner
 #'

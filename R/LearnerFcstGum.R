@@ -8,6 +8,8 @@
 #' persistence vector and measurement vector. Generalizes exponential smoothing beyond the ETS structural template.
 #' Calls [smooth::gum()] from package \CRANpkg{smooth}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.gum
 #' @template learner
 #'

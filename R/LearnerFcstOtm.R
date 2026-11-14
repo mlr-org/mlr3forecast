@@ -6,6 +6,8 @@
 #' Optimized theta model.
 #' Calls [forecTheta::otm()] from package \CRANpkg{forecTheta}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.otm
 #' @template learner
 #'

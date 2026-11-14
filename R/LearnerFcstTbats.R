@@ -8,6 +8,8 @@
 #' and trend and seasonal components (TBATS).
 #' Calls [forecast::tbats()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.tbats
 #' @template learner
 #'

@@ -7,6 +7,8 @@
 #' Autoregressive integrated moving average (ARIMA) model.
 #' Calls [forecast::Arima()] from package \CRANpkg{forecast}.
 #'
+#' @template section_custom_period
+#'
 #' @templateVar id fcst.arima
 #' @template learner
 #'
