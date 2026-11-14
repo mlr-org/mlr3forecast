@@ -3,9 +3,12 @@
 Automatic time series forecasting with a multilayer perceptron neural
 network, including automatic input lag selection, deterministic
 seasonality handling, and ensemble combination across multiple training
-repetitions. Calls
-[`nnfor::mlp()`](https://rdrr.io/pkg/nnfor/man/mlp.html) from package
-[nnfor](https://CRAN.R-project.org/package=nnfor).
+repetitions. The network is trained with
+[neuralnet](https://CRAN.R-project.org/package=neuralnet) by default, or
+with [torch](https://CRAN.R-project.org/package=torch) if
+`backend = "torch"`, which requires the torch package and its libraries.
+Calls [`nnfor::mlp()`](https://rdrr.io/pkg/nnfor/man/mlp.html) from
+package [nnfor](https://CRAN.R-project.org/package=nnfor).
 
 ## Dictionary
 
@@ -34,25 +37,26 @@ or with the associated sugar function
 
 ## Parameters
 
-|                  |           |         |                     |                  |
-|------------------|-----------|---------|---------------------|------------------|
-| Id               | Type      | Default | Levels              | Range            |
-| m                | integer   | \-      |                     | \\\[1, \infty)\\ |
-| hd               | untyped   | NULL    |                     | \-               |
-| reps             | integer   | 20      |                     | \\\[1, \infty)\\ |
-| comb             | character | median  | median, mean, mode  | \-               |
-| lags             | untyped   | NULL    |                     | \-               |
-| keep             | untyped   | NULL    |                     | \-               |
-| difforder        | untyped   | NULL    |                     | \-               |
-| sel.lag          | logical   | TRUE    | TRUE, FALSE         | \-               |
-| allow.det.season | logical   | TRUE    | TRUE, FALSE         | \-               |
-| det.type         | character | auto    | auto, bin, trg      | \-               |
-| xreg.lags        | untyped   | NULL    |                     | \-               |
-| xreg.keep        | untyped   | NULL    |                     | \-               |
-| hd.auto.type     | character | set     | set, valid, cv, elm | \-               |
-| hd.max           | integer   | NULL    |                     | \\\[1, \infty)\\ |
-| retrain          | logical   | FALSE   | TRUE, FALSE         | \-               |
-| period           | untyped   | NULL    |                     | \-               |
+|                  |           |           |                     |                  |
+|------------------|-----------|-----------|---------------------|------------------|
+| Id               | Type      | Default   | Levels              | Range            |
+| m                | integer   | \-        |                     | \\\[1, \infty)\\ |
+| hd               | untyped   | NULL      |                     | \-               |
+| reps             | integer   | 20        |                     | \\\[1, \infty)\\ |
+| comb             | character | median    | median, mean, mode  | \-               |
+| lags             | untyped   | NULL      |                     | \-               |
+| keep             | untyped   | NULL      |                     | \-               |
+| difforder        | untyped   | NULL      |                     | \-               |
+| sel.lag          | logical   | TRUE      | TRUE, FALSE         | \-               |
+| allow.det.season | logical   | TRUE      | TRUE, FALSE         | \-               |
+| det.type         | character | auto      | auto, bin, trg      | \-               |
+| xreg.lags        | untyped   | NULL      |                     | \-               |
+| xreg.keep        | untyped   | NULL      |                     | \-               |
+| hd.auto.type     | character | set       | set, valid, cv, elm | \-               |
+| hd.max           | integer   | NULL      |                     | \\\[1, \infty)\\ |
+| backend          | character | neuralnet | neuralnet, torch    | \-               |
+| retrain          | logical   | FALSE     | TRUE, FALSE         | \-               |
+| period           | untyped   | NULL      |                     | \-               |
 
 ## References
 

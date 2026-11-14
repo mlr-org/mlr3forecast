@@ -148,6 +148,9 @@
   [`tsintermittent::imapa()`](https://rdrr.io/pkg/tsintermittent/man/imapa.html)
   for intermittent demand forecasting with temporal aggregation. It
   requires `tsintermittent` 2.0 or later.
+- feat: `fcst.mlp` gained the `backend` parameter to train the network
+  with `torch` instead of `neuralnet`. This raises the required `nnfor`
+  version to 0.10.0.
 - feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`,
   `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to
   [`nnet::nnet()`](https://rdrr.io/pkg/nnet/man/nnet.html).
