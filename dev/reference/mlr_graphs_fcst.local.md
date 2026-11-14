@@ -34,7 +34,7 @@ pipeline_fcst_local(graph, key = "key")
   [`po("fcst.unitekey")`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.unitekey.md).
   The graph should return `NULL` during training and a
   [PredictionFcst](https://mlr3forecast.mlr-org.com/dev/reference/PredictionFcst.md)
-  during prediction.
+  or regression prediction during prediction.
 
 - key:
 

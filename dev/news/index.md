@@ -146,7 +146,8 @@
   prediction.
 - feat: New learner `fcst.imapa` wraps
   [`tsintermittent::imapa()`](https://rdrr.io/pkg/tsintermittent/man/imapa.html)
-  for intermittent demand forecasting with temporal aggregation.
+  for intermittent demand forecasting with temporal aggregation. It
+  requires `tsintermittent` 2.0 or later.
 - feat: `fcst.nnetar` gained the `decay`, `maxit`, `rang`, `skip`,
   `MaxNWts`, `abstol`, and `reltol` parameters, which are passed on to
   [`nnet::nnet()`](https://rdrr.io/pkg/nnet/man/nnet.html).
@@ -403,6 +404,9 @@
   predict features with the settings stored at train time, so changing
   their parameters after training, e.g. `fcst.lags.lags` of a trained
   `RecursiveForecaster`, no longer breaks prediction.
+- fix: `po("fcst.unitekey")` and thus `ppl("fcst.local")` now accept
+  regression predictions, e.g. from a graph ending in
+  `po("targetmutate")`, and return a forecast prediction.
 - fix: `po("fcst.splitkey")` and thus `ppl("fcst.local")` now give each
   per-series task a backend holding only the rows of its series, so
   `po("fcst.lags")` and `po("fcst.rolling")` no longer mix series at
@@ -415,6 +419,10 @@
   received the full validation task, so validation scores and early
   stopping mixed series, and `RecursiveForecaster` appended the
   validation rows of other series to its recursion history.
+- fix: `po("fcst.targetboxcox")`, `po("fcst.targetdiff")`, and
+  `po("fcst.targetscale")` now work inside `ppl("fcst.local")`, where
+  each series gets its own transformation. Previously, the inversion
+  read the state of all series and failed with unrelated errors.
 - fix: `po("fcst.targetdiff")` no longer errors on quantile predictions,
   but inverts their response and drops the quantiles, like the target
   trafos of `mlr3pipelines`.

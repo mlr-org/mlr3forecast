@@ -3,8 +3,8 @@
 Row-binds a
 [Multiplicity](https://mlr3pipelines.mlr-org.com/reference/Multiplicity.html)
 of per-series
-[PredictionFcst](https://mlr3forecast.mlr-org.com/dev/reference/PredictionFcst.md)s,
-as created downstream of
+[PredictionFcst](https://mlr3forecast.mlr-org.com/dev/reference/PredictionFcst.md)s
+or regression predictions, as created downstream of
 [`po("fcst.splitkey")`](https://mlr3forecast.mlr-org.com/dev/reference/mlr_pipeops_fcst.splitkey.md),
 into a single
 [PredictionFcst](https://mlr3forecast.mlr-org.com/dev/reference/PredictionFcst.md).
