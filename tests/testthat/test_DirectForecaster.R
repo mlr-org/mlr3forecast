@@ -585,6 +585,7 @@ test_that("DirectForecaster is not confused by columns named like its variables"
     list(target = "target"),
     list(key = "step"),
     list(key = "max_h"),
+    list(key = "ord"),
     list(feature = "max_lag"),
     list(key = "key_cols"),
     list(order = "key_cols")

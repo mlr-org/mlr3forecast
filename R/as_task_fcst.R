@@ -249,7 +249,7 @@ task_fcst_from_ts_index = function(x, id, label, index = NULL, order = "index", 
   if (is_multi) {
     set(dt, j = "id", value = rep(colnames(m) %??% paste("Series", seq_col(m)), each = n))
   }
-  dt = dt[!is.na(dt$value)]
+  dt = dt[!is.na(get("value"))]
   key = if (is_multi) "id" else character()
   as_task_fcst(x = dt, target = "value", order = order, key = key, freq = freq, id = id, label = label, ...)
 }

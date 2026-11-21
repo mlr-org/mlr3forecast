@@ -568,6 +568,7 @@ test_that("RecursiveForecaster is not confused by columns named like its variabl
     list(key = "step"),
     list(order = "step"),
     list(key = "key_cols"),
+    list(key = "grid_ok"),
     list(order = "key_cols")
   )
   for (args in cases) {

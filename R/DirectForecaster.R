@@ -427,7 +427,7 @@ DirectForecaster = R6Class(
       # a row's step is its position on the future grid seq_order(origin, step, max_h)
       if (length(key_cols) > 0L) {
         ord = origin[ord, on = key_cols]
-        unseen = unique(ord[is.na(ord$..origin), key_cols, with = FALSE])
+        unseen = unique(ord[is.na(get("..origin")), key_cols, with = FALSE])
         if (nrow(unseen) > 0L) {
           error_input(
             "No training rows for key group(s) %s, so the forecast origin is unknown.",
