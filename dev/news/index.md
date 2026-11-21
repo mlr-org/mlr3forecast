@@ -321,6 +321,11 @@
 - fix: `DirectForecaster` and `RecursiveForecaster` now set `$man` to
   their own help pages, so `$help()` no longer opens the `GraphLearner`
   page.
+- fix: `DirectForecaster` and `RecursiveForecaster` now pass the offset
+  column of a task to the wrapped learner at predict time, like a plain
+  `GraphLearner`. Previously, the offset was only used for training, so
+  learners such as `regr.lm` failed to predict and others such as
+  `regr.xgboost` silently predicted without it.
 - fix:
   [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   is deprecated in favor of
