@@ -50,7 +50,7 @@ LearnerFcstArfima = R6Class(
         start.q = p_int(0L, default = 2L, tags = "train"),
         ic = p_fct(c("aicc", "aic", "bic"), default = "aicc", tags = "train"),
         stepwise = p_lgl(default = TRUE, tags = "train"),
-        nmodels = p_int(0L, default = 94L, tags = "train"),
+        nmodels = p_int(5L, default = 94L, tags = "train"),
         trace = p_lgl(default = FALSE, tags = "train"),
         approximation = p_lgl(tags = "train"),
         method = p_fct(c("CSS-ML", "ML", "CSS"), default = NULL, special_vals = list(NULL), tags = "train"),

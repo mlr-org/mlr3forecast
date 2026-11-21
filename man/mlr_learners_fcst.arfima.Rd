@@ -56,7 +56,7 @@ lrn("fcst.arfima")
    start.q \tab integer \tab 2 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
    ic \tab character \tab aicc \tab aicc, aic, bic \tab - \cr
    stepwise \tab logical \tab TRUE \tab TRUE, FALSE \tab - \cr
-   nmodels \tab integer \tab 94 \tab  \tab \eqn{[0, \infty)}{[0, Inf)} \cr
+   nmodels \tab integer \tab 94 \tab  \tab \eqn{[5, \infty)}{[5, Inf)} \cr
    trace \tab logical \tab FALSE \tab TRUE, FALSE \tab - \cr
    approximation \tab logical \tab - \tab TRUE, FALSE \tab - \cr
    method \tab character \tab NULL \tab CSS-ML, ML, CSS \tab - \cr
