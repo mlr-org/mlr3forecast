@@ -19,3 +19,16 @@ test_that("in-sample prediction returns one-step fitted values", {
   pred = learner$predict(task)
   expect_identical(pred$response[1:12], rep(NA_real_, 12L))
 })
+
+test_that("quantiles match the prediction intervals when the median is requested", {
+  task = tsk("airpassengers")
+  learner = lrn("fcst.holt_winters", predict_type = "quantiles")
+  learner$quantiles = c(0.1, 0.5, 0.9)
+  learner$quantile_response = 0.5
+  learner$train(task, 1:132)
+  quantiles = learner$predict(task, 133:144)$quantiles
+  fc = forecast::forecast(learner$native_model, h = 12L, level = 80)
+  expect_equal(quantiles[, 1L], as.numeric(fc$lower))
+  expect_equal(quantiles[, 2L], as.numeric(fc$mean), tolerance = 1e-6)
+  expect_equal(quantiles[, 3L], as.numeric(fc$upper))
+})

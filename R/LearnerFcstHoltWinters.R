@@ -70,6 +70,12 @@ LearnerFcstHoltWinters = R6Class(
     .fn = "HoltWinters",
     .y_arg = "x",
 
+    # forecast.HoltWinters() derives the standard error from the interval at the first level, whose width underflows
+    # at the default floor of the median level
+    .adjust_level = function(level) {
+      pmax(super$.adjust_level(level), 1e-6)
+    },
+
     .fitted = function() {
       model = self$native_model
       pad = length(model$x) - nrow(model$fitted)
