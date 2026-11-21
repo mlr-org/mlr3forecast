@@ -318,10 +318,7 @@ RecursiveForecaster = R6Class(
           )
         }
         grid_ok = grid_check[,
-          list(..ok = {
-            expected = seq_order(get("..origin")[1L], step, .N, get("..anchor")[1L])
-            !anyNA(expected) && all(sort(order_cols) == expected)
-          }),
+          list(..ok = test_future_grid(order_cols, get("..origin")[1L], step, get("..anchor")[1L])),
           by = key_cols,
           env = list(order_cols = order_cols, step = I(step), key_cols = I(key_cols))
         ]

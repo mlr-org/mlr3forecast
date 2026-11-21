@@ -108,3 +108,8 @@ test_regular_grid = function(order, freq) {
   steps = grid_steps(sort(order), rep.int(1L, length(order)), freq)
   !anyNA(steps) && all(steps == seq_along0(steps))
 }
+
+test_future_grid = function(order, origin, step, anchor) {
+  expected = seq_order(origin, step, length(order), anchor)
+  !anyNA(expected) && all(sort(order) == expected)
+}

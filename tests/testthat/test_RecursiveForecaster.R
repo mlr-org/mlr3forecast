@@ -142,6 +142,14 @@ test_that("RecursiveForecaster errors on gapped keyed test rows", {
   expect_snapshot(flrn$predict(task, 19:20), error = TRUE)
 })
 
+test_that("RecursiveForecaster errors on gapped keyed test rows with an order column named like its variables", {
+  task = make_named_task(order = "expected")
+  ids = task$row_ids
+  flrn = RecursiveForecaster$new(lrn("regr.rpart"), lags = 1:2)
+  flrn$train(task, ids[c(1:27, 31:57)])
+  expect_error(flrn$predict(task, ids[c(29:30, 59:60)]), "gap-free future grid")
+})
+
 test_that("RecursiveForecaster errors on target trafo inside the graph", {
   inner = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
   graph = ppl("targettrafo", graph = inner, trafo_pipeop = po("fcst.targetdiff", lag = 1L))
