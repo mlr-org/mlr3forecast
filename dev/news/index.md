@@ -349,6 +349,11 @@
   during stepwise search, where
   [`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
   warned and fit in serial.
+- fix: `fcst.arfima` and `fcst.auto_arima` now require `nmodels` to be
+  at least 5, the number of starting models of the stepwise search.
+  Previously, smaller values failed inside
+  [`forecast::auto.arima()`](https://pkg.robjhyndman.com/forecast/reference/auto.arima.html)
+  with a “subscript out of bounds” error.
 - fix: `fcst.auto_ces` now accepts several values for `seasonality`, the
   candidate models to select from, and defaults to all four like
   [`smooth::auto.ces()`](https://rdrr.io/pkg/smooth/man/ces.html).

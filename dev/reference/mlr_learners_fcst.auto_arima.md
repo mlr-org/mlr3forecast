@@ -63,7 +63,7 @@ or with the associated sugar function
 | seasonal | logical | TRUE | TRUE, FALSE | \- |
 | ic | character | aicc | aicc, aic, bic | \- |
 | stepwise | logical | TRUE | TRUE, FALSE | \- |
-| nmodels | integer | 94 |  | \\\[0, \infty)\\ |
+| nmodels | integer | 94 |  | \\\[5, \infty)\\ |
 | trace | logical | FALSE | TRUE, FALSE | \- |
 | approximation | logical | \- | TRUE, FALSE | \- |
 | method | character | NULL | CSS-ML, ML, CSS | \- |
