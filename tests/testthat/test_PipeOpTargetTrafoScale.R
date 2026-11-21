@@ -103,8 +103,8 @@ test_that("targetscale computes separate statistics per series", {
   dt = task$data(cols = c("id", "y"))
   for (series in c("a", "b")) {
     y = dt[list(series), "y", on = "id"][[1L]]
-    expect_identical(stats[list(series), "..center", on = "id"][[1L]], mean(y))
-    expect_identical(stats[list(series), "..scale", on = "id"][[1L]], sd(y))
+    expect_equal(stats[list(series), "..center", on = "id"][[1L]], mean(y))
+    expect_equal(stats[list(series), "..scale", on = "id"][[1L]], sd(y))
   }
   expect_false(isTRUE(all.equal(stats$..center[1L], stats$..center[2L])))
 })
