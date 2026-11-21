@@ -254,7 +254,7 @@ learner$train(task, row_ids = ids$train)
 # Print the model
 print(learner$model)
 #> $model
-#> Time elapsed: 0.23 seconds
+#> Time elapsed: 0.2 seconds
 #> Model estimated using pts() function: PTS(0,G,D)
 #> With log transform (Box-Cox lambda = 0)
 #> Distribution assumed in the model: Normal
