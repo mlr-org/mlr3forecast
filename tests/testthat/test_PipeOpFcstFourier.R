@@ -30,6 +30,16 @@ test_that("PipeOpFcstFourier drops identically-zero sine terms", {
   expect_disjunct("S6_12", out$feature_names)
 })
 
+test_that("PipeOpFcstFourier alternates at half the period for positions off the integer grid", {
+  half = function(order) {
+    task = as_task_fcst(data.table(t = order, y = as.numeric(seq_along(order))), target = "y", order = "t")
+    po("fcst.fourier", period = 2)$train(list(task))[[1L]]$data(cols = "C1_2")[[1L]]
+  }
+  expect_identical(half(seq(as.Date("2010-04-01"), by = "6 months", length.out = 4L)), c(-1, 1, -1, 1))
+  expect_identical(half(seq(as.Date("2010-02-01"), by = "quarter", length.out = 4L)), c(-1, 1, -1, 1))
+  expect_identical(half(c(1L, 3L, 5L, 7L)), c(1, -1, 1, -1))
+})
+
 test_that("PipeOpFcstFourier derives period from task frequency", {
   out = po("fcst.fourier", K = 2L)$train(list(tsk("airpassengers")))[[1L]]
   expect_subset(c("S1_12", "C1_12", "S2_12", "C2_12"), out$feature_names)

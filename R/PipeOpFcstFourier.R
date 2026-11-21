@@ -122,7 +122,8 @@ fourier_terms = function(times, period, K) {
       X[, jj] = sinpi(2 * phase)
     }
     jj = jj + 1L
-    X[, jj] = cospi(2 * phase)
+    # at half the period, the cosine is 0 for positions half a step off the integers, so whole steps are counted
+    X[, jj] = if (keep_sin[j]) cospi(2 * phase) else cospi(floor(times + 1e-8))
   }
   X
 }
