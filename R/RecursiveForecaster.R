@@ -246,7 +246,13 @@ RecursiveForecaster = R6Class(
     .train = function(task) {
       graph_state = super$.train(task)
 
-      cols = unique(c(task$target_names, task$feature_names, task$col_roles$key, task$col_roles$order))
+      cols = unique(c(
+        task$target_names,
+        task$feature_names,
+        task$col_roles$key,
+        task$col_roles$order,
+        task$col_roles$offset
+      ))
       train_data = task$data(cols = cols)
       valid_task = task$internal_valid_task
       if (!is.null(valid_task)) {
@@ -293,7 +299,10 @@ RecursiveForecaster = R6Class(
       order_cols = self$model$order_cols
       train_data = self$model$train_data
 
-      test_cols = unique(c(target, intersect(self$model$feature_names, task$feature_names), key_cols, order_cols))
+      # the offset reaches the learner at predict as in a plain graph, if the model was trained with it
+      offset_cols = intersect(task$col_roles$offset, names(train_data))
+      features = intersect(self$model$feature_names, task$feature_names)
+      test_cols = unique(c(target, features, key_cols, order_cols, offset_cols))
       test_data = task$data(cols = test_cols)
 
       # drop training rows overlapping the test set so the combined backend has unique (key, order),
@@ -351,7 +360,7 @@ RecursiveForecaster = R6Class(
         set(combined, j = target, value = as.numeric(combined[[target]]))
       }
       set(combined, i = test_cids, j = target, value = NA_real_)
-      step_task = fcst_step_task(combined, target, order_cols, key_cols, step, self$model$feature_names)
+      step_task = fcst_step_task(combined, target, order_cols, key_cols, step, self$model$feature_names, offset_cols)
 
       ord = combined[test_cids, c(key_cols, order_cols, "..row_id"), with = FALSE]
       setorderv(ord, c(key_cols, order_cols))

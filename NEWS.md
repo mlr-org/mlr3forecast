@@ -71,6 +71,7 @@
 * fix: `DirectForecaster` and `RecursiveForecaster` now error in `$native_model` on marshaled models instead of returning wrong objects.
 * fix: `DirectForecaster` and `RecursiveForecaster` now return the `$native_model` of the wrapped learner in `$native_model` instead of its `$model`, so learners whose `$model` wraps the fitted object, e.g. `lrn("regr.ranger")`, yield that object itself.
 * fix: `DirectForecaster` and `RecursiveForecaster` now set `$man` to their own help pages, so `$help()` no longer opens the `GraphLearner` page.
+* fix: `DirectForecaster` and `RecursiveForecaster` now pass the offset column of a task to the wrapped learner at predict time, like a plain `GraphLearner`. Previously, the offset was only used for training, so learners such as `regr.lm` failed to predict and others such as `regr.xgboost` silently predicted without it.
 * fix: `download_zenodo_record()` is deprecated in favor of `download_monash_dataset()` and warns once per session.
 * fix: `fcst.adam` gained the `lambda` parameter, the weight of the `LASSO` and `RIDGE` penalties. Previously, these losses always used a weight of 0 and fit like plain `MSE`.
 * fix: `fcst.ar` now accepts tasks with missing feature values, like the other learners that ignore features.

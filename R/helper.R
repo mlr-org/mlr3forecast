@@ -95,12 +95,17 @@ error_predict_newdata_fast = function(learner) {
   )
 }
 
-fcst_step_task = function(data, target, order_cols, key_cols, freq, feature_names) {
+fcst_step_task = function(data, target, order_cols, key_cols, freq, feature_names, offset_cols = character()) {
   set(data, j = "..row_id", value = seq_row(data))
+  # rows that are never predicted, e.g. the future grid of the direct forecaster, have no offset
+  for (col in offset_cols) {
+    set(data, i = which(is.na(data[[col]])), j = col, value = 0)
+  }
   backend = DataBackendDataTable$new(data, "..row_id")
   task = as_task_fcst(backend, target = target, order = order_cols, key = key_cols, freq = freq)
   # preserve training feature col_roles so PipeOpTaskPreproc's layout check passes
   task$col_roles$feature = intersect(feature_names, names(data))
+  task$col_roles$offset = offset_cols
   task
 }
 

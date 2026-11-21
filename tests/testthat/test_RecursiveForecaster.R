@@ -150,6 +150,12 @@ test_that("RecursiveForecaster errors on gapped keyed test rows with an order co
   expect_error(flrn$predict(task, ids[c(29:30, 59:60)]), "gap-free future grid")
 })
 
+test_that("RecursiveForecaster passes the offset to the learner at predict", {
+  task = make_offset_task()
+  flrn = RecursiveForecaster$new(LearnerRegrOffset$new(), lags = 1L)$train(task, 1:35)
+  expect_equal(flrn$predict(task, 36:40)$response, mean(sin(2:35)) + 36:40)
+})
+
 test_that("RecursiveForecaster errors on target trafo inside the graph", {
   inner = po("fcst.lags", lags = 1:3) %>>% lrn("regr.rpart")
   graph = ppl("targettrafo", graph = inner, trafo_pipeop = po("fcst.targetdiff", lag = 1L))

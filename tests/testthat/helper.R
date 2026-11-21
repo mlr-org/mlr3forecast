@@ -96,6 +96,27 @@ make_named_task = function(target = "y", key = "id", order = "t", feature = NULL
   as_task_fcst(data, target = target, order = order, key = key)
 }
 
+# learner that predicts the mean of the target net of the offset, plus the offset of the predicted rows
+LearnerRegrOffset = R6::R6Class(
+  "LearnerRegrOffset",
+  inherit = LearnerRegr,
+  public = list(
+    initialize = function() {
+      super$initialize("regr.offset", feature_types = c("integer", "numeric"), properties = "offset")
+    }
+  ),
+  private = list(
+    .train = function(task) list(mean = mean(task$truth() - task$offset$offset)),
+    .predict = function(task) list(response = self$model$mean + task$offset$offset)
+  )
+)
+
+make_offset_task = function() {
+  data = data.table(t = 1:40, off = as.numeric(1:40), y = 1:40 + sin(1:40))
+  task = as_task_fcst(data, target = "y", order = "t")
+  task$set_col_roles("off", roles = "offset")
+}
+
 expect_same_values = function(object, expected) {
   strip = function(x) if (is.data.frame(x)) unname(as.list(x)) else map(x, strip)
   expect_identical(strip(object), strip(expected))

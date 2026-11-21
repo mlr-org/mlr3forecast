@@ -385,7 +385,7 @@ DirectForecaster = R6Class(
       anchor = if (length(key_cols) > 0L) NA_integer_ else grid_anchor(dt[[order_cols]], step)
 
       # the lookback before shifting is the history every horizon's features reach back from the forecast origin
-      cols = unique(c(task$target_names, task$feature_names, key_cols, order_cols))
+      cols = unique(c(task$target_names, task$feature_names, key_cols, order_cols, task$col_roles$offset))
       tail_dt = task$data(cols = cols)
       setorderv(tail_dt, c(key_cols, order_cols))
       lookback = max(0, map_dbl(fcst_iterative_pipeops(graph), function(po) po$lookback))
@@ -460,7 +460,10 @@ DirectForecaster = R6Class(
 
       target = self$model$target
       feature_names = self$model$feature_names
-      test_cols = unique(c(target, intersect(feature_names, task$feature_names), key_cols, order_cols))
+      # the offset reaches the learner at predict as in a plain graph, if the model was trained with it
+      offset_cols = intersect(task$col_roles$offset, names(self$model$train_tail))
+      features = intersect(feature_names, task$feature_names)
+      test_cols = unique(c(target, features, key_cols, order_cols, offset_cols))
       test_data = task$data(cols = test_cols)
 
       # rebuild the backend as training tail + future-grid skeleton with test rows overlaid, so
@@ -476,7 +479,7 @@ DirectForecaster = R6Class(
       }
       future = test_data[skeleton, on = c(key_cols, order_cols)]
       combined = rbindlist(list(self$model$train_tail, future), use.names = TRUE, fill = TRUE)
-      step_task = fcst_step_task(combined, target, order_cols, key_cols, step, feature_names)
+      step_task = fcst_step_task(combined, target, order_cols, key_cols, step, feature_names, offset_cols)
 
       lookup = combined[, c(key_cols, order_cols, "..row_id"), with = FALSE]
       active = task$data(cols = c(key_cols, order_cols))

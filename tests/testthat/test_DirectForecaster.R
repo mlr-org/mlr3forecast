@@ -573,6 +573,14 @@ test_that("DirectForecaster clone_graph controls whether the wrapped graph is sh
   expect_length(learner$model$graph_states, 2L)
 })
 
+test_that("DirectForecaster passes the offset to the learner at predict", {
+  task = make_offset_task()
+  flrn = DirectForecaster$new(LearnerRegrOffset$new(), lags = 1L, horizons = 3L)$train(task, 1:35)
+  # the model of horizon h trains on the rows with a lag of h steps and predicts the second and third step here
+  expected = c(mean(sin(3:35)) + 37, mean(sin(4:35)) + 38)
+  expect_equal(flrn$predict(task, 37:38)$response, expected)
+})
+
 test_that("DirectForecaster is not confused by columns named like its variables", {
   skip_if_not_installed("rpart")
   predict_response = function(task) {
