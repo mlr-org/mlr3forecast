@@ -214,7 +214,9 @@ fetch_zenodo_file = function(record_id, file, path) {
   if (length(tsf) != 1L) {
     error_input("Expected exactly one TSF file in the downloaded archive, but found %i.", length(tsf))
   }
-  if (!suppressWarnings(file.copy(tsf, path, overwrite = TRUE))) {
+  tmp = tempfile(tmpdir = dirname(path), fileext = ".part")
+  on.exit(unlink(tmp), add = TRUE)
+  if (!suppressWarnings(file.copy(tsf, tmp) && file.rename(tmp, path))) {
     error_config("Failed to write the TSF file to '%s'. Check that the directory is writable.", path)
   }
   invisible(path)

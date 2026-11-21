@@ -168,6 +168,15 @@ test_that("download_zenodo_file caches when the option is set", {
   expect_file_exists(file.path(cache, "1_m3.tsf"))
 })
 
+test_that("fetch_zenodo_file leaves no partial files", {
+  tsf = system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")
+  local_mocked_bindings(download.file = function(...) 0L, unzip = function(...) tsf, .package = "utils")
+  dir = withr::local_tempdir()
+  path = fetch_zenodo_file(1L, "m3.zip", file.path(dir, "m3.tsf"))
+  expect_identical(list.files(dir), "m3.tsf")
+  expect_identical(unname(tools::md5sum(path)), unname(tools::md5sum(tsf)))
+})
+
 test_that("get_cache_dir resolves the option", {
   withr::local_options(mlr3forecast.cache = FALSE)
   expect_null(get_cache_dir())
