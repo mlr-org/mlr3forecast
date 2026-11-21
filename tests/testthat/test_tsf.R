@@ -187,8 +187,12 @@ test_that("download_zenodo_record is deprecated", {
   local_mocked_bindings(download_zenodo_file = function(record_id, file) {
     read_tsf(system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast"))
   })
-  expect_warning(download_zenodo_record(4656222, "m3_yearly_dataset"), class = "deprecatedWarning")
-  expect_warning(download_zenodo_record(4656222, "m3_yearly_dataset"), "download_monash_dataset")
+  withr::local_options(mlr3.warn_deprecated = TRUE)
+  expect_warning(
+    download_zenodo_record(4656222, "m3_yearly_dataset"),
+    "superseded by download_monash_dataset",
+    class = "Mlr3WarningDeprecated"
+  )
 
   local_mocked_bindings(download_zenodo_file = function(record_id, file) {
     setattr(read_tsf(system.file("extdata", "m3_yearly_dataset.tsf", package = "mlr3forecast")), "horizon", NULL)
