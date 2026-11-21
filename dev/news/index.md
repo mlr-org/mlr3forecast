@@ -325,7 +325,7 @@
   [`download_zenodo_record()`](https://mlr3forecast.mlr-org.com/dev/reference/download_zenodo_record.md)
   is deprecated in favor of
   [`download_monash_dataset()`](https://mlr3forecast.mlr-org.com/dev/reference/download_monash_dataset.md)
-  and warns on each call.
+  and warns once per session.
 - fix: `fcst.adam` gained the `lambda` parameter, the weight of the
   `LASSO` and `RIDGE` penalties. Previously, these losses always used a
   weight of 0 and fit like plain `MSE`.
